@@ -34,7 +34,9 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
-    const context = this.asmContext.createContext({});
+    const context = this.asmContext.createContext({
+      sendUserIdAsHeader: true,
+    });
 
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig), { context })

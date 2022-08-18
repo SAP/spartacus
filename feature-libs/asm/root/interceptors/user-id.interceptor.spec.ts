@@ -117,7 +117,9 @@ describe('UserIdInterceptor', () => {
   });
 
   it("should add a 'sap-commerce-cloud-user-id' header to the request if a user is being emulated", (done) => {
-    const context = new HttpContext().set(OCC_ASM_TOKEN, {});
+    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
 
     http
       .get('/products/search', { context })
@@ -133,6 +135,29 @@ describe('UserIdInterceptor', () => {
           url === '/products/search' &&
           method === 'GET' &&
           headers.get('sap-commerce-cloud-user-id') === 'user001'
+      )
+      .flush('bar');
+  });
+
+  it("should add a 'sap-commerce-cloud-user-id' header to the request if a user ID is provided", (done) => {
+    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+      sendUserIdAsHeader: 'user002',
+    });
+
+    http
+      .get('/products/search', { context })
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toBe('bar');
+        done();
+      });
+
+    httpMock
+      .expectOne(
+        ({ url, method, headers }) =>
+          url === '/products/search' &&
+          method === 'GET' &&
+          headers.get('sap-commerce-cloud-user-id') === 'user002'
       )
       .flush('bar');
   });

@@ -37,36 +37,34 @@ export class UserIdInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const asmContext = httpRequest.context.get(OCC_ASM_TOKEN);
 
-    if (asmContext) {
-      let userIdObservable: Observable<string | undefined>;
+    let userIdObservable: Observable<string | undefined>;
 
-      if (asmContext.userId) {
-        userIdObservable = of(asmContext.userId);
-      } else {
-        userIdObservable = this.userIdService
-          .getUserId()
-          .pipe(
-            map((userId) =>
-              this.uniqueUserIdConstants.has(userId) ? undefined : userId
-            )
-          );
-      }
-
-      return userIdObservable.pipe(
-        concatMap((userId) => {
-          if (userId) {
-            const request = httpRequest.clone({
-              headers: httpRequest.headers.set(this.userIdHeader, userId),
-            });
-
-            return next.handle(request);
-          } else {
-            return next.handle(httpRequest);
-          }
-        })
-      );
+    if (typeof asmContext.sendUserIdAsHeader === 'string') {
+      userIdObservable = of(asmContext.sendUserIdAsHeader);
+    } else if (asmContext.sendUserIdAsHeader) {
+      userIdObservable = this.userIdService
+        .getUserId()
+        .pipe(
+          map((userId) =>
+            this.uniqueUserIdConstants.has(userId) ? undefined : userId
+          )
+        );
     } else {
       return next.handle(httpRequest);
     }
+
+    return userIdObservable.pipe(
+      concatMap((userId) => {
+        if (userId) {
+          const request = httpRequest.clone({
+            headers: httpRequest.headers.set(this.userIdHeader, userId),
+          });
+
+          return next.handle(request);
+        } else {
+          return next.handle(httpRequest);
+        }
+      })
+    );
   }
 }

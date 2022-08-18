@@ -21,7 +21,9 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
-    const context = this.asmContext.createContext({ userId });
+    const context = this.asmContext.createContext({
+      sendUserIdAsHeader: userId,
+    });
 
     return this.http
       .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), {
