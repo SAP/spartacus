@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, PointOfServiceStock } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreService,
@@ -178,5 +178,31 @@ describe('StoreListComponent', () => {
     );
     component.ngOnInit();
     expect(component.quantity).toBeUndefined();
+  });
+
+  it('should set entryNumber to -1 if item entryNumber is not set', () => {
+    spyOn(activeCartService, 'getActive').and.returnValue(
+      of({
+        entries: [
+          {
+            product: { code: 'test' },
+          },
+        ],
+      })
+    );
+    component.productCode = 'test';
+    component.ngOnInit();
+    expect(component.entryNumber).toBe(-1);
+  });
+  it('should not call setPickupOptionInStore if not on PDP', () => {
+    spyOn(pickupLocationsSearchService, 'setPickupOptionInStore');
+    const store: PointOfServiceStock = {
+      name: 'London School',
+    };
+    component.isPDP = false;
+    component.onSelectStore(store);
+    expect(
+      pickupLocationsSearchService.setPickupOptionInStore
+    ).toHaveBeenCalled();
   });
 });

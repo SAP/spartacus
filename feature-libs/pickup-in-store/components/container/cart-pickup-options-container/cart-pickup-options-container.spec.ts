@@ -13,7 +13,7 @@ import {
   OutletContextData,
 } from '@spartacus/storefront';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
@@ -40,6 +40,9 @@ const mockActiveCart: Cart = {
   name: 'test-active-cart',
   code: 'test-active-cart-code',
   guid: 'cartGuid',
+  user: {
+    uid: 'test-user-id',
+  },
   entries: [
     { entryNumber: 0, product: { name: 'test-product' } },
     { entryNumber: 1, product: { name: 'test-product1' } },
@@ -47,11 +50,11 @@ const mockActiveCart: Cart = {
   ],
 };
 
-const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
+const activeCart$ = of(mockActiveCart);
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
-    return activeCart$.asObservable();
+    return activeCart$;
   }
 }
 
@@ -59,6 +62,8 @@ const mockOutletContextWithProductCode = {
   product: {
     code: 'productCode',
   },
+  entryNumber: 1,
+  quantity: 1,
   deliveryPointOfService: {
     name: 'London School',
   },
@@ -173,6 +178,55 @@ describe('Cart PickupOptionsComponent', () => {
     it('should not set product Code if it doesnt exists on context', () => {
       component.ngOnInit();
       expect(component['productCode']).toBe('');
+    });
+    it('should set cartId to BLANK', () => {
+      spyOn(activeCartService, 'getActive').and.returnValue(of({}));
+      component.ngOnInit();
+      expect(component['cartId']).toBe('');
+    });
+    it('should set userId to BLANK', () => {
+      spyOn(activeCartService, 'getActive').and.returnValue(of({}));
+      component.ngOnInit();
+      expect(component['userId']).toBe('');
+    });
+  });
+
+  describe('without outlet Context', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+        providers: [
+          CartPickupOptionsContainerComponent,
+          {
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartFacade,
+          },
+          {
+            provide: IntendedPickupLocationFacade,
+            useClass: MockIntendedPickupLocationService,
+          },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+          },
+          {
+            provide: PreferredStoreService,
+            useClass: MockPreferredStoreService,
+          },
+          {
+            provide: PickupLocationsSearchFacade,
+            useClass: MockPickupLocationsSearchFacade,
+          },
+        ],
+        declarations: [CartPickupOptionsContainerComponent],
+      }).compileComponents();
+      fixture = TestBed.createComponent(CartPickupOptionsContainerComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should not set product Code if outlet is not provided', () => {
+      component.ngOnInit();
+      expect(component['productCode']).toBe(undefined);
     });
   });
 });

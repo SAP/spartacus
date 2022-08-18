@@ -74,8 +74,10 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     );
 
     this.displayName$ = this.outlet?.context$.pipe(
-      filter((entry) => !!entry),
-      map((entry) => entry.deliveryPointOfService?.name),
+      filter((outletContextData) => !!outletContextData),
+      map(
+        (outletContextData) => outletContextData.deliveryPointOfService?.name
+      ),
       filter((name): name is string => !!name),
       tap((storeName) =>
         this.pickupLocationsSearchService.loadStoreDetails(storeName)
