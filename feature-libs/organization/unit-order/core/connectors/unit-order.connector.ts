@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ConsignmentTracking,
-  Order,
-  OrderHistoryList,
-} from '@spartacus/order/root';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { UnitOrderAdapter } from './unit-order.adapter';
 
@@ -12,10 +8,6 @@ import { UnitOrderAdapter } from './unit-order.adapter';
 })
 export class UnitOrderConnector {
   constructor(protected adapter: UnitOrderAdapter) {}
-
-  public get(userId: string, orderCode: string): Observable<Order> {
-    return this.adapter.load(userId, orderCode);
-  }
 
   public getUnitOrderHistory(
     userId: string,
@@ -28,18 +20,6 @@ export class UnitOrderConnector {
       pageSize,
       currentPage,
       sort
-    );
-  }
-
-  public getConsignmentTracking(
-    orderCode: string,
-    consignmentCode: string,
-    userId?: string
-  ): Observable<ConsignmentTracking> {
-    return this.adapter.getConsignmentTracking(
-      orderCode,
-      consignmentCode,
-      userId
     );
   }
 }

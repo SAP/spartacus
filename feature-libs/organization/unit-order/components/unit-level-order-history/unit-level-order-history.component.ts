@@ -4,11 +4,7 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import {
-  Order,
-  OrderHistoryList,
-  ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
@@ -25,12 +21,11 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
-    protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected translation: TranslationService
   ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
-    .getOrderHistoryList(this.PAGE_SIZE, 'TSD')
+    .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {

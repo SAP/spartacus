@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  RoutingService,
-  StateWithProcess,
-  UserIdService,
-} from '@spartacus/core';
-import {
-  ConsignmentTracking,
-  Order,
-  OrderHistoryList,
-} from '@spartacus/order/root';
+import { RoutingService, UserIdService } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
@@ -19,44 +11,13 @@ import {
   UnitOrderSelectors,
 } from '../store';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UnitOrderService implements UnitOrderFacade {
   constructor(
     protected store: Store<StateWithUnitOrder>,
-    protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
-
-  /**
-   * Returns an order's detail
-   */
-  getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(UnitOrderSelectors.getOrderDetails));
-  }
-
-  /**
-   * Retrieves order's details
-   *
-   * @param orderCode an order code
-   */
-  loadOrderDetails(orderCode: string): void {
-    this.userIdService.takeUserId().subscribe((userId) => {
-      this.store.dispatch(
-        new UnitOrderActions.LoadUnitOrderDetails({
-          userId,
-          orderCode,
-        })
-      );
-    });
-  }
-
-  /**
-   * Clears order's details
-   */
-  clearOrderDetails(): void {
-    this.store.dispatch(new UnitOrderActions.ClearUnitOrderDetails());
-  }
 
   /**
    * Returns order history list
@@ -115,36 +76,5 @@ export class UnitOrderService implements UnitOrderFacade {
    */
   clearOrderList(): void {
     this.store.dispatch(new UnitOrderActions.ClearUnitOrders());
-  }
-
-  /**
-   *  Returns a consignment tracking detail
-   */
-  getConsignmentTracking(): Observable<ConsignmentTracking> {
-    return this.store.pipe(select(UnitOrderSelectors.getConsignmentTracking));
-  }
-
-  /**
-   * Retrieves consignment tracking details
-   * @param orderCode an order code
-   * @param consignmentCode a consignment code
-   */
-  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.userIdService.takeUserId().subscribe((userId) => {
-      this.store.dispatch(
-        new UnitOrderActions.LoadConsignmentTracking({
-          userId,
-          orderCode,
-          consignmentCode,
-        })
-      );
-    });
-  }
-
-  /**
-   * Cleaning consignment tracking
-   */
-  clearConsignmentTracking(): void {
-    this.store.dispatch(new UnitOrderActions.ClearConsignmentTracking());
   }
 }
