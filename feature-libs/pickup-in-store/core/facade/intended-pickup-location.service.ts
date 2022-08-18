@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
@@ -17,7 +23,9 @@ import { StateWithPickupLocations } from '../store/pickup-location-state';
 export class IntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
-  constructor(protected readonly store: Store<StateWithPickupLocations>) {}
+  constructor(protected readonly store: Store<StateWithPickupLocations>) {
+    // Intentional empty constructor
+  }
 
   getIntendedLocation(
     productCode: string

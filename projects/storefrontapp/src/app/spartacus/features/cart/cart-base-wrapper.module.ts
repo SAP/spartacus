@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule, Type } from '@angular/core';
 import { CartBaseModule } from '@spartacus/cart/base';
 import { PickupInStoreCartModule } from '@spartacus/pickup-in-store/cart';

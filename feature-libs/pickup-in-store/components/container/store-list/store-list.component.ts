@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
@@ -25,7 +31,9 @@ export class StoreListComponent implements OnInit {
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
     private readonly intendedPickupLocationService: IntendedPickupLocationFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.stores$ = this.pickupLocationsSearchService.getSearchResults(

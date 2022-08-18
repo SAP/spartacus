@@ -24,7 +24,9 @@ import { PickupLocationsSearchService } from './pickup-locations-search.service'
 export class MockPickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
-  constructor(protected store: Store<StateWithStock>) {}
+  constructor(protected store: Store<StateWithStock>) {
+    // Intentional empty constructor
+  }
 
   stockLevelAtStore(_productCode: string, _storeName: string): void {}
 

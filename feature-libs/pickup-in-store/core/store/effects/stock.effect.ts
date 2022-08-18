@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
@@ -11,7 +17,9 @@ export class StockEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly stockConnector: StockConnector
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   loadStockLevels$ = createEffect(() =>
     this.actions$.pipe(

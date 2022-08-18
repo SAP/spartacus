@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit, Optional } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -18,7 +24,9 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   constructor(
     @Optional() protected outlet: OutletContextData<OrderEntry>,
     protected storeDetails: PickupLocationsSearchFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.pickupOption$ = this.outlet?.context$.pipe(

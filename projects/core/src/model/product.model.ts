@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Address } from './address.model';
 import { Image, Images } from './image.model';
 import { GeoPoint, User, PaginationModel, SortModel } from './misc.model';

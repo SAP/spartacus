@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import {
   IntendedPickupLocationFacade,
@@ -26,7 +32,9 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
     protected readonly launchDialogService: LaunchDialogService,
     protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.launchDialogService.data$.subscribe(({ productCode }) => {
