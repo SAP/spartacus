@@ -1,0 +1,99 @@
+# https://docs.saucelabs.com/web-apps/automated-testing/cypress/
+# https://docs.saucelabs.com/web-apps/automated-testing/cypress/yaml/
+apiVersion: v1alpha
+kind: cypress
+sauce:
+  region: eu-central-1 # or us-west-1
+  concurrency: 100
+  metadata:
+    tags:
+      - cypress
+      - default
+    build: "config-ex1 $CURRENT_TIME"
+cypress:
+  version: 9.7.0
+  configFile: "cypress.json" # We determine related files based on the location of the config file.
+# Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
+rootDir: ./
+suites:
+  - name: "Cypress Chrome W11"
+    browser: "chrome"
+    platformName: "Windows 11"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/*.ts"]
+  - name: "Cypress Chrome"
+    browser: "chrome"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+  - name: "Cypress Chrome Mac"
+    browser: "chrome"
+    platformName: "macOS 12"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+  - name: "Cypress Edge Mac"
+    browser: "microsoftedge"
+    platformName: "macOS 12"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+  - name: "Cypress Firefox"
+    browser: "firefox"
+    browserVersion: "latest-4"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+  - name: "Cypress Edge W10"
+    browser: "microsoftedge"
+    browserVersion: "latest"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+npm:
+  dependencies:
+    - "@cypress/webpack-preprocessor"
+    - "webpack"
+    - "@angular/animations"
+    - "@angular/common"
+    - "@angular/compiler"
+    - "@angular/core"
+    - "@angular/forms"
+    - "@angular/platform-browser"
+    - "@angular/platform-browser-dynamic"
+    - "@angular/platform-server"
+    - "@angular/pwa"
+    - "@angular/router"
+    - "@angular/service-worker"
+    - "@ng-bootstrap/ng-bootstrap"
+    - "@ng-select/ng-select"
+    - "@ngrx/effects"
+    - "@ngrx/router-store"
+    - "@ngrx/store"
+    - "@nguniversal/express-engine"
+    - "@types/googlemaps"
+    - "angular-oauth2-oidc"
+    - "bootstrap"
+    - "comment-json"
+    - "express"
+    - "hamburgers"
+    - "i18next"
+    - "i18next-http-backend"
+    - "ngx-infinite-scroll"
+    - "parse5"
+    - "rxjs"
+    - "ts-loader"
+    - "tslib"
+    - "zone.js"
+    - "typescript"
+    - "@testing-library/cypress"
+    - "cypress-file-upload"
