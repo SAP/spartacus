@@ -104,7 +104,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerSearchPage$ = this.asmService
       .getCustomerListCustomersSearchResults()
       .pipe(
-        tap((result) => console.log('page', result)),
         tap((result) => {
           if (result?.sorts) {
             this.sorts = result.sorts;
