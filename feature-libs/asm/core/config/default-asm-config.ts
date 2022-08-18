@@ -17,14 +17,14 @@ export const defaultAsmConfig: AsmConfig = {
         {
           headerLocalizationKey: 'asm.customerList.tableHeader.customer',
           renderer: (customer) => {
-            return customer.name ?? '';
+            return customer?.name ?? '';
           },
           actionType: CustomerListColumnActionType.START_SESSION,
         },
         {
           headerLocalizationKey: 'asm.customerList.tableHeader.email',
           renderer: (customer) => {
-            return customer.uid ?? '';
+            return customer?.uid ?? '';
           },
         },
         {

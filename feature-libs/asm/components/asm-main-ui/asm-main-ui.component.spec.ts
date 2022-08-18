@@ -435,6 +435,18 @@ describe('AsmMainUiComponent', () => {
     );
   });
 
+  it('should take no action when the modal is dismissed', fakeAsync(() => {
+    spyOn(component, 'startCustomerEmulationSession').and.callThrough();
+    const mockModelRef = new MockNgbModalRef();
+    mockModelRef.result = Promise.reject();
+    spyOn(modalService, 'open').and.returnValue(mockModelRef as ModalRef);
+
+    component.showCustomList();
+    tick();
+
+    expect(component.startCustomerEmulationSession).not.toHaveBeenCalled();
+  }));
+
   it('should be able to navigate to Order history', fakeAsync(() => {
     const mockModelRef = new MockNgbModalRef();
     mockModelRef.result = Promise.resolve({

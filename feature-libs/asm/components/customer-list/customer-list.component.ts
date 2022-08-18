@@ -17,7 +17,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
@@ -26,7 +26,7 @@ import { CustomerListAction } from './customer-list.model';
   templateUrl: './customer-list.component.html',
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-  protected PAGE_SIZE = 5;
+  protected DEFAULT_PAGE_SIZE = 5;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -59,11 +59,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   breakpoint$: Observable<BREAKPOINT>;
 
-  customerListConfig = this.asmConfig?.asm?.customerList;
+  customerListConfig: Required<AsmConfig>['asm']['customerList'];
 
   customerSearchLoading$: Observable<boolean>;
 
-  pageSize = this.asmConfig.asm?.customerList?.pageSize ?? this.PAGE_SIZE;
+  pageSize: number;
+
+  protected teardown: Subscription = new Subscription();
 
   constructor(
     protected modalService: ModalService,
@@ -76,6 +78,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.pageSize =
+      this.asmConfig.asm?.customerList?.pageSize ?? this.DEFAULT_PAGE_SIZE;
+    this.customerListConfig = this.asmConfig?.asm?.customerList;
+
     this.customerListsPage$ = this.asmService.getCustomerLists().pipe(
       filter((queryState) => queryState.loading === false),
       map((queryState) => queryState.data),
@@ -92,7 +98,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerSearchLoading$ = this.asmService
       .getCustomerListCustomersSearchResultsLoading()
       .pipe(tap((loading) => (this.loaded = !loading)));
-    this.customerSearchLoading$.subscribe();
+    this.teardown.add(this.customerSearchLoading$.subscribe());
+    this.teardown.add(() => this.asmService.customerListCustomersSearchReset());
 
     this.customerSearchPage$ = this.asmService
       .getCustomerListCustomersSearchResults()
@@ -104,7 +111,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             this.sortCode = result.pagination?.sort;
           }
           if (result?.entries.length < this.pageSize) {
-            this.maxPage = result.pagination?.currentPage || 0;
+            this.maxPage = result.pagination?.currentPage ?? 0;
           } else {
             this.maxPage = this.currentPage + 1;
           }
@@ -113,7 +120,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.asmService.customerListCustomersSearchReset();
+    this.teardown.unsubscribe();
   }
 
   fetchCustomers(): void {
@@ -150,7 +157,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     );
   }
 
-  getbadgeText(customerEntry: User): string {
+  getBadgeText(customerEntry: User): string {
     return (
       (customerEntry.firstName?.charAt(0) || '') +
       (customerEntry.lastName?.charAt(0) || '')

@@ -3,7 +3,10 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../../models/asm.models';
-import { CUSTOMER_SEARCH_DATA } from '../asm-state';
+import {
+  CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
+  CUSTOMER_SEARCH_DATA,
+} from '../asm-state';
 import { AsmActions } from './index';
 
 const mockUser: User = {
@@ -60,6 +63,50 @@ describe('Customer Actions', () => {
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_RESET,
         meta: StateUtils.resetMeta(CUSTOMER_SEARCH_DATA),
+      });
+    });
+  });
+
+  describe('Customer List Customers Search Actions', () => {
+    it('should create the Customer List Customers Search Actions', () => {
+      const searchOptions: CustomerSearchOptions = { query: 'abc' };
+      const action = new AsmActions.CustomerListCustomersSearch(searchOptions);
+      expect({ ...action }).toEqual({
+        type: AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH,
+        meta: StateUtils.loadMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+        payload: searchOptions,
+      });
+    });
+
+    it('should create the CustomerListCustomersSearchFail action', () => {
+      const error = 'anError';
+      const action = new AsmActions.CustomerListCustomersSearchFail(error);
+
+      expect({ ...action }).toEqual({
+        type: AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL,
+        meta: StateUtils.failMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+        payload: error,
+      });
+    });
+
+    it('should create the CustomerListCustomersSearchSuccess action', () => {
+      const action = new AsmActions.CustomerListCustomersSearchSuccess(
+        mockCustomerSearchPage
+      );
+
+      expect({ ...action }).toEqual({
+        type: AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH_SUCCESS,
+        meta: StateUtils.successMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+        payload: mockCustomerSearchPage,
+      });
+    });
+
+    it('should create the CustomerListCustomersSearchReset action', () => {
+      const action = new AsmActions.CustomerListCustomersSearchReset();
+
+      expect({ ...action }).toEqual({
+        type: AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH_RESET,
+        meta: StateUtils.resetMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
       });
     });
   });

@@ -136,19 +136,51 @@ describe('AsmService', () => {
     expect(asmFacade.getCustomerLists).toHaveBeenCalled();
   });
 
-  it('should retrieve customers', () => {
-    let actual: CustomerSearchPage | undefined;
-    const expected: CustomerSearchPage = {
-      entries: [],
-    };
-    spyOn(asmFacade, 'getCustomers').and.returnValue(of(expected));
-    const input: CustomerSearchOptions = {
-      customerListId: 'mock-list-uid',
+  it('should dispatch proper action for customer list customers search', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const searchOptions: CustomerSearchOptions = {
+      customerListId: 'mock-customer-list-id',
     };
 
-    service.searchCustomers(input).subscribe((result) => (actual = result));
+    service.customerListCustomersSearch(searchOptions);
 
-    expect(actual).toEqual(expected);
-    expect(asmFacade.getCustomers).toHaveBeenCalledWith(input);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearch(searchOptions)
+    );
+  });
+
+  it('should return customer list customers search result', () => {
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+    );
+    let result: CustomerSearchPage;
+
+    service
+      .getCustomerListCustomersSearchResults()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return customer list customers search result loading status', () => {
+    let result: boolean;
+
+    service
+      .getCustomerListCustomersSearchResultsLoading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(false);
+  });
+
+  it('should dispatch proper action for customer list customers search reset', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.customerListCustomersSearchReset();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearchReset()
+    );
   });
 });

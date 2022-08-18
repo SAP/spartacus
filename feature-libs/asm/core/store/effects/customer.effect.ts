@@ -26,8 +26,8 @@ export class CustomerEffects {
     )
   );
 
-  customerListSearch$: Observable<AsmActions.CustomerAction> = createEffect(
-    () =>
+  customerListCustomersSearch$: Observable<AsmActions.CustomerAction> =
+    createEffect(() =>
       this.actions$.pipe(
         ofType(AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH),
         map((action: AsmActions.CustomerListCustomersSearch) => action.payload),
@@ -48,7 +48,7 @@ export class CustomerEffects {
           )
         )
       )
-  );
+    );
 
   constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
 }
