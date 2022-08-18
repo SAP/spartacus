@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { InjectionToken } from '@angular/core';
 
 import * as OCC_USER_IDS from './occ-user-ids';
