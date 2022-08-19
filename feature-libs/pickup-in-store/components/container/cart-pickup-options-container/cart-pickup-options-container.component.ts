@@ -67,6 +67,15 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       )
     );
 
+    this.outlet?.context$
+      .pipe(
+        tap((outletContextData) => {
+          this.availableForPickup =
+            !!outletContextData.product?.availableForPickup;
+        }),
+        take(1)
+      )
+      .subscribe();
     this.displayName$ = this.outlet?.context$.pipe(
       filter((outletContextData) => !!outletContextData),
       map(

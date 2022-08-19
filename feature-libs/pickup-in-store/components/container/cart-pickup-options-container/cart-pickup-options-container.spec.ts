@@ -57,6 +57,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 const mockOutletContextWithProductCode = {
   product: {
     code: 'productCode',
+    availableForPickup: true,
   },
   entryNumber: 1,
   quantity: 1,
@@ -151,7 +152,11 @@ describe('Cart PickupOptionsComponent', () => {
     beforeEach(() => {
       configureTestingModule().overrideProvider(OutletContextData, {
         useValue: {
-          context$: of({}),
+          context$: of({
+            product: {
+              availableForPickup: true,
+            },
+          }),
         },
       });
       TestBed.compileComponents();
