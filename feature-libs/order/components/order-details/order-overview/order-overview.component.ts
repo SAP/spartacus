@@ -4,10 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CostCenter, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  B2BUserRole,
+  CostCenter,
+  TranslationService,
+} from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Card } from '@spartacus/storefront';
+import { User } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -16,15 +28,27 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderOverviewComponent {
+export class OrderOverviewComponent implements OnInit {
   order: any;
 
   @Input('order')
   set setOrder(order: any) {
     this.order = order;
   }
+  isUserOrgUnitViewer: boolean;
 
-  constructor(protected translation: TranslationService) {}
+  constructor(
+    protected translation: TranslationService,
+    protected userAccountFacade: UserAccountFacade
+  ) {}
+
+  ngOnInit(): void {
+    this.userAccountFacade.get().subscribe((user: User | undefined) => {
+      this.isUserOrgUnitViewer = !!user?.roles?.includes(
+        B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER
+      );
+    });
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -227,6 +251,26 @@ export class OrderOverviewComponent {
             ],
           } as Card)
       )
+    );
+  }
+
+  getBuyerNameCardContent(placedBy: string): Observable<Card> {
+    return this.translation.translate('orderDetails.buyer').pipe(
+      filter(() => Boolean(placedBy)),
+      map((textTitle) => ({
+        title: textTitle,
+        text: [placedBy],
+      }))
+    );
+  }
+
+  getUnitNameCardContent(orgUnit: string): Observable<Card> {
+    return this.translation.translate('orderDetails.unit').pipe(
+      filter(() => Boolean(orgUnit)),
+      map((textTitle) => ({
+        title: textTitle,
+        text: [orgUnit],
+      }))
     );
   }
 

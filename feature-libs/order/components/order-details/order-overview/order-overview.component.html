@@ -55,6 +55,11 @@
         <cx-card
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"
         ></cx-card>
+
+        <cx-card
+          *ngIf="isUserOrgUnitViewer"
+          [content]="getBuyerNameCardContent(order?.orgCustomer?.name) | async"
+        ></cx-card>
       </div>
     </ng-template>
 
@@ -62,6 +67,11 @@
       *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === ''"
     >
       <div class="cx-summary-card">
+        <cx-card
+          *ngIf="isUserOrgUnitViewer"
+          [content]="getUnitNameCardContent(order?.orgUnit?.name) | async"
+        ></cx-card>
+
         <cx-card
           [content]="getPurchaseOrderNumber(order?.purchaseOrderNumber) | async"
         ></cx-card>
