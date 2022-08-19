@@ -14,7 +14,6 @@ export interface TicketDetails {
   createdAt?: string;
   modifiedAt?: string;
   status?: Status;
-  toStatus?: Status;
   subject?: string;
   ticketCategory?: Category;
   ticketEvents?: Array<Event>;
@@ -34,4 +33,5 @@ export interface Event {
   author?: string;
   createdAt?: string;
   message?: string;
+  toStatus?: Status;
 }
