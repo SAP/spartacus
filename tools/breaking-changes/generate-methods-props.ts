@@ -17,7 +17,7 @@ import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
  * -----------
  */
 
- const breakingChangesData = common.readBreakingChangeFile();
+const breakingChangesData = common.readBreakingChangeFile();
 const updatedMemberSchematics = [];
 
 const updatedMembers = getUpdatedMembers(breakingChangesData);

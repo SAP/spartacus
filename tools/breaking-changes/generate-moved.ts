@@ -22,7 +22,7 @@ breakingChangesData
   .filter((apiElement: any) => !apiElement.namespace) // schematics doesn't support namespaces
   .filter(
     (apiElement: any) =>
-      apiElement.isMoved || common.isElementRenamed(apiElement)
+      common.isElementMoved(apiElement) || common.isElementRenamed(apiElement)
   )
   .forEach((apiElement: any) => {
     movedApiSchematics.push(getSchematicsData(apiElement));
@@ -41,10 +41,10 @@ function getSchematicsData(apiElement: any): any {
   schematicsData.previousNode = apiElement.name;
   schematicsData.previousImportPath = apiElement.entryPoint;
   if (common.isElementRenamed(apiElement)) {
-    schematicsData.newNode = common.getNewName(apiElement);
+    schematicsData.newNode = apiElement.newApiElement.name;
   }
-  if (!!apiElement.newEntryPoint) {
-    schematicsData.newImportPath = apiElement.newEntryPoint;
+  if (common.isElementMoved(apiElement)) {
+    schematicsData.newImportPath = apiElement.newApiElement.entryPoint;
   }
   return schematicsData;
 }

@@ -61,18 +61,11 @@ oldApiData.forEach((oldApiElement: any) => {
 
       //handle move
       if (oldApiElement.entryPoint !== newApiElementMoved.entryPoint) {
-        oldApiElement.isMoved = true;
-        oldApiElement.newEntryPoint = newApiElementMoved.entryPoint;
-        (oldApiElement.newNamespace = newApiElementMoved.namespace ?? ''),
-          addBreakingChanges(oldApiElement, [
-            {
-              ...getChangeDesc(oldApiElement, 'MOVED'),
-              to: {
-                entryPoint: newApiElementMoved.entryPoint,
-                namespace: newApiElementMoved.namespace ?? '',
-              },
-            },
-          ]);
+        addBreakingChanges(oldApiElement, [
+          {
+            ...getChangeDesc(oldApiElement, 'MOVED'),
+          },
+        ]);
       }
       // handle inner breaking changes
       const elementBreakingChanges = compareElements(

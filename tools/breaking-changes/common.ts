@@ -234,18 +234,18 @@ export function getElementCategory(apiElement: any): string {
   );
 }
 
-export function getNewName(apiElement: any): boolean {
-  const breakingChangeEntry = getTopLevelBreakingChangeEntry(
-    apiElement,
-    'RENAMED'
-  );
-  return breakingChangeEntry?.newName;
-}
-
 export function isElementRenamed(apiElement: any): boolean {
   const breakingChangeEntry = getTopLevelBreakingChangeEntry(
     apiElement,
     'RENAMED'
+  );
+  return !!breakingChangeEntry;
+}
+
+export function isElementMoved(apiElement: any): boolean {
+  const breakingChangeEntry = getTopLevelBreakingChangeEntry(
+    apiElement,
+    'MOVED'
   );
   return !!breakingChangeEntry;
 }

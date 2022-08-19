@@ -38,7 +38,7 @@ function getBreakingChangeDoc(apiElement: any): string {
     doc += getDeletdDoc(apiElement) + '\n';
   }
 
-  if (apiElement.isMoved) {
+  if (common.isElementMoved(apiElement)) {
     doc += getMovedDoc(apiElement) + '\n';
   }
   if (common.isElementRenamed(apiElement)) {
@@ -69,14 +69,6 @@ function getFullName(apiElement: any): string {
   }
 }
 
-function hasNewNamespace(apiElement: any): boolean {
-  return !!apiElement.newNamespace;
-}
-
-function hasNewEntryPoint(apiElement: any): boolean {
-  return !!apiElement.newEntryPoint;
-}
-
 function getDeletdDoc(apiElement: any): string {
   return `
 ${apiElement.deletedComment}
@@ -85,18 +77,19 @@ ${apiElement.migrationComment}`;
 
 function getMovedDoc(apiElement: any): string {
   let movedDoc = '';
-  if (hasNewEntryPoint(apiElement)) {
-    movedDoc = movedDoc + `moved to ${apiElement.newEntryPoint}\n`;
+  if (!!apiElement.newApiElement.entryPoint) {
+    movedDoc = movedDoc + `moved to ${apiElement.newApiElement.entryPoint}\n`;
   }
-  if (hasNewNamespace(apiElement)) {
-    movedDoc = movedDoc + `moved to namespace ${apiElement.newNamespace}\n`;
+  if (!!apiElement.newApiElement.namespace) {
+    movedDoc =
+      movedDoc + `moved to namespace ${apiElement.newApiElement.namespace}\n`;
   }
   return movedDoc;
 }
 function getRenamedDoc(apiElement: any): string {
   let renamedDoc = '';
   if (common.isElementRenamed(apiElement)) {
-    renamedDoc = `renamed to ${common.getNewName(apiElement)}\n`;
+    renamedDoc = `renamed to ${apiElement.newApiElement.name}\n`;
   }
   return renamedDoc;
 }
