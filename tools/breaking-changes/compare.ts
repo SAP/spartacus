@@ -28,7 +28,9 @@ oldApiData.forEach((oldApiElement: any) => {
     );
     if (elementBreakingChanges?.length > 0) {
       addBreakingChanges(oldApiElement, elementBreakingChanges);
-      breakingChanges.push(oldApiElement);
+      breakingChanges.push(
+        createBreakingChangeDataEntry(oldApiElement, newApiElementMatch)
+      );
     }
   } else {
     // Old Element is not in new api
@@ -98,7 +100,9 @@ oldApiData.forEach((oldApiElement: any) => {
         },
       ]);
     }
-    breakingChanges.push(oldApiElement);
+    breakingChanges.push(
+      createBreakingChangeDataEntry(oldApiElement, newApiElementMoved)
+    );
   }
 });
 
@@ -435,4 +439,12 @@ function getChangeDesc(element: any, changeType: string): any {
 function getChangeLabel(changeType: string): string {
   let label = changeType.toLowerCase();
   return label.replace(/_/g, ' ');
+}
+
+function createBreakingChangeDataEntry(
+  oldApiElement: any,
+  newApiElement: any
+): any {
+  oldApiElement.newApiElement = newApiElement;
+  return oldApiElement;
 }
