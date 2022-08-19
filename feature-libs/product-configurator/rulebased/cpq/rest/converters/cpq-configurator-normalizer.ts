@@ -137,7 +137,7 @@ export class CpqConfiguratorNormalizer
       id: '0',
       name: '_GEN',
       configurable: true,
-      complete: incompleteAttributes && incompleteAttributes.length > 0,
+      complete: incompleteAttributes.length === 0,
       consistent: true,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: attributes,
@@ -203,11 +203,14 @@ export class CpqConfiguratorNormalizer
   }
 
   protected setSelectedSingleValue(attribute: Configurator.Attribute) {
-    const selectedValues = attribute.values
-      ?.map((entry) => entry)
-      .filter((entry) => entry.selected);
-    if (selectedValues && selectedValues.length === 1) {
-      attribute.selectedSingleValue = selectedValues[0].valueCode;
+    const values = attribute.values;
+    if (values) {
+      const selectedValues = values
+        .map((entry) => entry)
+        .filter((entry) => entry.selected);
+      if (selectedValues && selectedValues.length === 1) {
+        attribute.selectedSingleValue = selectedValues[0].valueCode;
+      }
     }
   }
 
@@ -216,8 +219,8 @@ export class CpqConfiguratorNormalizer
     sourceAttribute: Cpq.Attribute,
     value: Configurator.Value
   ): void {
-    sourceAttribute?.displayAs === Cpq.DisplayAs.DROPDOWN &&
-    sourceValue?.selected &&
+    sourceAttribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
+    sourceValue.selected &&
     sourceValue.paV_ID === 0
       ? this.translation
           .translate('configurator.attribute.dropDownSelectMsg')
@@ -263,68 +266,15 @@ export class CpqConfiguratorNormalizer
     values.push(value);
   }
 
-  protected convertAttributeTypeOld(
-    displayAs: Cpq.DisplayAs,
-    displayAsProduct = false
-  ): Configurator.UiType {
-    let uiType: Configurator.UiType;
-    switch (displayAs) {
-      case Cpq.DisplayAs.RADIO_BUTTON: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.RADIOBUTTON;
-        }
-
-        break;
-      }
-
-      case Cpq.DisplayAs.DROPDOWN: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.DROPDOWN;
-        }
-
-        break;
-      }
-
-      case Cpq.DisplayAs.CHECK_BOX: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.CHECKBOXLIST;
-        }
-
-        break;
-      }
-
-      case Cpq.DisplayAs.INPUT: {
-        uiType = Configurator.UiType.STRING;
-        break;
-      }
-
-      case Cpq.DisplayAs.READ_ONLY: {
-        uiType = Configurator.UiType.READ_ONLY;
-        break;
-      }
-
-      default: {
-        uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      }
-    }
-    return uiType;
-  }
-
   protected convertAttributeType(
     sourceAttribute: Cpq.Attribute
   ): Configurator.UiType {
     const displayAs = sourceAttribute.displayAs;
 
     const displayAsProduct: boolean =
-      sourceAttribute?.values &&
+      sourceAttribute.values &&
       this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(
-        sourceAttribute?.values
+        sourceAttribute.values
       )
         ? true
         : false;
@@ -340,44 +290,47 @@ export class CpqConfiguratorNormalizer
       return Configurator.UiType.READ_ONLY;
     }
 
+    const uiType = this.findUiTypeFromDisplayType(
+      displayAs,
+      displayAsProduct,
+      sourceAttribute
+    );
+    return uiType;
+  }
+
+  protected findUiTypeFromDisplayType(
+    displayAs: number | undefined,
+    displayAsProduct: boolean,
+    sourceAttribute: Cpq.Attribute
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (displayAs) {
       case Cpq.DisplayAs.RADIO_BUTTON: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.RADIOBUTTON;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.RADIOBUTTON_PRODUCT
+          : (uiType = Configurator.UiType.RADIOBUTTON);
         break;
       }
 
       case Cpq.DisplayAs.DROPDOWN: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.DROPDOWN;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.DROPDOWN_PRODUCT
+          : (uiType = Configurator.UiType.DROPDOWN);
         break;
       }
 
       case Cpq.DisplayAs.CHECK_BOX: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.CHECKBOXLIST;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.CHECKBOXLIST_PRODUCT
+          : (uiType = Configurator.UiType.CHECKBOXLIST);
         break;
       }
 
       case Cpq.DisplayAs.INPUT: {
-        if (sourceAttribute?.dataType === Cpq.DataType.INPUT_STRING) {
-          uiType = Configurator.UiType.STRING;
-        } else {
-          uiType = Configurator.UiType.NOT_IMPLEMENTED;
-        }
+        uiType =
+          sourceAttribute.dataType === Cpq.DataType.INPUT_STRING
+            ? Configurator.UiType.STRING
+            : Configurator.UiType.NOT_IMPLEMENTED;
         break;
       }
 
