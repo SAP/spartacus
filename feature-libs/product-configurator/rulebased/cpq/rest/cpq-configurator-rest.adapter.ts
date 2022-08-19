@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -119,5 +125,9 @@ export class CpqConfiguratorRestAdapter
     configId: string
   ): Observable<Configurator.Overview> {
     return this.cpqRestService.readConfigurationOverview(configId);
+  }
+
+  searchVariants(): Observable<Configurator.Variant[]> {
+    throw new Error('searchVariants is not supported for the CPQ configurator');
   }
 }
