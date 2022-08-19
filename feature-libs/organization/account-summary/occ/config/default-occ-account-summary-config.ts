@@ -1,27 +1,16 @@
-import { OccConfig, OccEndpoint } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
+import { AccountSummaryOccEndpoints } from '../model';
 
-//TODO Move Endpoints to their own respective model files
-
-interface AccountSummaryDocumentEndpoints {
-  accountSummaryDocument?: string | OccEndpoint;
-}
-declare module '@spartacus/core' {
-  interface OccEndpoints extends AccountSummaryDocumentEndpoints { }
-}
-
-export interface AccountSummaryHeaderEndpoints {
-  accountSummary?: string | OccEndpoint;
-}
-declare module '@spartacus/core' {
-  interface OccEndpoints extends AccountSummaryHeaderEndpoints { }
-}
+const accountSummaryHeaderOccEndpoints: AccountSummaryOccEndpoints = {
+  accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/summary',
+  accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/documents'
+};
 
 export const defaultOccAccountSummaryConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/summary',
-        accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/documents'
+        ...accountSummaryHeaderOccEndpoints
       },
     },
   },
