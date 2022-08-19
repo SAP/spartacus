@@ -110,7 +110,7 @@ const variantSearchResult: Configurator.Variant[] = [{ productCode: 'a' }];
 
 const cartModification: CartModification = { quantity: 1 };
 
-fdescribe('OccConfigurationVariantAdapter', () => {
+describe('OccConfigurationVariantAdapter', () => {
   let occConfiguratorVariantAdapter: VariantConfiguratorOccAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
@@ -163,7 +163,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    configExpertModeService.setExpMode(expMode);
+    configExpertModeService.setExpModeRequested(expMode);
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
@@ -175,7 +175,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
 
   it('should call createConfiguration endpoint', (done) => {
     expMode = false;
-    configExpertModeService.setExpMode(expMode);
+    configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
 
@@ -252,7 +252,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfiguration endpoint', (done) => {
     expMode = false;
-    configExpertModeService.setExpMode(expMode);
+    configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
@@ -320,7 +320,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
 
   it('should call updateConfiguration endpoint', (done) => {
     expMode = false;
-    configExpertModeService.setExpMode(expMode);
+    configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter

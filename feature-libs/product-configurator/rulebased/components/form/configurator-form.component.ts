@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -25,6 +30,8 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorFormComponent implements OnInit {
+  protected subscriptions = new Subscription();
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       filter(
@@ -50,13 +57,36 @@ export class ConfiguratorFormComponent implements OnInit {
 
   uiType = Configurator.UiType;
 
+  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    languageService: LanguageService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configExpertModeService: ConfiguratorExpertModeService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    languageService: LanguageService,
+    configUtils: ConfiguratorStorefrontUtilsService
+  );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected languageService: LanguageService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    @Optional()
+    protected configExpertModeService?: ConfiguratorExpertModeService
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +115,9 @@ export class ConfiguratorFormComponent implements OnInit {
             });
         }
         if (routingData.expMode) {
-          this.configExpertModeService.setExpMode(routingData.expMode);
+          this.configExpertModeService?.setExpModeRequested(
+            routingData.expMode
+          );
         }
       });
   }
@@ -112,7 +144,7 @@ export class ConfiguratorFormComponent implements OnInit {
     return this.configUtils.createGroupId(groupId);
   }
 
-  get expMode(): Observable<boolean> {
-    return this.configExpertModeService.getExpMode();
+  get expMode(): Observable<boolean> | undefined {
+    return this.configExpertModeService?.getExpModeActive();
   }
 }

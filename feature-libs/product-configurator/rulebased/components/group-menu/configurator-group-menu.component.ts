@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Optional,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -108,6 +109,34 @@ export class ConfiguratorGroupMenuComponent {
   WARNING = ' WARNING';
   ICON = 'ICON';
 
+  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
+  constructor(
+    configCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    hamburgerMenuService: HamburgerMenuService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configGroupMenuService: ConfiguratorGroupMenuService,
+    directionService: DirectionService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configExpertModeService: ConfiguratorExpertModeService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    configCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    hamburgerMenuService: HamburgerMenuService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configGroupMenuService: ConfiguratorGroupMenuService,
+    directionService: DirectionService,
+    translation: TranslationService
+  );
+
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -117,7 +146,8 @@ export class ConfiguratorGroupMenuComponent {
     protected configGroupMenuService: ConfiguratorGroupMenuService,
     protected directionService: DirectionService,
     protected translation: TranslationService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    @Optional()
+    protected configExpertModeService?: ConfiguratorExpertModeService
   ) {}
 
   click(group: Configurator.Group): void {
@@ -597,7 +627,7 @@ export class ConfiguratorGroupMenuComponent {
     let title = group.description;
     if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
       this.configExpertModeService
-        .getExpMode()
+        ?.getExpModeActive()
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {

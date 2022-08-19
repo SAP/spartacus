@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
@@ -10,22 +16,42 @@ import { Observable, ReplaySubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ConfiguratorExpertModeService {
-  private _expMode: Observable<boolean> = new ReplaySubject<boolean>(1);
+  private _expModeRequested: Observable<boolean> = new ReplaySubject<boolean>(
+    1
+  );
+  private _expModeActive: Observable<boolean> = new ReplaySubject<boolean>(1);
 
   /**
-   * Sets current expert mode.
+   * Sets requested expert mode.
    *
    * @param expMode
    */
-  public setExpMode(expMode: boolean): void {
-    (this._expMode as ReplaySubject<boolean>).next(expMode);
+  public setExpModeRequested(expMode: boolean): void {
+    (this._expModeRequested as ReplaySubject<boolean>).next(expMode);
   }
 
   /**
-   * This function provides the expert mode the OCC calls should use, depending
+   * This function provides the requested expert mode the OCC calls should use, depending
    * on whether there is an active storefront session or not.
    */
-  public getExpMode(): Observable<boolean> {
-    return this._expMode;
+  public getExpModeRequested(): Observable<boolean> {
+    return this._expModeRequested;
+  }
+
+  /**
+   * Sets requested expert mode.
+   *
+   * @param expMode
+   */
+  public setExpModeActive(expMode: boolean): void {
+    (this._expModeActive as ReplaySubject<boolean>).next(expMode);
+  }
+
+  /**
+   * This function provides the requested expert mode the OCC calls should use, depending
+   * on whether there is an active storefront session or not.
+   */
+  public getExpModeActive(): Observable<boolean> {
+    return this._expModeActive;
   }
 }

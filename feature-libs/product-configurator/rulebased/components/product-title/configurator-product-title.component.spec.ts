@@ -160,9 +160,10 @@ class MockMediaComponent {
 }
 
 class MockConfiguratorExpertModeService {
-  setExpMode(): void {}
-
-  getExpMode(): Observable<boolean> {
+  setExpModeRequested(): void {}
+  getExpModeRequested() {}
+  setExpModeActive(): void {}
+  getExpModeActive(): Observable<boolean> {
     return of(true);
   }
 }
@@ -238,8 +239,8 @@ describe('ConfigProductTitleComponent', () => {
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(configExpertModeService, 'setExpMode').and.callThrough();
-    spyOn(configExpertModeService, 'getExpMode').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
     fixture.detectChanges();
   });

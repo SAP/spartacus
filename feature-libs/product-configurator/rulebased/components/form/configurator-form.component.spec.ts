@@ -139,9 +139,10 @@ class MockConfiguratorGroupsService {
 }
 
 class MockConfiguratorExpertModeService {
-  setExpMode(): void {}
-
-  getExpMode() {}
+  setExpModeRequested(): void {}
+  getExpModeRequested() {}
+  setExpModeActive(): void {}
+  getExpModeActive() {}
 }
 
 function checkConfigurationObs(
@@ -273,7 +274,8 @@ describe('ConfigurationFormComponent', () => {
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(configExpertModeService, 'setExpMode').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
     configuratorUtils.setOwnerKey(owner);
     configuratorCommonsService = TestBed.inject(
@@ -423,7 +425,9 @@ describe('ConfigurationFormComponent', () => {
         },
       });
       createComponent().ngOnInit();
-      expect(configExpertModeService.setExpMode).toHaveBeenCalledTimes(1);
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
+        1
+      );
     });
 
     it('should not call setExpMode method', () => {
@@ -435,7 +439,9 @@ describe('ConfigurationFormComponent', () => {
         },
       });
       createComponent().ngOnInit();
-      expect(configExpertModeService.setExpMode).toHaveBeenCalledTimes(0);
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
+        0
+      );
     });
   });
 
@@ -531,7 +537,9 @@ describe('ConfigurationFormComponent', () => {
   describe('expMode', () => {
     it("should check whether expert mode status is set to 'true'", () => {
       createComponent();
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(true)
+      );
 
       component.expMode
         .subscribe((expMode) => {
@@ -542,7 +550,9 @@ describe('ConfigurationFormComponent', () => {
 
     it("should check whether expert mode status is set to 'false'", () => {
       createComponent();
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(false)
+      );
 
       component.expMode
         .subscribe((expMode) => {

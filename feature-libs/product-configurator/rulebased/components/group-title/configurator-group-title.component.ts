@@ -70,7 +70,7 @@ export class ConfiguratorGroupTitleComponent {
     let title = group.description;
     if (group.groupType !== Configurator.GroupType.CONFLICT_GROUP) {
       this.configExpertModeService
-        ?.getExpMode()
+        ?.getExpModeActive()
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {

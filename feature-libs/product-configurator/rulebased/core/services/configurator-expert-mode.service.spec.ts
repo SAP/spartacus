@@ -16,7 +16,7 @@ describe('ConfiguratorExpertModeService', () => {
     it('should not emit anything until it will be initialized from outside', () => {
       let result;
       classUndertest
-        .getExpMode()
+        .getExpModeRequested()
         .subscribe((expMode) => {
           result = expMode;
         })
@@ -26,9 +26,9 @@ describe('ConfiguratorExpertModeService', () => {
 
     it('should return value that was set with setExpMode', (done) => {
       const expMode = true;
-      classUndertest.setExpMode(expMode);
+      classUndertest.setExpModeRequested(expMode);
       classUndertest
-        .getExpMode()
+        .getExpModeRequested()
         .pipe(take(1))
         .subscribe((userId) => {
           expect(userId).toBe(expMode);

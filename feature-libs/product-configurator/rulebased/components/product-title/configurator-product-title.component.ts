@@ -81,6 +81,7 @@ export class ConfiguratorProductTitleComponent {
     configRouterExtractorService: ConfiguratorRouterExtractorService,
     productService: ProductService
   );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
@@ -94,6 +95,6 @@ export class ConfiguratorProductTitleComponent {
   }
 
   get expMode(): Observable<boolean> | undefined {
-    return this.configExpertModeService?.getExpMode();
+    return this.configExpertModeService?.getExpModeActive();
   }
 }

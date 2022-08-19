@@ -234,7 +234,6 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
-
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -1525,7 +1524,9 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   describe('getGroupMenuTitle', () => {
     it('should return only group description as title when expert mode if off', () => {
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(false)
+      );
       initialize();
 
       expect(
@@ -1534,7 +1535,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
 
     it('should return group description and name as title when expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(true)
+      );
       initialize();
 
       const groupMenuTitle =
@@ -1548,7 +1551,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
 
     it('should return only conflict header group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(true)
+      );
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
       initialize();
@@ -1559,7 +1564,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
 
     it('should return only conflict group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(true)
+      );
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
       initialize();
