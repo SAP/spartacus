@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Address, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
 import { AccountSummaryDetails, AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
+import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 

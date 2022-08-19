@@ -66,7 +66,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
 
   formatCurrency(amount?: number, currency?: Currency): string {
     return amount && currency?.isocode ?
-      amount.toLocaleString(navigator.language, {style: 'currency', currency: currency?.isocode}) : '';
+      amount.toLocaleString(navigator.language, { style: 'currency', currency: currency?.isocode }) : '';
   }
 
   private fetchDocuments(isFullFetch = false): void {

@@ -8,10 +8,7 @@ import { AccountSummaryConnector } from '../connectors';
   providedIn: 'root',
 })
 export class AccountSummaryService implements AccountSummaryFacade {
-  unitCode$ = this.routingService.getRouterState().pipe(
-    map((routingData) => routingData.state.params),
-    distinctUntilChanged()
-  );
+
   userId: string;
   unitCode: string;
 
@@ -23,7 +20,10 @@ export class AccountSummaryService implements AccountSummaryFacade {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.userId = userId;
     });
-    this.unitCode$.subscribe((params) => this.unitCode = params.unitCode);
+    this.routingService.getRouterState().pipe(
+      map((routingData) => routingData.state.params),
+      distinctUntilChanged()
+    ).subscribe((params) => this.unitCode = params.unitCode);
   }
 
   getAccountSummary(): Observable<AccountSummaryDetails> {

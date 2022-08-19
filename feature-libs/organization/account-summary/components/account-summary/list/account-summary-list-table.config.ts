@@ -1,6 +1,5 @@
-import { OrganizationTableType } from '@spartacus/organization/administration/components';
+import { OrganizationTableType, ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
-import { AccountSummaryCellLinkComponent } from '../cell-link';
 
 export function accountSummaryUnitsTableConfigFactory(): TableConfig {
   return accountSummaryUnitsTableConfig;
@@ -14,7 +13,7 @@ export const accountSummaryUnitsTableConfig: TableConfig = {
         layout: TableLayout.VERTICAL,
         cells: {
           name: {
-            dataComponent: AccountSummaryCellLinkComponent,
+            dataComponent: ToggleLinkCellComponent
           },
         },
       },

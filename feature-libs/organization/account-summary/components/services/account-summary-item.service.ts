@@ -3,11 +3,10 @@ import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
   CurrentUnitService,
   ItemService,
-  UnitFormService,
+  UnitFormService
 } from '@spartacus/organization/administration/components';
 import {
-  OrganizationItemStatus,
-  OrgUnitService,
+  OrganizationItemStatus
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -19,7 +18,6 @@ export class AccountSummaryItemService extends ItemService<B2BUnit> {
     protected currentItemService: CurrentUnitService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
   ) {
     super(currentItemService, routingService, formService);
   }

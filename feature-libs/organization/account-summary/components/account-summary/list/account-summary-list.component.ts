@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import {
   ItemService,
   ListService,
-  UnitListComponent,
+  UnitListComponent
 } from '@spartacus/organization/administration/components';
 import { AccountSummaryItemService } from '../../services/account-summary-item.service';
-import { AccountSummaryListService } from '../../services/account-summary-list.service';
+import { AccountSummaryUnitListService } from '../../services/account-summary-unit-list.service';
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',
@@ -13,7 +13,7 @@ import { AccountSummaryListService } from '../../services/account-summary-list.s
   providers: [
     {
       provide: ListService,
-      useExisting: AccountSummaryListService,
+      useExisting: AccountSummaryUnitListService,
     },
     {
       provide: ItemService,
