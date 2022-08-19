@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
@@ -104,7 +110,11 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Intentional empty method
+  }
 }
