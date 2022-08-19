@@ -2,10 +2,10 @@ import * as exec from '@actions/exec';
 
 export async function build() {
   //build libs and app
-  await exec.exec('yarn', ['install']);
-  await exec.exec('yarn', ['build:libs']);
-  await exec.exec('yarn', ['build']);
-  await exec.exec('yarn', ['build:ssr']);
+  await exec.exec('npm', ['install', '--legacy-peer-deps']);
+  await exec.exec('npm', ['run', 'build:libs']);
+  await exec.exec('npm', ['run', 'build']);
+  await exec.exec('npm', ['run', 'build:ssr']);
 }
 
 /**

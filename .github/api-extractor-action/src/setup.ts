@@ -17,7 +17,7 @@ export async function prepareRepositoryForApiExtractor(
   core.startGroup('Prepare branches for extractor');
 
   // Install dependencies to build libraries
-  await exec.exec('yarn');
+  await exec.exec('npm', ['i', '--legacy-peer-deps']);
   // Create directory for reports
   await io.mkdirP(`${REPORT_DIR}`);
 
@@ -54,14 +54,14 @@ export async function prepareRepositoryForApiExtractor(
     );
 
     // If we didn't restore builded libs from cache on the BASE branch, we need to also build base branch
-    await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR]);
-    await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR, BUILD_COMMAND]);
+    await exec.exec('npm', ['--prefix', BASE_BRANCH_DIR]);
+    await exec.exec('npm', ['--prefix', BASE_BRANCH_DIR, 'run', BUILD_COMMAND]);
   }
 
   // Build the libraries from the HEAD branch
   // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
-  await exec.exec('yarn');
-  await exec.exec('yarn', [BUILD_COMMAND]);
+  await exec.exec('npm', ['i', '--legacy-peer-deps']);
+  await exec.exec('npm', ['run', BUILD_COMMAND]);
 
   core.endGroup();
 }
