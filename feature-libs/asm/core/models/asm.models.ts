@@ -14,8 +14,3 @@ export interface CustomerSearchOptions {
 export interface AsmUi {
   collapsed?: boolean;
 }
-
-export interface BindCartParams {
-  cartId: string;
-  customerId: string;
-}
