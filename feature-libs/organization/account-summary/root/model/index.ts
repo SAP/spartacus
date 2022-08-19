@@ -1,1 +1,1 @@
-export * from './account-summary';
+export * from './account-summary.model';

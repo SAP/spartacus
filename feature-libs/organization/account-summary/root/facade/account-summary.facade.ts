@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
 import { ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../model/account-summary';
+import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../model/account-summary.model';
 
 @Injectable({
   providedIn: 'root',

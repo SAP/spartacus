@@ -3,7 +3,7 @@ import {
   B2BUnit,
   Currency,
   PaginationModel,
-  SortModel,
+  SortModel
 } from '@spartacus/core';
 
 interface MediaData {
@@ -11,7 +11,7 @@ interface MediaData {
   realFileName?: string;
 }
 
-interface B2BDocumentTypeData {
+export interface B2BDocumentTypeData {
   code?: string;
   displayInAllList?: boolean;
   includeInOpenBalance?: boolean;
