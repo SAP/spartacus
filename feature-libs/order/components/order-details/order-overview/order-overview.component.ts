@@ -13,6 +13,7 @@ import {
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
+  B2BUser,
   B2BUserRole,
   CostCenter,
   TranslationService,
@@ -254,13 +255,16 @@ export class OrderOverviewComponent implements OnInit {
     );
   }
 
-  getBuyerNameCardContent(placedBy: string): Observable<Card> {
+  getBuyerNameCardContent(customer: B2BUser): Observable<Card> {
     return this.translation.translate('orderDetails.buyer').pipe(
-      filter(() => Boolean(placedBy)),
-      map((textTitle) => ({
-        title: textTitle,
-        text: [placedBy],
-      }))
+      filter(() => Boolean(customer)),
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            text: [customer?.name, `(${customer?.uid})`],
+          } as Card)
+      )
     );
   }
 
