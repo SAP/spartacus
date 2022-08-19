@@ -1,9 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  CxEvent,
-  EventService,
-  LogoutEvent,
-} from '@spartacus/core';
+import { CxEvent, EventService, LogoutEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { ConfiguratorLogoutEventListener } from '@spartacus/product-configurator/rulebased';
@@ -48,7 +44,10 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     configuratorExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(configuratorExpertModeService, 'setExpModeRequested').and.callThrough();
+    spyOn(
+      configuratorExpertModeService,
+      'setExpModeRequested'
+    ).and.callThrough();
     spyOn(configuratorExpertModeService, 'setExpModeActive').and.callThrough();
   });
 
@@ -59,11 +58,19 @@ describe(`ConfiguratorLogoutEventListener`, () => {
 
     it(`should set active and requested expert mode to \'false\'`, () => {
       classUnderTest['onLogout']();
-      expect(configuratorExpertModeService.setExpModeActive).toHaveBeenCalledWith(false);
-      expect(configuratorExpertModeService.setExpModeActive).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorExpertModeService.setExpModeActive
+      ).toHaveBeenCalledWith(false);
+      expect(
+        configuratorExpertModeService.setExpModeActive
+      ).toHaveBeenCalledTimes(1);
 
-      expect(configuratorExpertModeService.setExpModeRequested).toHaveBeenCalledWith(false);
-      expect(configuratorExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorExpertModeService.setExpModeRequested
+      ).toHaveBeenCalledWith(false);
+      expect(
+        configuratorExpertModeService.setExpModeRequested
+      ).toHaveBeenCalledTimes(1);
     });
   });
 

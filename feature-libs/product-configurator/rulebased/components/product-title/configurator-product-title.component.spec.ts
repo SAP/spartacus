@@ -211,7 +211,7 @@ describe('ConfigProductTitleComponent', () => {
           {
             provide: FeaturesConfig,
             useValue: {
-              features: { level: '3.3' },
+              features: { level: '5.1' },
             },
           },
           {
