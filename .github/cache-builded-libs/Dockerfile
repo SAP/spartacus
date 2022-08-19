@@ -1,13 +1,13 @@
 FROM node:16
 
 COPY package.json /
-COPY yarn.lock /
+COPY package-lock.json /
 
-RUN yarn
+RUN npm i
 
 COPY index.ts /
 COPY tsconfig.json /
 
-RUN ["yarn", "build"]
+RUN ["npm", "run", "build"]
 
 ENTRYPOINT ["node", "/index.js"]

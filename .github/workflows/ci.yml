@@ -67,7 +67,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@14
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Run unit tests for Spartacus libs
         run: |
           ci-scripts/unit-tests-core-lib.sh
@@ -94,7 +94,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@14
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Run unit tests for integration libs
         run: |
           ci-scripts/unit-tests.sh
@@ -139,7 +139,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@14
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh

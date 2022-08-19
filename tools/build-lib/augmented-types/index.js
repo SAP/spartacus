@@ -1,4 +1,9 @@
 "use strict";
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58,7 +63,7 @@ function augmentableTypesPostStep(context, options) {
  */
 function getNgPackgrLibOutputPath(ngPackagerFile) {
     return __awaiter(this, void 0, void 0, function* () {
-        let ngPackageData = JSON.parse(yield fs_1.promises.readFile(ngPackagerFile, 'utf8'));
+        const ngPackageData = JSON.parse(yield fs_1.promises.readFile(ngPackagerFile, 'utf8'));
         return path.join(path.dirname(ngPackagerFile), ngPackageData.dest);
     });
 }
@@ -72,7 +77,7 @@ function propagateAugmentableTypes(libPath, logger) {
         for (const packageJsonFile of files) {
             try {
                 // get typings file from package.json
-                let packageData = JSON.parse(yield fs_1.promises.readFile(packageJsonFile, 'utf8'));
+                const packageData = JSON.parse(yield fs_1.promises.readFile(packageJsonFile, 'utf8'));
                 const typingsFile = packageData.typings;
                 if (!typingsFile) {
                     continue;

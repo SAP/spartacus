@@ -11,16 +11,16 @@ import * as github from '@actions/github';
 
 async function run() {
   core.startGroup('yarn');
-  let exitCode = await exec.exec('yarn', [], {
+  let exitCode = await exec.exec('npm', ['i'], {
     ignoreReturnCode: true,
   });
   core.endGroup();
   if (exitCode !== 0) {
-    core.setFailed(`Yarn install failed`);
+    core.setFailed(`NPM install failed`);
   }
 
-  core.startGroup('yarn build:libs');
-  exitCode = await exec.exec('yarn', ['build:libs'], {
+  core.startGroup('npm run build:libs');
+  exitCode = await exec.exec('npm', ['run', 'build:libs'], {
     ignoreReturnCode: true,
   });
   core.endGroup();
