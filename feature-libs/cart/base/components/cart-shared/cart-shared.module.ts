@@ -18,6 +18,7 @@ import {
   MediaModule,
   ModalModule,
   OutletModule,
+  OutletPosition,
   PromotionsModule,
   provideOutlet,
 } from '@spartacus/storefront';
@@ -56,6 +57,7 @@ import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
     }),
     provideOutlet({
       id: CartOutlets.CART_ITEM_LIST,
+      position: OutletPosition.AFTER,
       component: CartItemListComponent,
     }),
   ],
