@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "yarn build && jasmine **/*.spec.js"
+    "test": "npm run build && jasmine **/*.spec.js"
   },
   "author": "",
   "license": "MIT",
