@@ -34,7 +34,7 @@ fs.writeFileSync(`generate-doc.out.md`, breakingChangeDoc.join(''));
 
 function getBreakingChangeDoc(apiElement: any): string {
   let doc = getDocHeader(apiElement);
-  if (apiElement.isDeleted) {
+  if (common.isElementDeleted(apiElement)) {
     doc += getDeletdDoc(apiElement) + '\n';
   }
 
@@ -70,9 +70,14 @@ function getFullName(apiElement: any): string {
 }
 
 function getDeletdDoc(apiElement: any): string {
+  const breakingChangeEntry = common.getTopLevelBreakingChangeEntry(
+    apiElement,
+    'DELETED'
+  );
+
   return `
-${apiElement.deletedComment}
-${apiElement.migrationComment}`;
+${breakingChangeEntry.deletedComment}
+${breakingChangeEntry.migrationComment}`;
 }
 
 function getMovedDoc(apiElement: any): string {

@@ -21,7 +21,7 @@ const breakingChangesData = common.readBreakingChangeFile();
 const deletedApiSchematics = [];
 for (let index = 0; index < breakingChangesData.length; index++) {
   const apiElement = breakingChangesData[index];
-  if (apiElement.isDeleted) {
+  if (common.isElementDeleted(apiElement)) {
     deletedApiSchematics.push(getSchematicsData(apiElement));
   }
 }
@@ -38,9 +38,13 @@ fs.writeFileSync(
  */
 
 function getSchematicsData(apiElement: any): any {
+  const breakingChangeEntry = common.getTopLevelBreakingChangeEntry(
+    apiElement,
+    'DELETED'
+  );
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
-  schematicsData.comment = `${apiElement.deletedComment} ${apiElement.migrationComment}`;
+  schematicsData.comment = `${breakingChangeEntry.deletedComment} ${breakingChangeEntry.migrationComment}`;
   return schematicsData;
 }

@@ -250,6 +250,14 @@ export function isElementMoved(apiElement: any): boolean {
   return !!breakingChangeEntry;
 }
 
+export function isElementDeleted(apiElement: any): boolean {
+  const breakingChangeEntry = getTopLevelBreakingChangeEntry(
+    apiElement,
+    'DELETED'
+  );
+  return !!breakingChangeEntry;
+}
+
 export function getTopLevelBreakingChangeEntry(
   apiElement: any,
   changeType: string

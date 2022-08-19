@@ -54,7 +54,6 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'RENAMED'),
-            newName: newApiElementMoved.name,
           },
         ]);
       }
@@ -77,19 +76,18 @@ oldApiData.forEach((oldApiElement: any) => {
       }
     } else {
       // it is removed
-      oldApiElement.isDeleted = true;
-      oldApiElement.deletedComment = `${oldApiElement.kind} ${
-        oldApiElement.namespace ? oldApiElement.namespace + '.' : ''
-      }${
-        oldApiElement.name
-      } has been removed and is no longer part of the public API.`;
-      oldApiElement.migrationComment = common.findDeletedApiComment(
-        oldApiElement,
-        deletedCommentsData
-      );
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
+          deletedComment: `${oldApiElement.kind} ${
+            oldApiElement.namespace ? oldApiElement.namespace + '.' : ''
+          }${
+            oldApiElement.name
+          } has been removed and is no longer part of the public API.`,
+          migrationComment: common.findDeletedApiComment(
+            oldApiElement,
+            deletedCommentsData
+          ),
         },
       ]);
     }
