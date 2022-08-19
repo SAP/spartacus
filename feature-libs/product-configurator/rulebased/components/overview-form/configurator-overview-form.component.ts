@@ -113,4 +113,28 @@ export class ConfiguratorOverviewFormComponent {
 
     return styleClass;
   }
+
+  /**
+   * Retrieves the styling for the group levels.
+   *
+   * @param {number} level - Group level. 1 is top level.
+   * @param {Configurator.GroupOverview[]} subGroups - subgroups array
+   * @return {string} - corresponding style classes
+   */
+  getGroupLevelStyleClasses(
+    level: number,
+    subGroups: Configurator.GroupOverview[] | undefined
+  ): string {
+    let styleClass = 'cx-group';
+    if (level === 1) {
+      styleClass += ' topLevel';
+      if (subGroups && subGroups.length > 0) {
+        styleClass += ' subgroupTopLevel';
+      }
+    } else {
+      styleClass += ' subgroup';
+      styleClass += ' subgroupLevel' + level;
+    }
+    return styleClass;
+  }
 }
