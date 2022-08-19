@@ -25,4 +25,37 @@ export class PickupLocationConnector {
   getStoreDetails(storeName: string): Observable<PointOfService> {
     return this.adapter.getStoreDetails(storeName);
   }
+  setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    productCode: string,
+    quantity: number
+  ): Observable<any> {
+    return this.adapter.setPickupOptionDelivery(
+      cartId,
+      entryNumber,
+      userId,
+      name,
+      productCode,
+      quantity
+    );
+  }
+
+  setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    quantity: number
+  ): Observable<any> {
+    return this.adapter.setPickupOptionInStore(
+      cartId,
+      entryNumber,
+      userId,
+      name,
+      quantity
+    );
+  }
 }

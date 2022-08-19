@@ -34,6 +34,8 @@ import { StockLocationSearchParams } from '../model';
         'toggleHideOutOfStock',
         'stockLevelAtStore',
         'getStockLevelAtStore',
+        'setPickupOptionDelivery',
+        'setPickupOptionInStore',
       ],
       async: true,
     }),
@@ -56,4 +58,19 @@ export abstract class PickupLocationsSearchFacade {
   abstract toggleHideOutOfStock(): void;
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
+  abstract setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    productCode: string,
+    quantity: number
+  ): void;
+  abstract setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    quantity: number
+  ): void;
 }

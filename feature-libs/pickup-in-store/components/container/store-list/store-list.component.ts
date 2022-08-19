@@ -5,13 +5,17 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOption,
 } from '@spartacus/pickup-in-store/root';
+import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-list',
@@ -26,11 +30,20 @@ export class StoreListComponent implements OnInit {
   stores$: Observable<PointOfServiceStock[]>;
   hasSearchStarted$: Observable<boolean>;
   isSearchRunning$: Observable<boolean>;
+  cartId: string;
+  pickupOption: PickupOption;
+  name: string;
+  entryNumber: number;
+  userId: string;
+  quantity: number;
+  isPDP: boolean;
 
   constructor(
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
-    private readonly intendedPickupLocationService: IntendedPickupLocationFacade
+    private readonly intendedPickupLocationService: IntendedPickupLocationFacade,
+    private readonly activeCartFacade: ActiveCartFacade,
+    private readonly currentProductService: CurrentProductService
   ) {
     // Intentional empty constructor
   }
@@ -43,16 +56,50 @@ export class StoreListComponent implements OnInit {
       this.productCode
     );
     this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
+
+    this.activeCartFacade
+      .getActive()
+      .pipe(
+        tap((cart) => {
+          this.cartId = cart.guid ?? '';
+          this.userId = cart.user?.uid ?? '';
+          cart.entries &&
+            cart.entries.forEach((entry) => {
+              if (entry.product?.code === this.productCode) {
+                this.entryNumber = entry.entryNumber ?? -1;
+                this.quantity = entry.quantity as number;
+              }
+            });
+        })
+      )
+      .subscribe();
+
+    this.currentProductService
+      .getProduct()
+      .subscribe((_data) => (this.isPDP = !!_data));
   }
 
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
-    const { name, displayName } = pointOfService;
-    this.preferredStoreService.setPreferredStore({ name, displayName });
-    this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
-      ...pointOfService,
-      pickupOption: 'pickup',
-    });
+    const { name = '', displayName } = pointOfService;
+
+    if (this.isPDP) {
+      this.preferredStoreService.setPreferredStore({ name, displayName });
+      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
+        ...pointOfService,
+        pickupOption: 'pickup',
+      });
+    }
+
+    !this.isPDP &&
+      this.pickupLocationsSearchService.setPickupOptionInStore(
+        this.cartId,
+        this.entryNumber,
+        this.userId,
+        name,
+        this.quantity
+      );
+
     this.storeSelected.emit();
   }
 }

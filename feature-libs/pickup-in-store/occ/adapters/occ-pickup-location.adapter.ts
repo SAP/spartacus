@@ -8,6 +8,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OccEndpointsService, PointOfService } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
+import {
+  SetPickupOptionInStorePayload,
+  SetPickupOptionDeliveryPayload,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -25,6 +29,52 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
         urlParams: { storeName },
         queryParams: { fields: 'FULL' },
       })
+    );
+  }
+
+  setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    code: string,
+    quantity: number
+  ): Observable<any> {
+    const payload: SetPickupOptionDeliveryPayload = {
+      deliveryPointOfService: {
+        name,
+      },
+      product: {
+        code: code,
+      },
+      quantity: quantity,
+    };
+    return this.http.put(
+      this.occEndpointsService.buildUrl('patchDeliveryOption', {
+        urlParams: { userId, cartId, entryNumber },
+      }),
+      payload
+    );
+  }
+
+  setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    quantity: number
+  ): Observable<any> {
+    const payload: SetPickupOptionInStorePayload = {
+      deliveryPointOfService: {
+        name,
+      },
+      quantity,
+    };
+    return this.http.patch(
+      this.occEndpointsService.buildUrl('patchDeliveryOption', {
+        urlParams: { userId, cartId, entryNumber },
+      }),
+      payload
     );
   }
 }

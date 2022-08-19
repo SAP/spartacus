@@ -4,44 +4,129 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Optional,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
-import { OutletContextData } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  OutletContextData,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
 })
 export class CartPickupOptionsContainerComponent implements OnInit {
+  @ViewChild('open') element: ElementRef;
   pickupOption$: Observable<PickupOption>;
   displayName$: Observable<string>;
+  cartId: string;
+  entryNumber: number;
+  productCode: string;
+  quantity: number;
+  userId: string;
+  availableForPickup = false;
+  private displayNameIsSet = false;
+
   constructor(
     @Optional() protected outlet: OutletContextData<OrderEntry>,
-    protected storeDetails: PickupLocationsSearchFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected preferredStoreService: PreferredStoreService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
     this.pickupOption$ = this.outlet?.context$.pipe(
+      filter((outletContextData) => !!outletContextData),
+      tap((outletContextData) => {
+        this.entryNumber = outletContextData.entryNumber ?? -1;
+        this.quantity = outletContextData.quantity ?? -1;
+        this.productCode = outletContextData.product?.code || '';
+      }),
       map(
         (item): PickupOption =>
-          item?.deliveryPointOfService ? 'pickup' : 'delivery'
+          item.deliveryPointOfService ? 'pickup' : 'delivery'
       )
     );
 
+    this.outlet?.context$
+      .pipe(
+        tap((outletContextData) => {
+          this.availableForPickup =
+            !!outletContextData.product?.availableForPickup;
+        }),
+        take(1)
+      )
+      .subscribe();
     this.displayName$ = this.outlet?.context$.pipe(
-      map((entry) => entry?.deliveryPointOfService?.name),
+      filter((outletContextData) => !!outletContextData),
+      map(
+        (outletContextData) => outletContextData.deliveryPointOfService?.name
+      ),
       filter((name): name is string => !!name),
-      tap((storeName) => this.storeDetails.loadStoreDetails(storeName)),
-      switchMap((storeName) => this.storeDetails.getStoreDetails(storeName)),
-      map((store) => store?.displayName ?? '')
+      tap((storeName) =>
+        this.pickupLocationsSearchService.loadStoreDetails(storeName)
+      ),
+      switchMap((storeName) =>
+        this.pickupLocationsSearchService.getStoreDetails(storeName)
+      ),
+      map((store) => store?.displayName ?? ''),
+      tap((_displayName) => _displayName && (this.displayNameIsSet = true))
     );
+
+    this.activeCartFacade
+      .getActive()
+      .pipe(
+        tap((cart) => (this.cartId = cart.guid ?? '')),
+        tap((cart) => (this.userId = cart.user?.uid ?? ''))
+      )
+      .subscribe();
+  }
+
+  onPickupOptionChange(pickupOption: PickupOption): void {
+    pickupOption === 'delivery' &&
+      this.pickupLocationsSearchService.setPickupOptionDelivery(
+        this.cartId,
+        this.entryNumber,
+        this.userId,
+        '',
+        this.productCode,
+        this.quantity
+      );
+
+    if (!this.displayNameIsSet) {
+      this.openDialog();
+    }
+  }
+
+  openDialog(): void {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.PICKUP_IN_STORE,
+      this.element,
+      this.vcr,
+      { productCode: this.productCode }
+    );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
   }
 }

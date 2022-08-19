@@ -14,10 +14,12 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   BrowserLocationActions,
+  PickupLocationActions,
   StateWithStock,
   StockLevelActions,
   ToggleHideOutOfStockOptionsAction,
 } from '../store';
+import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
 @Injectable()
@@ -66,6 +68,22 @@ export class MockPickupLocationsSearchService
   }
 
   loadStoreDetails(_name: string): void {}
+  setPickupOptionDelivery(
+    _cartId: string,
+    _entryNumber: number,
+    _userId: string,
+    _name: string,
+    _productCode: string,
+    _quantity: number
+  ): void {}
+
+  setPickupOptionInStore(
+    _cartId: string,
+    _entryNumber: number,
+    _userId: string,
+    _name: string,
+    _quantity: number
+  ): void {}
 }
 
 describe('PickupLocationsSearchService', () => {
@@ -146,5 +164,79 @@ describe('PickupLocationsSearchService', () => {
         },
       })
     );
+  });
+
+  it('setPickupOptionDelivery', () => {
+    const name = '';
+    const productCode = 'productCode';
+    const quantity = 1;
+    service.setPickupOptionDelivery(
+      'cartID',
+      1,
+      'userID',
+      name,
+      productCode,
+      quantity
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PickupLocationActions.SetPickupOptionDelivery({
+        payload: {
+          cartId: 'cartID',
+          entryNumber: 1,
+          userId: 'userID',
+          name,
+          productCode,
+          quantity,
+        },
+      })
+    );
+  });
+
+  it('setPickupOptionInStore', () => {
+    const cartId = 'cartID';
+    const entryNumber = 1;
+    const userId = 'userID';
+    const name = 'name';
+    const quantity = 1;
+    service.setPickupOptionInStore(cartId, entryNumber, userId, name, quantity);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PickupLocationActions.SetPickupOptionInStore({
+        payload: {
+          cartId,
+          entryNumber,
+          userId,
+          name,
+          quantity,
+        },
+      })
+    );
+  });
+
+  it('getStoreDetails', () => {
+    service.getStoreDetails('name');
+    expect(store.pipe).toHaveBeenCalled();
+  });
+
+  it('loadStoreDetails', () => {
+    service.loadStoreDetails('name');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      GetStoreDetailsById({
+        payload: 'name',
+      })
+    );
+  });
+
+  it('stockLevelAtStore', () => {
+    service.stockLevelAtStore('productCode', 'name');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      StockLevelActions.StockLevelAtStore({
+        payload: { productCode: 'productCode', storeName: 'name' },
+      })
+    );
+  });
+
+  it('getStockLevelAtStore', () => {
+    service.getStockLevelAtStore('productCode', 'name');
+    expect(store.pipe).toHaveBeenCalled();
   });
 });

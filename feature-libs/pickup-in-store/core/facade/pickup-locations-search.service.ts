@@ -16,6 +16,7 @@ import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import {
   BrowserLocationActions,
   HideOutOfStockSelectors,
+  PickupLocationActions,
   PickupLocationsSelectors,
   StateWithPickupLocations,
   StateWithStock,
@@ -102,6 +103,48 @@ export class PickupLocationsSearchService
   getStoreDetails(name: string): Observable<PointOfService> {
     return this.store.pipe(
       select(PickupLocationsSelectors.getStoreDetailsByName(name))
+    );
+  }
+
+  setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    productCode: string,
+    quantity: number
+  ): void {
+    this.store.dispatch(
+      PickupLocationActions.SetPickupOptionDelivery({
+        payload: {
+          cartId,
+          entryNumber,
+          userId,
+          name,
+          productCode,
+          quantity,
+        },
+      })
+    );
+  }
+
+  setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    name: string,
+    quantity: number
+  ): void {
+    this.store.dispatch(
+      PickupLocationActions.SetPickupOptionInStore({
+        payload: {
+          cartId,
+          entryNumber,
+          userId,
+          name,
+          quantity,
+        },
+      })
     );
   }
 }

@@ -21,5 +21,11 @@ declare module '@spartacus/core' {
      * @member {string} [page]
      */
     stockAtStore?: string | OccEndpoint;
+
+    /**
+     * Patch Delivery Option for a entryId in Cart.
+     * @member {string} [page]
+     */
+    patchDeliveryOption?: string | OccEndpoint;
   }
 }

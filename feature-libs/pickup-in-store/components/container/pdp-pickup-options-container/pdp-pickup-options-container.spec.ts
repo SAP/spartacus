@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
+  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOption,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -19,6 +20,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
+import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 
 import createSpy = jasmine.createSpy;
 
@@ -46,24 +48,11 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   );
   getStoreDetails = createSpy();
   loadStoreDetails = createSpy();
+  setPickupOptionDelivery = createSpy();
+  setPickupOptionInStore = createSpy();
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ) {
-    return of();
-  }
-
-  get dialogClose(): Observable<string | undefined> {
-    return of(undefined);
-  }
-}
-
-class MockCurrentProductService {
+export class MockCurrentProductService {
   getProduct(): Observable<Product | null> {
     return of({ code: 'productCode', availableForPickup: true });
   }
@@ -264,6 +253,46 @@ describe('PickupOptionsComponent', () => {
 
       expect(preferredStoreService.getPreferredStore).toHaveBeenCalled();
       expect(component.openDialog).toHaveBeenCalled();
+    });
+  });
+
+  describe('with current product and intended Location', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(IntendedPickupLocationFacade, {
+          useValue: {
+            setIntendedLocation: (
+              _productCode: string,
+              _location: AugmentedPointOfService
+            ) => {},
+            removeIntendedLocation: (_productCode: string) => {},
+
+            getPickupOption: (
+              _productCode: string
+            ): Observable<PickupOption> => {
+              return of('delivery');
+            },
+            setPickupOption: (
+              _productCode: string,
+              _pickupOption: PickupOption
+            ): void => {},
+
+            getIntendedLocation: () =>
+              of({
+                name: 'preferredStore',
+                displayName: 'London School',
+                pickupOption: 'pickupOptions',
+              }),
+          },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should not call getPreferredStore if display name is set', () => {
+      spyOn(preferredStoreService, 'getPreferredStore');
+
+      expect(preferredStoreService.getPreferredStore).not.toHaveBeenCalled();
     });
   });
 });
