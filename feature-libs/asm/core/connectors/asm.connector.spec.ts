@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 import { Observable, of } from 'rxjs';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../models/asm.models';
 import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 

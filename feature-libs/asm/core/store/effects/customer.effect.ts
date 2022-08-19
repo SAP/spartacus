@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CustomerSearchPage } from '@spartacus/asm/root';
 import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AsmConnector } from '../../connectors/asm.connector';
+import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 
 @Injectable()

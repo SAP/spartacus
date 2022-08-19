@@ -1,31 +1,18 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
-  AsmFacade,
   AsmUi,
-  BindCartParams,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '@spartacus/asm/root';
-import { Command, CommandService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { AsmConnector } from '../connectors';
+} from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
-@Injectable()
-export class AsmService implements AsmFacade {
-  constructor(
-    protected store: Store<StateWithAsm>,
-    protected commandService: CommandService,
-    protected asmConnector: AsmConnector
-  ) {}
-
-  protected bindCartCommand$: Command<BindCartParams> =
-    this.commandService.create((options: BindCartParams) =>
-      this.asmConnector.bindCart(options)
-    );
+@Injectable({ providedIn: 'root' })
+export class AsmService {
+  constructor(protected store: Store<StateWithAsm>) {}
 
   /**
    * Search for customers
@@ -70,9 +57,5 @@ export class AsmService implements AsmFacade {
    */
   getAsmUiState(): Observable<AsmUi> {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
-  }
-
-  bindCart(options: BindCartParams): Observable<unknown> {
-    return this.bindCartCommand$.execute(options);
   }
 }

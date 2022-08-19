@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AsmFacade } from '@spartacus/asm/root';
+import { AsmService } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
@@ -61,7 +61,7 @@ class MockAsmService {
 describe('AsmBindCartComponent', () => {
   let component: AsmBindCartComponent;
   let fixture: ComponentFixture<AsmBindCartComponent>;
-  let asmFacade: AsmFacade;
+  let asmService: AsmService;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let userService: UserAccountFacade;
@@ -76,7 +76,7 @@ describe('AsmBindCartComponent', () => {
       declarations: [AsmBindCartComponent, MockTranslatePipe],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        { provide: AsmFacade, useClass: MockAsmService },
+        { provide: AsmService, useClass: MockAsmService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
@@ -89,14 +89,14 @@ describe('AsmBindCartComponent', () => {
     fixture = TestBed.createComponent(AsmBindCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    asmFacade = TestBed.inject(AsmFacade);
+    asmService = TestBed.inject(AsmService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     userService = TestBed.inject(UserAccountFacade);
 
     spyOn(userService, 'get').and.returnValue(of(testUser));
 
-    spyOn(asmFacade, 'bindCart').and.returnValue(
+    spyOn(asmService, 'bindCart').and.returnValue(
       of(() => {
         expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
           cartId: testCartId,
@@ -135,7 +135,7 @@ describe('AsmBindCartComponent', () => {
 
       component.bindCartToCustomer();
 
-      expect(asmFacade.bindCart).toHaveBeenCalledWith({
+      expect(asmService.bindCart).toHaveBeenCalledWith({
         cartId: testCartId,
         customerId: testUser.uid,
       });
@@ -148,7 +148,7 @@ describe('AsmBindCartComponent', () => {
       // clear entered cart id
       component.cartId.setValue('');
       component.bindCartToCustomer();
-      expect(asmFacade.bindCart).toHaveBeenCalledTimes(0);
+      expect(asmService.bindCart).toHaveBeenCalledTimes(0);
     });
   });
 });

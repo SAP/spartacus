@@ -3,20 +3,18 @@ import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
   AsmConfig,
-  CUSTOMER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/asm/core';
-import {
-  BindCartParams,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '@spartacus/asm/root';
+  CUSTOMER_SEARCH_PAGE_NORMALIZER,
+} from '@spartacus/asm/core';
+import { BindCartParams } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

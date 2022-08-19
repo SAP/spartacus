@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AsmFacade } from '@spartacus/asm/root';
+import { AsmService } from '@spartacus/asm/core';
+import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -10,7 +11,7 @@ import {
   User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -30,10 +31,11 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected asmFacade: AsmFacade,
+    protected asmService: AsmService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
+    @Optional() protected asmBindCartFacade?: AsmBindCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -63,11 +65,12 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     if (customerId && this.cartId.valid && !this.loading) {
       this.loading = true;
 
-      const subscription = this.asmFacade
-        .bindCart({
+      const subscription = (
+        this.asmBindCartFacade?.bindCart({
           cartId: this.cartId.value,
           customerId,
-        })
+        }) ?? throwError({})
+      )
         .pipe(finalize(() => (this.loading = false)))
         .subscribe(
           () => {

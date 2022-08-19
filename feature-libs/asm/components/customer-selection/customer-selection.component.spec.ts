@@ -8,8 +8,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmConfig } from '@spartacus/asm/core';
-import { AsmFacade, CustomerSearchPage } from '@spartacus/asm/root';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -72,7 +71,7 @@ const MockAsmConfig: AsmConfig = {
 describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
-  let asmFacade: AsmFacade;
+  let asmService: AsmService;
   let el: DebugElement;
 
   const validSearchTerm = 'cUstoMer@test.com';
@@ -83,7 +82,7 @@ describe('CustomerSelectionComponent', () => {
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent],
         providers: [
-          { provide: AsmFacade, useClass: MockAsmService },
+          { provide: AsmService, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AsmConfig, useValue: MockAsmConfig },
         ],
@@ -95,7 +94,7 @@ describe('CustomerSelectionComponent', () => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    asmFacade = TestBed.inject(AsmFacade);
+    asmService = TestBed.inject(AsmService);
     el = fixture.debugElement;
     fixture.detectChanges();
   });
@@ -124,7 +123,7 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should display spinner when customer search is running', () => {
-    spyOn(asmFacade, 'getCustomerSearchResultsLoading').and.returnValue(
+    spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
       of(true)
     );
     component.ngOnInit();
@@ -142,21 +141,21 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should trigger search for valid search term', fakeAsync(() => {
-    spyOn(asmFacade, 'customerSearch').and.callThrough();
+    spyOn(asmService, 'customerSearch').and.callThrough();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
     fixture.detectChanges();
     tick(1000);
-    expect(asmFacade.customerSearch).toHaveBeenCalledWith({
+    expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
       pageSize: 20,
     });
   }));
 
   it('should display 3 search results for valid search term', () => {
-    spyOn(asmFacade, 'getCustomerSearchResults').and.returnValue(
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(mockCustomerSearchPage)
     );
     component.ngOnInit();
@@ -170,10 +169,10 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should close the result list when we click out of the result list area', () => {
-    spyOn(asmFacade, 'getCustomerSearchResults').and.returnValue(
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(mockCustomerSearchPage)
     );
-    spyOn(asmFacade, 'customerSearchReset').and.stub();
+    spyOn(asmService, 'customerSearchReset').and.stub();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
@@ -182,14 +181,14 @@ describe('CustomerSelectionComponent', () => {
     expect(el.query(By.css('div.asm-results'))).toBeTruthy();
     el.nativeElement.dispatchEvent(new MouseEvent('click'));
     fixture.detectChanges();
-    expect(asmFacade.customerSearchReset).toHaveBeenCalled();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
   it('should display no results message when no results are found', () => {
-    spyOn(asmFacade, 'getCustomerSearchResults').and.returnValue(
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(<CustomerSearchPage>{ entries: [] })
     );
-    spyOn(asmFacade, 'customerSearchReset').and.stub();
+    spyOn(asmService, 'customerSearchReset').and.stub();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
@@ -202,14 +201,14 @@ describe('CustomerSelectionComponent', () => {
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
-    expect(asmFacade.customerSearchReset).toHaveBeenCalled();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
   it('should be able to select a customer from the result list.', () => {
-    spyOn(asmFacade, 'getCustomerSearchResults').and.returnValue(
+    spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
       of(mockCustomerSearchPage)
     );
-    spyOn(asmFacade, 'customerSearchReset').and.stub();
+    spyOn(asmService, 'customerSearchReset').and.stub();
     spyOn(component, 'selectCustomerFromList').and.callThrough();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
@@ -228,6 +227,6 @@ describe('CustomerSelectionComponent', () => {
     expect(
       el.query(By.css('button[type="submit"]')).nativeElement.disabled
     ).toBeFalsy();
-    expect(asmFacade.customerSearchReset).toHaveBeenCalled();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 });

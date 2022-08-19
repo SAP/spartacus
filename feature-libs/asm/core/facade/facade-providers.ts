@@ -1,12 +1,11 @@
 import { Provider } from '@angular/core';
-import { AsmFacade } from '@spartacus/asm/root';
-
-import { AsmService } from './asm.service';
+import { AsmBindCartFacade } from '@spartacus/asm/root';
+import { AsmBindCartService } from './asm-bind-cart.service';
 
 export const facadeProviders: Provider[] = [
-  AsmService,
+  AsmBindCartService,
   {
-    provide: AsmFacade,
-    useExisting: AsmService,
+    provide: AsmBindCartFacade,
+    useExisting: AsmBindCartService,
   },
 ];

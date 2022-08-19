@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AsmUi } from '@spartacus/asm/root';
+import { AsmUi } from '../../models/asm.models';
 
 export const ASM_UI_UPDATE = '[Asm] UI Update';
 

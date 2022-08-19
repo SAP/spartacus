@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -10,7 +11,6 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmFacade: AsmFacade,
+    protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade
   ) {}
 
@@ -52,7 +52,7 @@ export class AsmMainUiComponent implements OnInit {
         }
       })
     );
-    this.isCollapsed$ = this.asmFacade
+    this.isCollapsed$ = this.asmService
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>

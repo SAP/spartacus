@@ -1,5 +1,8 @@
-import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils, User } from '@spartacus/core';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../../models/asm.models';
 import { CUSTOMER_SEARCH_DATA } from '../asm-state';
 import { AsmActions } from './index';
 

@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -98,7 +99,7 @@ class MockAsmComponentService {
   }
 }
 
-class MockAsmService implements Partial<AsmFacade> {
+class MockAsmService implements Partial<AsmService> {
   getAsmUiState(): Observable<AsmUi> {
     return of(mockAsmUi);
   }
@@ -118,7 +119,7 @@ describe('AsmMainUiComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let asmComponentService: AsmComponentService;
-  let asmFacade: AsmFacade;
+  let asmService: AsmService;
 
   beforeEach(
     waitForAsync(() => {
@@ -139,7 +140,7 @@ describe('AsmMainUiComponent', () => {
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: AsmFacade, useClass: MockAsmService },
+          { provide: AsmService, useClass: MockAsmService },
         ],
       }).compileComponents();
     })
@@ -153,7 +154,7 @@ describe('AsmMainUiComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
     asmComponentService = TestBed.inject(AsmComponentService);
-    asmFacade = TestBed.inject(AsmFacade);
+    asmService = TestBed.inject(AsmService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -224,7 +225,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display the login form by default and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(false)
     );
@@ -253,7 +254,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
@@ -286,7 +287,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display customer emulation state when a customer is signed in and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
