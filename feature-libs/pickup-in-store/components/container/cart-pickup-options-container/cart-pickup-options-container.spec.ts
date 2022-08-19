@@ -3,10 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import {
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-} from '@spartacus/pickup-in-store/root';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -14,7 +11,6 @@ import {
 } from '@spartacus/storefront';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
-import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -75,7 +71,6 @@ describe('Cart PickupOptionsComponent', () => {
   let component: CartPickupOptionsContainerComponent;
   let fixture: ComponentFixture<CartPickupOptionsContainerComponent>;
   let activeCartService: ActiveCartFacade;
-  let intendedPickupLocationService: IntendedPickupLocationFacade;
   let launchDialogService: LaunchDialogService;
 
   const configureTestingModule = () =>
@@ -90,10 +85,6 @@ describe('Cart PickupOptionsComponent', () => {
         {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
-        },
-        {
-          provide: IntendedPickupLocationFacade,
-          useClass: MockIntendedPickupLocationService,
         },
         {
           provide: LaunchDialogService,
@@ -115,17 +106,9 @@ describe('Cart PickupOptionsComponent', () => {
     fixture = TestBed.createComponent(CartPickupOptionsContainerComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    intendedPickupLocationService = TestBed.inject(
-      IntendedPickupLocationFacade
-    );
     activeCartService = TestBed.inject(ActiveCartFacade);
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
-    spyOn(
-      intendedPickupLocationService,
-      'removeIntendedLocation'
-    ).and.callThrough();
-    spyOn(intendedPickupLocationService, 'setIntendedLocation');
 
     fixture.detectChanges();
   };
@@ -200,10 +183,6 @@ describe('Cart PickupOptionsComponent', () => {
           {
             provide: ActiveCartFacade,
             useClass: MockActiveCartFacade,
-          },
-          {
-            provide: IntendedPickupLocationFacade,
-            useClass: MockIntendedPickupLocationService,
           },
           {
             provide: LaunchDialogService,

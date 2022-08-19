@@ -15,7 +15,6 @@ import {
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
-  IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
@@ -24,7 +23,7 @@ import {
   OutletContextData,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -33,23 +32,19 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 })
 export class CartPickupOptionsContainerComponent implements OnInit {
   @ViewChild('open') element: ElementRef;
-  subscription = new Subscription();
   pickupOption$: Observable<PickupOption>;
   displayName$: Observable<string>;
   cartId: string;
-  name: string;
   entryNumber: number;
   productCode: string;
   quantity: number;
   userId: string;
-  displayPickupLocation$: Observable<string | undefined>;
   availableForPickup = false;
   private displayNameIsSet = false;
 
   constructor(
     @Optional() protected outlet: OutletContextData<OrderEntry>,
     protected activeCartFacade: ActiveCartFacade,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
@@ -65,7 +60,6 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.entryNumber = outletContextData.entryNumber ?? -1;
         this.quantity = outletContextData.quantity ?? -1;
         this.productCode = outletContextData.product?.code || '';
-        this.name = outletContextData.deliveryPointOfService?.name ?? '';
       }),
       map(
         (item): PickupOption =>
