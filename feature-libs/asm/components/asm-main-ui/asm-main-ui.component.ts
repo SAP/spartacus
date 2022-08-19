@@ -47,7 +47,7 @@ export class AsmMainUiComponent implements OnInit {
 
   protected modalRef: ModalRef | undefined;
 
-  // TODO(#206): make asmService and modalService are required dependency
+  // TODO(#206): make modalService are required dependency
   constructor(
     authService: AuthService,
     csAgentAuthService: CsAgentAuthService,
