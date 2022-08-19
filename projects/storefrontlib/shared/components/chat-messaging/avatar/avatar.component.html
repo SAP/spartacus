@@ -1,5 +1,6 @@
 <!-- TODO: Verify current user to display left aligned messages -->
 <div
+  *ngIf="event"
   class="cx-avatar"
   [ngClass]="event.author !== 'Mark Rivers' ? 'right-align' : ''"
 >
