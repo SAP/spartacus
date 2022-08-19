@@ -1,4 +1,4 @@
-<ng-container *ngIf="availableForPickup">
+<ng-container *ngIf="availableForPickup$ | async">
   <cx-pickup-delivery-options
     [displayPickupLocation]="displayName$ | async"
     [selectedOption]="pickupOption$ | async"

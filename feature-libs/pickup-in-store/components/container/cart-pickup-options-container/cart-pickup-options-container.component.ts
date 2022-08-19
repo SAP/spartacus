@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
@@ -20,11 +20,46 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
-  OutletContextData,
   LAUNCH_CALLER,
+  OutletContextData,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { PickRequiredDeep } from 'feature-libs/pickup-in-store/core/utils/type-utils';
+import { EMPTY, Observable } from 'rxjs';
+import {
+  concatMap,
+  filter,
+  map,
+  startWith,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+
+// TODO unit test these filters
+
+type OrderEntryWithRequiredFields = PickRequiredDeep<
+  OrderEntry,
+  'entryNumber' | 'quantity' | 'product.code' | 'product.availableForPickup'
+> &
+  Pick<OrderEntry, 'deliveryPointOfService'>;
+const orderEntryWithRequiredFields = (
+  orderEntry: OrderEntry | undefined
+): orderEntry is OrderEntryWithRequiredFields =>
+  !!orderEntry &&
+  orderEntry.entryNumber !== undefined &&
+  orderEntry.quantity !== undefined &&
+  orderEntry.product !== undefined &&
+  orderEntry.product.code !== undefined &&
+  orderEntry.deliveryPointOfService !== undefined;
+
+type CartWithIdAndUserId = PickRequiredDeep<Cart, 'guid' | 'user.uid'>;
+const cartWithIdAndUserId = (
+  cart: Cart | undefined
+): cart is CartWithIdAndUserId =>
+  !!cart &&
+  cart.guid !== undefined &&
+  cart.user !== undefined &&
+  cart.user.uid !== undefined;
 
 @Component({
   selector: 'cx-cart-pickup-options-container',
@@ -32,14 +67,16 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 })
 export class CartPickupOptionsContainerComponent implements OnInit {
   @ViewChild('open') element: ElementRef;
+
   pickupOption$: Observable<PickupOption>;
   displayName$: Observable<string>;
+  availableForPickup$: Observable<boolean>;
+
   cartId: string;
   entryNumber: number;
   productCode: string;
   quantity: number;
   userId: string;
-  availableForPickup = false;
   private displayNameIsSet = false;
 
   constructor(
@@ -54,51 +91,45 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pickupOption$ = this.outlet?.context$.pipe(
-      filter((outletContextData) => !!outletContextData),
-      tap((outletContextData) => {
-        this.entryNumber = outletContextData.entryNumber ?? -1;
-        this.quantity = outletContextData.quantity ?? -1;
-        this.productCode = outletContextData.product?.code || '';
+    const outletContext =
+      this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
+      EMPTY;
+
+    this.availableForPickup$ = outletContext.pipe(
+      map((orderEntry) => !!orderEntry.product?.availableForPickup),
+      startWith(false)
+    );
+
+    this.pickupOption$ = outletContext.pipe(
+      withLatestFrom(
+        this.activeCartFacade.getActive().pipe(filter(cartWithIdAndUserId))
+      ),
+      tap(([orderEntry, cart]) => {
+        this.entryNumber = orderEntry.entryNumber;
+        this.quantity = orderEntry.quantity;
+        this.productCode = orderEntry.product.code;
+        this.cartId = cart.guid;
+        this.userId = cart.user.uid;
       }),
       map(
-        (item): PickupOption =>
-          item.deliveryPointOfService ? 'pickup' : 'delivery'
+        ([orderEntry]): PickupOption =>
+          orderEntry.deliveryPointOfService ? 'pickup' : 'delivery'
       )
     );
 
-    this.outlet?.context$
-      .pipe(
-        tap((outletContextData) => {
-          this.availableForPickup =
-            !!outletContextData.product?.availableForPickup;
-        }),
-        take(1)
-      )
-      .subscribe();
-    this.displayName$ = this.outlet?.context$.pipe(
-      filter((outletContextData) => !!outletContextData),
-      map(
-        (outletContextData) => outletContextData.deliveryPointOfService?.name
-      ),
+    this.displayName$ = outletContext.pipe(
+      map((orderEntry) => orderEntry.deliveryPointOfService?.name),
       filter((name): name is string => !!name),
       tap((storeName) =>
+        // TODO write test mocking this
         this.pickupLocationsSearchService.loadStoreDetails(storeName)
       ),
-      switchMap((storeName) =>
+      concatMap((storeName) =>
         this.pickupLocationsSearchService.getStoreDetails(storeName)
       ),
       map((store) => store?.displayName ?? ''),
       tap((_displayName) => _displayName && (this.displayNameIsSet = true))
     );
-
-    this.activeCartFacade
-      .getActive()
-      .pipe(
-        tap((cart) => (this.cartId = cart.guid ?? '')),
-        tap((cart) => (this.userId = cart.user?.uid ?? ''))
-      )
-      .subscribe();
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {

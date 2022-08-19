@@ -14,6 +14,9 @@ import { UserIdService } from '@spartacus/core';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import { withLatestFrom } from 'rxjs/operators';
 
+/**
+ * An override of the active cart service that can add a product for pickup in store.
+ */
 @Injectable()
 export class PickupInStoreActiveCartService extends ActiveCartService {
   constructor(

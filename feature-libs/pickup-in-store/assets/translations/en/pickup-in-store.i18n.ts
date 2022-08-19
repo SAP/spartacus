@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/** Translation keys for the PickupDeliveryOptionDialogComponent */
 export const pickupInStoreDialog = {
   close: 'Close',
   modalHeader: 'Pickup in Store',
@@ -17,6 +18,7 @@ const pickupOptions = {
   selectStore: 'Select Store',
 };
 
+/** Translation keys for the StoreComponent */
 export const store = {
   pickupFromHere: 'Pick Up from here',
   stockLevel_inStock: '{{ count }} in Stock',
@@ -24,15 +26,18 @@ export const store = {
   viewHours: 'View Hours',
 };
 
+/** Translation keys for the StoreListComponent */
 export const storeList = {
   noStoresMessage: 'No stores found in database...',
 };
 
+/** Translation keys for the StoreScheduleComponent */
 export const storeSchedule = {
   closed: 'Closed',
   storeHours: 'Store hours',
 };
 
+/** Translation keys for the StoreSearchComponent */
 export const storeSearch = {
   findAStore: 'Find a Store',
   findStores: 'Find Stores',
@@ -41,11 +46,14 @@ export const storeSearch = {
   useMyLocation: 'Use my location',
   viewAllStores: 'View all stores',
 };
+
+/** Translation keys for the PickupDeliveryInfoComponent */
 export const pickupDeliveryInfo = {
   inStorePickup: 'In Store Pickup',
   pickupBy: 'Pick up by',
   pickupFrom: 'Pick up from',
 };
+
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInStoreDialog,

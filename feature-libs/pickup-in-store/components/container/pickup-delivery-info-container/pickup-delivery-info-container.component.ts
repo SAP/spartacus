@@ -5,30 +5,31 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-pickup-delivery-info-container',
   templateUrl: './pickup-delivery-info-container.component.html',
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
-  cart$: Observable<Cart>;
   storesDetailsData: Partial<PointOfService>[];
+
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
     protected readonly storeDetails: PickupLocationsSearchFacade
   ) {}
+
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
-    this.cart$
+    this.activeCartService
+      .getActive()
       .pipe(
         map((cart) => cart.entries),
         filter((entries): entries is OrderEntry[] => !!entries),
@@ -58,7 +59,10 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
             openingHours,
           }))
         ),
-        tap((storesDetailsData) => (this.storesDetailsData = storesDetailsData))
+        tap(
+          (storesDetailsData) => (this.storesDetailsData = storesDetailsData)
+        ),
+        take(1)
       )
       .subscribe();
   }
