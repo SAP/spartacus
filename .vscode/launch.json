@@ -5,13 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
-      "request": "launch",
-      "type": "chrome",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
       "type": "node",
       "request": "attach",
       "name": "Attach by Process ID",
