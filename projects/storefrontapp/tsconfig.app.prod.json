@@ -119,9 +119,7 @@
       "@spartacus/organization/unit-order/assets": [
         "dist/organization/unit-order/assets"
       ],
-      "@spartacus/organization/unit-order": [
-        "dist/organization/unit-order"
-      ],
+      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
       "@spartacus/organization/unit-order/root": [
         "dist/organization/unit-order/root"
       ],
