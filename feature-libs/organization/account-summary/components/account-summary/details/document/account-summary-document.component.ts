@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Currency, SortModel, TranslationService } from '@spartacus/core';
+import { SortModel, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   AccountSummaryFacade,
@@ -64,11 +64,6 @@ export class AccountSummaryDocumentComponent implements OnInit {
     this.fetchDocuments();
   }
 
-  formatCurrency(amount?: number, currency?: Currency): string {
-    return amount && currency?.isocode ?
-      amount.toLocaleString(navigator.language, { style: 'currency', currency: currency?.isocode }) : '';
-  }
-
   private fetchDocuments(isFullFetch = false): void {
     const params = {
       ...this.queryParams,
@@ -78,8 +73,8 @@ export class AccountSummaryDocumentComponent implements OnInit {
       .pipe(take(1))
       .subscribe((accountSummaryList: AccountSummaryList) => {
 
-        if (!this.documentTypeOptions && accountSummaryList.documentTypes) {
-          this.documentTypeOptions = accountSummaryList.documentTypes;
+        if (!this.documentTypeOptions && accountSummaryList.orgDocumentTypes) {
+          this.documentTypeOptions = accountSummaryList.orgDocumentTypes;
         }
 
         if (!this.sortOptions && accountSummaryList.sorts) {

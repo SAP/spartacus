@@ -11,10 +11,8 @@ interface MediaData {
   realFileName?: string;
 }
 
-export interface B2BDocumentTypeData {
+export interface OrgDocumentType {
   code?: string;
-  displayInAllList?: boolean;
-  includeInOpenBalance?: boolean;
   name?: string;
   payableOrUsable?: string;
 }
@@ -69,16 +67,13 @@ export interface AccountSummaryDetails {
 
 export interface AccountSummaryDocument {
   amount?: number;
+  createdAtDate?: Date;
   currency?: Currency;
-  date?: Date;
   documentMedia?: MediaData;
-  documentNumber?: string;
-  documentType?: B2BDocumentTypeData;
-  dueDate?: string;
-  formattedAmount?: string;
-  formattedOpenAmount?: string;
+  dueAtDate?: string;
+  id?: string;
   openAmount?: number;
-  selectable?: boolean;
+  orgDocumentType?: OrgDocumentType;
   status?: DocumentStatus;
 }
 
@@ -94,8 +89,8 @@ export interface AccountSummary {
 }
 
 export interface AccountSummaryList {
-  documentTypes?: AccountSummaryDocumentType[];
-  documents?: AccountSummaryDocument[];
+  orgDocumentTypes?: AccountSummaryDocumentType[];
+  orgDocuments?: AccountSummaryDocument[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }

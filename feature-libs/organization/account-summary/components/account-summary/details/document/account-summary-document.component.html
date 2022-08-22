@@ -83,7 +83,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let document of accountSummary.documents"
+              *ngFor="let document of accountSummary.orgDocuments"
               class="cx-account-summary-document-row"
             >
               <td class="cx-account-summary-document-code">
@@ -91,7 +91,7 @@
                   {{ 'orgAccountSummary.document.id' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.documentNumber }}
+                  {{ document.id }}
                 </div>
               </td>
               <td class="cx-account-summary-document-type">
@@ -99,7 +99,7 @@
                   {{ 'orgAccountSummary.document.type' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.documentType?.name }}
+                  {{ document.orgDocumentType?.name }}
                 </div>
               </td>
               <td class="cx-account-summary-document-date">
@@ -107,7 +107,7 @@
                   {{ 'orgAccountSummary.document.date' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.date | cxDate: 'longDate' }}
+                  {{ document.createdAtDate | cxDate: 'longDate' }}
                 </div>
               </td>
               <td class="cx-account-summary-document-date">
@@ -115,7 +115,7 @@
                   {{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.dueDate | cxDate: 'longDate' }}
+                  {{ document.dueAtDate | cxDate: 'longDate' }}
                 </div>
               </td>
               <td class="cx-account-summary-document-monetary">
@@ -123,7 +123,9 @@
                   {{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ formatCurrency(document.amount, document.currency) }}
+                  <span *ngIf="document.amount && document.currency?.isocode">
+                    {{ document.amount | currency: document.currency?.isocode }}
+                  </span>
                 </div>
               </td>
               <td class="cx-account-summary-document-monetary">
@@ -131,7 +133,9 @@
                   {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ formatCurrency(document.openAmount, document.currency) }}
+                  <span *ngIf="document.openAmount && document.currency?.isocode">
+                    {{ document.openAmount | currency: document.currency?.isocode }}
+                  </span>
                 </div>
               </td>
               <td class="cx-account-summary-document-status">
