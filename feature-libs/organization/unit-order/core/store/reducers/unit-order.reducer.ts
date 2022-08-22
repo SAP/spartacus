@@ -1,6 +1,5 @@
-import { OrderHistoryList } from "@spartacus/order/root";
-import { UnitOrderActions } from "../actions";
-
+import { OrderHistoryList } from '@spartacus/order/root';
+import { UnitOrderActions } from '../actions';
 
 export const initialState: OrderHistoryList = {
   orders: [],
@@ -23,4 +22,3 @@ export function reducer(
 
   return state;
 }
-
