@@ -17,6 +17,8 @@ import { StockLocationSearchParams } from '../model';
 
 // TODO jsdoc
 
+// TODO split this service
+
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
@@ -46,6 +48,7 @@ export abstract class PickupLocationsSearchFacade {
     productCode: string,
     storeName: string
   ): Observable<Stock | undefined>;
+
   abstract startSearch(searchParams: StockLocationSearchParams): void;
   abstract hasSearchStarted(productCode: string): Observable<boolean>;
   abstract isSearchRunning(): Observable<boolean>;
@@ -56,8 +59,10 @@ export abstract class PickupLocationsSearchFacade {
   abstract getHideOutOfStock(): Observable<boolean>;
   abstract setBrowserLocation(latitude: number, longitude: number): void;
   abstract toggleHideOutOfStock(): void;
+
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
+
   abstract setPickupOptionToDelivery(
     cartId: string,
     entryNumber: number,

@@ -13,10 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import {
-  PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -36,12 +33,6 @@ function isProductWithCode(
   product: Product | null
 ): product is Required<Pick<Product, 'code'>> & Product {
   return !!product?.code;
-}
-
-function hasNames(
-  store: PointOfServiceNames | undefined
-): store is Required<PointOfServiceNames> {
-  return !!store?.name && !!store?.displayName;
 }
 
 @Component({
@@ -100,23 +91,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
             intendedLocation?.pickupOption === 'pickup' &&
             !!intendedLocation.displayName,
           of(intendedLocation?.displayName),
-          of(this.preferredStoreService.getPreferredStore()).pipe(
-            filter(hasNames),
-            tap((preferredStore) => {
-              this.pickupLocationsSearchService.stockLevelAtStore(
-                productCode,
-                preferredStore.name
-              );
-            }),
-            switchMap((preferredStore) =>
-              this.pickupLocationsSearchService
-                .getStockLevelAtStore(productCode, preferredStore.name)
-                .pipe(
-                  filter((stock) => !!stock?.stockLevel),
-                  map((_) => preferredStore.displayName)
-                )
-            )
-          )
+          this.preferredStoreService
+            .getPreferredStoreWithProductInStock(productCode)
+            .pipe(map(({ displayName }) => displayName))
         )
       ),
       tap(() => (this.displayNameIsSet = true))

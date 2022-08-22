@@ -26,12 +26,13 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, iif, Observable, of } from 'rxjs';
 import {
   concatMap,
   filter,
   map,
   startWith,
+  switchMap,
   take,
   tap,
   withLatestFrom,
@@ -123,16 +124,29 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     );
 
     this.displayName$ = outletContext.pipe(
-      map((orderEntry) => orderEntry.deliveryPointOfService?.name),
-      filter((name): name is string => !!name),
-      tap((storeName) =>
-        this.pickupLocationsSearchService.loadStoreDetails(storeName)
+      map((orderEntry) => ({
+        storeName: orderEntry.deliveryPointOfService?.name,
+        productCode: orderEntry.product.code,
+      })),
+      switchMap(({ storeName, productCode }) =>
+        iif(
+          () => !!storeName,
+          of(storeName as string).pipe(
+            tap((storeName) =>
+              this.pickupLocationsSearchService.loadStoreDetails(storeName)
+            ),
+            concatMap((storeName) =>
+              this.pickupLocationsSearchService.getStoreDetails(storeName)
+            )
+          ),
+          this.preferredStoreService.getPreferredStoreWithProductInStock(
+            productCode
+          )
+        )
       ),
-      concatMap((storeName) =>
-        this.pickupLocationsSearchService.getStoreDetails(storeName)
-      ),
-      map((store) => store?.displayName ?? ''),
-      tap((_displayName) => _displayName && (this.displayNameIsSet = true))
+      map(({ displayName }) => displayName),
+      filter((displayName): displayName is string => !!displayName),
+      tap((_) => (this.displayNameIsSet = true))
     );
   }
 

@@ -77,7 +77,7 @@ export class StoreListComponent implements OnInit {
 
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
-    const { name = '', displayName } = pointOfService;
+    const { name = '', displayName = '' } = pointOfService;
 
     this.preferredStoreService.setPreferredStore({ name, displayName });
     if (this.isPDP) {

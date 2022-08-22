@@ -1,4 +1,5 @@
 (A) CXSPA-11
-Set preferred location when store is changed
+x Set preferred location when store is changed
 Default pickup location to preferred store if it has stock
+Move logic for triggering API calls to cart container component
 Refresh cart after updating pickup option

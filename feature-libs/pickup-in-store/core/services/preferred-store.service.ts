@@ -10,12 +10,16 @@ import {
   PointOfServiceStock,
   WindowRef,
 } from '@spartacus/core';
-import { PREFERRED_STORE_LOCAL_STORAGE_KEY } from '@spartacus/pickup-in-store/root';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {
+  PickupLocationsSearchFacade,
+  PREFERRED_STORE_LOCAL_STORAGE_KEY,
+} from '@spartacus/pickup-in-store/root';
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
+import { isInStock, PickRequiredDeep } from '../utils';
 
-export type PointOfServiceNames = Pick<
+export type PointOfServiceNames = PickRequiredDeep<
   PointOfServiceStock,
   'name' | 'displayName'
 >;
@@ -29,7 +33,8 @@ export class PreferredStoreService implements OnDestroy {
 
   constructor(
     protected readonly consentService: ConsentService,
-    protected config: PickupInStoreConfig,
+    protected readonly config: PickupInStoreConfig,
+    protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected readonly winRef: WindowRef
   ) {
     // Intentional empty constructor
@@ -46,6 +51,7 @@ export class PreferredStoreService implements OnDestroy {
     return preferredStore ? JSON.parse(preferredStore) : undefined;
   }
 
+  // TODO check references for nested observables
   /**
    * Sets the user's preferred store for Pickup in Store.
    * @param preferredStore the preferred store to set
@@ -69,6 +75,33 @@ export class PreferredStoreService implements OnDestroy {
    */
   clearPreferredStore(): void {
     this.winRef.localStorage?.removeItem(PREFERRED_STORE_LOCAL_STORAGE_KEY);
+  }
+
+  /**
+   * TODO
+   * @param productCode
+   * @returns
+   */
+  getPreferredStoreWithProductInStock(
+    productCode: string
+  ): Observable<PointOfServiceNames> {
+    return of(this.getPreferredStore()).pipe(
+      filter((store): store is PointOfServiceNames => !!store),
+      tap((preferredStore) => {
+        this.pickupLocationsSearchService.stockLevelAtStore(
+          productCode,
+          preferredStore.name
+        );
+      }),
+      switchMap((preferredStore) =>
+        this.pickupLocationsSearchService
+          .getStockLevelAtStore(productCode, preferredStore.name)
+          .pipe(
+            filter(isInStock),
+            map((_) => preferredStore)
+          )
+      )
+    );
   }
 
   /**
