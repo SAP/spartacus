@@ -33,7 +33,6 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsTotalsComponent',
           'AccountOrderDetailsShippingComponent',
           'AccountOrderHistoryComponent',
-          'UnitLevelOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
           'ReplenishmentDetailTotalsComponent',
           'ReplenishmentDetailShippingComponent',

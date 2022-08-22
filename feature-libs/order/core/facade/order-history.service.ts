@@ -72,7 +72,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
           orderListState.success ||
           orderListState.error;
         if (!attemptedLoad) {
-          this.loadOrderList(pageSize, undefined, undefined);
+          this.loadOrderList(pageSize);
         }
       }),
       map((orderListState) => orderListState.value)
@@ -91,7 +91,6 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
-   * @param unitLevelOrderCode
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.userIdService.takeUserId(true).subscribe(
