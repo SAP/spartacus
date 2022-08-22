@@ -279,6 +279,8 @@ function install_from_sources {
 
     restore_clone
 
+    run_installation_test
+
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
@@ -288,6 +290,8 @@ function install_from_npm {
     prepare_install
 
     create_apps
+
+    run_installation_test
 }
 
 function build_csr {
@@ -380,4 +384,39 @@ function cmd_help {
     echo " start"
     echo " stop"
     echo " help"
+}
+
+function run_installation_verification {
+    printh "Verify Spartacus Installation"
+
+    stop_apps &> /dev/null || true
+    start_apps
+
+    printh "Verify Spartacus Installation Results"
+    verify_csr
+    verify_ssr
+
+    stop_apps &> /dev/null
+}
+
+function verify_csr {
+    EXIT_CODE=0
+    curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "🎉 CSR is working."
+    else
+        echo "🚫 CSR is NOT working."
+    fi
+}
+
+function verify_ssr {
+    EXIT_CODE=0
+    curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "🎉 SSR is working."
+    else
+        echo "🚫 SSR is NOT working."
+    fi
 }
