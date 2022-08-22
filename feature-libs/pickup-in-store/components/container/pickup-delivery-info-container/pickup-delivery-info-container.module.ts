@@ -8,18 +8,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
-import { PickupDeliveryInfoModule } from '../../presentational/index';
+// import { PickupDeliveryInfoModule } from '../../presentational/index';
 
 import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupDeliveryInfoModule],
+  imports: [CommonModule],
   exports: [PickupDeliveryInfoContainerComponent],
   declarations: [PickupDeliveryInfoContainerComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.PICKUP_DELIVERY_INFO,
-      position: OutletPosition.REPLACE,
+      position: OutletPosition.BEFORE,
       component: PickupDeliveryInfoContainerComponent,
     }),
   ],

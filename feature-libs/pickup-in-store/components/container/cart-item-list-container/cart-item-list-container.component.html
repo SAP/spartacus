@@ -1,2 +1,8 @@
-<p>Item list works!</p>
-items : {{ items | json }}
+<cx-pickup-delivery-info
+  *ngFor="let storeDetailsData of storesDetailsData"
+  [storeDetails]="storeDetailsData"
+></cx-pickup-delivery-info>
+
+storeDetailsData: {{ storesDetailsData | json }}
+
+Should see info above
