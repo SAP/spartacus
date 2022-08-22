@@ -20,4 +20,23 @@
       }
     }
   }
+  .entry-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    .entry-info-header{
+      width: 25%;
+    }
+    .product-info{
+      width: 25%;
+      display: flex;
+      flex-wrap: wrap;
+
+       >div {
+        width: 100%;
+        border: solid thin red;
+      }
+    }
+  }
 }

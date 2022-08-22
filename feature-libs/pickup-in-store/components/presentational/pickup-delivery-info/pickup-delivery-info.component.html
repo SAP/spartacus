@@ -5,9 +5,32 @@
   </div>
   <div class="info-location">
     <div>{{ 'pickupDeliveryInfo.pickupFrom' | cxTranslate }}</div>
-    <cx-store-address [storeDetails]="augmentedOrderEntry.deliveryPointOfServiceExtraDetails"></cx-store-address>
+    <cx-store-address
+      [storeDetails]="augmentedOrderEntry.deliveryPointOfServiceExtraDetails"
+    ></cx-store-address>
   </div>
   <div class="store-hours">
-    <cx-store-schedule [storeDetails]="augmentedOrderEntry.deliveryPointOfServiceExtraDetails"></cx-store-schedule>
+    <cx-store-schedule
+      [storeDetails]="augmentedOrderEntry.deliveryPointOfServiceExtraDetails"
+    ></cx-store-schedule>
+  </div>
+  <div class="entry-info">
+    <div class="entry-info-header">Item</div>
+    <div class="entry-info-header">Item Price</div>
+    <div class="entry-info-header">QTY</div>
+    <div class="entry-info-header">Total</div>
+    <div class="product-info">
+      <div>
+        <img
+          [src]="augmentedOrderEntry.product.images.PRIMARY['product'].url"
+          alt="augmentedOrderEntry.product.images.PRIMARY['product'].altText"
+        />
+      </div>
+      <div>{{ augmentedOrderEntry.product.name }}</div>
+    </div>
+
+    <div>{{ augmentedOrderEntry.basePrice.formattedValue }}</div>
+    <div>{{ augmentedOrderEntry.quantity }}</div>
+    <div>{{ augmentedOrderEntry.totalPrice.formattedValue }}</div>
   </div>
 </div>
