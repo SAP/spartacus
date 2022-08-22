@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './asm-bind-cart/asm-bind-cart.component';
 export * from './asm-components.module';
 export * from './asm-main-ui/asm-main-ui.component';
