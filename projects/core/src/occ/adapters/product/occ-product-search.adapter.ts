@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
@@ -20,8 +20,8 @@ import { ProductSearchAdapter } from '../../../product/connectors/search/product
 import { SearchConfig } from '../../../product/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
-import { AsmContextService } from '../../services/asm-context.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_ASM_TOKEN } from '../../utils';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -32,15 +32,15 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected asmContext: AsmContextService
+    protected converter: ConverterService
   ) {}
 
   search(
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
-    const context = this.asmContext.createContext({
+    // @see feature-libs/asm/root/interceptors/user-id.interceptor.ts
+    const context = new HttpContext().set(OCC_ASM_TOKEN, {
       sendUserIdAsHeader: true,
     });
 

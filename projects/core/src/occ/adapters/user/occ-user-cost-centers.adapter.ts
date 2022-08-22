@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COST_CENTERS_NORMALIZER } from '../../../cost-center/connectors/cost-center/converters';
@@ -14,21 +14,21 @@ import { SearchConfig } from '../../../product/model/search-config';
 import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user-cost-center.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
-import { AsmContextService } from '../../services/asm-context.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_ASM_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected asmContext: AsmContextService
+    protected converter: ConverterService
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
-    const context = this.asmContext.createContext({
-      sendUserIdAsHeader: userId,
+    // @see feature-libs/asm/root/interceptors/user-id.interceptor.ts
+    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+      sendUserIdAsHeader: true,
     });
 
     return this.http

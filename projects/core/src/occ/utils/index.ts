@@ -17,4 +17,7 @@ export * from './occ-asm-token';
 
 export const OCC_USER_ID_CONSTANTS = new InjectionToken<{
   [identifier: string]: string;
-}>('List of OCC constants that pass for user IDs.');
+}>('List of OCC constants that pass for user IDs.', {
+  providedIn: 'root',
+  factory: () => OCC_USER_IDS,
+});
