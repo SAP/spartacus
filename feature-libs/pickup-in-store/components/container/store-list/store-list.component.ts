@@ -79,15 +79,14 @@ export class StoreListComponent implements OnInit {
     const { stockInfo: _, ...pointOfService } = store;
     const { name = '', displayName } = pointOfService;
 
+    this.preferredStoreService.setPreferredStore({ name, displayName });
     if (this.isPDP) {
-      this.preferredStoreService.setPreferredStore({ name, displayName });
       this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
         ...pointOfService,
         pickupOption: 'pickup',
       });
-    }
-
-    !this.isPDP &&
+    } else {
+      // TODO may have to move this to cart-options-container component
       this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
         this.cartId,
         this.entryNumber,
@@ -95,6 +94,7 @@ export class StoreListComponent implements OnInit {
         name,
         this.quantity
       );
+    }
 
     this.storeSelected.emit();
   }

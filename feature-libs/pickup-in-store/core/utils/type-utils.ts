@@ -19,14 +19,14 @@ type ShiftUnion<P extends PropertyKey, T extends any[]> = T extends any[]
  * as the base but with all referenced properties required.
  */
 type RequiredDeepArray<T, P extends string[]> = T extends object
-  ? Omit<T, Extract<keyof T, P[0]>> &
-      Required<{
-        [K in Extract<keyof T, P[0]>]: NonNullable<
-          RequiredDeepArray<T[K], ShiftUnion<P[0], P>>
-        >;
-      }>
+  ? Omit<T, Extract<keyof T, P[0]>> & PickRequiredDeepArray<T, P>
   : T;
 
+/**
+ * A utility type that takes a base type and a union of arrays of strings that
+ * represent the paths to properties on that type. The returned type has only
+ * the referenced properties and makes them all required.
+ */
 type PickRequiredDeepArray<T, P extends string[]> = T extends object
   ? Required<{
       [K in Extract<keyof T, P[0]>]: NonNullable<

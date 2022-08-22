@@ -1,29 +1,4 @@
-x (A) CXSPA-886:
-x create connector/adapter/facade/store layers for API: /{baseSiteId}/products/{productCode}/stock/{storeName}
-x remove user's current position fetching on page load (and unused code after that)
-x get stock level for user's preferred store and only show if it has stock
-x add store's display name to local preferred store
-x change behaviour of radio button. If we are in select store case then open the dialog. If we have a display then only open if they click Change Store
-x write unit tests
-
-x (B) CXSPA-798:
-x cypress test preferred store defaulting
-x link up or test with Gek's ticketing thing (see Gek)
-
-(C) CXSPA-752:
-Implement buddy's new architecture for adding product to cart with pickup location
-
-x (D) CXSPA-21:
-x Make sure look and feel match the wires
-
-(E) CXSPA-921:
-x adapter
-x occ module
-x connector
-x add PATCH to occ, adapter, connector, facade
-x radio buttons should call PATCH on change
-
-x (F) Modal Window to select store is not firing up on selection of Pick up in Store
-x Does not default to selected pickup option chosen from product details page on cart page
-
-(G) Fix issue with Display name
+(A) CXSPA-11
+Set preferred location when store is changed
+Default pickup location to preferred store if it has stock
+Refresh cart after updating pickup option
