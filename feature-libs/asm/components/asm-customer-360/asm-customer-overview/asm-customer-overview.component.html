@@ -1,33 +1,49 @@
+<div class="customer-description">
+  <div class="customer-description-section">
+    <h3>William is</h3>
+    <div class="customer-description-chips">
+      <div class="customer-description-chip">busy</div>
+      <div class="customer-description-chip">on-the-go</div>
+      <div class="customer-description-chip">early-adopting</div>
+      <div class="customer-description-chip">trend</div>
+      <div class="customer-description-chip">frequent buyer</div>
+      <div class="customer-description-chip">tech savvy</div>
+      <div class="customer-description-chip">photographer</div>
+    </div>
+  </div>
+  <div class="customer-description-section">
+    <h3>William uses</h3>
+  </div>
+</div>
 <!-- active cart -->
 <div
   class="container mt-5"
   *ngIf="activeCart$ | async as activeCart; else emptyActiveCart"
 >
-  <div class="row mb-3">
-    <div class="col-md-4 offset-md-4">
-      <h3>
-        {{ 'asm.customerOverview.activeCart' | cxTranslate }}
-        <a
-          tabindex="0"
-          [attr.aria-label]="
-            'asm.customerOverview.activeCartCode'
-              | cxTranslate: { code: activeCart.code }
-          "
-          role="link"
-          class="cx-overview-title-link"
-          (click)="onSelectCart()"
-        >
-          {{ activeCart.code }}
-        </a>
-      </h3>
-    </div>
-    <div class="col-md-2">
+  <div class="section-header">
+    <h3>
+      {{ 'asm.customerOverview.activeCart' | cxTranslate }}
+      <a
+        tabindex="0"
+        [attr.aria-label]="
+          'asm.customerOverview.activeCartCode'
+            | cxTranslate: { code: activeCart.code }
+        "
+        role="link"
+        class="cx-overview-title-link"
+        (click)="onSelectCart()"
+      >
+        {{ activeCart.code }}
+      </a>
+    </h3>
+    <div class="cart-total-no-items">
       {{
         'asm.customerOverview.totalNoItems'
           | cxTranslate: { count: activeCart.totalItems }
       }}
     </div>
-    <div class="col-md-2">
+    <div class="cart-divider"></div>
+    <div class="cart-total-price">
       {{
         'asm.customerOverview.totalPrice'
           | cxTranslate: { price: activeCart.totalPrice.formattedValue }
@@ -50,31 +66,30 @@
   class="container mt-5"
   *ngIf="savedCart$ | async as savedCart; else emptySavedCart"
 >
-  <div class="row mb-3">
-    <div class="col-md-4 offset-md-4">
-      <h3>
-        {{ 'asm.customerOverview.savedCart' | cxTranslate }}
-        <a
-          tabindex="0"
-          [attr.aria-label]="
-            'asm.customerOverview.savedCartCode'
-              | cxTranslate: { code: savedCart.code }
-          "
-          role="link"
-          class="cx-overview-title-link"
-          (click)="onSelectCart()"
-        >
-          {{ savedCart.code }}
-        </a>
-      </h3>
-    </div>
-    <div class="col-md-2">
+  <div class="section-header">
+    <h3>
+      {{ 'asm.customerOverview.savedCart' | cxTranslate }}
+      <a
+        tabindex="0"
+        [attr.aria-label]="
+          'asm.customerOverview.savedCartCode'
+            | cxTranslate: { code: savedCart.code }
+        "
+        role="link"
+        class="cx-overview-title-link"
+        (click)="onSelectCart()"
+      >
+        {{ savedCart.code }}
+      </a>
+    </h3>
+    <div class="cart-total-no-items">
       {{
         'asm.customerOverview.totalNoItems'
           | cxTranslate: { count: savedCart.totalItems }
       }}
     </div>
-    <div class="col-md-2">
+    <div class="cart-divider"></div>
+    <div class="cart-total-price">
       {{
         'asm.customerOverview.totalPrice'
           | cxTranslate: { price: savedCart.totalPrice.formattedValue }
@@ -98,20 +113,18 @@
   class="container mt-5"
   *ngIf="interests$ | async as interests; else emptyInterests"
 >
-  <div class="row mb-3">
-    <div class="col-md-8 offset-md-4">
-      <h3>
-        <a
-          tabindex="0"
-          [attr.aria-label]="'asm.customerOverview.interests' | cxTranslate"
-          role="link"
-          class="cx-overview-title-link"
-          (click)="goToMyInterests()"
-        >
-          {{ 'asm.customerOverview.interests' | cxTranslate }}
-        </a>
-      </h3>
-    </div>
+  <div class="section-header">
+    <h3>
+      <a
+        tabindex="0"
+        [attr.aria-label]="'asm.customerOverview.interests' | cxTranslate"
+        role="link"
+        class="cx-overview-title-link"
+        (click)="goToMyInterests()"
+      >
+        {{ 'asm.customerOverview.interests' | cxTranslate }}
+      </a>
+    </h3>
   </div>
   <div class="row">
     <div class="col cx-asm-overview-items cx-asm-overview-interests-items">
