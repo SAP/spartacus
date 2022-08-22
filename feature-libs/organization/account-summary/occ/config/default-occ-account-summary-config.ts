@@ -3,7 +3,7 @@ import { AccountSummaryOccEndpoints } from '../model';
 
 const accountSummaryHeaderOccEndpoints: AccountSummaryOccEndpoints = {
   accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/summary',
-  accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/documents'
+  accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/orgDocuments'
 };
 
 export const defaultOccAccountSummaryConfig: OccConfig = {
