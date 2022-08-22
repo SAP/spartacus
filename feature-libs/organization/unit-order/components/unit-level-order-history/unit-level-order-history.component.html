@@ -3,7 +3,7 @@
     orderHistory: orders$ | async
   } as type"
 >
-  <ng-container *ngIf="type.orderHistory">
+  <ng-container *ngIf="type.orderHistory as orderHistory">
     <div>
       <!-- HEADER -->
       <div class="cx-unit-level-order-history-header">
@@ -15,7 +15,7 @@
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">
         <ng-container
-          *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
+          *ngIf="orderHistory.pagination?.totalResults ?? 0 > 0; else noOrder"
         >
           <!-- Select Form and Pagination Top -->
           <div class="cx-unit-level-order-history-sort top">
@@ -24,21 +24,21 @@
                 {{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}
               </span>
               <cx-sorting
-                [sortOptions]="type.orderHistory.sorts"
+                [sortOptions]="orderHistory?.sorts"
                 [sortLabels]="getSortLabels() | async"
                 (sortListEvent)="changeSortCode($event)"
-                [selectedOption]="type.orderHistory.pagination.sort"
+                [selectedOption]="orderHistory?.pagination?.sort"
                 placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
               ></cx-sorting>
             </label>
             <div
-              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
               class="cx-unit-level-order-history-pagination"
             >
               <cx-pagination
-                [pagination]="type.orderHistory.pagination"
+                [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
               ></cx-pagination>
             </div>
@@ -70,7 +70,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let order of type.orderHistory.orders"
+                *ngFor="let order of orderHistory?.orders"
                 (click)="goToOrderDetail(order)"
               >
                 <td class="cx-unit-level-order-history-code">
@@ -161,7 +161,7 @@
                     "
                     class="cx-unit-level-order-history-value"
                   >
-                    {{ order?.total.formattedValue }}</a
+                    {{ order?.total?.formattedValue }}</a
                   >
                 </td>
               </tr>
@@ -170,11 +170,11 @@
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-unit-level-order-history-sort bottom">
             <div
-              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
               class="cx-unit-level-order-history-pagination"
             >
               <cx-pagination
-                [pagination]="type.orderHistory.pagination"
+                [pagination]="orderHistory?.pagination"
                 (viewPageEvent)="pageChange($event)"
               ></cx-pagination>
             </div>
