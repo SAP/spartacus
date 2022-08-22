@@ -23,7 +23,7 @@ export class MessagingComponent implements OnInit, AfterViewInit {
   @Input() messagingConfigs?: MessagingConfigs;
 
   @Output()
-  onSend = new EventEmitter<{ files: FileList | undefined; message: string }>();
+  send = new EventEmitter<{ files: FileList | undefined; message: string }>();
 
   iconTypes = ICON_TYPE;
   form: FormGroup;
@@ -34,8 +34,8 @@ export class MessagingComponent implements OnInit, AfterViewInit {
 
   get inputCharacterLeft(): number {
     return (
-      this.messagingConfigs?.charactersLimit ||
-      this.MAX_INPUT_CHARACTERS - this.form.get('message')?.value.length
+      (this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS) -
+      this.form.get('message')?.value.length
     );
   }
 
@@ -81,9 +81,9 @@ export class MessagingComponent implements OnInit, AfterViewInit {
     return `${names[0]?.split('')[0]}${names[1] ? names[1]?.split('')[0] : ''}`;
   }
 
-  send() {
+  onSend() {
     if (this.form.valid) {
-      this.onSend.emit({
+      this.send.emit({
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
       });
