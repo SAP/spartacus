@@ -39,10 +39,10 @@
       }
 
       @media (min-width: 575px) {
-        margin-bottom: 0;
         margin-inline-end: 15px;
         min-width: 20rem;
         @include forVersion(5.1) {
+          margin-bottom: 0;
           min-width: 25rem;
         }
       }

@@ -10,7 +10,9 @@ import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  rovidedIn: 'root',
+})
 export class AsmService {
   constructor(protected store: Store<StateWithAsm>) {}
 
