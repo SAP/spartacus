@@ -20,7 +20,7 @@ import { filter, map, mergeMap, tap } from 'rxjs/operators';
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
   cart$: Observable<Cart>;
-  storesDetailsData: Partial<PointOfService>[];
+  storesDetailsData: Partial<PointOfService>[] = [];
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,

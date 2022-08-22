@@ -12,7 +12,6 @@ import {
   defaultPickupOptionsDialogLayoutConfig,
   PdpPickupOptionsContainerModule,
   PickupDeliveryInfoContainerModule,
-  CartItemListContainerModule,
 } from './container/index';
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import {
     CartPickupOptionsContainerModule,
     PdpPickupOptionsContainerModule,
     PickupDeliveryInfoContainerModule,
-    CartItemListContainerModule,
   ],
   providers: [provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)],
 })
