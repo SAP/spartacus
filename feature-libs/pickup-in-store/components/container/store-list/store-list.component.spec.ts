@@ -187,14 +187,14 @@ describe('StoreListComponent', () => {
     expect(component.cartId).toBe('');
   });
   it('should not call setPickupOptionInStore if not on PDP', () => {
-    spyOn(pickupLocationsSearchService, 'setPickupOptionInStore');
+    spyOn(pickupLocationsSearchService, 'setPickupOptionToPickupInStore');
     const store: PointOfServiceStock = {
       name: 'London School',
     };
     component.isPDP = false;
     component.onSelectStore(store);
     expect(
-      pickupLocationsSearchService.setPickupOptionInStore
+      pickupLocationsSearchService.setPickupOptionToPickupInStore
     ).toHaveBeenCalled();
   });
 });

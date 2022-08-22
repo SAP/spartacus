@@ -62,20 +62,19 @@ export class MockPickupLocationsSearchService
 
   loadStoreDetails(_name: string): void {}
 
-  setPickupOptionDelivery(
+  setPickupOptionToDelivery(
     _cartId: string,
     _entryNumber: number,
     _userId: string,
-    _name: string,
     _productCode: string,
     _quantity: number
   ): void {}
 
-  setPickupOptionInStore(
+  setPickupOptionToPickupInStore(
     _cartId: string,
     _entryNumber: number,
     _userId: string,
-    _name: string,
+    _storeName: string,
     _quantity: number
   ): void {}
 }
@@ -161,24 +160,21 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('setPickupOptionDelivery', () => {
-    const name = '';
     const productCode = 'productCode';
     const quantity = 1;
-    service.setPickupOptionDelivery(
+    service.setPickupOptionToDelivery(
       'cartID',
       1,
       'userID',
-      name,
       productCode,
       quantity
     );
     expect(store.dispatch).toHaveBeenCalledWith(
-      PickupLocationActions.SetPickupOptionDelivery({
+      PickupLocationActions.SetPickupOptionToDelivery({
         payload: {
           cartId: 'cartID',
           entryNumber: 1,
           userId: 'userID',
-          name,
           productCode,
           quantity,
         },
@@ -190,16 +186,22 @@ describe('PickupLocationsSearchService', () => {
     const cartId = 'cartID';
     const entryNumber = 1;
     const userId = 'userID';
-    const name = 'name';
+    const storeName = 'name';
     const quantity = 1;
-    service.setPickupOptionInStore(cartId, entryNumber, userId, name, quantity);
+    service.setPickupOptionToPickupInStore(
+      cartId,
+      entryNumber,
+      userId,
+      storeName,
+      quantity
+    );
     expect(store.dispatch).toHaveBeenCalledWith(
-      PickupLocationActions.SetPickupOptionInStore({
+      PickupLocationActions.SetPickupOptionToPickupInStore({
         payload: {
           cartId,
           entryNumber,
           userId,
-          name,
+          storeName,
           quantity,
         },
       })

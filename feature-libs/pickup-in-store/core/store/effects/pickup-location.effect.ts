@@ -48,49 +48,55 @@ export class PickupLocationEffect {
     )
   );
 
-  setPickupOptionDelivery$ = createEffect(() =>
+  setPickupOptionToDelivery$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PickupLocationActions.SET_PICKUP_OPTION_DELIVERY),
+      ofType(PickupLocationActions.SET_PICKUP_OPTION_TO_DELIVERY),
       map(
         (
           action: ReturnType<
-            typeof PickupLocationActions.SetPickupOptionDelivery
+            typeof PickupLocationActions.SetPickupOptionToDelivery
           >
         ) => action.payload
       ),
-      switchMap(
-        ({ cartId, entryNumber, userId, name, productCode, quantity }) =>
-          this.pickupLocationConnector
-            .setPickupOptionDelivery(
-              cartId,
-              entryNumber,
-              userId,
-              name,
-              productCode,
-              quantity
-            )
-            .pipe(
-              map(() => PickupLocationActions.SetPickupOptionDeliverySuccess())
-            )
+      switchMap(({ cartId, entryNumber, userId, productCode, quantity }) =>
+        this.pickupLocationConnector
+          .setPickupOptionToDelivery(
+            cartId,
+            entryNumber,
+            userId,
+            productCode,
+            quantity
+          )
+          .pipe(
+            map(() => PickupLocationActions.SetPickupOptionToDeliverySuccess())
+          )
       )
     )
   );
 
-  setPickupOptionInStore$ = createEffect(() =>
+  setPickupOptionToPickupInStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PickupLocationActions.SET_PICKUP_OPTION_IN_STORE),
+      ofType(PickupLocationActions.SET_PICKUP_OPTION_TO_PICKUP_IN_STORE),
       map(
         (
           action: ReturnType<
-            typeof PickupLocationActions.SetPickupOptionInStore
+            typeof PickupLocationActions.SetPickupOptionToPickupInStore
           >
         ) => action.payload
       ),
-      switchMap(({ cartId, entryNumber, userId, name, quantity }) =>
+      switchMap(({ cartId, entryNumber, userId, storeName, quantity }) =>
         this.pickupLocationConnector
-          .setPickupOptionInStore(cartId, entryNumber, userId, name, quantity)
+          .setPickupOptionToPickupInStore(
+            cartId,
+            entryNumber,
+            userId,
+            storeName,
+            quantity
+          )
           .pipe(
-            map(() => PickupLocationActions.SetPickupOptionInStoreSuccess())
+            map(() =>
+              PickupLocationActions.SetPickupOptionToPickupInStoreSuccess()
+            )
           )
       )
     )

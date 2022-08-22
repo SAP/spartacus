@@ -13,7 +13,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PreferredStoreService,
+  RequiredDeepPath,
+} from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
   PickupOption,
@@ -23,7 +26,6 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { PickRequiredDeep } from 'feature-libs/pickup-in-store/core/utils/type-utils';
 import { EMPTY, Observable } from 'rxjs';
 import {
   concatMap,
@@ -35,7 +37,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-type OrderEntryWithRequiredFields = PickRequiredDeep<
+type OrderEntryWithRequiredFields = RequiredDeepPath<
   OrderEntry,
   'entryNumber' | 'quantity' | 'product.code' | 'product.availableForPickup'
 >;
@@ -52,7 +54,7 @@ export function orderEntryWithRequiredFields(
   );
 }
 
-type CartWithIdAndUserId = PickRequiredDeep<Cart, 'guid' | 'user.uid'>;
+type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid'>;
 export function cartWithIdAndUserId(
   cart: Cart | undefined
 ): cart is CartWithIdAndUserId {
@@ -136,11 +138,10 @@ export class CartPickupOptionsContainerComponent implements OnInit {
 
   onPickupOptionChange(pickupOption: PickupOption): void {
     pickupOption === 'delivery' &&
-      this.pickupLocationsSearchService.setPickupOptionDelivery(
+      this.pickupLocationsSearchService.setPickupOptionToDelivery(
         this.cartId,
         this.entryNumber,
         this.userId,
-        '',
         this.productCode,
         this.quantity
       );

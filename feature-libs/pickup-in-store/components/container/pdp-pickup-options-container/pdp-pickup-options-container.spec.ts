@@ -19,8 +19,8 @@ import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/ser
 import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
-import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
+import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -48,8 +48,8 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   );
   getStoreDetails = createSpy();
   loadStoreDetails = createSpy();
-  setPickupOptionDelivery = createSpy();
-  setPickupOptionInStore = createSpy();
+  setPickupOptionToDelivery = createSpy();
+  setPickupOptionToPickupInStore = createSpy();
 }
 
 export class MockCurrentProductService {

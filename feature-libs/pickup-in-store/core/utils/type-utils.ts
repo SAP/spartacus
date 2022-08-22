@@ -18,13 +18,21 @@ type ShiftUnion<P extends PropertyKey, T extends any[]> = T extends any[]
  * represent the paths to properties on that type. The returned type is the same
  * as the base but with all referenced properties required.
  */
-type RequiredDeep<T, P extends string[]> = T extends object
+type RequiredDeepArray<T, P extends string[]> = T extends object
   ? Omit<T, Extract<keyof T, P[0]>> &
       Required<{
         [K in Extract<keyof T, P[0]>]: NonNullable<
-          RequiredDeep<T[K], ShiftUnion<P[0], P>>
+          RequiredDeepArray<T[K], ShiftUnion<P[0], P>>
         >;
       }>
+  : T;
+
+type PickRequiredDeepArray<T, P extends string[]> = T extends object
+  ? Required<{
+      [K in Extract<keyof T, P[0]>]: NonNullable<
+        PickRequiredDeepArray<T[K], ShiftUnion<P[0], P>>
+      >;
+    }>
   : T;
 
 /** A utility type that takes a string literal type and splits it are the `.` character */
@@ -40,13 +48,31 @@ type PathToStringArray<T extends string> =
  *
  * @example ```ts
     type Foo = { a?: 2, b?: { c?: 3, d: 4 } }
-    type A = RequireKeysDeep<Foo, "a">; // {a: 2, b?: { c?: 3, d: 4 } }
-    type B = RequireKeysDeep<Foo, "b">; // {a?: 2, b: { c?: 3, d: 4 } }
-    type BC = RequireKeysDeep<Foo, "b.c">; // {a?: 2, b: { c: 3, d: 4 } }
-    type ABC = RequireKeysDeep<Foo, "a" | "b.c">; // {a: 2, b: { c: 3, d: 4 } }
+    type A = RequiredDeepPath<Foo, "a">; // {a: 2, b?: { c?: 3, d: 4 } }
+    type B = RequiredDeepPath<Foo, "b">; // {a?: 2, b: { c?: 3, d: 4 } }
+    type BC = RequiredDeepPath<Foo, "b.c">; // {a?: 2, b: { c: 3, d: 4 } }
+    type ABC = RequiredDeepPath<Foo, "a" | "b.c">; // {a: 2, b: { c: 3, d: 4 } }
  * ```
  */
-export type PickRequiredDeep<T, P extends string> = RequiredDeep<
+export type RequiredDeepPath<T, P extends string> = RequiredDeepArray<
+  T,
+  PathToStringArray<P>
+>;
+
+/**
+ * A utility type that takes a base type and a union of strings that represent
+ * the paths to properties on that type. The returned type has only the
+ * referenced properties and makes them all required.
+ *
+ * @example ```ts
+    type Foo = { a?: 2, b?: { c?: 3, d: 4 } }
+    type A = PickRequiredDeep<Foo, "a">; // { a: 2 }
+    type B = PickRequiredDeep<Foo, "b">; // { b: {} }
+    type BC = PickRequiredDeep<Foo, "b.c">; // { b: { c: 3 }}
+    type ABC = PickRequiredDeep<Foo, "a" | "b.c">; // { a: 2, b: { c: 3 } }
+ * ```
+ */
+export type PickRequiredDeep<T, P extends string> = PickRequiredDeepArray<
   T,
   PathToStringArray<P>
 >;

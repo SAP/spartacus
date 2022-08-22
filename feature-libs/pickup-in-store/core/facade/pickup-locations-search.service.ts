@@ -106,21 +106,19 @@ export class PickupLocationsSearchService
     );
   }
 
-  setPickupOptionDelivery(
+  setPickupOptionToDelivery(
     cartId: string,
     entryNumber: number,
     userId: string,
-    name: string,
     productCode: string,
     quantity: number
   ): void {
     this.store.dispatch(
-      PickupLocationActions.SetPickupOptionDelivery({
+      PickupLocationActions.SetPickupOptionToDelivery({
         payload: {
           cartId,
           entryNumber,
           userId,
-          name,
           productCode,
           quantity,
         },
@@ -128,20 +126,20 @@ export class PickupLocationsSearchService
     );
   }
 
-  setPickupOptionInStore(
+  setPickupOptionToPickupInStore(
     cartId: string,
     entryNumber: number,
     userId: string,
-    name: string,
+    storeName: string,
     quantity: number
   ): void {
     this.store.dispatch(
-      PickupLocationActions.SetPickupOptionInStore({
+      PickupLocationActions.SetPickupOptionToPickupInStore({
         payload: {
           cartId,
           entryNumber,
           userId,
-          name,
+          storeName,
           quantity,
         },
       })

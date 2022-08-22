@@ -88,7 +88,7 @@ export class StoreListComponent implements OnInit {
     }
 
     !this.isPDP &&
-      this.pickupLocationsSearchService.setPickupOptionInStore(
+      this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
         this.cartId,
         this.entryNumber,
         this.userId,
