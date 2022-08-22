@@ -63,17 +63,15 @@ export class MessagingComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.scrollToInput) {
+      const element = this.windowRef.document.getElementById('cx-messages');
+      element?.scroll({
+        top: element?.scrollHeight,
+        behavior: 'auto',
+      });
       setTimeout(() => {
         this.windowRef.document
           .getElementById('cx-message-footer')
           ?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        setTimeout(() => {
-          const element = this.windowRef.document.getElementById('cx-messages');
-          element?.scroll({
-            top: element?.scrollHeight,
-            behavior: 'smooth',
-          });
-        }, 300);
       }, 500);
     }
   }
