@@ -5,12 +5,12 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { AugmentedOrderEntry } from 'feature-libs/pickup-in-store/root';
 
 @Component({
   selector: 'cx-pickup-delivery-info',
   templateUrl: './pickup-delivery-info.component.html',
 })
 export class PickupDeliveryInfoComponent {
-  @Input() storeDetails: PointOfService;
+  @Input() augmentedOrderEntry: AugmentedOrderEntry;
 }

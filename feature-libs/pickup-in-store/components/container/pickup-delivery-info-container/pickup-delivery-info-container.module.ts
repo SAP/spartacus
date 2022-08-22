@@ -18,7 +18,7 @@ import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-con
   providers: [
     provideOutlet({
       id: CartOutlets.CART_ITEM_LIST,
-      position: OutletPosition.BEFORE,
+      position: OutletPosition.REPLACE,
       component: PickupDeliveryInfoContainerComponent,
     }),
   ],

@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import {
+  AugmentedOrderEntry,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'cx-pickup-delivery-info-container',
@@ -21,6 +23,8 @@ import { filter, map, mergeMap, tap } from 'rxjs/operators';
 export class PickupDeliveryInfoContainerComponent implements OnInit {
   cart$: Observable<Cart>;
   storesDetailsData: Partial<PointOfService>[] = [];
+  storesDetailsMap: Map<string, PointOfService | undefined>;
+  entries: AugmentedOrderEntry[] | undefined = [];
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
@@ -28,10 +32,12 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.cart$ = this.activeCartService.getActive();
+ 
     this.cart$
       .pipe(
         map((cart) => cart.entries),
         filter((entries): entries is OrderEntry[] => !!entries),
+        tap((entries) => (this.entries = entries)),
         map((entries) =>
           entries
             .map((entry) => entry.deliveryPointOfService?.name)
@@ -52,13 +58,35 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
           )
         ),
         map((pointOfService) =>
-          pointOfService.map(({ address, displayName, openingHours }) => ({
-            address,
-            displayName,
-            openingHours,
-          }))
+          pointOfService.map(
+            ({ address, displayName, openingHours, name }) => ({
+              address,
+              displayName,
+              openingHours,
+              name,
+            })
+          )
         ),
-        tap((storesDetailsData) => (this.storesDetailsData = storesDetailsData))
+        tap(
+          (storesDetailsData) => (this.storesDetailsData = storesDetailsData)
+        ),
+
+        tap(() => {
+          this.storesDetailsMap = new Map(
+            this.storesDetailsData
+              .filter((store) => !!store.name)
+              .map((store) => [store.name, store])
+          );
+        }),
+        tap(
+          () =>
+            (this.entries = this.entries?.map((entry) => ({
+              ...entry,
+              deliveryPointOfServiceExtraDetails: this.storesDetailsMap.get(
+                entry.deliveryPointOfService?.name
+              ),
+            })))
+        )
       )
       .subscribe();
   }

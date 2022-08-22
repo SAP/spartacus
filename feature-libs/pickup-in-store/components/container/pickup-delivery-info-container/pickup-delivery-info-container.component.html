@@ -1,4 +1,7 @@
+<h1>Entries</h1>
+<!-- <pre style="width: 70%">{{entries | json}}</pre> -->
+
 <cx-pickup-delivery-info
-  *ngFor="let storeDetailsData of storesDetailsData"
-  [storeDetails]="storeDetailsData"
+  *ngFor="let entry of entries"
+  [augmentedOrderEntry]="entry"
 ></cx-pickup-delivery-info>
