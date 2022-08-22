@@ -1,8 +1,8 @@
 <ng-container *ngIf="availableForPickup">
-  <cx-pickup-delivery-options
+  <cx-pickup-options
     [selectedOption]="pickupOption$ | async"
     [displayPickupLocation]="displayPickupLocation$ | async"
     (pickupOptionChange)="onPickupOptionChange($event)"
     (pickupLocationChange)="openDialog()"
-  ></cx-pickup-delivery-options>
+  ></cx-pickup-options>
 </ng-container>

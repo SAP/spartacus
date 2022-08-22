@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
@@ -12,26 +11,21 @@ import {
 } from '@spartacus/storefront';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { PickupOptionsModule } from '../../presentational';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
-import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
+import {
+  CartPickupOptionsContainerComponent,
+  cartWithIdAndUserId,
+  orderEntryWithRequiredFields,
+} from './cart-pickup-options-container.component';
 
-class MockPickupLocationsSearchFacade
-  implements Partial<MockPickupLocationsSearchService>
-{
+class MockPickupLocationsSearchFacade extends MockPickupLocationsSearchService {
   getStoreDetails = () =>
     of({
       displayName: 'London School',
     });
-
-  setPickupOptionDelivery(
-    _cartId: string,
-    _entryNumber: number,
-    _userId: string,
-    _name: string,
-    _productCode: string,
-    _quantity: number
-  ): void {}
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -43,18 +37,14 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
       user: {
         uid: 'test-user-id',
       },
-      entries: [
-        { entryNumber: 0, product: { name: 'test-product1' } },
-        { entryNumber: 1, product: { name: 'test-product2' } },
-        { entryNumber: 2, product: { name: 'test-product3' } },
-      ],
+      entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
   }
 }
 
-const mockOutletContextWithProductCode = {
+const mockOutletContext: OrderEntry = {
   product: {
-    code: 'productCode',
+    code: 'productCode1',
     availableForPickup: true,
   },
   entryNumber: 1,
@@ -64,7 +54,7 @@ const mockOutletContextWithProductCode = {
   },
 };
 
-const context$ = of(mockOutletContextWithProductCode);
+const context$ = of(mockOutletContext);
 
 describe('CartPickupOptionsContainerComponent', () => {
   let component: CartPickupOptionsContainerComponent;
@@ -74,7 +64,7 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [CommonModule, I18nTestingModule, PickupOptionsModule],
       providers: [
         CartPickupOptionsContainerComponent,
         {
@@ -130,7 +120,7 @@ describe('CartPickupOptionsContainerComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { productCode: 'productCode', entryNumber: 1, quantity: 1 }
+        { productCode: 'productCode1', entryNumber: 1, quantity: 1 }
       );
     });
 
@@ -146,34 +136,55 @@ describe('CartPickupOptionsContainerComponent', () => {
       component.ngOnInit();
       expect(component['cartId']).toBe('cartGuid');
     });
+
+    it('should set the pickupOption to pickup', () => {
+      expect(component.pickupOption$).toBeObservable(
+        cold('(a|)', { a: 'pickup' })
+      );
+    });
   });
 
-  // TODO check value of these tests
-  describe('with context of an incomplete order entry', () => {
+  describe('with context of an order entry for delivery', () => {
     beforeEach(() => {
+      const { deliveryPointOfService: _, ...mockOutletContextForDelivery } =
+        mockOutletContext;
       configureTestingModule()
         .overrideProvider(OutletContextData, {
           useValue: {
-            context$: of({}),
+            context$: of(mockOutletContextForDelivery),
           },
         })
         .compileComponents();
       stubServiceAndCreateComponent();
     });
 
-    it("should not set product code if it doesn't exists on context", () => {
-      component.ngOnInit();
-      expect(component.productCode).toBeUndefined();
+    it('should set the pickupOption to delivery', () => {
+      expect(component.pickupOption$).toBeObservable(
+        cold('(a|)', { a: 'delivery' })
+      );
+    });
+  });
+
+  describe('with context of an order entry not available for pickup', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(OutletContextData, {
+          useValue: {
+            context$: of({
+              ...mockOutletContext,
+              product: {
+                ...mockOutletContext.product,
+                availableForPickup: false,
+              },
+            } as OrderEntry),
+          },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
     });
 
-    it("should not set cart id if it doesn't exists on context", () => {
-      component.ngOnInit();
-      expect(component.cartId).toBeUndefined();
-    });
-
-    it("should not set user id if it doesn't exists on context", () => {
-      component.ngOnInit();
-      expect(component.userId).toBeUndefined();
+    it('should display nothing', () => {
+      expect(fixture.debugElement.children.length).toEqual(0);
     });
   });
 
@@ -185,6 +196,102 @@ describe('CartPickupOptionsContainerComponent', () => {
 
     it('should display nothing', () => {
       expect(fixture.debugElement.children.length).toEqual(0);
+    });
+  });
+});
+
+describe('CartPickupOptionsContainerComponent filters', () => {
+  describe('orderEntryWithRequiredFields', () => {
+    it('should return true if all required fields are present', () => {
+      const result = orderEntryWithRequiredFields({
+        entryNumber: 0,
+        quantity: 1,
+        product: {
+          code: 'productCode1',
+          availableForPickup: true,
+        },
+      });
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if entryNumber is not present', () => {
+      const result = orderEntryWithRequiredFields({
+        quantity: 1,
+        product: {
+          code: 'productCode1',
+          availableForPickup: true,
+        },
+      });
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if quantity is not present', () => {
+      const result = orderEntryWithRequiredFields({
+        entryNumber: 0,
+        product: {
+          code: 'productCode1',
+          availableForPickup: true,
+        },
+      });
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if product is not present', () => {
+      const result = orderEntryWithRequiredFields({
+        entryNumber: 0,
+        quantity: 1,
+      });
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if product is present without a code', () => {
+      const result = orderEntryWithRequiredFields({
+        entryNumber: 0,
+        quantity: 1,
+        product: {
+          availableForPickup: true,
+        },
+      });
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if product is present without an availableForPickup flag', () => {
+      const result = orderEntryWithRequiredFields({
+        entryNumber: 0,
+        quantity: 1,
+        product: {
+          code: 'productCode1',
+        },
+      });
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('cartWithIdAndUserId', () => {
+    it('should return true if cartId and userId are present', () => {
+      const result = cartWithIdAndUserId({
+        guid: 'cartGuid',
+        user: {
+          uid: 'userId',
+        },
+      });
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if cartId is not present', () => {
+      const result = cartWithIdAndUserId({
+        user: {
+          uid: 'userId',
+        },
+      });
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if userId is not present', () => {
+      const result = cartWithIdAndUserId({
+        guid: 'cartGuid',
+      });
+      expect(result).toEqual(false);
     });
   });
 });

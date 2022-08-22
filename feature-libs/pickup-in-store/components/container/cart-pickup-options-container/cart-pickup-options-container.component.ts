@@ -35,31 +35,34 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-// TODO unit test these filters
-
 type OrderEntryWithRequiredFields = PickRequiredDeep<
   OrderEntry,
   'entryNumber' | 'quantity' | 'product.code' | 'product.availableForPickup'
-> &
-  Pick<OrderEntry, 'deliveryPointOfService'>;
-const orderEntryWithRequiredFields = (
+>;
+export function orderEntryWithRequiredFields(
   orderEntry: OrderEntry | undefined
-): orderEntry is OrderEntryWithRequiredFields =>
-  !!orderEntry &&
-  orderEntry.entryNumber !== undefined &&
-  orderEntry.quantity !== undefined &&
-  orderEntry.product !== undefined &&
-  orderEntry.product.code !== undefined &&
-  orderEntry.deliveryPointOfService !== undefined;
+): orderEntry is OrderEntryWithRequiredFields {
+  return (
+    !!orderEntry &&
+    orderEntry.entryNumber !== undefined &&
+    orderEntry.quantity !== undefined &&
+    orderEntry.product !== undefined &&
+    orderEntry.product.code !== undefined &&
+    orderEntry.product.availableForPickup !== undefined
+  );
+}
 
 type CartWithIdAndUserId = PickRequiredDeep<Cart, 'guid' | 'user.uid'>;
-const cartWithIdAndUserId = (
+export function cartWithIdAndUserId(
   cart: Cart | undefined
-): cart is CartWithIdAndUserId =>
-  !!cart &&
-  cart.guid !== undefined &&
-  cart.user !== undefined &&
-  cart.user.uid !== undefined;
+): cart is CartWithIdAndUserId {
+  return (
+    !!cart &&
+    cart.guid !== undefined &&
+    cart.user !== undefined &&
+    cart.user.uid !== undefined
+  );
+}
 
 @Component({
   selector: 'cx-cart-pickup-options-container',
@@ -96,7 +99,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       EMPTY;
 
     this.availableForPickup$ = outletContext.pipe(
-      map((orderEntry) => !!orderEntry.product?.availableForPickup),
+      map((orderEntry) => !!orderEntry.product.availableForPickup),
       startWith(false)
     );
 
@@ -121,7 +124,6 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       map((orderEntry) => orderEntry.deliveryPointOfService?.name),
       filter((name): name is string => !!name),
       tap((storeName) =>
-        // TODO write test mocking this
         this.pickupLocationsSearchService.loadStoreDetails(storeName)
       ),
       concatMap((storeName) =>

@@ -19,7 +19,7 @@ function mockLocation(
   };
 }
 
-const BOPIS_TAG = 'cx-pickup-delivery-options';
+const BOPIS_TAG = 'cx-pickup-options';
 const PICKUP_IN_STORE_MODAL = 'cx-delivery-pickup-options-dialog';
 const DELIVERY_RADIO_BUTTON = '#delivery';
 const PICKUP_IN_STORE_RADIO_BUTTON = '#pickup';

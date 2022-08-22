@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -15,21 +14,15 @@ import { EMPTY, Observable, of } from 'rxjs';
 import {
   BrowserLocationActions,
   PickupLocationActions,
-  StateWithStock,
   StockLevelActions,
   ToggleHideOutOfStockOptionsAction,
 } from '../store';
 import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
-@Injectable()
 export class MockPickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
-  constructor(protected store: Store<StateWithStock>) {
-    // Intentional empty constructor
-  }
-
   stockLevelAtStore(_productCode: string, _storeName: string): void {}
 
   getStockLevelAtStore(
@@ -68,6 +61,7 @@ export class MockPickupLocationsSearchService
   }
 
   loadStoreDetails(_name: string): void {}
+
   setPickupOptionDelivery(
     _cartId: string,
     _entryNumber: number,
