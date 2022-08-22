@@ -24,6 +24,11 @@ import { tap } from 'rxjs/operators';
 export class StoreListComponent implements OnInit {
   @Input()
   productCode: string;
+  @Input()
+  entryNumber: number;
+  @Input()
+  quantity: number;
+
   @Output()
   storeSelected: EventEmitter<null> = new EventEmitter<null>();
 
@@ -33,9 +38,7 @@ export class StoreListComponent implements OnInit {
   cartId: string;
   pickupOption: PickupOption;
   name: string;
-  entryNumber: number;
   userId: string;
-  quantity: number;
   isPDP: boolean;
 
   constructor(
@@ -63,13 +66,6 @@ export class StoreListComponent implements OnInit {
         tap((cart) => {
           this.cartId = cart.guid ?? '';
           this.userId = cart.user?.uid ?? '';
-          cart.entries &&
-            cart.entries.forEach((entry) => {
-              if (entry.product?.code === this.productCode) {
-                this.entryNumber = entry.entryNumber ?? -1;
-                this.quantity = entry.quantity as number;
-              }
-            });
         })
       )
       .subscribe();

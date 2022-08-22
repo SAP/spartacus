@@ -130,7 +130,7 @@ describe('CartPickupOptionsContainerComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { productCode: 'productCode' }
+        { productCode: 'productCode', entryNumber: 1, quantity: 1 }
       );
     });
 
@@ -152,11 +152,12 @@ describe('CartPickupOptionsContainerComponent', () => {
   describe('with context of an incomplete order entry', () => {
     beforeEach(() => {
       configureTestingModule()
-      .overrideProvider(OutletContextData, {
-        useValue: {
-          context$: of({}),
-        },
-      }).compileComponents();
+        .overrideProvider(OutletContextData, {
+          useValue: {
+            context$: of({}),
+          },
+        })
+        .compileComponents();
       stubServiceAndCreateComponent();
     });
 

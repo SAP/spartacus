@@ -21,6 +21,8 @@ import { filter, take, tap } from 'rxjs/operators';
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   productCode: string;
+  entryNumber: number;
+  quantity: number;
   getHideOutOfStockState$: Observable<boolean>;
   loading: boolean;
 
@@ -37,9 +39,13 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.launchDialogService.data$.subscribe(({ productCode }) => {
-      this.productCode = productCode;
-    });
+    this.launchDialogService.data$.subscribe(
+      ({ productCode, entryNumber, quantity }) => {
+        this.productCode = productCode;
+        this.entryNumber = entryNumber;
+        this.quantity = quantity;
+      }
+    );
     this.getHideOutOfStockState$ =
       this.pickupLocationsSearchService.getHideOutOfStock();
   }

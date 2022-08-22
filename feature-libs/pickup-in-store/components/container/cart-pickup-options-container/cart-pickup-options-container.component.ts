@@ -153,7 +153,11 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       LAUNCH_CALLER.PICKUP_IN_STORE,
       this.element,
       this.vcr,
-      { productCode: this.productCode }
+      {
+        productCode: this.productCode,
+        entryNumber: this.entryNumber,
+        quantity: this.quantity,
+      }
     );
 
     if (dialog) {

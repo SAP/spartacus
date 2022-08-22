@@ -163,13 +163,6 @@ describe('StoreListComponent', () => {
     );
   });
 
-  it('should set entry number to 1 when adding an entry', () => {
-    const expected = 1;
-    component.productCode = 'test';
-    component.ngOnInit();
-    const received = component.entryNumber;
-    expect(received).toEqual(expected);
-  });
   it('should not set quantity if entry item product code is not equal to product code', () => {
     spyOn(activeCartService, 'getActive').and.returnValue(
       of({
@@ -180,7 +173,7 @@ describe('StoreListComponent', () => {
     expect(component.quantity).toBeUndefined();
   });
 
-  it('should set entryNumber to -1 if item entryNumber is not set', () => {
+  it('should set cartId to BLANK if its not present on active cart', () => {
     spyOn(activeCartService, 'getActive').and.returnValue(
       of({
         entries: [
@@ -190,9 +183,8 @@ describe('StoreListComponent', () => {
         ],
       })
     );
-    component.productCode = 'test';
     component.ngOnInit();
-    expect(component.entryNumber).toBe(-1);
+    expect(component.cartId).toBe('');
   });
   it('should not call setPickupOptionInStore if not on PDP', () => {
     spyOn(pickupLocationsSearchService, 'setPickupOptionInStore');
