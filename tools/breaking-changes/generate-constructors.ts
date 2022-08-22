@@ -1,5 +1,4 @@
 import deepEqual from 'deep-equal';
-import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
 import * as common from './common';
 
@@ -7,7 +6,7 @@ import * as common from './common';
  * This script generated the constructor deprecation schematics entries.
  *
  * Input: A breaking changes file, likely `./data/breaking-changes.json`
- * Output: A file, `generate-constructors.out.ts`, that contains a ConstructorDeprecation[] array to paste over in the migration schematics code.
+ * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a ts file that contains migration data ready to be imported by the schematics.
  *
  * Some use cases need a manual review/fixing after the generation.
  *
@@ -27,8 +26,10 @@ import * as common from './common';
  * Main logic
  * -----------
  */
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/constructor-deprecations/data/generated-constructor.migration.ts`;
+const OUTPUT_FILE_TEMPLATE_PATH = `generate-constructors.out.template`;
 
- const breakingChangesData = common.readBreakingChangeFile();
+const breakingChangesData = common.readBreakingChangeFile();
 
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {
@@ -61,11 +62,12 @@ apiElementsWithConstructorChanges.forEach((apiElement: any) => {
 console.log(
   `Generated ${constructorSchematics.length} constructor schematics entries.`
 );
-fs.writeFileSync(
-  `generate-constructors.out.ts`,
+
+common.writeSchematicsDataOutput(
+  OUTPUT_FILE_PATH,
+  OUTPUT_FILE_TEMPLATE_PATH,
   stringifyObject(constructorSchematics)
 );
-
 /**
  * -----------
  * Functions

@@ -8,6 +8,7 @@ export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}
 export const DELETED_API_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api.json`;
 export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-renamed-api-members.json`;
 export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-api.json`;
+export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_MAJOR_VERSION}_0`;
 
 // Shared Functions
 export function readBreakingChangeFile(): any {
@@ -273,4 +274,21 @@ export function getAllTopLevelBreakingChanges(apiElement: any): any[] {
   return apiElement.breakingChanges.filter((breakingChange: any) =>
     isTopLevelApi(breakingChange.changeKind)
   );
+}
+
+function resolveTemplate(template: string, content: string) {
+  const variable = new RegExp('\\${content}', 'g');
+  let resolvedTemplate = template.replace(variable, content);
+
+  return resolvedTemplate;
+}
+
+export function writeSchematicsDataOutput(
+  outputFilePath: string,
+  templateFilePath: string,
+  outputData: string
+) {
+  const templateData = fs.readFileSync(templateFilePath, 'utf-8');
+  const outputFileContent = resolveTemplate(templateData, outputData);
+  fs.writeFileSync(outputFilePath, outputFileContent);
 }
