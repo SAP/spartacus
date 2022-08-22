@@ -30,7 +30,7 @@ export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction {
 
 export class LoadUnitOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_UNIT_ORDERS_SUCCESS;
-  constructor(public payload: OrderHistoryList) {
+  constructor(public payload?: OrderHistoryList) {
     super(UNIT_ORDERS);
   }
 }

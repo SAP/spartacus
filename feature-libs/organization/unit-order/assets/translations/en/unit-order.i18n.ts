@@ -1,6 +1,6 @@
 export const unitOrder = {
   unitLevelOrderHistory: {
-    orderHistory: 'Unit orders history',
+    orderHistory: 'Unit-level order history',
     orderId: 'Order #',
     emptyPurchaseOrderId: 'None',
     date: 'Date',
@@ -16,9 +16,6 @@ export const unitOrder = {
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
-    cancel: 'Cancel',
-    cancelled: 'Cancelled',
-    replenishmentHistory: 'Replenishment History',
     notFound: 'No Orders Found',
   },
 };

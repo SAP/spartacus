@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import {
-  isNotUndefined,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
 
 @Component({
@@ -36,16 +32,6 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
 
   isLoaded$: Observable<boolean> =
     this.unitOrdersFacade.getOrderHistoryListLoaded();
-
-  /**
-   * When "Order Return" feature is enabled, this component becomes one tab in
-   * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
-   */
-  tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map((order) => order?.pagination?.totalResults),
-    filter(isNotUndefined),
-    take(1)
-  );
 
   ngOnDestroy(): void {
     this.unitOrdersFacade.clearOrderList();
