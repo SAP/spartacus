@@ -12,6 +12,8 @@ export const accountSummary = {
       currentBalance: 'Current Balance',
       openBalance: 'Open Balance',
       pastDueBalance: 'Past Due Balance',
+      dayRange: '{{minBoundary}}-{{maxBoundary}} Days',
+      dayPlus: '{{minBoundary}}+ Days',
     },
     document: {
       header: 'Documents',

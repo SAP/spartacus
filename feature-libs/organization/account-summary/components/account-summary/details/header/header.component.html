@@ -97,11 +97,23 @@
               class="cx-past-due-range-date"
               *ngIf="rangeBalance.dayRange as dayRange"
             >
-              <span>{{ dayRange?.minBoundary }}</span>
-              <span>
-                {{ dayRange?.maxBoundary ? '- ' + dayRange?.maxBoundary : '+' }}
-              </span>
-              <span> Days</span>
+              <ng-template [ngIf]="dayRange?.maxBoundary" [ngIfElse]="dayPlus">
+                {{
+                  'orgAccountSummary.details.dayRange'
+                    | cxTranslate
+                      : {
+                          minBoundary: dayRange.minBoundary,
+                          maxBoundary: dayRange.maxBoundary
+                        }
+                }}
+              </ng-template>
+
+              <ng-template #dayPlus>
+                {{
+                  'orgAccountSummary.details.dayPlus'
+                    | cxTranslate: { minBoundary: dayRange.minBoundary }
+                }}
+              </ng-template>
             </div>
             <div>
               {{ rangeBalance.amount }}
