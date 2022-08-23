@@ -30,10 +30,10 @@ module.exports = function (config) {
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 99,
-          lines: 99,
-          branches: 99,
-          functions: 99,
+          statements: 80,
+          lines: 80,
+          branches: 70,
+          functions: 80,
         },
       },
     },
