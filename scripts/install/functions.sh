@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+WARNINGS=()
+
 # Prints header
 function printh {
     local input="$1"
@@ -75,7 +77,11 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            local OUTPUT=$(cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json)
+            local EXIT_CODE=$?
+            if [$EXIT_CODE -ne 0] ; then
+                WARNINGS+=("Could not update library version of ${CLONE_DIR}/${i}. Details: $OUTPUT")
+            fi
         done
 }
 
@@ -281,6 +287,8 @@ function install_from_sources {
 
     run_installation_verification
 
+    print_warnings
+
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
@@ -292,6 +300,8 @@ function install_from_npm {
     create_apps
 
     run_installation_verification
+
+    print_warnings
 }
 
 function build_csr {
@@ -452,4 +462,11 @@ function run_e2e {
     else
         echo "🚫 E2E failed."
     fi
+}
+
+function print_warnings {
+    for warning in "${WARNINGS[@]}"
+    do
+        echo "❗️ $warning"
+    done
 }
