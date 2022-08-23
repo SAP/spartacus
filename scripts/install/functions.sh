@@ -430,7 +430,7 @@ function run_e2e {
     echo "Preparing E2E ..."
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
     echo "Running E2E Checkout ..."
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
