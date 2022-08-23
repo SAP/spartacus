@@ -32,16 +32,28 @@
 
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.status' | cxTranslate }}</span>
-      <ng-select [searchable]="false" [clearable]="false" [items]="statusOptions"
-                 bindLabel="name" bindValue="code" formControlName="status">
+      <ng-select
+        formControlName="status"
+        [searchable]="false" [clearable]="false"
+        [items]="statusOptions" bindLabel="name" bindValue="code"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'orgAccountSummary.filter.status' | cxTranslate,
+          ariaControls: 'cx-account-summary-document-table'
+        }">
       </ng-select>
       <cx-form-errors [control]="filterForm.controls.status"></cx-form-errors>
     </label>
 
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.filterBy' | cxTranslate }}</span>
-      <ng-select [searchable]="false" [clearable]="false" [items]="filterByOptions"
-                 bindLabel="name" bindValue="code" formControlName="filterBy">
+      <ng-select
+        formControlName="filterBy"
+        [searchable]="false" [clearable]="false"
+        [items]="filterByOptions" bindLabel="name" bindValue="code"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'orgAccountSummary.filter.filterBy' | cxTranslate,
+          ariaControls: 'cx-account-summary-document-table'
+        }">
       </ng-select>
       <cx-form-errors [control]="filterForm.controls.filterBy"></cx-form-errors>
     </label>
@@ -96,3 +108,4 @@
 
   </div>
 </form>
+<span id="tt"></span>

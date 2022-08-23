@@ -5,10 +5,10 @@
 
       <!-- Card: Unit ID & Unit Name -->
       <div class="cx-summary-card">
-        <cx-card [content]="getIdCardContent(headerDetails?.unit?.uid) | async">
+        <cx-card [content]="getIdCardContent(headerDetails?.orgUnit?.uid) | async">
         </cx-card>
 
-        <cx-card [content]="getNameCardContent(headerDetails?.unit?.name) | async">
+        <cx-card [content]="getNameCardContent(headerDetails?.orgUnit?.name) | async">
         </cx-card>
       </div>
 
@@ -26,7 +26,7 @@
         <cx-card [content]="getCreditRepCardContent(headerDetails?.accountManagerName) | async">
         </cx-card>
 
-        <cx-card [content]="getCreditLineCardContent(headerDetails?.formattedCreditLimit) | async">
+        <cx-card [content]="getCreditLineCardContent(headerDetails?.creditLimit) | async">
         </cx-card>
       </div>
 
@@ -49,7 +49,7 @@
 
         <!-- Dynamically create lines of past due date ranges -->
         <div *ngIf="pastDue.length > 0" class="cx-account-summary-header-past-due-range-dates">
-          <div *ngFor="let rangeBalance of pastDue" class="cx-account-summary-header-past-due-range-collection">
+          <div *ngFor="let rangeBalance of pastDue" class="cx-account-summary-header-past-due-range-collection" [tabindex]="-1">
             <div class="cx-past-due-range-date" *ngIf="rangeBalance.numberOfDayRange as numberOfDayRange">
               <span>{{ numberOfDayRange?.minBoundery }}</span>
               <span>
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div class="cx-account-summary-header-past-due-balance-total">
+        <div class="cx-account-summary-header-past-due-balance-total" [tabindex]="-1">
           <div class="cx-past-due-balance-label cx-card-title">
             {{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}
           </div>

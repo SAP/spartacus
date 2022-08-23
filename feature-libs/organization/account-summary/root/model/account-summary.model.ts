@@ -60,9 +60,9 @@ export interface AccountSummaryDetails {
   accountManagerEmail?: string;
   accountManagerName?: string;
   amountBalance?: AmountBalance;
-  unit?: B2BUnit;
   billingAddress?: Address;
-  formattedCreditLimit?: string;
+  creditLimit?: string;
+  orgUnit?: B2BUnit;
 }
 
 export interface AccountSummaryDocument {
