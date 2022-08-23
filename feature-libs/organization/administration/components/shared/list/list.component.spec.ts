@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -86,7 +92,6 @@ class MockTableComponent {
   templateUrl: './list.component.html',
 })
 class MockListComponent extends ListComponent<Mock> {
-
   constructor(
     protected baseListService: ListService<Mock>,
     protected organizationItemService: ItemService<Mock>
@@ -245,7 +250,6 @@ describe('ListComponent', () => {
   });
 
   describe('hideAddButton', () => {
-
     let el: DebugElement;
 
     beforeEach(() => {
@@ -268,6 +272,5 @@ describe('ListComponent', () => {
       const addBtn = el.query(By.css('a'));
       expect(addBtn).toBeNull();
     });
-
   });
 });

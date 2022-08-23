@@ -1,17 +1,26 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { OCC_USER_ID_CURRENT, RouterState, RoutingService, UserIdService } from '@spartacus/core';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams, DocumentStatus, FilterByOptions } from '@spartacus/organization/account-summary/root';
+import {
+  OCC_USER_ID_CURRENT,
+  RouterState,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
+import {
+  AccountSummaryDetails,
+  AccountSummaryList,
+  DocumentQueryParams,
+  DocumentStatus,
+  FilterByOptions,
+} from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
 import { AccountSummaryService } from './account-summary.service';
 import createSpy = jasmine.createSpy;
 
-
-
 const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
     semanticRoute: 'orgAccountSummary',
-    params: { unitCode: 'Custom Retail' }
+    params: { unitCode: 'Custom Retail' },
   },
 } as unknown as RouterState);
 
@@ -28,60 +37,73 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 const accountSummaryResult: AccountSummaryDetails = {
-  accountManagerEmail: "",
-  accountManagerName: "",
+  accountManagerEmail: '',
+  accountManagerName: '',
   amountBalance: {},
   orgUnit: {
-    uid: "1234",
-    name: "Custom Retail"
+    uid: '1234',
+    name: 'Custom Retail',
   },
   billingAddress: {
     country: {
-      isocode: "US",
-      name: "United States"
+      isocode: 'US',
+      name: 'United States',
     },
-    id: "8796098986007",
-    lastName: "Torres",
-  }
+    id: '8796098986007',
+    lastName: 'Torres',
+  },
 };
 
 const accountSummaryDocumentsResult: AccountSummaryList = {
   orgDocumentTypes: [
-    { code: 'Purchase Order', displayInAllList: true, includeInOpenBalance: true, name: 'Purchase Order' }
+    {
+      code: 'Purchase Order',
+      displayInAllList: true,
+      includeInOpenBalance: true,
+      name: 'Purchase Order',
+    },
   ],
   orgDocuments: [
     {
       amount: 7851558,
-      currency: { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-      createdAtDate: new Date("2014-06-10"),
-      id: "POCR-0000001",
+      currency: {
+        active: true,
+        isocode: 'USD',
+        name: 'US Dollar',
+        symbol: '$',
+      },
+      createdAtDate: new Date('2014-06-10'),
+      id: 'POCR-0000001',
       orgDocumentType: { code: 'Purchase Order', name: 'Purchase Order' },
       openAmount: 7851558,
-      status: DocumentStatus.OPEN
-    }
+      status: DocumentStatus.OPEN,
+    },
   ],
   pagination: {
     currentPage: 0,
     pageSize: 10,
-    sort: "byDocumentDateAsc",
+    sort: 'byDocumentDateAsc',
     totalPages: 6,
-    totalResults: 55
+    totalResults: 55,
   },
   sorts: [
-    { code: 'byDocumentDateAsc', selected: true, name: 'Document Date Ascending' },
-  ]
+    {
+      code: 'byDocumentDateAsc',
+      selected: true,
+      name: 'Document Date Ascending',
+    },
+  ],
 };
 
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
-  getAccountSummary = createSpy('MockAccountSummaryConnector.getAccountSummary Spy').and.returnValue(
-    of(accountSummaryResult)
-  );
+  getAccountSummary = createSpy(
+    'MockAccountSummaryConnector.getAccountSummary Spy'
+  ).and.returnValue(of(accountSummaryResult));
 
-  getDocumentList = createSpy('MockAccountSummaryConnector.getDocumentList Spy').and.returnValue(
-    of(accountSummaryDocumentsResult)
-  );
+  getDocumentList = createSpy(
+    'MockAccountSummaryConnector.getDocumentList Spy'
+  ).and.returnValue(of(accountSummaryDocumentsResult));
 }
-
 
 describe('AccountSummaryService', () => {
   let service: AccountSummaryService;
@@ -92,12 +114,14 @@ describe('AccountSummaryService', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: AccountSummaryConnector, useClass: MockAccountSummaryConnector }
-      ]
+        {
+          provide: AccountSummaryConnector,
+          useClass: MockAccountSummaryConnector,
+        },
+      ],
     });
     service = TestBed.inject(AccountSummaryService);
     routingService = TestBed.inject(RoutingService);
-
   });
 
   it('should AccountSummaryService is injected', inject(
@@ -108,15 +132,13 @@ describe('AccountSummaryService', () => {
   ));
 
   it('should be able to load account summary details', () => {
-
-    service.getAccountSummary().subscribe(res => {
+    service.getAccountSummary().subscribe((res) => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(res).toEqual(accountSummaryResult);
     });
   });
 
   it('should be able to load account summary document list', () => {
-
     let queryParams: DocumentQueryParams = {
       status: DocumentStatus.ALL,
       filterByKey: FilterByOptions.DOCUMENT_NUMBER,
@@ -125,10 +147,9 @@ describe('AccountSummaryService', () => {
       sort: 'byDocumentDateAsc',
     };
 
-    service.getDocumentList(queryParams).subscribe(res => {
+    service.getDocumentList(queryParams).subscribe((res) => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(res).toEqual(accountSummaryDocumentsResult);
     });
   });
-
 });

@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { UnitItemService, UnitTreeService } from '@spartacus/organization/administration/components';
-import { B2BUnitNode, OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  UnitItemService,
+  UnitTreeService,
+} from '@spartacus/organization/administration/components';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryUnitListService } from './account-summary-unit-list.service';
@@ -33,9 +39,7 @@ describe('AccountSummaryUnitListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [
         AccountSummaryUnitListService,
         {
@@ -59,11 +63,9 @@ describe('AccountSummaryUnitListService', () => {
       ],
     });
     service = TestBed.inject(AccountSummaryUnitListService);
-
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
 });

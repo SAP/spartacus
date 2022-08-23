@@ -5,7 +5,7 @@ import {
   Page,
   RoutingService,
   SemanticPathService,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import { OrganizationPageMetaResolver } from '@spartacus/organization/administration/core';
 import { combineLatest, defer, Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import {
   distinctUntilChanged,
   map,
   shareReplay,
-  switchMap
+  switchMap,
 } from 'rxjs/operators';
 
 @Injectable({
