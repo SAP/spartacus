@@ -438,6 +438,7 @@ function run_e2e {
     local EXIT_CODE=$?
 
     echo "$OUTPUT"
+    echo "\n"
 
     if [ $EXIT_CODE -eq 0 ]; then
         echo "✅ E2E successful."
