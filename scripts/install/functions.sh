@@ -431,11 +431,11 @@ function run_e2e {
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
-    echo OUTPUT
+    echo "$OUTPUT"
 
     if [ $EXIT_CODE -eq 0 ]; then
-        echo "✅ E2E is succeed."
+        echo "✅ E2E successful."
     else
-        echo "🚫 E2E is failed."
+        echo "🚫 E2E failed."
     fi
 }
