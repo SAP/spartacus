@@ -30,8 +30,8 @@ class MockUserIdService implements Partial<UserIdService> {
 const accountSummaryResult: AccountSummaryDetails = {
   accountManagerEmail: "",
   accountManagerName: "",
-  amountBalanceData: {},
-  unit: {
+  amountBalance: {},
+  orgUnit: {
     uid: "1234",
     name: "Custom Retail"
   },
@@ -42,21 +42,20 @@ const accountSummaryResult: AccountSummaryDetails = {
     },
     id: "8796098986007",
     lastName: "Torres",
-  },
-  formattedCreditLimit: ""
+  }
 };
 
 const accountSummaryDocumentsResult: AccountSummaryList = {
-  documentTypes: [
+  orgDocumentTypes: [
     { code: 'Purchase Order', displayInAllList: true, includeInOpenBalance: true, name: 'Purchase Order' }
   ],
-  documents: [
+  orgDocuments: [
     {
       amount: 7851558,
       currency: { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-      date: new Date("2014-06-10"),
-      documentNumber: "POCR-0000001",
-      documentType: { code: 'Purchase Order', displayInAllList: true, includeInOpenBalance: true, name: 'Purchase Order' },
+      createdAtDate: new Date("2014-06-10"),
+      id: "POCR-0000001",
+      orgDocumentType: { code: 'Purchase Order', name: 'Purchase Order' },
       openAmount: 7851558,
       status: DocumentStatus.OPEN
     }

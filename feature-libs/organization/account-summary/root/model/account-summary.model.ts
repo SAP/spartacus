@@ -3,7 +3,7 @@ import {
   B2BUnit,
   Currency,
   PaginationModel,
-  SortModel,
+  SortModel
 } from '@spartacus/core';
 
 interface MediaData {

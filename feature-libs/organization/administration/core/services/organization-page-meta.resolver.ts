@@ -17,14 +17,14 @@ import {
   PageType,
   RoutingService,
   SemanticPathService,
-  TranslationService,
+  TranslationService
 } from '@spartacus/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
   shareReplay,
-  switchMap,
+  switchMap
 } from 'rxjs/operators';
 
 /**
@@ -41,11 +41,10 @@ import {
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
   implements
-    PageBreadcrumbResolver,
-    PageTitleResolver,
-    PageDescriptionResolver,
-    PageRobotsResolver
-{
+  PageBreadcrumbResolver,
+  PageTitleResolver,
+  PageDescriptionResolver,
+  PageRobotsResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -105,13 +104,13 @@ export class OrganizationPageMetaResolver
       semanticRoute === this.ORGANIZATION_SEMANTIC_ROUTE
         ? of([])
         : this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY).pipe(
-            map((label) => [
-              {
-                label,
-                link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
-              },
-            ])
-          )
+          map((label) => [
+            {
+              label,
+              link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
+            },
+          ])
+        )
     )
   );
 

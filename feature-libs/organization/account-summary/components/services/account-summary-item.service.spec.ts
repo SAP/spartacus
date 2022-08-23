@@ -1,10 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import { CurrentUnitService, UnitFormService } from '@spartacus/organization/administration/components';
+import { of } from 'rxjs';
 import { AccountSummaryItemService } from './account-summary-item.service';
 
 
-class MockCurrentUnitService implements Partial<CurrentUnitService> { }
+
+const mockCode = 'u1';
+class MockCurrentUnitService implements Partial<CurrentUnitService> {
+  key$ = of(mockCode);
+  error$ = of(false);
+}
 
 class MockUnitFormService { }
 class MockRoutingService implements Partial<RoutingService> {
@@ -12,14 +18,12 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 const testB2BUnit: B2BUnit = {
-  active: true,
-  addresses: [],
-  uid: 'unitUid',
-  name: "foo bar"
+  uid: 'unitUid'
 };
 
 describe('AccountSummaryItemService', () => {
   let service: AccountSummaryItemService;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +35,8 @@ describe('AccountSummaryItemService', () => {
       ],
     });
     service = TestBed.inject(AccountSummaryItemService);
+    routingService = TestBed.inject(RoutingService);
+
   });
 
   it('should be created', () => {
@@ -39,7 +45,6 @@ describe('AccountSummaryItemService', () => {
 
 
   it('should launch account summary detail route with unit uid', () => {
-    const routingService = TestBed.inject(RoutingService);
     spyOn(routingService, 'go').and.callThrough();
     service.launchDetails(
       testB2BUnit
@@ -51,5 +56,4 @@ describe('AccountSummaryItemService', () => {
   });
 
 });
-
 

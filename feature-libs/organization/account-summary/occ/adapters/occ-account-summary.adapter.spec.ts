@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BaseOccUrlProperties, ConverterService, DynamicAttributes, OccEndpointsService } from '@spartacus/core';
-import { DocumentQueryParams, DocumentStatus, FilterByOptions } from '@spartacus/organization/account-summary/root';
+import { AccountSummaryList, DocumentQueryParams, DocumentStatus, FilterByOptions } from '@spartacus/organization/account-summary/root';
 import { OccAccountSummaryAdapter } from './occ-account-summary.adapter';
 
 
@@ -86,7 +86,7 @@ describe('OccAccountSummaryAdapter', () => {
                     lastName: "Torres",
                 },
                 formattedCreditLimit: "$15,000.00",
-                unit: {
+                orgUnit: {
                     active: true,
                     uid: '123uid',
                     name: 'John Doe'
@@ -118,24 +118,24 @@ describe('OccAccountSummaryAdapter', () => {
 
     describe('it should load account summary document data', () => {
 
-        let documentData: Object;
+        let documentData: AccountSummaryList;
 
         beforeEach(() => {
             documentData = {
-                documentTypes: [
+                orgDocumentTypes: [
                     { code: 'Purchase Order', displayInAllList: true, includeInOpenBalance: true, name: 'Purchase Order' },
                     { code: 'Invoice', displayInAllList: true, includeInOpenBalance: true, name: 'Invoice' },
                     { code: 'Credit Note', displayInAllList: true, includeInOpenBalance: true, name: 'Credit Note' },
                     { code: 'Debit Note', displayInAllList: true, includeInOpenBalance: true, name: 'Debit Note' },
                     { code: 'Statement', displayInAllList: false, includeInOpenBalance: false, name: 'Statement' }
                 ],
-                documents: [
+                orgDocuments: [
                     {
                         amount: 7851558,
                         currency: { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-                        date: "2014-06-10",
-                        documentNumber: "POCR-0000001",
-                        documentType: { code: 'Purchase Order', displayInAllList: true, includeInOpenBalance: true, name: 'Purchase Order' },
+                        createdAtDate: new Date("2014-06-10"),
+                        id: "POCR-0000001",
+                        orgDocumentType: { code: 'Purchase Order', name: 'Purchase Order' },
                         openAmount: 7851558,
                         status: DocumentStatus.OPEN
                     }

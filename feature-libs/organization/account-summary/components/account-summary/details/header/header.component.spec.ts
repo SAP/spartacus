@@ -2,12 +2,12 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick,
+  tick
 } from '@angular/core/testing';
 import { TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
-  AccountSummaryFacade,
+  AccountSummaryFacade
 } from '@spartacus/organization/account-summary/root';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
@@ -19,9 +19,9 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
       accountManagerEmail: '',
       accountManagerName: '',
       amountBalanceData: {},
-      unit: {
-        uid: '1234',
-        name: 'Custom Retail',
+      orgUnit: {
+        uid: "1234",
+        name: "Custom Retail"
       },
       billingAddress: {
         id: '8796098986007',
