@@ -391,16 +391,25 @@ function run_installation_verification {
     start_apps
 
     printh "Verify spartacus installation"
-    verify_csr
-    verify_ssr
-    run_e2e
+
+
+    echo "Verifying CSR ..."
+    local CSR_RESULT=$(verify_csr)
+
+    echo "Verifying SSR ..."
+    local SSR_RESULT=$(verify_ssr)
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e)
+    
+    echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
 
     stop_apps &> /dev/null
 }
 
 function verify_csr {
-    echo "Verifying CSR ..."
-
     local EXIT_CODE=0
     curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
 
@@ -412,8 +421,6 @@ function verify_csr {
 }
 
 function verify_ssr {
-    echo "Verifying SSR ..."
-
     local EXIT_CODE=0
     curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
 
@@ -425,9 +432,7 @@ function verify_ssr {
 }
 
 function run_e2e {
-    echo "Preparing E2E ..."
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
-    echo "Running E2E Checkout ..."
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
