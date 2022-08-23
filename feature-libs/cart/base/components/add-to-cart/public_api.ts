@@ -1,1 +1,2 @@
-export * from './index';
+export * from './add-to-cart.component';
+export * from './add-to-cart.module';

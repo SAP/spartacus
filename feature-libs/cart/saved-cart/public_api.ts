@@ -1,1 +1,1 @@
-export * from './index';
+export * from './saved-cart.module';
