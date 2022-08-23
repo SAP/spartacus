@@ -125,6 +125,7 @@ export const order = {
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
     purchaseOrderNumber: 'PO #',
+    costCenter: 'Cost Center',
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',

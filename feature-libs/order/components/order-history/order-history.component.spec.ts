@@ -53,6 +53,10 @@ const mockPOOrders: OrderHistoryList = {
       statusDisplay: 'test',
       total: { formattedValue: '1' },
       purchaseOrderNumber: '001',
+      costCenter: {
+        code: 'Custom_Retail',
+        name: 'Custom Retail',
+      },
     },
     {
       code: '2',
@@ -263,7 +267,7 @@ describe('OrderHistoryComponent', () => {
     expect(component.sortType).toEqual('byDate');
   });
 
-  it('should display PO Number', () => {
+  it('should display PO Number & Cost Center', () => {
     mockOrderHistoryList$.next(mockOrders);
     fixture.detectChanges();
 
@@ -278,9 +282,12 @@ describe('OrderHistoryComponent', () => {
     const headerPO = fixture.debugElement.query(
       By.css('.cx-order-history-thead-mobile')
     );
-    expect(headerPO.children.length).toEqual(5);
+    expect(headerPO.children.length).toEqual(6);
     expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
       'orderHistory.PONumber'
+    );
+    expect(headerPO.children[2].nativeElement.textContent.trim()).toEqual(
+      'orderHistory.costCenter'
     );
   });
 
