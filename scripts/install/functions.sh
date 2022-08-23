@@ -395,12 +395,14 @@ function run_installation_verification {
     printh "Verify Spartacus Installation Results"
     verify_csr
     verify_ssr
-    #run_e2e
+    run_e2e
 
     stop_apps &> /dev/null
 }
 
 function verify_csr {
+    echo "Verifying CSR ..."
+
     local EXIT_CODE=0
     curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
 
@@ -412,6 +414,8 @@ function verify_csr {
 }
 
 function verify_ssr {
+    echo "Verifying SSR ..."
+
     local EXIT_CODE=0
     curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
 
@@ -423,7 +427,10 @@ function verify_ssr {
 }
 
 function run_e2e {
-    $(cd ${INSTALLATION_DIR}/${CSR_APP_NAME}; yarn e2e:run:ci &> /dev/null)
+    echo "Preparing E2E ..."
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    echo "Running E2E Checkout ..."
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
