@@ -1,16 +1,16 @@
 import { waitForAsync, TestBed, TestBedStatic } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsConfig } from '../../../config/index';
-import { ProfileTagEventService } from '../../../profiletag/index';
-import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import {
+  CmsMerchandisingCarouselComponent,
+  CdsConfig,
+  ProfileTagEventService,
+  CdsMerchandisingProductService,
   MerchandisingMetadata,
   MerchandisingProduct,
-  StrategyProducts,
-} from '../../model/index';
-import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
+  StrategyResponse,
+  MerchandisingCarouselComponentService,
+} from '@spartacus/cds';
 import {
   MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,
@@ -18,24 +18,27 @@ import {
 } from './model/index';
 import createSpy = jasmine.createSpy;
 
-const mockStrategyProducts: StrategyProducts = {
-  products: [
-    {
-      id: '1',
-      metadata: {
-        'product-1-metadata-field': 'product-1-metadata-value',
+const mockStrategyProducts: StrategyResponse = {
+  products: {
+    products: [
+      {
+        id: '1',
+        metadata: {
+          'product-1-metadata-field': 'product-1-metadata-value',
+        },
       },
-    },
-    {
-      id: '2',
-      metadata: {
-        'product-2-metadata-field': 'product-2-metadata-value',
+      {
+        id: '2',
+        metadata: {
+          'product-2-metadata-field': 'product-2-metadata-value',
+        },
       },
+    ],
+    metadata: {
+      'custom-metadata-field-1': 'custom-metadata-data-value-1',
     },
-  ],
-  metadata: {
-    'custom-metadata-field-1': 'custom-metadata-data-value-1',
   },
+  request: {},
 };
 
 const mockProducts = {
@@ -85,7 +88,7 @@ const mockCdsConfig: CdsConfig = {
 };
 
 const mockCarouselId =
-  mockComponentData.uid + '_' + mockComponentData.strategy + '_1_2';
+  mockComponentData.uid + '_' + mockComponentData.strategy + '_undefined';
 const mockMerchandisingCarouselModel: MerchandisingCarouselModel = {
   id: mockCarouselId,
   title: mockComponentData.title,
@@ -102,7 +105,7 @@ const mockMerchandisingCarouselModel: MerchandisingCarouselModel = {
 };
 
 class MockCdsMerchandisingProductService {
-  loadProductsForStrategy(): Observable<StrategyProducts> {
+  loadProductsForStrategy(): Observable<StrategyResponse> {
     return of(mockStrategyProducts);
   }
 }
@@ -198,16 +201,16 @@ describe('MerchandisingCarouselComponentService', () => {
     it('should retrieve a merchandising carousel model', () => {
       const expectedMerchandisingCarouselModelMetadata: MerchandisingMetadata =
         {
-          ...mockStrategyProducts.metadata,
+          ...mockStrategyProducts.products.metadata,
           title: mockComponentData.title,
           name: mockComponentData.name,
           strategyid: mockComponentData.strategy,
-          slots: mockStrategyProducts.products.length,
+          slots: mockStrategyProducts.products.products.length,
           id: mockComponentData.uid,
         };
 
       const expectedMerchandisingCarouselModelProducts: MerchandisingProduct[] =
-        mockStrategyProducts.products.map((strategyProduct, index) => {
+        mockStrategyProducts.products.products.map((strategyProduct, index) => {
           const merchandisingProductMetadata: MerchandisingMetadata =
             strategyProduct.metadata;
           merchandisingProductMetadata.id = strategyProduct.id;

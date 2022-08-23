@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ 
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { register, fillRegistrationForm, login } from '../../../helpers/auth-forms';
+
 const UPDATED_NAME = ' updated';
 export function registerUser() {
   cy.findByText("Don't have an account yet?").click();
