@@ -13,11 +13,13 @@ import { AccountSummaryListModule } from './account-summary/list/account-summary
     AccountSummaryDocumentModule,
   ],
   declarations: [],
-  providers: [provideDefaultConfig(accountSummaryCmsConfig),
-  {
-    provide: PageMetaResolver,
-    useExisting: AccountSummaryPageMetaResolver,
-    multi: true,
-  },],
+  providers: [
+    provideDefaultConfig(accountSummaryCmsConfig),
+    {
+      provide: PageMetaResolver,
+      useExisting: AccountSummaryPageMetaResolver,
+      multi: true,
+    },
+  ],
 })
-export class AccountSummaryComponentsModule { }
+export class AccountSummaryComponentsModule {}

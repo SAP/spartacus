@@ -7,12 +7,7 @@ import { HeaderComponent } from './header.component';
 
 @NgModule({
   declarations: [HeaderComponent],
-  imports: [
-    CardModule,
-    CommonModule,
-    I18nModule,
-    UrlModule
-  ],
+  imports: [CardModule, CommonModule, I18nModule, UrlModule],
   providers: [provideDefaultConfig(accountSummaryHeaderCmsConfig)],
 })
-export class AccountSummaryHeaderModule { }
+export class AccountSummaryHeaderModule {}

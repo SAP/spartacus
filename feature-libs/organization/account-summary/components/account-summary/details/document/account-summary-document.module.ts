@@ -17,7 +17,7 @@ import { AccountSummaryDocumentFilterModule } from './filter';
     ListNavigationModule,
     UrlModule,
     IconModule,
-    AccountSummaryDocumentFilterModule
+    AccountSummaryDocumentFilterModule,
   ],
   providers: [provideDefaultConfig(accountSummaryDocumentCmsConfig)],
 })

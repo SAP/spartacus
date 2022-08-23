@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Address, TranslationService } from '@spartacus/core';
-import { AccountSummaryDetails, AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
+import {
+  AccountSummaryDetails,
+  AccountSummaryFacade,
+} from '@spartacus/organization/account-summary/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
 const notApplicable = 'n/a';
 
@@ -12,13 +15,12 @@ const notApplicable = 'n/a';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-
   headerDetails$: Observable<AccountSummaryDetails>;
 
   constructor(
     private accountSummaryFacade: AccountSummaryFacade,
-    protected translation: TranslationService,
-  ) { }
+    protected translation: TranslationService
+  ) {}
 
   ngOnInit(): void {
     this.headerDetails$ = this.accountSummaryFacade.getAccountSummary();
@@ -28,7 +30,7 @@ export class HeaderComponent implements OnInit {
     return this.translation.translate('orgAccountSummary.details.uid').pipe(
       map((idTitle) => ({
         title: idTitle,
-        text: [id || notApplicable]
+        text: [id || notApplicable],
       }))
     );
   }
@@ -37,7 +39,7 @@ export class HeaderComponent implements OnInit {
     return this.translation.translate('orgAccountSummary.details.name').pipe(
       map((nameTitle) => ({
         title: nameTitle,
-        text: [name || notApplicable]
+        text: [name || notApplicable],
       }))
     );
   }
@@ -45,60 +47,73 @@ export class HeaderComponent implements OnInit {
   getAddressCardContent(billingAddress?: Address | any): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.address').pipe(
       map((addressTitle) => {
-        const name = billingAddress?.fullnameWithTitle ?? // sometimes fullnameWithTitle is not set
+        const name =
+          billingAddress?.fullnameWithTitle ?? // sometimes fullnameWithTitle is not set
           `${billingAddress?.title}, ${billingAddress?.firstName} ${billingAddress?.lastName}`;
         const address = billingAddress?.formattedAddress;
         const country = billingAddress?.country?.name;
         return {
           title: addressTitle,
-          text: Boolean(billingAddress) ? [name, address, country] : [notApplicable],
+          text: Boolean(billingAddress)
+            ? [name, address, country]
+            : [notApplicable],
         };
       })
     );
   }
 
   getCreditRepCardContent(creditRep?: string): Observable<Card> {
-    return this.translation.translate('orgAccountSummary.details.creditRep').pipe(
-      map((creditRepTitle) => ({
-        title: creditRepTitle,
-        text: [creditRep || notApplicable],
-      }))
-    );
+    return this.translation
+      .translate('orgAccountSummary.details.creditRep')
+      .pipe(
+        map((creditRepTitle) => ({
+          title: creditRepTitle,
+          text: [creditRep || notApplicable],
+        }))
+      );
   }
 
   getCreditLineCardContent(creditLine?: string): Observable<Card> {
-    return this.translation.translate('orgAccountSummary.details.creditLine').pipe(
-      map((creditLineTitle) => ({
-        title: creditLineTitle,
-        text: [creditLine || notApplicable],
-      }))
-    );
+    return this.translation
+      .translate('orgAccountSummary.details.creditLine')
+      .pipe(
+        map((creditLineTitle) => ({
+          title: creditLineTitle,
+          text: [creditLine || notApplicable],
+        }))
+      );
   }
 
   getCurrentBalanceCardContent(currentBalance?: string): Observable<Card> {
-    return this.translation.translate('orgAccountSummary.details.currentBalance').pipe(
-      map((currentBalanceTitle) => ({
-        title: currentBalanceTitle,
-        text: [currentBalance || notApplicable],
-      }))
-    );
+    return this.translation
+      .translate('orgAccountSummary.details.currentBalance')
+      .pipe(
+        map((currentBalanceTitle) => ({
+          title: currentBalanceTitle,
+          text: [currentBalance || notApplicable],
+        }))
+      );
   }
 
   getOpenBalanceCardContent(openBalance?: string): Observable<Card> {
-    return this.translation.translate('orgAccountSummary.details.openBalance').pipe(
-      map((openBalanceTitle) => ({
-        title: openBalanceTitle,
-        text: [openBalance || notApplicable],
-      }))
-    );
+    return this.translation
+      .translate('orgAccountSummary.details.openBalance')
+      .pipe(
+        map((openBalanceTitle) => ({
+          title: openBalanceTitle,
+          text: [openBalance || notApplicable],
+        }))
+      );
   }
 
   getPastDueBalanceCardContent(pastDueBalance?: string): Observable<Card> {
-    return this.translation.translate('orgAccountSummary.details.pastDueBalance').pipe(
-      map((pastDueBalanceTitle) => ({
-        title: pastDueBalanceTitle,
-        text: [pastDueBalance ?? notApplicable],
-      }))
-    );
+    return this.translation
+      .translate('orgAccountSummary.details.pastDueBalance')
+      .pipe(
+        map((pastDueBalanceTitle) => ({
+          title: pastDueBalanceTitle,
+          text: [pastDueBalance ?? notApplicable],
+        }))
+      );
   }
 }

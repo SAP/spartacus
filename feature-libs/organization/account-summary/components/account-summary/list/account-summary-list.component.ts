@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
   ItemService,
   ListService,
-  UnitListComponent
+  UnitListComponent,
 } from '@spartacus/organization/administration/components';
 import { AccountSummaryItemService } from '../../services/account-summary-item.service';
 import { AccountSummaryUnitListService } from '../../services/account-summary-unit-list.service';
@@ -21,4 +21,4 @@ import { AccountSummaryUnitListService } from '../../services/account-summary-un
     },
   ],
 })
-export class AccountSummaryListComponent extends UnitListComponent { }
+export class AccountSummaryListComponent extends UnitListComponent {}

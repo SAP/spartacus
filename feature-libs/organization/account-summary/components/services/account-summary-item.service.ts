@@ -3,11 +3,9 @@ import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
   CurrentUnitService,
   ItemService,
-  UnitFormService
+  UnitFormService,
 } from '@spartacus/organization/administration/components';
-import {
-  OrganizationItemStatus
-} from '@spartacus/organization/administration/core';
+import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,7 +15,7 @@ export class AccountSummaryItemService extends ItemService<B2BUnit> {
   constructor(
     protected currentItemService: CurrentUnitService,
     protected routingService: RoutingService,
-    protected formService: UnitFormService,
+    protected formService: UnitFormService
   ) {
     super(currentItemService, routingService, formService);
   }

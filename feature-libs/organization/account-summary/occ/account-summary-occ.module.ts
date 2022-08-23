@@ -12,4 +12,4 @@ import { defaultOccAccountSummaryConfig } from './config/default-occ-account-sum
     { provide: AccountSummaryAdapter, useClass: OccAccountSummaryAdapter },
   ],
 })
-export class AccountSummaryOccModule { }
+export class AccountSummaryOccModule {}

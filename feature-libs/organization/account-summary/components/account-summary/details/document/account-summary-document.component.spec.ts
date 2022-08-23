@@ -3,7 +3,6 @@ import { TranslationService } from '@spartacus/core';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
 
-
 describe('AccountSummaryDocumentComponent', () => {
   let component: AccountSummaryDocumentComponent;
   let fixture: ComponentFixture<AccountSummaryDocumentComponent>;
@@ -14,9 +13,9 @@ describe('AccountSummaryDocumentComponent', () => {
       providers: [
         {
           provide: TranslationService,
-          useClass: MockTranslationService
-        }
-      ]
+          useClass: MockTranslationService,
+        },
+      ],
     }).compileComponents();
   });
 

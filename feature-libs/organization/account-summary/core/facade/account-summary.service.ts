@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
-import { AccountSummaryDetails, AccountSummaryFacade, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
+import {
+  AccountSummaryDetails,
+  AccountSummaryFacade,
+  AccountSummaryList,
+  DocumentQueryParams,
+} from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { AccountSummaryConnector } from '../connectors';
@@ -8,7 +13,6 @@ import { AccountSummaryConnector } from '../connectors';
   providedIn: 'root',
 })
 export class AccountSummaryService implements AccountSummaryFacade {
-
   userId: string;
   unitCode: string;
 
@@ -20,24 +24,24 @@ export class AccountSummaryService implements AccountSummaryFacade {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.userId = userId;
     });
-    this.routingService.getRouterState().pipe(
-      map((routingData) => routingData.state.params),
-      distinctUntilChanged()
-    ).subscribe((params) => this.unitCode = params.unitCode);
+    this.routingService
+      .getRouterState()
+      .pipe(
+        map((routingData) => routingData.state.params),
+        distinctUntilChanged()
+      )
+      .subscribe((params) => (this.unitCode = params.unitCode));
   }
 
   getAccountSummary(): Observable<AccountSummaryDetails> {
-    return this.accountSummaryConnector.getAccountSummary(
-      this.userId,
-      this.unitCode
-    ).pipe(shareReplay(1));
+    return this.accountSummaryConnector
+      .getAccountSummary(this.userId, this.unitCode)
+      .pipe(shareReplay(1));
   }
 
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
-    return this.accountSummaryConnector.getDocumentList(
-      this.userId,
-      this.unitCode,
-      params
-    ).pipe(shareReplay(1));
+    return this.accountSummaryConnector
+      .getDocumentList(this.userId, this.unitCode, params)
+      .pipe(shareReplay(1));
   }
 }

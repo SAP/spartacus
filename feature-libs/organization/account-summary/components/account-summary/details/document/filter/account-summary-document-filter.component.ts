@@ -1,14 +1,26 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { combineLatest } from 'rxjs';
 
-import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 
 interface ItemType {
   code: string;
@@ -24,10 +36,9 @@ interface GroupValidator {
 @Component({
   selector: 'cx-account-summary-document-filter',
   templateUrl: './account-summary-document-filter.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountSummaryDocumentFilterComponent {
-
   @Input()
   documentTypeOptions: Array<AccountSummaryDocumentType>;
   @Input()
@@ -55,7 +66,8 @@ export class AccountSummaryDocumentFilterComponent {
 
   formSearch(): void {
     const status = this.filterForm.get('status')?.value as DocumentStatus;
-    const filterByKey = this.filterForm.get('filterBy')?.value as FilterByOptions;
+    const filterByKey = this.filterForm.get('filterBy')
+      ?.value as FilterByOptions;
     let filterByValue;
     let startRange;
     let endRange;
@@ -99,7 +111,13 @@ export class AccountSummaryDocumentFilterComponent {
         break;
       }
     }
-    this.filterListEvent.emit({ status, filterByKey, filterByValue, startRange, endRange });
+    this.filterListEvent.emit({
+      status,
+      filterByKey,
+      filterByValue,
+      startRange,
+      endRange,
+    });
   }
 
   resetForm(andSearch = false): void {
@@ -113,56 +131,105 @@ export class AccountSummaryDocumentFilterComponent {
       openAmountRange: { from: '', to: '' },
     };
 
-    if (andSearch) { // if set, clear all fields and perform search
+    if (andSearch) {
+      // if set, clear all fields and perform search
       this.filterForm.patchValue({
         ...defaults,
         status: DocumentStatus.ALL,
         filterBy: FilterByOptions.DOCUMENT_NUMBER,
       });
       this.formSearch();
-    } else { // otherwise just clear all fields except status and filterBy
+    } else {
+      // otherwise just clear all fields except status and filterBy
       this.filterForm.patchValue(defaults);
     }
   }
 
   get statusOptions(): Array<ItemType> {
     if (!this._statusOptions) {
-      this._statusOptions = (Object.values(DocumentStatus) as Array<string>).map(code => ({ code }));
-      const translations = this._statusOptions.map(status =>
-        this.translation.translate(`orgAccountSummary.statuses.${status.code}`));
+      this._statusOptions = (
+        Object.values(DocumentStatus) as Array<string>
+      ).map((code) => ({ code }));
+      const translations = this._statusOptions.map((status) =>
+        this.translation.translate(`orgAccountSummary.statuses.${status.code}`)
+      );
 
-      combineLatest(translations).subscribe(translationText =>
-        translationText.forEach((text, index) => this._statusOptions[index].name = text));
+      combineLatest(translations).subscribe((translationText) =>
+        translationText.forEach(
+          (text, index) => (this._statusOptions[index].name = text)
+        )
+      );
     }
     return this._statusOptions;
   }
 
   get filterByOptions(): Array<ItemType> {
     if (!this._filterByOptions) {
-      this._filterByOptions = (Object.values(FilterByOptions) as Array<string>).map(code => ({ code }));
-      const translations = this._filterByOptions.map(status =>
-        this.translation.translate(`orgAccountSummary.filterByOptions.${status.code}`));
+      this._filterByOptions = (
+        Object.values(FilterByOptions) as Array<string>
+      ).map((code) => ({ code }));
+      const translations = this._filterByOptions.map((status) =>
+        this.translation.translate(
+          `orgAccountSummary.filterByOptions.${status.code}`
+        )
+      );
 
-      combineLatest(translations).subscribe(translationText =>
-        translationText.forEach((text, index) => this._filterByOptions[index].name = text));
+      combineLatest(translations).subscribe((translationText) =>
+        translationText.forEach(
+          (text, index) => (this._filterByOptions[index].name = text)
+        )
+      );
     }
     return this._filterByOptions;
   }
 
-  private initializeForm({ status, filterByKey, filterByValue, startRange, endRange }: DocumentQueryParams): void {
-
-    const generateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator): FormGroup => {
-      return this.fb.group({
-        from: [filterByKey === filterByOption && startRange ? startRange : '', validator?.startRange],
-        to: [filterByKey === filterByOption && endRange ? endRange : '', validator?.endRange],
-      }, { validators: validator?.groupValidator } as AbstractControlOptions);
+  private initializeForm({
+    status,
+    filterByKey,
+    filterByValue,
+    startRange,
+    endRange,
+  }: DocumentQueryParams): void {
+    const generateRangeGroup = (
+      filterByOption: FilterByOptions,
+      validator?: GroupValidator
+    ): FormGroup => {
+      return this.fb.group(
+        {
+          from: [
+            filterByKey === filterByOption && startRange ? startRange : '',
+            validator?.startRange,
+          ],
+          to: [
+            filterByKey === filterByOption && endRange ? endRange : '',
+            validator?.endRange,
+          ],
+        },
+        { validators: validator?.groupValidator } as AbstractControlOptions
+      );
     };
 
-    const generateDateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator | null): FormGroup => {
-      return this.fb.group({
-        from: [filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '', validator?.startRange],
-        to: [filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '', validator?.endRange],
-      }, { validators: validator?.groupValidator } as AbstractControlOptions);
+    const generateDateRangeGroup = (
+      filterByOption: FilterByOptions,
+      validator?: GroupValidator | null
+    ): FormGroup => {
+      return this.fb.group(
+        {
+          from: [
+            filterByKey === filterByOption && startRange
+              ? this.decodeDate(startRange)
+              : '',
+            validator?.startRange,
+          ],
+          to: [
+            filterByKey === filterByOption && endRange
+              ? this.decodeDate(endRange)
+              : '',
+            validator?.endRange,
+          ],
+        },
+        { validators: validator?.groupValidator } as AbstractControlOptions
+      );
     };
 
     const validRange = (type: 'date' | 'number'): ValidationErrors => {
@@ -177,7 +244,9 @@ export class AccountSummaryDocumentFilterComponent {
         } else if (type === 'number') {
           const fromValue = parseFloat(from.value) || 0;
           const toValue = parseFloat(to.value) || 0;
-          return (!isNaN(from.value) && !isNaN(to.value) && fromValue > toValue) ? { toAmountMustBeLargeThanFrom: true } : null;
+          return !isNaN(from.value) && !isNaN(to.value) && fromValue > toValue
+            ? { toAmountMustBeLargeThanFrom: true }
+            : null;
         } else {
           return null;
         }
@@ -187,19 +256,33 @@ export class AccountSummaryDocumentFilterComponent {
     this.filterForm = this.fb.group({
       status: status || DocumentStatus.ALL,
       filterBy: filterByKey || FilterByOptions.DOCUMENT_NUMBER,
-      documentType: filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue ? filterByValue : '',
-      documentNumber: filterByKey === FilterByOptions.DOCUMENT_NUMBER && filterByValue ? filterByValue : '',
-      documentNumberRange: generateRangeGroup(FilterByOptions.DOCUMENT_NUMBER_RANGE),
-      documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE,
-        { groupValidator: validRange('date') }),
-      dueDateRange: generateDateRangeGroup(FilterByOptions.DUE_DATE_RANGE,
-        { groupValidator: validRange('date') }),
-      originalAmountRange: generateRangeGroup(FilterByOptions.AMOUNT_RANGE,
-        { groupValidator: validRange('number') }),
-      openAmountRange: generateRangeGroup(FilterByOptions.OPEN_AMOUNT_RANGE,
-        { groupValidator: validRange('number') }),
+      documentType:
+        filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue
+          ? filterByValue
+          : '',
+      documentNumber:
+        filterByKey === FilterByOptions.DOCUMENT_NUMBER && filterByValue
+          ? filterByValue
+          : '',
+      documentNumberRange: generateRangeGroup(
+        FilterByOptions.DOCUMENT_NUMBER_RANGE
+      ),
+      documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE, {
+        groupValidator: validRange('date'),
+      }),
+      dueDateRange: generateDateRangeGroup(FilterByOptions.DUE_DATE_RANGE, {
+        groupValidator: validRange('date'),
+      }),
+      originalAmountRange: generateRangeGroup(FilterByOptions.AMOUNT_RANGE, {
+        groupValidator: validRange('number'),
+      }),
+      openAmountRange: generateRangeGroup(FilterByOptions.OPEN_AMOUNT_RANGE, {
+        groupValidator: validRange('number'),
+      }),
     });
-    this.filterForm.get('filterBy')?.valueChanges.subscribe(() => this.filterByChanged());
+    this.filterForm
+      .get('filterBy')
+      ?.valueChanges.subscribe(() => this.filterByChanged());
   }
 
   private filterByChanged() {

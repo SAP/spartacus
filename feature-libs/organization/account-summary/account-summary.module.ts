@@ -7,8 +7,8 @@ import { AccountSummaryComponentsModule } from '@spartacus/organization/account-
   imports: [
     AccountSummaryCoreModule,
     AccountSummaryOccModule,
-    AccountSummaryComponentsModule
+    AccountSummaryComponentsModule,
   ],
   declarations: [],
 })
-export class AccountSummaryModule { }
+export class AccountSummaryModule {}

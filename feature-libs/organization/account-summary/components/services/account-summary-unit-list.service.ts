@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   OrganizationTableType,
   UnitItemService,
-  UnitListService, UnitTreeService
+  UnitListService,
+  UnitTreeService,
 } from '@spartacus/organization/administration/components';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';

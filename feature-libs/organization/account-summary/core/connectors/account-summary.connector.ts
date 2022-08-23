@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
+import {
+  AccountSummaryDetails,
+  AccountSummaryList,
+  DocumentQueryParams,
+} from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
 import { AccountSummaryAdapter } from './account-summary.adapter';
 
 @Injectable()
 export class AccountSummaryConnector {
-  constructor(protected accountSummaryAdapter: AccountSummaryAdapter) { }
+  constructor(protected accountSummaryAdapter: AccountSummaryAdapter) {}
 
-  getAccountSummary(userId: string, unitCode: string): Observable<AccountSummaryDetails> {
+  getAccountSummary(
+    userId: string,
+    unitCode: string
+  ): Observable<AccountSummaryDetails> {
     return this.accountSummaryAdapter.getAccountSummary(userId, unitCode);
   }
 
