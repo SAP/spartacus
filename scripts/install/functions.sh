@@ -80,7 +80,7 @@ function update_projects_versions {
             local OUTPUT=$(cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json)
             local EXIT_CODE=$?
             if [ $EXIT_CODE -ne 0 ]; then
-                WARNINGS+=("Could not update library version of ${CLONE_DIR}/${i}. Details: $OUTPUT")
+                WARNINGS+=("[update_projects_versions] Could not update library version of ${CLONE_DIR}/${i}. Details: $OUTPUT")
             fi
         done
 }
@@ -194,13 +194,23 @@ function create_apps {
 function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    local OUTPUT=$(cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
+    local EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+        WARNINGS+=("[publish_dist_package] Could not publish dist package of ${PKG_NAME}. Details: $OUTPUT")
+    fi
 }
 
 function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
+    local EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+        WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
+    fi
 }
 
 function restore_clone {
