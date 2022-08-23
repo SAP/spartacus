@@ -150,7 +150,7 @@ describe('StoreListComponent', () => {
     component.onSelectStore({ storeContent: 'storeContent' });
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith({
       name: '',
-      displayName: undefined,
+      displayName: '',
     });
   });
 
