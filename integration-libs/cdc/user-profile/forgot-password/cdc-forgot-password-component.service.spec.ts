@@ -8,7 +8,7 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   OAuthFlow,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';

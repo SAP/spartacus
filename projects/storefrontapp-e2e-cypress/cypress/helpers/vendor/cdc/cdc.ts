@@ -1,5 +1,9 @@
 import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { register, fillRegistrationForm, login } from '../../../helpers/auth-forms';
+import {
+  register,
+  fillRegistrationForm,
+  login,
+} from '../../../helpers/auth-forms';
 const UPDATED_NAME = ' updated';
 export function registerUser() {
   cy.findByText("Don't have an account yet?").click();
@@ -34,7 +38,6 @@ export function registerUserWithoutScreenSet() {
   fillRegistrationForm(nativeUser, false);
   cy.get('button[type="submit"]').click();
 }
-
 
 export function fillAndSubmitNativeRegistrationForm() {
   cy.get('[id="register-site-login"]').within(() => {

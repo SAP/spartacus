@@ -43,9 +43,7 @@ import { RegisterComponent } from './register.component';
             {
               provide: RegisterComponentService,
               useClass: RegisterComponentService,
-              deps: [
-                UserRegisterFacade,
-              ],
+              deps: [UserRegisterFacade],
             },
           ],
         },

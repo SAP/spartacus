@@ -4,7 +4,7 @@ import {
   AuthConfigService,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { ForgotPasswordComponentService } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
@@ -46,7 +46,9 @@ export class CDCForgotPasswordComponentService
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {
           // Reset password using CDC Gigya SDK
-          this.cdcJsService.resetPasswordWithoutScreenSet(this.form.value.userEmail);
+          this.cdcJsService.resetPasswordWithoutScreenSet(
+            this.form.value.userEmail
+          );
           this.busy$.next(false);
           this.redirect();
         } else {

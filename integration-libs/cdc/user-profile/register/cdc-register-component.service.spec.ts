@@ -47,7 +47,7 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(false));
+  didLoad = createSpy().and.callFake(() => of(true));
   registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
     of(user)
   );
@@ -83,6 +83,8 @@ describe('CdcRegisterComponentService', () => {
     connector = TestBed.inject(UserProfileConnector);
     cdcJsService = TestBed.inject(CdcJsService);
     userRegisterFacde = TestBed.inject(UserRegisterFacade);
+
+    TestBed.compileComponents();
   });
 
   it('should be created', () => {
@@ -119,7 +121,7 @@ describe('CdcRegisterComponentService', () => {
     it('should NOT happen without CDC, should show error', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
+      cdcJsService.didLoad = createSpy().and.callFake(() => of(false));
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(
           cdcJsService.registerUserWithoutScreenSet
@@ -132,7 +134,7 @@ describe('CdcRegisterComponentService', () => {
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
+      expect(cdcJsService.registerUserWithoutScreenSet).not.toHaveBeenCalled();
     });
   });
 });

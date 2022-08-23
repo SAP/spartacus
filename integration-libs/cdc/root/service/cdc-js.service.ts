@@ -272,7 +272,7 @@ export class CdcJsService implements OnDestroy {
    * @param email
    * @param password
    */
-   resetPasswordWithoutScreenSet(email: string) {
+  resetPasswordWithoutScreenSet(email: string) {
     if (email && email.length > 0) {
       (this.winRef.nativeWindow as { [key: string]: any })?.[
         'gigya'
@@ -300,7 +300,6 @@ export class CdcJsService implements OnDestroy {
       );
     }
   }
-
 
   /**
    * Updates user details using the existing User API
