@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as common from './common';
 import { isMember, isTopLevelApi } from './common';
 /**
@@ -25,7 +24,6 @@ breakingChangesData.forEach((apiElement: any) => {
   breakingChangeDoc.push(getBreakingChangeDoc(apiElement));
 });
 console.log(`Generated ${breakingChangeDoc.length} entries.`);
-fs.writeFileSync(`generate-doc.out.md`, breakingChangeDoc.join(''));
 common.writeTextDataOutput(
   OUTPUT_FILE_PATH,
   OUTPUT_FILE_TEMPLATE_PATH,

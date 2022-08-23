@@ -285,6 +285,7 @@ export function writeSchematicsDataOutput(
   const templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
   const outputDataString = stringifyObject(outputData);
   const outputFileContent = templateHeader + outputDataString + ';\n';
+  createFoldersForFilePath(outputFilePath);
   fs.writeFileSync(outputFilePath, outputFileContent);
 }
 
@@ -296,6 +297,7 @@ export function writeTextDataOutput(
   let templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
   templateHeader = addVersionNumber(templateHeader);
   const outputFileContent = templateHeader + outputData + '\n';
+  createFoldersForFilePath(outputFilePath);
   fs.writeFileSync(outputFilePath, outputFileContent);
 }
 
@@ -304,4 +306,11 @@ function addVersionNumber(template: string): string {
   let resolvedTemplate = template.replace(variable, NEW_MAJOR_VERSION);
 
   return resolvedTemplate;
+}
+
+function createFoldersForFilePath(filePath: string) {
+  const folderPath = filePath.substring(0, filePath.lastIndexOf('/'));
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+  }
 }
