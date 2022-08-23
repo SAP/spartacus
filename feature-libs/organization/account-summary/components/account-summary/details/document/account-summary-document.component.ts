@@ -28,7 +28,6 @@ export class AccountSummaryDocumentComponent implements OnInit {
     filterByKey: FilterByOptions.DOCUMENT_NUMBER,
     page: 0,
     pageSize: 10,
-    sort: 'byDocumentDateAsc',
   };
 
   documentTypeOptions: AccountSummaryDocumentType[];
