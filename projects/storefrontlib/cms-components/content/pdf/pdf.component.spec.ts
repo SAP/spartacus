@@ -101,7 +101,7 @@ describe('PdfComponent', () => {
 
       const textElement = fixture.nativeElement.querySelector('a > span');
       fixture.detectChanges();
-      expect(textElement.textContent).toContain('test alt text.pdf');
+      expect(textElement.textContent).toContain('test alt textflo.pdf');
     });
     it('should display defaultTitle with .pdf extension when title and altText are not defined', () => {
       data$.next({
