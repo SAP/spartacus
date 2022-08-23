@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -91,6 +97,14 @@ export class RulebasedConfiguratorConnector {
     return this.getAdapter(
       configuration.owner.configuratorType
     ).getConfigurationOverview(configuration.configId);
+  }
+
+  searchVariants(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Variant[]> {
+    return this.getAdapter(configuration.owner.configuratorType).searchVariants(
+      configuration.configId
+    );
   }
 
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
