@@ -1,7 +1,10 @@
 <h1>Entries</h1>
 <!-- <pre style="width: 70%">{{entries | json}}</pre> -->
+<!-- <div style="width: 75%;">
+  <pre>{{ entries | json }}</pre>
+</div> -->
 
 <cx-pickup-delivery-info
-  *ngFor="let entry of entries"
+  *ngFor="let entry of augmentedEntries"
   [augmentedOrderEntry]="entry"
 ></cx-pickup-delivery-info>

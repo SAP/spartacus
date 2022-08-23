@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import {
   AugmentedOrderEntry,
@@ -15,29 +15,25 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
-
 @Component({
   selector: 'cx-pickup-delivery-info-container',
   templateUrl: './pickup-delivery-info-container.component.html',
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
-  cart$: Observable<Cart>;
+  entries$: Observable<OrderEntry[]> = this.activeCartService.getEntries();
   storesDetailsData: Partial<PointOfService>[] = [];
   storesDetailsMap: Map<string, PointOfService | undefined>;
   entries: AugmentedOrderEntry[] | undefined = [];
+  augmentedEntries: AugmentedOrderEntry[] | undefined = [];
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
     protected readonly storeDetails: PickupLocationsSearchFacade
   ) {}
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
- 
-    this.cart$
+    this.entries$
       .pipe(
-        map((cart) => cart.entries),
-        filter((entries): entries is OrderEntry[] => !!entries),
-        tap((entries) => (this.entries = entries)),
+        tap((entries) => (this.augmentedEntries = entries)),
         map((entries) =>
           entries
             .map((entry) => entry.deliveryPointOfService?.name)
@@ -80,7 +76,7 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
         }),
         tap(
           () =>
-            (this.entries = this.entries?.map((entry) => ({
+            (this.augmentedEntries = this.augmentedEntries?.map((entry) => ({
               ...entry,
               deliveryPointOfServiceExtraDetails: this.storesDetailsMap.get(
                 entry.deliveryPointOfService?.name

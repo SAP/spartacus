@@ -15,22 +15,29 @@
     ></cx-store-schedule>
   </div>
   <div class="entry-info">
-    <div class="entry-info-header">Item</div>
-    <div class="entry-info-header">Item Price</div>
-    <div class="entry-info-header">QTY</div>
-    <div class="entry-info-header">Total</div>
-    <div class="product-info">
-      <div>
-        <img
-          [src]="augmentedOrderEntry.product.images.PRIMARY['product'].url"
-          alt="augmentedOrderEntry.product.images.PRIMARY['product'].altText"
-        />
+    <div class="entry-info-header entry-info-item">Item</div>
+    <div class="entry-info-header entry-info-price">Item Price</div>
+    <div class="entry-info-header entry-info-quantity">QTY</div>
+    <div class="entry-info-header entry-info-total">Total</div>
+    <div class="product-info entry-info-item">
+      <div class="product-info-image">
+        <a
+          [routerLink]="
+            { cxRoute: 'product', params: augmentedOrderEntry.product } | cxUrl
+          "
+          cxModal="dismiss"
+          tabindex="0"
+        >
+          <cx-media
+            [container]="augmentedOrderEntry.product?.images?.PRIMARY"
+            format="cartIcon"
+          ></cx-media>
+        </a>
       </div>
       <div>{{ augmentedOrderEntry.product.name }}</div>
     </div>
-
-    <div>{{ augmentedOrderEntry.basePrice.formattedValue }}</div>
-    <div>{{ augmentedOrderEntry.quantity }}</div>
-    <div>{{ augmentedOrderEntry.totalPrice.formattedValue }}</div>
+    <div class="entry-info-price">{{ augmentedOrderEntry.basePrice.formattedValue }}</div>
+    <div class="entry-info-quantity">{{ augmentedOrderEntry.quantity }}</div>
+    <div class="entry-info-total">{{ augmentedOrderEntry.totalPrice.formattedValue }}</div>
   </div>
 </div>

@@ -20,21 +20,37 @@
       }
     }
   }
-  .entry-info{
+  .entry-info {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    .entry-info-header{
-      width: 25%;
+    .entry-info-item {
+      width: 55%;
+      border: solid thick blue;
     }
-    .product-info{
-      width: 25%;
+    .entry-info-price {
+      border: solid thick green;
+      width: 15%;
+    }
+    .entry-info-quantity {
+      border: solid thick gray;
+      width: 15%;
+    }
+    .entry-info-total {
+      width: 15%;
+      border: solid thick black;
+    }
+    .entry-info-header {
+    }
+    .product-info {
       display: flex;
       flex-wrap: wrap;
+      .product-info-image {
+        width: 80px;
+      }
 
-       >div {
-        width: 100%;
+      > div {
         border: solid thin red;
       }
     }
