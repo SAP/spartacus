@@ -433,6 +433,13 @@ function verify_ssr {
 }
 
 function run_e2e {
+    $(command -v xvfb-run)
+    if [ $? -ne 0 ]; then
+        echo "⏩️ E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
