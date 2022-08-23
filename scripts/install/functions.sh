@@ -435,7 +435,7 @@ function verify_ssr {
 function run_e2e {
     $(command -v xvfb-run)
     if [ $? -ne 0 ]; then
-        echo "⏩️ E2E skipped (xvfb is missing)."
+        echo "⏭️ E2E skipped (xvfb is missing)."
         return 0
     fi
 
