@@ -387,12 +387,10 @@ function cmd_help {
 }
 
 function run_installation_verification {
-    printh "Verify Spartacus Installation"
-
     stop_apps &> /dev/null || true
     start_apps
 
-    printh "Verify Spartacus Installation Results"
+    printh "Verify spartacus installation"
     verify_csr
     verify_ssr
     run_e2e
@@ -430,8 +428,10 @@ function run_e2e {
     echo "Preparing E2E ..."
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
     echo "Running E2E Checkout ..."
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
+
+    echo OUTPUT
 
     if [ $EXIT_CODE -eq 0 ]; then
         echo "✅ E2E is succeed."
