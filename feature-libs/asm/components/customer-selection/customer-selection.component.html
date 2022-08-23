@@ -1,5 +1,8 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
+    <span class="cx-visually-hidden">{{
+      'asm.customerSearch.searchTerm.label' | cxTranslate
+    }}</span>
     <input
       required="true"
       #searchTerm
