@@ -1,5 +1,5 @@
 import { NgModule, Type } from '@angular/core';
-import { CDCUserAccountModule } from '@spartacus/cdc/components/login';
+import { CDCUserAccountModule } from '@spartacus/cdc/user-account';
 import { UserAccountModule } from '@spartacus/user/account';
 
 import { environment } from '../../../../environments/environment';

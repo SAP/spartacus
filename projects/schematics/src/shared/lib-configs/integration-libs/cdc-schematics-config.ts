@@ -1,8 +1,8 @@
 import {
   CDC_FEATURE_NAME,
   SPARTACUS_CDC,
-  SPARTACUS_CDC_LOGIN,
-  SPARTACUS_CDC_REGISTER,
+  SPARTACUS_CDC_USER_ACCOUNT,
+  SPARTACUS_CDC_USER_PROFILE,
   SPARTACUS_CDC_ROOT,
   USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
@@ -45,11 +45,11 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     },
     {
       name: CDC_USER_ACCOUNT_MODULE,
-      importPath: SPARTACUS_CDC_LOGIN,
+      importPath: SPARTACUS_CDC_USER_ACCOUNT,
     },
     {
       name: CDC_USER_PROFILE_MODULE,
-      importPath: SPARTACUS_CDC_REGISTER,
+      importPath: SPARTACUS_CDC_USER_PROFILE,
     },
   ],
   lazyLoadingChunk: {

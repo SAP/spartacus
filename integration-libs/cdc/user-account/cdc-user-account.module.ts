@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CDCLoginFormModule } from './facade/cdc-login-form.module';
+import { CDCLoginFormModule } from './login-form/cdc-login-form.module';
 
 @NgModule({
   imports: [CDCLoginFormModule],

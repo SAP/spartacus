@@ -65,13 +65,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected registerComponentService: RegisterComponentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    protected registerComponentService: RegisterComponentService
   ) {}
 
   ngOnInit() {

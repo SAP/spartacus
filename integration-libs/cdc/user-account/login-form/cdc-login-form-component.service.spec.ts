@@ -48,7 +48,6 @@ class MockLoginFormComponentService
 
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginFormComponentService;
-  // let loginFormService: LoginFormComponentService;
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
