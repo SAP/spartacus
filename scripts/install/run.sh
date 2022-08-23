@@ -60,6 +60,8 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             stop_apps;;
         'verify' )
             run_installation_verification;;
+        'sanity' )
+            run_sanity_check;;
         'help' )
             cmd_help;;
         * )

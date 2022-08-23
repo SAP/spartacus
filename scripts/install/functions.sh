@@ -228,6 +228,8 @@ function restore_clone {
 }
 
 function install_from_sources {
+    run_sanity_check
+
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
@@ -303,6 +305,8 @@ function install_from_sources {
 }
 
 function install_from_npm {
+    run_sanity_check
+
     printh "Installing Spartacus from npm libraries"
 
     prepare_install
@@ -480,4 +484,53 @@ function print_warnings {
     do
         echo "❗️ $warning"
     done
+}
+
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
+function run_sanity_check {
+    ng_sanity_check
+}
+
+function ng_sanity_check {
+    printh "Run config sanity check"
+    if [ "$BRANCH" == "release/4.0.x" ]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI 13.0.0 or higher."
+            echo "   Try to use AngularCLI higher than 12.0.0 and lower than 13.0.0."
+            echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
+                    ANGULAR_CLI_VERSION='^12.0.5';;
+                a ) echo "abort.";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
+
+    if [ "$BRANCH" == "release/5.0.x" ]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -lt $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI lower than 13.0.0. "
+            echo "   Try to use AngularCLI 13.0.0 or higher."
+            echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
+                    ANGULAR_CLI_VERSION='^13.3.0';;
+                a ) echo "abort.";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
 }
