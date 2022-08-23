@@ -55,7 +55,7 @@ context('Assisted Service Module', () => {
     it('agent should be able to bind anonymous cart to customer', () => {
       const customer = getSampleUser();
 
-      let assignedCartId: string;
+      let anonymousCartCode: string;
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
 
@@ -69,8 +69,9 @@ context('Assisted Service Module', () => {
       cy.get('cx-cart-details')
         .get('h2.cx-total')
         .then(($cartId) => {
+          // localStorage contains anonymous cart uid, read code from UI
           const text = $cartId.text();
-          assignedCartId = text.replace('Cart #', '').trim();
+          anonymousCartCode = text.replace('Cart #', '').trim();
 
           cy.log('--> Agent logging in');
           checkout.visitHomePage('asm=true');
@@ -84,20 +85,20 @@ context('Assisted Service Module', () => {
           cy.log('--> Enter users cart number');
           cy.get(
             'cx-customer-emulation input[formcontrolname="cartNumber"]'
-          ).type(assignedCartId);
+          ).type(anonymousCartCode);
         });
 
       cy.log('--> Agent binding cart');
       asm.bindCart();
 
-      cy.log('--> Retrieve cart id');
+      cy.log('--> Retrieve customer cart code');
       cart.goToCart();
-
-      cy.get('cx-cart-details')
-        .get('h2.cx-total')
-        .then(($cartId) => {
-          expect($cartId.text()).to.contain(`Cart #${assignedCartId}`);
-        });
+      cy.get('cx-cart-details').then(() => {
+        const customerCartCode = JSON.parse(
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+        ).active;
+        expect(customerCartCode).to.equal(anonymousCartCode);
+      });
 
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
