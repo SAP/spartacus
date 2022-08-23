@@ -392,6 +392,7 @@ function run_installation_verification {
 
     printh "Verify spartacus installation"
 
+    sleep 5
 
     echo "Verifying CSR ..."
     local CSR_RESULT=$(verify_csr)
