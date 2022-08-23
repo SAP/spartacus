@@ -40,7 +40,7 @@ export class CustomerTicketingDetailsComponent {
   }
 
   getStatusClass(id?: string): string {
-    return id === STATUS.OPEN
+    return id === STATUS.OPEN || id === STATUS.INPROCESS
       ? CUSTOM_CLASS.OPEN
       : id === STATUS.CLOSE
       ? CUSTOM_CLASS.CLOSE

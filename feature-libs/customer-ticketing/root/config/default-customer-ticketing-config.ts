@@ -15,6 +15,6 @@ export const defaultCustomerTicketingConfig: CustomerTicketingConfig = {
         '.pdf',
       ],
     },
-    inputCharactersLimit: 2000,
+    inputCharactersLimit: 5000,
   },
 };

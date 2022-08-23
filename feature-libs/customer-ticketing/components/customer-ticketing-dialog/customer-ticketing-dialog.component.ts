@@ -1,7 +1,16 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAX_INPUT_CHARACTERS } from '@spartacus/customer-ticketing/core';
-import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/root';
+import {
+  CustomerTicketingConfig,
+  CustomerTicketingDialogType,
+} from '@spartacus/customer-ticketing/root';
 import {
   FilesFormValidators,
   FocusConfig,
@@ -9,15 +18,23 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
+
+export interface CustomerTicketingDialogOptions {
+  layoutOption: string;
+}
 
 @Component({
-  selector: 'cx-customer-ticketing-reopen-dialog',
-  templateUrl: './customer-ticketing-reopen-dialog.component.html',
+  selector: 'cx-customer-ticketing-dialog',
+  templateUrl: './customer-ticketing-dialog.component.html',
 })
-export class CustomerTicketingReopenDialogComponent implements OnInit {
+export class CustomerTicketingDialogComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   iconTypes = ICON_TYPE;
+  customerTicketingDialogType = CustomerTicketingDialogType;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
+  layOutOption: string;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -70,16 +87,26 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe(
+        (data: CustomerTicketingDialogOptions) => {
+          this.layOutOption = data.layoutOption;
+        }
+      )
+    );
   }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
-  reopenRequest(): void {
+  submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
+    } else {
+      // TODO: close or reopen request api call
     }
   }
 
@@ -100,5 +127,9 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
       ])
     );
     this.form = form;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

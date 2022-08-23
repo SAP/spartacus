@@ -2,20 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 
-import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
+import { CustomerTicketingDialogComponent } from './customer-ticketing-dialog.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
 describe('CustomerTicketingReopenDialogComponent', () => {
-  let component: CustomerTicketingReopenDialogComponent;
-  let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
+  let component: CustomerTicketingDialogComponent;
+  let fixture: ComponentFixture<CustomerTicketingDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CustomerTicketingReopenDialogComponent],
+      declarations: [CustomerTicketingDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
@@ -23,7 +23,7 @@ describe('CustomerTicketingReopenDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerTicketingReopenDialogComponent);
+    fixture = TestBed.createComponent(CustomerTicketingDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

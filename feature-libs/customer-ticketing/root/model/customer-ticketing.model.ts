@@ -5,7 +5,13 @@ export const enum CUSTOM_CLASS {
 
 export const enum STATUS {
   OPEN = 'OPEN',
-  CLOSE = 'CLOSE',
+  CLOSE = 'CLOSED',
+  INPROCESS = 'INPROCESS',
+}
+
+export enum CustomerTicketingDialogType {
+  REOPEN = 'reopen',
+  CLOSE = 'close',
 }
 
 export interface TicketDetails {
