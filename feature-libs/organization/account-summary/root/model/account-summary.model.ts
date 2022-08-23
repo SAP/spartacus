@@ -26,12 +26,12 @@ interface AmountBalance {
 
 interface DueBalanceRange {
   amount?: string;
-  numberOfDayRange?: NumberOfDayRange;
+  dayRange?: NumberOfDayRange;
 }
 
 interface NumberOfDayRange {
-  minBoundery?: number;
-  maxBoundery?: number;
+  minBoundary?: number;
+  maxBoundary?: number;
 }
 
 export enum DocumentStatus {
@@ -47,11 +47,11 @@ export enum DocumentFields {
 }
 
 export enum FilterByOptions {
-  DOCUMENT_NUMBER = 'documentNumber',
-  DOCUMENT_NUMBER_RANGE = 'documentNumberRange',
-  DOCUMENT_TYPE = 'documentType',
-  DATE_RANGE = 'dateRange',
-  DUE_DATE_RANGE = 'dueDateRange',
+  DOCUMENT_NUMBER = 'orgDocumentId',
+  DOCUMENT_NUMBER_RANGE = 'orgDocumentIdRange',
+  DOCUMENT_TYPE = 'orgDocumentType',
+  DATE_RANGE = 'createdAtDateRange',
+  DUE_DATE_RANGE = 'dueAtDateRange',
   AMOUNT_RANGE = 'amountRange',
   OPEN_AMOUNT_RANGE = 'openAmountRange',
 }
@@ -67,7 +67,7 @@ export interface AccountSummaryDetails {
 
 export interface AccountSummaryDocument {
   amount?: number;
-  createdAtDate?: Date;
+  createdAtDate?: string;
   currency?: Currency;
   documentMedia?: MediaData;
   dueAtDate?: string;

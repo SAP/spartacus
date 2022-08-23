@@ -95,13 +95,13 @@
           >
             <div
               class="cx-past-due-range-date"
-              *ngIf="rangeBalance.numberOfDayRange as numberOfDayRange"
+              *ngIf="rangeBalance.dayRange as dayRange"
             >
-              <span>{{ numberOfDayRange?.minBoundery }}</span>
+              <span>{{ dayRange?.minBoundary }}</span>
               <span>
                 {{
-                  numberOfDayRange?.maxBoundery
-                    ? '- ' + numberOfDayRange?.maxBoundery
+                  dayRange?.maxBoundary
+                    ? '- ' + dayRange?.maxBoundary
                     : '+'
                 }}
               </span>
