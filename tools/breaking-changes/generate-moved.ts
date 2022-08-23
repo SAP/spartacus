@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import stringifyObject from 'stringify-object';
 import * as common from './common';
 
 /**
@@ -16,6 +14,9 @@ import * as common from './common';
  * -----------
  */
 
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/rename-symbol/data/rename-symbols.migration.ts`;
+const OUTPUT_FILE_TEMPLATE_PATH = `generate-moved.out.template`;
+
 const breakingChangesData = common.readBreakingChangeFile();
 const movedApiSchematics = [];
 breakingChangesData
@@ -28,7 +29,11 @@ breakingChangesData
     movedApiSchematics.push(getSchematicsData(apiElement));
   });
 console.log(`Generated ${movedApiSchematics.length} entries.`);
-fs.writeFileSync(`generate-moved.out.ts`, stringifyObject(movedApiSchematics));
+common.writeSchematicsDataOutput(
+  OUTPUT_FILE_PATH,
+  OUTPUT_FILE_TEMPLATE_PATH,
+  movedApiSchematics
+);
 
 /**
  * -----------

@@ -281,9 +281,27 @@ export function writeSchematicsDataOutput(
   outputFilePath: string,
   templateFilePath: string,
   outputData: any
-) {
+): void {
   const templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
   const outputDataString = stringifyObject(outputData);
   const outputFileContent = templateHeader + outputDataString + ';\n';
   fs.writeFileSync(outputFilePath, outputFileContent);
+}
+
+export function writeTextDataOutput(
+  outputFilePath: string,
+  templateFilePath: string,
+  outputData: string
+): void {
+  let templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
+  templateHeader = addVersionNumber(templateHeader);
+  const outputFileContent = templateHeader + outputData + '\n';
+  fs.writeFileSync(outputFilePath, outputFileContent);
+}
+
+function addVersionNumber(template: string): string {
+  const variable = new RegExp('\\${major_version}', 'g');
+  let resolvedTemplate = template.replace(variable, NEW_MAJOR_VERSION);
+
+  return resolvedTemplate;
 }

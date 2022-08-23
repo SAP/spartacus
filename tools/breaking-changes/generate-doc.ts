@@ -14,7 +14,8 @@ import { isMember, isTopLevelApi } from './common';
  * Main logic
  * -----------
  */
-
+const OUTPUT_FILE_TEMPLATE_PATH = `generate-doc.out.template`;
+const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/gened-doc.md`
 const MD_CODEBLOCK = '\n```\n';
 
 const breakingChangesData = common.readBreakingChangeFile();
@@ -25,6 +26,11 @@ breakingChangesData.forEach((apiElement: any) => {
 });
 console.log(`Generated ${breakingChangeDoc.length} entries.`);
 fs.writeFileSync(`generate-doc.out.md`, breakingChangeDoc.join(''));
+common.writeTextDataOutput(
+  OUTPUT_FILE_PATH,
+  OUTPUT_FILE_TEMPLATE_PATH,
+  breakingChangeDoc.join('')
+);
 
 /**
  * -----------
