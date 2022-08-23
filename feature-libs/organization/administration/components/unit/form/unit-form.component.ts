@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { B2BApprovalProcess, B2BUnit, isNotUndefined } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -39,7 +39,7 @@ export class UnitFormComponent implements OnInit {
 
   @Input() createChildUnit = false;
 
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.itemService.unit$.pipe(
     tap((unit) => {

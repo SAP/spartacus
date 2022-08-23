@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -64,7 +64,7 @@ describe('FormComponent', () => {
   });
 
   it('should save an updated item and notify', () => {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     spyOn(organizationItemService, 'save').and.callThrough();
     spyOn(messageService, 'add').and.callThrough();
     spyOn(organizationItemService, 'launchDetails').and.callThrough();
@@ -85,7 +85,7 @@ describe('FormComponent', () => {
   });
 
   it('should save an created item and notify', () => {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     spyOn(organizationItemService, 'save').and.callThrough();
     spyOn(messageService, 'add').and.callThrough();
     spyOn(organizationItemService, 'launchDetails').and.callThrough();
@@ -115,7 +115,7 @@ describe('FormComponent', () => {
     });
 
     it('should not launch details for not created item', () => {
-      const form = new FormGroup({});
+      const form = new UntypedFormGroup({});
       key$.next(undefined);
       component.save(form);
 
@@ -141,7 +141,7 @@ describe('FormComponent', () => {
     });
 
     it('should not launch details for not updated item', () => {
-      const form = new FormGroup({});
+      const form = new UntypedFormGroup({});
       key$.next('key');
       component.save(form);
 

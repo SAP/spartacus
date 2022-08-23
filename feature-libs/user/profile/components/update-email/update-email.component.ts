@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
@@ -12,7 +12,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {}
 
-  form: FormGroup = this.service.form;
+  form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {

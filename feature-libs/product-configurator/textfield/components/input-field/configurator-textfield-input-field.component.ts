@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
@@ -16,7 +16,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 })
 export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';
-  attributeInputForm = new FormControl('');
+  attributeInputForm = new UntypedFormControl('');
 
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
   @Output()

@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ViewContainerRef,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 export class CheckoutPlaceOrderComponent implements OnDestroy {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
 
-  checkoutSubmitForm: FormGroup = this.fb.group({
+  checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
@@ -30,7 +30,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
   constructor(
     protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}

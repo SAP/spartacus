@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
@@ -47,7 +47,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @return {Configurator.Value[]} - list of configurator values
    */
   assembleValuesForMultiSelectAttributes(
-    controlArray: FormControl[],
+    controlArray: UntypedFormControl[],
     attribute: Configurator.Attribute
   ): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];

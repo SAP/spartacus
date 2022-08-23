@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -24,14 +24,14 @@ export class UpdatePasswordComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      oldPassword: new FormControl('', Validators.required),
-      newPassword: new FormControl('', [
+      oldPassword: new UntypedFormControl('', Validators.required),
+      newPassword: new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ]),
-      newPasswordConfirm: new FormControl('', Validators.required),
+      newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { UserItemService } from '../../../../user/services/user-item.service';
 })
 export class UnitUserItemService extends UserItemService {
   save(
-    form: FormGroup,
+    form: UntypedFormGroup,
     key?: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     // we enable the orgUnit temporarily so that the underlying

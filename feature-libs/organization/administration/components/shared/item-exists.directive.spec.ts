@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { ItemExistsDirective } from './item-exists.directive';
@@ -16,7 +16,7 @@ const mockCode = 'mc1';
   template: `<div [cxOrgItemExists]>TEST</div>`,
 })
 class TestComponent {
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 }
 
 class MockMessageService {

@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -38,7 +38,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   constructor(
     protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,

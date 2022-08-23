@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cx-amend-order-actions',
@@ -14,7 +14,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;
-  @Input() amendOrderForm: FormGroup;
+  @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 

@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -170,9 +170,9 @@ describe('ConfigUtilsService', () => {
   });
 
   it('should assemble values from a checkbox list into an attribute value', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
+    const controlArray = new Array<UntypedFormControl>();
+    const control1 = new UntypedFormControl(true);
+    const control2 = new UntypedFormControl(false);
     controlArray.push(control1, control2);
     const attribute: Configurator.Attribute = {
       name: 'attr',
@@ -194,9 +194,9 @@ describe('ConfigUtilsService', () => {
   });
 
   it('should gracefully handle situation that control array has values not present in attribute', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
+    const controlArray = new Array<UntypedFormControl>();
+    const control1 = new UntypedFormControl(true);
+    const control2 = new UntypedFormControl(false);
     controlArray.push(control1, control2);
     const attribute: Configurator.Attribute = {
       name: 'attr',

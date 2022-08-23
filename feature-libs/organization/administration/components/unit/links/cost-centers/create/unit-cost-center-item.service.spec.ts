@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   Budget,
@@ -67,12 +67,12 @@ describe('UnitCostCenterItemService', () => {
 
   it('should create cost center with unit.uid', () => {
     spyOn(costCenterService, 'create').and.callThrough();
-    const form = new FormGroup({});
-    form.setControl('name', new FormControl('cc name'));
+    const form = new UntypedFormGroup({});
+    form.setControl('name', new UntypedFormControl('cc name'));
     form.setControl(
       'unit',
-      new FormGroup({
-        uid: new FormControl('unit-uid'),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl('unit-uid'),
       })
     );
     form.get('unit').disable();

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  FormControl,
+  UntypedFormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -21,7 +21,7 @@ import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-in
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -90,7 +90,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   });
 
   it('should expose quantityControl$', (done) => {
-    const quantityControl = new FormControl();
+    const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
       done();
@@ -209,7 +209,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     describe('shouldShowButton', () => {
       beforeEach(() => {
-        const quantityControl = new FormControl();
+        const quantityControl = new UntypedFormControl();
 
         mockCartItemContext.quantityControl$.next(quantityControl);
         mockCartItemContext.item$.next({

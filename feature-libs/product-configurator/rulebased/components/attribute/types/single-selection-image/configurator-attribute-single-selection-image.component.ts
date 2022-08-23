@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -21,7 +21,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  attributeRadioButtonForm = new FormControl('');
+  attributeRadioButtonForm = new UntypedFormControl('');
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;

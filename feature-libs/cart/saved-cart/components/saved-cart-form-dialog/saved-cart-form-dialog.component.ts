@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   Cart,
   DeleteCartEvent as DeleteSavedCartEvent,
@@ -45,7 +45,7 @@ export interface SavedCartFormDialogOptions {
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
-  form: FormGroup;
+  form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   cart: Cart;
   layoutOption: string | undefined;
@@ -261,20 +261,20 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   protected build(cart?: Cart) {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'name',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
       ])
     );
     form.setControl(
       'description',
-      new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+      new UntypedFormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
-    form.setControl('isCloneSavedCart', new FormControl(''));
-    form.setControl('cloneName', new FormControl(''));
+    form.setControl('isCloneSavedCart', new UntypedFormControl(''));
+    form.setControl('cloneName', new UntypedFormControl(''));
     this.form = form;
     this.patchData(cart);
   }

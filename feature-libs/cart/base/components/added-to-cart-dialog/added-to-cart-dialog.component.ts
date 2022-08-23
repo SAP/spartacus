@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -37,9 +37,9 @@ export class AddedToCartDialogComponent {
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
 
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
-  protected quantityControl$: Observable<FormControl>;
+  protected quantityControl$: Observable<UntypedFormControl>;
 
   constructor(
     protected modalService: ModalService,
@@ -50,7 +50,7 @@ export class AddedToCartDialogComponent {
    * but also updates the entry in case of a changed value.
    * The quantity can be set to zero in order to remove the entry.
    */
-  getQuantityControl(): Observable<FormControl> {
+  getQuantityControl(): Observable<UntypedFormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
@@ -74,7 +74,7 @@ export class AddedToCartDialogComponent {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity')),
+        map(() => <UntypedFormControl>this.form.get('quantity')),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -109,19 +109,19 @@ export class AddedToCartDialogComponent {
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry?: OrderEntry): FormControl {
+  protected getQuantityFormControl(entry?: OrderEntry): UntypedFormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
+      const quantity = new UntypedFormControl(entry?.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new FormControl(entry?.entryNumber);
+      const entryNumber = new UntypedFormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     } else {
       // set the real quantity added to cart
       this.form.get('quantity')?.setValue(entry?.quantity);
     }
 
-    return <FormControl>this.form.get('quantity');
+    return <UntypedFormControl>this.form.get('quantity');
   }
 
   dismissModal(reason?: any): void {

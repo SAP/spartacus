@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
@@ -20,7 +20,7 @@ import { UnitAddressFormService } from './unit-address-form.service';
   ],
 })
 export class UnitAddressFormComponent implements OnInit {
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   key$ = this.itemService.key$;
   countries$: Observable<Country[]> = this.formService.getCountries();

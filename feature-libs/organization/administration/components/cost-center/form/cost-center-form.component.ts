@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -30,7 +30,7 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   ],
 })
 export class CostCenterFormComponent {
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
    *

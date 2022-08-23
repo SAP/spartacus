@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
@@ -34,7 +34,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CheckoutPlaceOrderComponent', () => {
   let component: CheckoutPlaceOrderComponent;
   let fixture: ComponentFixture<CheckoutPlaceOrderComponent>;
-  let controls: FormGroup['controls'];
+  let controls: UntypedFormGroup['controls'];
   let orderFacade: OrderFacade;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;

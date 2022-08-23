@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ProductData } from '@spartacus/cart/base/root';
@@ -86,11 +86,11 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     }
   }
 
-  protected buildForm(): FormGroup {
-    const form = new FormGroup({});
+  protected buildForm(): UntypedFormGroup {
+    const form = new UntypedFormGroup({});
     form.setControl(
       'file',
-      new FormControl(
+      new UntypedFormControl(
         '',
         [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [
@@ -108,14 +108,14 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     );
     form.setControl(
       'name',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
       ])
     );
     form.setControl(
       'description',
-      new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+      new UntypedFormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
     return form;
   }
