@@ -79,7 +79,7 @@ function update_projects_versions {
         do
             local OUTPUT=$(cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json)
             local EXIT_CODE=$?
-            if [$EXIT_CODE -ne 0] ; then
+            if [ $EXIT_CODE -ne 0 ]; then
                 WARNINGS+=("Could not update library version of ${CLONE_DIR}/${i}. Details: $OUTPUT")
             fi
         done
@@ -456,7 +456,7 @@ function run_e2e {
     local EXIT_CODE=$?
 
     echo "$OUTPUT"
-    echo "\n"
+    echo ""
 
     if [ $EXIT_CODE -eq 0 ]; then
         echo "✅ E2E successful."
