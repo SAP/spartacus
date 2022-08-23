@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import stringifyObject from 'stringify-object';
 
 // shared configs
 
@@ -276,19 +277,13 @@ export function getAllTopLevelBreakingChanges(apiElement: any): any[] {
   );
 }
 
-function resolveTemplate(template: string, content: string) {
-  const variable = new RegExp('\\${content}', 'g');
-  let resolvedTemplate = template.replace(variable, content);
-
-  return resolvedTemplate;
-}
-
 export function writeSchematicsDataOutput(
   outputFilePath: string,
   templateFilePath: string,
-  outputData: string
+  outputData: any
 ) {
-  const templateData = fs.readFileSync(templateFilePath, 'utf-8');
-  const outputFileContent = resolveTemplate(templateData, outputData);
+  const templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
+  const outputDataString = stringifyObject(outputData);
+  const outputFileContent = templateHeader + outputDataString + ';\n';
   fs.writeFileSync(outputFilePath, outputFileContent);
 }

@@ -1,5 +1,4 @@
 import deepEqual from 'deep-equal';
-import stringifyObject from 'stringify-object';
 import * as common from './common';
 
 /**
@@ -66,7 +65,7 @@ console.log(
 common.writeSchematicsDataOutput(
   OUTPUT_FILE_PATH,
   OUTPUT_FILE_TEMPLATE_PATH,
-  stringifyObject(constructorSchematics)
+  constructorSchematics
 );
 /**
  * -----------

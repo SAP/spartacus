@@ -3,5 +3,4 @@
 //
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
-  ${content};
+export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = 

@@ -16,9 +16,11 @@ import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
  * Main logic
  * -----------
  */
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/methods-and-properties-deprecations/data/generated-methods-and-properties.migration.ts`;
+const OUTPUT_FILE_TEMPLATE_PATH = `generate-methods-props.out.template`;
 
 const breakingChangesData = common.readBreakingChangeFile();
-const updatedMemberSchematics = [];
+let updatedMemberSchematics = [];
 
 const updatedMembers = getUpdatedMembers(breakingChangesData);
 console.log(`Found ${updatedMembers.length} updated members.`);
@@ -29,9 +31,10 @@ updatedMembers.forEach((breakingChange: any) => {
 });
 
 console.log(`Generated ${updatedMemberSchematics.length} entries.`);
-fs.writeFileSync(
-  `generate-methods-props.out.ts`,
-  stringifyObject(updatedMemberSchematics)
+common.writeSchematicsDataOutput(
+  OUTPUT_FILE_PATH,
+  OUTPUT_FILE_TEMPLATE_PATH,
+  updatedMemberSchematics
 );
 
 /**
