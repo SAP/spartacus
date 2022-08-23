@@ -15,7 +15,7 @@ import { isMember, isTopLevelApi } from './common';
  * -----------
  */
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-doc.out.template`;
-const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/gened-doc.md`
+const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/generated-typescript-changes-doc.md`;
 const MD_CODEBLOCK = '\n```\n';
 
 const breakingChangesData = common.readBreakingChangeFile();
