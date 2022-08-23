@@ -5,8 +5,17 @@
 >
   <form [formGroup]="form" class="cx-customer-ticket-form-container">
     <div class="modal-header cx-customer-ticket-form-header">
-      <div class="cx-customer-ticket-form-title modal-title">
+      <div
+        *ngIf="layOutOption === customerTicketingDialogType.REOPEN"
+        class="cx-customer-ticket-form-title modal-title"
+      >
         {{ 'customerTicketing.reopenRequest' | cxTranslate }}
+      </div>
+      <div
+        *ngIf="layOutOption === customerTicketingDialogType.CLOSE"
+        class="cx-customer-ticket-form-title modal-title"
+      >
+        {{ 'customerTicketing.closeRequest' | cxTranslate }}
       </div>
       <button
         (click)="close('Close Reopen Request Dialog')"
@@ -44,7 +53,7 @@
         </label>
       </div>
 
-      <div>
+      <div *ngIf="layOutOption === customerTicketingDialogType.REOPEN">
         <cx-file-upload
           [formControl]="form.get('file')"
           [accept]="allowedTypes"
@@ -75,13 +84,13 @@
 
       <div class="cx-customer-ticket-form-footer">
         <button
-          (click)="close('Close Reopen Request Dialog')"
+          (click)="close('Close Customer Ticketing Dialog')"
           class="btn btn-action"
           type="button"
         >
           {{ 'customerTicketing.cancel' | cxTranslate }}
         </button>
-        <button (click)="reopenRequest()" class="btn btn-primary" type="button">
+        <button (click)="submit()" class="btn btn-primary" type="button">
           {{ 'customerTicketing.submit' | cxTranslate }}
         </button>
       </div>

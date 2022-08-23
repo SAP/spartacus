@@ -8,26 +8,9 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
-import {
-  FileUploadModule,
-  FormErrorsModule,
-  IconModule,
-  KeyboardFocusModule,
-} from '@spartacus/storefront';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    IconModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FileUploadModule,
-  ],
+  imports: [CommonModule, I18nModule, UrlModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -38,10 +21,7 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
       },
     }),
   ],
-  declarations: [
-    CustomerTicketingReopenComponent,
-    CustomerTicketingReopenDialogComponent,
-  ],
+  declarations: [CustomerTicketingReopenComponent],
   exports: [CustomerTicketingReopenComponent],
 })
 export class CustomerTicketingReopenModule {}
