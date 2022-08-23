@@ -1,5 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Permission } from '@spartacus/organization/administration/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
@@ -95,7 +99,10 @@ export class PermissionFormService
         );
       }
       if (!form.get('threshold')) {
-        form.setControl('threshold', new UntypedFormControl('', Validators.required));
+        form.setControl(
+          'threshold',
+          new UntypedFormControl('', Validators.required)
+        );
       }
     }
 

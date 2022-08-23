@@ -4,7 +4,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
 import {
   B2BUnitNode,

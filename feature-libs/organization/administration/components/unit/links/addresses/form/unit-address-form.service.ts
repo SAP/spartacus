@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   Address,
   Country,
@@ -27,8 +31,14 @@ export class UnitAddressFormService extends FormService<Address> {
     const form = new UntypedFormGroup({});
     form.setControl('id', new UntypedFormControl(''));
     form.setControl('titleCode', new UntypedFormControl(''));
-    form.setControl('firstName', new UntypedFormControl('', Validators.required));
-    form.setControl('lastName', new UntypedFormControl('', Validators.required));
+    form.setControl(
+      'firstName',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl(
+      'lastName',
+      new UntypedFormControl('', Validators.required)
+    );
     form.setControl('line1', new UntypedFormControl('', Validators.required));
     form.setControl('line2', new UntypedFormControl(''));
     form.setControl('town', new UntypedFormControl('', Validators.required));
@@ -44,7 +54,10 @@ export class UnitAddressFormService extends FormService<Address> {
         isocode: new UntypedFormControl(null, Validators.required),
       })
     );
-    form.setControl('postalCode', new UntypedFormControl('', Validators.required));
+    form.setControl(
+      'postalCode',
+      new UntypedFormControl('', Validators.required)
+    );
     form.setControl('phone', new UntypedFormControl(''));
 
     this.form = form;

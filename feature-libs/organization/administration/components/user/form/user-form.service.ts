@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -12,8 +17,14 @@ export class UserFormService extends FormService<B2BUser> {
     const form = new UntypedFormGroup({});
     form.setControl('customerId', new UntypedFormControl(''));
     form.setControl('titleCode', new UntypedFormControl(''));
-    form.setControl('firstName', new UntypedFormControl('', Validators.required));
-    form.setControl('lastName', new UntypedFormControl('', Validators.required));
+    form.setControl(
+      'firstName',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl(
+      'lastName',
+      new UntypedFormControl('', Validators.required)
+    );
     form.setControl(
       'email',
       new UntypedFormControl('', [

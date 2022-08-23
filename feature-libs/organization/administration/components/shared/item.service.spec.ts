@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   LoadStatus,

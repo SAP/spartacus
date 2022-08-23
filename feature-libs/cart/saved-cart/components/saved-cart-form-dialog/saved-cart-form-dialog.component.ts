@@ -6,7 +6,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   Cart,
   DeleteCartEvent as DeleteSavedCartEvent,
@@ -271,7 +275,9 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     );
     form.setControl(
       'description',
-      new UntypedFormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+      new UntypedFormControl('', [
+        Validators.maxLength(this.descriptionMaxLength),
+      ])
     );
     form.setControl('isCloneSavedCart', new UntypedFormControl(''));
     form.setControl('cloneName', new UntypedFormControl(''));

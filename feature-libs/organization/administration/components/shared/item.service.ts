@@ -38,7 +38,10 @@ export abstract class ItemService<T> {
     switchMap((key) => this.currentItemService.getError(key))
   );
 
-  save(form: UntypedFormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
+  save(
+    form: UntypedFormGroup,
+    key?: string
+  ): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);

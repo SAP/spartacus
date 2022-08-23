@@ -101,7 +101,10 @@ export abstract class OrderAmendService {
     });
   }
 
-  protected getFormControl(form: UntypedFormGroup, entry: OrderEntry): UntypedFormControl {
+  protected getFormControl(
+    form: UntypedFormGroup,
+    entry: OrderEntry
+  ): UntypedFormControl {
     return <UntypedFormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );

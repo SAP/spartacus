@@ -115,7 +115,9 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     );
     form.setControl(
       'description',
-      new UntypedFormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+      new UntypedFormControl('', [
+        Validators.maxLength(this.descriptionMaxLength),
+      ])
     );
     return form;
   }

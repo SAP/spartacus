@@ -1,5 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';

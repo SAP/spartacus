@@ -73,9 +73,9 @@ describe('OrderAmendService', () => {
       .subscribe((f) => (form = f))
       .unsubscribe();
 
-    expect(Object.keys(<UntypedFormGroup>form.get('entries').controls).length).toEqual(
-      2
-    );
+    expect(
+      Object.keys(<UntypedFormGroup>form.get('entries').controls).length
+    ).toEqual(2);
   });
 
   it('should return cancellable', () => {

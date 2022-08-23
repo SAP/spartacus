@@ -6,7 +6,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import {

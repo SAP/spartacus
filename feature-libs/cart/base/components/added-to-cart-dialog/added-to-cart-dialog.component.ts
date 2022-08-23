@@ -111,7 +111,9 @@ export class AddedToCartDialogComponent {
    */
   protected getQuantityFormControl(entry?: OrderEntry): UntypedFormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new UntypedFormControl(entry?.quantity, { updateOn: 'blur' });
+      const quantity = new UntypedFormControl(entry?.quantity, {
+        updateOn: 'blur',
+      });
       this.form.addControl('quantity', quantity);
 
       const entryNumber = new UntypedFormControl(entry?.entryNumber);
