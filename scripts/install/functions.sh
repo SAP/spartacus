@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 WARNINGS=()
-TIME_MEASUREMENTS=($(date +%s))
+TIME_MEASUREMENT_TITLES=("Start")
+TIME_MEASUREMENT_TIMES=($(date +%s))
 
 # Prints header
 function printh {
@@ -494,17 +495,18 @@ function print_warnings {
 
 function add_time_measurement {
     local TITLE=${1};
-    local START_TIME=${TIME_MEASUREMENTS[${#TIME_MEASUREMENTS[@]}-1]}
+    local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
-    TIME_MEASUREMENTS+=("$TITLE took ${ELAPSED}s")
+    TIME_MEASUREMENT_TIMES+=("${$END_TIME}")
+    TIME_MEASUREMENT_TITLES+=("$TITLE took ${ELAPSED}s")
 }
 
 function print_times {
     echo ""
     echo "Elapsed Time"
 
-    for MEASURMENT in "${TIME_MEASUREMENTS[@]}"
+    for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
     do
         echo " ┕ $MEASURMENT"
     done
