@@ -496,7 +496,14 @@ function add_time_measurement {
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
-    TIME_MEASUREMENT_TITLES+=("$TITLE took ${ELAPSED}s")
+
+    if [$ELAPSED -gt 30]; then 
+        TIME_MEASUREMENT_TITLES+=("\e[31m${ELAPSED}s\e[0m\t$TITLE")
+    elif [$ELAPSED -gt 10]; then 
+        TIME_MEASUREMENT_TITLES+=("\e[33m${ELAPSED}s\e[0m\t$TITLE")
+    else
+        TIME_MEASUREMENT_TITLES+=("\e[32m${ELAPSED}s\e[0m\t$TITLE")
+    fi
 }
 
 function print_times {
