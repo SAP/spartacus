@@ -202,8 +202,11 @@ function publish_package {
     try_command "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
+
 function try_command {
     local TRY_COMMAND=${1};
+    sed 's/"/\\"/g' $TRY_COMMAND >> $TRY_COMMAND
+
     echo "Trying '$TRY_COMMAND'"
 
     local EXIT_CODE
