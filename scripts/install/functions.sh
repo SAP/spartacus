@@ -480,9 +480,15 @@ function run_e2e {
 }
 
 function print_warnings {
+    if [ ${#WARNINGS[@]} -eq 0 ]; then
+        return
+    else
+        echo "Warnings:"
+    fi
+
     for WARNING in "${WARNINGS[@]}"
     do
-        echo "❗️ $WARNING"
+        echo " ❗️ $WARNING"
     done
 }
 
