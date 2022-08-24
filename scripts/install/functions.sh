@@ -15,7 +15,7 @@ function printh {
     printf -- "-%.0s" $(seq 1 $len)
     printf "+\n\n"
     printf "\033[0m" # end green color
-    add_time_measurement input
+    add_time_measurement "$input"
 }
 
 function delete_dir {
