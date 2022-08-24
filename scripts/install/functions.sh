@@ -205,8 +205,10 @@ function try_command {
     local TRY_COMMAND=${1};
     echo "Trying '$TRY_COMMAND'"
 
-    local OUTPUT=$("$TRY_COMMAND")
-    local EXIT_CODE=$?
+    local EXIT_CODE
+    local OUTPUT
+    OUTPUT=$(bash -c "$TRY_COMMAND" 2>&1);
+    EXIT_CODE=$?
 
     echo "$EXIT_CODE: $OUTPUT"
 
