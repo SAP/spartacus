@@ -3,7 +3,7 @@ import { CxEvent, EventService, LogoutEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { ConfiguratorLogoutEventListener } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { Type } from '@angular/core';
 
 const mockEventStream$ = new Subject<CxEvent>();

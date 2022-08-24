@@ -10,7 +10,7 @@ import { defaultConfiguratorCoreConfig } from './config/default-configurator-cor
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
 import { ConfiguratorRouterModule } from './facade/routing/configurator-router.module';
 import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator-state.module';
-import { ConfiguratorLogoutEventListener } from '../root/events/configurator-logout-event.listener';
+import { ConfiguratorLogoutEventListener } from './events/configurator-logout-event.listener';
 
 /**
  * Exposes the rulebased configurator core entities.

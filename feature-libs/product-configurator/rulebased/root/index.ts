@@ -5,6 +5,7 @@
  */
 
 export * from './cpq/index';
+export * from '../core/events/index';
 export * from './feature-name';
 export * from './rulebased-configurator-root-feature.module';
 export * from './rulebased-configurator-root.module';

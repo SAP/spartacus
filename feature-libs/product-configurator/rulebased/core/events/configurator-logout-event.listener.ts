@@ -7,7 +7,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService, LogoutEvent } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 
 @Injectable({
   providedIn: 'root',
