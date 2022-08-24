@@ -506,7 +506,7 @@ function ng_sanity_check {
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
                     ANGULAR_CLI_VERSION='^12.0.5';;
-                a ) echo "abort.";
+                a ) echo "abort";
                     exit;;
                 * ) echo "invalid response";
                     exit 1;;
@@ -526,7 +526,7 @@ function ng_sanity_check {
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
                     ANGULAR_CLI_VERSION='^13.3.0';;
-                a ) echo "abort.";
+                a ) echo "abort";
                     exit;;
                 * ) echo "invalid response";
                     exit 1;;
