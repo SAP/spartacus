@@ -200,13 +200,15 @@ function publish_package {
 }
 
 function try_command {
+    echo "Trying $TRY_COMMAND"
     local TRY_COMMAND=${1};
     local OUTPUT=$("$TRY_COMMAND")
     local EXIT_CODE=$?
+    echo "$EXIT_CODE: $OUTPUT"
+
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
     fi
-    echo "$EXIT_CODE: $OUTPUT"
 }
 
 function restore_clone {
