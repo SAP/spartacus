@@ -492,7 +492,7 @@ function print_warnings {
 
 function add_time_measurement {
     local TITLE=${1};
-    local START_TIME=${array[${#array[@]}-1]}
+    local START_TIME=${TIME_MEASUREMENTS[${#TIME_MEASUREMENTS[@]}-1]}
     local END_TIME=$(date +%s)
     local ELAPSED=$($END_TIME - $START_TIME | bc)
     TIME_MEASUREMENTS+=("$TITLE took $ELAPSED")
