@@ -1,1 +1,1 @@
-export * from './administration.module';
+export * from './index';

@@ -1,3 +1,5 @@
-export * from './connectors/index';
-export * from './facade/index';
-export * from './user-profile-core.module';
+export * from './index';
+
+/** AUGMENTABLE_TYPES_START */
+export { Order } from './model/order.model';
+/** AUGMENTABLE_TYPES_END */

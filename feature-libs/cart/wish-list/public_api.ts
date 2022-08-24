@@ -1,1 +1,1 @@
-export * from './wish-list.module';
+export * from './index';

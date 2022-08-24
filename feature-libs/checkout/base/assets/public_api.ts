@@ -1,1 +1,1 @@
-export * from './translations/translations';
+export * from './index';
