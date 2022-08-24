@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 WARNINGS=()
+TIME_MEASUREMENTS=($(date +%s))
 
 # Prints header
 function printh {
@@ -200,10 +201,12 @@ function publish_package {
 }
 
 function try_command {
-    echo "Trying $TRY_COMMAND"
     local TRY_COMMAND=${1};
-    local OUTPUT=$("$TRY_COMMAND")
+    echo "Trying $TRY_COMMAND"
+
+    local OUTPUT=$($TRY_COMMAND)
     local EXIT_CODE=$?
+
     echo "$EXIT_CODE: $OUTPUT"
 
     if [ $EXIT_CODE -ne 0 ]; then
@@ -480,6 +483,14 @@ function print_warnings {
     do
         echo " ❗️ $WARNING"
     done
+}
+
+function add_time_measurement {
+    local TITLE=${1};
+    local START_TIME=${my_array[0]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$($END_TIME - $START_TIME | bc)
+    TIME_MEASUREMENTS+=("$TITLE took $ELAPSED")
 }
 
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
