@@ -193,13 +193,13 @@ function create_apps {
 function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    try_command "[publish_dist_package] Could not publish package of ${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+    try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
 function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    try_command "[publish_package] Could not publish package of ${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+    try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
 
@@ -497,9 +497,9 @@ function add_time_measurement {
     local ELAPSED=$(($END_TIME - $START_TIME))
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
 
-    if [$ELAPSED -gt 30]; then 
+    if [ $ELAPSED -gt 30 ]; then 
         TIME_MEASUREMENT_TITLES+=("\e[31m${ELAPSED}s\e[0m\t$TITLE")
-    elif [$ELAPSED -gt 10]; then 
+    elif [ $ELAPSED -gt 10 ]; then 
         TIME_MEASUREMENT_TITLES+=("\e[33m${ELAPSED}s\e[0m\t$TITLE")
     else
         TIME_MEASUREMENT_TITLES+=("\e[32m${ELAPSED}s\e[0m\t$TITLE")
