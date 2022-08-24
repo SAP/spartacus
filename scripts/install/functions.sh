@@ -512,7 +512,7 @@ function print_times {
 
     for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
     do
-        echo -e " ┕ $MEASURMENT"
+        printf " ┕ $MEASURMENT\n"
     done
 }
 
