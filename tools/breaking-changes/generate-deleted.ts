@@ -13,7 +13,7 @@ import * as common from './common';
  * Main logic
  * -----------
  */
-const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/removed-public-api-deprecations/data/removed-public-api.migration.ts`;
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/removed-public-api-deprecations/data/generated-removed-public-api.migration.ts`;
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-deleted.out.template`;
 
 const breakingChangesData = common.readBreakingChangeFile();

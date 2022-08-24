@@ -14,7 +14,7 @@ import * as common from './common';
  * -----------
  */
 
-const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/rename-symbol/data/rename-symbols.migration.ts`;
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/rename-symbol/data/generated-rename-symbols.migration.ts`;
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-moved.out.template`;
 
 const breakingChangesData = common.readBreakingChangeFile();
