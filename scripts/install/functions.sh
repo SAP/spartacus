@@ -431,7 +431,7 @@ function run_installation_verification {
     echo "$SSR_RESULT"
     echo "$CSR_RESULT"
 
-    stop_apps &> /dev/null
+    stop_apps &> /dev/null || true
 }
 
 function verify_csr {
@@ -480,11 +480,8 @@ function run_e2e {
 }
 
 function print_warnings {
-    if [ ${#WARNINGS[@]} -eq 0 ]; then
-        return
-    else
-        echo "Warnings:"
-    fi
+    echo ""
+    echo "${#WARNINGS[@]} Warnings"
 
     for WARNING in "${WARNINGS[@]}"
     do
