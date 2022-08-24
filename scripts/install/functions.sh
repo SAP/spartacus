@@ -521,7 +521,7 @@ function run_sanity_check {
 
 function ng_sanity_check {
     printh "Run config sanity check"
-    if [ "$BRANCH" == "release/4.0.x" ]; then
+    if [ "$BRANCH" == "release/4.0.x" ] || [ "$BRANCH" == "release/4.3.x" ]; then
         local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
         if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
             echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI 13.0.0 or higher."
