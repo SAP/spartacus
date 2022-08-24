@@ -301,6 +301,8 @@ function install_from_sources {
 
     print_warnings
 
+    print_times
+
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
@@ -314,6 +316,8 @@ function install_from_npm {
     create_apps
 
     print_warnings
+
+    print_times
 }
 
 function build_csr {
