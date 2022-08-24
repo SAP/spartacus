@@ -46,6 +46,7 @@ fi
 
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
+CHECK_AFTER_START=false
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
@@ -55,11 +56,14 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
         'install_npm' )
             install_from_npm;;
         'start' )
+            if [[ $* == *--check* ]] ; then
+                CHECK_AFTER_START=true
+            fi
             start_apps;;
         'stop' )
             stop_apps;;
-        'verify' )
-            run_installation_verification;;
+        'check' )
+            run_check;;
         'help' )
             cmd_help;;
         * )

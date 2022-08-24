@@ -297,8 +297,6 @@ function install_from_sources {
 
     restore_clone
 
-    run_installation_verification
-
     print_warnings
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
@@ -312,8 +310,6 @@ function install_from_npm {
     prepare_install
 
     create_apps
-
-    run_installation_verification
 
     print_warnings
 }
@@ -392,6 +388,10 @@ function start_apps {
         start_ssr_unix
         start_ssr_pwa_unix
     fi
+
+    if [[ "$CHECK_AFTER_START" = true ]] ; then
+        check_apps
+    fi
 }
 
 function stop_apps {
@@ -405,24 +405,21 @@ function cmd_help {
     echo "Available commands are:"
     echo " install (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start"
+    echo " start [--check]"
     echo " stop"
     echo " help"
 }
 
-function run_installation_verification {
-    stop_apps &> /dev/null || true
-    start_apps
-
-    printh "Verify spartacus installation"
+function check_apps {
+    printh "Checking Sparatcus"
 
     sleep 5
 
-    echo "Verifying CSR ..."
-    local CSR_RESULT=$(verify_csr)
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
 
-    echo "Verifying SSR ..."
-    local SSR_RESULT=$(verify_ssr)
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
 
     echo "Running E2E ..."
     local E2E_RESULT=$(run_e2e)
@@ -430,11 +427,9 @@ function run_installation_verification {
     echo "$E2E_RESULT"
     echo "$SSR_RESULT"
     echo "$CSR_RESULT"
-
-    stop_apps &> /dev/null || true
 }
 
-function verify_csr {
+function check_csr {
     local EXIT_CODE=0
     curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
 
@@ -445,7 +440,7 @@ function verify_csr {
     fi
 }
 
-function verify_ssr {
+function check_ssr {
     local EXIT_CODE=0
     curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
 
