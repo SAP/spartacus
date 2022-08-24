@@ -208,10 +208,10 @@ function try_command {
 
     local EXIT_CODE
     local OUTPUT
-    OUTPUT=$(bash -c "$TRY_COMMAND" 2>&1);
+    OUTPUT=$(bash -c "$TRY_COMMAND" 2>&1)
     EXIT_CODE=$?
 
-    echo "$EXIT_CODE: $OUTPUT"
+    echo "  [CODE=$EXIT_CODE]: $OUTPUT"
 
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
