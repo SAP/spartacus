@@ -207,15 +207,13 @@ function try_command {
     local TRY_COMMAND=${1};
     echo "$TRY_COMMAND"
 
-    local EXIT_CODE
-    local OUTPUT
-    OUTPUT=$(bash -c "$TRY_COMMAND")
-    EXIT_CODE=$?
-
-    echo "$OUTPUT"
+    local EXIT_CODE=0
+    bash -c "$TRY_COMMAND" || EXIT_CODE=$?
 
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}.")
+    else
+        echo "$OUTPUT"
     fi
 }
 
