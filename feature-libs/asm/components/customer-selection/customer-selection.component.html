@@ -1,13 +1,11 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
-    <span class="cx-visually-hidden">{{
-      'asm.customerSearch.searchTerm.label' | cxTranslate
-    }}</span>
     <input
       required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"
+      [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
     />
     <cx-form-errors
