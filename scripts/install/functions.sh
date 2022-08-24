@@ -77,7 +77,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            local OUTPUT="$(cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json)"
+            local OUTPUT=$(\(cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json\) 2>&1 1>&3)
             local EXIT_CODE=$?
             if [ $EXIT_CODE -ne 0 ]; then
                 WARNINGS+=("[update_projects_versions] Could not update library version of ${CLONE_DIR}/${i}. Details: $OUTPUT")
@@ -196,7 +196,7 @@ function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
 
-    local OUTPUT="$(cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)"
+    local OUTPUT=$(\(cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version\) 2>&1 1>&3)
     local EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_dist_package] Could not publish dist package of ${PKG_NAME}. Details: $OUTPUT")
@@ -208,7 +208,7 @@ function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
 
-    local OUTPUT="$(cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)"
+    local OUTPUT=$(\(cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version\) 2>&1 1>&3)
     local EXIT_CODE=$?
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
@@ -467,7 +467,7 @@ function run_e2e {
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
-    echo "$EXIT_CODE: $OUTPUT"
+    echo "$OUTPUT"
     echo ""
 
     if [ $EXIT_CODE -eq 0 ]; then
