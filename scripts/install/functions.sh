@@ -14,6 +14,7 @@ function printh {
     printf -- "-%.0s" $(seq 1 $len)
     printf "+\n\n"
     printf "\033[0m" # end green color
+    add_time_measurement input
 }
 
 function delete_dir {
@@ -487,10 +488,20 @@ function print_warnings {
 
 function add_time_measurement {
     local TITLE=${1};
-    local START_TIME=${my_array[0]}
+    local START_TIME=${array[${#array[@]}-1]}
     local END_TIME=$(date +%s)
     local ELAPSED=$($END_TIME - $START_TIME | bc)
     TIME_MEASUREMENTS+=("$TITLE took $ELAPSED")
+}
+
+function print_times {
+    echo ""
+    echo "Elapsed Time"
+
+    for MEASURMENT in "${TIME_MEASUREMENTS[@]}"
+    do
+        echo " ┕ $MEASURMENT"
+    done
 }
 
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
