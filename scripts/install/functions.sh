@@ -498,7 +498,7 @@ function add_time_measurement {
     local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
-    TIME_MEASUREMENT_TIMES+=("${$END_TIME}")
+    TIME_MEASUREMENT_TIMES+=("$END_TIME")
     TIME_MEASUREMENT_TITLES+=("$TITLE took ${ELAPSED}s")
 }
 
