@@ -205,16 +205,14 @@ function publish_package {
 
 function try_command {
     local TRY_COMMAND=${1};
-    sed 's/"/\\"/g' $TRY_COMMAND >> $TRY_COMMAND
-
-    echo "Trying '$TRY_COMMAND'"
+    echo "$TRY_COMMAND"
 
     local EXIT_CODE
     local OUTPUT
-    OUTPUT=$(bash -c "$TRY_COMMAND" 2>&1)
+    OUTPUT=$(bash -c $TRY_COMMAND 2>&1)
     EXIT_CODE=$?
 
-    echo "  [CODE=$EXIT_CODE]: $OUTPUT"
+    echo "$OUTPUT"
 
     if [ $EXIT_CODE -ne 0 ]; then
         WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
