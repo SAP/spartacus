@@ -215,7 +215,7 @@ function try_command {
     echo "$OUTPUT"
 
     if [ $EXIT_CODE -ne 0 ]; then
-        WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}. Details: $OUTPUT")
+        WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}.")
     fi
 }
 
