@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject, StoreModule } from '@ngrx/store';
 import { TokenResponse } from 'angular-oauth2-oidc';
-import { UserAccountFacade } from 'feature-libs/user/account/root';
+import { UserAccountFacade } from 'feature-libs/user/account/root/facade';
 import { of, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';

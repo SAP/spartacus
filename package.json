@@ -202,7 +202,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-parallel": "^0.3.1",
-    "ng-packagr": "^14.1.0",
+    "ng-packagr": "^13.3.0",
     "npm-package-versions": "^1.0.1",
     "postcss": "^8.2.13",
     "postcss-scss": "^3.0.4",

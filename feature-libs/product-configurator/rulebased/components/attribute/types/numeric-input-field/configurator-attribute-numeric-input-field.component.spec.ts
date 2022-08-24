@@ -13,7 +13,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
-import { CommonConfigurator } from 'feature-libs/product-configurator/common';
+import { CommonConfigurator } from 'feature-libs/product-configurator/common/public_api';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';

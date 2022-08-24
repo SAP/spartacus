@@ -8,4 +8,3 @@ export * from './checkout-payment-type/checkout-payment-type.module';
 export * from './checkout-review-submit/checkout-review-submit.component';
 export * from './checkout-review-submit/checkout-review-submit.module';
 export * from './guards/index';
-

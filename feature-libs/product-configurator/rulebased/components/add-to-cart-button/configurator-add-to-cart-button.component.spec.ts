@@ -15,7 +15,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root/facade';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
