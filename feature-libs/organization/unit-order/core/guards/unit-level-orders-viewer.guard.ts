@@ -13,7 +13,7 @@ import { filter, map, pluck } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class BranchOrderGuard implements CanActivate {
+export class UnitLevelOrdersViewerGuard implements CanActivate {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,
@@ -27,7 +27,7 @@ export class BranchOrderGuard implements CanActivate {
       map((roles) => {
         const hasRole =
           Array.isArray(roles) &&
-          (roles.includes(B2BUserRole.APPROVER) || // TODO CHANGE THIS TO OUR NEW USER GROUP
+          (roles.includes(B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER) ||
             roles.includes(B2BUserRole.ADMIN));
 
         if (!hasRole) {
@@ -35,7 +35,7 @@ export class BranchOrderGuard implements CanActivate {
 
           this.globalMessageService.add(
             {
-              key: 'orderApprovalGlobal.notification.noSufficientPermissions',
+              key: 'organization.notification.noSufficientPermissions',
             },
             GlobalMessageType.MSG_TYPE_WARNING
           );

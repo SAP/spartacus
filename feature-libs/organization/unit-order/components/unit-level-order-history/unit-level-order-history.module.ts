@@ -11,6 +11,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
+import { UnitLevelOrdersViewerGuard } from '../../core/guards';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
 @NgModule({
@@ -30,7 +31,7 @@ import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.compo
       cmsComponents: {
         UnitLevelOrderHistoryComponent: {
           component: UnitLevelOrderHistoryComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
         },
       },
     }),

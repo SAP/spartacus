@@ -12,7 +12,6 @@ export class UnitOrderCoreModule {
     return {
       ngModule: UnitOrderCoreModule,
       providers: [
-        // UnitOrderService,
         {
           provide: UnitOrderFacade,
           useExisting: UnitOrderService,
