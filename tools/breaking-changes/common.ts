@@ -210,7 +210,9 @@ export function getParameterDoc(
   if (functonElement.parameters?.length) {
     let parameterDoc = lineEnding;
     functonElement.parameters.forEach((parameter: any, index: number) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type}${
+      parameterDoc += `  ${parameter.name}${parameter.isOptional ? '?' : ''}: ${
+        parameter.type
+      }${
         index + 1 >= functonElement.parameters.length ? '' : ','
       }${lineEnding}`;
     });
