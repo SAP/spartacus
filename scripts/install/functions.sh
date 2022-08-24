@@ -498,11 +498,11 @@ function add_time_measurement {
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
 
     if [ $ELAPSED -gt 30 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\e[31m${ELAPSED}s\e[0m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TITLE")
     elif [ $ELAPSED -gt 10 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\e[33m${ELAPSED}s\e[0m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TITLE")
     else
-        TIME_MEASUREMENT_TITLES+=("\e[32m${ELAPSED}s\e[0m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TITLE")
     fi
 }
 
