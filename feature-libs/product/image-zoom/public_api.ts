@@ -1,1 +1,1 @@
-export * from './product-image-zoom.module';
+export * from './index';

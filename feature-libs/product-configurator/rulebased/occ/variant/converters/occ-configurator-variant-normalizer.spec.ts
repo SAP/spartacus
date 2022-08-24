@@ -5,7 +5,7 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common/public_api';
+import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';

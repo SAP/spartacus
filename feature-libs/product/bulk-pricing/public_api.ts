@@ -1,1 +1,1 @@
-export * from './bulk-pricing.module';
+export * from './index';
