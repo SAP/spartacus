@@ -3,14 +3,14 @@ import {
   OCC_USER_ID_CURRENT,
   RouterState,
   RoutingService,
-  UserIdService,
+  UserIdService
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
@@ -72,7 +72,7 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
         name: 'US Dollar',
         symbol: '$',
       },
-      createdAtDate: new Date('2014-06-10'),
+      createdAtDate: '2014-06-10',
       id: 'POCR-0000001',
       orgDocumentType: { code: 'Purchase Order', name: 'Purchase Order' },
       openAmount: 7851558,
@@ -88,9 +88,8 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
   },
   sorts: [
     {
-      code: 'byDocumentDateAsc',
-      selected: true,
-      name: 'Document Date Ascending',
+      code: 'byCreatedAtDateAsc',
+      selected: true
     },
   ],
 };

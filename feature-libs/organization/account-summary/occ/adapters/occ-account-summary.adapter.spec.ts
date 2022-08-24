@@ -1,19 +1,19 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController,
+  HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
-  OccEndpointsService,
+  OccEndpointsService
 } from '@spartacus/core';
 import {
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import { OccAccountSummaryAdapter } from './occ-account-summary.adapter';
 
@@ -66,9 +66,9 @@ describe('OccAccountSummaryAdapter', () => {
       headerData = {
         accountManagerEmail: '',
         accountManagerName: 'Brandon Leclair',
-        amountBalanceData: {
+        amountBalance: {
           currentBalance: '$102,145,214.00',
-          dueBalance: [
+          dueBalances: [
             {
               key: {
                 maxBoundery: 30,
@@ -88,7 +88,6 @@ describe('OccAccountSummaryAdapter', () => {
           id: '8796098986007',
           lastName: 'Torres',
         },
-        formattedCreditLimit: '$15,000.00',
         orgUnit: {
           active: true,
           uid: '123uid',
@@ -131,33 +130,23 @@ describe('OccAccountSummaryAdapter', () => {
       documentData = {
         orgDocumentTypes: [
           {
-            code: 'Purchase Order',
-            displayInAllList: true,
-            includeInOpenBalance: true,
+            code: 'PURCHASE ORDER',
             name: 'Purchase Order',
           },
           {
-            code: 'Invoice',
-            displayInAllList: true,
-            includeInOpenBalance: true,
+            code: 'INVOICE',
             name: 'Invoice',
           },
           {
-            code: 'Credit Note',
-            displayInAllList: true,
-            includeInOpenBalance: true,
+            code: 'CREDIT NOTE',
             name: 'Credit Note',
           },
           {
-            code: 'Debit Note',
-            displayInAllList: true,
-            includeInOpenBalance: true,
+            code: 'DEBIT NOTE',
             name: 'Debit Note',
           },
           {
-            code: 'Statement',
-            displayInAllList: false,
-            includeInOpenBalance: false,
+            code: 'STATEMENT',
             name: 'Statement',
           },
         ],
@@ -170,7 +159,7 @@ describe('OccAccountSummaryAdapter', () => {
               name: 'US Dollar',
               symbol: '$',
             },
-            createdAtDate: new Date('2014-06-10'),
+            createdAtDate: '2014-06-10',
             id: 'POCR-0000001',
             orgDocumentType: { code: 'Purchase Order', name: 'Purchase Order' },
             openAmount: 7851558,
@@ -186,71 +175,57 @@ describe('OccAccountSummaryAdapter', () => {
         },
         sorts: [
           {
-            code: 'byDocumentDateAsc',
-            selected: true,
-            name: 'Document Date Ascending',
+            code: 'byCreatedAtDateDesc',
+            selected: false
           },
           {
-            code: 'byDocumentDateDesc',
-            selected: false,
-            name: 'Document Date Descending',
+            code: 'byDueAtDateAsc',
+            selected: false
           },
-          { code: 'byDueDateAsc', selected: false, name: 'Due Date Ascending' },
           {
-            code: 'byDueDateDesc',
-            selected: false,
-            name: 'Due Date Descending',
+            code: 'byDueAtDateDesc',
+            selected: false
           },
           {
             code: 'byOriginalAmountAsc',
-            selected: false,
-            name: 'Original Amount Ascending',
+            selected: false
           },
           {
             code: 'byOriginalAmountDesc',
-            selected: false,
-            name: 'Original Amount Descending',
+            selected: false
           },
           {
             code: 'byOpenAmountAsc',
-            selected: false,
-            name: 'Open Amount Ascending',
+            selected: false
           },
           {
             code: 'byOpenAmountDesc',
-            selected: false,
-            name: 'Open Amount Descending',
+            selected: false
           },
           {
-            code: 'byDocumentTypeAsc',
-            selected: false,
-            name: 'Document Type Ascending',
+            code: 'byOrgDocumentTypeAsc',
+            selected: false
           },
           {
-            code: 'byDocumentTypeDesc',
-            selected: false,
-            name: 'Document Type Descending',
+            code: 'byOrgDocumentTypeDesc',
+            selected: false
           },
           {
-            code: 'byDocumentStatusAsc',
-            selected: false,
-            name: 'Document Status Ascending',
+            code: 'byStatusAsc',
+            selected: false
           },
           {
-            code: 'byDocumentStatusDesc',
-            selected: false,
-            name: 'Document Status Descending',
+            code: 'byStatusDesc',
+            selected: false
           },
           {
-            code: 'byDocumentNumberAsc',
-            selected: false,
-            name: 'Document Number Ascending',
+            code: 'byOrgDocumentIdAsc',
+            selected: false
           },
           {
-            code: 'byDocumentNumberDesc',
-            selected: false,
-            name: 'Document Number Descending',
-          },
+            code: 'byOrgDocumentIdDesc',
+            selected: false
+          }
         ],
       };
     });
