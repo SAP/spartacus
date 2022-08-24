@@ -80,7 +80,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            try_command "cd \"${CLONE_DIR}/${i}\" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' package.json"
+            try_command "[update_projects_versions] Could not update project ${CLONE_DIR}/${i}." "cd \"${CLONE_DIR}/${i}\" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' package.json"
         done
 }
 
@@ -193,25 +193,26 @@ function create_apps {
 function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    try_command "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+    try_command "[publish_dist_package] Could not publish package of ${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
 function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    try_command "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+    try_command "[publish_package] Could not publish package of ${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
 
 function try_command {
-    local TRY_COMMAND=${1};
+    local ERRORMSG=${1};
+    local TRY_COMMAND=${2};
     echo "$TRY_COMMAND"
 
     local EXIT_CODE=0
     bash -c "$TRY_COMMAND" || EXIT_CODE=$?
 
     if [ $EXIT_CODE -ne 0 ]; then
-        WARNINGS+=("[publish_package] Could not publish package of ${PKG_NAME}.")
+        WARNINGS+=("$ERRORMSG")
     fi
 }
 
