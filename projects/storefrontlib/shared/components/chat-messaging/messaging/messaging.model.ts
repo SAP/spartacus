@@ -3,7 +3,8 @@ export interface MessageDetails {
 }
 
 export interface MessageEvent {
-  author: string;
+  author?: string;
+  addedByAgent?: boolean;
   createdAt?: string;
   message?: string;
   attachments?: Array<Attachment>;

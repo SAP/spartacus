@@ -34,4 +34,5 @@ export interface Event {
   createdAt?: string;
   message?: string;
   toStatus?: Status;
+  addedByAgent?: boolean;
 }

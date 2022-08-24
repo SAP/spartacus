@@ -47,22 +47,22 @@ export class CustomerTicketingService {
         ],
       },
       {
-        author: 'Admin',
+        author: 'Mark Rivers',
         createdAt: '2022-06-22T14:37:15+0000',
         message: 'A message to consider',
       },
       {
-        author: 'Mark Rivers',
+        addedByAgent: true,
+        createdAt: '2022-06-22T20:25:02+0000',
+        message: 'This is the way',
+      },
+      {
+        addedByAgent: true,
         createdAt: '2022-06-22T20:25:02+0000',
         message: 'This is the way',
       },
       {
         author: 'Mark Rivers',
-        createdAt: '2022-06-22T20:25:02+0000',
-        message: 'This is the way',
-      },
-      {
-        author: 'Admin',
         createdAt: '2022-06-22T14:37:15+0000',
         message: 'A message to consider',
       },

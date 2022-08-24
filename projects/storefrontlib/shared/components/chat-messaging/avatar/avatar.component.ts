@@ -15,7 +15,9 @@ export class AvatarComponent implements OnInit {
   ngOnInit(): void {}
 
   getIntitials(name: string) {
-    const names = name.split(' ');
-    return `${names[0]?.split('')[0]}${names[1] ? names[1]?.split('')[0] : ''}`;
+    return name
+      .split(' ')
+      .map((name) => name[0])
+      .join('');
   }
 }

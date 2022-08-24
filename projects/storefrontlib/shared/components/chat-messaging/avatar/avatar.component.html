@@ -2,14 +2,11 @@
 <div
   *ngIf="event"
   class="cx-avatar"
-  [ngClass]="event.author !== 'Mark Rivers' ? 'right-align' : ''"
+  [ngClass]="{ 'right-align': event.addedByAgent }"
 >
-  <h1 *ngIf="event.author === 'Mark Rivers'">
+  <h1 *ngIf="!event.addedByAgent">
     {{ getIntitials(event?.author) }}
   </h1>
 
-  <cx-icon
-    *ngIf="event.author !== 'Mark Rivers'"
-    [type]="iconTypes.HEADSET"
-  ></cx-icon>
+  <cx-icon *ngIf="event.addedByAgent" [type]="iconTypes.HEADSET"></cx-icon>
 </div>
