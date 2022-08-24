@@ -56,13 +56,22 @@ function getBreakingChangeDoc(apiElement: any): string {
 }
 
 function getDocHeader(apiElement: any): string {
-  return `
+  let docHeader = `
 
 
 # ${apiElement.kind} ${getFullName(apiElement)} 
 ## ${apiElement.entryPoint}
 
 `;
+
+  if (!!apiElement.migrationComment) {
+    docHeader += `
+${apiElement.migrationComment}
+
+`;
+  }
+
+  return docHeader;
 }
 
 function getFullName(apiElement: any): string {
@@ -127,7 +136,9 @@ ${MD_CODEBLOCK}${memberBreakingChange.previousStateDoc}${MD_CODEBLOCK}
 Current version: 
 ${MD_CODEBLOCK}${memberBreakingChange.currentStateDoc}${MD_CODEBLOCK}
 `;
-
+          if (!!memberBreakingChange.migrationComment) {
+            doc += `\n${memberBreakingChange.migrationComment}\n`;
+          }
           break;
         }
         case 'DELETED': {
