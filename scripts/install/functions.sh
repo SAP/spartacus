@@ -206,7 +206,6 @@ function publish_package {
 function try_command {
     local ERRORMSG=${1};
     local TRY_COMMAND=${2};
-    echo "$TRY_COMMAND"
 
     local EXIT_CODE=0
     bash -c "$TRY_COMMAND" || EXIT_CODE=$?
