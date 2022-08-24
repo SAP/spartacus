@@ -455,7 +455,7 @@ function run_e2e {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ]; then
-        echo "⏭️ E2E skipped (xvfb is missing)."
+        echo "⏩️ E2E skipped (xvfb is missing)."
         return 0
     fi
 
