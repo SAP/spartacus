@@ -1,6 +1,3 @@
-<ng-container *cxFeatureLevel="'5.1'">
-  <ng-template [cxOutlet]="CartOutlets.PICKUP_DELIVERY_INFO"></ng-template>
-</ng-container>
 <table role="table">
   <caption class="cx-visually-hidden">
     {{
@@ -35,6 +32,12 @@
         *ngIf="getControl(item) | async as control"
         [class.is-changed]="control.get('quantity').disabled"
       >
+        <ng-container *cxFeatureLevel="'5.1'">
+          <ng-template
+            [cxOutlet]="CartOutlets.PICKUP_DELIVERY_INFO"
+          ></ng-template>
+        </ng-container>
+
         <tr
           cx-cart-item-list-row
           role="row"

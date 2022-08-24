@@ -15,7 +15,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-pickup-delivery-info-container',
+  selector: 'tr[cx-pickup-delivery-info-container]',
   templateUrl: './pickup-delivery-info-container.component.html',
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
