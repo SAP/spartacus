@@ -209,7 +209,7 @@ function try_command {
 
     local EXIT_CODE
     local OUTPUT
-    OUTPUT=$(bash -c $TRY_COMMAND 2>&1)
+    OUTPUT=$(bash -c $TRY_COMMAND)
     EXIT_CODE=$?
 
     echo "$OUTPUT"
