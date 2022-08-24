@@ -1,19 +1,19 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
-  OccEndpointsService
+  OccEndpointsService,
 } from '@spartacus/core';
 import {
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { OccAccountSummaryAdapter } from './occ-account-summary.adapter';
 
@@ -169,63 +169,63 @@ describe('OccAccountSummaryAdapter', () => {
         pagination: {
           currentPage: 0,
           pageSize: 10,
-          sort: 'byDocumentDateAsc',
+          sort: 'byCreatedAtDateDesc',
           totalPages: 6,
           totalResults: 55,
         },
         sorts: [
           {
             code: 'byCreatedAtDateDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byDueAtDateAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byDueAtDateDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOriginalAmountAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOriginalAmountDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOpenAmountAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOpenAmountDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOrgDocumentTypeAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOrgDocumentTypeDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byStatusAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byStatusDesc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOrgDocumentIdAsc',
-            selected: false
+            selected: false,
           },
           {
             code: 'byOrgDocumentIdDesc',
-            selected: false
-          }
+            selected: false,
+          },
         ],
       };
     });

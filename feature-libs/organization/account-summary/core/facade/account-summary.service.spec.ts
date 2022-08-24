@@ -3,14 +3,14 @@ import {
   OCC_USER_ID_CURRENT,
   RouterState,
   RoutingService,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
@@ -89,7 +89,7 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
   sorts: [
     {
       code: 'byCreatedAtDateAsc',
-      selected: true
+      selected: true,
     },
   ],
 };

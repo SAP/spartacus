@@ -20,4 +20,4 @@ import { AccountSummaryDocumentFilterModule } from './filter';
   ],
   providers: [provideDefaultConfig(accountSummaryDocumentCmsConfig)],
 })
-export class AccountSummaryDocumentModule { }
+export class AccountSummaryDocumentModule {}
