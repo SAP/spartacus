@@ -1,12 +1,14 @@
 <ng-container *ngIf="(product$ | async)?.bundleTemplates as templates">
   <ng-container *ngIf="templates.length">
-    <h1>{{ 'Buy This Item In A Bundle' | cxTranslate }}</h1>
+    <h1>{{ 'Buy This Item In A Bundle' }}</h1>
+    <!-- <h1>{{ 'Buy This Item In A Bundle' | cxTranslate }}</h1> -->
 
     <div *ngFor="let template of templates" class="template-row">
       <label>{{ template?.rootBundleTemplateName }}</label>
 
       <button class="btn btn-action" (click)="startBundle(template)">
-        {{ 'Start Bundle' | cxTranslate }}
+        <!-- {{ 'Start Bundle' | cxTranslate }} -->
+        {{ 'Start Bundle' }}
       </button>
     </div>
   </ng-container>

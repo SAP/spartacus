@@ -6,7 +6,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -45,12 +45,10 @@ export class CartBundleService {
    */
   startBundle(starter: BundleStarter) {
     this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService.startBundle(cartId, userId, starter);
-        });
+      .requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.bundleService.startBundle(<string>cart.guid, userId, starter);
       });
   }
 

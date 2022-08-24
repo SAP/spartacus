@@ -31,6 +31,7 @@ export class BundleEffects {
             map(
               (data) =>
                 new BundleActions.StartBundleSuccess(<any>{
+                  ...payload,
                   ...data,
                 })
             ),
@@ -92,6 +93,21 @@ export class BundleEffects {
       ),
       withdrawOn(this.contextChange$)
     )
+  );
+
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
+  refreshWithoutProcesses$: Observable<CartActions.LoadCart> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BundleActions.START_BUNDLE_SUCCESS),
+        map((action: BundleActions.StartBundleSuccess) => action.payload),
+        map((payload) => {
+          return new CartActions.LoadCart({
+            userId: <string>payload.userId,
+            cartId: <string>payload.cartId,
+          });
+        })
+      )
   );
 
   constructor(
