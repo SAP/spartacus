@@ -203,9 +203,9 @@ function publish_package {
 
 function try_command {
     local TRY_COMMAND=${1};
-    echo "Trying $TRY_COMMAND"
+    echo "Trying '$TRY_COMMAND'"
 
-    local OUTPUT=$($TRY_COMMAND)
+    local OUTPUT=$("$TRY_COMMAND")
     local EXIT_CODE=$?
 
     echo "$EXIT_CODE: $OUTPUT"
@@ -494,8 +494,8 @@ function add_time_measurement {
     local TITLE=${1};
     local START_TIME=${TIME_MEASUREMENTS[${#TIME_MEASUREMENTS[@]}-1]}
     local END_TIME=$(date +%s)
-    local ELAPSED=$($END_TIME - $START_TIME | bc)
-    TIME_MEASUREMENTS+=("$TITLE took $ELAPSED")
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    TIME_MEASUREMENTS+=("$TITLE took ${ELAPSED}s")
 }
 
 function print_times {
