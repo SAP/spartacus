@@ -13,6 +13,25 @@ export abstract class AsmConfig extends OccConfig {
     customerSearch?: {
       maxResults?: number;
     };
+    customer360?: {
+      activityTab?: {
+        pageSize?: number;
+      };
+      feedbackTab?: {
+        supportTickets?: {
+          pageSize?: number;
+        };
+        productReviews?: {
+          pageSize?: number;
+        };
+      };
+      mapsTab?: {
+        googleMaps?: {
+          apiKey?: string;
+        };
+        pageSize?: number;
+      };
+    };
   };
 }
 
