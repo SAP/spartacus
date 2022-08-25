@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Common configurator component test utils service provides helper functions for the component tests.
  */
@@ -95,27 +101,30 @@ export class CommonConfiguratorTestUtilsService {
     let foundElement: Element[] = [];
     const elements = htmlElements.getElementsByTagName(tag);
     if (!tagClass) {
-      if (!tagIndex) {
-        return elements[0];
-      } else {
-        return elements[tagIndex];
-      }
+      return !tagIndex ? elements[0] : elements[tagIndex];
     } else {
-      for (let i = 0; i < elements.length; i++) {
-        const classList = elements[i].classList;
-        if (classList.length >= 1) {
-          for (let j = 0; j < classList.length; j++) {
-            if (classList[j] === tagClass) {
-              foundElement.push(elements[i]);
-            }
+      CommonConfiguratorTestUtilsService.collectElements(
+        elements,
+        tagClass,
+        foundElement
+      );
+      return tagIndex ? foundElement[tagIndex] : foundElement[0];
+    }
+  }
+
+  protected static collectElements(
+    elements: HTMLCollectionOf<Element>,
+    tagClass: string,
+    foundElement: Element[]
+  ) {
+    for (let i = 0; i < elements.length; i++) {
+      const classList = elements[i].classList;
+      if (classList.length >= 1) {
+        for (let j = 0; j < classList.length; j++) {
+          if (classList[j] === tagClass) {
+            foundElement.push(elements[i]);
           }
         }
-      }
-
-      if (tagIndex) {
-        return foundElement[tagIndex];
-      } else {
-        return foundElement[0];
       }
     }
   }
