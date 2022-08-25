@@ -169,10 +169,8 @@ function getVariableBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        oldType: oldElement.type,
-        newType: newElement.type,
-        previousStateDoc: `${oldElement.name}: ${oldElement.type}`,
-        currentStateDoc: `${newElement.name}: ${newElement.type}`,
+        old: extractApiElementCopy(oldElement),
+        new: newElement,
       },
     ];
   } else {
@@ -185,9 +183,6 @@ function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: oldElement.members.join(',\n'),
-        currentStateDoc: newElement.members.join(',\n'),
-        new: newElement.members,
       },
     ];
   } else {
@@ -201,18 +196,11 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
   );
   const returnTypeChanged = oldElement.returnType !== newElement.returnType;
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
-    const oldElementCopy = { ...oldElement };
-    delete oldElementCopy.breakingChanges; // avoid circular references
-    const newElementCopy = { ...newElement };
-    delete newElementCopy.breakingChanges; // avoid circular references
-
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: common.getSignatureDoc(oldElement),
-        currentStateDoc: common.getSignatureDoc(newElement),
-        oldElement: oldElementCopy,
-        newElement: newElementCopy,
+        old: extractApiElementCopy(oldElement),
+        new: newElement,
       },
     ];
   } else {
@@ -233,8 +221,7 @@ function getMembersBreakingChange(
     if (!newMember) {
       breakingChanges.push({
         ...getChangeDesc(oldMember, 'DELETED'),
-        isDeletedMember: true,
-        deletedMember: oldMember,
+        old: oldMember,
         apiElementName: oldApiElement.name,
         apiElementKind: oldApiElement.kind,
         entryPoint: oldApiElement.entryPoint,
@@ -294,22 +281,11 @@ function getParametersBreakingChange(oldMember: any, newMember: any): any[] {
     newMember.parameters
   );
   if (parametersHaveBreakingChange) {
-    const removedParams: any[] = paramDiff(oldMember, newMember);
-    const addedParams: any[] = paramDiff(newMember, oldMember);
-
     return [
       {
         ...getChangeDesc(oldMember, 'CHANGED'),
-        previousStateDoc: common.getSignatureDoc(oldMember),
-        currentStateDoc: common.getSignatureDoc(newMember),
-        details: {
-          kind: oldMember.kind,
-          name: oldMember.name,
-          oldParams: oldMember.parameters,
-          newParams: newMember.parameters,
-          removedParams,
-          addedParams,
-        },
+        old: oldMember,
+        new: newMember,
       },
     ];
   } else {
@@ -395,8 +371,6 @@ function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: oldElement.members.join(',\n'),
-        currentStateDoc: newElement.members.join(',\n'),
         old: oldElement.members,
         new: newElement.members,
       },
@@ -438,4 +412,12 @@ function createBreakingChangeDataEntry(
 ): any {
   oldApiElement.newApiElement = newApiElement;
   return oldApiElement;
+}
+
+function extractApiElementCopy(apiElement: any): any {
+  const apiElementCopy = { ...apiElement };
+  delete apiElementCopy.breakingChanges; // avoid circular references
+  delete apiElementCopy.newApiElement; // avoid circular references
+
+  return apiElementCopy;
 }

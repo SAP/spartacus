@@ -86,11 +86,11 @@ function getSchematicsData(apiElement: any, constructorChanges: any): any {
   schematicsData.class = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
   schematicsData.deprecatedParams =
-    constructorChanges.details.oldParams.map(toSchematicsParam);
+    constructorChanges.old.parameters.map(toSchematicsParam);
   schematicsData.removeParams =
-    constructorChanges.details.oldParams.map(toSchematicsParam);
+    constructorChanges.old.parameters.map(toSchematicsParam);
   schematicsData.addParams =
-    constructorChanges.details.newParams.map(toSchematicsParam);
+    constructorChanges.new.parameters.map(toSchematicsParam);
 
   return schematicsData;
 }
@@ -104,7 +104,7 @@ function toSchematicsParam(param: any) {
 
 function schematicsParamsAreEqual(constructorChanges: any): boolean {
   return deepEqual(
-    constructorChanges.details.oldParams.map(toSchematicsParam),
-    constructorChanges.details.newParams.map(toSchematicsParam)
+    constructorChanges.old.parameters.map(toSchematicsParam),
+    constructorChanges.new.parameters.map(toSchematicsParam)
   );
 }

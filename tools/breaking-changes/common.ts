@@ -316,3 +316,56 @@ function createFoldersForFilePath(filePath: string) {
     fs.mkdirSync(folderPath, { recursive: true });
   }
 }
+
+export function getMemberStateDoc(member: any): string {
+  switch (member.kind) {
+    case 'Constructor':
+    case 'IndexSignature':
+    case 'MethodSignature':
+    case 'Method': {
+      return getSignatureDoc(member);
+    }
+    case 'PropertySignature':
+    case 'Property': {
+      return `${member.name}: ${member.type}`;
+    }
+    default: {
+      throw Error(
+        `Unsupported member kind [${member.kind}] for member name [${member.name}] for doc generation`
+      );
+    }
+  }
+}
+
+export function getTopLevelApiStateDoc(apiElement: any): string {
+  switch (apiElement.kind) {
+    case 'Enum': {
+      return getEnumStateDoc(apiElement);
+    }
+    case 'TypeAlias': {
+      return getTypeAliasStateDoc(apiElement);
+    }
+    case 'Variable': {
+      return `${apiElement.name}: ${apiElement.type}`;
+    }
+    case 'Function': {
+      return getSignatureDoc(apiElement);
+    }
+    case 'Namespace': {
+      return '';
+    }
+    default: {
+      throw Error(
+        `Can't generate state doc for element kind ${apiElement.kind}.  Element name:[${apiElement.name}] `
+      );
+    }
+  }
+}
+
+function getEnumStateDoc(apiElement): string {
+  return apiElement.members.join(',\n');
+}
+
+function getTypeAliasStateDoc(apiElement): string {
+  return apiElement.members.join(',\n');
+}

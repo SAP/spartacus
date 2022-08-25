@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import stringifyObject from 'stringify-object';
 import * as common from './common';
 import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
 
@@ -60,14 +58,16 @@ function getSchematicsComment(breakingChange: any): string {
     return `The '${
       breakingChange.changeElementName
     }' method's signature changed to: '${getSignatureDoc(
-      breakingChange.newElement,
+      breakingChange.new,
       false
     )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {
     return `The type of property '${sanitizePropertyDoc(
-      breakingChange.previousStateDoc
-    )}' changed to: '${sanitizePropertyDoc(breakingChange.currentStateDoc)}' `;
+      common.getMemberStateDoc(breakingChange.old)
+    )}' changed to: '${sanitizePropertyDoc(
+      common.getMemberStateDoc(breakingChange.new)
+    )}' `;
   }
   throw new Error(
     `Unsupported breaking change ${breakingChange.change}:${breakingChange.changeElementName}`

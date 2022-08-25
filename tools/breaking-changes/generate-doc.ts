@@ -131,10 +131,14 @@ function getMembersDoc(apiElement: any): string {
           doc += `
 
 Previous version: 
-${MD_CODEBLOCK}${memberBreakingChange.previousStateDoc}${MD_CODEBLOCK}
+${MD_CODEBLOCK}${common.getMemberStateDoc(
+            memberBreakingChange.old
+          )}${MD_CODEBLOCK}
 
 Current version: 
-${MD_CODEBLOCK}${memberBreakingChange.currentStateDoc}${MD_CODEBLOCK}
+${MD_CODEBLOCK}${common.getMemberStateDoc(
+            memberBreakingChange.new
+          )}${MD_CODEBLOCK}
 `;
           if (!!memberBreakingChange.migrationComment) {
             doc += `\n${memberBreakingChange.migrationComment}\n`;
@@ -142,7 +146,7 @@ ${MD_CODEBLOCK}${memberBreakingChange.currentStateDoc}${MD_CODEBLOCK}
           break;
         }
         case 'DELETED': {
-          doc += `\n### ${memberBreakingChange.deletedMember.kind} ${memberBreakingChange.deletedMember.name} is removed.\n`;
+          doc += `\n### ${memberBreakingChange.old.kind} ${memberBreakingChange.old.name} is removed.\n`;
           doc += `\n${memberBreakingChange.migrationComment}\n`;
           break;
         }
@@ -171,10 +175,10 @@ function getChangedDoc(apiElement: any): string {
 ${apiElement.kind} ${apiElement.name} changed.
 
 Previous version: 
-${MD_CODEBLOCK}${breakingChange.previousStateDoc}${MD_CODEBLOCK}
+${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(apiElement)}${MD_CODEBLOCK}
 
 Current version: 
-${MD_CODEBLOCK}${breakingChange.currentStateDoc}${MD_CODEBLOCK}
+${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(apiElement.newApiElement)}${MD_CODEBLOCK}
 `;
   }
 
