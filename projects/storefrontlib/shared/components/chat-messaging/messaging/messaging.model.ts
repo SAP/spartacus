@@ -1,12 +1,8 @@
-export interface MessageDetails {
-  messages: Array<MessageEvent>;
-}
-
 export interface MessageEvent {
   author?: string;
-  addedByAgent?: boolean;
+  rightAlign?: boolean;
   createdAt?: string;
-  message?: string;
+  text?: string;
   attachments?: Array<Attachment>;
 }
 
@@ -19,6 +15,7 @@ export interface MessagingConfigs {
   attachmentRestrictions?: AttachmentRestrictions;
   charactersLimit?: number;
   newMessagePlaceHolder?: string;
+  uploadFile?: boolean;
 }
 
 export interface AttachmentRestrictions {

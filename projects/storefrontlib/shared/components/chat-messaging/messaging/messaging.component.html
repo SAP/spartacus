@@ -1,30 +1,33 @@
-<ng-container *ngIf="messageDetails$ | async as messageDetails">
+<ng-container *ngIf="messageEvents$ | async as messageEvents">
   <div class="container">
     <div class="cx-avatar-line"></div>
     <div class="cx-messages" id="cx-messages">
-      <ng-container *ngFor="let event of messageDetails.messages">
+      <ng-container *ngFor="let message of messageEvents">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': event.addedByAgent }"
+          [ngClass]="{ 'cx-message-display': message.rightAlign }"
         >
-          <cx-avatar [event]="event"> </cx-avatar>
+          <cx-avatar [message]="message"> </cx-avatar>
 
           <div>
             <label>{{
-              event.createdAt | cxDate: 'MMMM d, YYYY h:mm aa'
+              message.createdAt | cxDate: 'MMMM d, YYYY h:mm aa'
             }}</label>
             <div
               [ngClass]="
-                event.addedByAgent
+                message.rightAlign
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
             >
-              {{ event.message }}
+              {{ message.text }}
             </div>
-            <p *ngIf="event.attachments" class="cx-attachment">
+            <p
+              *ngFor="let attachment of message.attachments"
+              class="cx-attachment"
+            >
               <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
-              {{ event.attachments[0].filename }}
+              {{ attachment.filename }}
             </p>
           </div>
         </div>
@@ -49,6 +52,7 @@
           [formControl]="form.get('file')"
           [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
           multiple="maxEntries > 1"
+          *ngIf="messagingConfigs.uploadFile"
         >
           <ng-template>
             <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MessageDetails, MessagingConfigs } from '@spartacus/storefront';
+import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerTicketingService } from '../customer-ticketing.service';
 
@@ -69,8 +69,8 @@ export class CustomerTicketingMessagesComponent {
     ],
   });
 
-  messageDetails$: Observable<MessageDetails> =
-    this.customerTicketingService.prepareMessageDetails();
+  messageEvents$: Observable<Array<MessageEvent> | undefined> =
+    this.customerTicketingService.prepareMessageEvents();
 
   messagingConfigs: MessagingConfigs =
     this.customerTicketingService.prepareMessagingConfigs();

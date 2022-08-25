@@ -11,14 +11,14 @@ import { WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from 'projects/storefrontlib/cms-components';
 import { FilesFormValidators } from 'projects/storefrontlib/shared/services';
 import { Observable } from 'rxjs';
-import { MessageDetails, MessagingConfigs } from './messaging.model';
+import { MessageEvent, MessagingConfigs } from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit, AfterViewInit {
-  @Input() messageDetails$: Observable<MessageDetails>;
+  @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
   @Input() messagingConfigs?: MessagingConfigs;
 
@@ -74,11 +74,6 @@ export class MessagingComponent implements OnInit, AfterViewInit {
           ?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 500);
     }
-  }
-
-  getIntitials(name: string) {
-    const names = name.split(' ');
-    return `${names[0]?.split('')[0]}${names[1] ? names[1]?.split('')[0] : ''}`;
   }
 
   onSend() {

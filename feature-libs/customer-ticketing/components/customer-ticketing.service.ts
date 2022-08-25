@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MessageDetails, MessagingConfigs } from '@spartacus/storefront';
+import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CustomerTicketingConfig } from '../root';
+import { CustomerTicketingConfig, TicketDetails } from '../root';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { CustomerTicketingConfig } from '../root';
 export class CustomerTicketingService {
   constructor(protected customerTicketingConfig: CustomerTicketingConfig) {}
 
-  ticketDetails$ = of({
+  ticketDetails$: Observable<TicketDetails> = of({
     associatedTo: {
       code: '00000001',
       modifiedAt: '2022-06-28T00:00:00+0000',
@@ -44,6 +44,10 @@ export class CustomerTicketingService {
             filename: 'screenshot.png',
             URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
           },
+          {
+            filename: 'screenshot.png',
+            URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
+          },
         ],
       },
       {
@@ -69,27 +73,33 @@ export class CustomerTicketingService {
     ],
   });
 
-  getTicketSubject(): Observable<string> {
+  getTicketSubject(): Observable<string | undefined> {
     return this.ticketDetails$.pipe(map((details) => details.subject));
   }
 
-  getTicketStatus(): Observable<string> {
-    return this.ticketDetails$.pipe(map((details) => details.status.id));
+  getTicketStatus(): Observable<string | undefined> {
+    return this.ticketDetails$.pipe(map((details) => details?.status?.id));
   }
 
-  prepareMessageDetails = (): Observable<MessageDetails> =>
-    this.ticketDetails$.pipe(
-      map(
-        (messageDetails): MessageDetails => ({
-          messages: messageDetails.ticketEvents,
-        })
+  prepareMessageEvents(): Observable<Array<MessageEvent> | undefined> {
+    return this.ticketDetails$.pipe(
+      map((ticket) =>
+        ticket.ticketEvents?.map(
+          (event): MessageEvent => ({
+            ...event,
+            text: event.message,
+            rightAlign: event.addedByAgent,
+          })
+        )
       )
     );
+  }
 
   prepareMessagingConfigs = (): MessagingConfigs => ({
     attachmentRestrictions:
       this.customerTicketingConfig.customerTicketing?.attachmentRestrictions,
     charactersLimit:
       this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
+    uploadFile: true,
   });
 }

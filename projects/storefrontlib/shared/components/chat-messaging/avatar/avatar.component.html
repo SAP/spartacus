@@ -1,12 +1,11 @@
-<!-- TODO: Verify current user to display left aligned messages -->
 <div
-  *ngIf="event"
+  *ngIf="message"
   class="cx-avatar"
-  [ngClass]="{ 'right-align': event.addedByAgent }"
+  [ngClass]="{ 'right-align': message.rightAlign }"
 >
-  <h1 *ngIf="!event.addedByAgent">
-    {{ getIntitials(event?.author) }}
+  <h1 *ngIf="!message.rightAlign">
+    {{ getInitials(message.author) }}
   </h1>
 
-  <cx-icon *ngIf="event.addedByAgent" [type]="iconTypes.HEADSET"></cx-icon>
+  <cx-icon *ngIf="message.rightAlign" [type]="iconTypes.HEADSET"></cx-icon>
 </div>
