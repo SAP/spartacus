@@ -16,7 +16,6 @@ import { Product } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
 import {
@@ -26,8 +25,6 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-
-import { CurrentLocationService } from '../../services/current-location.service';
 
 function isProductWithCode(
   product: Product | null
@@ -55,8 +52,6 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
-    protected currentLocationService: CurrentLocationService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected preferredStoreService: PreferredStoreService
   ) {
     // Intentional empty constructor
