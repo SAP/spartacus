@@ -79,11 +79,6 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          deletedComment: `${oldApiElement.kind} ${
-            oldApiElement.namespace ? oldApiElement.namespace + '.' : ''
-          }${
-            oldApiElement.name
-          } has been removed and is no longer part of the public API.`,
           migrationComment: common.findDeletedApiComment(
             oldApiElement,
             deletedCommentsData
@@ -222,10 +217,6 @@ function getMembersBreakingChange(
       breakingChanges.push({
         ...getChangeDesc(oldMember, 'DELETED'),
         old: oldMember,
-        apiElementName: oldApiElement.name,
-        apiElementKind: oldApiElement.kind,
-        entryPoint: oldApiElement.entryPoint,
-        deletedComment: `// TODO:Spartacus - ${oldMember.kind} '${oldMember.name}' was removed from ${oldApiElement.kind} '${oldApiElement.name}'.`,
         migrationComment: common.findDeletedMemberComment(
           oldApiElement,
           oldMember.name,
@@ -352,6 +343,7 @@ function addBreakingChanges(element: any, breakingChanges: any[]) {
 function addBreakingChangeContext(apiElement: any, breakingChanges: any[]) {
   return breakingChanges.map((breakingChange: any) => {
     breakingChange.topLevelApiElementName = apiElement.name;
+    breakingChange.topLevelApiElementKind = apiElement.kind;
     breakingChange.entryPoint = apiElement.entryPoint;
     return breakingChange;
   });
@@ -371,8 +363,6 @@ function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        old: oldElement.members,
-        new: newElement.members,
       },
     ];
   } else {

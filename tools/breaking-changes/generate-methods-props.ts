@@ -52,7 +52,9 @@ function getSchematicsData(breakingChange: any): any {
 
 function getSchematicsComment(breakingChange: any): string {
   if (breakingChange.changeType === 'DELETED') {
-    return `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
+    return `${common.generateMemberDeletedComment(breakingChange)} ${
+      breakingChange.migrationComment
+    }`;
   }
   if (breakingChange.changeKind.startsWith('Method')) {
     return `The '${

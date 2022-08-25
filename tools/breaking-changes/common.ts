@@ -369,3 +369,15 @@ function getEnumStateDoc(apiElement): string {
 function getTypeAliasStateDoc(apiElement): string {
   return apiElement.members.join(',\n');
 }
+
+export function generateTopLevelApiDeletedComment(oldApiElement: any): string {
+  return `${oldApiElement.kind} ${
+    oldApiElement.namespace ? oldApiElement.namespace + '.' : ''
+  }${
+    oldApiElement.name
+  } has been removed and is no longer part of the public API.`;
+}
+
+export function generateMemberDeletedComment(breakingChange: any): string {
+  return `// TODO:Spartacus - ${breakingChange.old.kind} '${breakingChange.old.name}' was removed from ${breakingChange.topLevelApiElementKind} '${breakingChange.topLevelApiElementName}'.`;
+}

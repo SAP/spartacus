@@ -46,6 +46,8 @@ function getSchematicsData(apiElement: any): any {
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
-  schematicsData.comment = `${breakingChangeEntry.deletedComment} ${breakingChangeEntry.migrationComment}`;
+  schematicsData.comment = `${common.generateTopLevelApiDeletedComment(
+    apiElement
+  )} ${breakingChangeEntry.migrationComment}`;
   return schematicsData;
 }

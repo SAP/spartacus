@@ -89,7 +89,7 @@ function getDeletdDoc(apiElement: any): string {
   );
 
   return `
-${breakingChangeEntry.deletedComment}
+${common.generateTopLevelApiDeletedComment(apiElement)}
 ${breakingChangeEntry.migrationComment}`;
 }
 
