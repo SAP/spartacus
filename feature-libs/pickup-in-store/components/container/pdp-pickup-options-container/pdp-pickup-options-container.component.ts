@@ -17,6 +17,7 @@ import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupOption,
+  PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -52,12 +53,14 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
-    protected preferredStoreService: PreferredStoreService
+    protected preferredStoreService: PreferredStoreService,
+    protected pickupOptionFacade: PickupOptionFacade
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
+    this.pickupOptionFacade.setPageContext('PDP');
     const productCode$ = this.currentProductService.getProduct().pipe(
       filter(isProductWithCode),
       map((product) => {

@@ -11,6 +11,7 @@ import {
   IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupLocationsSearchFacade,
+  PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -46,7 +47,8 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
     protected readonly currentProductService: CurrentProductService,
     protected readonly preferredStoreService: PreferredStoreService,
-    protected readonly activeCartFacade: ActiveCartFacade // private readonly preferredStoreService: PreferredStoreService
+    protected readonly activeCartFacade: ActiveCartFacade,
+    protected readonly pickupOptionFacade: PickupOptionFacade
   ) {
     // Intentional empty constructor
   }
@@ -63,9 +65,9 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
       this.pickupLocationsSearchService.getHideOutOfStock();
 
     this.subscription.add(
-      this.currentProductService
-        .getProduct()
-        .subscribe((_data) => (this.isPDP = !!_data))
+      this.pickupOptionFacade
+        .getPageContext()
+        .subscribe((_data) => (this.isPDP = _data === 'PDP'))
     );
 
     this.subscription.add(
@@ -108,6 +110,7 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe();
+      this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
     } else {
       const preferredStore = this.preferredStoreService.getPreferredStore();
       if (!this.isPDP && preferredStore) {

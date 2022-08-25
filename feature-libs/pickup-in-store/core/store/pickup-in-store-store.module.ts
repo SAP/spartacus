@@ -12,10 +12,14 @@ import { StoreModule } from '@ngrx/store';
 
 import { effects } from './effects/index';
 import { PICKUP_LOCATIONS_FEATURE } from './pickup-location-state';
+import { PICKUP_OPTION_FEATURE } from './pickup-option-state';
 import {
   pickupLocationsMetaReducers,
   pickupLocationsReducersProvider,
   pickupLocationsReducersToken,
+  pickupOptionMetaReducers,
+  pickupOptionReducersProvider,
+  pickupOptionReducersToken,
   stockMetaReducers,
   stockReducersProvider,
   stockReducersToken,
@@ -35,8 +39,15 @@ import { STOCK_FEATURE } from './stock-state';
         metaReducers: pickupLocationsMetaReducers,
       }
     ),
+    StoreModule.forFeature(PICKUP_OPTION_FEATURE, pickupOptionReducersToken, {
+      metaReducers: pickupOptionMetaReducers,
+    }),
     EffectsModule.forFeature(effects),
   ],
-  providers: [stockReducersProvider, pickupLocationsReducersProvider],
+  providers: [
+    stockReducersProvider,
+    pickupLocationsReducersProvider,
+    pickupOptionReducersProvider,
+  ],
 })
 export class PickupInStoreStoreModule {}

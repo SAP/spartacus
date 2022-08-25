@@ -17,6 +17,7 @@ import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
   PickupOption,
+  PickupOptionFacade,
   RequiredDeepPath,
 } from '@spartacus/pickup-in-store/root';
 import {
@@ -89,12 +90,14 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected pickupOptionFacade: PickupOptionFacade,
     protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
+    this.pickupOptionFacade.setPageContext('CART');
     const outletContext =
       this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
       EMPTY;
@@ -115,10 +118,13 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.cartId = cart.guid;
         this.userId = cart.user.uid;
       }),
-      map(
-        ([orderEntry]): PickupOption =>
-          orderEntry.deliveryPointOfService ? 'pickup' : 'delivery'
-      )
+      map(([orderEntry]): PickupOption => {
+        const pickupOption = orderEntry.deliveryPointOfService
+          ? 'pickup'
+          : 'delivery';
+        this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
+        return pickupOption;
+      })
     );
 
     this.displayName$ = outletContext.pipe(
@@ -150,6 +156,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
+    this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
     if (pickupOption === 'delivery') {
       this.pickupLocationsSearchService.setPickupOptionToDelivery(
         this.cartId,
