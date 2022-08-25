@@ -570,7 +570,7 @@ function parseInstallArgs {
     while [[ $# -gt 0 ]]; do
         case $1 in
             -b|--branch)
-                BRANCH="${PORTS[1]}"
+                BRANCH="$2"
                 echo "➖ Branch to $BRANCH"
                 shift
                 shift
