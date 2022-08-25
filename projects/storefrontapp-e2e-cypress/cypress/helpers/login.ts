@@ -7,8 +7,8 @@ export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
 export const defaultUser = {
-  name: 'test-user-cypress@ydev.hybris.com',
-  password: 'Password123.',
+  name: 'test-user-with-orders@sap.cx.com',
+  password: 'pw4all',
 };
 
 /**

@@ -1,11 +1,24 @@
 import { product } from '../sample-data/checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
+
+export const username = 'test-user-with-orders@sap.cx.com';
+export const password = 'pw4all';
+export const firstName = 'Test';
+export const lastName = 'User';
+export const titleCode = 'mr';
+
+export function loginSuccessfully() {
+  cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
 
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
@@ -47,9 +60,7 @@ export function goToProductPageFromCategory() {
 
 export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/view cart/i).click();
@@ -68,7 +79,7 @@ export function addPaymentMethod() {
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/users/test-user-with-orders@sap.cx.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
@@ -79,8 +90,8 @@ export function addPaymentMethod() {
           accountHolderName: 'test user',
           cardNumber: '4111111111111111',
           cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2125',
+          expiryMonth: '12',
+          expiryYear: '2027',
           defaultPayment: true,
           saved: true,
           billingAddress: {
@@ -107,18 +118,18 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages`,
     query: {
-      pageLabelOrId: '/checkout/shipping-address',
+      pageLabelOrId: '/checkout/delivery-address',
     },
   }).as('getShippingPage');
   cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
 
   cy.intercept({
@@ -151,7 +162,7 @@ export function selectDeliveryMethod() {
       pageLabelOrId: '/checkout/payment-details',
     },
   }).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('response.statusCode').should('eq', 200);
@@ -174,7 +185,7 @@ export function verifyAndPlaceOrder() {
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
