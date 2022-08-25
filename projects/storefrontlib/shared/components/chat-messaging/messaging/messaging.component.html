@@ -52,7 +52,7 @@
           [formControl]="form.get('file')"
           [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
           multiple="maxEntries > 1"
-          *ngIf="messagingConfigs.uploadFile"
+          *ngIf="messagingConfigs?.uploadFile"
         >
           <ng-template>
             <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
