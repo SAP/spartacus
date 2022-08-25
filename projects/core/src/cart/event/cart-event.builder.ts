@@ -16,6 +16,7 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from './cart.events';
 
 /**
@@ -38,6 +39,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerMergeCartSuccess();
   }
 
   /**
@@ -77,6 +79,13 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_FAIL,
       event: CartUpdateEntryFailEvent,
+    });
+  }
+
+  protected registerMergeCartSuccess(): void {
+    this.registerMapped({
+      action: CartActions.MERGE_CART_SUCCESS,
+      event: MergeCartSuccessEvent,
     });
   }
 

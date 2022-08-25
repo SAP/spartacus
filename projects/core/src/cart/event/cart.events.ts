@@ -76,3 +76,13 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   quantity: number;
   entry: OrderEntry;
 }
+
+ export class MergeCartSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'MergeCartSuccessEvent';
+  tempCartId: string;
+  oldCartId?: string;
+  extraData?: { active?: boolean };
+}
