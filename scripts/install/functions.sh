@@ -569,6 +569,12 @@ function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
         case $1 in
+            -b|--branch)
+                BRANCH="${PORTS[1]}"
+                echo "➖ Branch to $BRANCH"
+                shift
+                shift
+                ;;
             -p|--port)
                 local PORTS
                 IFS=',' read -ra PORTS <<< "$2"
