@@ -124,11 +124,11 @@ describe('CartPickupOptionsContainerComponent', () => {
       );
     });
 
-    it('should openDialog if display name is not set', () => {
+    it('should not openDialog if display name is not set and ship it is selected', () => {
       spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;
       component.onPickupOptionChange('delivery');
-      expect(component.openDialog).toHaveBeenCalled();
+      expect(component.openDialog).not.toHaveBeenCalled();
     });
 
     it('should set cartId to active cart id', () => {

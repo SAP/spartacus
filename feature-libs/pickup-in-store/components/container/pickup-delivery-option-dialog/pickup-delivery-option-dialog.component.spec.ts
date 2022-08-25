@@ -4,6 +4,7 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
@@ -20,10 +21,10 @@ import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
+import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.spec';
 import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/index';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
-import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.spec';
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({ productCode: 'testProductCode' });
@@ -43,13 +44,36 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
   closeDialog(_reason: string): void {}
 }
-
+export class MockActiveCartService {
+  addEntry(_productCode: string, _quantity: number): void {}
+  getEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
+  isStable(): Observable<boolean> {
+    return of();
+  }
+  getActive(): Observable<Cart> {
+    return of({
+      guid: 'test',
+      user: { uid: 'test' },
+      entries: [{ product: { code: 'test' }, quantity: 1, entryNumber: 1 }],
+    });
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
+  getLastEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
+}
 describe('PickupDeliveryOptionDialogComponent', () => {
   let component: PickupDeliveryOptionDialogComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
   let launchDialogService: LaunchDialogService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let intendedPickupLocationFacade: IntendedPickupLocationFacade;
+  // let activeCartService: ActiveCartFacade;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -78,6 +102,10 @@ describe('PickupDeliveryOptionDialogComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
       ],
     }).compileComponents();
 
@@ -86,6 +114,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
     intendedPickupLocationFacade = TestBed.inject(IntendedPickupLocationFacade);
+    // activeCartService = TestBed.inject(ActiveCartFacade);
 
     fixture.detectChanges();
   });
