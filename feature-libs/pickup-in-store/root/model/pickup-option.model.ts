@@ -6,7 +6,7 @@
 
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { PickRequiredDeep } from '@spartacus/pickup-in-store/core';
+import { PickRequiredDeep } from '../utils/type-utils';
 
 /** The options for receiving a product, either 'delivery' or 'pickup'. */
 export type PickupOption = 'delivery' | 'pickup';

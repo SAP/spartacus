@@ -6,17 +6,18 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
 import * as PickupLocationActions from '../actions/pickup-location.action';
-
 @Injectable()
 export class PickupLocationEffect {
   constructor(
     private readonly actions$: Actions,
-    private readonly pickupLocationConnector: PickupLocationConnector
+    private readonly pickupLocationConnector: PickupLocationConnector,
+    private readonly activeCartFacade: ActiveCartFacade
   ) {
     // Intentional empty constructor
   }
@@ -94,9 +95,10 @@ export class PickupLocationEffect {
             quantity
           )
           .pipe(
-            map(() =>
-              PickupLocationActions.SetPickupOptionToPickupInStoreSuccess()
-            )
+            map(() => {
+              this.activeCartFacade.reloadActiveCart();
+              return PickupLocationActions.SetPickupOptionToPickupInStoreSuccess();
+            })
           )
       )
     )

@@ -11,13 +11,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import {
+  PickRequiredDeep,
   PickupLocationsSearchFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
-import { isInStock, PickRequiredDeep } from '../utils';
+import { isInStock } from '../utils';
 
 export type PointOfServiceNames = PickRequiredDeep<
   PointOfServiceStock,

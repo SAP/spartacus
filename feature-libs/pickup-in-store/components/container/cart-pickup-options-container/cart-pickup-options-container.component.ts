@@ -13,13 +13,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  PreferredStoreService,
-  RequiredDeepPath,
-} from '@spartacus/pickup-in-store/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
   PickupOption,
+  RequiredDeepPath,
 } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
@@ -137,7 +135,8 @@ export class CartPickupOptionsContainerComponent implements OnInit {
             ),
             concatMap((storeName) =>
               this.pickupLocationsSearchService.getStoreDetails(storeName)
-            )
+            ),
+            filter((storeDetails) => !!storeDetails)
           ),
           this.preferredStoreService.getPreferredStoreWithProductInStock(
             productCode
@@ -151,7 +150,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
-    pickupOption === 'delivery' &&
+    if (pickupOption === 'delivery') {
       this.pickupLocationsSearchService.setPickupOptionToDelivery(
         this.cartId,
         this.entryNumber,
@@ -159,6 +158,8 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.productCode,
         this.quantity
       );
+      return;
+    }
 
     if (!this.displayNameIsSet) {
       this.openDialog();

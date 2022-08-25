@@ -5,17 +5,13 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
-  PickupOption,
 } from '@spartacus/pickup-in-store/root';
-import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-list',
@@ -35,18 +31,11 @@ export class StoreListComponent implements OnInit {
   stores$: Observable<PointOfServiceStock[]>;
   hasSearchStarted$: Observable<boolean>;
   isSearchRunning$: Observable<boolean>;
-  cartId: string;
-  pickupOption: PickupOption;
-  name: string;
-  userId: string;
-  isPDP: boolean;
 
   constructor(
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
-    private readonly intendedPickupLocationService: IntendedPickupLocationFacade,
-    private readonly activeCartFacade: ActiveCartFacade,
-    private readonly currentProductService: CurrentProductService
+    private readonly intendedPickupLocationService: IntendedPickupLocationFacade
   ) {
     // Intentional empty constructor
   }
@@ -59,20 +48,6 @@ export class StoreListComponent implements OnInit {
       this.productCode
     );
     this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
-
-    this.activeCartFacade
-      .getActive()
-      .pipe(
-        tap((cart) => {
-          this.cartId = cart.guid ?? '';
-          this.userId = cart.user?.uid ?? '';
-        })
-      )
-      .subscribe();
-
-    this.currentProductService
-      .getProduct()
-      .subscribe((_data) => (this.isPDP = !!_data));
   }
 
   onSelectStore(store: PointOfServiceStock) {
@@ -80,21 +55,11 @@ export class StoreListComponent implements OnInit {
     const { name = '', displayName = '' } = pointOfService;
 
     this.preferredStoreService.setPreferredStore({ name, displayName });
-    if (this.isPDP) {
-      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
-        ...pointOfService,
-        pickupOption: 'pickup',
-      });
-    } else {
-      // TODO may have to move this to cart-options-container component
-      this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
-        this.cartId,
-        this.entryNumber,
-        this.userId,
-        name,
-        this.quantity
-      );
-    }
+
+    this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
+      ...pointOfService,
+      pickupOption: 'pickup',
+    });
 
     this.storeSelected.emit();
   }
