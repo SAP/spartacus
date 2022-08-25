@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { Cart } from '../../model';
 import { createFrom } from '../../util/create-from';
@@ -17,6 +17,7 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent
 } from './cart.events';
 
 let getActiveCartIdSubject: BehaviorSubject<string>;
@@ -344,6 +345,34 @@ describe('CartEventBuilder', () => {
       expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
 
       subscription.unsubscribe();
+    });
+
+    describe('MergeCartSuccessEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        const eventData: MergeCartSuccessEvent = {
+          cartCode: MOCK_ID,
+          tempCartId: 'abc',
+          ...MOCK_ACTIVE_CART_EVENT,
+        };
+
+        let result: MergeCartSuccessEvent | undefined;
+        const subscription = eventService
+          .get(MergeCartSuccessEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next(
+          new CartActions.MergeCartSuccess({
+            oldCartId: 'old-cart-id',
+            tempCartId: 'abc',
+            ...MOCK_ACTIVE_CART_EVENT,
+          })
+        );
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+
+        subscription.unsubscribe();
+      });
     });
   });
 });
