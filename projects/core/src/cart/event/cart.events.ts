@@ -77,7 +77,7 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   entry: OrderEntry;
 }
 
- export class MergeCartSuccessEvent extends CartEvent {
+export class MergeCartSuccessEvent extends CartEvent {
   /**
    * Event's type
    */

@@ -17,7 +17,7 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
-  MergeCartSuccessEvent
+  MergeCartSuccessEvent,
 } from './cart.events';
 
 let getActiveCartIdSubject: BehaviorSubject<string>;

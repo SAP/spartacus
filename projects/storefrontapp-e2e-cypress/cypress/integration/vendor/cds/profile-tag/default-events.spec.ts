@@ -16,7 +16,6 @@ import {
 import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 describe('Profile-tag events', () => {
-
   beforeEach(() => {
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({

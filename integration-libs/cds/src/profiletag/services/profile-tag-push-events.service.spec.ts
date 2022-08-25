@@ -9,7 +9,7 @@ import {
   CartUpdateEntrySuccessEvent,
   CxEvent,
   EventService,
-  MergeCartSuccessEvent
+  MergeCartSuccessEvent,
 } from '@spartacus/core';
 import {
   CartPageEvent,
