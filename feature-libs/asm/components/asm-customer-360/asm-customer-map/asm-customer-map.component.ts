@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AsmConfig } from '@spartacus/asm/core';
 
 import { MapData, StoreData } from './map-types';
 
@@ -79,6 +80,8 @@ export class AsmCustomerMapComponent implements OnInit {
     ],
   };
 
+  readonly apiKey: string | undefined;
+
   currentLocation: string;
 
   googleMapsUrl: SafeResourceUrl;
@@ -86,9 +89,11 @@ export class AsmCustomerMapComponent implements OnInit {
   selectedStore: StoreData;
 
   constructor(
+    asmConfig: AsmConfig,
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer
   ) {
+    this.apiKey = asmConfig.asm?.customer360?.mapsTab?.googleMaps?.apiKey;
     this.selectedStore = this.storeData.data[0];
   }
 
@@ -103,11 +108,11 @@ export class AsmCustomerMapComponent implements OnInit {
   }
 
   updateGoogleMapsUrl(): void {
-    if (this.currentLocation) {
+    if (this.apiKey && this.currentLocation) {
       const coordinates = `${this.selectedStore.latitude},${this.selectedStore.longitude}`;
 
       const params = new HttpParams()
-        .append('key', 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8')
+        .append('key', this.apiKey)
         .append('origin', this.currentLocation)
         .append('destination', coordinates);
 

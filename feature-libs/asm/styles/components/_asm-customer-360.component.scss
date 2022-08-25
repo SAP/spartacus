@@ -55,14 +55,17 @@
     }
 
     .cx-tab-container {
-      border-bottom: 1px solid #dddddd;
+      display: flex;
+      flex-direction: row;
       margin-top: 20px;
-      padding-bottom: 8px;
+      overflow-x: auto;
     }
     .cx-tab {
-      padding: 10px 20px;
+      flex: 1;
+      text-align: center;
       color: var(--cx-color-light);
       border-bottom: 1px solid #dddddd;
+      padding: 0 8px 8px;
       cursor: pointer;
       &.active {
         cursor: default;
@@ -80,13 +83,13 @@
         border-width: 0 0 2px;
         text-decoration: none;
         border-color: var(--cx-color-visual-focus);
-        padding: 10px 20px 9px 20px;
       }
     }
     .cx-tab-content {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
+      padding: 0 0 28px;
     }
     .active {
       color: var(--cx-color-visual-focus);

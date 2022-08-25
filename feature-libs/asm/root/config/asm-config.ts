@@ -40,6 +40,25 @@ export abstract class AsmConfig {
        */
       enable?: boolean;
     };
+    customer360?: {
+      activityTab?: {
+        pageSize?: number;
+      };
+      feedbackTab?: {
+        supportTickets?: {
+          pageSize?: number;
+        };
+        productReviews?: {
+          pageSize?: number;
+        };
+      };
+      mapsTab?: {
+        googleMaps?: {
+          apiKey?: string;
+        };
+        pageSize?: number;
+      };
+    };
   };
 }
 

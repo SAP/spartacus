@@ -134,8 +134,10 @@ export class CustomerCouponFragment
 
   searchAction(term: string): void {
     if (term.length) {
-      const filteredItems = this.items.filter((item) =>
-        item.description?.toLowerCase().includes(term.toLowerCase()) || item.title?.toLowerCase().includes(term.toLocaleLowerCase())
+      const filteredItems = this.items.filter(
+        (item) =>
+          item.description?.toLowerCase().includes(term.toLowerCase()) ||
+          item.title?.toLowerCase().includes(term.toLocaleLowerCase())
       );
       this.tabs = this.tabulate(filteredItems);
     } else {
