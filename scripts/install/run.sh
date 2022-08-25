@@ -47,6 +47,7 @@ fi
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
 CHECK_AFTER_START=false
+CHECK_B2B_AFTER_START=false
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
@@ -58,10 +59,7 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             parseInstallArgs $@
             install_from_npm;;
         'start' )
-            if [[ $* == *--check* ]] ; then
-                CHECK_AFTER_START=true
-                echo "➖ Run Check after Installation"
-            fi
+            parseStartArgs $@
             start_apps;;
         'stop' )
             stop_apps;;

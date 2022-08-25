@@ -398,6 +398,10 @@ function start_apps {
     if [[ "$CHECK_AFTER_START" = true ]] ; then
         check_apps
     fi
+
+    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
+        check_b2b
+    fi
 }
 
 function stop_apps {
@@ -414,6 +418,17 @@ function cmd_help {
     echo " start [--check]"
     echo " stop"
     echo " help"
+}
+
+function check_b2b {
+    printh "Checking Sparatcus B2B"
+
+    sleep 5
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e_b2b)
+    
+    echo "$E2E_RESULT"
 }
 
 function check_apps {
@@ -477,6 +492,44 @@ function run_e2e {
         echo "✅ E2E successful."
     else
         echo "🚫 E2E failed."
+    fi
+}
+
+function run_e2e_b2b {
+    local EXIT_CODE_XVFB=0
+    command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
+    if [ $EXIT_CODE_XVFB -ne 0 ]; then
+        echo "⏩️ B2B E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+    local OUTPUT
+    local EXIT_CODE_1
+    local EXIT_CODE_2
+
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_1=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_2=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    if [ $EXIT_CODE_1 -eq 0 ]; then
+        echo "✅ [1|2] B2B E2E successful."
+    else
+        echo "🚫 [1|2] B2B E2E failed."
+    fi
+
+    if [ $EXIT_CODE_2 -eq 0 ]; then
+        echo "✅ [2|2] B2B E2E successful."
+    else
+        echo "🚫 [2|2] B2B E2E failed."
     fi
 }
 
@@ -602,6 +655,33 @@ function parseInstallArgs {
             cdc)
                 ADD_CDC=false
                 echo "➖ Added CDC"   
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function parseStartArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -c|--check)
+                CHECK_AFTER_START=true
+                echo "➖ Check SSR and SSR after start"
+                shift
+                shift
+                ;;
+            --check-b2b)
+                CHECK_B2B_AFTER_START=true
+                echo "➖ Check B2B after start"
+                shift
                 shift
                 ;;
             -*|--*)
