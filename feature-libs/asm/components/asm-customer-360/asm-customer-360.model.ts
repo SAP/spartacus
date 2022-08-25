@@ -35,9 +35,7 @@ export interface Fragment {
   text: string;
 }
 
-export interface keyValuePair {
+export interface KeyValuePair {
   key: string;
   value: string;
 }
-
-export type Class<T, U> = new (arg: U) => T;

@@ -1,1 +1,8 @@
-<cx-asm-customer-table [fragment]="uiFragment"></cx-asm-customer-table>
+<cx-asm-customer-table
+  emptyStateText="There is currently no recorded customer activity"
+  headerText="General"
+  pageSize="10"
+  sortProperty="updated"
+  [columns]="columns"
+  [entries]="transformedEntries"
+></cx-asm-customer-table>
