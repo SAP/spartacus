@@ -6,9 +6,8 @@ import {
   SortModel,
 } from '@spartacus/core';
 
-interface MediaData {
-  downloadURL?: string;
-  realFileName?: string;
+interface OrgDocumentAttachment {
+  id?: string;
 }
 
 export interface OrgDocumentType {
@@ -69,10 +68,10 @@ export interface AccountSummaryDocument {
   amount?: number;
   createdAtDate?: string;
   currency?: Currency;
-  documentMedia?: MediaData;
   dueAtDate?: string;
   id?: string;
   openAmount?: number;
+  orgDocumentAttachment?: OrgDocumentAttachment;
   orgDocumentType?: OrgDocumentType;
   status?: DocumentStatus;
 }
