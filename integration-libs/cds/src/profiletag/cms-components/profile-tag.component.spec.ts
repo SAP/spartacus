@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
 import { ProfileTagComponent } from './profile-tag.component';
@@ -45,7 +45,7 @@ describe('ProfileTagComponent', () => {
     const subscription = component.profileTagEnabled$.subscribe(
       (data) => (result = data)
     );
-    expect(result).toBe(true);
+    expect(result).toBe(false);
     subscription.unsubscribe();
   });
 });

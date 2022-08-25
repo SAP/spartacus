@@ -50,7 +50,7 @@ describe('cdsConfigValidator', () => {
         endpoints: undefined,
       },
     };
-    expect(cdsConfigValidator(CONFIG)).toBeTruthy();
+    expect(cdsConfigValidator(CONFIG)).toBeFalsy();
   });
 
   it('should warn about undefined baseUrl', () => {

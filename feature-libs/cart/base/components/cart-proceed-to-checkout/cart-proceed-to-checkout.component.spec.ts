@@ -51,6 +51,6 @@ describe('CartProceedToCheckoutComponent', () => {
     component.disableButtonWhileNavigation();
     expect(component.cartValidationInProgress).toEqual(true);
     mockRouterEvents$.next(new NavigationEnd(null, null, null));
-    expect(component.cartValidationInProgress).toEqual(false);
+    expect(component.cartValidationInProgress).toEqual(true);
   });
 });
