@@ -9,8 +9,8 @@ import { isMember, isTopLevelApi } from './common';
 /**
  * This script generates thee breaking changes markdown doc.
  *
- * Input: A breaking changes file, likely `./data/breaking-changes.json`
- * Output: A file, `generate-doc.out.md`, that contains the markdown doc to be copied in the release docs.
+ * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the major version config.`
+ * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a md file that contains the markdown doc to be copied in the release docs.
  *
  */
 
