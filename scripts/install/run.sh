@@ -53,7 +53,7 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
     case "${current_command}" in
         'install' )
-            parseInstallArgs $@ 
+            parseInstallArgs $@
             install_from_sources;;
         'install_npm' )
             parseInstallArgs $@

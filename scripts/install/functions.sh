@@ -676,12 +676,10 @@ function parseStartArgs {
                 CHECK_AFTER_START=true
                 echo "➖ Check SSR and SSR after start"
                 shift
-                shift
                 ;;
             --check-b2b)
                 CHECK_B2B_AFTER_START=true
                 echo "➖ Check B2B after start"
-                shift
                 shift
                 ;;
             -*|--*)
