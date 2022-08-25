@@ -9,8 +9,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
@@ -106,18 +108,73 @@ describe('AddToSavedCartComponent', () => {
     );
   });
 
-  it("should show the 'Save cart for later' button", () => {
-    expect(component.showSaveCartForLater(mockCart)).toBe(true);
+  it("should show the 'Save cart for later' button", (done) => {
+    fixture.destroy();
+
+    const activeCartFacade = TestBed.inject(ActiveCartFacade);
+
+    const cart: Cart = {
+      ...mockCart,
+      entries: [{}],
+    };
+
+    spyOn(activeCartFacade, 'getActive').and.returnValue(of(cart));
+
+    fixture = TestBed.createComponent(AddToSavedCartComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    component.showSaveCartForLater$
+      .pipe(take(1))
+      .subscribe((showSaveCartForLater) => {
+        expect(showSaveCartForLater).toBe(true);
+
+        done();
+      });
   });
 
-  it("should hide the 'Save cart for later' button", () => {
-    expect(component.showSaveCartForLater({})).toBe(false);
+  it("should hide the 'Save cart for later' button if the cart is an empty object", (done) => {
+    fixture.destroy();
+
+    const activeCartFacade = TestBed.inject(ActiveCartFacade);
+
+    spyOn(activeCartFacade, 'getActive').and.returnValue(of({}));
+
+    fixture = TestBed.createComponent(AddToSavedCartComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    component.showSaveCartForLater$
+      .pipe(take(1))
+      .subscribe((showSaveCartForLater) => {
+        expect(showSaveCartForLater).toBe(false);
+
+        done();
+      });
+  });
+
+  it("should hide the 'Save cart for later' button if the cart has no entries", (done) => {
+    fixture.destroy();
+
+    const activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     const emptyCart = {
       entries: [],
     };
 
-    expect(component.showSaveCartForLater(emptyCart)).toBe(false);
+    spyOn(activeCartFacade, 'getActive').and.returnValue(of(emptyCart));
+
+    fixture = TestBed.createComponent(AddToSavedCartComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    component.showSaveCartForLater$
+      .pipe(take(1))
+      .subscribe((showSaveCartForLater) => {
+        expect(showSaveCartForLater).toBe(false);
+
+        done();
+      });
   });
 
   describe('should trigger action on save cart method', () => {
