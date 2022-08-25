@@ -564,3 +564,47 @@ function ng_sanity_check {
         fi
     fi
 }
+
+function parseInstallArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
+            b2b)
+                ADD_B2B_LIBS=false
+                echo "➖ Added B2B Libs"         
+                shift
+                ;;
+            cpq)
+                ADD_CPQ=false
+                echo "➖ Added CPQ"   
+                shift
+                ;;
+            cdc)
+                ADD_CDC=false
+                echo "➖ Added CDC"   
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}

@@ -52,12 +52,15 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
     case "${current_command}" in
         'install' )
+            parseInstallArgs $@ 
             install_from_sources;;
         'install_npm' )
+            parseInstallArgs $@
             install_from_npm;;
         'start' )
             if [[ $* == *--check* ]] ; then
                 CHECK_AFTER_START=true
+                echo "➖ Run Check after Installation"
             fi
             start_apps;;
         'stop' )
