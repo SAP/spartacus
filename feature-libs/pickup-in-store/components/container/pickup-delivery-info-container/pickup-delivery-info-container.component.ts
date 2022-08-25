@@ -5,13 +5,14 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
-import { combineLatest, Observable } from 'rxjs';
+import { OutletContextData } from '@spartacus/storefront';
+
 import { filter, map, mergeMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -19,46 +20,36 @@ import { filter, map, mergeMap, tap } from 'rxjs/operators';
   templateUrl: './pickup-delivery-info-container.component.html',
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
-  cart$: Observable<Cart>;
-  storesDetailsData: Partial<PointOfService>[];
+  storeDetailsData: Partial<PointOfService>;
+  orderEntry: OrderEntry;
   constructor(
+    protected outlet: OutletContextData<OrderEntry>,
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
     protected readonly storeDetails: PickupLocationsSearchFacade
   ) {}
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
-    this.cart$
+    // TODO make sure we clean up the subscription in ngDestroy
+    this.outlet?.context$
       .pipe(
-        map((cart) => cart.entries),
-        filter((entries): entries is OrderEntry[] => !!entries),
-        map((entries) =>
-          entries
-            .map((entry) => entry.deliveryPointOfService?.name)
-            .filter((name): name is string => !!name)
+        tap((orderEntry) => (this.orderEntry = orderEntry)),
+        map((entry) => entry.deliveryPointOfService?.name),
+        filter((storeName) => !!storeName),
+        tap((storeName) =>
+          this.storeDetails.loadStoreDetails(storeName as string)
         ),
-        tap((storeNames) =>
-          storeNames.forEach((storeName) =>
-            this.storeDetails.loadStoreDetails(storeName)
-          )
+        mergeMap((storeName) =>
+          this.storeDetails
+            .getStoreDetails(storeName as string)
+            .pipe(filter((details) => !!details))
         ),
-        mergeMap((storeNames) =>
-          combineLatest(
-            storeNames.map((storeName) =>
-              this.storeDetails
-                .getStoreDetails(storeName)
-                .pipe(filter((details) => !!details))
-            )
-          )
-        ),
-        map((pointOfService) =>
-          pointOfService.map(({ address, displayName, openingHours }) => ({
-            address,
-            displayName,
-            openingHours,
-          }))
-        ),
-        tap((storesDetailsData) => (this.storesDetailsData = storesDetailsData))
+        map(({ address, displayName, openingHours, name }) => ({
+          address,
+          displayName,
+          openingHours,
+          name,
+        })),
+        tap((storeDetailsData) => (this.storeDetailsData = storeDetailsData))
       )
       .subscribe();
   }

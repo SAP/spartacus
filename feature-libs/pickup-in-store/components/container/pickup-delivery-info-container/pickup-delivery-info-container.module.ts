@@ -8,12 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
-import { PickupDeliveryInfoModule } from '../../presentational/index';
+import { CustomerDeliveryInfoModule, PickupDeliveryInfoModule } from '../../presentational/index';
 
 import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupDeliveryInfoModule],
+  imports: [CommonModule, PickupDeliveryInfoModule, CustomerDeliveryInfoModule],
   exports: [PickupDeliveryInfoContainerComponent],
   declarations: [PickupDeliveryInfoContainerComponent],
   providers: [

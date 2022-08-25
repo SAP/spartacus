@@ -1,6 +1,9 @@
 <td colspan="4">
   <cx-pickup-delivery-info
-    *ngFor="let storeDetailsData of storesDetailsData"
+    *ngIf="orderEntry?.deliveryPointOfService?.name"
     [storeDetails]="storeDetailsData"
   ></cx-pickup-delivery-info>
+  <cx-customer-delivery-info
+    *ngIf="!orderEntry?.deliveryPointOfService?.name"
+  ></cx-customer-delivery-info>
 </td>

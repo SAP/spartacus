@@ -1,0 +1,19 @@
+.customer-delivery-info {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  width: 100%;
+
+  .customer-delivery-info-header {
+    width: 100%;
+    background-color: gray;
+    height: 50px;
+    line-height: 50px;
+  }
+  .customer-delivery-info-address {
+    width: 50%;
+  }
+  .customer-delivery-info-shipping-method {
+    width: 50%;
+  }
+}

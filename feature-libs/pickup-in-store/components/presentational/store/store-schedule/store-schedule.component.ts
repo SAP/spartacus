@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 
 type OpeningTime = {
@@ -17,13 +17,13 @@ type OpeningTime = {
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
 })
-export class StoreScheduleComponent implements OnInit {
+export class StoreScheduleComponent implements OnChanges {
   @Input()
   storeDetails: PointOfService = {};
 
   openingTimes: OpeningTime[] = [];
 
-  ngOnInit() {
+  ngOnChanges() {
     this.openingTimes =
       this.storeDetails?.openingHours?.weekDayOpeningList?.map(
         ({ weekDay, closed, openingTime, closingTime }) => {
