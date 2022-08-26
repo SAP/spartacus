@@ -76,7 +76,7 @@ export class ConfiguratorCommonsService {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
-        this.configuratorUtils.isConfigurationCreated(configuration)
+          this.configuratorUtils.isConfigurationCreated(configuration)
       )
     );
   }
@@ -260,5 +260,14 @@ export class ConfiguratorCommonsService {
     configuration: Configurator.Configuration
   ): boolean {
     return configuration.overview !== undefined;
+  }
+
+  /**
+   * Removes product bound configurations that is linked to state
+   */
+  removeProductBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveProductBoundConfigurations()
+    );
   }
 }
