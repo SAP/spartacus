@@ -9,22 +9,23 @@ import { FormControl, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
+  Command,
+  CommandService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  isNotUndefined,
   OCC_CART_ID_CURRENT,
-  User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { defer, Subscription } from 'rxjs';
+import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-bind-cart',
   templateUrl: './asm-bind-cart.component.html',
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
-  customer: User;
   cartId: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(1),
@@ -34,29 +35,47 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
 
+  protected bindCartToCurrentUser$: Command<string, unknown> =
+    this.commandService.create((cartId) =>
+      this.userAccountFacade.get().pipe(
+        take(1),
+        map((customer) => customer?.uid),
+        filter(isNotUndefined),
+        concatMap((customerId) =>
+          this.asmBindCartFacade
+            .bindCart({
+              cartId,
+              customerId,
+            })
+            .pipe(
+              tap(() =>
+                this.multiCartFacade.loadCart({
+                  cartId: OCC_CART_ID_CURRENT,
+                  userId: customerId,
+                })
+              )
+            )
+        )
+      )
+    );
+
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
     protected userAccountFacade: UserAccountFacade,
-    protected asmBindCartFacade: AsmBindCartFacade
+    protected asmBindCartFacade: AsmBindCartFacade,
+    protected commandService: CommandService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userAccountFacade.get().subscribe((user) => {
-        if (user) {
-          this.customer = user;
-        }
-      })
-    );
-
-    this.subscription.add(
-      this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
-        if (response) {
+      this.activeCartFacade
+        .getActiveCartId()
+        .pipe(filter((id) => Boolean(id)))
+        .subscribe((response) => {
           this.cartId.setValue(response);
-        }
-      })
+        })
     );
   }
 
@@ -64,16 +83,11 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    const customerId = this.customer.uid;
-
-    if (customerId && this.cartId.valid && !this.loading) {
-      this.loading = true;
-
-      const subscription = this.asmBindCartFacade
-        .bindCart({
-          cartId: this.cartId.value,
-          customerId,
-        })
+    if (this.cartId.valid && !this.loading) {
+      const subscription = defer(() => {
+        this.loading = true;
+        return this.bindCartToCurrentUser$.execute(this.cartId.value);
+      })
         .pipe(finalize(() => (this.loading = false)))
         .subscribe(
           () => {
@@ -81,11 +95,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
               { key: 'asm.bindCart.success' },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-
-            this.multiCartFacade.loadCart({
-              cartId: OCC_CART_ID_CURRENT,
-              userId: customerId,
-            });
           },
           (error: HttpErrorModel) => {
             this.globalMessageService.add(

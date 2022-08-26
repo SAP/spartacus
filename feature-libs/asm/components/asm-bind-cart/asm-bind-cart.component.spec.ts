@@ -21,10 +21,9 @@ class MockActiveCartService {
   }
 }
 
-const baseSite = 'test-site';
 class MockBaseSiteService {
   getActive(): Observable<string> {
-    return of(baseSite);
+    return of('test-site');
   }
 }
 
