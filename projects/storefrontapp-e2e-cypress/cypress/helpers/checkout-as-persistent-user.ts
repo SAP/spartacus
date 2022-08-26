@@ -18,7 +18,7 @@ export function addShippingAddress() {
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
@@ -79,7 +79,7 @@ export function addPaymentMethod() {
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/users/test-user-with-orders@sap.cx.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
@@ -118,18 +118,18 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages`,
     query: {
-      pageLabelOrId: '/checkout/shipping-address',
+      pageLabelOrId: '/checkout/delivery-address',
     },
   }).as('getShippingPage');
   cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
 
   cy.intercept({
@@ -162,7 +162,7 @@ export function selectDeliveryMethod() {
       pageLabelOrId: '/checkout/payment-details',
     },
   }).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('response.statusCode').should('eq', 200);
@@ -185,7 +185,7 @@ export function verifyAndPlaceOrder() {
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
