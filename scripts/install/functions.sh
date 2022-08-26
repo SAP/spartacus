@@ -413,9 +413,9 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install (from sources)"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] - (from sources), extensions available: b2b, cpq, cdc"
     echo " install_npm (from latest npm packages)"
-    echo " start [--check]"
+    echo " start [--check] [--check-b2b] [--force-e2e]"
     echo " stop"
     echo " help"
 }
