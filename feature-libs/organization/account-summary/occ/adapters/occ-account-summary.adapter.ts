@@ -4,6 +4,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   AccountSummaryAdapter,
   ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
+  ACCOUNT_SUMMARY_DOCUMENT_ATTACHMENT_NORMALIZER,
   ACCOUNT_SUMMARY_NORMALIZER,
 } from '@spartacus/organization/account-summary/core';
 import {
@@ -44,6 +45,26 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       .pipe(this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER));
   }
 
+  getDocumentAttachment(
+    userId: string,
+    orgUnitId: string,
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any> {
+    return this.http
+      .get<any>(
+        this.getDocumentAttachmentEndPoint(
+          userId,
+          orgUnitId,
+          orgDocumentId,
+          orgDocumentAttachmentId
+        )
+      )
+      .pipe(
+        this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_ATTACHMENT_NORMALIZER)
+      );
+  }
+
   private getAccountSummaryEndPoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.buildUrl('accountSummary', {
       urlParams: { userId, orgUnitId },
@@ -58,6 +79,17 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     return this.occEndpoints.buildUrl('accountSummaryDocument', {
       urlParams: { userId, orgUnitId },
       queryParams,
+    });
+  }
+
+  private getDocumentAttachmentEndPoint(
+    userId: string,
+    orgUnitId: string,
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): string {
+    return this.occEndpoints.buildUrl('accountSummaryDocumentAttachment', {
+      urlParams: { userId, orgUnitId, orgDocumentId, orgDocumentAttachmentId },
     });
   }
 }

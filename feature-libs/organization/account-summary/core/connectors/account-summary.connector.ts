@@ -25,4 +25,18 @@ export class AccountSummaryConnector {
   ): Observable<AccountSummaryList> {
     return this.accountSummaryAdapter.getDocumentList(userId, unitCode, params);
   }
+
+  getDocumentAttachment(
+    userId: string,
+    orgUnitId: string,
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any> {
+    return this.accountSummaryAdapter.getDocumentAttachment(
+      userId,
+      orgUnitId,
+      orgDocumentId,
+      orgDocumentAttachmentId
+    );
+  }
 }

@@ -16,6 +16,14 @@ export interface AccountSummaryOccEndpoints {
    */
 
   accountSummaryDocument?: string | OccEndpoint;
+
+  /**
+   * Get Account summary document attachment
+   *
+   * @member {string} [accountSummaryDocumentAttachment]
+   */
+
+  accountSummaryDocumentAttachment?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

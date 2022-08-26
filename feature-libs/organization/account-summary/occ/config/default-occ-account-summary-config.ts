@@ -4,6 +4,8 @@ import { AccountSummaryOccEndpoints } from '../model';
 const accountSummaryHeaderOccEndpoints: AccountSummaryOccEndpoints = {
   accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/summary',
   accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/orgDocuments',
+  accountSummaryDocumentAttachment:
+    'users/${userId}/orgUnits/${orgUnitId}/orgDocuments/${orgDocumentId}/attachments/${orgDocumentAttachmentId}',
 };
 
 export const defaultOccAccountSummaryConfig: OccConfig = {

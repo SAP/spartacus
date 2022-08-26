@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SortModel, TranslationService } from '@spartacus/core';
 import {
+  AccountSummaryDocument,
   AccountSummaryDocumentType,
   AccountSummaryFacade,
   AccountSummaryList,
@@ -61,6 +62,14 @@ export class AccountSummaryDocumentComponent implements OnInit {
     this.queryParams.filterByKey = newFilters.filterByKey;
     this.queryParams.filterByValue = newFilters.filterByValue;
     this.fetchDocuments();
+  }
+
+  downloadAttachment(document: AccountSummaryDocument): void {
+    if (document.id && document.orgDocumentAttachment?.id) {
+      this.accountSummaryFacade
+        .getDocumentAttachment(document.id, document.orgDocumentAttachment?.id)
+        .subscribe((res) => (res ? console.log('yes!') : console.log('no!')));
+    }
   }
 
   private fetchDocuments(isFullFetch = false): void {

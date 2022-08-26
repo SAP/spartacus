@@ -44,4 +44,18 @@ export class AccountSummaryService implements AccountSummaryFacade {
       .getDocumentList(this.userId, this.unitCode, params)
       .pipe(shareReplay(1));
   }
+
+  getDocumentAttachment(
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any> {
+    return this.accountSummaryConnector
+      .getDocumentAttachment(
+        this.userId,
+        this.unitCode,
+        orgDocumentId,
+        orgDocumentAttachmentId
+      )
+      .pipe(shareReplay(1));
+  }
 }

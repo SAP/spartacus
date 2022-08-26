@@ -28,4 +28,19 @@ export abstract class AccountSummaryAdapter {
     unitCode: string,
     params: DocumentQueryParams
   ): Observable<AccountSummaryList>;
+
+  /**
+   * Abstract method to load a document attachment
+   * @param userId
+   * @param orgUnitId
+   * @param orgDocumentId
+   * @param orgDocumentAttachmentId
+   */
+
+  abstract getDocumentAttachment(
+    userId: string,
+    orgUnitId: string,
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any>;
 }
