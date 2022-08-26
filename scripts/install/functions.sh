@@ -574,7 +574,7 @@ function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4
 function run_sanity_check {
     if [ "$SKIP_SANITY" = true ]; then
         printh "Skip config sanity check"
-    elif
+    else
         printh "Run config sanity check"
         ng_sanity_check
         basesite_sanity_check
