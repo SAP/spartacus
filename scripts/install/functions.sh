@@ -413,7 +413,7 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] - (from sources), extensions available: b2b, cpq, cdc"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] - (from sources), extensions available: b2b, cpq, cdc"
     echo " install_npm (from latest npm packages)"
     echo " start [--check] [--check-b2b] [--force-e2e]"
     echo " stop"
@@ -572,9 +572,13 @@ function print_times {
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function run_sanity_check {
-    printh "Run config sanity check"
-    ng_sanity_check
-    basesite_sanity_check
+    if [ "$SKIP_SANITY" = true ]; then
+        printh "Skip config sanity check"
+    elif
+        printh "Run config sanity check"
+        ng_sanity_check
+        basesite_sanity_check
+    fi
 }
 
 function basesite_sanity_check {
@@ -640,6 +644,17 @@ function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
         case $1 in
+            --skipsanity)
+                SKIP_SANITY=true
+                echo "➖ Skip Sanity Check"
+                shift
+                ;;
+            -s|--basesite)
+                BASE_URL="$2"
+                echo "➖ BASE_SITE to $BASE_SITE"
+                shift
+                shift
+                ;;
             -b|--branch)
                 BRANCH="$2"
                 echo "➖ Branch to $BRANCH"
