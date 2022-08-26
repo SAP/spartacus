@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+import {
+  PickupLocationsSearchFacade,
+  PickupOptionFacade,
+} from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -13,6 +16,7 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.facade.spec';
 import { PickupOptionsModule } from '../../presentational';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 import {
@@ -61,7 +65,7 @@ describe('CartPickupOptionsContainerComponent', () => {
   let fixture: ComponentFixture<CartPickupOptionsContainerComponent>;
   let activeCartService: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
-
+  let pickupOptionService: PickupOptionFacade;
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, PickupOptionsModule],
@@ -83,6 +87,10 @@ describe('CartPickupOptionsContainerComponent', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchFacade,
         },
+        {
+          provide: PickupOptionFacade,
+          useClass: MockPickupOptionFacade,
+        },
       ],
       declarations: [CartPickupOptionsContainerComponent],
     });
@@ -92,7 +100,7 @@ describe('CartPickupOptionsContainerComponent', () => {
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     activeCartService = TestBed.inject(ActiveCartFacade);
-
+    pickupOptionService = TestBed.inject(PickupOptionFacade);
     spyOn(launchDialogService, 'openDialog').and.callThrough();
 
     fixture.detectChanges();
@@ -131,7 +139,20 @@ describe('CartPickupOptionsContainerComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
+    it('should openDialog if display name is set and pickup is selected', () => {
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = false;
+      component.onPickupOptionChange('pickup');
+      expect(component.openDialog).toHaveBeenCalled();
+    });
+
     it('should set cartId to active cart id', () => {
+      spyOn(activeCartService, 'getActive').and.callThrough();
+      component.ngOnInit();
+      expect(component['cartId']).toBe('cartGuid');
+    });
+
+    it('should call getPreferredStoreWithProductInStock', () => {
       spyOn(activeCartService, 'getActive').and.callThrough();
       component.ngOnInit();
       expect(component['cartId']).toBe('cartGuid');
@@ -159,6 +180,9 @@ describe('CartPickupOptionsContainerComponent', () => {
     });
 
     it('should set the pickupOption to delivery', () => {
+      spyOn(pickupOptionService, 'getPickupOption').and.returnValue(
+        of('delivery')
+      );
       expect(component.pickupOption$).toBeObservable(
         cold('(a|)', { a: 'delivery' })
       );

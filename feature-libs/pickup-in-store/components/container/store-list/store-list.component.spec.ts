@@ -19,7 +19,7 @@ describe('StoreListComponent', () => {
   let component: StoreListComponent;
   let fixture: ComponentFixture<StoreListComponent>;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
-
+  let preferredStoreService: PreferredStoreService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -47,6 +47,7 @@ describe('StoreListComponent', () => {
     fixture = TestBed.createComponent(StoreListComponent);
     component = fixture.componentInstance;
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
+    preferredStoreService = TestBed.inject(PreferredStoreService);
     component.productCode = 'productCode';
     fixture.detectChanges();
   });
@@ -75,5 +76,20 @@ describe('StoreListComponent', () => {
     expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
       'productCode'
     );
+  });
+
+  it('should emit storeSelected', () => {
+    spyOn(component.storeSelected, 'emit');
+    const pointOfService = {
+      name: 'Store Name',
+      displayName: 'Store Name',
+    };
+    component.onSelectStore(pointOfService);
+    expect(component.storeSelected.emit).toHaveBeenCalled();
+  });
+  it('should call setPreferredStore', () => {
+    spyOn(preferredStoreService, 'setPreferredStore');
+    component.onSelectStore({});
+    expect(preferredStoreService.setPreferredStore).toHaveBeenCalled();
   });
 });

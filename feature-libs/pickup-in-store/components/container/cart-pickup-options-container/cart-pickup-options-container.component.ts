@@ -132,13 +132,19 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         storeName: orderEntry.deliveryPointOfService?.name,
         productCode: orderEntry.product.code,
       })),
+      tap((data) => console.log('data', data)),
       switchMap(({ storeName, productCode }) =>
         iif(
-          () => !!storeName,
+          () => {
+            console.log('storeName', !!storeName);
+            return !!storeName;
+          },
           of(storeName as string).pipe(
-            tap((storeName) =>
-              this.pickupLocationsSearchService.loadStoreDetails(storeName)
-            ),
+            tap((storeName) => {
+              return this.pickupLocationsSearchService.loadStoreDetails(
+                storeName
+              );
+            }),
             concatMap((storeName) =>
               this.pickupLocationsSearchService.getStoreDetails(storeName)
             ),

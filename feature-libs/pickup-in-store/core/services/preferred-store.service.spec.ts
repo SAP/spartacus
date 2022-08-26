@@ -181,4 +181,5 @@ export class MockPreferredStoreService {
   }
   setPreferredStore(_preferredStore: PointOfServiceNames): void {}
   clearPreferredStore(): void {}
+  getPreferredStoreWithProductInStock(): void {}
 }

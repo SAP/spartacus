@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import {
   PickupOption,
   PickupOptionFacade,
@@ -33,7 +33,7 @@ export class PickupOptionService implements PickupOptionFacade {
   }
 
   getPageContext(): Observable<string> {
-    return this.store.select(PickupOptionSelectors.getPageContext());
+    return this.store.pipe(select(PickupOptionSelectors.getPageContext()));
   }
 
   setPickupOption(entryNumber: number, pickupOption: PickupOption): void {
@@ -45,8 +45,8 @@ export class PickupOptionService implements PickupOptionFacade {
   }
 
   getPickupOption(entryNumber: number): Observable<PickupOption> {
-    return this.store.select(
-      PickupOptionSelectors.getPickupOption(entryNumber)
+    return this.store.pipe(
+      select(PickupOptionSelectors.getPickupOption(entryNumber))
     );
   }
 }

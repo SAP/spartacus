@@ -10,6 +10,7 @@ import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -21,10 +22,12 @@ import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.facade.spec';
 import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.spec';
 import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/index';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
+
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({ productCode: 'testProductCode' });
@@ -66,6 +69,7 @@ export class MockActiveCartService {
     return of();
   }
 }
+
 describe('PickupDeliveryOptionDialogComponent', () => {
   let component: PickupDeliveryOptionDialogComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
@@ -105,6 +109,10 @@ describe('PickupDeliveryOptionDialogComponent', () => {
         {
           provide: ActiveCartFacade,
           useClass: MockActiveCartService,
+        },
+        {
+          provide: PickupOptionFacade,
+          useClass: MockPickupOptionFacade,
         },
       ],
     }).compileComponents();

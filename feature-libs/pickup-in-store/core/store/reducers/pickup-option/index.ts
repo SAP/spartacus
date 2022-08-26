@@ -11,7 +11,7 @@ import { PickupOptionState } from '../../pickup-option-state';
 import { pageContextReducer } from './page-context.reducer';
 import { pickupOptionReducer } from './pickup-option.reducer';
 
-function getReducers(): ActionReducerMap<PickupOptionState> {
+export function getPickupReducers(): ActionReducerMap<PickupOptionState> {
   return {
     pickupOption: pickupOptionReducer,
     pageContext: pageContextReducer,
@@ -25,7 +25,7 @@ export const pickupOptionReducersToken: InjectionToken<
 );
 export const pickupOptionReducersProvider: Provider = {
   provide: pickupOptionReducersToken,
-  useFactory: getReducers,
+  useFactory: getPickupReducers,
 };
 
 export const pickupOptionMetaReducers: MetaReducer<any>[] = [];
