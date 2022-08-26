@@ -10,7 +10,7 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -36,7 +36,8 @@ export class AccountSummaryDocumentComponent implements OnInit {
 
   constructor(
     private accountSummaryFacade: AccountSummaryFacade,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    private downloadService: FileDownloadService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +69,16 @@ export class AccountSummaryDocumentComponent implements OnInit {
     if (document.id && document.orgDocumentAttachment?.id) {
       this.accountSummaryFacade
         .getDocumentAttachment(document.id, document.orgDocumentAttachment?.id)
-        .subscribe((res) => (res ? console.log('yes!') : console.log('no!')));
+        .subscribe(
+          (data) => {
+            let file = new Blob([data], { type: 'application/pdf' });
+            let url = URL.createObjectURL(file);
+            this.downloadService.download(url);
+          },
+          (err) => {
+            console.error('Error fetching attachment file', err);
+          }
+        );
     }
   }
 

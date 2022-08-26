@@ -4,7 +4,6 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   AccountSummaryAdapter,
   ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
-  ACCOUNT_SUMMARY_DOCUMENT_ATTACHMENT_NORMALIZER,
   ACCOUNT_SUMMARY_NORMALIZER,
 } from '@spartacus/organization/account-summary/core';
 import {
@@ -51,18 +50,19 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     orgDocumentId: string,
     orgDocumentAttachmentId: string
   ): Observable<any> {
-    return this.http
-      .get<any>(
-        this.getDocumentAttachmentEndPoint(
-          userId,
-          orgUnitId,
-          orgDocumentId,
-          orgDocumentAttachmentId
-        )
-      )
-      .pipe(
-        this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_ATTACHMENT_NORMALIZER)
-      );
+    const options = {
+      responseType: 'blob' as 'json',
+    };
+
+    return this.http.get<Observable<any>>(
+      this.getDocumentAttachmentEndPoint(
+        userId,
+        orgUnitId,
+        orgDocumentId,
+        orgDocumentAttachmentId
+      ),
+      options
+    );
   }
 
   private getAccountSummaryEndPoint(userId: string, orgUnitId: string): string {
