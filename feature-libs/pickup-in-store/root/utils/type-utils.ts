@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /** A utility type that represents the type of items in an array without the first item */
 type Shift<T extends any[]> = ((...t: T) => any) extends (
   first: any,

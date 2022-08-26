@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
+import { PickupOption } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,9 @@ import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
 export abstract class PickupOptionFacade {
   abstract setPageContext(pageContext: string): void;
   abstract getPageContext(): Observable<string>;
-  abstract setPickupOption(entryNumber: number, pickupOption: string): void;
-  abstract getPickupOption(entryNumber: number): Observable<string>;
+  abstract setPickupOption(
+    entryNumber: number,
+    pickupOption: PickupOption
+  ): void;
+  abstract getPickupOption(entryNumber: number): Observable<PickupOption>;
 }

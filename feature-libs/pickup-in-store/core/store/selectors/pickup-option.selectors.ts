@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 import {
   PickupOptionState,
   StateWithPickupOption,
@@ -16,7 +23,7 @@ export const getPageContext = (): MemoizedSelector<
 
 export const getPickupOption = (
   entryNumber: number
-): MemoizedSelector<StateWithPickupOption, string> =>
+): MemoizedSelector<StateWithPickupOption, PickupOption> =>
   createSelector(
     getPickupOptionState,
     (state: PickupOptionState) => state.pickupOption[entryNumber]

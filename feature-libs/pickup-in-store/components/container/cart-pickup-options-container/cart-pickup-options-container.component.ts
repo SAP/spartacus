@@ -118,12 +118,12 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.cartId = cart.guid;
         this.userId = cart.user.uid;
       }),
-      map(([orderEntry]): PickupOption => {
-        const pickupOption = orderEntry.deliveryPointOfService
+      switchMap(([orderEntry]) => {
+        const pickupOption: PickupOption = orderEntry.deliveryPointOfService
           ? 'pickup'
           : 'delivery';
         this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
-        return pickupOption;
+        return this.pickupOptionFacade.getPickupOption(this.entryNumber);
       })
     );
 
