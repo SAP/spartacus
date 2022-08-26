@@ -6,8 +6,15 @@
 
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {
+  filter,
+  map,
+  mergeMap,
+  take,
+  tap,
+  toArray,
+} from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models';
 import { CdsConfig } from '../../../config';
 import { ProfileTagEventService } from '../../../profiletag';
@@ -16,7 +23,7 @@ import {
   MerchandisingMetadata,
   MerchandisingProduct,
   StrategyProduct,
-  StrategyProducts,
+   StrategyResponseV2,
 } from '../../model';
 import {
   CarouselEvent,
@@ -55,39 +62,47 @@ export class MerchandisingCarouselComponentService {
   getMerchandisingCarouselModel(
     cmsComponent: CmsMerchandisingCarouselComponent
   ): Observable<MerchandisingCarouselModel> {
-    return this.cdsMerchandisingProductService
-      .loadProductsForStrategy(
-        cmsComponent.strategy,
-        cmsComponent.numberToDisplay
-      )
-      .pipe(
-        map((strategy) => {
-          const metadata = this.getCarouselMetadata(
-            strategy.products,
-            cmsComponent
-          );
-          const items$ = this.mapStrategyProductsToCarouselItems(
-            strategy.products
-          );
-          const productIds = this.mapStrategyProductsToProductIds(
-            strategy.products
-          );
-          const id = this.getMerchandisingCarouselModelId(
-            cmsComponent,
-            strategy.request
-          );
+    return this.cdsMerchandisingProductService.buildStrategyQuery().pipe(
+      mergeMap((query) => {
+        query.queryParams.pageSize = 2 * cmsComponent.numberToDisplay;
+        query.queryParams.pageNumber = 1;
+        return this.cdsMerchandisingProductService
+          .loadProducts(cmsComponent.strategy, query)
+          .pipe(
+            map((response) => {
+              const count = cmsComponent.numberToDisplay | 10;
 
-          return {
-            id,
-            items$,
-            productIds,
-            metadata,
-            title: cmsComponent.title,
-            backgroundColor: cmsComponent.backgroundColour,
-            textColor: cmsComponent.textColour,
-          };
-        })
-      );
+              const items$ = this.getProductsForCarousel(response, count);
+
+              //FIXME how to build metedata properly
+              // const metadata = this.getCarouselMetadata(
+              //   strategy.products,
+              //   cmsComponent
+              // );
+
+              //FIXME how to set productIds properly
+              // const productIds = this.mapStrategyProductsToProductIds(
+              //   response.products
+              // );
+
+              const id = this.getMerchandisingCarouselModelId(
+                cmsComponent,
+                query
+              );
+
+              return {
+                id,
+                items$,
+                productIds: [],
+                metadata: response.metadata,
+                title: cmsComponent.title,
+                backgroundColor: cmsComponent.backgroundColour,
+                textColor: cmsComponent.textColour,
+              };
+            })
+          );
+      })
+    );
   }
 
   sendCarouselViewEvent(
@@ -132,48 +147,74 @@ export class MerchandisingCarouselComponentService {
     );
   }
 
-  private getCarouselMetadata(
-    strategyProducts: StrategyProducts,
-    componentData: CmsMerchandisingCarouselComponent
-  ): MerchandisingMetadata {
-    const metadata: MerchandisingMetadata = strategyProducts.metadata ?? {};
-    if (strategyProducts.products && strategyProducts.products.length) {
-      metadata.slots = strategyProducts.products.length;
+  private getProductsForCarousel(
+    response: StrategyResponseV2,
+    count: number
+  ): Observable<Observable<MerchandisingProduct>[]>
+  {
+    return response.products.pipe(
+      mergeMap((prod, index) => this.mapProduct(prod, index)),
+      filter( product => this.filterProduct(product, response)),
+      take(count),
+      toArray(),
+      map((array) => array
+          .sort((a, b) => a.metadata.slot - b.metadata.slot)
+          .map((element) => of(element))
+      )
+    );
+  }
+
+  private mapProduct(
+    strategyProduct: StrategyProduct,
+    index: number
+  ): Observable<MerchandisingProduct> {
+    return this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
+      map((product) => {
+        const result = {
+          ...product,
+          metadata: this.getCarouselItemMetadata(strategyProduct, index + 1),
+        };
+        return result;
+      })
+    );
+  }
+
+  private filterProduct(product: MerchandisingProduct, response: StrategyResponseV2): boolean
+  {
+    let result = true;
+    if (response.metadata['filterOutOfStockProducts']) {
+      result = product.stock?.stockLevel > 0;
     }
-
-    metadata.title = componentData.title;
-    metadata.name = componentData.name;
-    metadata.strategyid = componentData.strategy;
-    metadata.id = componentData.uid;
-
-    return metadata;
+    if (!product.code) {
+      result = false;
+    }
+    return result;
   }
 
-  private mapStrategyProductsToCarouselItems(
-    strategyProducts: StrategyProducts
-  ): Observable<MerchandisingProduct>[] {
-    return strategyProducts && strategyProducts.products
-      ? strategyProducts.products.map((strategyProduct, index) =>
-          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
-            map((product) => ({
-              ...product,
-              metadata: this.getCarouselItemMetadata(
-                strategyProduct,
-                index + 1
-              ),
-            }))
-          )
-        )
-      : [EMPTY];
-  }
-
-  private mapStrategyProductsToProductIds(
-    strategyProducts: StrategyProducts
-  ): string[] {
-    return strategyProducts && strategyProducts.products
-      ? strategyProducts.products.map((strategyProduct) => strategyProduct.id)
-      : [];
-  }
+  // private getCarouselMetadata(
+  //   strategyProducts: StrategyProducts,
+  //   componentData: CmsMerchandisingCarouselComponent
+  // ): MerchandisingMetadata {
+  //   const metadata: MerchandisingMetadata = strategyProducts.metadata ?? {};
+  //   if (strategyProducts.products && strategyProducts.products.length) {
+  //     metadata.slots = strategyProducts.products.length;
+  //   }
+  //
+  //   metadata.title = componentData.title;
+  //   metadata.name = componentData.name;
+  //   metadata.strategyid = componentData.strategy;
+  //   metadata.id = componentData.uid;
+  //
+  //   return metadata;
+  // }
+  //
+  // private mapStrategyProductsToProductIds(
+  //   strategyProducts: StrategyProducts
+  // ): string[] {
+  //   return strategyProducts && strategyProducts.products
+  //     ? strategyProducts.products.map((strategyProduct) => strategyProduct.id)
+  //     : [];
+  // }
 
   private getMerchandisingCarouselModelId(
     cmsComponent: CmsMerchandisingCarouselComponent,

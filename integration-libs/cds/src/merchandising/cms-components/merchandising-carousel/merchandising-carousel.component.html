@@ -7,7 +7,7 @@
     [cxAttributesNamePrefix]="'data-cx-merchandising-carousel'"
   ></div>
   <cx-carousel
-    [items]="merchandisingCarouselModel.items$"
+    [items]="merchandisingCarouselModel.items$ | async"
     [title]="merchandisingCarouselModel.title"
     [template]="carouselItem"
     itemWidth="285px"

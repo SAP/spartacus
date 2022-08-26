@@ -5,6 +5,7 @@
  */
 
 import { StrategyRequest } from '../../cds-models';
+import { Observable } from 'rxjs';
 
 export interface StrategyProduct {
   id?: string;
@@ -26,4 +27,9 @@ export interface StrategyProducts {
 export interface StrategyResponse {
   request: StrategyRequest;
   products: StrategyProducts;
+}
+
+export interface StrategyResponseV2 {
+  products?: Observable<StrategyProduct>;
+  metadata?: { [metadataAttributeName: string]: string };
 }
