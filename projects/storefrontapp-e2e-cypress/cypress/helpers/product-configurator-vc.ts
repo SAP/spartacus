@@ -20,10 +20,11 @@ const conflictHeaderGroupSelector =
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(shopName: string, productId: string) {
-  registerConfigurationRoute();
+  //TODO: remove registerConfigurationRoute
+  //registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  cy.wait('@configure_product');
+  //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
 }
 

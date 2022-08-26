@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import {
   ConfiguratorCommonsService,
-  ConfiguratorLogoutEventListener
+  ConfiguratorLogoutEventListener,
 } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { Type } from '@angular/core';

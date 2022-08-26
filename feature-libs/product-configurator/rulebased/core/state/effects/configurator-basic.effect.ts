@@ -387,7 +387,7 @@ export class ConfiguratorBasicEffects {
     )
   );
 
-  removeBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+  removeProductBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
     createEffect(() =>
       this.actions$.pipe(
         ofType(ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS),

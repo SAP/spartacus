@@ -68,7 +68,7 @@ export class CommonConfiguratorTestUtilsService {
     expectedText: string,
     index?: number
   ) {
-    let text = undefined;
+    let text;
     if (index) {
       text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
     } else {
