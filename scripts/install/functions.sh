@@ -572,11 +572,29 @@ function print_times {
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function run_sanity_check {
+    printh "Run config sanity check"
     ng_sanity_check
+    basesite_sanity_check
+}
+
+function basesite_sanity_check {
+    if [ $ADD_B2B_LIBS = true ] && [ "$BASE_SITE" != "powertools-spa" ]; then
+        echo "❗️ You are trying to install with B2B Libraries. You may want to set the BASE_SITE to 'powertools-spa'"
+        echo ""
+        read -p "Do you want to [c]ontinue anyways, [o]verwrite BASE_SITE with 'powertools-spa' or [a]bort? (c/o/a) " yn
+        case $yn in 
+            c ) echo "continue";;
+            o ) echo "Overwrite BASE_SITE with 'powertools-spa'"
+                BASE_SITE='powertools-spa';;
+            a ) echo "abort";
+                exit;;
+            * ) echo "invalid response";
+                exit 1;;
+        esac
+    fi
 }
 
 function ng_sanity_check {
-    printh "Run config sanity check"
     if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
         local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
         if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
@@ -643,17 +661,17 @@ function parseInstallArgs {
                 shift
                 ;;
             b2b)
-                ADD_B2B_LIBS=false
+                ADD_B2B_LIBS=true
                 echo "➖ Added B2B Libs"         
                 shift
                 ;;
             cpq)
-                ADD_CPQ=false
+                ADD_CPQ=true
                 echo "➖ Added CPQ"   
                 shift
                 ;;
             cdc)
-                ADD_CDC=false
+                ADD_CDC=true
                 echo "➖ Added CDC"   
                 shift
                 ;;
