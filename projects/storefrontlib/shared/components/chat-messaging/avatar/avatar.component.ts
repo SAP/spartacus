@@ -17,7 +17,7 @@ export class AvatarComponent {
   getInitials(author: string) {
     return author
       ? author
-          ?.split(' ')
+          .split(' ')
           .map((author) => author[0])
           .join('')
       : FROM_CUSTOMER;
