@@ -1,7 +1,10 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+
+import { of, Observable } from 'rxjs';
 
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -13,9 +16,9 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 
-import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-import { of, Observable } from 'rxjs';
+
+import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 const mockQueryParams: DocumentQueryParams = {
   status: DocumentStatus.ALL,
@@ -26,6 +29,16 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
     return of(params ? {} : {});
   }
+}
+
+@Component({
+  selector: 'cx-date-picker',
+  template: '',
+})
+class MockDatePickerComponent {
+  @Input() control: any;
+  @Input() min: any;
+  @Input() max: any;
 }
 
 describe('AccountSummaryDocumentFilterComponent', () => {
@@ -42,7 +55,10 @@ describe('AccountSummaryDocumentFilterComponent', () => {
         FormErrorsModule,
         NgSelectModule,
       ],
-      declarations: [AccountSummaryDocumentFilterComponent],
+      declarations: [
+        AccountSummaryDocumentFilterComponent,
+        MockDatePickerComponent,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },

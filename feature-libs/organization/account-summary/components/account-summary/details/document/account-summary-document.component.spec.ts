@@ -1,15 +1,16 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+import { of, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import {
   I18nTestingModule,
   SortModel,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-import { AccountSummaryDocumentComponent } from './account-summary-document.component';
-
-import { of, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-
+import { IconTestingModule } from '@spartacus/storefront';
 import {
   AccountSummaryFacade,
   AccountSummaryList,
@@ -19,272 +20,39 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 
-const mockAccountSummaryList: AccountSummaryList = {
-  orgDocumentTypes: [
-    {
-      code: 'Purchase Order',
-      name: 'Purchase Order',
-    },
-    {
-      code: 'Invoice',
-      name: 'Invoice',
-    },
-    {
-      code: 'Credit Note',
-      name: 'Credit Note',
-    },
-    {
-      code: 'Debit Note',
-      name: 'Debit Note',
-    },
-    {
-      code: 'Statement',
-      name: 'Statement',
-    },
-  ],
-  orgDocuments: [
-    {
-      amount: 7851558,
-      createdAtDate: '2014-06-10',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000001',
-      openAmount: 7851558,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 796371,
-      createdAtDate: '2014-06-10',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      dueAtDate: '2014-07-10',
-      id: 'CRNCR-0000001',
-      openAmount: 796371,
-      orgDocumentType: {
-        code: 'Invoice',
-        name: 'Invoice',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 3175103,
-      createdAtDate: '2014-06-10',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000004',
-      openAmount: 3175103,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 5094536,
-      createdAtDate: '2014-06-10',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000002',
-      openAmount: 5094536,
-      orgDocumentAttachment: {
-        id: 'INPG-00100001',
-      },
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 8200511,
-      createdAtDate: '2014-06-10',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000003',
-      openAmount: 8200511,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 6929663,
-      createdAtDate: '2014-06-12',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000006',
-      openAmount: 6929663,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.CLOSED,
-    },
-    {
-      amount: 7907774,
-      createdAtDate: '2014-06-12',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000005',
-      openAmount: 7907774,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.CLOSED,
-    },
-    {
-      amount: 3754263,
-      createdAtDate: '2014-06-18',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000009',
-      openAmount: 3754263,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 3893837,
-      createdAtDate: '2014-06-18',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000010',
-      openAmount: 3893837,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-    {
-      amount: 2537717,
-      createdAtDate: '2014-06-18',
-      currency: {
-        active: true,
-        isocode: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-      },
-      id: 'POCR-0000011',
-      openAmount: 2537717,
-      orgDocumentType: {
-        code: 'Purchase Order',
-        name: 'Purchase Order',
-      },
-      status: DocumentStatus.OPEN,
-    },
-  ],
-  pagination: {
-    currentPage: 0,
-    pageSize: 10,
-    sort: 'byCreatedAtDateAsc',
-    totalPages: 6,
-    totalResults: 55,
-  },
-  sorts: [
-    {
-      code: 'byCreatedAtDateAsc',
-      selected: true,
-    },
-    {
-      code: 'byCreatedAtDateDesc',
-      selected: false,
-    },
-    {
-      code: 'byDueAtDateAsc',
-      selected: false,
-    },
-    {
-      code: 'byDueAtDateDesc',
-      selected: false,
-    },
-    {
-      code: 'byOriginalAmountAsc',
-      selected: false,
-    },
-    {
-      code: 'byOriginalAmountDesc',
-      selected: false,
-    },
-    {
-      code: 'byOpenAmountAsc',
-      selected: false,
-    },
-    {
-      code: 'byOpenAmountDesc',
-      selected: false,
-    },
-    {
-      code: 'byOrgDocumentTypeAsc',
-      selected: false,
-    },
-    {
-      code: 'byOrgDocumentTypeDesc',
-      selected: false,
-    },
-    {
-      code: 'byStatusAsc',
-      selected: false,
-    },
-    {
-      code: 'byStatusDesc',
-      selected: false,
-    },
-    {
-      code: 'byOrgDocumentIdAsc',
-      selected: false,
-    },
-    {
-      code: 'byOrgDocumentIdDesc',
-      selected: false,
-    },
-  ],
-};
+import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
+import { AccountSummaryDocumentComponent } from './account-summary-document.component';
+import { mockAccountSummaryList } from '../account-summary-mock-data';
 
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination: any;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
+@Component({
+  template: '',
+  selector: 'cx-sorting',
+})
+class MockSortingComponent {
+  @Input() sortOptions: any;
+  @Input() sortLabels: any;
+  @Input() selectedOption: any;
+  @Input() placeholder: any;
+  @Output() sortListEvent = new EventEmitter<string>();
+}
+
+@Component({
+  template: '',
+  selector: 'cx-account-summary-document-filter',
+})
+class MockAccountSummaryDocumentFilterComponent {
+  @Input() documentTypeOptions: any;
+  @Input() initialFilters: any;
+  @Output() filterListEvent = new EventEmitter<DocumentQueryParams>();
+}
 class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
     return of(params ? mockAccountSummaryList : {});
@@ -299,8 +67,13 @@ describe('AccountSummaryDocumentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AccountSummaryDocumentComponent],
+      imports: [I18nTestingModule, IconTestingModule],
+      declarations: [
+        AccountSummaryDocumentComponent,
+        MockAccountSummaryDocumentFilterComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
       providers: [
         {
           provide: TranslationService,
@@ -438,6 +211,97 @@ describe('AccountSummaryDocumentComponent', () => {
     component.sortOptions.forEach((sort, index) => {
       expect(sort.code).toEqual(sorts[index].code);
       expect(sort.name).toEqual('test');
+    });
+  });
+
+  it('Should have table headers', () => {
+    const tableElement = fixture.debugElement.query(
+      By.css('.cx-account-summary-document-table')
+    );
+
+    const tableHeaders = tableElement.queryAll(By.css('th'));
+    expect(tableHeaders?.length).toEqual(8);
+    expect(tableHeaders[0].properties.innerText).toEqual(
+      'orgAccountSummary.document.id'
+    );
+    expect(tableHeaders[1].properties.innerText).toEqual(
+      'orgAccountSummary.document.type'
+    );
+    expect(tableHeaders[2].properties.innerText).toEqual(
+      'orgAccountSummary.document.date'
+    );
+    expect(tableHeaders[3].properties.innerText).toEqual(
+      'orgAccountSummary.document.dueDate'
+    );
+    expect(tableHeaders[4].properties.innerText).toEqual(
+      'orgAccountSummary.document.originalAmount'
+    );
+    expect(tableHeaders[5].properties.innerText).toEqual(
+      'orgAccountSummary.document.openAmount'
+    );
+    expect(tableHeaders[6].properties.innerText).toEqual(
+      'orgAccountSummary.document.status'
+    );
+    expect(tableHeaders[7].children[0].attributes.title).toEqual(
+      'orgAccountSummary.document.attachment'
+    );
+  });
+
+  it('Should have populated table data', () => {
+    const convertCurrency = (formattedCurrency: string): number =>
+      formattedCurrency
+        ? Number(formattedCurrency.replace(/[^0-9.-]+/g, ''))
+        : 0;
+
+    const isDate = (formattedDate: string): boolean =>
+      /[a-zA-Z]+ \d{1,2}, \d{4}/gm.test(formattedDate);
+
+    const tableElement = fixture.debugElement.query(
+      By.css('.cx-account-summary-document-table')
+    );
+
+    const tableRows = tableElement.queryAll(By.css('tr'));
+    expect(tableRows?.length).toEqual(10);
+
+    tableRows?.forEach((row, rowNumber) => {
+      const tableCells = row.queryAll(
+        By.css('.cx-account-summary-document-value')
+      );
+
+      expect(tableCells?.length).toEqual(8);
+
+      expect(tableCells[0].nativeElement.innerText).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.id
+      );
+
+      expect(tableCells[1].nativeElement.innerText).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.orgDocumentType?.name
+      );
+
+      expect(isDate(tableCells[2].nativeElement.innerText)).toEqual(
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.createdAtDate
+      );
+
+      expect(isDate(tableCells[3].nativeElement.innerText)).toEqual(
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate
+      );
+
+      expect(convertCurrency(tableCells[4].nativeElement.innerText)).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.amount
+      );
+
+      expect(convertCurrency(tableCells[5].nativeElement.innerText)).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.openAmount
+      );
+
+      expect(tableCells[6].nativeElement.innerText).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.status
+      );
+
+      expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]
+          ?.orgDocumentAttachment
+      );
     });
   });
 });

@@ -1,32 +1,40 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { Address, TranslationService } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+
+import { Observable, of } from 'rxjs';
+
+import {
+  Address,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
+
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-import { Observable, of } from 'rxjs';
+
 import { HeaderComponent } from './header.component';
+import { mockAccountSummaryDetails } from '../account-summary-mock-data';
+
+@Component({
+  selector: 'cx-card',
+  template: '',
+})
+class MockCardComponent {
+  @Input() content: any;
+}
 
 class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getAccountSummary(): Observable<AccountSummaryDetails> {
-    return of({
-      accountManagerEmail: '',
-      accountManagerName: '',
-      amountBalanceData: {},
-      orgUnit: {
-        uid: '1234',
-        name: 'Custom Retail',
-      },
-      billingAddress: {
-        id: '8796098986007',
-      },
-    });
+    return of(mockAccountSummaryDetails);
   }
 }
 
@@ -37,11 +45,12 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [HeaderComponent, MockCardComponent],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-      declarations: [HeaderComponent],
     }).compileComponents();
   });
 
@@ -179,5 +188,87 @@ describe('HeaderComponent', () => {
       expect(result.title).toEqual(title);
       expect(result.text).toEqual([text]);
     });
+  });
+
+  it('Should have populated header data', () => {
+    const validateContent = (
+      card: any,
+      title: string,
+      text: string[]
+    ): void => {
+      const content = card?.componentInstance?.content;
+      expect(content.title).toEqual(title);
+      expect(content.text).toEqual(text);
+    };
+
+    const validateRange = (
+      container: DebugElement,
+      label: string,
+      value: string
+    ) => {
+      expect(container?.nativeElement?.firstChild?.innerText).toEqual(label);
+      expect(container?.nativeElement?.lastChild?.innerText).toEqual(value);
+    };
+
+    const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+    expect(cards?.length).toEqual(7);
+    validateContent(cards[0], 'orgAccountSummary.details.uid', [
+      'Custom Retail',
+    ]);
+    validateContent(cards[1], 'orgAccountSummary.details.name', [
+      'Custom Retail',
+    ]);
+    validateContent(cards[2], 'orgAccountSummary.details.address', [
+      'Ms., Carla Torres',
+      '1000 Bagby Street, Houston, Texas',
+      'United States',
+    ]);
+    validateContent(cards[3], 'orgAccountSummary.details.creditRep', [
+      'Brandon Leclair',
+    ]);
+    validateContent(cards[4], 'orgAccountSummary.details.creditLine', [
+      '$15,000.00',
+    ]);
+    validateContent(cards[5], 'orgAccountSummary.details.currentBalance', [
+      '$102,145,214.00',
+    ]);
+    validateContent(cards[6], 'orgAccountSummary.details.openBalance', [
+      '$135,737,232.00',
+    ]);
+
+    const pastDueRanges = fixture.debugElement.queryAll(
+      By.css('.cx-account-summary-header-past-due-range-collection')
+    );
+
+    expect(pastDueRanges?.length).toEqual(4);
+    validateRange(
+      pastDueRanges[0],
+      'orgAccountSummary.details.dayRange maxBoundary:30 minBoundary:1',
+      '$0.00'
+    );
+    validateRange(
+      pastDueRanges[1],
+      'orgAccountSummary.details.dayRange maxBoundary:60 minBoundary:31',
+
+      '$212,947.00'
+    );
+    validateRange(
+      pastDueRanges[2],
+      'orgAccountSummary.details.dayRange maxBoundary:90 minBoundary:61',
+      '$0.00'
+    );
+    validateRange(
+      pastDueRanges[3],
+      'orgAccountSummary.details.dayPlus minBoundary:91',
+      '$33,379,071.00'
+    );
+
+    validateRange(
+      fixture.debugElement.query(
+        By.css('.cx-account-summary-header-past-due-balance-total')
+      ),
+      'orgAccountSummary.details.pastDueBalance',
+      '$33,592,018.00'
+    );
   });
 });
