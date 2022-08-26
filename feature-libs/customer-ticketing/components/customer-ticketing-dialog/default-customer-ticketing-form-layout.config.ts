@@ -1,9 +1,9 @@
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
+import { CustomerTicketingReopenDialogComponent } from '../customer-ticketing-reopen';
 
 export const defaultCustomerTicketingFormLayoutConfig: LayoutConfig = {
   launch: {
-    CUSTOMER_TICKETING: {
+    CUSTOMER_TICKETING_REOPEN: {
       inline: true,
       component: CustomerTicketingReopenDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,

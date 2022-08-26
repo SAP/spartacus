@@ -4,11 +4,9 @@ import { provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { CustomerTicketingCloseModule } from './customer-ticketing-close';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
-import {
-  CustomerTicketingReopenModule,
-  defaultCustomerTicketingFormLayoutConfig,
-} from './customer-ticketing-reopen';
+import { CustomerTicketingReopenModule } from './customer-ticketing-reopen';
 import { CustomerTicketingListModule } from './customer-ticketing-list';
+import { defaultCustomerTicketingFormLayoutConfig } from './customer-ticketing-dialog';
 
 @NgModule({
   imports: [

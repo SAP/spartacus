@@ -24,7 +24,7 @@ export class CustomerTicketingService {
     id: '00000001',
     modifiedAt: '2022-06-22T20:25:02+0000',
     status: {
-      id: 'OPEN',
+      id: 'CLOSE',
       name: 'Close',
     },
     subject: 'test ticket again',
@@ -72,6 +72,6 @@ export class CustomerTicketingService {
   }
 
   getTicketStatus(): Observable<string> {
-    return this.ticketDetails$.pipe(map((details) => details.status.name));
+    return this.ticketDetails$.pipe(map((details) => details.status.id));
   }
 }

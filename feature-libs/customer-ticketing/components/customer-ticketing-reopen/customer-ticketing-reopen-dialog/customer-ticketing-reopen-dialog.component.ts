@@ -1,79 +1,18 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAX_INPUT_CHARACTERS } from '@spartacus/customer-ticketing/core';
-import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/root';
-import {
-  FilesFormValidators,
-  FocusConfig,
-  FormUtils,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FormUtils } from '@spartacus/storefront';
+import { CustomerTicketingDialogComponent } from '../../customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen-dialog',
   templateUrl: './customer-ticketing-reopen-dialog.component.html',
 })
-export class CustomerTicketingReopenDialogComponent implements OnInit {
-  iconTypes = ICON_TYPE;
-  form: FormGroup;
-  inputCharactersLimit: number = this.getInputCharactersLimit;
-
-  focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
-  };
-
-  get messagesCharacterLeft(): number {
-    return (
-      this.inputCharactersLimit - (this.form.get('message')?.value?.length || 0)
-    );
-  }
-
-  get allowedTypes(): string[] | undefined {
-    return this.customerTicketingConfig.customerTicketing
-      ?.attachmentRestrictions?.allowedTypes;
-  }
-
-  get getInputCharactersLimit(): number {
-    return (
-      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
-      MAX_INPUT_CHARACTERS
-    );
-  }
-
-  get maxSize(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing
-      ?.attachmentRestrictions?.maxSize;
-  }
-
-  get maxEntries(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing
-      ?.attachmentRestrictions?.maxEntries;
-  }
-
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Click outside of the window');
-    }
-  }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    protected customerTicketingConfig: CustomerTicketingConfig,
-    protected filesFormValidators: FilesFormValidators
-  ) {}
-
+export class CustomerTicketingReopenDialogComponent
+  extends CustomerTicketingDialogComponent
+  implements OnInit
+{
   ngOnInit(): void {
     this.buildForm();
-  }
-
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
   }
 
   reopenRequest(): void {
