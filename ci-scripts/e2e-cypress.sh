@@ -57,9 +57,9 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
-yarn --frozen-lockfile
+yarn --immutable
 
-(cd projects/storefrontapp-e2e-cypress && yarn --frozen-lockfile)
+(cd projects/storefrontapp-e2e-cypress && yarn --immutable)
 
 yarn build:libs 2>&1 | tee build.log
 
