@@ -475,7 +475,7 @@ function check_ssr {
 function run_e2e {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
-    if [ $EXIT_CODE_XVFB -ne 0 ]; then
+    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
         echo "⏩️ E2E skipped (xvfb is missing)."
         return 0
     fi
@@ -498,7 +498,7 @@ function run_e2e {
 function run_e2e_b2b {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
-    if [ $EXIT_CODE_XVFB -ne 0 ]; then
+    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
         echo "⏩️ B2B E2E skipped (xvfb is missing)."
         return 0
     fi
@@ -680,6 +680,11 @@ function parseStartArgs {
             --check-b2b)
                 CHECK_B2B_AFTER_START=true
                 echo "➖ Check B2B after start"
+                shift
+                ;;
+            --force-e2e)
+                FORCE_E2E=true
+                echo "➖ Force E2E Tests"
                 shift
                 ;;
             -*|--*)

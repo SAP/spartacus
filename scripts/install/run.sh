@@ -48,6 +48,7 @@ CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
 CHECK_AFTER_START=false
 CHECK_B2B_AFTER_START=false
+FORCE_E2E=false
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
