@@ -1,18 +1,17 @@
 import {
   Component,
-  Directive,
   EventEmitter,
   Input,
   Output,
   Pipe,
   PipeTransform,
-  TemplateRef,
-  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  FeatureConfigService,
+  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -25,6 +24,12 @@ import {
 } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -148,36 +153,22 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
-@Directive({
-  selector: '[cxFeatureLevel]',
-})
-export class MockFeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeatureLevel(_feature: string | number) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
-  }
-}
-
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
           OrderHistoryComponent,
           MockUrlPipe,
           MockPaginationComponent,
           MockSortingComponent,
-          MockFeatureLevelDirective,
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
@@ -187,11 +178,16 @@ describe('OrderHistoryComponent', () => {
             provide: ReplenishmentOrderHistoryFacade,
             useClass: MockReplenishmentOrderHistoryFacade,
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
       }).compileComponents();
 
       orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
       routingService = TestBed.inject(RoutingService);
+      featureConfigService = TestBed.inject(FeatureConfigService);
     })
   );
 
@@ -268,6 +264,12 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display PO Number & Cost Center', () => {
+    spyOn(featureConfigService, 'isLevel')
+      .withArgs('5.1')
+      .and.returnValue(true)
+      .withArgs('!5.1')
+      .and.returnValue(false);
+
     mockOrderHistoryList$.next(mockOrders);
     fixture.detectChanges();
 

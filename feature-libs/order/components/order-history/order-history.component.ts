@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  Optional,
+} from '@angular/core';
+import {
+  FeatureConfigService,
   isNotUndefined,
   RoutingService,
   TranslationService,
@@ -29,7 +35,8 @@ export class OrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   private PAGE_SIZE = 5;
@@ -45,7 +52,8 @@ export class OrderHistoryComponent implements OnDestroy {
         }
         if (orders?.orders?.length) {
           this.hasPONumber =
-            typeof orders.orders[0].purchaseOrderNumber !== 'undefined';
+            orders.orders[0].purchaseOrderNumber !== undefined &&
+            (this.featureConfigService?.isLevel('5.1') ?? false);
         }
       })
     );
