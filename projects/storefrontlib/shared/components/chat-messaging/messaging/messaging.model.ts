@@ -15,7 +15,7 @@ export interface MessagingConfigs {
   attachmentRestrictions?: AttachmentRestrictions;
   charactersLimit?: number;
   newMessagePlaceHolder?: string;
-  uploadFile?: boolean;
+  enableFileUploadOption?: boolean;
 }
 
 export interface AttachmentRestrictions {

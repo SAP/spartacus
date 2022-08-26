@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { MessageEvent } from '../messaging';
 
+export const FROM_CUSTOMER = 'C';
+
 @Component({
   selector: 'cx-avatar',
   templateUrl: './avatar.component.html',
@@ -18,6 +20,6 @@ export class AvatarComponent {
           ?.split(' ')
           .map((author) => author[0])
           .join('')
-      : 'C';
+      : FROM_CUSTOMER;
   }
 }

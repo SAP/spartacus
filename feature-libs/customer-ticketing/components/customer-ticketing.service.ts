@@ -100,6 +100,6 @@ export class CustomerTicketingService {
       this.customerTicketingConfig.customerTicketing?.attachmentRestrictions,
     charactersLimit:
       this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
-    uploadFile: true,
+    enableFileUploadOption: true,
   });
 }
