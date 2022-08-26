@@ -5,7 +5,7 @@
  */
 
 import { createAction, props } from '@ngrx/store';
-import { PickupOption } from 'feature-libs/pickup-in-store/root';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 
 const SET_PICKUP_OPTION = '[PickupOption] Set Pickup Option';
 const SET_PAGE_CONTEXT = '[PickupOption] Set Page Context';
