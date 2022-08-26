@@ -556,7 +556,7 @@ describe('Cart merging on login', () => {
     profileTagHelper.triggerConsentReferenceLoaded();
 
     // add first product to cart (logged in user)
-    gotToProductPageWithProductCode('280916');
+    goToProductPageWithProductCode('280916');
     cy.get('cx-add-to-cart button.btn-primary').click();
     verifyCartSnapshotEventNumberOfEntries(cy, 1);
 
@@ -564,7 +564,7 @@ describe('Cart merging on login', () => {
     loginHelper.signOutUser();
 
     // add second product to cart (first product for anonymous user)
-    gotToProductPageWithProductCode('932577');
+    goToProductPageWithProductCode('932577');
     cy.get('cx-add-to-cart button.btn-primary').click();
     verifyCartSnapshotEventNumberOfEntries(cy, 1);
 
@@ -590,7 +590,7 @@ function goToProductPage(): Cypress.Chainable<number> {
     .should('eq', 200);
 }
 
-function gotToProductPageWithProductCode(
+function goToProductPageWithProductCode(
   productCode: string
 ): Cypress.Chainable<number> {
   const productPage = checkoutFlow.waitForProductPage(
