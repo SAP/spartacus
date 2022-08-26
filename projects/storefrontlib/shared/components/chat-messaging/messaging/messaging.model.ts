@@ -16,6 +16,7 @@ export interface MessagingConfigs {
   charactersLimit?: number;
   newMessagePlaceHolder?: string;
   enableFileUploadOption?: boolean;
+  dateFormat?: string;
 }
 
 export interface AttachmentRestrictions {

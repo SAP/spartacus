@@ -31,6 +31,7 @@ export class MessagingComponent implements OnInit, AfterViewInit {
   MAX_INPUT_CHARACTERS: number = 2000;
   MAX_SIZE: number = 10;
   MAX_ENTRIES: number = 1;
+  dateFormat: string = 'MMMM d, YYYY h:mm aa';
 
   get inputCharacterLeft(): number {
     return (
