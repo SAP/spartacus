@@ -2,7 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { CxEvent, EventService, LogoutEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { ConfiguratorLogoutEventListener } from '@spartacus/product-configurator/rulebased';
+import {
+  ConfiguratorCommonsService,
+  ConfiguratorLogoutEventListener
+} from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { Type } from '@angular/core';
 
@@ -20,9 +23,14 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+class MockConfiguratorCommonsService {
+  removeProductBoundConfigurations(): void {}
+}
+
 describe(`ConfiguratorLogoutEventListener`, () => {
   let classUnderTest: ConfiguratorLogoutEventListener;
   let configuratorExpertModeService: ConfiguratorExpertModeService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,6 +43,10 @@ describe(`ConfiguratorLogoutEventListener`, () => {
         {
           provide: ConfiguratorExpertModeService,
           useClass: MockConfiguratorExpertModeService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
       ],
     });
@@ -49,6 +61,15 @@ describe(`ConfiguratorLogoutEventListener`, () => {
       'setExpModeRequested'
     ).and.callThrough();
     spyOn(configuratorExpertModeService, 'setExpModeActive').and.callThrough();
+
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+
+    spyOn(
+      configuratorCommonsService,
+      'removeProductBoundConfigurations'
+    ).and.callThrough();
   });
 
   describe(`onLogout`, () => {
@@ -70,6 +91,10 @@ describe(`ConfiguratorLogoutEventListener`, () => {
       ).toHaveBeenCalledWith(false);
       expect(
         configuratorExpertModeService.setExpModeRequested
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        configuratorCommonsService.removeProductBoundConfigurations
       ).toHaveBeenCalledTimes(1);
     });
   });
