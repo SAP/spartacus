@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { CommonConfigurator, CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
   catchError,
@@ -397,9 +400,7 @@ export class ConfiguratorBasicEffects {
 
               const ownerKeysToRemove: string[] = [];
               for (const ownerKey in entities) {
-                if (
-                  ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)
-                ) {
+                if (ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)) {
                   ownerKeysToRemove.push(ownerKey);
                 }
               }

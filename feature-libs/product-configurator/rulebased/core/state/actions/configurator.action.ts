@@ -56,7 +56,8 @@ export const SET_MENU_PARENT_GROUP =
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 
-export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS = '[Configurator] Remove product bound configurations';
+export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
+  '[Configurator] Remove product bound configurations';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;

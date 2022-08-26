@@ -76,7 +76,7 @@ export class ConfiguratorCommonsService {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
-          this.configuratorUtils.isConfigurationCreated(configuration)
+        this.configuratorUtils.isConfigurationCreated(configuration)
       )
     );
   }
