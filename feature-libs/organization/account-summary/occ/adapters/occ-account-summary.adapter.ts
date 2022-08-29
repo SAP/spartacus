@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
@@ -11,7 +11,8 @@ import {
   AccountSummaryList,
   DocumentQueryParams,
 } from '@spartacus/organization/account-summary/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
@@ -29,7 +30,10 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       .get<AccountSummaryDetails>(
         this.getAccountSummaryEndPoint(userId, unitCode)
       )
-      .pipe(this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER));
+      .pipe(
+        catchError((error: HttpErrorResponse) => throwError(error)),
+        this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
+      );
   }
 
   getDocumentList(
@@ -41,7 +45,10 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       .get<AccountSummaryList>(
         this.getDocumentListEndPoint(userId, unitCode, params)
       )
-      .pipe(this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER));
+      .pipe(
+        catchError((error: HttpErrorResponse) => throwError(error)),
+        this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
+      );
   }
 
   getDocumentAttachment(
@@ -54,15 +61,17 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       responseType: 'blob' as 'json',
     };
 
-    return this.http.get<Observable<any>>(
-      this.getDocumentAttachmentEndPoint(
-        userId,
-        orgUnitId,
-        orgDocumentId,
-        orgDocumentAttachmentId
-      ),
-      options
-    );
+    return this.http
+      .get<Observable<any>>(
+        this.getDocumentAttachmentEndPoint(
+          userId,
+          orgUnitId,
+          orgDocumentId,
+          orgDocumentAttachmentId
+        ),
+        options
+      )
+      .pipe(catchError((error: HttpErrorResponse) => throwError(error)));
   }
 
   private getAccountSummaryEndPoint(userId: string, orgUnitId: string): string {

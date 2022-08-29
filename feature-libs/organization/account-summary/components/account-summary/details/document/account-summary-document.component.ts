@@ -69,16 +69,11 @@ export class AccountSummaryDocumentComponent implements OnInit {
     if (document.id && document.orgDocumentAttachment?.id) {
       this.accountSummaryFacade
         .getDocumentAttachment(document.id, document.orgDocumentAttachment?.id)
-        .subscribe(
-          (data) => {
-            let file = new Blob([data], { type: 'application/pdf' });
-            let url = URL.createObjectURL(file);
-            this.downloadService.download(url);
-          },
-          (err) => {
-            console.error('Error fetching attachment file', err);
-          }
-        );
+        .subscribe((data) => {
+          let file = new Blob([data], { type: 'application/pdf' });
+          let url = URL.createObjectURL(file);
+          this.downloadService.download(url);
+        });
     }
   }
 
