@@ -22,6 +22,7 @@ import * as common from './common';
 const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/removed-public-api-deprecations/data/generated-removed-public-api.migration.ts`;
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-deleted.out.template`;
 
+const deletedCommentsData = common.readDeletedApiCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
 
 const deletedApiSchematics = [];
@@ -49,11 +50,16 @@ function getSchematicsData(apiElement: any): any {
     apiElement,
     'DELETED'
   );
+  const migrationComment = common.findDeletedApiComment(
+    apiElement,
+    deletedCommentsData
+  );
+
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
   schematicsData.comment = `${common.generateTopLevelApiDeletedComment(
     apiElement
-  )} ${breakingChangeEntry.migrationComment}`;
+  )} ${migrationComment}`;
   return schematicsData;
 }

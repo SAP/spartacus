@@ -23,6 +23,8 @@ const OUTPUT_FILE_TEMPLATE_PATH = `generate-doc.out.template`;
 const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/generated-typescript-changes-doc.md`;
 const MD_CODEBLOCK = '\n```\n';
 
+const deletedCommentsData = common.readDeletedApiCommentsFile();
+const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
 
 const breakingChangeDoc = [];
@@ -93,10 +95,14 @@ function getDeletdDoc(apiElement: any): string {
     apiElement,
     'DELETED'
   );
+  const migrationComment = common.findDeletedApiComment(
+    apiElement,
+    deletedCommentsData
+  );
 
   return `
 ${common.generateTopLevelApiDeletedComment(apiElement)}
-${breakingChangeEntry.migrationComment}`;
+${migrationComment}`;
 }
 
 function getMovedDoc(apiElement: any): string {
@@ -152,8 +158,14 @@ ${MD_CODEBLOCK}${common.getMemberStateDoc(
           break;
         }
         case 'DELETED': {
+          const memberMigrationComment = common.findDeletedMemberComment(
+            apiElement,
+            memberBreakingChange.changeElementName,
+            deletedMembersCommentData
+          );
+
           doc += `\n### ${memberBreakingChange.old.kind} ${memberBreakingChange.old.name} is removed.\n`;
-          doc += `\n${memberBreakingChange.migrationComment}\n`;
+          doc += `\n${memberMigrationComment}\n`;
           break;
         }
         default: {
@@ -184,7 +196,9 @@ Previous version:
 ${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(apiElement)}${MD_CODEBLOCK}
 
 Current version: 
-${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(apiElement.newApiElement)}${MD_CODEBLOCK}
+${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(
+      apiElement.newApiElement
+    )}${MD_CODEBLOCK}
 `;
   }
 

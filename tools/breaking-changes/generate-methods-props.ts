@@ -23,6 +23,7 @@ import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
 const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/methods-and-properties-deprecations/data/generated-methods-and-properties.migration.ts`;
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-methods-props.out.template`;
 
+const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
 let updatedMemberSchematics = [];
 
@@ -58,9 +59,18 @@ function getSchematicsData(breakingChange: any): any {
 
 function getSchematicsComment(breakingChange: any): string {
   if (breakingChange.changeType === 'DELETED') {
-    return `${common.generateMemberDeletedComment(breakingChange)} ${
-      breakingChange.migrationComment
-    }`;
+    const migrationComment = common.findDeletedMemberComment(
+      {
+        name: breakingChange.topLevelApiElementName,
+        entryPoint: breakingChange.entryPoint,
+      },
+      breakingChange.changeElementName,
+      deletedMembersCommentData
+    );
+
+    return `${common.generateMemberDeletedComment(
+      breakingChange
+    )} ${migrationComment}`;
   }
   if (breakingChange.changeKind.startsWith('Method')) {
     return `The '${
