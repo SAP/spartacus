@@ -45,13 +45,10 @@ export function loginB2bUser() {
 
 export function addB2bProductToCartAndCheckout() {
   const code = products[0].code;
-  const name = products[0].name;
   const productPage = waitForProductPage(code, 'getProductPage');
   const getPaymentTypes = interceptPaymentTypesEndpoint();
 
-  cy.visit(
-    `${POWERTOOLS_BASESITE}/en/USD/product/${code}/${encodeURIComponent(name)}`
-  );
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-product-intro').within(() => {
