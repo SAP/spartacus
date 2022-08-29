@@ -46,26 +46,6 @@ Typically the documentation is placed in the folder `docs/migration`
 
 Some cases requires manual review to complete.  The preferable way to deal with those is to update the data in `breaking-changes.json`.  This way, the migration assets can be re-generated to reflect the changes.
 
-
-## Review Deleted Elements
-The API elements that were detected as deleted by the script need human intervention.  There are different cases:
-
-### The API element is deleted
-
-tl/dr: Add a migration comment in `breaking-changes.json`.
-
-The simple case is when the API element is indeed deleted.  In this case, we have to add a `migrationComment` in the corresponding entry in `breaking-changes.json`.  The migration comment is meant to help users understand why the item is deleted and most importantly what to use instead.
-
-### The API element is Renamed
-
-tl/dr: Flag the api element as renamed in `breaking-changes.json` and add any other breaking changes that the api element might contain.  Then regenrate deleted schematics , renamed schematics and docs. 
-
-The alternate case is when the API element was in fact renamed.  The renamed elements will be flagged as deleted by the script because there is no way the script can know that an item was renamed to something else. In this case we need to edit the corresponding entry in `breaking-changes.json` et express a rename instead of a deletion.
-
-Moreover, the renamed item, sinice it was considered deleted, was not comopared with it's new counterpart to fiind breaking changes.  Further breaking changes that might have been made to the API element have to be found manually.
-
-As a general note, rename API element sparingly.  They can cause alot of overhead in the breakiing change handling process.
-
 ## Manual review of the deprecated constructors.
 
 The deprecated construtors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
