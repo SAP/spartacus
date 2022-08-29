@@ -31,6 +31,24 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderHistoryComponent implements OnDestroy {
+  // TODO(#630): make featureConfigService are required dependency and for major releases, remove featureConfigService
+  constructor(
+    routing: RoutingService,
+    orderHistoryFacade: OrderHistoryFacade,
+    translation: TranslationService,
+    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    routing: RoutingService,
+    orderHistoryFacade: OrderHistoryFacade,
+    translation: TranslationService,
+    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+  );
   constructor(
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,

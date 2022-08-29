@@ -60,14 +60,11 @@
             class="table cx-order-history-table"
             [ngClass]="{ 'cx-order-history-table-po': hasPONumber }"
           >
-            <ng-container *cxFeatureLevel="'5.1'">
-              <caption class="cx-visually-hidden">
-                {{
-                  'orderHistory.orderHistory' | cxTranslate
-                }}
-              </caption>
-            </ng-container>
-
+            <caption class="cx-visually-hidden" *cxFeatureLevel="'5.1'">
+              {{
+                'orderHistory.orderHistory' | cxTranslate
+              }}
+            </caption>
             <thead class="cx-order-history-thead-mobile">
               <th scope="col">
                 {{ 'orderHistory.orderId' | cxTranslate }}
