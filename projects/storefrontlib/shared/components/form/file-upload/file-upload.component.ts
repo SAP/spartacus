@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ContentChild,
@@ -65,8 +71,12 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   // ControlValueAccessor START
-  protected onChangeCallback: Function = () => {};
-  protected onTouchedCallback: Function = () => {};
+  protected onChangeCallback: Function = () => {
+    // Intentional empty arrow function
+  };
+  protected onTouchedCallback: Function = () => {
+    // Intentional empty arrow function
+  };
   registerOnChange(callback: Function): void {
     this.onChangeCallback = callback;
   }
