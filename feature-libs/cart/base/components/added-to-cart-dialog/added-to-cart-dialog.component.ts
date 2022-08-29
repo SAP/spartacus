@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -12,7 +12,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -28,7 +28,7 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -48,9 +48,16 @@ export class AddedToCartDialogComponent {
   protected quantityControl$: Observable<FormControl>;
 
   constructor(
-    protected modalService: ModalService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected launchdialogService: LaunchDialogService
   ) {}
+
+  ngOnInit(): void {
+    this.launchdialogService.data$.subscribe((data) => {
+      this.init(data.productCode, data.quantity, data.numberOfEntriesBeforeAdd);
+    });
+  }
+
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.
@@ -131,6 +138,6 @@ export class AddedToCartDialogComponent {
   }
 
   dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+    this.launchdialogService.closeDialog(reason);
   }
 }
