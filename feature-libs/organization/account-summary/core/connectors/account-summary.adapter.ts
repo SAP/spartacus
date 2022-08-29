@@ -9,23 +9,23 @@ export abstract class AccountSummaryAdapter {
   /**
    * Abstract method to load account summary header data for given
    * @param userId
-   * @param unitCode
+   * @param orgUnit
    */
 
   abstract getAccountSummary(
     userId: string,
-    unitCode: string
+    orgUnit: string
   ): Observable<AccountSummaryDetails>;
 
   /**
    * Abstract method to load account summary document list for given
    * @param userId
-   * @param unitCode
+   * @param orgUnit
    */
 
   abstract getDocumentList(
     userId: string,
-    unitCode: string,
+    orgUnit: string,
     params: DocumentQueryParams
   ): Observable<AccountSummaryList>;
 

@@ -1,6 +1,6 @@
 import { AuthGuard, CmsConfig } from '@spartacus/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { AccountSummaryDocumentComponent } from './details/document/account-summary-document.component';
 import { AccountSummaryListComponent } from './list/account-summary-list.component';
 

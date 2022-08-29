@@ -1,19 +1,19 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController,
+  HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
-  OccEndpointsService,
+  OccEndpointsService
 } from '@spartacus/core';
 import {
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import { OccAccountSummaryAdapter } from './occ-account-summary.adapter';
 
@@ -30,13 +30,15 @@ class MockOccEndpointsService {
   }
 }
 
-describe('OccAccountSummaryAdapter', () => {
+fdescribe('OccAccountSummaryAdapter', () => {
   let occAccountSummaryAdapter: OccAccountSummaryAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEndpointService: OccEndpointsService;
   const userId = '123';
-  const orgUnitId = 'testUnitCode';
+  const orgUnitId = 'testOrgUnit';
+  const orgDocumentId = "testOrgDocumentId";
+  const orgDocumentAttachmentId = "testOrgDocumentAttachment";
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -263,5 +265,31 @@ describe('OccAccountSummaryAdapter', () => {
       mockReq.flush(documentData);
       expect(result).toEqual(documentData);
     });
+
+    // it('should get document attachment for a given userId, orgUnitId, orgDocumentId and orgDocumentAttachmentId', () => {
+    //   let result;
+
+    //   occAccountSummaryAdapter
+    //     .getDocumentAttachment(userId, orgUnitId, orgDocumentId, orgDocumentAttachmentId)
+    //     .subscribe((res) => {
+    //       result = res;
+    //     });
+
+    //   const mockReq = httpMock.expectOne((req) => {
+    //     return req.method === 'GET' && req.url === 'accountSummaryDocumentAttachment';
+    //   });
+
+    //   expect(mockReq.cancelled).toBeFalsy();
+    //   expect(mockReq.request.responseType).toEqual('json');
+    //   expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
+    //     'accountSummaryDocumentAttachment',
+    //     {
+    //       urlParams: { userId, orgUnitId, orgDocumentId, orgDocumentAttachmentId },
+    //     }
+    //   );
+
+    //   mockReq.flush(documentData);
+    //   expect(result).toEqual(documentData);
+    // });
   });
 });

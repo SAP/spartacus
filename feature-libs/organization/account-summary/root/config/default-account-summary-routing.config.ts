@@ -9,8 +9,8 @@ export const defaultAccountSummaryRoutingConfig: RoutingConfig = {
         paths: [`${listPath}`],
       },
       orgAccountSummaryDetails: {
-        paths: [`${listPath}/details/:unitCode`],
-        paramsMapping: { unitCode: 'uid' },
+        paths: [`${listPath}/details/:orgUnit`],
+        paramsMapping: { orgUnit: 'uid' },
       },
     },
   },

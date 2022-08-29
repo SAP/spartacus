@@ -3,14 +3,14 @@ import {
   OCC_USER_ID_CURRENT,
   RouterState,
   RoutingService,
-  UserIdService,
+  UserIdService
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
@@ -20,7 +20,7 @@ import createSpy = jasmine.createSpy;
 const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
     semanticRoute: 'orgAccountSummary',
-    params: { unitCode: 'Custom Retail' },
+    params: { orgUnit: 'Custom Retail' },
   },
 } as unknown as RouterState);
 
@@ -151,4 +151,12 @@ describe('AccountSummaryService', () => {
       expect(res).toEqual(accountSummaryDocumentsResult);
     });
   });
+
+  // it('should be able to get account summary document attachment', () => {
+  //   service.getDocumentAttachment().subscribe((res) => {
+  //     expect(routingService.getRouterState).toHaveBeenCalled();
+  //     expect(res).toEqual(accountSummaryDocumentsResult);
+  //   });
+  // });
+
 });
