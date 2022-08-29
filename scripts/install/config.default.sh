@@ -71,3 +71,6 @@ ADD_EPD_VISUALIZATION=false
 
 # The base URL (origin) of the SAP EPD Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
+
+# Patch App Module, to redirect "/product/<code>" to "/product/<code>/<name>". B2B Tests are not passing otherwise.
+PATCH_APP_MODULE=false

@@ -173,6 +173,7 @@ function create_apps {
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME}
+        patch_app_module_ts ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
@@ -180,6 +181,7 @@ function create_apps {
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
         add_spartacus_ssr ${SSR_APP_NAME}
+        patch_app_module_ts ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
@@ -187,6 +189,7 @@ function create_apps {
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
         add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+        patch_app_module_ts ${SSR_PWA_APP_NAME}
     fi
 }
 
@@ -347,6 +350,48 @@ function build_ssr_pwa {
     fi
 }
 
+function patch_app_module_ts {
+    printh "Patch App Module"
+    if [ "$PATCH_APP_MODULE" = false ]; then
+        echo " - Skipped"
+        return
+    fi
+
+    local REPLACEMENTS=(
+        false "@NgModule({" "import {\n    provideConfig,\n    RoutingConfig,\n} from '@spartacus/core';\n\n@NgModule({"
+        false "providers: []," "providers: [\n    provideConfig(<RoutingConfig>{\n      // custom routing configuration for e2e testing\n      routing: {\n        routes: {\n          product: {\n            paths: ['product/:productCode/:name', 'product/:productCode'],\n            paramsMapping: { name: 'slug' },\n          },\n        },\n      },\n    }),\n  ],"
+    )
+
+    local FILE="${INSTALLATION_DIR}/${1}/src/app/app.module.ts";
+    local RESULT=""
+
+    while IFS="" read -r p || [ -n "$p" ]
+    do
+        local replaced=false
+        
+        for (( i=0; i<=$((${#REPLACEMENTS[@]} / 3 - 1)); i++ ))
+        do
+        local alreadyDone=${REPLACEMENTS[$i * 3]}
+        local search=${REPLACEMENTS[$i * 3 + 1]}
+        local replacement=${REPLACEMENTS[$i * 3 + 2]}
+        if [ "$alreadyDone" = false ]; then
+            local subres=${p//"$search"/"$replacement"}
+            if [ "$p" != "$subres" ]; then
+            replaced=true
+            REPLACEMENTS[$i]=true
+            RESULT="$RESULT\n$subres"
+            fi
+        fi
+        done
+
+        if [ "$replaced" = false ]; then
+        RESULT="$RESULT\n$p"
+        fi
+    done < $FILE
+
+    printf "$RESULT" > $FILE
+}
+
 function start_csr_unix {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app start (no port defined)"
@@ -413,7 +458,7 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] - (from sources), extensions available: b2b, cpq, cdc"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc"
     echo " install_npm (from latest npm packages)"
     echo " start [--check] [--check-b2b] [--force-e2e]"
     echo " stop"
@@ -436,14 +481,14 @@ function check_apps {
 
     sleep 5
 
-    echo "Checking CSR ..."
-    local CSR_RESULT=$(check_csr)
+    spinner check_csr "Checking CSR ..."
+    local CSR_RESULT=$?
 
-    echo "Checking SSR ..."
-    local SSR_RESULT=$(check_ssr)
+    spinner check_ssr "Checking SSR ..."
+    local SSR_RESULT=$?
 
-    echo "Running E2E ..."
-    local E2E_RESULT=$(run_e2e)
+    spinner run_e2e "Checking E2E ..."
+    local E2E_RESULT=$?
     
     echo "$E2E_RESULT"
     echo "$SSR_RESULT"
@@ -649,6 +694,11 @@ function parseInstallArgs {
                 echo "➖ Skip Sanity Check"
                 shift
                 ;;
+            --patch)
+                PATCH_APP_MODULE=true
+                echo "➖ Patch App Module"
+                shift
+                ;;
             -s|--basesite)
                 BASE_URL="$2"
                 echo "➖ BASE_SITE to $BASE_SITE"
@@ -729,4 +779,26 @@ function parseStartArgs {
                 ;;
         esac
     done
+}
+
+function spinner {
+  local frameRef
+  local action="${1}"
+  local label="${2} "
+  local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+  local result
+  result=${action} & pid=$!
+  tput civis -- invisible
+
+  while ps -p $pid &>/dev/null; do
+    for frame in ${!frames[@]}; do
+      currFrame="${frames[frame]}"
+      echo -ne "\\r[ \033[36m${currFrame}\033[m ] ${label}"
+      sleep 0.1
+    done
+  done
+
+  echo -ne "\\r[ \033[32m✔\033[m ] ${STEPS[$step]}\\n"
+  tput cnorm -- normal
+  return result
 }

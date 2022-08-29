@@ -65,8 +65,6 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             start_apps;;
         'stop' )
             stop_apps;;
-        'check' )
-            run_check;;
         'help' )
             cmd_help;;
         * )
