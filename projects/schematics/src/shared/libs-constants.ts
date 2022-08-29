@@ -89,6 +89,9 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ASSETS = `@spartacus/organiza
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/order-approval`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER = `@spartacus/organization/unit-order`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT = `@spartacus/organization/order-approval/root`;
+export const SSPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS = `@spartacus/organization/order-approval/assets`;
 
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;

@@ -83,8 +83,8 @@
   }
 
   .cx-unit-level-order-history-unit
-  .cx-unit-level-order-history-buyer
-  .cx-unit-level-order-history-status {
+    .cx-unit-level-order-history-buyer
+    .cx-unit-level-order-history-status {
     text-align: center;
 
     @include media-breakpoint-down(sm) {

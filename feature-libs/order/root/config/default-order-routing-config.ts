@@ -6,9 +6,6 @@ export const defaultOrderRoutingConfig: RoutingConfig = {
       orders: {
         paths: ['my-account/orders'],
       },
-      unitLevelOrders: {
-        paths: ['my-account/unitLevelOrders'],
-      },
       orderDetails: {
         paths: ['my-account/order/:orderCode'],
         paramsMapping: { orderCode: 'code' },

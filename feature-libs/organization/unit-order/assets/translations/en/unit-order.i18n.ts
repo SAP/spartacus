@@ -1,0 +1,21 @@
+export const unitOrder = {
+  unitLevelOrderHistory: {
+    orderHistory: 'Unit-level order history',
+    orderId: 'Order #',
+    emptyPurchaseOrderId: 'None',
+    date: 'Date',
+    status: 'Status',
+    buyer: 'Buyer',
+    unit: 'Unit',
+    total: 'Total',
+    noOrders: 'We have no orders to display.',
+    startShopping: 'Start Shopping',
+    sortBy: 'Sort by',
+    sortOrders: 'Sort orders',
+    purchaseOrderNumber: 'PO #',
+    startOn: 'Start On',
+    frequency: 'Frequency',
+    nextOrderDate: 'Next Order Date',
+    notFound: 'No Orders Found',
+  },
+};

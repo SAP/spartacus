@@ -1,17 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import {
-  isNotUndefined,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
-import {
-  Order,
-  OrderHistoryFacade,
-  OrderHistoryList,
-  ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
+import { RoutingService, TranslationService } from '@spartacus/core';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
 
 @Component({
   selector: 'cx-unit-level-order-history',
@@ -24,13 +16,12 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
 
   constructor(
     protected routing: RoutingService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected unitOrdersFacade: UnitOrderFacade,
+    protected translation: TranslationService
   ) {}
 
-  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE, 'TSD')
+  orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
+    .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
@@ -40,20 +31,10 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     );
 
   isLoaded$: Observable<boolean> =
-    this.orderHistoryFacade.getOrderHistoryListLoaded();
-
-  /**
-   * When "Order Return" feature is enabled, this component becomes one tab in
-   * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
-   */
-  tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map((order) => order?.pagination?.totalResults),
-    filter(isNotUndefined),
-    take(1)
-  );
+    this.unitOrdersFacade.getOrderHistoryListLoaded();
 
   ngOnDestroy(): void {
-    this.orderHistoryFacade.clearOrderList();
+    this.unitOrdersFacade.clearOrderList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -95,7 +76,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.orderHistoryFacade.loadOrderList(
+    this.unitOrdersFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode
