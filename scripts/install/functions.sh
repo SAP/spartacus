@@ -181,7 +181,7 @@ function create_apps {
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
         add_spartacus_ssr ${SSR_APP_NAME}
-        patch_app_module_ts ${CSR_APP_NAME}
+        patch_app_module_ts ${SSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
