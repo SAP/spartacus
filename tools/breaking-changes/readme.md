@@ -2,6 +2,16 @@
 
 To make sure we get an accurate diff, do not update the dependencies of this tool unless you are sure that we don't need to compare the results with data generated with a previous version of the dependencies.
 
+# Configuration
+
+Set the current (new) major version of Spartacus in the `common.ts` file.
+
+```
+export const NEW_MAJOR_VERSION = '6';
+```
+
+This major version number will dictate, among other things, various input and output file paths for the files implicated in the process.
+
 # Produce the breaking change list
 
 - yarn install
@@ -23,14 +33,23 @@ Run `yarn extract-all` in the breaking change tool home folder (tools/breaking-c
 Run `yarn parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.
 
 - Compare old and new public API
-Run `yarn compare`.  This compares both ./src/*/public-api.json files to create aa list ov breaking changes in `./data/breaking`
+Run `yarn compare`.  This compares both ./src/*/public-api.json files to create a list of breaking changes in `./data/*_0/breaking-changes.json`.  This step also requires this input file: `docs/migration/*_0/renamed-api.json`.  It contains manually created mappings about API element that were renamed.
+
+
 
 # Generate migration schematics code
+
+Note: Some of the doc/schematics generators below read from the manual input files as well as the breaking change file.
+Thes input files should be present:
+- tools/breaking-changes/data/*_0/breaking-changes.json (created by comparing the API between 2 versions)
+- docs/migration/*_0/deleted-api.json (developer manual input)
+- docs/migration/*_0/deleted-renamed-api-members.json (developer manual input)
 
 `gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
 
 
 `gen-deleted` : generates the array of migration data for the removed public api schematic in `projects/schematics/src/migrations/*_0/removed-public-api-deprecations`
+
 
 `gen-moved` : generates the array of migration data for the renamed public api schematic in `projects/schematics/src/migrations/*_0/rename-symbol`
 
@@ -60,6 +79,6 @@ It is common that we add optional attributes in the Config abstract classes.  Th
 
 ## Manual review of TypeAlias changes
 
-The script will report any change to TypeAlias kind of APII element.  
+The script will report any change to TypeAlias kind of API element.  
 There are typically not a high volume of TypeAlias changes.
-The manual rview should determine if the change is a breaking change or not.
+The manual review should determine if the change is a breaking change or not.

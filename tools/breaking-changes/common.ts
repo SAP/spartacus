@@ -9,7 +9,7 @@ import stringifyObject from 'stringify-object';
 
 // shared configs
 
-export const NEW_MAJOR_VERSION = '6';
+export const NEW_MAJOR_VERSION = '6'; // Increment this number to match the current release for which the script is used.
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
 export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}_0`;
 export const DELETED_API_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api.json`;
