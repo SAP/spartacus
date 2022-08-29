@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CustomerTicketingConfig,
   MAX_ENTRIES_FOR_ATTACHMENT,
@@ -40,7 +40,7 @@ export abstract class CustomerTicketingDialogComponent {
 
   get getInputCharactersLimit(): number {
     return (
-      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
+      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ??
       MAX_INPUT_CHARACTERS
     );
   }
@@ -48,21 +48,21 @@ export abstract class CustomerTicketingDialogComponent {
   get getInputCharactersForSubject(): number {
     return (
       this.customerTicketingConfig.customerTicketing
-        ?.inputCharactersLimitForSubject || MAX_INPUT_CHARACTERS_FOR_SUBJECT
+        ?.inputCharactersLimitForSubject ?? MAX_INPUT_CHARACTERS_FOR_SUBJECT
     );
   }
 
   get maxSize(): number {
     return (
       this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-        ?.maxSize || MAX_SIZE_FOR_ATTACHMENT
+        ?.maxSize ?? MAX_SIZE_FOR_ATTACHMENT
     );
   }
 
   get maxEntries(): number {
     return (
       this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-        ?.maxEntries || MAX_ENTRIES_FOR_ATTACHMENT
+        ?.maxEntries ?? MAX_ENTRIES_FOR_ATTACHMENT
     );
   }
 
@@ -79,6 +79,25 @@ export abstract class CustomerTicketingDialogComponent {
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected filesFormValidators: FilesFormValidators
   ) {}
+
+  protected buildForm(): void {
+    const form = new FormGroup({});
+    form.setControl(
+      'message',
+      new FormControl('', [
+        Validators.required,
+        Validators.maxLength(this.inputCharactersLimit),
+      ])
+    );
+    form.setControl(
+      'file',
+      new FormControl('', [
+        this.filesFormValidators.maxSize(this.maxSize),
+        this.filesFormValidators.maxEntries(this.maxEntries),
+      ])
+    );
+    this.form = form;
+  }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);

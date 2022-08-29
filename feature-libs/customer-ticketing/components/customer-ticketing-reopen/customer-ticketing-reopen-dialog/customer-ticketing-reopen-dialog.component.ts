@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormUtils } from '@spartacus/storefront';
-import { CustomerTicketingDialogComponent } from '../../customer-ticketing-dialog/customer-ticketing-dialog.component';
+import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen-dialog',
@@ -20,24 +19,5 @@ export class CustomerTicketingReopenDialogComponent
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     }
-  }
-
-  protected buildForm() {
-    const form = new FormGroup({});
-    form.setControl(
-      'message',
-      new FormControl('', [
-        Validators.required,
-        Validators.maxLength(this.inputCharactersLimit),
-      ])
-    );
-    form.setControl(
-      'file',
-      new FormControl('', [
-        this.filesFormValidators.maxSize(this.maxSize),
-        this.filesFormValidators.maxEntries(this.maxEntries),
-      ])
-    );
-    this.form = form;
   }
 }

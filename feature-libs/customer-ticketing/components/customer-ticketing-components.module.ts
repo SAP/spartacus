@@ -6,7 +6,7 @@ import { CustomerTicketingCloseModule } from './customer-ticketing-close';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
 import { CustomerTicketingReopenModule } from './customer-ticketing-reopen';
 import { CustomerTicketingListModule } from './customer-ticketing-list';
-import { defaultCustomerTicketingFormLayoutConfig } from './customer-ticketing-dialog';
+import { defaultCustomerTicketingFormLayoutConfig } from './shared/customer-ticketing-dialog';
 
 @NgModule({
   imports: [
