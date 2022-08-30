@@ -703,6 +703,12 @@ function parseInstallArgs {
                 echo "➖ Patch App Module"
                 shift
                 ;;
+            --install-dir)
+                INSTALLATION_DIR="$2"
+                echo "➖ INSTALLATION_DIR to $INSTALLATION_DIR"
+                shift
+                shift
+                ;;
             -s|--basesite)
                 BASE_URL="$2"
                 echo "➖ BASE_SITE to $BASE_SITE"
