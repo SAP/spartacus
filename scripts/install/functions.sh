@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 WARNINGS=()
+TEST_RESULTS=()
+TEST_RESULTS_B2B=()
 TIME_MEASUREMENT_TITLES=("Start")
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
@@ -472,10 +474,13 @@ function check_b2b {
 
     sleep 5
 
-    echo "Running E2E ..."
     local E2E_RESULT=$(run_e2e_b2b)
+    spinner run_e2e_b2b "Checking E2E"
     
-    echo "$E2E_RESULT"
+    for RESULT in "${TEST_RESULTS_B2B[@]}"
+    do
+        echo "$RESULT"
+    done
 }
 
 function check_apps {
@@ -484,17 +489,13 @@ function check_apps {
     sleep 5
 
     spinner check_csr "Checking CSR"
-    local CSR_RESULT="$SPINNER_OUT"
-
     spinner check_ssr "Checking SSR"
-    local SSR_RESULT="$SPINNER_OUT"
-
     spinner run_e2e "Checking E2E"
-    local E2E_RESULT="$SPINNER_OUT"
-    
-    echo "$E2E_RESULT"
-    echo "$SSR_RESULT"
-    echo "$CSR_RESULT"
+
+    for RESULT in "${TEST_RESULTS[@]}"
+    do
+        echo "$RESULT"
+    done
 }
 
 function check_csr {
@@ -502,9 +503,9 @@ function check_csr {
     curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
-        echo "✅ CSR is working."
+        TEST_RESULTS+=("✅ CSR is working.")
     else
-        echo "🚫 CSR is NOT working."
+        TEST_RESULTS+=("🚫 CSR is NOT working.")
     fi
 }
 
@@ -513,9 +514,9 @@ function check_ssr {
     curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
-        echo "✅ SSR is working."
+        TEST_RESULTS+=("✅ SSR is working.")
     else
-        echo "🚫 SSR is NOT working."
+        TEST_RESULTS+=("🚫 SSR is NOT working.")
     fi
 }
 
@@ -523,7 +524,7 @@ function run_e2e {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
-        echo "⏩️ E2E skipped (xvfb is missing)."
+        TEST_RESULTS+=("⏩️ E2E skipped (xvfb is missing).")
         return 0
     fi
 
@@ -532,13 +533,13 @@ function run_e2e {
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
-    echo "$OUTPUT"
-    echo ""
+    TEST_RESULTS+=("$OUTPUT")
+    TEST_RESULTS+=("")
 
     if [ $EXIT_CODE -eq 0 ]; then
-        echo "✅ E2E successful."
+        TEST_RESULTS+=("✅ E2E successful.")
     else
-        echo "🚫 E2E failed."
+        TEST_RESULTS+=("🚫 E2E failed.")
     fi
 }
 
@@ -546,7 +547,7 @@ function run_e2e_b2b {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
-        echo "⏩️ B2B E2E skipped (xvfb is missing)."
+        TEST_RESULTS_B2B+=("⏩️ B2B E2E skipped (xvfb is missing).")
         return 0
     fi
 
@@ -558,26 +559,32 @@ function run_e2e_b2b {
     OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
     EXIT_CODE_1=$?
 
-    echo "$OUTPUT"
-    echo ""
+    TEST_RESULTS_B2B+=("$OUTPUT")
+    TEST_RESULTS_B2B+=("")
 
     OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts")
     EXIT_CODE_2=$?
 
-    echo "$OUTPUT"
-    echo ""
+    TEST_RESULTS_B2B+=("$OUTPUT")
+    TEST_RESULTS_B2B+=("")
+
+    local EXIT_CODE_FINAL=0
 
     if [ $EXIT_CODE_1 -eq 0 ]; then
-        echo "✅ [1|2] B2B E2E successful."
+        TEST_RESULTS_B2B+=("✅ [1|2] B2B E2E successful.")
     else
-        echo "🚫 [1|2] B2B E2E failed."
+        TEST_RESULTS_B2B+=("🚫 [1|2] B2B E2E failed.")
+        EXIT_CODE_FINAL="$EXIT_CODE_1"
     fi
 
     if [ $EXIT_CODE_2 -eq 0 ]; then
-        echo "✅ [2|2] B2B E2E successful."
+        TEST_RESULTS_B2B+=("✅ [2|2] B2B E2E successful.")
     else
-        echo "🚫 [2|2] B2B E2E failed."
+        TEST_RESULTS_B2B+=("🚫 [2|2] B2B E2E failed.")
+        EXIT_CODE_FINAL="$EXIT_CODE_2"
     fi
+
+    return "$EXIT_CODE_FINAL"
 }
 
 function print_warnings {
@@ -784,13 +791,12 @@ function parseStartArgs {
 }
 
 function spinner {
-  SPINNER_OUT=""
   local frameRef
   local action="${1}"
   local label="${2} "
   local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
   local result
-  result=${action} & pid=$!
+  ${action} & pid=$!
   tput civis -- invisible
 
   while ps -p $pid &>/dev/null; do
@@ -800,8 +806,12 @@ function spinner {
       sleep 0.1
     done
   done
-
-  echo -ne "\\r[ \033[32m✔\033[m ] ${label}\\n"
+  
+  if [ "$?" -eq 0 ] ; then 
+    echo -ne "\\r[ \033[32m✔\033[m ] ${label}\\n"
+  else 
+    echo -ne "\\r[ \033[31m!\033[m ] ${label}\\n"
+  fi
+  
   tput cnorm -- normal
-  SPINNER_OUT="$result"
 }
