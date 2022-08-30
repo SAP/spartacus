@@ -12,6 +12,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -27,6 +28,7 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
@@ -34,7 +36,7 @@ import {
   ModalService,
 } from '../../../../shared/components/modal/index';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+//import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -100,7 +102,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     protected modalService: ModalService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef,
   ) {}
 
   ngOnInit() {
@@ -156,7 +160,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   protected handleAddressVerificationResults(results: AddressValidation) {
     if (results.decision === 'ACCEPT') {
-      this.submitAddress.emit(this.addressForm.value);
+      //this.submitAddress.emit(this.addressForm.value);
+      this.openSuggestedAddress(results);
     } else if (results.decision === 'REJECT') {
       // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
       if (
@@ -230,8 +235,20 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   openSuggestedAddress(results: AddressValidation): void {
-    if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
+    //if (!this.suggestedAddressModalRef) {
+
+      let data = {
+        enteredAddress: this.addressForm.value,
+        suggestedAddresses: results.suggestedAddresses
+      };
+      console.log(data);
+      this.launchDialogService.openDialog(
+        LAUNCH_CALLER.SUGGESTED_ADDRESS,
+        undefined,
+        this.vcr,
+        data
+      );
+      /*this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
         { centered: true, size: 'lg' }
       );
@@ -265,7 +282,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.submitAddress.emit(address);
           this.suggestedAddressModalRef = null;
         });
-    }
+    //} */
   }
 
   ngOnDestroy() {

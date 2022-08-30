@@ -11,6 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Address } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 
@@ -22,7 +23,13 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  constructor(protected modalService: ModalService) {}
+  constructor(protected modalService: ModalService, protected launchDialogService: LaunchDialogService) {
+    this.launchDialogService.data$.subscribe((data) => {
+      console.log(data);
+      this.suggestedAddresses = data.suggestedAddresses;
+      this.enteredAddress = data.enteredAddress;
+    });
+  }
 
   @Input()
   suggestedAddresses: Address[];
@@ -32,12 +39,20 @@ export class SuggestedAddressDialogComponent implements OnInit {
   selectedAddress: Address;
 
   ngOnInit(): void {
-    this.selectedAddress = this.suggestedAddresses.length
+    console.log("Oninit called");
+    this.launchDialogService.data$.subscribe((data) => {
+      console.log(data);
+      this.suggestedAddresses = data.suggestedAddresses;
+      this.enteredAddress = data.enteredAddress;
+
+      this.selectedAddress = this.suggestedAddresses?.length
       ? this.suggestedAddresses[0]
       : this.enteredAddress;
+
+    });
   }
 
   closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 }
