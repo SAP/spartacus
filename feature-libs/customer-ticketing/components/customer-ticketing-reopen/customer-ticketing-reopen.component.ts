@@ -32,7 +32,7 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.CUSTOMER_TICKETING,
+      LAUNCH_CALLER.CUSTOMER_TICKETING_REOPEN,
       this.element,
       this.vcr
     );

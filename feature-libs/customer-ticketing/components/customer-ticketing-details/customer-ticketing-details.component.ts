@@ -5,6 +5,7 @@ import {
   CUSTOM_CLASS,
   CustomerTicketingFacade,
   TicketDetails,
+  DATE_FORMAT,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -16,6 +17,7 @@ import { filter, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerTicketingDetailsComponent {
+  dateFormat = DATE_FORMAT;
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
