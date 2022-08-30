@@ -127,9 +127,6 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -237,7 +234,6 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

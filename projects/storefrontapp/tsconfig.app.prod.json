@@ -2,228 +2,286 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "paths": {
-      "@spartacus/setup": ["dist/setup"],
-      "@spartacus/setup/ssr": ["dist/setup/ssr"],
-      "@spartacus/asm/assets": ["dist/asm/assets"],
-      "@spartacus/asm/components": ["dist/asm/components"],
-      "@spartacus/asm/core": ["dist/asm/core"],
-      "@spartacus/asm": ["dist/asm"],
-      "@spartacus/asm/occ": ["dist/asm/occ"],
-      "@spartacus/asm/root": ["dist/asm/root"],
-      "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
+      "@spartacus/setup": ["dist/setup/index.d.ts"],
+      "@spartacus/setup/ssr": ["dist/setup/ssr/index.d.ts"],
+      "@spartacus/asm/assets": ["dist/asm/assets/index.d.ts"],
+      "@spartacus/asm/components": ["dist/asm/components/index.d.ts"],
+      "@spartacus/asm/core": ["dist/asm/core/index.d.ts"],
+      "@spartacus/asm": ["dist/asm/index.d.ts"],
+      "@spartacus/asm/occ": ["dist/asm/occ/index.d.ts"],
+      "@spartacus/asm/root": ["dist/asm/root/index.d.ts"],
+      "@spartacus/cart/base/assets": ["dist/cart/base/assets/index.d.ts"],
       "@spartacus/cart/base/components/add-to-cart": [
-        "dist/cart/base/components/add-to-cart"
+        "dist/cart/base/components/add-to-cart/index.d.ts"
       ],
       "@spartacus/cart/base/components/mini-cart": [
-        "dist/cart/base/components/mini-cart"
+        "dist/cart/base/components/mini-cart/index.d.ts"
       ],
-      "@spartacus/cart/base/components": ["dist/cart/base/components"],
-      "@spartacus/cart/base/core": ["dist/cart/base/core"],
-      "@spartacus/cart/base": ["dist/cart/base"],
-      "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
-      "@spartacus/cart/base/root": ["dist/cart/base/root"],
+      "@spartacus/cart/base/components": [
+        "dist/cart/base/components/index.d.ts"
+      ],
+      "@spartacus/cart/base/core": ["dist/cart/base/core/index.d.ts"],
+      "@spartacus/cart/base": ["dist/cart/base/index.d.ts"],
+      "@spartacus/cart/base/occ": ["dist/cart/base/occ/index.d.ts"],
+      "@spartacus/cart/base/root": ["dist/cart/base/root/index.d.ts"],
       "@spartacus/cart/import-export/assets": [
-        "dist/cart/import-export/assets"
+        "dist/cart/import-export/assets/index.d.ts"
       ],
       "@spartacus/cart/import-export/components": [
-        "dist/cart/import-export/components"
+        "dist/cart/import-export/components/index.d.ts"
       ],
-      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
-      "@spartacus/cart/import-export": ["dist/cart/import-export"],
-      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
-      "@spartacus/cart": ["dist/cart"],
-      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@spartacus/cart/import-export/core": [
+        "dist/cart/import-export/core/index.d.ts"
+      ],
+      "@spartacus/cart/import-export": ["dist/cart/import-export/index.d.ts"],
+      "@spartacus/cart/import-export/root": [
+        "dist/cart/import-export/root/index.d.ts"
+      ],
+      "@spartacus/cart": ["dist/cart/index.d.ts"],
+      "@spartacus/cart/quick-order/assets": [
+        "dist/cart/quick-order/assets/index.d.ts"
+      ],
       "@spartacus/cart/quick-order/components": [
-        "dist/cart/quick-order/components"
+        "dist/cart/quick-order/components/index.d.ts"
       ],
-      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
-      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
-      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
-      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
+      "@spartacus/cart/quick-order/core": [
+        "dist/cart/quick-order/core/index.d.ts"
+      ],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order/index.d.ts"],
+      "@spartacus/cart/quick-order/root": [
+        "dist/cart/quick-order/root/index.d.ts"
+      ],
+      "@spartacus/cart/saved-cart/assets": [
+        "dist/cart/saved-cart/assets/index.d.ts"
+      ],
       "@spartacus/cart/saved-cart/components": [
         "dist/cart/saved-cart/components"
       ],
-      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
-      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
-      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
-      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
-      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
+      "@spartacus/cart/saved-cart/core": [
+        "dist/cart/saved-cart/core/index.d.ts"
+      ],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart/index.d.ts"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ/index.d.ts"],
+      "@spartacus/cart/saved-cart/root": [
+        "dist/cart/saved-cart/root/index.d.ts"
+      ],
+      "@spartacus/cart/wish-list/assets": [
+        "dist/cart/wish-list/assets/index.d.ts"
+      ],
       "@spartacus/cart/wish-list/components/add-to-wishlist": [
-        "dist/cart/wish-list/components/add-to-wishlist"
+        "dist/cart/wish-list/components/add-to-wishlist/index.d.ts"
       ],
       "@spartacus/cart/wish-list/components": [
-        "dist/cart/wish-list/components"
+        "dist/cart/wish-list/components/index.d.ts"
       ],
-      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
-      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
-      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
-      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
-      "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
-      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
-      "@spartacus/checkout/b2b": ["dist/checkout/b2b"],
-      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
-      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root"],
-      "@spartacus/checkout/base/assets": ["dist/checkout/base/assets"],
-      "@spartacus/checkout/base/components": ["dist/checkout/base/components"],
-      "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
-      "@spartacus/checkout/base": ["dist/checkout/base"],
-      "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],
-      "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
-      "@spartacus/checkout": ["dist/checkout"],
+      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core/index.d.ts"],
+      "@spartacus/cart/wish-list": ["dist/cart/wish-list/index.d.ts"],
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root/index.d.ts"],
+      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets/index.d.ts"],
+      "@spartacus/checkout/b2b/components": [
+        "dist/checkout/b2b/components/index.d.ts"
+      ],
+      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core/index.d.ts"],
+      "@spartacus/checkout/b2b": ["dist/checkout/b2b/index.d.ts"],
+      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ/index.d.ts"],
+      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root/index.d.ts"],
+      "@spartacus/checkout/base/assets": [
+        "dist/checkout/base/assets/index.d.ts"
+      ],
+      "@spartacus/checkout/base/components": [
+        "dist/checkout/base/components/index.d.ts"
+      ],
+      "@spartacus/checkout/base/core": ["dist/checkout/base/core/index.d.ts"],
+      "@spartacus/checkout/base": ["dist/checkout/base/index.d.ts"],
+      "@spartacus/checkout/base/occ": ["dist/checkout/base/occ/index.d.ts"],
+      "@spartacus/checkout/base/root": ["dist/checkout/base/root/index.d.ts"],
+      "@spartacus/checkout": ["dist/checkout/index.d.ts"],
       "@spartacus/checkout/scheduled-replenishment/assets": [
-        "dist/checkout/scheduled-replenishment/assets"
+        "dist/checkout/scheduled-replenishment/assets/index.d.ts"
       ],
       "@spartacus/checkout/scheduled-replenishment/components": [
-        "dist/checkout/scheduled-replenishment/components"
+        "dist/checkout/scheduled-replenishment/components/index.d.ts"
       ],
       "@spartacus/checkout/scheduled-replenishment": [
-        "dist/checkout/scheduled-replenishment"
+        "dist/checkout/scheduled-replenishment/index.d.ts"
       ],
       "@spartacus/checkout/scheduled-replenishment/root": [
-        "dist/checkout/scheduled-replenishment/root"
+        "dist/checkout/scheduled-replenishment/root/index.d.ts"
       ],
-      "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/order/components": ["dist/order/components"],
-      "@spartacus/order/core": ["dist/order/core"],
-      "@spartacus/order": ["dist/order"],
-      "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/order/assets": ["dist/order/assets/index.d.ts"],
+      "@spartacus/order/components": ["dist/order/components/index.d.ts"],
+      "@spartacus/order/core": ["dist/order/core/index.d.ts"],
+      "@spartacus/order": ["dist/order/index.d.ts"],
+      "@spartacus/order/occ": ["dist/order/occ/index.d.ts"],
+      "@spartacus/order/root": ["dist/order/root/index.d.ts"],
       "@spartacus/organization/administration/assets": [
-        "dist/organization/administration/assets"
+        "dist/organization/administration/assets/index.d.ts"
       ],
       "@spartacus/organization/administration/components": [
-        "dist/organization/administration/components"
+        "dist/organization/administration/components/index.d.ts"
       ],
       "@spartacus/organization/administration/core": [
-        "dist/organization/administration/core"
+        "dist/organization/administration/core/index.d.ts"
       ],
       "@spartacus/organization/administration": [
-        "dist/organization/administration"
+        "dist/organization/administration/index.d.ts"
       ],
       "@spartacus/organization/administration/occ": [
         "dist/organization/administration/occ"
       ],
       "@spartacus/organization/administration/root": [
-        "dist/organization/administration/root"
+        "dist/organization/administration/root/index.d.ts"
       ],
-      "@spartacus/organization": ["dist/organization"],
+      "@spartacus/organization": ["dist/organization/index.d.ts"],
       "@spartacus/organization/order-approval/assets": [
-        "dist/organization/order-approval/assets"
+        "dist/organization/order-approval/assets/index.d.ts"
       ],
       "@spartacus/organization/order-approval": [
-        "dist/organization/order-approval"
+        "dist/organization/order-approval/index.d.ts"
       ],
       "@spartacus/organization/order-approval/root": [
-        "dist/organization/order-approval/root"
+        "dist/organization/order-approval/root/index.d.ts"
       ],
       "@spartacus/product-configurator/common/assets": [
-        "dist/product-configurator/common/assets"
+        "dist/product-configurator/common/assets/index.d.ts"
       ],
       "@spartacus/product-configurator/common": [
-        "dist/product-configurator/common"
+        "dist/product-configurator/common/index.d.ts"
       ],
-      "@spartacus/product-configurator": ["dist/product-configurator"],
+      "@spartacus/product-configurator": [
+        "dist/product-configurator/index.d.ts"
+      ],
       "@spartacus/product-configurator/rulebased/cpq": [
-        "dist/product-configurator/rulebased/cpq"
+        "dist/product-configurator/rulebased/cpq/index.d.ts"
       ],
       "@spartacus/product-configurator/rulebased": [
-        "dist/product-configurator/rulebased"
+        "dist/product-configurator/rulebased/index.d.ts"
       ],
       "@spartacus/product-configurator/rulebased/root": [
-        "dist/product-configurator/rulebased/root"
+        "dist/product-configurator/rulebased/root/index.d.ts"
       ],
       "@spartacus/product-configurator/textfield": [
-        "dist/product-configurator/textfield"
+        "dist/product-configurator/textfield/index.d.ts"
       ],
       "@spartacus/product-configurator/textfield/root": [
-        "dist/product-configurator/textfield/root"
+        "dist/product-configurator/textfield/root/index.d.ts"
       ],
       "@spartacus/product/bulk-pricing/assets": [
-        "dist/product/bulk-pricing/assets"
+        "dist/product/bulk-pricing/assets/index.d.ts"
       ],
       "@spartacus/product/bulk-pricing/components": [
-        "dist/product/bulk-pricing/components"
+        "dist/product/bulk-pricing/components/index.d.ts"
       ],
       "@spartacus/product/bulk-pricing/core": [
-        "dist/product/bulk-pricing/core"
+        "dist/product/bulk-pricing/core/index.d.ts"
       ],
-      "@spartacus/product/bulk-pricing": ["dist/product/bulk-pricing"],
-      "@spartacus/product/bulk-pricing/occ": ["dist/product/bulk-pricing/occ"],
+      "@spartacus/product/bulk-pricing": [
+        "dist/product/bulk-pricing/index.d.ts"
+      ],
+      "@spartacus/product/bulk-pricing/occ": [
+        "dist/product/bulk-pricing/occ/index.d.ts"
+      ],
       "@spartacus/product/bulk-pricing/root": [
-        "dist/product/bulk-pricing/root"
+        "dist/product/bulk-pricing/root/index.d.ts"
       ],
       "@spartacus/product/image-zoom/assets": [
-        "dist/product/image-zoom/assets"
+        "dist/product/image-zoom/assets/index.d.ts"
       ],
       "@spartacus/product/image-zoom/components": [
-        "dist/product/image-zoom/components"
+        "dist/product/image-zoom/components/index.d.ts"
       ],
-      "@spartacus/product/image-zoom": ["dist/product/image-zoom"],
-      "@spartacus/product/image-zoom/root": ["dist/product/image-zoom/root"],
-      "@spartacus/product": ["dist/product"],
-      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/image-zoom": ["dist/product/image-zoom/index.d.ts"],
+      "@spartacus/product/image-zoom/root": [
+        "dist/product/image-zoom/root/index.d.ts"
+      ],
+      "@spartacus/product": ["dist/product/index.d.ts"],
+      "@spartacus/product/variants/assets": [
+        "dist/product/variants/assets/index.d.ts"
+      ],
       "@spartacus/product/variants/components": [
-        "dist/product/variants/components"
+        "dist/product/variants/components/index.d.ts"
       ],
-      "@spartacus/product/variants": ["dist/product/variants"],
-      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
-      "@spartacus/product/variants/root": ["dist/product/variants/root"],
-      "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
-      "@spartacus/qualtrics": ["dist/qualtrics"],
-      "@spartacus/qualtrics/root": ["dist/qualtrics/root"],
-      "@spartacus/smartedit/core": ["dist/smartedit/core"],
-      "@spartacus/smartedit": ["dist/smartedit"],
-      "@spartacus/smartedit/root": ["dist/smartedit/root"],
-      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
-      "@spartacus/storefinder/components": ["dist/storefinder/components"],
-      "@spartacus/storefinder/core": ["dist/storefinder/core"],
-      "@spartacus/storefinder": ["dist/storefinder"],
-      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
-      "@spartacus/storefinder/root": ["dist/storefinder/root"],
-      "@spartacus/tracking": ["dist/tracking"],
+      "@spartacus/product/variants": ["dist/product/variants/index.d.ts"],
+      "@spartacus/product/variants/occ": [
+        "dist/product/variants/occ/index.d.ts"
+      ],
+      "@spartacus/product/variants/root": [
+        "dist/product/variants/root/index.d.ts"
+      ],
+      "@spartacus/qualtrics/components": [
+        "dist/qualtrics/components/index.d.ts"
+      ],
+      "@spartacus/qualtrics": ["dist/qualtrics/index.d.ts"],
+      "@spartacus/qualtrics/root": ["dist/qualtrics/root/index.d.ts"],
+      "@spartacus/smartedit/core": ["dist/smartedit/core/index.d.ts"],
+      "@spartacus/smartedit": ["dist/smartedit/index.d.ts"],
+      "@spartacus/smartedit/root": ["dist/smartedit/root/index.d.ts"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets/index.d.ts"],
+      "@spartacus/storefinder/components": [
+        "dist/storefinder/components/index.d.ts"
+      ],
+      "@spartacus/storefinder/core": ["dist/storefinder/core/index.d.ts"],
+      "@spartacus/storefinder": ["dist/storefinder/index.d.ts"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ/index.d.ts"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root/index.d.ts"],
+      "@spartacus/tracking": ["dist/tracking/index.d.ts"],
       "@spartacus/tracking/personalization/core": [
-        "dist/tracking/personalization/core"
+        "dist/tracking/personalization/core/index.d.ts"
       ],
-      "@spartacus/tracking/personalization": ["dist/tracking/personalization"],
+      "@spartacus/tracking/personalization": [
+        "dist/tracking/personalization/index.d.ts"
+      ],
       "@spartacus/tracking/personalization/root": [
-        "dist/tracking/personalization/root"
+        "dist/tracking/personalization/root/index.d.ts"
       ],
-      "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
-      "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
-      "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
-      "@spartacus/tracking/tms": ["dist/tracking/tms"],
-      "@spartacus/user/account/assets": ["dist/user/account/assets"],
-      "@spartacus/user/account/components": ["dist/user/account/components"],
-      "@spartacus/user/account/core": ["dist/user/account/core"],
-      "@spartacus/user/account": ["dist/user/account"],
-      "@spartacus/user/account/occ": ["dist/user/account/occ"],
-      "@spartacus/user/account/root": ["dist/user/account/root"],
-      "@spartacus/user": ["dist/user"],
-      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
-      "@spartacus/user/profile/components": ["dist/user/profile/components"],
-      "@spartacus/user/profile/core": ["dist/user/profile/core"],
-      "@spartacus/user/profile": ["dist/user/profile"],
-      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/cdc/components": ["dist/cdc/components"],
-      "@spartacus/cdc/core": ["dist/cdc/core"],
-      "@spartacus/cdc": ["dist/cdc"],
-      "@spartacus/cdc/root": ["dist/cdc/root"],
-      "@spartacus/cds": ["dist/cds"],
-      "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
-      "@spartacus/digital-payments": ["dist/digital-payments"],
-      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
+      "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep/index.d.ts"],
+      "@spartacus/tracking/tms/core": ["dist/tracking/tms/core/index.d.ts"],
+      "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm/index.d.ts"],
+      "@spartacus/tracking/tms": ["dist/tracking/tms/index.d.ts"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets/index.d.ts"],
+      "@spartacus/user/account/components": [
+        "dist/user/account/components/index.d.ts"
+      ],
+      "@spartacus/user/account/core": ["dist/user/account/core/index.d.ts"],
+      "@spartacus/user/account": ["dist/user/account/index.d.ts"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ/index.d.ts"],
+      "@spartacus/user/account/root": ["dist/user/account/root/index.d.ts"],
+      "@spartacus/user": ["dist/user/index.d.ts"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets/index.d.ts"],
+      "@spartacus/user/profile/components": [
+        "dist/user/profile/components/index.d.ts"
+      ],
+      "@spartacus/user/profile/core": ["dist/user/profile/core/index.d.ts"],
+      "@spartacus/user/profile": ["dist/user/profile/index.d.ts"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ/index.d.ts"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root/index.d.ts"],
+      "@spartacus/cdc/components": ["dist/cdc/components/index.d.ts"],
+      "@spartacus/cdc/core": ["dist/cdc/core/index.d.ts"],
+      "@spartacus/cdc": ["dist/cdc/index.d.ts"],
+      "@spartacus/cdc/root": ["dist/cdc/root/index.d.ts"],
+      "@spartacus/cds": ["dist/cds/index.d.ts"],
+      "@spartacus/digital-payments/assets": [
+        "dist/digital-payments/assets/index.d.ts"
+      ],
+      "@spartacus/digital-payments": ["dist/digital-payments/index.d.ts"],
+      "@spartacus/epd-visualization/assets": [
+        "dist/epd-visualization/assets/index.d.ts"
+      ],
       "@spartacus/epd-visualization/components": [
-        "dist/epd-visualization/components"
+        "dist/epd-visualization/components/index.d.ts"
       ],
-      "@spartacus/epd-visualization/core": ["dist/epd-visualization/core"],
+      "@spartacus/epd-visualization/core": [
+        "dist/epd-visualization/core/index.d.ts"
+      ],
       "@spartacus/epd-visualization/epd-visualization-api": [
-        "dist/epd-visualization/epd-visualization-api"
+        "dist/epd-visualization/epd-visualization-api/index.d.ts"
       ],
-      "@spartacus/epd-visualization": ["dist/epd-visualization"],
-      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
-      "@spartacus/assets": ["dist/assets"],
-      "@spartacus/core": ["dist/core"],
+      "@spartacus/epd-visualization": ["dist/epd-visualization/index.d.ts"],
+      "@spartacus/epd-visualization/root": [
+        "dist/epd-visualization/root/index.d.ts"
+      ],
+      "@spartacus/assets": ["dist/assets/index.d.ts"],
+      "@spartacus/core": ["dist/core/index.d.ts"],
       "@spartacus/storefront": ["dist/storefrontlib"]
     }
   }

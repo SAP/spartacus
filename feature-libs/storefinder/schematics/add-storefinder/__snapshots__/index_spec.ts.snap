@@ -68,9 +68,6 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -178,7 +175,6 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

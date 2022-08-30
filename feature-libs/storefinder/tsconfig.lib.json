@@ -4,7 +4,7 @@
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
     "target": "es2020",
-    "module": "es2020",
+    "module": "NodeNext",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,

@@ -105,9 +105,6 @@ Object {
   "projectType": "application",
   "root": "",
   "schematics": Object {
-    "@schematics/angular:application": Object {
-      "strict": true,
-    },
     "@schematics/angular:component": Object {
       "style": "scss",
     },

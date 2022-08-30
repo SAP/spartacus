@@ -68,9 +68,6 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -178,7 +175,6 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
