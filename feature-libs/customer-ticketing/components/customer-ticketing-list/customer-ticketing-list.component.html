@@ -2,14 +2,14 @@
   <ng-container *ngIf="tickets | async as tickets">
     <h3 class="cx-ticketing-list-title">
       <span class="cx-ticketing-list-title-text">
-        {{ 'customerTicketing.requestTitle' | cxTranslate }}
+        {{ 'customerTicketingList.requestTitle' | cxTranslate }}
       </span>
       <span class="cx-ticketing-list-title-count">
         ({{ tickets.length }})
       </span>
     </h3>
     <div class="cx-ticketing-list-subtitle">
-      {{ 'customerTicketing.sortSubtitle' | cxTranslate }}
+      {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
     </div>
     <select
       class="cx-ticketing-list-select"
@@ -26,7 +26,7 @@
         <div class="col-11">
           <div>
             <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-            {{ 'customerTicketing.ticketIdFull' | cxTranslate }}
+            {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
             </span>
             <span class="col-8 cx-ticketing-list-ticket-item-mobile">
             {{ ticket.id }}
@@ -34,7 +34,7 @@
           </div>
           <div>
             <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-            {{ 'customerTicketing.subject' | cxTranslate }}
+            {{ 'customerTicketingList.subject' | cxTranslate }}
             </span>
             <span class="col-8 cx-ticketing-list-ticket-item-mobile">
             {{ ticket.subject }}
@@ -42,7 +42,7 @@
           </div>
           <div>
             <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-            {{ 'customerTicketing.ticketCategory' | cxTranslate }}
+            {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
             </span>
             <span class="col-8 cx-ticketing-list-ticket-item-mobile">
             {{ ticket.ticketCategory }}
@@ -81,8 +81,8 @@
         <thead>
           <tr>
             <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
-            <th scope="col">{{ 'customerTicketing.subject' | cxTranslate }}</th>
-            <th scope="col">{{ 'customerTicketing.ticketCategory' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketingList.subject' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketingList.ticketCategory' | cxTranslate }}</th>
             <th scope="col">{{ 'customerTicketing.createdOn' | cxTranslate }}</th>
             <th scope="col">{{ 'customerTicketing.changedOn' | cxTranslate }}</th>
             <th scope="col">{{ 'customerTicketing.status' | cxTranslate }}</th>
