@@ -474,13 +474,10 @@ function check_b2b {
 
     sleep 5
 
+    echo "Running E2E ..."
     local E2E_RESULT=$(run_e2e_b2b)
-    spinner run_e2e_b2b "Checking E2E"
     
-    for RESULT in "${TEST_RESULTS_B2B[@]}"
-    do
-        echo "$RESULT"
-    done
+    echo "$E2E_RESULT"
 }
 
 function check_apps {
@@ -488,14 +485,18 @@ function check_apps {
 
     sleep 5
 
-    spinner check_csr "Checking CSR"
-    spinner check_ssr "Checking SSR"
-    spinner run_e2e "Checking E2E"
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
 
-    for RESULT in "${TEST_RESULTS[@]}"
-    do
-        echo "$RESULT"
-    done
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e)
+    
+    echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
 }
 
 function check_csr {
@@ -788,30 +789,4 @@ function parseStartArgs {
                 ;;
         esac
     done
-}
-
-function spinner {
-  local frameRef
-  local action="${1}"
-  local label="${2} "
-  local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
-  local result
-  ${action} & pid=$!
-  tput civis -- invisible
-
-  while ps -p $pid &>/dev/null; do
-    for frame in ${!frames[@]}; do
-      currFrame="${frames[frame]}"
-      echo -ne "\\r[ \033[36m${currFrame}\033[m ] ${label}"
-      sleep 0.1
-    done
-  done
-  
-  if [ "$?" -eq 0 ] ; then 
-    echo -ne "\\r[ \033[32m✔\033[m ] ${label}\\n"
-  else 
-    echo -ne "\\r[ \033[31m!\033[m ] ${label}\\n"
-  fi
-  
-  tput cnorm -- normal
 }
