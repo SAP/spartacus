@@ -775,6 +775,12 @@ function parseStartArgs {
                 echo "➖ Check B2B after start"
                 shift
                 ;;
+            --install-dir)
+                INSTALLATION_DIR="$2"
+                echo "➖ INSTALLATION_DIR to $INSTALLATION_DIR"
+                shift
+                shift
+                ;;
             --force-e2e)
                 FORCE_E2E=true
                 echo "➖ Force E2E Tests"
