@@ -484,13 +484,13 @@ function check_apps {
     sleep 5
 
     spinner check_csr "Checking CSR ..."
-    local CSR_RESULT=SPINNER_OUT
+    local CSR_RESULT="$SPINNER_OUT"
 
     spinner check_ssr "Checking SSR ..."
-    local SSR_RESULT=SPINNER_OUT
+    local SSR_RESULT="$SPINNER_OUT"
 
     spinner run_e2e "Checking E2E ..."
-    local E2E_RESULT=SPINNER_OUT
+    local E2E_RESULT="$SPINNER_OUT"
     
     echo "$E2E_RESULT"
     echo "$SSR_RESULT"
@@ -801,7 +801,7 @@ function spinner {
     done
   done
 
-  echo -ne "\\r[ \033[32m✔\033[m ] ${STEPS[$step]}\\n"
+  echo -ne "\\r[ \033[32m✔\033[m ] ${label}\\n"
   tput cnorm -- normal
   SPINNER_OUT=result
 }
