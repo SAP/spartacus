@@ -710,7 +710,7 @@ function parseInstallArgs {
                 shift
                 ;;
             -s|--basesite)
-                BASE_URL="$2"
+                BASE_SITE="$2"
                 echo "➖ BASE_SITE to $BASE_SITE"
                 shift
                 shift
