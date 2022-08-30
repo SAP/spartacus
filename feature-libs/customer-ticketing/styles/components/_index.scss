@@ -5,7 +5,7 @@
 
 $customer-ticketing-allowlist: cx-customer-ticketing-reopen-dialog,
   cx-customer-ticketing-reopen, cx-customer-ticketing-close,
-  cx-customer-ticketing-details !default;
+  cx-customer-ticketing-details, cx-customer-ticketing-list !default;
 
 $skipComponentStyles: () !default;
 
