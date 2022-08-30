@@ -59,7 +59,7 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
-  hasPONumber = false;
+  hasPONumber: boolean | undefined;
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
@@ -68,11 +68,10 @@ export class OrderHistoryComponent implements OnDestroy {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
         }
-        if (orders?.orders?.length) {
-          this.hasPONumber =
-            orders.orders[0].purchaseOrderNumber !== undefined &&
-            (this.featureConfigService?.isLevel('5.1') ?? false);
-        }
+        // TODO(#630): remove featureConfigService for major releases
+        this.hasPONumber =
+          orders?.orders?.[0]?.purchaseOrderNumber !== undefined &&
+          this.featureConfigService?.isLevel('5.1');
       })
     );
 

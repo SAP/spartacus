@@ -158,7 +158,6 @@ describe('OrderHistoryComponent', () => {
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(
     waitForAsync(() => {
@@ -187,7 +186,6 @@ describe('OrderHistoryComponent', () => {
 
       orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
       routingService = TestBed.inject(RoutingService);
-      featureConfigService = TestBed.inject(FeatureConfigService);
     })
   );
 
@@ -264,12 +262,6 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display PO Number & Cost Center', () => {
-    spyOn(featureConfigService, 'isLevel')
-      .withArgs('5.1')
-      .and.returnValue(true)
-      .withArgs('!5.1')
-      .and.returnValue(false);
-
     mockOrderHistoryList$.next(mockOrders);
     fixture.detectChanges();
 
