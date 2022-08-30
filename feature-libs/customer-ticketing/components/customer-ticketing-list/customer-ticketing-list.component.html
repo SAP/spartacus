@@ -53,7 +53,7 @@
             {{ 'customerTicketing.createdOn' | cxTranslate }}
             </span>
             <span class="col-8 cx-ticketing-list-ticket-item-mobile">
-            {{ ticket.createdAt }}
+            {{ ticket.createdAt | cxDate }}
             </span>
           </div>
           <div>
@@ -61,7 +61,7 @@
             {{ 'customerTicketing.changedOn' | cxTranslate }}
             </span>
             <span class="col-8 cx-ticketing-list-ticket-item-mobile">
-            {{ ticket.modifiedAt }}
+            {{ ticket.modifiedAt | cxDate }}
             </span>
           </div>
           <div>
