@@ -350,6 +350,8 @@ function build_ssr_pwa {
     fi
 }
 
+# Can be removed after the routing configuration is added to the schmatics.
+# Also remove the $PATCH_APP_MODULE Flag and the parsing part in parseInstallArgs
 function patch_app_module_ts {
     printh "Patch App Module"
     if [ "$PATCH_APP_MODULE" = false ]; then
