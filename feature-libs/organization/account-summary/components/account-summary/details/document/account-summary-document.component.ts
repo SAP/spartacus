@@ -65,10 +65,13 @@ export class AccountSummaryDocumentComponent implements OnInit {
     this.fetchDocuments();
   }
 
-  downloadAttachment(document: AccountSummaryDocument): void {
-    if (document.id && document.orgDocumentAttachment?.id) {
+  downloadAttachment(
+    document: AccountSummaryDocument,
+    attachmentId: string
+  ): void {
+    if (document.id && attachmentId) {
       this.accountSummaryFacade
-        .getDocumentAttachment(document.id, document.orgDocumentAttachment?.id)
+        .getDocumentAttachment(document.id, attachmentId)
         .subscribe((data) => {
           let file = new Blob([data], { type: data.type });
           let url = URL.createObjectURL(file);

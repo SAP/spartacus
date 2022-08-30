@@ -175,9 +175,14 @@
                 <div class="cx-account-summary-document-value">
                   <!-- (click)="downloadAttachment(document)" -->
                   <a
-                    *ngIf="document.orgDocumentAttachment"
+                    *ngIf="
+                      document.attachments?.length > 0 &&
+                      document.attachments[0]
+                    "
                     class="cx-action-link"
-                    (click)="downloadAttachment(document)"
+                    (click)="
+                      downloadAttachment(document, document.attachments[0]?.id)
+                    "
                     attr.aria-label="{{
                       'orgAccountSummary.document.view' | cxTranslate
                     }}"

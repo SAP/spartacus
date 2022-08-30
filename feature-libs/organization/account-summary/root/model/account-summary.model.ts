@@ -65,15 +65,15 @@ export interface AccountSummaryDetails {
 }
 
 export interface AccountSummaryDocument {
-  amount?: number;
-  createdAtDate?: string;
-  currency?: Currency;
-  dueAtDate?: string;
   id?: string;
-  openAmount?: number;
-  orgDocumentAttachment?: OrgDocumentAttachment;
   orgDocumentType?: OrgDocumentType;
   status?: DocumentStatus;
+  createdAtDate?: string;
+  dueAtDate?: string;
+  amount?: number;
+  openAmount?: number;
+  currency?: Currency;
+  attachments?: OrgDocumentAttachment;
 }
 
 export interface AccountSummaryDocumentType {
