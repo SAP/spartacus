@@ -16,9 +16,14 @@
   <ng-content></ng-content>
 </button>
 <!-- TODO(Brian-Parth): CXEC-17196 -->
-<div *ngIf="customButton" (click)="fileInput.click()">
+<button
+  class="link"
+  *ngIf="customButton"
+  (click)="fileInput.click()"
+  type="button"
+>
   <ng-container *ngTemplateOutlet="customButton"> </ng-container>
-</div>
+</button>
 <p *ngFor="let file of selectedFiles">
   {{ file?.name }}
 </p>
