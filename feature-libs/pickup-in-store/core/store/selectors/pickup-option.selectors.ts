@@ -23,8 +23,8 @@ export const getPageContext = (): MemoizedSelector<
 
 export const getPickupOption = (
   entryNumber: number
-): MemoizedSelector<StateWithPickupOption, PickupOption> =>
-  createSelector(
-    getPickupOptionState,
-    (state: PickupOptionState) => state.pickupOption[entryNumber]
-  );
+): MemoizedSelector<StateWithPickupOption, PickupOption | undefined> =>
+  createSelector(getPickupOptionState, (state: PickupOptionState) => {
+    return state.pickupOption.find((entry) => entry.entryNumber === entryNumber)
+      ?.pickupOption;
+  });

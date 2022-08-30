@@ -11,7 +11,13 @@ export const PICKUP_OPTION_FEATURE = 'pickup-option';
 export interface StateWithPickupOption {
   [PICKUP_OPTION_FEATURE]: PickupOptionState;
 }
+
+export type EntryPickupOption = {
+  entryNumber: number;
+  pickupOption: PickupOption;
+};
+
 export interface PickupOptionState {
-  pickupOption: Record<number, PickupOption>;
+  pickupOption: EntryPickupOption[];
   pageContext: string;
 }

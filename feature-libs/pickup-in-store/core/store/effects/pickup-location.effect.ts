@@ -6,11 +6,13 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { CartActions } from '@spartacus/cart/base/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
+import { PickupOptionActions } from '../actions';
 import * as PickupLocationActions from '../actions/pickup-location.action';
 @Injectable()
 export class PickupLocationEffect {
@@ -101,6 +103,25 @@ export class PickupLocationEffect {
             })
           )
       )
+    )
+  );
+
+  removeEntry$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.CART_REMOVE_ENTRY),
+      map((action: CartActions.CartRemoveEntry) => action.payload),
+      map((payload) => {
+        return PickupOptionActions.RemovePickupOption({
+          payload: { entryNumber: parseInt(payload.entryNumber, 10) },
+        });
+      })
+    )
+  );
+
+  removeAllEntries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.DELETE_CART),
+      map(() => PickupOptionActions.RemoveAllPickupOptions())
     )
   );
 }
