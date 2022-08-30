@@ -15,11 +15,7 @@ export class CustomerTicketingListComponent {
   // Create table Headers
   tableHeaders = [
     { key: 'ticketId', label: 'ID' },
-    { key: 'subject', label: 'Subject' },
-    { key: 'ticketCategory', label: 'Category' },
-    { key: 'createdOn', label: 'Created On' },
     { key: 'changedOn', label: 'Changed On' },
-    { key: 'status', label: 'Status' },
   ];
 
   tickets$ = of({
