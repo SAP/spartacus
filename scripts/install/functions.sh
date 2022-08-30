@@ -504,9 +504,9 @@ function check_csr {
     curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
-        TEST_RESULTS+=("✅ CSR is working.")
+        echo "✅ CSR is working."
     else
-        TEST_RESULTS+=("🚫 CSR is NOT working.")
+        echo "🚫 CSR is NOT working."
     fi
 }
 
@@ -515,9 +515,9 @@ function check_ssr {
     curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
 
     if [ $EXIT_CODE -eq 0 ]; then
-        TEST_RESULTS+=("✅ SSR is working.")
+        echo "✅ SSR is working."
     else
-        TEST_RESULTS+=("🚫 SSR is NOT working.")
+        echo "🚫 SSR is NOT working."
     fi
 }
 
@@ -525,7 +525,7 @@ function run_e2e {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
-        TEST_RESULTS+=("⏩️ E2E skipped (xvfb is missing).")
+        echo "⏩️ E2E skipped (xvfb is missing)."
         return 0
     fi
 
@@ -534,13 +534,13 @@ function run_e2e {
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
-    TEST_RESULTS+=("$OUTPUT")
-    TEST_RESULTS+=("")
+    echo "$OUTPUT"
+    echo ""
 
     if [ $EXIT_CODE -eq 0 ]; then
-        TEST_RESULTS+=("✅ E2E successful.")
+        echo "✅ E2E successful."
     else
-        TEST_RESULTS+=("🚫 E2E failed.")
+        echo "🚫 E2E failed."
     fi
 }
 
@@ -548,7 +548,7 @@ function run_e2e_b2b {
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
-        TEST_RESULTS_B2B+=("⏩️ B2B E2E skipped (xvfb is missing).")
+        echo "⏩️ B2B E2E skipped (xvfb is missing)."
         return 0
     fi
 
@@ -560,32 +560,26 @@ function run_e2e_b2b {
     OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
     EXIT_CODE_1=$?
 
-    TEST_RESULTS_B2B+=("$OUTPUT")
-    TEST_RESULTS_B2B+=("")
+    echo "$OUTPUT"
+    echo ""
 
     OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts")
     EXIT_CODE_2=$?
 
-    TEST_RESULTS_B2B+=("$OUTPUT")
-    TEST_RESULTS_B2B+=("")
-
-    local EXIT_CODE_FINAL=0
+    echo "$OUTPUT"
+    echo ""
 
     if [ $EXIT_CODE_1 -eq 0 ]; then
-        TEST_RESULTS_B2B+=("✅ [1|2] B2B E2E successful.")
+        echo "✅ [1|2] B2B E2E successful."
     else
-        TEST_RESULTS_B2B+=("🚫 [1|2] B2B E2E failed.")
-        EXIT_CODE_FINAL="$EXIT_CODE_1"
+        echo "🚫 [1|2] B2B E2E failed."
     fi
 
     if [ $EXIT_CODE_2 -eq 0 ]; then
-        TEST_RESULTS_B2B+=("✅ [2|2] B2B E2E successful.")
+        echo "✅ [2|2] B2B E2E successful."
     else
-        TEST_RESULTS_B2B+=("🚫 [2|2] B2B E2E failed.")
-        EXIT_CODE_FINAL="$EXIT_CODE_2"
+        echo "🚫 [2|2] B2B E2E failed."
     fi
-
-    return "$EXIT_CODE_FINAL"
 }
 
 function print_warnings {
