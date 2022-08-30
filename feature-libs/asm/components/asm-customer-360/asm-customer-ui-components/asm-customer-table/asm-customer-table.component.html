@@ -3,9 +3,7 @@
     {{ headerText }}
   </div>
   <div class="table-heading-pages" *ngIf="entryPages">
-    <ng-container
-      *ngFor="let page of entryPages; let pageNumber = index"
-    >
+    <ng-container *ngFor="let page of entryPages; let pageNumber = index">
       <div
         *ngIf="entryPages.length > 1"
         (click)="setPageNumber(pageNumber)"
@@ -31,36 +29,27 @@
         {{ column.text }}
       </th>
     </tr>
-    <tr
-      class="table-row"
-      *ngFor="let entry of entryPages?.[currentPage]"
-    >
+    <tr class="table-row" *ngFor="let entry of entryPages?.[currentPage]">
       <td *ngFor="let column of columns">
-        <!--
-        <a
-          *ngIf="entry[column.property]?.details?.url; else starRating"
-          [href]="entry[column.property].details.url"
-          >{{
-            entry[column.property].text || entry[column.property].value || '---'
-          }}</a
-        >
-        -->
-        <ng-container *ngIf="column.renderAsStarRating; else tableCell">
-          <cx-star-rating
-            [rating]="entry[column.property]"
-          ></cx-star-rating>
-        </ng-container>
+        <ng-container
+          *ngIf="column.urlProperty; then linkTemplate; else starRating"
+        ></ng-container>
+
+        <ng-template #linkTemplate>
+          <a [href]="entry[column.urlProperty]">{{
+            entry[column.property].text || '---'
+          }}</a>
+        </ng-template>
 
         <ng-template #starRating>
           <cx-star-rating
-            *ngIf="entry[column.property]?.details?.starRating; else tableCell"
-            [rating]="entry[column.property].value"
+            *ngIf="column.renderAsStarRating; else tableCell"
+            [rating]="entry[column.property]"
           ></cx-star-rating>
         </ng-template>
+
         <ng-template #tableCell>
-          <ng-container>{{
-            entry[column.property] || '---'
-          }}</ng-container>
+          <ng-container>{{ entry[column.property] || '---' }}</ng-container>
         </ng-template>
       </td>
     </tr>

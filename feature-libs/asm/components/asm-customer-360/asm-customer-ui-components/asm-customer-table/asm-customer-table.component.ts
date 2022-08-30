@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 
 import { KeyValuePair } from '../../asm-customer-360.model';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
@@ -35,10 +40,7 @@ export class AsmCustomerTableComponent implements OnInit {
   entryPages: Array<Array<TableEntry>>;
 
   ngOnInit(): void {
-    const entries = this.sortEntries(
-      this.entries,
-      this.sortProperty
-    );
+    const entries = this.sortEntries(this.entries, this.sortProperty);
     this.entryPages = this.updateEntryPages(entries);
   }
 
@@ -79,13 +81,11 @@ export class AsmCustomerTableComponent implements OnInit {
     sortByProperty: string,
     reverseSort?: boolean
   ): Array<TableEntry> {
-    const newEntries = entries
-      .slice()
-      .sort((entryA, entryB) => {
-        const prev = entryA[sortByProperty];
-        const next = entryB[sortByProperty];
-        return this.compareEntryValues(prev, next);
-      });
+    const newEntries = entries.slice().sort((entryA, entryB) => {
+      const prev = entryA[sortByProperty];
+      const next = entryB[sortByProperty];
+      return this.compareEntryValues(prev, next);
+    });
 
     if (reverseSort) {
       return newEntries.reverse();
