@@ -30,7 +30,7 @@ export abstract class AccountSummaryAdapter {
   ): Observable<AccountSummaryList>;
 
   /**
-   * Abstract method to load a document attachment
+   * Abstract method to load a document attachment file
    * @param userId
    * @param orgUnitId
    * @param orgDocumentId

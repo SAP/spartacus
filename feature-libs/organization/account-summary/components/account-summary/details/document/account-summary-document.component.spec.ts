@@ -7,17 +7,20 @@ import {
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { By } from '@angular/platform-browser';
 import {
   AccountSummaryFacade,
   AccountSummaryList,
-  DocumentStatus,
-  DocumentQueryParams,
   DocumentFields,
+  DocumentQueryParams,
+  DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
+import { FileDownloadService } from '@spartacus/storefront';
+import createSpy = jasmine.createSpy;
 
 const mockAccountSummaryList: AccountSummaryList = {
   orgDocumentTypes: [
@@ -291,11 +294,18 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   }
 }
 
+class MockFileDownloadService {
+  download = createSpy('MockFileDownloadService.download Spy').and.returnValue(
+    of(new File([], 'attachment.pdf'))
+  );
+}
+
 describe('AccountSummaryDocumentComponent', () => {
   let component: AccountSummaryDocumentComponent;
   let fixture: ComponentFixture<AccountSummaryDocumentComponent>;
   let accountSummaryFacade: AccountSummaryFacade;
   let translationService: TranslationService;
+  let downloadService: FileDownloadService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -307,10 +317,12 @@ describe('AccountSummaryDocumentComponent', () => {
           useClass: MockTranslationService,
         },
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
+        { provide: FileDownloadService, useClass: MockFileDownloadService },
       ],
     }).compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
+    downloadService = TestBed.inject(FileDownloadService);
   });
 
   beforeEach(() => {
@@ -439,5 +451,17 @@ describe('AccountSummaryDocumentComponent', () => {
       expect(sort.code).toEqual(sorts[index].code);
       expect(sort.name).toEqual('test');
     });
+  });
+
+  it('should download the attachment file', () => {
+    const onClickMock = spyOn(component, 'downloadAttachment');
+    fixture.debugElement
+      .query(By.css('cx-action-link'))
+      .triggerEventHandler('click', null);
+    expect(onClickMock).toHaveBeenCalled();
+    expect(component.downloadAttachment({})).toHaveBeenCalled();
+    expect(
+      downloadService.download('some url', 'attachment-test.pdf')
+    ).toHaveBeenCalled();
   });
 });

@@ -12,8 +12,3 @@ export const ACCOUNT_SUMMARY_NORMALIZER = new InjectionToken<
 export const ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER = new InjectionToken<
   Converter<any, AccountSummaryList>
 >('AccountSummaryDocumentNormalizer');
-
-export const ACCOUNT_SUMMARY_DOCUMENT_ATTACHMENT_NORMALIZER =
-  new InjectionToken<Converter<any, any>>(
-    'AccountSummaryDocumentAttachmentNormalizer'
-  );

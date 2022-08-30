@@ -3,14 +3,14 @@ import {
   OCC_USER_ID_CURRENT,
   RouterState,
   RoutingService,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryConnector } from '../connectors';
@@ -94,6 +94,8 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
   ],
 };
 
+const accountSummaryDocumentBlob = new Blob([], { type: 'application/pdf' });
+
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   getAccountSummary = createSpy(
     'MockAccountSummaryConnector.getAccountSummary Spy'
@@ -102,9 +104,13 @@ class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   getDocumentList = createSpy(
     'MockAccountSummaryConnector.getDocumentList Spy'
   ).and.returnValue(of(accountSummaryDocumentsResult));
+
+  getDocumentAttachment = createSpy(
+    'MockAccountSummaryConnector.getDocumentAttachment Spy'
+  ).and.returnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
-describe('AccountSummaryService', () => {
+fdescribe('AccountSummaryService', () => {
   let service: AccountSummaryService;
   let routingService: RoutingService;
 
@@ -152,11 +158,12 @@ describe('AccountSummaryService', () => {
     });
   });
 
-  // it('should be able to get account summary document attachment', () => {
-  //   service.getDocumentAttachment().subscribe((res) => {
-  //     expect(routingService.getRouterState).toHaveBeenCalled();
-  //     expect(res).toEqual(accountSummaryDocumentsResult);
-  //   });
-  // });
+  it('should be able to get account summary document file', () => {
+    const documentId = 'testDocId';
+    const attachmentId = 'testAttachmentId';
 
+    service.getDocumentAttachment(documentId, attachmentId).subscribe((res) => {
+      expect(res).toEqual(accountSummaryDocumentBlob);
+    });
+  });
 });

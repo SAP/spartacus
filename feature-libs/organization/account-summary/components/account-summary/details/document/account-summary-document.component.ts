@@ -70,7 +70,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
       this.accountSummaryFacade
         .getDocumentAttachment(document.id, document.orgDocumentAttachment?.id)
         .subscribe((data) => {
-          let file = new Blob([data], { type: 'application/pdf' });
+          let file = new Blob([data], { type: data.type });
           let url = URL.createObjectURL(file);
           this.downloadService.download(url);
         });
