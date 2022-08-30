@@ -761,6 +761,35 @@ function parseInstallArgs {
     done
 }
 
+function parseStopArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
 function parseStartArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
@@ -773,6 +802,20 @@ function parseStartArgs {
             --check-b2b)
                 CHECK_B2B_AFTER_START=true
                 echo "➖ Check B2B after start"
+                shift
+                ;;
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
                 shift
                 ;;
             --install-dir)
