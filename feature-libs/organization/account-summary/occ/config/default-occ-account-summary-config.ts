@@ -2,7 +2,7 @@ import { OccConfig } from '@spartacus/core';
 import { AccountSummaryOccEndpoints } from '../model';
 
 const accountSummaryHeaderOccEndpoints: AccountSummaryOccEndpoints = {
-  accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/summary',
+  accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/accountSummary',
   accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/orgDocuments',
   accountSummaryDocumentAttachment:
     'users/${userId}/orgUnits/${orgUnitId}/orgDocuments/${orgDocumentId}/attachments/${orgDocumentAttachmentId}',
