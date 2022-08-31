@@ -30,7 +30,7 @@ export class ProductImportInfoService {
       filter(
         (
           action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
-        ) => action.payload.cartId === cartId
+        ) => action.payload.options.cartId === cartId
       ),
       map((action) => this.mapMessages(action))
     );
@@ -45,9 +45,11 @@ export class ProductImportInfoService {
   protected mapMessages(
     action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
   ): ProductImportInfo {
-    const { productCode } = action.payload;
+    const { productCode } = action.payload.options;
     if (action instanceof CartActions.CartAddEntrySuccess) {
-      const { quantity, quantityAdded, entry, statusCode } = action.payload;
+      const { quantity } = action.payload.options;
+      const { quantityAdded, entry, statusCode } = action.payload.result;
+
       if (statusCode === ProductImportStatus.LOW_STOCK) {
         return {
           productCode,

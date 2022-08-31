@@ -48,16 +48,20 @@ export class ConfiguratorCartEffects {
                 }),
 
                 new CartActions.CartAddEntrySuccess({
+                  options: {
+                    userId: payload.userId,
+                    cartId: payload.cartId,
+                    productCode: payload.productCode,
+                    quantity: payload.quantity,
+                  },
+                  result: {
+                    deliveryModeChanged: entry.deliveryModeChanged,
+                    entry: entry.entry,
+                    quantityAdded: entry.quantityAdded,
+                    statusCode: entry.statusCode,
+                    statusMessage: entry.statusMessage,
+                  },
                   ...entry,
-                  userId: payload.userId,
-                  cartId: payload.cartId,
-                  productCode: payload.productCode,
-                  quantity: payload.quantity,
-                  deliveryModeChanged: entry.deliveryModeChanged,
-                  entry: entry.entry,
-                  quantityAdded: entry.quantityAdded,
-                  statusCode: entry.statusCode,
-                  statusMessage: entry.statusMessage,
                 }),
               ];
             }
@@ -65,10 +69,12 @@ export class ConfiguratorCartEffects {
           catchError((error) =>
             of(
               new CartActions.CartAddEntryFail({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                productCode: payload.productCode,
-                quantity: payload.quantity,
+                options: {
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                  productCode: payload.productCode,
+                  quantity: payload.quantity,
+                },
                 error:
                   error instanceof HttpErrorResponse
                     ? normalizeHttpError(error)

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CartModification } from '@spartacus/cart/base/root';
 import {
   normalizeHttpError,
   SiteContextActions,
@@ -29,34 +28,40 @@ export class CartEntryEffects {
       ofType(CartActions.CART_ADD_ENTRY),
       map((action: CartActions.CartAddEntry) => action.payload),
       concatMap((payload) => {
-        return this.cartEntryConnector
-          .add(
-            payload.userId,
-            payload.cartId,
-            payload.productCode,
-            payload.quantity
-          )
-          .pipe(
-            map(
-              (cartModification: CartModification) =>
-                new CartActions.CartAddEntrySuccess({
-                  ...payload,
-                  ...(cartModification as Required<CartModification>),
-                })
-            ),
-            catchError((error) =>
-              from([
-                new CartActions.CartAddEntryFail({
-                  ...payload,
-                  error: normalizeHttpError(error),
-                }),
-                new CartActions.LoadCart({
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                }),
-              ])
-            )
-          );
+        return this.cartEntryConnector.add(payload.options).pipe(
+          map((cartModification) => {
+            let augmentedOptions: Omit<
+              CartActions.CartAddEntryPayload,
+              'options'
+            > = {};
+            ({ ...augmentedOptions } = payload);
+
+            return new CartActions.CartAddEntrySuccess({
+              options: payload.options,
+              result: cartModification,
+              ...augmentedOptions,
+            });
+          }),
+          catchError((error) => {
+            let augmentedOptions: Omit<
+              CartActions.CartAddEntryFailPayload,
+              'options' | 'error'
+            > = {};
+            ({ ...augmentedOptions } = payload);
+
+            return from([
+              new CartActions.CartAddEntryFail({
+                options: payload.options,
+                error: normalizeHttpError(error),
+                ...augmentedOptions,
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.options.cartId,
+                userId: payload.options.userId,
+              }),
+            ]);
+          })
+        );
       }),
       withdrawOn(this.contextChange$)
     )
@@ -110,7 +115,7 @@ export class CartEntryEffects {
           .update(
             payload.userId,
             payload.cartId,
-            payload.entryNumber,
+            Number(payload.entryNumber),
             payload.quantity
           )
           .pipe(
