@@ -21,7 +21,7 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
-      outputFile: 'unit-test-asm.xml',
+      outputFile: 'unit-test-pickup-in-store.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
@@ -32,7 +32,7 @@ module.exports = function (config) {
         global: {
           statements: 90,
           lines: 90,
-          branches: 75,
+          branches: 90,
           functions: 90,
         },
       },

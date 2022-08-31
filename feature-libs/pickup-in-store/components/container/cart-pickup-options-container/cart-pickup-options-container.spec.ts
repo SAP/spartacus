@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
@@ -9,12 +10,12 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
+import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
-import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
-import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
+import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
 class MockPickupLocationsSearchFacade
   implements Partial<MockPickupLocationsSearchService>
 {
@@ -76,6 +77,10 @@ describe('Cart PickupOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
+      declarations: [
+        CartPickupOptionsContainerComponent,
+        PickupOptionsStubComponent,
+      ],
       imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
         CartPickupOptionsContainerComponent,
@@ -100,7 +105,6 @@ describe('Cart PickupOptionsComponent', () => {
           useClass: MockPickupLocationsSearchFacade,
         },
       ],
-      declarations: [CartPickupOptionsContainerComponent],
     });
 
   const stubServiceAndCreateComponent = () => {

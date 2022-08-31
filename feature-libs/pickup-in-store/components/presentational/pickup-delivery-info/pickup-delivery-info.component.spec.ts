@@ -1,5 +1,8 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import { StoreAddressStubComponent } from '../store/store-address/store-address.component.spec';
+import { StoreScheduleStubComponent } from '../store/store-schedule/store-schedule.component.spec';
 import { PickupDeliveryInfoComponent } from './pickup-delivery-info.component';
 
 describe('PickupDeliveryInfoComponent', () => {
@@ -8,7 +11,11 @@ describe('PickupDeliveryInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PickupDeliveryInfoComponent],
+      declarations: [
+        PickupDeliveryInfoComponent,
+        StoreAddressStubComponent,
+        StoreScheduleStubComponent,
+      ],
       imports: [I18nTestingModule],
     }).compileComponents();
   });
@@ -23,3 +30,15 @@ describe('PickupDeliveryInfoComponent', () => {
     expect(component).toBeDefined();
   });
 });
+
+/**
+ * This is a stub of the PickupDeliveryInfoComponent with the same inputs and outputs
+ * for the purposes of testing the components that wrap it.
+ */
+@Component({
+  selector: 'cx-pickup-delivery-info',
+  template: '',
+})
+export class PickupDeliveryInfoStubComponent {
+  @Input() storeDetails: PointOfService;
+}

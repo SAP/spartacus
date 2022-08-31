@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
-import { StoreScheduleComponent } from './store-schedule/index';
+import { StoreAddressStubComponent } from './store-address/store-address.component.spec';
+import { StoreScheduleStubComponent } from './store-schedule/store-schedule.component.spec';
 import { StoreComponent } from './store.component';
 
 describe('StoreComponent', () => {
@@ -10,8 +11,12 @@ describe('StoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [
+        StoreComponent,
+        StoreAddressStubComponent,
+        StoreScheduleStubComponent,
+      ],
       imports: [I18nTestingModule, IconTestingModule],
-      declarations: [StoreComponent, StoreScheduleComponent],
     }).compileComponents();
   });
 

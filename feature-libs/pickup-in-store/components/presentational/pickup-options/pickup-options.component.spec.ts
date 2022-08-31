@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { PickupOptionsComponent } from './pickup-options.component';
 
 describe('PickupOptionsComponent', () => {
@@ -10,8 +12,8 @@ describe('PickupOptionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       declarations: [PickupOptionsComponent],
+      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
     });
     fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
@@ -123,3 +125,16 @@ describe('PickupOptionsComponent', () => {
     });
   });
 });
+
+/**
+ * This is a stub of the PickupOptionsComponent with the same inputs and outputs
+ * for the purposes of testing the components that wrap it.
+ */
+@Component({
+  selector: 'cx-pickup-delivery-options',
+  template: '',
+})
+export class PickupOptionsStubComponent {
+  @Input() selectedOption: PickupOption;
+  @Input() displayPickupLocation: string | undefined;
+}

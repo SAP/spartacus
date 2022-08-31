@@ -15,15 +15,17 @@ import {
   IconTestingModule,
   LaunchDialogService,
   LAUNCH_CALLER,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
-import { StoreListModule } from '../store-list/index';
-import { StoreSearchModule } from '../store-search/index';
+import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.component.spec';
+import { StoreListStubComponent } from '../store-list/store-list.component.spec';
+import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
-import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.spec';
+
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of({ productCode: 'testProductCode' });
@@ -52,17 +54,20 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   let intendedPickupLocationFacade: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        PickupDeliveryOptionDialogComponent,
+        StoreSearchStubComponent,
+        StoreListStubComponent,
+      ],
       imports: [
         CommonModule,
+        HttpClientTestingModule,
         I18nTestingModule,
         IconTestingModule,
-        StoreListModule,
-        StoreSearchModule,
-        HttpClientTestingModule,
+        SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
       ],
-      declarations: [PickupDeliveryOptionDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
