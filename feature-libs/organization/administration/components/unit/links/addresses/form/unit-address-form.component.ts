@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
@@ -35,5 +41,7 @@ export class UnitAddressFormComponent implements OnInit {
     protected currentUnitService: CurrentUnitService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Intentional empty method
+  }
 }
