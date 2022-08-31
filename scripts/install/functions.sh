@@ -462,7 +462,7 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc, epd"
     echo " install_npm (from latest npm packages)"
     echo " start [--port <port>] [--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
     echo " stop [--port <port>]"
@@ -786,6 +786,11 @@ function parseInstallArgs {
             cdc)
                 ADD_CDC=true
                 echo "➖ Added CDC"   
+                shift
+                ;;
+            epd)
+                ADD_EPD_VISUALIZATION=true
+                echo "➖ Added EPD"   
                 shift
                 ;;
             -*|--*)
