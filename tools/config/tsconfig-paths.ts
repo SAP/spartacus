@@ -64,9 +64,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(
-          lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
+        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
+          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
+        ),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
@@ -319,7 +319,7 @@ function handleAppConfigs(
     .reduce((acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
-          joinPaths('dist', curr.distDir, entryPoint.directory),
+          joinPaths('dist', curr.distDir, entryPoint.directory, '/index.d.ts'),
         ];
       });
       return acc;
@@ -361,7 +361,13 @@ function handleAppConfigs(
       curr.entryPoints.forEach((entryPoint) => {
         // For server configuration we need relative paths that's why we append `../..`
         acc[entryPoint.entryPoint] = [
-          joinPaths('../..', 'dist', curr.distDir, entryPoint.directory),
+          joinPaths(
+            '../..',
+            'dist',
+            curr.distDir,
+            entryPoint.directory,
+            '/index.d.ts'
+          ),
         ];
       });
       return acc;

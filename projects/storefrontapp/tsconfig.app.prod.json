@@ -55,7 +55,7 @@
         "dist/cart/saved-cart/assets/index.d.ts"
       ],
       "@spartacus/cart/saved-cart/components": [
-        "dist/cart/saved-cart/components"
+        "dist/cart/saved-cart/components/index.d.ts"
       ],
       "@spartacus/cart/saved-cart/core": [
         "dist/cart/saved-cart/core/index.d.ts"
@@ -127,7 +127,7 @@
         "dist/organization/administration/index.d.ts"
       ],
       "@spartacus/organization/administration/occ": [
-        "dist/organization/administration/occ"
+        "dist/organization/administration/occ/index.d.ts"
       ],
       "@spartacus/organization/administration/root": [
         "dist/organization/administration/root/index.d.ts"
@@ -282,7 +282,7 @@
       ],
       "@spartacus/assets": ["dist/assets/index.d.ts"],
       "@spartacus/core": ["dist/core/index.d.ts"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib/index.d.ts"]
     }
   }
 }
