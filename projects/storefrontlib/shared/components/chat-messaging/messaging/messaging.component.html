@@ -4,12 +4,11 @@
     <div
       class="cx-messages"
       id="cx-messages"
-      tabindex="0"
       (keydown.arrowdown)="focusNextChild($event)"
       (keydown.arrowup)="focusPreviousChild($event)"
       [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
     >
-      <ng-container *ngFor="let message of messageEvents">
+      <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
           [ngClass]="{ 'cx-message-display': message.rightAlign }"
@@ -27,7 +26,8 @@
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
-              tabindex="-1"
+              [tabindex]="i ? -1 : 0"
+              role="listitem"
               [attr.aria-label]="
                 'chatMessaging.textLabel'
                   | cxTranslate
@@ -45,8 +45,8 @@
             <a
               *ngFor="let attachment of message.attachments"
               class="cx-attachment"
-              [href]="attachment.URL"
-              target="window"
+              href="{{ attachment.URL }}"
+              target="_blank"
             >
               <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
               {{ attachment.filename }}

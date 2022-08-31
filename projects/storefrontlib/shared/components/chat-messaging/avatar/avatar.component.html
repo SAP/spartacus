@@ -3,9 +3,9 @@
   class="cx-avatar"
   [ngClass]="{ 'right-align': message.rightAlign }"
 >
-  <h1 *ngIf="!message.rightAlign">
+  <span *ngIf="!message.rightAlign">
     {{ getInitials(message.author) }}
-  </h1>
+  </span>
 
   <cx-icon *ngIf="message.rightAlign" [type]="iconTypes.HEADSET"></cx-icon>
 </div>
