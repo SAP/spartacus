@@ -75,7 +75,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
         .getActive()
         .pipe(
           tap((cart) => {
-            this.cartId = cart.guid ?? '';
+            this.cartId =
+              cart.user?.uid === 'anonymous'
+                ? cart.guid ?? 'current'
+                : cart.code ?? 'current';
             this.userId = cart.user?.uid ?? '';
           })
         )

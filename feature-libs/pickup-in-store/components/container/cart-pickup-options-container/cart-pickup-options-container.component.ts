@@ -115,7 +115,10 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.entryNumber = orderEntry.entryNumber;
         this.quantity = orderEntry.quantity;
         this.productCode = orderEntry.product.code;
-        this.cartId = cart.guid;
+        this.cartId =
+          cart.user?.uid === 'anonymous'
+            ? cart.guid ?? 'current'
+            : cart.code ?? 'current';
         this.userId = cart.user.uid;
       }),
       switchMap(([orderEntry]) => {
