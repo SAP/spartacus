@@ -32,7 +32,7 @@ describe('PickupDeliveryInfoComponent', () => {
 });
 
 /**
- * This is a stub of the PickupDeliveryInfoComponent with the same inputs and outputs
+ * This is a stub of the PickupDeliveryInfoComponent with the same inputs
  * for the purposes of testing the components that wrap it.
  */
 @Component({

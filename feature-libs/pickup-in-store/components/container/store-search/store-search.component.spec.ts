@@ -74,7 +74,7 @@ describe('StoreSearchComponent', () => {
 });
 
 /**
- * This is a stub of the StoreSearchComponent with the same inputs and outputs
+ * This is a stub of the StoreSearchComponent with the same inputs
  * for the purposes of testing the components that wrap it.
  */
 @Component({

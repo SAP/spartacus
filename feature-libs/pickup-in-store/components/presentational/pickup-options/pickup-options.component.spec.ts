@@ -127,7 +127,7 @@ describe('PickupOptionsComponent', () => {
 });
 
 /**
- * This is a stub of the PickupOptionsComponent with the same inputs and outputs
+ * This is a stub of the PickupOptionsComponent with the same inputs
  * for the purposes of testing the components that wrap it.
  */
 @Component({
