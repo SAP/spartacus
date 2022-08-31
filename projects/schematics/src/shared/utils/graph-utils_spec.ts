@@ -174,6 +174,7 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Order-Approval",
           "Administration",
+          "Account-Summary",
           "ASM",
         ]
       `);

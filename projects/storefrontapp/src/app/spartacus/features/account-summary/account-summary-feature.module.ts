@@ -6,9 +6,8 @@ import {
 } from '@spartacus/organization/account-summary/assets';
 import {
   AccountSummaryRootModule,
-  ACCOUNT_SUMMARY_FEATURE,
+  ORGANIZATION_ACCOUNT_SUMMARY_FEATURE,
 } from '@spartacus/organization/account-summary/root';
-// DUMMY CHANGE FOR TESTING
 
 @NgModule({
   declarations: [],
@@ -16,7 +15,7 @@ import {
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [ACCOUNT_SUMMARY_FEATURE]: {
+        [ORGANIZATION_ACCOUNT_SUMMARY_FEATURE]: {
           module: () =>
             import('@spartacus/organization/account-summary').then(
               (m) => m.AccountSummaryModule
@@ -32,4 +31,4 @@ import {
     }),
   ],
 })
-export class AccountSummaryFeatureModule {}
+export class AccountSummaryFeatureModule { }

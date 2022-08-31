@@ -47,4 +47,4 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
     provideDefaultConfigFactory(defaultAccountSummaryComponentsConfig),
   ],
 })
-export class AccountSummaryRootModule {}
+export class AccountSummaryRootModule { }
