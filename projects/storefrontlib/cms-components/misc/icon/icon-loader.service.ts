@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -32,14 +32,24 @@ export class IconLoaderService {
    */
   getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
     if (this.isResourceType(type, IconResourceType.SVG)) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
+      const url = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        this.getSvgPath(type) || null
       );
+      if (url) {
+        const useElement = this.winRef.document.createElement('use');
+        useElement.setAttribute('xlink:href', url);
+        const svgElement = this.winRef.document.createElement('svg');
+        svgElement.appendChild(useElement);
+        return this.sanitizer.bypassSecurityTrustHtml(svgElement.outerHTML);
+      }
     }
     if (this.isResourceType(type, IconResourceType.TEXT)) {
       const symbol = this.getSymbol(type);
       if (symbol) {
-        return this.sanitizer.bypassSecurityTrustHtml(symbol);
+        const helperDiv = this.winRef.document.createElement('div');
+        helperDiv.textContent = symbol;
+        return this.sanitizer.bypassSecurityTrustHtml(helperDiv.innerHTML);
       }
     }
   }
@@ -106,22 +116,23 @@ export class IconLoaderService {
    * web component.
    */
   addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined = this.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
-    if (
-      resource &&
-      resource.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
+    const resource = this.findResource(iconType, IconResourceType.LINK);
+
+    if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url;
-      head.appendChild(link);
+      // using DOM APIs, so need to sanitize our URLs manually
+      const sanitizedUrl = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        resource.url
+      );
+      if (sanitizedUrl) {
+        const head = this.winRef.document.getElementsByTagName('head')[0];
+        const link = this.winRef.document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = sanitizedUrl;
+        head.appendChild(link);
+      }
     }
   }
 
