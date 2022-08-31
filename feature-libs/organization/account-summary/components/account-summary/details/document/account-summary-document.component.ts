@@ -8,7 +8,7 @@ import {
   DocumentFields,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -38,7 +38,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
     private accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
     private downloadService: FileDownloadService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.fetchDocuments(true);

@@ -10,7 +10,6 @@ import { AccountSummaryDocumentComponent } from './account-summary-document.comp
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { By } from '@angular/platform-browser';
 import {
   AccountSummaryFacade,
   AccountSummaryList,
@@ -21,6 +20,8 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { FileDownloadService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
+
+const blob = new Blob();
 
 const mockAccountSummaryList: AccountSummaryList = {
   orgDocumentTypes: [
@@ -109,7 +110,7 @@ const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000002',
       openAmount: 5094536,
-      orgDocumentAttachment: {
+      attachments: {
         id: 'INPG-00100001',
       },
       orgDocumentType: {
@@ -292,12 +293,17 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
     return of(params ? mockAccountSummaryList : {});
   }
+
+  getDocumentAttachment(
+    orgDocumentId?: string,
+    orgDocumentAttachmentId?: string
+  ): Observable<any> {
+    return of(orgDocumentId && orgDocumentAttachmentId ? blob : undefined);
+  }
 }
 
 class MockFileDownloadService {
-  download = createSpy('MockFileDownloadService.download Spy').and.returnValue(
-    of(new File([], 'attachment.pdf'))
-  );
+  download = createSpy('MockFileDownloadService.download Spy');
 }
 
 describe('AccountSummaryDocumentComponent', () => {
@@ -453,15 +459,32 @@ describe('AccountSummaryDocumentComponent', () => {
     });
   });
 
-  it('should download the attachment file', () => {
-    const onClickMock = spyOn(component, 'downloadAttachment');
-    fixture.debugElement
-      .query(By.css('cx-action-link'))
-      .triggerEventHandler('click', null);
-    expect(onClickMock).toHaveBeenCalled();
-    expect(component.downloadAttachment({})).toHaveBeenCalled();
-    expect(
-      downloadService.download('some url', 'attachment-test.pdf')
-    ).toHaveBeenCalled();
+  it('should download the attachment file', async () => {
+    const document = {
+      id: 'documentTestId',
+      attachments: {
+        id: 'attachmentTestId',
+      },
+    };
+
+    spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
+      of(blob)
+    );
+    const fakeUrl =
+      'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
+    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+
+    component.downloadAttachment(document, document.attachments.id);
+    fixture.detectChanges();
+
+    expect(accountSummaryFacade.getDocumentAttachment).toHaveBeenCalledWith(
+      document.id,
+      document.attachments.id
+    );
+
+    expect(downloadService.download).toHaveBeenCalledWith(
+      fakeUrl,
+      document.attachments.id
+    );
   });
 });

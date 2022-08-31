@@ -59,7 +59,7 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
   ],
 };
 
-const accountSummaryAttachmentFile = new File([], 'testInvoice');
+const accountSummaryAttachmentFile = new Blob();
 class MockAccountSummaryAdapter implements AccountSummaryAdapter {
   getDocumentAttachment = createSpy('getDocumentAttachment').and.returnValue(
     accountSummaryAttachmentFile

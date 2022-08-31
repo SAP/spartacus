@@ -110,7 +110,7 @@ class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   ).and.returnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
-fdescribe('AccountSummaryService', () => {
+describe('AccountSummaryService', () => {
   let service: AccountSummaryService;
   let routingService: RoutingService;
 
