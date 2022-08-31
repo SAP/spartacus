@@ -65,7 +65,9 @@ export class PositioningService {
   protected getPositionStyleProperty(element: HTMLElement): string | undefined {
     const styles = this.getAllStyles(element);
 
-    if (styles) return styles['position'] || undefined;
+    if (styles) {
+      return styles['position'] || undefined;
+    }
   }
 
   protected isStaticPositioned(element: HTMLElement): boolean {

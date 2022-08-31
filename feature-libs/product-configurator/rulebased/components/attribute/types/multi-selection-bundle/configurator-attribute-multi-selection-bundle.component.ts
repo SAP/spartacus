@@ -107,7 +107,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
         (selectionValue) => selectionValue.valueCode === eventValue.valueCode
       );
 
-    if (!value) return;
+    if (!value) {
+      return;
+    }
 
     value.quantity = eventValue.quantity;
 

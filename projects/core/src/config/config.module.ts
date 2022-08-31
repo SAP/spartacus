@@ -14,7 +14,9 @@ import { ConfigurationService } from './services/configuration.service';
 export class ConfigModule {
   // To make sure ConfigurationService will be instantiated, we inject it into
   // module constructor
-  constructor(_configurationService: ConfigurationService) {}
+  constructor(_configurationService: ConfigurationService) {
+    // Intentional empty constructor
+  }
 
   /**
    * Import ConfigModule and contribute config to the global configuration

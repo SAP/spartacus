@@ -9,5 +9,7 @@ import { UserAccountEventListener } from './user-account-event.listener';
 
 @NgModule({})
 export class UserAccountEventModule {
-  constructor(_userAccountEventListener: UserAccountEventListener) {}
+  constructor(_userAccountEventListener: UserAccountEventListener) {
+    // Intentional empty constructor
+  }
 }

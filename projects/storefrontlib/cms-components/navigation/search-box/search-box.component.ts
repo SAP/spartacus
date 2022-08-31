@@ -115,8 +115,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             data.state.context?.id === 'search' &&
             data.state.context?.type === PageType.CONTENT_PAGE
           )
-        )
+        ) {
           this.chosenWord = '';
+        }
       });
   }
 
