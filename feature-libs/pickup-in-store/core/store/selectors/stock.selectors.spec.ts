@@ -163,7 +163,7 @@ describe('StockSelectors', () => {
       const result = getStockAtStore(
         'productCode',
         'storeName'
-      )({} as StateWithStock);
+      )(stateFactory());
       expect(result).toEqual(undefined);
     });
   });

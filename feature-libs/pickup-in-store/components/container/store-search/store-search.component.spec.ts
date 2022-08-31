@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
@@ -12,8 +13,8 @@ describe('StoreSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
       declarations: [StoreSearchComponent],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: CurrentLocationService,
@@ -71,3 +72,15 @@ describe('StoreSearchComponent', () => {
     expect(component.showSpinner.emit).toHaveBeenCalledWith(false);
   });
 });
+
+/**
+ * This is a stub of the StoreSearchComponent with the same inputs
+ * for the purposes of testing the components that wrap it.
+ */
+@Component({
+  selector: 'cx-store-search',
+  template: '',
+})
+export class StoreSearchStubComponent {
+  @Input() hideOutOfStock = false;
+}

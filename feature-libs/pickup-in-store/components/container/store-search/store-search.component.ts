@@ -13,11 +13,11 @@ import { CurrentLocationService } from '../../services/current-location.service'
   templateUrl: './store-search.component.html',
 })
 export class StoreSearchComponent {
+  @Input() hideOutOfStock = false;
+
   @Output() findStores = new EventEmitter<LocationSearchParams>();
   @Output() eventHideOutOfStock = new EventEmitter<boolean>();
   @Output() showSpinner = new EventEmitter<boolean>();
-
-  @Input() hideOutOfStock: boolean = false;
 
   constructor(protected currentLocationService: CurrentLocationService) {
     // Intentional empty constructor
