@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import {
   I18nTestingModule,
   SortModel,
-  TranslationService,
+  TranslationService
 } from '@spartacus/core';
 import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
@@ -20,7 +20,7 @@ import {
   DocumentFields,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import createSpy = jasmine.createSpy;
 
@@ -265,7 +265,7 @@ describe('AccountSummaryDocumentComponent', () => {
     );
   });
 
-  fit('Should have populated table data', () => {
+  it('Should have populated table data', () => {
     const convertCurrency = (formattedCurrency: string): number =>
       formattedCurrency
         ? Number(formattedCurrency.replace(/[^0-9.-]+/g, ''))
