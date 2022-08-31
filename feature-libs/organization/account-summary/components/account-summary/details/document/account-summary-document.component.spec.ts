@@ -1,28 +1,32 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
   I18nTestingModule,
   SortModel,
-  TranslationService,
+  TranslationService
 } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
+import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
+
+import { AccountSummaryDocumentComponent } from './account-summary-document.component';
+
 import {
   AccountSummaryFacade,
   AccountSummaryList,
-  DocumentStatus,
-  DocumentQueryParams,
   DocumentFields,
-  FilterByOptions,
+  DocumentQueryParams,
+  DocumentStatus,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
+import createSpy = jasmine.createSpy;
 
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-import { AccountSummaryDocumentComponent } from './account-summary-document.component';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
+
+const blob = new Blob();
 
 @Component({
   template: '',
@@ -57,6 +61,17 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
     return of(params ? mockAccountSummaryList : {});
   }
+
+  getDocumentAttachment(
+    orgDocumentId?: string,
+    orgDocumentAttachmentId?: string
+  ): Observable<any> {
+    return of(orgDocumentId && orgDocumentAttachmentId ? blob : undefined);
+  }
+}
+
+class MockFileDownloadService {
+  download = createSpy('MockFileDownloadService.download Spy');
 }
 
 describe('AccountSummaryDocumentComponent', () => {
@@ -64,6 +79,7 @@ describe('AccountSummaryDocumentComponent', () => {
   let fixture: ComponentFixture<AccountSummaryDocumentComponent>;
   let accountSummaryFacade: AccountSummaryFacade;
   let translationService: TranslationService;
+  let downloadService: FileDownloadService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -80,10 +96,12 @@ describe('AccountSummaryDocumentComponent', () => {
           useClass: MockTranslationService,
         },
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
+        { provide: FileDownloadService, useClass: MockFileDownloadService },
       ],
     }).compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
+    downloadService = TestBed.inject(FileDownloadService);
   });
 
   beforeEach(() => {
@@ -152,7 +170,7 @@ describe('AccountSummaryDocumentComponent', () => {
     });
   });
 
-  it('should chagne filters', () => {
+  it('should change filters', () => {
     // Spy functions to ensure new documents are being fetched
     spyOn<any>(component, 'fetchDocuments').and.callThrough();
     spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
@@ -243,11 +261,11 @@ describe('AccountSummaryDocumentComponent', () => {
       'orgAccountSummary.document.status'
     );
     expect(tableHeaders[7].children[0].attributes.title).toEqual(
-      'orgAccountSummary.document.attachment'
+      'orgAccountSummary.document.attachments'
     );
   });
 
-  it('Should have populated table data', () => {
+  fit('Should have populated table data', () => {
     const convertCurrency = (formattedCurrency: string): number =>
       formattedCurrency
         ? Number(formattedCurrency.replace(/[^0-9.-]+/g, ''))
@@ -262,6 +280,8 @@ describe('AccountSummaryDocumentComponent', () => {
 
     const tableRows = tableElement.queryAll(By.css('tr'));
     expect(tableRows?.length).toEqual(10);
+
+    console.log(tableRows);
 
     tableRows?.forEach((row, rowNumber) => {
       const tableCells = row.queryAll(
@@ -300,8 +320,40 @@ describe('AccountSummaryDocumentComponent', () => {
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]
-          ?.orgDocumentAttachment
+          ?.attachments
       );
+
+      console.log('expected', !!tableCells[7].query(By.css('cx-icon')));
+      console.log('actual', !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments);
     });
+  });
+
+  it('should download the attachment file', async () => {
+    const document = {
+      id: 'documentTestId',
+      attachments: {
+        id: 'attachmentTestId',
+      },
+    };
+
+    spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
+      of(blob)
+    );
+    const fakeUrl =
+      'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
+    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+
+    component.downloadAttachment(document, document.attachments.id);
+    fixture.detectChanges();
+
+    expect(accountSummaryFacade.getDocumentAttachment).toHaveBeenCalledWith(
+      document.id,
+      document.attachments.id
+    );
+
+    expect(downloadService.download).toHaveBeenCalledWith(
+      fakeUrl,
+      document.attachments.id
+    );
   });
 });

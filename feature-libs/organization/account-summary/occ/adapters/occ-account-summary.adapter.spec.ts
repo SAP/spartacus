@@ -36,7 +36,9 @@ describe('OccAccountSummaryAdapter', () => {
   let converterService: ConverterService;
   let occEndpointService: OccEndpointsService;
   const userId = '123';
-  const orgUnitId = 'testUnitCode';
+  const orgUnitId = 'testOrgUnit';
+  const orgDocumentId = 'testOrgDocumentId';
+  const orgDocumentAttachmentId = 'testOrgDocumentAttachment';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -262,6 +264,48 @@ describe('OccAccountSummaryAdapter', () => {
 
       mockReq.flush(documentData);
       expect(result).toEqual(documentData);
+    });
+
+    it('should get document file for a given userId, orgUnitId, orgDocumentId and orgDocumentAttachmentId', () => {
+      let result;
+
+      const mockFile: File = new File([], 'testInvoice', {
+        type: 'application/pdf',
+      });
+
+      occAccountSummaryAdapter
+        .getDocumentAttachment(
+          userId,
+          orgUnitId,
+          orgDocumentId,
+          orgDocumentAttachmentId
+        )
+        .subscribe((res) => {
+          result = res;
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' && req.url === 'accountSummaryDocumentAttachment'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('blob');
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
+        'accountSummaryDocumentAttachment',
+        {
+          urlParams: {
+            userId,
+            orgUnitId,
+            orgDocumentId,
+            orgDocumentAttachmentId,
+          },
+        }
+      );
+
+      mockReq.flush(mockFile);
+      expect(result).toEqual(mockFile);
     });
   });
 });

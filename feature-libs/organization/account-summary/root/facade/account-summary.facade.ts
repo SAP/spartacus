@@ -14,7 +14,11 @@ import {
     facadeFactory({
       facade: AccountSummaryFacade,
       feature: ACCOUNT_SUMMARY_FEATURE,
-      methods: ['getAccountSummary', 'getDocumentList'],
+      methods: [
+        'getAccountSummary',
+        'getDocumentList',
+        'getDocumentAttachment',
+      ],
       async: true,
     }),
 })
@@ -24,4 +28,9 @@ export abstract class AccountSummaryFacade {
   abstract getDocumentList(
     params: DocumentQueryParams
   ): Observable<AccountSummaryList>;
+
+  abstract getDocumentAttachment(
+    orgDocumentId?: string,
+    orgDocumentAttachmentId?: string
+  ): Observable<any>;
 }

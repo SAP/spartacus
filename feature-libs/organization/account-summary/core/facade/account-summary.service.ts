@@ -14,7 +14,7 @@ import { AccountSummaryConnector } from '../connectors';
 })
 export class AccountSummaryService implements AccountSummaryFacade {
   userId: string;
-  unitCode: string;
+  orgUnit: string;
 
   constructor(
     private routingService: RoutingService,
@@ -30,18 +30,32 @@ export class AccountSummaryService implements AccountSummaryFacade {
         map((routingData) => routingData.state.params),
         distinctUntilChanged()
       )
-      .subscribe((params) => (this.unitCode = params.unitCode));
+      .subscribe((params) => (this.orgUnit = params.orgUnit));
   }
 
   getAccountSummary(): Observable<AccountSummaryDetails> {
     return this.accountSummaryConnector
-      .getAccountSummary(this.userId, this.unitCode)
+      .getAccountSummary(this.userId, this.orgUnit)
       .pipe(shareReplay(1));
   }
 
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
     return this.accountSummaryConnector
-      .getDocumentList(this.userId, this.unitCode, params)
+      .getDocumentList(this.userId, this.orgUnit, params)
+      .pipe(shareReplay(1));
+  }
+
+  getDocumentAttachment(
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any> {
+    return this.accountSummaryConnector
+      .getDocumentAttachment(
+        this.userId,
+        this.orgUnit,
+        orgDocumentId,
+        orgDocumentAttachmentId
+      )
       .pipe(shareReplay(1));
   }
 }

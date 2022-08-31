@@ -20,7 +20,7 @@ import createSpy = jasmine.createSpy;
 const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
     semanticRoute: 'orgAccountSummary',
-    params: { unitCode: 'Custom Retail' },
+    params: { orgUnit: 'Custom Retail' },
   },
 } as unknown as RouterState);
 
@@ -94,6 +94,8 @@ const accountSummaryDocumentsResult: AccountSummaryList = {
   ],
 };
 
+const accountSummaryDocumentBlob = new Blob([], { type: 'application/pdf' });
+
 class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   getAccountSummary = createSpy(
     'MockAccountSummaryConnector.getAccountSummary Spy'
@@ -102,6 +104,10 @@ class MockAccountSummaryConnector implements Partial<AccountSummaryConnector> {
   getDocumentList = createSpy(
     'MockAccountSummaryConnector.getDocumentList Spy'
   ).and.returnValue(of(accountSummaryDocumentsResult));
+
+  getDocumentAttachment = createSpy(
+    'MockAccountSummaryConnector.getDocumentAttachment Spy'
+  ).and.returnValue(of(new Blob([], { type: 'application/pdf' })));
 }
 
 describe('AccountSummaryService', () => {
@@ -149,6 +155,15 @@ describe('AccountSummaryService', () => {
     service.getDocumentList(queryParams).subscribe((res) => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(res).toEqual(accountSummaryDocumentsResult);
+    });
+  });
+
+  it('should be able to get account summary document file', () => {
+    const documentId = 'testDocId';
+    const attachmentId = 'testAttachmentId';
+
+    service.getDocumentAttachment(documentId, attachmentId).subscribe((res) => {
+      expect(res).toEqual(accountSummaryDocumentBlob);
     });
   });
 });

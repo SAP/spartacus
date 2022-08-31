@@ -13,16 +13,30 @@ export class AccountSummaryConnector {
 
   getAccountSummary(
     userId: string,
-    unitCode: string
+    orgUnit: string
   ): Observable<AccountSummaryDetails> {
-    return this.accountSummaryAdapter.getAccountSummary(userId, unitCode);
+    return this.accountSummaryAdapter.getAccountSummary(userId, orgUnit);
   }
 
   getDocumentList(
     userId: string,
-    unitCode: string,
+    orgUnit: string,
     params: DocumentQueryParams
   ): Observable<AccountSummaryList> {
-    return this.accountSummaryAdapter.getDocumentList(userId, unitCode, params);
+    return this.accountSummaryAdapter.getDocumentList(userId, orgUnit, params);
+  }
+
+  getDocumentAttachment(
+    userId: string,
+    orgUnitId: string,
+    orgDocumentId: string,
+    orgDocumentAttachmentId: string
+  ): Observable<any> {
+    return this.accountSummaryAdapter.getDocumentAttachment(
+      userId,
+      orgUnitId,
+      orgDocumentId,
+      orgDocumentAttachmentId
+    );
   }
 }
