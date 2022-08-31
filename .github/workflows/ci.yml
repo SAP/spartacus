@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - develop
-      - experimental/develop-e2e
+      - abc-test
       - epic/**
       - release/**
       - integration-libs/**
