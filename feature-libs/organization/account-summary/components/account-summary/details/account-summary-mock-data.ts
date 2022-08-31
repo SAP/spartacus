@@ -1,7 +1,7 @@
 import {
   AccountSummaryDetails,
   AccountSummaryList,
-  DocumentStatus
+  DocumentStatus,
 } from '@spartacus/organization/account-summary/root';
 
 export const mockAccountSummaryList: AccountSummaryList = {

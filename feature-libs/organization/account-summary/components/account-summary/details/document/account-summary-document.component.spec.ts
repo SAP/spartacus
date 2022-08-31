@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import {
   I18nTestingModule,
   SortModel,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
@@ -20,7 +20,7 @@ import {
   DocumentFields,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import createSpy = jasmine.createSpy;
 
@@ -319,12 +319,14 @@ describe('AccountSummaryDocumentComponent', () => {
       );
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]
-          ?.attachments
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments
       );
 
       console.log('expected', !!tableCells[7].query(By.css('cx-icon')));
-      console.log('actual', !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments);
+      console.log(
+        'actual',
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments
+      );
     });
   });
 
