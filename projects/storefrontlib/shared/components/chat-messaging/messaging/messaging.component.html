@@ -97,10 +97,8 @@
       ></cx-form-errors>
     </div>
 
-    <div class="col-xs-6 col-md-3 col-lg-2">
-      <button class="btn btn-block btn-primary" (click)="onSend()">
-        {{ 'chatMessaging.send' | cxTranslate }}
-      </button>
-    </div>
+    <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
+      {{ 'chatMessaging.send' | cxTranslate }}
+    </button>
   </div>
 </ng-container>
