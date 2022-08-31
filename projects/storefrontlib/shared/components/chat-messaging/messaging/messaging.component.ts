@@ -106,4 +106,52 @@ export class MessagingComponent implements OnInit, AfterViewInit {
     );
     this.form = form;
   }
+
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault();
+
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+
+    if (results.length) {
+      if (focusedIndex >= results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
+    }
+  }
+
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault();
+
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+
+    if (results.length) {
+      if (focusedIndex < 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
+    }
+  }
+
+  private getResultElements(): HTMLElement[] {
+    return Array.from(
+      this.windowRef.document.querySelectorAll('.cx-message-card > div > div')
+    );
+  }
+
+  private getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  private getFocusedElement(): HTMLElement {
+    return <HTMLElement>this.windowRef.document.activeElement;
+  }
 }

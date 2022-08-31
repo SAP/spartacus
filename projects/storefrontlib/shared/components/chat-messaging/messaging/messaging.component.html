@@ -1,7 +1,14 @@
 <ng-container *ngIf="messageEvents$ | async as messageEvents">
   <div class="container">
     <div class="cx-avatar-line"></div>
-    <div class="cx-messages" id="cx-messages">
+    <div
+      class="cx-messages"
+      id="cx-messages"
+      tabindex="0"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
+    >
       <ng-container *ngFor="let message of messageEvents">
         <div
           class="cx-message-card"
@@ -20,16 +27,30 @@
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
+              tabindex="-1"
+              [attr.aria-label]="
+                'chatMessaging.textLabel'
+                  | cxTranslate
+                    : {
+                        author: message.author,
+                        text: message.text,
+                        date:
+                          message.createdAt
+                          | cxDate: messagingConfigs.dateFormat ?? dateFormat
+                      }
+              "
             >
               {{ message.text }}
             </div>
-            <p
+            <a
               *ngFor="let attachment of message.attachments"
               class="cx-attachment"
+              [href]="attachment.URL"
+              target="window"
             >
               <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
               {{ attachment.filename }}
-            </p>
+            </a>
           </div>
         </div>
       </ng-container>

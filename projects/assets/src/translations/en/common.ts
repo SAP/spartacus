@@ -215,5 +215,7 @@ export const common = {
     addNewMessage: 'Add New Message',
     send: 'Send',
     uploadFile: 'Upload File',
+    textLabel: '{{author}}. {{text}} at {{date}}',
+    messages: 'Messages',
   },
 };
