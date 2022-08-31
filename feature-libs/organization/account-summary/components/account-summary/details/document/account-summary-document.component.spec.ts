@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import {
   I18nTestingModule,
   SortModel,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
@@ -20,7 +20,7 @@ import {
   DocumentFields,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import createSpy = jasmine.createSpy;
 
@@ -261,7 +261,7 @@ describe('AccountSummaryDocumentComponent', () => {
       'orgAccountSummary.document.status'
     );
     expect(tableHeaders[7].children[0].attributes.title).toEqual(
-      'orgAccountSummary.document.attachments'
+      'orgAccountSummary.document.attachment'
     );
   });
 
@@ -319,7 +319,7 @@ describe('AccountSummaryDocumentComponent', () => {
       );
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments
+        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments?.[0]
       );
 
       console.log('expected', !!tableCells[7].query(By.css('cx-icon')));
@@ -331,12 +331,10 @@ describe('AccountSummaryDocumentComponent', () => {
   });
 
   it('should download the attachment file', async () => {
-    const document = {
-      id: 'documentTestId',
-      attachments: {
-        id: 'attachmentTestId',
-      },
-    };
+    const documentWithAttachment =
+      mockAccountSummaryList.orgDocuments?.find(
+        (doc) => doc?.attachments?.length && doc?.attachments?.length > 0
+      ) || {};
 
     spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
       of(blob)
@@ -345,17 +343,20 @@ describe('AccountSummaryDocumentComponent', () => {
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
     spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
 
-    component.downloadAttachment(document, document.attachments.id);
+    component.downloadAttachment(
+      documentWithAttachment.id,
+      documentWithAttachment?.attachments?.[0].id
+    );
     fixture.detectChanges();
 
     expect(accountSummaryFacade.getDocumentAttachment).toHaveBeenCalledWith(
-      document.id,
-      document.attachments.id
+      documentWithAttachment.id,
+      documentWithAttachment.attachments?.[0].id
     );
 
     expect(downloadService.download).toHaveBeenCalledWith(
       fakeUrl,
-      document.attachments.id
+      documentWithAttachment.attachments?.[0].id
     );
   });
 });

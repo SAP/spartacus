@@ -39,6 +39,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000003',
       openAmount: 8200511,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -57,6 +58,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       dueAtDate: '2014-07-10',
       id: 'CRNCR-0000001',
       openAmount: 796371,
+      attachments: [],
       orgDocumentType: {
         code: 'Invoice',
         name: 'Invoice',
@@ -74,9 +76,11 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000002',
       openAmount: 5094536,
-      attachments: {
-        id: 'INPG-00100001',
-      },
+      attachments: [
+        {
+          id: 'INPG-00100001',
+        },
+      ],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -94,9 +98,11 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000001',
       openAmount: 7851558,
-      attachments: {
-        id: 'INPG-00100002',
-      },
+      attachments: [
+        {
+          id: 'INPG-00100002',
+        },
+      ],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -114,6 +120,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000004',
       openAmount: 3175103,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -131,6 +138,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000006',
       openAmount: 6929663,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -148,6 +156,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000005',
       openAmount: 7907774,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -182,6 +191,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000010',
       openAmount: 3893837,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',
@@ -199,6 +209,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000011',
       openAmount: 2537717,
+      attachments: [],
       orgDocumentType: {
         code: 'Purchase Order',
         name: 'Purchase Order',

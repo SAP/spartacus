@@ -73,7 +73,7 @@ export interface AccountSummaryDocument {
   amount?: number;
   openAmount?: number;
   currency?: Currency;
-  attachments?: OrgDocumentAttachment;
+  attachments?: OrgDocumentAttachment[];
 }
 
 export interface AccountSummaryDocumentType {
