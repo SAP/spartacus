@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+    inputs:
+      sample_branch:
+        description: Publish spartacus sample data to standard Spartacus ccv2 repository
+        default: release/2105/next
+        required: true
+
+name: Publish Spartacus Sample Data to Spartacus CCv2 repository
+jobs:
+  publish_sample_data: 
+    name: Publishing Spartacus Sample Data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download the zip and tar files
+        run: |
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.sample_branch }}.zip --output spartacussampledata.zip
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.sample_branch }}.tar.gz --output spartacussampledata.tar.gz
+      - name: Create or update tag
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.TECH_PAT_PUB }}
+          script: |
+            github.rest.git.createRef({
+              owner: SAP-samples,
+              repo: cloud-commerce-sample-setup,
+              ref: 'refs/tags/${{ github.event.inputs.sample_branch }}',
+              sha: tbd-tbd-commit-sha-from-other-repo
+            })
+        - name: Update tag with assets
+          run: |
+            echo "tbd"
