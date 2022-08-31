@@ -464,8 +464,8 @@ function cmd_help {
     echo "Available commands are:"
     echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc"
     echo " install_npm (from latest npm packages)"
-    echo " start [--check] [--check-b2b] [--force-e2e]"
-    echo " stop"
+    echo " start [--port <port>] [--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
+    echo " stop [--port <port>]"
     echo " help"
 }
 
@@ -474,10 +474,28 @@ function check_b2b {
 
     sleep 5
 
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
     echo "Running E2E ..."
     local E2E_RESULT=$(run_e2e_b2b)
     
+    echo ""
     echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+
+    if [ "$TEST_OUT" != "" ]; then
+        local now=$(date)
+        echo -e "\n===================================\n ⛑️\tB2B TEST | $now \n===================================\n" >> "$TEST_OUT"
+        echo "$E2E_RESULT" >> "$TEST_OUT"
+        echo "$SSR_RESULT" >> "$TEST_OUT"
+        echo "$CSR_RESULT" >> "$TEST_OUT"
+        echo -e "\n📝 Append results to $TEST_OUT\n"
+    fi
 }
 
 function check_apps {
@@ -494,9 +512,19 @@ function check_apps {
     echo "Running E2E ..."
     local E2E_RESULT=$(run_e2e)
     
+    echo ""
     echo "$E2E_RESULT"
     echo "$SSR_RESULT"
     echo "$CSR_RESULT"
+
+    if [ "$TEST_OUT" != "" ]; then
+        local now=$(date)
+        echo -e "\n============================================================\n ⛑️\tB2C TEST | $now \n============================================================\n" >> "$TEST_OUT"
+        echo "$E2E_RESULT" >> "$TEST_OUT"
+        echo "$SSR_RESULT" >> "$TEST_OUT"
+        echo "$CSR_RESULT" >> "$TEST_OUT"
+        echo -e "\n📝 Append results to $TEST_OUT\n"
+    fi
 }
 
 function check_csr {
@@ -522,6 +550,11 @@ function check_ssr {
 }
 
 function run_e2e {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
     if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
@@ -545,9 +578,14 @@ function run_e2e {
 }
 
 function run_e2e_b2b {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
     local EXIT_CODE_XVFB=0
     command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
-    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
+    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_E2E" = false ]] ; then
         echo "⏩️ B2B E2E skipped (xvfb is missing)."
         return 0
     fi
@@ -818,6 +856,12 @@ function parseStartArgs {
                 shift
                 shift
                 ;;
+            --test-out)
+                TEST_OUT="$2"
+                echo "➖ TEST_OUT to $TEST_OUT"
+                shift
+                shift
+                ;;
             --install-dir)
                 INSTALLATION_DIR="$2"
                 echo "➖ INSTALLATION_DIR to $INSTALLATION_DIR"
@@ -827,6 +871,11 @@ function parseStartArgs {
             --force-e2e)
                 FORCE_E2E=true
                 echo "➖ Force E2E Tests"
+                shift
+                ;;
+            --skip-e2e)
+                SKIP_E2E=true
+                echo "➖ Skip E2E Tests"
                 shift
                 ;;
             -*|--*)
