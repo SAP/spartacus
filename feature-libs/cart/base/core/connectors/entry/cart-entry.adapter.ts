@@ -2,6 +2,7 @@ import {
   AddEntryOptions,
   BaseCartOptions,
   CartModification,
+  UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
@@ -37,14 +38,22 @@ export abstract class CartEntryAdapter {
    * @param cartId
    * @param entryNumber
    * @param qty
-   * @param pickupStore
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `update(options: BaseCartOptions<UpdateEntryOptions>)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract update(
     userId: string,
     cartId: string,
-    entryNumber: string,
-    qty: number,
-    pickupStore?: string
+    entryNumber: number,
+    qty: number
+  ): Observable<CartModification>;
+  /**
+   * Abstract method used to update entry in cart
+   */
+  abstract update(
+    options: BaseCartOptions<UpdateEntryOptions>
   ): Observable<CartModification>;
 
   /**

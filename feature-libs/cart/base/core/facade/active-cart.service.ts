@@ -6,6 +6,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
@@ -439,11 +440,31 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param entryNumber
    * @param quantity
    */
-  updateEntry(entryNumber: number, quantity: number): void {
+  updateEntry(entryNumber: number, quantity: number): void;
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(options: UpdateEntryOptions): void;
+  updateEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrEntryNumber: number | UpdateEntryOptions,
+    // TODO:#object-extensibility-deprecation - remove
+    quantity?: number
+  ): void {
+    let entryNumber: number;
+    if (typeof optionsOrEntryNumber === 'number') {
+      entryNumber = optionsOrEntryNumber;
+    } else {
+      ({ entryNumber, quantity } = optionsOrEntryNumber);
+    }
+
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.updateEntry(userId, cartId, entryNumber, quantity);
+        this.multiCartFacade.updateEntry(
+          userId,
+          cartId,
+          entryNumber,
+          quantity || 0
+        );
       });
   }
 

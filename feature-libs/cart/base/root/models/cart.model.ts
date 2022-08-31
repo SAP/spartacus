@@ -204,3 +204,8 @@ export interface AddEntryOptions {
   productCode: string;
   quantity?: number;
 }
+
+export interface UpdateEntryOptions {
+  entryNumber: number;
+  quantity?: number;
+}

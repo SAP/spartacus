@@ -6,6 +6,7 @@ import {
   BaseCartOptions,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
+  UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -85,20 +86,43 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
+  /**
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `update(options: BaseCartOptions<UpdateEntryOptions>)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
   public update(
     userId: string,
     cartId: string,
-    entryNumber: string,
-    qty: number,
-    pickupStore?: string
+    entryNumber: number,
+    quantity: number
+  ): Observable<CartModification>;
+  // TODO:#object-extensibility-deprecation - remove
+  public update(
+    options: BaseCartOptions<UpdateEntryOptions>
+  ): Observable<CartModification>;
+  public update(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | BaseCartOptions<UpdateEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    entryNumber?: number,
+    quantity?: number
   ): Observable<CartModification> {
-    let params = {};
-    if (pickupStore) {
-      params = {
-        deliveryPointOfService: {
-          name: pickupStore,
-        },
-      };
+    let options: Omit<
+      UpdateEntryOptions,
+      'userId' | 'cartId' | 'entryNumber' | 'quantity'
+    > = {};
+    let userId: string;
+
+    // TODO:#object-extensibility-deprecation - remove the `if` part
+    if (typeof optionsOrUserId === 'string') {
+      userId = optionsOrUserId;
+    } else {
+      ({ userId, cartId, entryNumber, quantity, ...options } = optionsOrUserId);
     }
 
     const headers = new HttpHeaders({
@@ -114,7 +138,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     });
 
     return this.http
-      .patch<CartModification>(url, { quantity: qty, ...params }, { headers })
+      .patch<CartModification>(url, { quantity, ...options }, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 

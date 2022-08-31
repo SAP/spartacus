@@ -3,6 +3,7 @@ import {
   AddEntryOptions,
   BaseCartOptions,
   CartModification,
+  UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from './cart-entry.adapter';
@@ -38,7 +39,7 @@ export class CartEntryConnector {
     productCode?: string,
     quantity?: number
   ): Observable<CartModification> {
-    // TODO:#object-extensibility-deprecation - remove the 'if' part
+    // TODO:#object-extensibility-deprecation - remove the 'if' part, but leave the if's body
     if (typeof options !== 'string') {
       return this.adapter.add(options);
     }
@@ -46,14 +47,44 @@ export class CartEntryConnector {
     return this.adapter.add(options, cartId ?? '', productCode ?? '', quantity);
   }
 
+  /**
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `update(options: BaseCartOptions<UpdateEntryOptions>)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
   public update(
     userId: string,
     cartId: string,
-    entryNumber: string,
+    entryNumber: number,
     qty: number,
     pickupStore?: string
+  ): Observable<CartModification>;
+  // TODO:#object-extensibility-deprecation - remove
+  public update(
+    options: BaseCartOptions<UpdateEntryOptions>
+  ): Observable<CartModification>;
+  public update(
+    options:
+      | BaseCartOptions<UpdateEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    entryNumber?: number,
+    quantity?: number
   ): Observable<CartModification> {
-    return this.adapter.update(userId, cartId, entryNumber, qty, pickupStore);
+    // TODO:#object-extensibility-deprecation - remove the 'if' part, but leave the if's body
+    if (typeof options !== 'string') {
+      return this.adapter.update(options);
+    }
+    // TODO:#object-extensibility-deprecation - remove
+    return this.adapter.update(
+      options,
+      cartId ?? '',
+      // TODO:#object-extensibility-deprecation - remove the `|| 0` part
+      entryNumber || 0,
+      quantity || 1
+    );
   }
 
   public remove(

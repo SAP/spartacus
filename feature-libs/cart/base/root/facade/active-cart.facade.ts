@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { AddEntryOptions, Cart, OrderEntry } from '../models/cart.model';
+import {
+  AddEntryOptions,
+  Cart,
+  OrderEntry,
+  UpdateEntryOptions,
+} from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -108,8 +113,16 @@ export abstract class ActiveCartFacade {
    *
    * @param entryNumber
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `update(options: UpdateEntryOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(entryNumber: number, quantity: number): void;
+  /**
+   * Update entry
+   */
+  abstract updateEntry(options: UpdateEntryOptions): void;
 
   /**
    * Returns cart entry
