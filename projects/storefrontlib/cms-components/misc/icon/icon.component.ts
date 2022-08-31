@@ -48,7 +48,7 @@ export class IconComponent {
    * accomplish a configurable button in the UI.
    */
   @Input()
-  public set cxIcon(type: ICON_TYPE_STRING) {
+  set cxIcon(type: ICON_TYPE_STRING) {
     this.setIcon(type);
   }
 
@@ -57,7 +57,7 @@ export class IconComponent {
    * accomplish a configurable button in the UI.
    */
   @Input()
-  public set type(type: ICON_TYPE_STRING) {
+  set type(type: ICON_TYPE_STRING) {
     // XXX this clashes with the type attribute of some html form elements, e.g. input or button
     this.setIcon(type);
   }
@@ -67,7 +67,7 @@ export class IconComponent {
    * icon type changes at run time.
    */
   @HostBinding('class')
-  public styleClasses: string[] = [];
+  styleClasses: string[] = [];
 
   private iconValue?: string;
   private iconResourceType: IconResourceType;
@@ -100,15 +100,15 @@ export class IconComponent {
     this.addStyleClasses(type);
   }
 
-  public get icon(): string | undefined {
+  get icon(): string | undefined {
     return this.iconValue;
   }
 
-  public isSvgIcon(): boolean {
+  isSvgIcon(): boolean {
     return this.iconResourceType === IconResourceType.SVG;
   }
 
-  public isTextIcon(): boolean {
+  isTextIcon(): boolean {
     return this.iconResourceType === IconResourceType.TEXT;
   }
 

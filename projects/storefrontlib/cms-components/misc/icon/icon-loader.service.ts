@@ -32,7 +32,7 @@ export class IconLoaderService {
    *
    * @deprecated only exists for backwards compatibility, html generation has been moved to icon component
    */
-  public getHtml(type: ICON_TYPE_STRING): SafeHtml | undefined {
+  getHtml(type: ICON_TYPE_STRING): SafeHtml | undefined {
     if (this.getResourceType(type) === IconResourceType.SVG) {
       const url = this.sanitizer.sanitize(
         SecurityContext.URL,
@@ -60,7 +60,7 @@ export class IconLoaderService {
    * Get the `IconResourceType` that is configured for the given `ICON_TYPE`
    * Defaults to `IconResourceType.LINK`, if an unknown `IconResourceType` is configured or none is configured.
    */
-  public getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
+  getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
     const iconResourceType = this.config?.resources?.find((res) =>
       res.types?.includes(iconType)
     )?.type;
@@ -74,7 +74,7 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  public getFlipDirection(type: ICON_TYPE_STRING): DirectionMode | undefined {
+  getFlipDirection(type: ICON_TYPE_STRING): DirectionMode | undefined {
     return this.config?.flipDirection?.[type];
   }
 
@@ -82,7 +82,7 @@ export class IconLoaderService {
    *
    * Returns the symbol class(es) for the icon type.
    */
-  public getStyleClasses(iconType: ICON_TYPE_STRING): string {
+  getStyleClasses(iconType: ICON_TYPE_STRING): string {
     return this.getSymbol(iconType) || '';
   }
 
@@ -92,7 +92,7 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  public getSvgPath(iconType: ICON_TYPE_STRING): string | undefined {
+  getSvgPath(iconType: ICON_TYPE_STRING): string | undefined {
     const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG && res.types?.includes(iconType)
@@ -112,7 +112,7 @@ export class IconLoaderService {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  public addLinkResource(iconType: ICON_TYPE_STRING): void {
+  addLinkResource(iconType: ICON_TYPE_STRING): void {
     const resource = this.findResource(iconType, IconResourceType.LINK);
 
     if (resource?.url && !this.loadedResources.includes(resource.url)) {
@@ -155,7 +155,7 @@ export class IconLoaderService {
   /**
    * Get the symbol configured for given iconType, if any.
    */
-  public getSymbol(iconType: ICON_TYPE_STRING): string | undefined {
+  getSymbol(iconType: ICON_TYPE_STRING): string | undefined {
     return this.config?.symbols?.[iconType];
   }
 
