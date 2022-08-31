@@ -490,7 +490,7 @@ function check_b2b {
 
     if [ "$TEST_OUT" != "" ]; then
         local now=$(date)
-        echo -e "\n===================================\n ⛑️\tB2B TEST | $now \n===================================\n" >> "$TEST_OUT"
+        echo -e "\n=====================================================================\n ⛑️\tB2B TEST | $now \n=====================================================================\n" >> "$TEST_OUT"
         echo "$E2E_RESULT" >> "$TEST_OUT"
         echo "$SSR_RESULT" >> "$TEST_OUT"
         echo "$CSR_RESULT" >> "$TEST_OUT"
