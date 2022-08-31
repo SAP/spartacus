@@ -1,7 +1,7 @@
 import {
   AccountSummaryDetails,
   AccountSummaryList,
-  DocumentStatus,
+  DocumentStatus
 } from '@spartacus/organization/account-summary/root';
 
 export const mockAccountSummaryList: AccountSummaryList = {
@@ -74,7 +74,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000002',
       openAmount: 5094536,
-      orgDocumentAttachment: {
+      attachments: {
         id: 'INPG-00100001',
       },
       orgDocumentType: {
@@ -94,7 +94,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       },
       id: 'POCR-0000001',
       openAmount: 7851558,
-      orgDocumentAttachment: {
+      attachments: {
         id: 'INPG-00100002',
       },
       orgDocumentType: {
