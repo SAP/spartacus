@@ -108,10 +108,14 @@
         }
       }
 
-      .cx-message-footer-labels {
+      .cx-footer-label {
+        font-weight: 600;
+      }
+
+      .cx-message-footer-info {
         display: flex;
         justify-content: space-between;
-        .cx-message-footer-label {
+        .cx-message-footer-info-text {
           width: 100%;
         }
         p {

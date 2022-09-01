@@ -59,17 +59,24 @@
 
   <div [formGroup]="form" class="cx-message-footer">
     <div class="cx-message-box">
-      <input
-        formControlName="message"
-        type="text"
-        class="form-control"
-        placeholder="{{
-          messagingConfigs?.newMessagePlaceHolder ||
-            ('chatMessaging.addNewMessage' | cxTranslate)
-        }}"
-        [maxLength]="messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS"
-      />
-      <div class="cx-message-footer-labels" id="cx-message-footer">
+      <label class="cx-footer-label">
+        <span>
+          {{ 'chatMessaging.addNewMessage' | cxTranslate }}
+        </span>
+        <input
+          formControlName="message"
+          type="text"
+          class="form-control"
+          [maxLength]="
+            messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
+          "
+          placeholder="{{
+            messagingConfigs?.newMessagePlaceHolder ||
+              ('chatMessaging.addMessagePlaceHolder' | cxTranslate)
+          }}"
+        />
+      </label>
+      <div class="cx-message-footer-info" id="cx-message-footer">
         <cx-file-upload
           [formControl]="form.get('file')"
           [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
@@ -84,7 +91,7 @@
           </ng-template>
         </cx-file-upload>
 
-        <p class="cx-message-footer-label">
+        <p class="cx-message-footer-info-text">
           {{
             'chatMessaging.charactersLeft'
               | cxTranslate: { count: inputCharacterLeft }

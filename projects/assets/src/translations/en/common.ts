@@ -217,5 +217,6 @@ export const common = {
     uploadFile: 'Upload File',
     textLabel: '{{author}}. {{text}} at {{date}}',
     messages: 'Messages',
+    addMessagePlaceHolder: 'Start Typing...',
   },
 };
