@@ -7,6 +7,8 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  RemoveEntryOptions,
+  UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
@@ -232,7 +234,8 @@ export class MultiCartService implements MultiCartFacade {
   addEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | BaseCartOptions<AddEntryOptions> // TODO:#object-extensibility-deprecation - remove the `| string`
+      | BaseCartOptions<AddEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
     cartId?: string,
@@ -290,45 +293,105 @@ export class MultiCartService implements MultiCartFacade {
   /**
    * Remove entry from cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: BaseCartOptions<RemoveEntryOptions>)`.
+   *
    * @param userId
    * @param cartId
    * @param entryNumber
    */
-  removeEntry(userId: string, cartId: string, entryNumber: number): void {
-    this.store.dispatch(
-      new CartActions.CartRemoveEntry({
-        userId,
-        cartId,
-        entryNumber: `${entryNumber}`,
-      })
-    );
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(userId: string, cartId: string, entryNumber: number): void;
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(options: BaseCartOptions<RemoveEntryOptions>): void;
+  removeEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | BaseCartOptions<UpdateEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    entryNumber?: number
+  ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      this.store.dispatch(
+        new CartActions.CartRemoveEntry({
+          userId: optionsOrUserId,
+          cartId: cartId ?? '',
+          entryNumber: `${entryNumber}`,
+        })
+      );
+
+      return;
+    }
+
+    // TODO:#xxx - pass an object
+    // this.store.dispatch(
+    //   new CartActions.CartRemoveEntry({
+    //     userId,
+    //     cartId,
+    //     entryNumber: `${entryNumber}`,
+    //   })
+    // );
   }
 
   /**
    * Update entry in cart. For quantity = 0 it removes entry
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `updateEntry(options: BaseCartOptions<UpdateEntryOptions>)`.
    *
    * @param userId
    * @param cartId
    * @param entryNumber
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   updateEntry(
     userId: string,
     cartId: string,
     entryNumber: number,
     quantity: number
+  ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(options: BaseCartOptions<UpdateEntryOptions>): void;
+  updateEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | BaseCartOptions<UpdateEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    cartId?: string,
+    entryNumber?: number,
+    quantity?: number
   ): void {
-    if (quantity > 0) {
-      this.store.dispatch(
-        new CartActions.CartUpdateEntry({
-          userId,
-          cartId,
-          entryNumber: `${entryNumber}`,
-          quantity: quantity,
-        })
-      );
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      quantity = quantity || 1;
+      const userId = optionsOrUserId;
+      if (quantity > 0) {
+        this.store.dispatch(
+          new CartActions.CartUpdateEntry({
+            userId,
+            cartId: cartId ?? '',
+            entryNumber: `${entryNumber}`,
+            quantity,
+          })
+        );
+      } else {
+        this.removeEntry(userId, cartId ?? '', entryNumber ?? 1);
+      }
+
+      return;
+    }
+
+    if (optionsOrUserId.quantity || 0 > 0) {
+      // TODO:#xxx - pass an object
+      // this.store.dispatch(new CartActions.CartUpdateEntry(optionsOrUserId));
     } else {
-      this.removeEntry(userId, cartId, entryNumber);
+      this.removeEntry(optionsOrUserId);
     }
   }
 

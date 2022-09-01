@@ -91,22 +91,22 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   removeEntry(entry: OrderEntry): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartFacade.removeEntry(
+      this.multiCartFacade.removeEntry({
         userId,
-        selectiveId,
-        entry.entryNumber as number
-      );
+        cartId: selectiveId,
+        entryNumber: entry.entryNumber as number,
+      });
     });
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartFacade.updateEntry(
+      this.multiCartFacade.updateEntry({
         userId,
-        selectiveId,
+        cartId: selectiveId,
         entryNumber,
-        quantity
-      );
+        quantity,
+      });
     });
   }
 

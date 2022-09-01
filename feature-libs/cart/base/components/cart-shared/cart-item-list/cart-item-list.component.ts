@@ -198,11 +198,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     if (this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else if (this.cartId && this.userId) {
-      this.multiCartService.removeEntry(
-        this.userId,
-        this.cartId,
-        item.entryNumber as number
-      );
+      this.multiCartService.removeEntry({
+        userId: this.userId,
+        cartId: this.cartId,
+        entryNumber: item.entryNumber as number,
+      });
     } else {
       this.activeCartService.removeEntry({
         entryNumber: item.entryNumber as number,
@@ -223,12 +223,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
               value.quantity
             );
           } else if (this.cartId && this.userId) {
-            this.multiCartService.updateEntry(
-              this.userId,
-              this.cartId,
-              value.entryNumber,
-              value.quantity
-            );
+            this.multiCartService.updateEntry({
+              userId: this.userId,
+              cartId: this.cartId,
+              entryNumber: value.entryNumber,
+              quantity: value.quantity,
+            });
           } else {
             this.activeCartService.updateEntry({
               entryNumber: value.entryNumber,

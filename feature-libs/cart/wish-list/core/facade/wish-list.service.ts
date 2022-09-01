@@ -81,11 +81,11 @@ export class WishListService implements WishListFacade {
 
   removeEntry(entry: OrderEntry): void {
     this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
-      this.multiCartFacade.removeEntry(
+      this.multiCartFacade.removeEntry({
         userId,
-        wishListId,
-        entry.entryNumber as number
-      )
+        cartId: wishListId,
+        entryNumber: entry.entryNumber as number,
+      })
     );
   }
 

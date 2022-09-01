@@ -400,12 +400,19 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // TODO:#object-extensibility-deprecation - remove
     quantity?: number
   ): void {
-    let productCode: string;
-    // TODO:#object-extensibility-deprecation - remove the 'if' statement
+    // TODO:#object-extensibility-deprecation - remove the whole `if`
     if (typeof optionsOrProductCode === 'string') {
-      productCode = optionsOrProductCode;
-    } else {
-      ({ productCode, quantity } = optionsOrProductCode);
+      this.requireLoadedCart()
+        .pipe(withLatestFrom(this.userIdService.getUserId()))
+        .subscribe(([cart, userId]) => {
+          this.multiCartFacade.addEntry(
+            userId,
+            getCartIdByUserId(cart, userId),
+            optionsOrProductCode,
+            quantity || 1
+          );
+        });
+      return;
     }
 
     // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
@@ -415,9 +422,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.multiCartFacade.addEntry({
           userId,
           cartId: getCartIdByUserId(cart, userId),
-          productCode,
-          quantity: quantity || 1,
-          // TODO:#xxx - pass the rest of augmented properties
+          ...optionsOrProductCode,
         });
       });
   }
@@ -439,12 +444,14 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.removeEntry(
+        this.multiCartFacade.removeEntry({
           userId,
           cartId,
           // TODO:#object-extensibility-deprecation - should be able to remove the `as number` part
-          options.entryNumber as number
-        );
+          entryNumber: options.entryNumber as number,
+          // TODO:#xxx - how to pass the rest of augmented options?
+          ...options,
+        });
       });
   }
 
@@ -469,22 +476,29 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // TODO:#object-extensibility-deprecation - remove
     quantity?: number
   ): void {
-    let entryNumber: number;
+    // TODO:#object-extensibility-deprecation - remove the whole `if`
     if (typeof optionsOrEntryNumber === 'number') {
-      entryNumber = optionsOrEntryNumber;
-    } else {
-      ({ entryNumber, quantity } = optionsOrEntryNumber);
+      this.activeCartId$
+        .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+        .subscribe(([cartId, userId]) => {
+          this.multiCartFacade.updateEntry(
+            userId,
+            cartId,
+            optionsOrEntryNumber,
+            quantity || 0
+          );
+        });
+      return;
     }
 
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.updateEntry(
+        this.multiCartFacade.updateEntry({
           userId,
           cartId,
-          entryNumber,
-          quantity || 0
-        );
+          ...optionsOrEntryNumber,
+        });
       });
   }
 
