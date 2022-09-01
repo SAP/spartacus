@@ -16,7 +16,7 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.facade.spec';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 import {

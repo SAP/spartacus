@@ -8,10 +8,12 @@ describe('PickupOptionSelectors', () => {
       pageContext: 'CART',
     },
   };
+
   it('should return the pickup option', () => {
     const result = getPickupOption(0)(state);
     expect(result).toEqual('delivery');
   });
+
   it('should return page context', () => {
     const result = getPageContext()(state);
     expect(result).toEqual('CART');

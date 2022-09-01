@@ -14,6 +14,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
 import { PickupOptionActions } from '../actions';
 import * as PickupLocationActions from '../actions/pickup-location.action';
+
 @Injectable()
 export class PickupLocationEffect {
   constructor(

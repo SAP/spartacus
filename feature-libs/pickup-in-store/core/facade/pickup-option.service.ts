@@ -17,13 +17,15 @@ import {
   StateWithPickupOption,
 } from '../store/index';
 
-// TODO jsdoc
-
+/**
+ * A service for managing the page context and pickup option for a cart entry.
+ */
 @Injectable()
 export class PickupOptionService implements PickupOptionFacade {
   constructor(protected readonly store: Store<StateWithPickupOption>) {
     // Intentional empty constructor
   }
+
   setPageContext(pageContext: string): void {
     this.store.dispatch(
       PickupOptionActions.SetPageContext({

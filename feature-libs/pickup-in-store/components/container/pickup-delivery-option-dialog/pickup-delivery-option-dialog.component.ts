@@ -22,6 +22,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
+
 @Component({
   selector: 'cx-delivery-pickup-options-dialog',
   templateUrl: './pickup-delivery-option-dialog.component.html',
@@ -54,13 +55,16 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.launchDialogService.data$.subscribe(
-      ({ productCode, entryNumber, quantity }) => {
-        this.productCode = productCode;
-        this.entryNumber = entryNumber;
-        this.quantity = quantity;
-      }
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe(
+        ({ productCode, entryNumber, quantity }) => {
+          this.productCode = productCode;
+          this.entryNumber = entryNumber;
+          this.quantity = quantity;
+        }
+      )
     );
+
     this.getHideOutOfStockState$ =
       this.pickupLocationsSearchService.getHideOutOfStock();
 

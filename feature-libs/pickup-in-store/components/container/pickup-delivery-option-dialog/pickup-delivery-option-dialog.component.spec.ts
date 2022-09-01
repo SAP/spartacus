@@ -24,7 +24,7 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.component.spec';
-import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.facade.spec';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
