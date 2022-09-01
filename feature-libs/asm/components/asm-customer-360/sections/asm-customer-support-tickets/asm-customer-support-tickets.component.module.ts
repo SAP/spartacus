@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { AsmCustomerTableModule } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.module';
-import { AsmCustomerFeedbackComponent } from './asm-customer-feedback.component';
+import { AsmCustomerSupportTicketsComponent } from './asm-customer-support-tickets.component';
 
 @NgModule({
   imports: [CommonModule, AsmCustomerTableModule],
-  declarations: [AsmCustomerFeedbackComponent],
-  exports: [AsmCustomerFeedbackComponent],
+  declarations: [AsmCustomerSupportTicketsComponent],
+  exports: [AsmCustomerSupportTicketsComponent],
 })
-export class AsmCustomerFeedbackModule {}
+export class AsmCustomerSupportTicketsComponentModule {}

@@ -6,8 +6,9 @@ import { AsmCustomerMapComponentModule } from './sections/asm-customer-map/asm-c
 import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
 import { AsmCustomerOverviewModule } from './sections/asm-customer-overview/asm-customer-overview.module';
 import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
-import { AsmCustomerFeedbackModule } from './sections/asm-customer-feedback/asm-customer-feedback.module';
 import { AsmCustomerPromotionsModule } from './sections/asm-customer-promotions/asm-customer-promotions.module';
+import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
+import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
 
 @NgModule({
   imports: [
@@ -16,9 +17,10 @@ import { AsmCustomerPromotionsModule } from './sections/asm-customer-promotions/
     AsmCustomerOverviewModule,
     AsmCustomerProfileModule,
     AsmCustomerActivityModule,
-    AsmCustomerFeedbackModule,
     AsmCustomerPromotionsModule,
     AsmCustomerMapComponentModule,
+    AsmCustomerSupportTicketsComponentModule,
+    AsmCustomerProductReviewsComponentModule,
   ],
   declarations: [AsmCustomer360Component],
   exports: [AsmCustomer360Component],

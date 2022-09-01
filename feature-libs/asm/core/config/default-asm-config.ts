@@ -2,7 +2,9 @@ import {
   AsmCustomerActivityComponent,
   AsmCustomerMapComponent,
   AsmCustomerOverviewComponent,
+  AsmCustomerProductReviewsComponent,
   AsmCustomerProfileComponent,
+  AsmCustomerSupportTicketsComponent,
 } from '../../components/asm-customer-360/sections/components';
 import { AsmConfig } from './asm-config';
 
@@ -38,6 +40,19 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: AsmCustomerActivityComponent,
               config: { pageSize: 10 },
+            },
+          ],
+        },
+        {
+          name: 'Feedback',
+          components: [
+            {
+              component: AsmCustomerSupportTicketsComponent,
+              config: { pageSize: 5 },
+            },
+            {
+              component: AsmCustomerProductReviewsComponent,
+              config: { pageSize: 5 },
             },
           ],
         },
