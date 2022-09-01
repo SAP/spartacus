@@ -12,9 +12,9 @@
       <span>{{ 'addToSavedCart.savedCarts' | cxTranslate }}</span>
     </button>
     <button
-      *ngIf="showSaveCartForLater$ | async"
       #element
       class="link cx-action-link"
+      [disabled]="disableSaveCartForLater$ | async"
       (click)="saveCart(cart)"
       cxAutoFocus
     >

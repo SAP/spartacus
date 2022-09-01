@@ -124,10 +124,10 @@ describe('AddToSavedCartComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.showSaveCartForLater$
+    component.disableSaveCartForLater$
       .pipe(take(1))
-      .subscribe((showSaveCartForLater) => {
-        expect(showSaveCartForLater).toBe(true);
+      .subscribe((disableSaveCartForLater) => {
+        expect(disableSaveCartForLater).toBe(false);
 
         done();
       });
@@ -144,10 +144,10 @@ describe('AddToSavedCartComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.showSaveCartForLater$
+    component.disableSaveCartForLater$
       .pipe(take(1))
-      .subscribe((showSaveCartForLater) => {
-        expect(showSaveCartForLater).toBe(false);
+      .subscribe((disableSaveCartForLater) => {
+        expect(disableSaveCartForLater).toBe(true);
 
         done();
       });
@@ -168,10 +168,10 @@ describe('AddToSavedCartComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.showSaveCartForLater$
+    component.disableSaveCartForLater$
       .pipe(take(1))
-      .subscribe((showSaveCartForLater) => {
-        expect(showSaveCartForLater).toBe(false);
+      .subscribe((disableSaveCartForLater) => {
+        expect(disableSaveCartForLater).toBe(true);
 
         done();
       });
