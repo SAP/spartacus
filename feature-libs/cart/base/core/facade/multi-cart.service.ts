@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  AddEntryOptions,
+  BaseCartOptions,
   Cart,
   CartType,
   MultiCartFacade,
@@ -210,24 +212,52 @@ export class MultiCartService implements MultiCartFacade {
   /**
    * Add entry to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntry(options: BaseCartOptions<AddEntryOptions>)`.
+   *
    * @param userId
    * @param cartId
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   addEntry(
     userId: string,
     cartId: string,
     productCode: string,
     quantity: number
+  ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntry(options: BaseCartOptions<AddEntryOptions>): void;
+  addEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | BaseCartOptions<AddEntryOptions> // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    productCode?: string,
+    quantity?: number
   ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      const userId = optionsOrUserId;
+      this.store.dispatch(
+        new CartActions.CartAddEntry({
+          options: {
+            userId,
+            cartId: cartId ?? '',
+            productCode: productCode ?? '',
+            quantity,
+          },
+        })
+      );
+
+      return;
+    }
+
     this.store.dispatch(
-      new CartActions.CartAddEntry({
-        userId,
-        cartId,
-        productCode,
-        quantity,
-      })
+      new CartActions.CartAddEntry({ options: optionsOrUserId })
     );
   }
 
@@ -246,10 +276,12 @@ export class MultiCartService implements MultiCartFacade {
     products.forEach((product) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
-          userId,
-          cartId,
-          productCode: product.productCode,
-          quantity: product.quantity,
+          options: {
+            userId,
+            cartId,
+            productCode: product.productCode,
+            quantity: product.quantity,
+          },
         })
       );
     });

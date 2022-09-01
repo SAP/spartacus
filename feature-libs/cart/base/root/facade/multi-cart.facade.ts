@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, CartType, OrderEntry } from '../models/cart.model';
+import {
+  AddEntryOptions,
+  BaseCartOptions,
+  Cart,
+  CartType,
+  OrderEntry,
+} from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -137,17 +143,25 @@ export abstract class MultiCartFacade {
   /**
    * Add entry to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntry(options: BaseCartOptions<AddEntryOptions>)`.
+   *
    * @param userId
    * @param cartId
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(
     userId: string,
     cartId: string,
     productCode: string,
     quantity: number
   ): void;
+  /**
+   * Add entry to active cart
+   */
+  abstract addEntry(options: BaseCartOptions<AddEntryOptions>): void;
 
   /**
    * Add multiple entries to cart

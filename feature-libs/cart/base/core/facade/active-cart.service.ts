@@ -393,12 +393,15 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   addEntry(options: AddEntryOptions): void;
   addEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
-    optionsOrProductCode: string | AddEntryOptions,
+    optionsOrProductCode:
+      | AddEntryOptions
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
     // TODO:#object-extensibility-deprecation - remove
     quantity?: number
   ): void {
     let productCode: string;
-    // TODO:#object-extensibility-deprecation - remove the 'if' part
+    // TODO:#object-extensibility-deprecation - remove the 'if' statement
     if (typeof optionsOrProductCode === 'string') {
       productCode = optionsOrProductCode;
     } else {
@@ -409,12 +412,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
-        this.multiCartFacade.addEntry(
+        this.multiCartFacade.addEntry({
           userId,
-          getCartIdByUserId(cart, userId),
+          cartId: getCartIdByUserId(cart, userId),
           productCode,
-          quantity || 1
-        );
+          quantity: quantity || 1,
+          // TODO:#xxx - pass the rest of augmented properties
+        });
       });
   }
 
@@ -458,7 +462,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   updateEntry(options: UpdateEntryOptions): void;
   updateEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
-    optionsOrEntryNumber: number | UpdateEntryOptions,
+    optionsOrEntryNumber:
+      | UpdateEntryOptions
+      // TODO:#object-extensibility-deprecation - remove the `| number`
+      | number,
     // TODO:#object-extensibility-deprecation - remove
     quantity?: number
   ): void {

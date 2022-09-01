@@ -80,7 +80,12 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   addEntry(productCode: string, quantity: number): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartFacade.addEntry(userId, selectiveId, productCode, quantity);
+      this.multiCartFacade.addEntry({
+        userId,
+        cartId: selectiveId,
+        productCode,
+        quantity,
+      });
     });
   }
 

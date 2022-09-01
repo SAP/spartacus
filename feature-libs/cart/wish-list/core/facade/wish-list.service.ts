@@ -70,7 +70,12 @@ export class WishListService implements WishListFacade {
 
   addEntry(productCode: string): void {
     this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
-      this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
+      this.multiCartFacade.addEntry({
+        userId,
+        cartId: wishListId,
+        productCode,
+        quantity: 1,
+      })
     );
   }
 
