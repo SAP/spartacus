@@ -5,12 +5,27 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
+import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog/customer-ticketing-close-dialog.component';
+import {
+  FileUploadModule,
+  FormErrorsModule,
+  IconModule,
+  KeyboardFocusModule,
+} from '@spartacus/storefront';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +36,10 @@ import { CustomerTicketingCloseComponent } from './customer-ticketing-close.comp
       },
     }),
   ],
-  declarations: [CustomerTicketingCloseComponent],
+  declarations: [
+    CustomerTicketingCloseComponent,
+    CustomerTicketingCloseDialogComponent,
+  ],
   exports: [CustomerTicketingCloseComponent],
 })
 export class CustomerTicketingCloseModule {}

@@ -6,6 +6,7 @@ export const enum CUSTOM_CLASS {
 export const enum STATUS {
   OPEN = 'OPEN',
   CLOSE = 'CLOSE',
+  INPROCESS = 'INPROCESS',
 }
 
 export interface TicketDetails {

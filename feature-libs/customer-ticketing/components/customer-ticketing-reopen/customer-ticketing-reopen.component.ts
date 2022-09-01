@@ -9,7 +9,7 @@ import { STATUS } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CustomerTicketingService } from '../customer-ticketing.service';
+import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',
@@ -20,12 +20,12 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  isStatusClose$: Observable<boolean> = this.customerTicketingService
+  isStatusClose$: Observable<boolean> = this.customerTicketingDetailsService
     .getTicketStatus()
     .pipe(map((status) => status === STATUS.CLOSE));
 
   constructor(
-    protected customerTicketingService: CustomerTicketingService,
+    protected customerTicketingDetailsService: CustomerTicketingDetailsService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
