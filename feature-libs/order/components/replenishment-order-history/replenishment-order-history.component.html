@@ -48,7 +48,7 @@
           class="table cx-replenishment-order-history-table"
           role="table"
         >
-          <caption class="cx-visually-hidden">
+          <caption *cxFeatureLevel="'5.1'" class="cx-visually-hidden">
             {{
               'orderHistory.orderHistory' | cxTranslate
             }}
@@ -85,11 +85,12 @@
               </span>
             </th>
             <th scope="col">
-              <ng-container *cxFeatureLevel="'5.1'">
-                <span class="cx-replenishment-order-history-ellipses">
-                  {{ 'orderHistory.actions' | cxTranslate }}
-                </span>
-              </ng-container>
+              <span
+                *cxFeatureLevel="'5.1'"
+                class="cx-replenishment-order-history-ellipses"
+              >
+                {{ 'orderHistory.actions' | cxTranslate }}
+              </span>
             </th>
           </thead>
           <tbody>
