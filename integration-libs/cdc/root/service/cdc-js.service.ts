@@ -155,7 +155,7 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    * @param response
    */
-  onLoginEventHandler(baseSite: string, response?: any) {
+  protected onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
       this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
@@ -170,19 +170,27 @@ export class CdcJsService implements OnDestroy {
   /**
    * Trigger CDC User registration and log in using CDC APIs.
    *
-   * @param email
-   * @param password
+   * @param user: UserSignUp
    */
-  registerUserWithoutScreenSet(user: UserSignUp) {
-    if (user.uid && user.password) {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.initRegistration({
-        callback: (response: any) => {
-          this.zone.run(() => this.onInitRegistrationHandler(user, response));
-        },
-      });
-    }
+  registerUserWithoutScreenSet(user: UserSignUp): Observable<Boolean> {
+    return new Observable<Boolean>((initRegistration) => {
+      if (user.uid && user.password) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.initRegistration({
+          callback: (response: any) => {
+            this.zone.run(() => {
+              this.onInitRegistrationHandler(user, response).subscribe(
+                (status) => {
+                  initRegistration.next(status);
+                  initRegistration.complete();
+                }
+              );
+            });
+          },
+        });
+      }
+    });
   }
 
   /**
@@ -190,29 +198,37 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  onInitRegistrationHandler(user: UserSignUp, response: any) {
-    if (response && response.regToken && user.uid && user.password) {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.register({
-        email: user.uid,
-        password: user.password,
-        profile: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
-        regToken: response.regToken,
-        finalizeRegistration: true,
-        ignoreInterruptions: true,
-        callback: (response: any) => {
-          this.zone.run(() => {
-            if (response && response.status === 'FAIL') {
-              this.handleRegisterError(response);
-            }
-          });
-        },
-      });
-    }
+  protected onInitRegistrationHandler(
+    user: UserSignUp,
+    response: any
+  ): Observable<Boolean> {
+    return new Observable<Boolean>((isRegistered) => {
+      if (response && response.regToken && user.uid && user.password) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.register({
+          email: user.uid,
+          password: user.password,
+          profile: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+          },
+          regToken: response.regToken,
+          finalizeRegistration: true,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response && response.status === 'FAIL') {
+                this.handleRegisterError(response);
+                isRegistered.next(false);
+              } else if (response && response.status === 'OK') {
+                isRegistered.next(true);
+              }
+              isRegistered.complete();
+            });
+          },
+        });
+      }
+    });
   }
 
   /**
@@ -220,18 +236,32 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  loginUserWithoutScreenSet(email: string, password: string, response: any) {
-    if (response) {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.login({
-        loginID: email,
-        password: password,
-        callback: (response: any) => {
-          this.zone.run(() => this.handleLoginError(response));
-        },
-      });
-    }
+  loginUserWithoutScreenSet(
+    email: string,
+    password: string,
+    response: any
+  ): Observable<Boolean> {
+    return new Observable<Boolean>((isLoggedIn) => {
+      if (response) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.login({
+          loginID: email,
+          password: password,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response && response.status === 'FAIL') {
+                this.handleLoginError(response);
+                isLoggedIn.next(false);
+              } else if (response && response.status === 'OK') {
+                isLoggedIn.next(true);
+              }
+              isLoggedIn.complete();
+            });
+          },
+        });
+      }
+    });
   }
 
   /**
@@ -239,12 +269,13 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  handleRegisterError(response: any) {
+  protected handleRegisterError(response: any) {
     if (response && response.status === 'FAIL') {
       let errorMessage =
         (response.validationErrors &&
           response.validationErrors.length > 0 &&
-          response.validationErrors[0].message) ||
+          response.validationErrors[response.validationErrors.length - 1]
+            .message) ||
         'Error';
       this.globalMessageService.add(
         errorMessage,
@@ -258,7 +289,7 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  handleLoginError(response: any) {
+  protected handleLoginError(response: any) {
     if (response && response.status === 'FAIL') {
       this.globalMessageService.add(
         {
@@ -278,20 +309,30 @@ export class CdcJsService implements OnDestroy {
    * @param email
    * @param password
    */
-  resetPasswordWithoutScreenSet(email: string) {
-    if (email && email.length > 0) {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.resetPassword({
-        loginID: email,
-        callback: (response: any) => {
-          this.zone.run(() => this.handleResetPassResponse(response));
-        },
-      });
-    }
+  resetPasswordWithoutScreenSet(email: string): Observable<Boolean> {
+    return new Observable<Boolean>((isResetPassword) => {
+      if (email && email.length > 0) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.resetPassword({
+          loginID: email,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              this.handleResetPassResponse(response);
+              if (response && response.status === 'FAIL') {
+                isResetPassword.next(false);
+              } else if (response && response.status === 'OK') {
+                isResetPassword.next(true);
+              }
+              isResetPassword.complete();
+            });
+          },
+        });
+      }
+    });
   }
 
-  handleResetPassResponse(response: any) {
+  protected handleResetPassResponse(response: any) {
     if (response && response.status === 'OK') {
       this.globalMessageService.add(
         { key: 'forgottenPassword.passwordResetEmailSent' },

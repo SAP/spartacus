@@ -153,6 +153,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
+        error: () => this.isLoading$.next(false),
       });
   }
 
