@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
-import { ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
+import { ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
@@ -13,7 +13,7 @@ import {
   useFactory: () =>
     facadeFactory({
       facade: AccountSummaryFacade,
-      feature: ACCOUNT_SUMMARY_FEATURE,
+      feature: ORGANIZATION_ACCOUNT_SUMMARY_FEATURE,
       methods: [
         'getAccountSummary',
         'getDocumentList',
