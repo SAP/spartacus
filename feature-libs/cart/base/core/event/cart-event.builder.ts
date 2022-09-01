@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
@@ -16,6 +22,7 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
   ActionToEventMapping,
@@ -50,6 +57,7 @@ export class CartEventBuilder {
     this.registerRemoveEntry();
     this.registerUpdateEntry();
     this.registerDeleteCart();
+    this.registerMergeCartSuccess();
   }
 
   /**
@@ -89,6 +97,13 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_FAIL,
       event: CartUpdateEntryFailEvent,
+    });
+  }
+
+  protected registerMergeCartSuccess(): void {
+    this.registerMapped({
+      action: CartActions.MERGE_CART_SUCCESS,
+      event: MergeCartSuccessEvent,
     });
   }
 

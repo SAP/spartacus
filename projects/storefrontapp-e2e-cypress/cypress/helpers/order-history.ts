@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import {
@@ -11,6 +17,7 @@ import { switchLanguage } from './language';
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
+export const ORDERS_ALIAS = 'orders';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -63,6 +70,17 @@ export function interceptAddToCartEndpoint() {
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
 
   return ADD_TO_CART_ENDPOINT_ALIAS;
+}
+
+export function interceptOrdersEndpoint(): string {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders?*`
+  ).as(ORDERS_ALIAS);
+
+  return ORDERS_ALIAS;
 }
 
 export const orderHistoryTest = {
@@ -118,6 +136,8 @@ export const orderHistoryTest = {
           );
           cy.visit('/my-account/orders');
           cy.get('cx-order-history h2').should('contain', 'Order history');
+          cy.get('.cx-order-history-po').should('not.exist');
+          cy.get('.cx-order-history-cost-center').should('not.exist');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
             orderData.body.code

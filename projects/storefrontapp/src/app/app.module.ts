@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
@@ -78,7 +84,7 @@ if (!environment.production) {
     }),
     provideConfig(<FeaturesConfig>{
       features: {
-        level: '4.2',
+        level: '5.1',
       },
     }),
   ],
