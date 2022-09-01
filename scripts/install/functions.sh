@@ -88,6 +88,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
+    printh "Creating shell app"
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
 
@@ -125,6 +126,7 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
+    printh "Adding spartacus csr"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
@@ -140,6 +142,7 @@ function add_spartacus_csr {
 }
 
 function add_spartacus_ssr {
+    printh "Adding spartacus ssr"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
@@ -155,6 +158,7 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
+    printh "Adding spartacus ssr pwa"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
@@ -297,14 +301,18 @@ function install_from_sources {
 
     create_apps
 
+    printh "Adding npm registry"
+
     sleep 5
 
     (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
     npm set @spartacus:registry https://registry.npmjs.org/
 
+    printh "Restore clone"
     restore_clone
 
+    printh "Print warnings & execution time"
     print_warnings
 
     print_times
