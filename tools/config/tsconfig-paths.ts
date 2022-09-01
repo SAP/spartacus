@@ -319,7 +319,7 @@ function handleAppConfigs(
     .reduce((acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
-          joinPaths('dist', curr.distDir, entryPoint.directory, '/index.d.ts'),
+          joinPaths('dist', curr.distDir, entryPoint.directory),
         ];
       });
       return acc;
@@ -361,13 +361,7 @@ function handleAppConfigs(
       curr.entryPoints.forEach((entryPoint) => {
         // For server configuration we need relative paths that's why we append `../..`
         acc[entryPoint.entryPoint] = [
-          joinPaths(
-            '../..',
-            'dist',
-            curr.distDir,
-            entryPoint.directory,
-            '/index.d.ts'
-          ),
+          joinPaths('../..', 'dist', curr.distDir, entryPoint.directory),
         ];
       });
       return acc;
