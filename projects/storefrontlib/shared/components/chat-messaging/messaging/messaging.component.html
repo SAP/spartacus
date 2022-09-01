@@ -18,7 +18,7 @@
           <div>
             <label>{{
               message.createdAt
-                | cxDate: messagingConfigs.dateFormat ?? dateFormat
+                | cxDate: messagingConfigs?.dateFormat ?? dateFormat
             }}</label>
             <div
               [ngClass]="
@@ -36,7 +36,7 @@
                         text: message.text,
                         date:
                           message.createdAt
-                          | cxDate: messagingConfigs.dateFormat ?? dateFormat
+                          | cxDate: messagingConfigs?.dateFormat ?? dateFormat
                       }
               "
             >

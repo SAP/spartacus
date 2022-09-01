@@ -42,7 +42,7 @@ describe('AvatarComponent', () => {
     mockEvent.rightAlign = false;
     component.message = mockEvent;
     fixture.detectChanges();
-    const element = fixture.debugElement.query(By.css('h1')).nativeElement;
+    const element = fixture.debugElement.query(By.css('span')).nativeElement;
 
     expect(element.innerText).toEqual('MR');
   });
