@@ -12,7 +12,7 @@ import {
   AuthStorageService,
 } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
-import { UserIdInterceptor } from './interceptors/user-id.interceptor';
+import { UserIdHttpHeaderInterceptor } from './interceptors/user-id-http-header.interceptor';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
@@ -34,7 +34,7 @@ import { AsmAuthService } from './services/asm-auth.service';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useExisting: UserIdInterceptor,
+      useExisting: UserIdHttpHeaderInterceptor,
       multi: true,
     },
   ],

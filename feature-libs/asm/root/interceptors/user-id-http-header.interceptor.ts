@@ -24,7 +24,7 @@ import { concatMap, map } from 'rxjs/operators';
  * configure a request with 'sap-commerce-cloud-user-id' header.
  */
 @Injectable({ providedIn: 'root' })
-export class UserIdInterceptor implements HttpInterceptor {
+export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
   protected readonly userIdHeader = 'sap-commerce-cloud-user-id';
 
   protected readonly uniqueUserIdConstants: Set<string>;

@@ -17,12 +17,12 @@ import {
   OCC_ASM_TOKEN,
   OCC_USER_ID_CONSTANTS,
 } from '../../../../projects/core/src/occ/utils';
-import { UserIdInterceptor } from './user-id.interceptor';
+import { UserIdHttpHeaderInterceptor } from './user-id-http-header.interceptor';
 
-describe('UserIdInterceptor', () => {
+describe('UserIdHttpHeaderInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
-  let interceptor: UserIdInterceptor;
+  let interceptor: UserIdHttpHeaderInterceptor;
 
   class MockUserIdService implements Partial<UserIdService> {
     takeUserId(): Observable<string> {
@@ -38,14 +38,14 @@ describe('UserIdInterceptor', () => {
         { provide: UserIdService, useClass: MockUserIdService },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: UserIdInterceptor,
+          useClass: UserIdHttpHeaderInterceptor,
           multi: true,
         },
       ],
     });
 
     httpMock = TestBed.inject(HttpTestingController);
-    interceptor = TestBed.inject(UserIdInterceptor);
+    interceptor = TestBed.inject(UserIdHttpHeaderInterceptor);
     http = TestBed.inject(HttpClient);
   });
 
