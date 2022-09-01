@@ -244,8 +244,8 @@ function install_from_sources {
 
     npm set @spartacus:registry http://localhost:4873/
 
-    printh "Cloning Spartacus source code and installing dependencies."
     clone_repo
+    printh "Installing Spartacus Repo dependencies."
     ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
