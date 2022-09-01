@@ -27,7 +27,7 @@
             {{ 'customerTicketing.subject' | cxTranslate }}
           </span>
           <textarea
-            [maxLength]="inputCharactersLimitForCreateMessage"
+            [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
             rows="1"
@@ -61,7 +61,7 @@
             {{ 'customerTicketing.message' | cxTranslate }}
           </span>
           <textarea
-            [maxLength]="inputCharactersLimitForCreateMessage"
+            [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
             rows="5"

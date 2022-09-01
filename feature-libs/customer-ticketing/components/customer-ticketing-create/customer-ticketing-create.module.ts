@@ -6,7 +6,6 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
 } from '@spartacus/core';
 import {
   FileUploadModule,
@@ -21,7 +20,6 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
   imports: [
     CommonModule,
     I18nModule,
-    UrlModule,
     IconModule,
     KeyboardFocusModule,
     ReactiveFormsModule,
