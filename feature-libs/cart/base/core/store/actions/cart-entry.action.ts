@@ -22,15 +22,17 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export interface CartAddEntryPayload<O = BaseCartOptions<AddEntryOptions>>
-  extends ActionPayload<O> {}
-export interface CartAddEntrySuccessPayload<
-  O = BaseCartOptions<AddEntryOptions>,
-  R = CartModification
-> extends ActionSuccessPayload<O, R> {}
+export interface CartAddEntryPayload
+  extends ActionPayload<BaseCartOptions<AddEntryOptions>> {}
 
-export interface CartAddEntryFailPayload<O = BaseCartOptions<AddEntryOptions>>
-  extends ActionFailPayload<O> {}
+export interface CartAddEntrySuccessPayload
+  extends ActionSuccessPayload<
+    BaseCartOptions<AddEntryOptions>,
+    CartModification
+  > {}
+
+export interface CartAddEntryFailPayload
+  extends ActionFailPayload<BaseCartOptions<AddEntryOptions>> {}
 
 export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
