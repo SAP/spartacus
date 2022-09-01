@@ -21,7 +21,7 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
-
+import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
 @Component({
   selector: 'cx-delivery-pickup-options-dialog',
   templateUrl: './pickup-delivery-option-dialog.component.html',
@@ -74,12 +74,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
       this.activeCartFacade
         .getActive()
         .pipe(
+          filter(cartWithIdAndUserId),
           tap((cart) => {
-            this.cartId =
-              cart.user?.uid === 'anonymous'
-                ? cart.guid ?? 'current'
-                : cart.code ?? 'current';
-            this.userId = cart.user?.uid ?? '';
+            this.cartId = cart.user.uid === 'anonymous' ? cart.guid : cart.code;
+            this.userId = cart.user.uid;
           })
         )
         .subscribe()
