@@ -50,6 +50,15 @@
     }
   }
 
+  .cx-order-history-table.cx-order-history-table-po {
+    td {
+      width: 20%;
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
+
   .cx-order-history-header {
     padding: 40px 0 0 0;
     color: var(--cx-color-text);
@@ -71,6 +80,21 @@
   .cx-order-history-code {
     .cx-order-history-value {
       text-decoration: underline;
+    }
+  }
+
+  .cx-order-history-po {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
+  }
+  .cx-order-history-cost-center {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
     }
   }
 

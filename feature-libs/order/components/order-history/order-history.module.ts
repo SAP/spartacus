@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -28,6 +29,7 @@ import { OrderHistoryComponent } from './order-history.component';
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    FeaturesConfigModule,
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],
