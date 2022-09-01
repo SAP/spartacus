@@ -7,6 +7,7 @@ import {
   PickupLocationsSearchFacade,
 } from 'feature-libs/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
+import { PickupDeliveryInfoStubComponent } from '../../presentational/pickup-delivery-info/pickup-delivery-info.component.spec';
 
 import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-container.component';
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -35,7 +36,10 @@ describe('PickupDeliveryInfoContainerComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PickupDeliveryInfoContainerComponent],
+      declarations: [
+        PickupDeliveryInfoContainerComponent,
+        PickupDeliveryInfoStubComponent,
+      ],
       providers: [
         {
           provide: ActiveCartFacade,

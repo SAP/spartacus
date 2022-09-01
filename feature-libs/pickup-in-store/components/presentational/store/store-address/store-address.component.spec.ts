@@ -1,5 +1,6 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, PointOfService } from '@spartacus/core';
 import { StoreAddressComponent } from './store-address.component';
 
 describe('StoreAddressComponent', () => {
@@ -8,8 +9,8 @@ describe('StoreAddressComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
       declarations: [StoreAddressComponent],
+      imports: [I18nTestingModule],
     }).compileComponents();
   });
 
@@ -23,3 +24,15 @@ describe('StoreAddressComponent', () => {
     expect(component).toBeDefined();
   });
 });
+
+/**
+ * This is a stub of the StoreAddressComponent with the same inputs
+ * for the purposes of testing the components that wrap it.
+ */
+@Component({
+  selector: 'cx-store-address',
+  template: '',
+})
+export class StoreAddressStubComponent {
+  @Input() storeDetails: PointOfService;
+}

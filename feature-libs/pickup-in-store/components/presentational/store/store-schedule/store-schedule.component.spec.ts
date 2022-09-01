@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
@@ -9,8 +10,8 @@ describe('StoreScheduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
       declarations: [StoreScheduleComponent],
+      imports: [I18nTestingModule, IconTestingModule],
     }).compileComponents();
   });
 
@@ -71,3 +72,15 @@ describe('StoreScheduleComponent', () => {
     ]);
   });
 });
+
+/**
+ * This is a stub of the StoreScheduleComponent with the same inputs
+ * for the purposes of testing the components that wrap it.
+ */
+@Component({
+  selector: 'cx-store-schedule',
+  template: '',
+})
+export class StoreScheduleStubComponent {
+  @Input() storeDetails: PointOfService;
+}

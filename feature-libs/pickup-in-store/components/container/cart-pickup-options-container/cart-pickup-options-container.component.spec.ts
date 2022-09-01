@@ -17,7 +17,7 @@ import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/ser
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.facade.spec';
-import { PickupOptionsModule } from '../../presentational';
+import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 import {
   CartPickupOptionsContainerComponent,
@@ -68,7 +68,11 @@ describe('CartPickupOptionsContainerComponent', () => {
   let pickupOptionService: PickupOptionFacade;
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, PickupOptionsModule],
+      declarations: [
+        CartPickupOptionsContainerComponent,
+        PickupOptionsStubComponent,
+      ],
+      imports: [CommonModule, I18nTestingModule],
       providers: [
         CartPickupOptionsContainerComponent,
         {
@@ -92,7 +96,6 @@ describe('CartPickupOptionsContainerComponent', () => {
           useClass: MockPickupOptionFacade,
         },
       ],
-      declarations: [CartPickupOptionsContainerComponent],
     });
 
   const stubServiceAndCreateComponent = () => {

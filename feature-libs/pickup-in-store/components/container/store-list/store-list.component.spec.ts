@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
@@ -22,15 +23,15 @@ describe('StoreListComponent', () => {
   let preferredStoreService: PreferredStoreService;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [StoreListComponent],
       imports: [
+        HttpClientTestingModule,
         I18nTestingModule,
+        RouterTestingModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        HttpClientTestingModule,
-        RouterTestingModule,
       ],
-      declarations: [StoreListComponent],
       providers: [
         {
           provide: PickupLocationsSearchFacade,
@@ -93,3 +94,12 @@ describe('StoreListComponent', () => {
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalled();
   });
 });
+
+@Component({
+  selector: 'cx-store-list',
+  template: '',
+})
+export class StoreListStubComponent {
+  @Input() productCode: string;
+  @Output() storeSelected = new EventEmitter<null>();
+}

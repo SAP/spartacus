@@ -18,6 +18,7 @@ import {
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
@@ -89,6 +90,10 @@ describe('PickupOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
+      declarations: [
+        PdpPickupOptionsContainerComponent,
+        PickupOptionsStubComponent,
+      ],
       imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
         PdpPickupOptionsContainerComponent,
@@ -114,7 +119,6 @@ describe('PickupOptionsComponent', () => {
           useClass: MockCurrentLocationService,
         },
       ],
-      declarations: [PdpPickupOptionsContainerComponent],
     });
 
   const stubServiceAndCreateComponent = () => {
@@ -178,17 +182,6 @@ describe('PickupOptionsComponent', () => {
         intendedPickupLocationService.getIntendedLocation
       ).toHaveBeenCalledWith('productCode');
       expect(component.availableForPickup).toBe(true);
-    });
-
-    it('should set pickupInStore to true when there is an intended location', () => {
-      spyOn(
-        intendedPickupLocationService,
-        'getIntendedLocation'
-      ).and.returnValue(
-        of({ name: 'location-name', pickupOption: 'delivery' })
-      );
-
-      component.ngOnInit();
     });
 
     it('onPickupOptionChange where option is delivery', () => {
