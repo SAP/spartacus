@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-customer-ticketing-add',
+  selector: 'cx-customer-ticketing-create',
   templateUrl: './customer-ticketing-create.component.html',
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
