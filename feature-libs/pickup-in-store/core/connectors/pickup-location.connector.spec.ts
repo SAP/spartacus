@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { CartModification } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
@@ -11,20 +12,20 @@ export class MockPickupLocationConnector {
   getStoreDetails(_storeName: string): Observable<PointOfService> {
     return of({});
   }
-  setPickupOptionDelivery(
+  setPickupOptionToDelivery(
     _cartId: string,
     _entryNumber: number,
     _userId: string,
     _requestPayload: any
-  ): Observable<any> {
+  ): Observable<CartModification> {
     return of({});
   }
-  setPickupOptionInStore(
+  setPickupOptionToPickupInStore(
     _cartId: string,
     _entryNumber: number,
     _userId: string,
     _requestPayload: any
-  ): Observable<any> {
+  ): Observable<CartModification> {
     return of({});
   }
 }
@@ -36,22 +37,27 @@ export class MockPickupLocationConnectorWithError {
   }
 }
 
-describe('Pickup Location Connector', () => {
+class MockPickupLocationAdapter implements PickupLocationAdapter {
+  getStoreDetails = createSpy();
+  setPickupOptionToDelivery = createSpy();
+  setPickupOptionToPickupInStore = createSpy();
+}
+
+const cartId = 'cartId';
+const entryNumber = 0;
+const userId = 'userId';
+const quantity = 1;
+const storeName = 'storeName';
+const productCode = 'productCode';
+
+describe('PickupLocationConnector', () => {
   let service: PickupLocationConnector;
   let adapter: PickupLocationAdapter;
 
-  const MockPickupLocationAdapter = {
-    getStoreDetails: createSpy(),
-    setDeliveryOption: createSpy(),
-    setPickupOptionInStore: createSpy(),
-    setPickupOptionDelivery: createSpy(),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
-        { provide: PickupLocationAdapter, useValue: MockPickupLocationAdapter },
+        { provide: PickupLocationAdapter, useClass: MockPickupLocationAdapter },
       ],
     });
 
@@ -63,49 +69,41 @@ describe('Pickup Location Connector', () => {
     expect(service).toBeDefined();
   });
 
-  it('getStoreDetails from connector should call adapter getStoreDetails ', () => {
+  it('getStoreDetails from connector should call adapter getStoreDetails', () => {
     service.getStoreDetails('storeName');
     expect(adapter.getStoreDetails).toHaveBeenCalledWith('storeName');
   });
-  it('setPickupOptionInStore from connector should call adapter setPickupOptionInStore ', () => {
-    const name = 'storeName';
-    const quantity = 1;
 
-    service.setPickupOptionInStore('cartId', 1, 'userId', name, quantity);
-    expect(adapter.setPickupOptionInStore).toHaveBeenCalledWith(
-      'cartId',
-      1,
-      'userId',
-      name,
+  it('setPickupOptionToDelivery from connector should call adapter setPickupOptionToDelivery', () => {
+    service.setPickupOptionToDelivery(
+      cartId,
+      entryNumber,
+      userId,
+      productCode,
+      quantity
+    );
+    expect(adapter.setPickupOptionToDelivery).toHaveBeenCalledWith(
+      cartId,
+      entryNumber,
+      userId,
+      productCode,
       quantity
     );
   });
 
-  it('setPickupOptionDelivery from connector should call adapter setPickupOptionDelivery ', () => {
-    const name = 'storeName';
-
-    const productCode = 'productCode';
-
-    const quantity = 1;
-
-    const cartId = 'cartID';
-    const entryNumber = 1;
-    const userId = 'userID';
-
-    service.setPickupOptionDelivery(
+  it('setPickupOptionToPickupInStore from connector should call adapter setPickupOptionToPickupInStore', () => {
+    service.setPickupOptionToPickupInStore(
       cartId,
       entryNumber,
       userId,
-      name,
-      productCode,
+      storeName,
       quantity
     );
-    expect(adapter.setPickupOptionDelivery).toHaveBeenCalledWith(
+    expect(adapter.setPickupOptionToPickupInStore).toHaveBeenCalledWith(
       cartId,
       entryNumber,
       userId,
-      name,
-      productCode,
+      storeName,
       quantity
     );
   });

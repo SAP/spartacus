@@ -6,11 +6,12 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import { OccEndpointsService, PointOfService } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
 import {
-  SetPickupOptionInStorePayload,
-  SetPickupOptionDeliveryPayload,
+  SetPickupOptionToDeliveryPayload,
+  SetPickupOptionToPickupInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
@@ -32,46 +33,45 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     );
   }
 
-  setPickupOptionDelivery(
+  setPickupOptionToDelivery(
     cartId: string,
     entryNumber: number,
     userId: string,
-    name: string,
     code: string,
     quantity: number
-  ): Observable<any> {
-    const payload: SetPickupOptionDeliveryPayload = {
+  ): Observable<CartModification> {
+    const payload: SetPickupOptionToDeliveryPayload = {
       deliveryPointOfService: {
-        name,
+        name: '',
       },
       product: {
-        code: code,
+        code,
       },
-      quantity: quantity,
+      quantity,
     };
-    return this.http.put(
-      this.occEndpointsService.buildUrl('patchDeliveryOption', {
+    return this.http.put<CartModification>(
+      this.occEndpointsService.buildUrl('updateDeliveryOption', {
         urlParams: { userId, cartId, entryNumber },
       }),
       payload
     );
   }
 
-  setPickupOptionInStore(
+  setPickupOptionToPickupInStore(
     cartId: string,
     entryNumber: number,
     userId: string,
     name: string,
     quantity: number
-  ): Observable<any> {
-    const payload: SetPickupOptionInStorePayload = {
+  ): Observable<CartModification> {
+    const payload: SetPickupOptionToPickupInStorePayload = {
       deliveryPointOfService: {
         name,
       },
       quantity,
     };
-    return this.http.patch(
-      this.occEndpointsService.buildUrl('patchDeliveryOption', {
+    return this.http.patch<CartModification>(
+      this.occEndpointsService.buildUrl('updateDeliveryOption', {
         urlParams: { userId, cartId, entryNumber },
       }),
       payload

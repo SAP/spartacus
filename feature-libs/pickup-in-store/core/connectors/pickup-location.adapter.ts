@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CartModification } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -16,33 +17,36 @@ export abstract class PickupLocationAdapter {
    * @param storeName The store name to get details for
    */
   abstract getStoreDetails(storeName: string): Observable<PointOfService>;
+
   /**
-   * Change Pickup Option to Delivery for item at entryNumber in user cart
+   * For a cart entry, change the pickup option to delivery
    * @param cartId
    * @param entryNumber
    * @param userId
-   * @param payload
+   * @param productCode
+   * @param quantity
    */
-  abstract setPickupOptionDelivery(
+  abstract setPickupOptionToDelivery(
     cartId: string,
     entryNumber: number,
     userId: string,
-    name: string,
     productCode: string,
     quantity: number
-  ): Observable<any>;
+  ): Observable<CartModification>;
+
   /**
-   * Change Pickup Option to In Store for item at entryNumber in user cart
+   * For a cart entry, change the pickup option to pickup in store
    * @param cartId
    * @param entryNumber
    * @param userId
-   * @param payload
+   * @param storeName
+   * @param quantity
    */
-  abstract setPickupOptionInStore(
+  abstract setPickupOptionToPickupInStore(
     cartId: string,
     entryNumber: number,
     userId: string,
-    name: string,
+    storeName: string,
     quantity: number
-  ): Observable<any>;
+  ): Observable<CartModification>;
 }

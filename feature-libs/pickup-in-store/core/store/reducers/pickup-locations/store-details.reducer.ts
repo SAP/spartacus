@@ -15,6 +15,6 @@ export const storeDetailsReducer = createReducer(
 
   on(PickupLocationActions.SetStoreDetailsSuccess, (state, { payload }) => ({
     ...state,
-    ...(payload?.name ? { [payload.name]: payload } : {}),
+    ...(payload.name ? { [payload.name]: payload } : {}),
   }))
 );

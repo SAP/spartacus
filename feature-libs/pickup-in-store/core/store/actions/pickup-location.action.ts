@@ -19,15 +19,15 @@ export const STORE_DETAILS_SUCCESS =
   '[Pickup Locations] Get Store Details Success';
 export const STORE_DETAILS_FAIL = '[Pickup Locations] Get Store Details Fail';
 
-export const SET_PICKUP_OPTION_DELIVERY =
-  '[Pickup Locations] Set Pickup Option Delivery';
-export const SET_PICKUP_OPTION_DELIVERY_SUCCESS =
-  '[Pickup Locations] Set Pickup Option Delivery Success';
+export const SET_PICKUP_OPTION_TO_DELIVERY =
+  '[Pickup Locations] Set Pickup Option To Delivery';
+export const SET_PICKUP_OPTION_TO_DELIVERY_SUCCESS =
+  '[Pickup Locations] Set Pickup Option To Delivery Success';
 
-export const SET_PICKUP_OPTION_IN_STORE =
-  '[Pickup Locations] Set Pickup Option In Store';
-export const SET_PICKUP_OPTION_IN_STORE_SUCCESS =
-  '[Pickup Locations] Set Pickup Option In Store Success';
+export const SET_PICKUP_OPTION_TO_PICKUP_IN_STORE =
+  '[Pickup Locations] Set Pickup Option To Pickup In Store';
+export const SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS =
+  '[Pickup Locations] Set Pickup Option To Pickup In Store Success';
 
 export type AddLocationProps = {
   payload: {
@@ -57,7 +57,7 @@ export const RemoveLocation = createAction(
 );
 
 /**
- * Setpickup option for a product code.
+ * Set pickup option for a product code.
  */
 
 export const SetPickupOption = createAction(
@@ -83,37 +83,36 @@ export const SetStoreDetailsFailure = createAction(
   props<{ payload: any }>()
 );
 
-export const SetPickupOptionDelivery = createAction(
-  SET_PICKUP_OPTION_DELIVERY,
+export const SetPickupOptionToDelivery = createAction(
+  SET_PICKUP_OPTION_TO_DELIVERY,
   props<{
     payload: {
       cartId: string;
       entryNumber: number;
       userId: string;
-      name: string;
       productCode: string;
       quantity: number;
     };
   }>()
 );
 
-export const SetPickupOptionDeliverySuccess = createAction(
-  SET_PICKUP_OPTION_DELIVERY_SUCCESS
+export const SetPickupOptionToDeliverySuccess = createAction(
+  SET_PICKUP_OPTION_TO_DELIVERY_SUCCESS
 );
 
-export const SetPickupOptionInStore = createAction(
-  SET_PICKUP_OPTION_IN_STORE,
+export const SetPickupOptionToPickupInStore = createAction(
+  SET_PICKUP_OPTION_TO_PICKUP_IN_STORE,
   props<{
     payload: {
       cartId: string;
       entryNumber: number;
       userId: string;
-      name: string;
+      storeName: string;
       quantity: number;
     };
   }>()
 );
 
-export const SetPickupOptionInStoreSuccess = createAction(
-  SET_PICKUP_OPTION_IN_STORE_SUCCESS
+export const SetPickupOptionToPickupInStoreSuccess = createAction(
+  SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
 );

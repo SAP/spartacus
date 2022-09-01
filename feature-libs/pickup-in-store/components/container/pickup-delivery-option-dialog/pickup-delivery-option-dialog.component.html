@@ -29,6 +29,8 @@
         ></cx-store-search>
         <cx-store-list
           [productCode]="productCode"
+          [entryNumber]="entryNumber"
+          [quantity]="quantity"
           (storeSelected)="close(LOCATION_SELECTED)"
         ></cx-store-list>
         <div *ngIf="loading">

@@ -4,11 +4,13 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -22,6 +24,7 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.component.spec';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
@@ -44,6 +47,28 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
     return of(undefined);
   }
   closeDialog(_reason: string): void {}
+}
+export class MockActiveCartService {
+  addEntry(_productCode: string, _quantity: number): void {}
+  getEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
+  isStable(): Observable<boolean> {
+    return of();
+  }
+  getActive(): Observable<Cart> {
+    return of({
+      guid: 'test',
+      user: { uid: 'test' },
+      entries: [{ product: { code: 'test' }, quantity: 1, entryNumber: 1 }],
+    });
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
+  getLastEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
 }
 
 describe('PickupDeliveryOptionDialogComponent', () => {
@@ -82,6 +107,14 @@ describe('PickupDeliveryOptionDialogComponent', () => {
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: PickupOptionFacade,
+          useClass: MockPickupOptionFacade,
         },
       ],
     }).compileComponents();

@@ -6,17 +6,21 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { CartActions } from '@spartacus/cart/base/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
+import { PickupOptionActions } from '../actions';
 import * as PickupLocationActions from '../actions/pickup-location.action';
 
 @Injectable()
 export class PickupLocationEffect {
   constructor(
     private readonly actions$: Actions,
-    private readonly pickupLocationConnector: PickupLocationConnector
+    private readonly pickupLocationConnector: PickupLocationConnector,
+    private readonly activeCartFacade: ActiveCartFacade
   ) {
     // Intentional empty constructor
   }
@@ -48,51 +52,77 @@ export class PickupLocationEffect {
     )
   );
 
-  setPickupOptionDelivery$ = createEffect(() =>
+  setPickupOptionToDelivery$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PickupLocationActions.SET_PICKUP_OPTION_DELIVERY),
+      ofType(PickupLocationActions.SET_PICKUP_OPTION_TO_DELIVERY),
       map(
         (
           action: ReturnType<
-            typeof PickupLocationActions.SetPickupOptionDelivery
+            typeof PickupLocationActions.SetPickupOptionToDelivery
           >
         ) => action.payload
       ),
-      switchMap(
-        ({ cartId, entryNumber, userId, name, productCode, quantity }) =>
-          this.pickupLocationConnector
-            .setPickupOptionDelivery(
-              cartId,
-              entryNumber,
-              userId,
-              name,
-              productCode,
-              quantity
-            )
-            .pipe(
-              map(() => PickupLocationActions.SetPickupOptionDeliverySuccess())
-            )
+      switchMap(({ cartId, entryNumber, userId, productCode, quantity }) =>
+        this.pickupLocationConnector
+          .setPickupOptionToDelivery(
+            cartId,
+            entryNumber,
+            userId,
+            productCode,
+            quantity
+          )
+          .pipe(
+            map(() => PickupLocationActions.SetPickupOptionToDeliverySuccess())
+          )
       )
     )
   );
 
-  setPickupOptionInStore$ = createEffect(() =>
+  setPickupOptionToPickupInStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PickupLocationActions.SET_PICKUP_OPTION_IN_STORE),
+      ofType(PickupLocationActions.SET_PICKUP_OPTION_TO_PICKUP_IN_STORE),
       map(
         (
           action: ReturnType<
-            typeof PickupLocationActions.SetPickupOptionInStore
+            typeof PickupLocationActions.SetPickupOptionToPickupInStore
           >
         ) => action.payload
       ),
-      switchMap(({ cartId, entryNumber, userId, name, quantity }) =>
+      switchMap(({ cartId, entryNumber, userId, storeName, quantity }) =>
         this.pickupLocationConnector
-          .setPickupOptionInStore(cartId, entryNumber, userId, name, quantity)
+          .setPickupOptionToPickupInStore(
+            cartId,
+            entryNumber,
+            userId,
+            storeName,
+            quantity
+          )
           .pipe(
-            map(() => PickupLocationActions.SetPickupOptionInStoreSuccess())
+            map(() => {
+              this.activeCartFacade.reloadActiveCart();
+              return PickupLocationActions.SetPickupOptionToPickupInStoreSuccess();
+            })
           )
       )
+    )
+  );
+
+  removeEntry$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.CART_REMOVE_ENTRY),
+      map((action: CartActions.CartRemoveEntry) => action.payload),
+      map((payload) => {
+        return PickupOptionActions.RemovePickupOption({
+          payload: { entryNumber: parseInt(payload.entryNumber, 10) },
+        });
+      })
+    )
+  );
+
+  removeAllEntries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.DELETE_CART),
+      map(() => PickupOptionActions.RemoveAllPickupOptions())
     )
   );
 }

@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
+import { PickRequiredDeep } from '../utils/type-utils';
 
 /** The options for receiving a product, either 'delivery' or 'pickup'. */
 export type PickupOption = 'delivery' | 'pickup';
@@ -14,12 +16,11 @@ export type AugmentedPointOfService = PointOfService & {
   pickupOption: PickupOption;
 };
 
-export type SetPickupOptionInStorePayload = {
-  deliveryPointOfService: { name: string };
-  quantity: number;
-};
+export type SetPickupOptionToPickupInStorePayload = PickRequiredDeep<
+  OrderEntry,
+  'deliveryPointOfService.name' | 'quantity'
+>;
 
-export interface SetPickupOptionDeliveryPayload
-  extends SetPickupOptionInStorePayload {
-  product: { code: string };
-}
+export type SetPickupOptionToDeliveryPayload =
+  SetPickupOptionToPickupInStorePayload &
+    PickRequiredDeep<OrderEntry, 'product.code'>;
