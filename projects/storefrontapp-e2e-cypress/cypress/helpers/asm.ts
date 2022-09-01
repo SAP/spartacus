@@ -38,10 +38,10 @@ export function listenForCustomerSearchRequest(): string {
 }
 
 export function listenForUserDetailsRequest(b2b = false): string {
-  if (!b2b) {
-    return interceptGet('userDetails', '/users/*');
-  } else {
+  if (b2b) {
     return interceptGet('userDetails', '/orgUsers/*');
+  } else {
+    return interceptGet('userDetails', '/users/*');
   }
 }
 

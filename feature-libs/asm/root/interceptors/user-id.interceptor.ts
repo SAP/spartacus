@@ -25,14 +25,14 @@ import { concatMap, map } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class UserIdInterceptor implements HttpInterceptor {
-  private readonly userIdHeader = 'sap-commerce-cloud-user-id';
+  protected readonly userIdHeader = 'sap-commerce-cloud-user-id';
 
-  private readonly uniqueUserIdConstants: Set<string>;
+  protected readonly uniqueUserIdConstants: Set<string>;
 
   constructor(
     protected userIdService: UserIdService,
     @Inject(OCC_USER_ID_CONSTANTS)
-    userIdConstants: { [identifier: string]: string }
+    protected userIdConstants: { [identifier: string]: string }
   ) {
     this.uniqueUserIdConstants = new Set(Object.values(userIdConstants));
   }
