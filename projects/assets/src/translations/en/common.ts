@@ -218,5 +218,6 @@ export const common = {
     textLabel: '{{author}}. {{text}} at {{date}}',
     messages: 'Messages',
     addMessagePlaceHolder: 'Start Typing...',
+    characterLimitAlert: 'Characters limit reached.',
   },
 };

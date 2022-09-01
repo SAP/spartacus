@@ -76,7 +76,13 @@
                 ('chatMessaging.addMessagePlaceHolder' | cxTranslate)
             }}"
           />
-
+          <span
+            class="cx-visually-hidden"
+            *ngIf="inputCharacterLeft === 0"
+            role="alert"
+          >
+            {{ 'chatMessaging.characterLimitAlert' | cxTranslate }}
+          </span>
           <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
             {{ 'chatMessaging.send' | cxTranslate }}
           </button>
