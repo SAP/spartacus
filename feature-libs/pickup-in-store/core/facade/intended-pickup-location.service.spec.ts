@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ProcessModule } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
@@ -16,7 +15,7 @@ describe('IntendedPickupLocationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), ProcessModule.forRoot()],
+      imports: [StoreModule.forRoot({})],
       providers: [IntendedPickupLocationService, Store],
     });
 

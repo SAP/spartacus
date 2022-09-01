@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
@@ -95,11 +95,16 @@ describe('StoreListComponent', () => {
   });
 });
 
+/**
+ * This is a stub of the StoreListComponent with the same inputs
+ * for the purposes of testing the components that wrap it.
+ */
 @Component({
   selector: 'cx-store-list',
   template: '',
 })
 export class StoreListStubComponent {
   @Input() productCode: string;
-  @Output() storeSelected = new EventEmitter<null>();
+  @Input() entryNumber: number;
+  @Input() quantity: number;
 }

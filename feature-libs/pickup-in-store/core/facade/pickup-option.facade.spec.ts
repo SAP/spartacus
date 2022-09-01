@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ProcessModule } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import { PickupOptionActions } from '../store';
@@ -27,7 +26,7 @@ describe('PickupOptionFacade', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), ProcessModule.forRoot()],
+      imports: [StoreModule.forRoot({})],
       providers: [PickupOptionService, Store],
     });
 

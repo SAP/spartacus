@@ -50,7 +50,6 @@ export class PreferredStoreService {
     return preferredStore ? JSON.parse(preferredStore) : undefined;
   }
 
-  // TODO check references for nested observables
   /**
    * Sets the user's preferred store for Pickup in Store.
    * @param preferredStore the preferred store to set
@@ -80,21 +79,15 @@ export class PreferredStoreService {
   }
 
   /**
-   * TODO
-   * @param productCode
-   * @returns
+   * Get the user's preferred store from local storage and only return it if it
+   * has stock for the given product.
+   * @param productCode The product code to check the stock level of
    */
   getPreferredStoreWithProductInStock(
     productCode: string
   ): Observable<PointOfServiceNames> {
     return of(this.getPreferredStore()).pipe(
-      tap((preferredStore) =>
-        console.log('BEFORE preferredStore', preferredStore)
-      ),
       filter((store): store is PointOfServiceNames => !!store),
-      tap((preferredStore) =>
-        console.log('AFTER preferredStore', preferredStore)
-      ),
       tap((preferredStore) => {
         this.pickupLocationsSearchService.stockLevelAtStore(
           productCode,
