@@ -51,7 +51,7 @@
           },
           {
             "value": "Account-Summary",
-            "label": "Account Summary (b2b feature)"
+            "label": "Account Summary (b2b feature, requires Organization - Administration)"
           }
         ]
       }
