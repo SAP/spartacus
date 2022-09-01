@@ -54,7 +54,7 @@ export function orderEntryWithRequiredFields(
   );
 }
 
-type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid'>;
+type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid' | 'code'>;
 export function cartWithIdAndUserId(
   cart: Cart | undefined
 ): cart is CartWithIdAndUserId {
@@ -62,7 +62,8 @@ export function cartWithIdAndUserId(
     !!cart &&
     cart.guid !== undefined &&
     cart.user !== undefined &&
-    cart.user.uid !== undefined
+    cart.user.uid !== undefined &&
+    cart.code !== undefined
   );
 }
 
@@ -73,7 +74,7 @@ export function cartWithIdAndUserId(
 export class CartPickupOptionsContainerComponent implements OnInit {
   @ViewChild('open') element: ElementRef;
 
-  pickupOption$: Observable<PickupOption>;
+  pickupOption$: Observable<PickupOption | undefined>;
   displayName$: Observable<string>;
   availableForPickup$: Observable<boolean>;
 
@@ -115,10 +116,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.entryNumber = orderEntry.entryNumber;
         this.quantity = orderEntry.quantity;
         this.productCode = orderEntry.product.code;
-        this.cartId =
-          cart.user?.uid === 'anonymous'
-            ? cart.guid ?? 'current'
-            : cart.code ?? 'current';
+        this.cartId = cart.user.uid === 'anonymous' ? cart.guid : cart.code;
         this.userId = cart.user.uid;
       }),
       switchMap(([orderEntry]) => {

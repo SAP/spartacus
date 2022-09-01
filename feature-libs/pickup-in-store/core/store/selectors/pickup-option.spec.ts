@@ -4,7 +4,7 @@ import { getPageContext, getPickupOption } from './pickup-option.selectors';
 describe('PickupOptionSelectors', () => {
   const state: StateWithPickupOption = {
     'pickup-option': {
-      pickupOption: { 0: 'delivery' },
+      pickupOption: [{ entryNumber: 0, pickupOption: 'delivery' }],
       pageContext: 'CART',
     },
   };

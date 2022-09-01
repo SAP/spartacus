@@ -149,13 +149,13 @@ describe('CartPickupOptionsContainerComponent', () => {
     it('should set cartId to active cart id', () => {
       spyOn(activeCartService, 'getActive').and.callThrough();
       component.ngOnInit();
-      expect(component['cartId']).toBe('cartGuid');
+      expect(component['cartId']).toBe('test-active-cart-code');
     });
 
     it('should call getPreferredStoreWithProductInStock', () => {
       spyOn(activeCartService, 'getActive').and.callThrough();
       component.ngOnInit();
-      expect(component['cartId']).toBe('cartGuid');
+      expect(component['cartId']).toBe('test-active-cart-code');
     });
 
     it('should set the pickupOption to pickup', () => {
@@ -295,6 +295,7 @@ describe('CartPickupOptionsContainerComponent filters', () => {
     it('should return true if cartId and userId are present', () => {
       const result = cartWithIdAndUserId({
         guid: 'cartGuid',
+        code: 'cartCode',
         user: {
           uid: 'userId',
         },

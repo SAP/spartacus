@@ -44,6 +44,24 @@ describe('intendedPickupLocationsReducer', () => {
     expect(newState).toEqual(expected);
   });
 
+  it('should set the pickup option for a product in store', () => {
+    const action = PickupLocationActions.SetPickupOption({
+      payload: {
+        productCode: 'P0001',
+        pickupOption: 'pickup',
+      },
+    });
+
+    const received = intendedPickupLocationsReducer(
+      intendedPickupLocationsInitialState,
+      action
+    );
+    const expected: IntendedPickupLocationsState = {
+      P0001: { pickupOption: 'pickup' },
+    };
+    expect(received).toEqual(expected);
+  });
+
   it('should set property to be object with single property of pickupOption with value delivery', () => {
     const initialState: IntendedPickupLocationsState = {
       P0001: { name: 'Store Name', pickupOption: 'pickup' },
@@ -67,5 +85,3 @@ describe('intendedPickupLocationsReducer', () => {
     });
   });
 });
-
-// TODO cover the store details reducer

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   ConsentService,
   PointOfServiceStock,
@@ -15,8 +15,8 @@ import {
   PickupLocationsSearchFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
-import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
 import { isInStock } from '../utils';
 
@@ -29,9 +29,7 @@ export type PointOfServiceNames = PickRequiredDeep<
  * Service to store the user's preferred store for Pickup in Store in local storage.
  */
 @Injectable()
-export class PreferredStoreService implements OnDestroy {
-  subscription?: Subscription;
-
+export class PreferredStoreService {
   constructor(
     protected readonly consentService: ConsentService,
     protected readonly config: PickupInStoreConfig,
@@ -58,11 +56,14 @@ export class PreferredStoreService implements OnDestroy {
    * @param preferredStore the preferred store to set
    */
   setPreferredStore(preferredStore: PointOfServiceNames): void {
-    this.subscription = this.consentService
+    this.consentService
       .checkConsentGivenByTemplateId(
         this.config.pickupInStore?.consentTemplateId ?? ''
       )
-      .pipe(filter((consentGiven) => consentGiven))
+      .pipe(
+        take(1),
+        filter((consentGiven) => consentGiven)
+      )
       .subscribe(() => {
         this.winRef.localStorage?.setItem(
           PREFERRED_STORE_LOCAL_STORAGE_KEY,
@@ -87,7 +88,13 @@ export class PreferredStoreService implements OnDestroy {
     productCode: string
   ): Observable<PointOfServiceNames> {
     return of(this.getPreferredStore()).pipe(
+      tap((preferredStore) =>
+        console.log('BEFORE preferredStore', preferredStore)
+      ),
       filter((store): store is PointOfServiceNames => !!store),
+      tap((preferredStore) =>
+        console.log('AFTER preferredStore', preferredStore)
+      ),
       tap((preferredStore) => {
         this.pickupLocationsSearchService.stockLevelAtStore(
           productCode,
@@ -103,12 +110,5 @@ export class PreferredStoreService implements OnDestroy {
           )
       )
     );
-  }
-
-  /**
-   * Unsubscribes to dangling subscriptions before destroying the service.
-   */
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

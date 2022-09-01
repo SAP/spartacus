@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ConsentService, WindowRef } from '@spartacus/core';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
+import { MockPickupLocationsSearchService } from '../facade/pickup-locations-search.service.spec';
 import {
   PointOfServiceNames,
   PreferredStoreService,
@@ -43,13 +46,14 @@ const MockWindowRef = () => {
 };
 
 describe('PreferredStoreService', () => {
-  let preferredStoreService: PreferredStoreService;
-  let consentService: ConsentService;
-  let windowRef: WindowRef;
   const preferredStore: PointOfServiceNames = {
     name: 'London School',
     displayName: 'London School',
   };
+  let preferredStoreService: PreferredStoreService;
+  let consentService: ConsentService;
+  let windowRef: WindowRef;
+  let pickupLocationSearchService: PickupLocationsSearchFacade;
 
   const configureTestingModule = (withConfig = true, localStorage = true) => {
     TestBed.configureTestingModule({
@@ -61,12 +65,17 @@ describe('PreferredStoreService', () => {
           useValue: MockPickupInStoreConfig(withConfig),
         },
         { provide: WindowRef, useValue: localStorage ? MockWindowRef() : {} },
+        {
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchService,
+        },
       ],
     });
 
     preferredStoreService = TestBed.inject(PreferredStoreService);
     consentService = TestBed.inject(ConsentService);
     windowRef = TestBed.inject(WindowRef);
+    pickupLocationSearchService = TestBed.inject(PickupLocationsSearchFacade);
   };
 
   describe('with pickup in store config', () => {
@@ -121,15 +130,34 @@ describe('PreferredStoreService', () => {
       });
     });
 
-    describe('onDestroy', () => {
-      it('should unsubscribe onDestroy', () => {
-        preferredStoreService.setPreferredStore(preferredStore);
-        spyOn(preferredStoreService.subscription, 'unsubscribe');
-        preferredStoreService.ngOnDestroy();
-        expect(
-          preferredStoreService.subscription.unsubscribe
-        ).toHaveBeenCalled();
-      });
+    it('should get store with stock for a product code', () => {
+      const preferredStore = {
+        name: 'storeName',
+        displayName: 'storeDisplayName',
+      };
+      const productCode = 'P001';
+
+      spyOn(preferredStoreService, 'getPreferredStore').and.returnValue(
+        preferredStore
+      );
+      spyOn(pickupLocationSearchService, 'stockLevelAtStore').and.callThrough();
+      spyOn(
+        pickupLocationSearchService,
+        'getStockLevelAtStore'
+      ).and.returnValue(of({ stockLevelStatus: 'inStock' }));
+
+      const preferredStoreWithStock =
+        preferredStoreService.getPreferredStoreWithProductInStock(productCode);
+
+      expect(preferredStoreWithStock).toBeObservable(
+        cold('(a|)', { a: preferredStore })
+      );
+      expect(
+        pickupLocationSearchService.stockLevelAtStore
+      ).toHaveBeenCalledWith(productCode, preferredStore.name);
+      expect(
+        pickupLocationSearchService.getStockLevelAtStore
+      ).toHaveBeenCalledWith(productCode, preferredStore.name);
     });
   });
 

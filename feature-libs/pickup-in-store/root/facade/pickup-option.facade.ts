@@ -32,5 +32,7 @@ export abstract class PickupOptionFacade {
     entryNumber: number,
     pickupOption: PickupOption
   ): void;
-  abstract getPickupOption(entryNumber: number): Observable<PickupOption>;
+  abstract getPickupOption(
+    entryNumber: number
+  ): Observable<PickupOption | undefined>;
 }

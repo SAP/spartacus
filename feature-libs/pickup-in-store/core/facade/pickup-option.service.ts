@@ -44,7 +44,7 @@ export class PickupOptionService implements PickupOptionFacade {
     );
   }
 
-  getPickupOption(entryNumber: number): Observable<PickupOption> {
+  getPickupOption(entryNumber: number): Observable<PickupOption | undefined> {
     return this.store.pipe(
       select(PickupOptionSelectors.getPickupOption(entryNumber))
     );
