@@ -63,18 +63,24 @@
         <span>
           {{ 'chatMessaging.addNewMessage' | cxTranslate }}
         </span>
-        <input
-          formControlName="message"
-          type="text"
-          class="form-control"
-          [maxLength]="
-            messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
-          "
-          placeholder="{{
-            messagingConfigs?.newMessagePlaceHolder ||
-              ('chatMessaging.addMessagePlaceHolder' | cxTranslate)
-          }}"
-        />
+        <div class="cx-message-input">
+          <input
+            formControlName="message"
+            type="text"
+            class="form-control"
+            [maxLength]="
+              messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
+            "
+            placeholder="{{
+              messagingConfigs?.newMessagePlaceHolder ||
+                ('chatMessaging.addMessagePlaceHolder' | cxTranslate)
+            }}"
+          />
+
+          <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
+            {{ 'chatMessaging.send' | cxTranslate }}
+          </button>
+        </div>
       </label>
       <div class="cx-message-footer-info" id="cx-message-footer">
         <cx-file-upload
@@ -103,9 +109,5 @@
         prefix="formErrors.file"
       ></cx-form-errors>
     </div>
-
-    <button class="btn btn-block btn-primary cx-send" (click)="onSend()">
-      {{ 'chatMessaging.send' | cxTranslate }}
-    </button>
   </div>
 </ng-container>

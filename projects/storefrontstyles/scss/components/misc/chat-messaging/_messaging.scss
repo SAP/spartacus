@@ -110,10 +110,15 @@
 
       .cx-footer-label {
         font-weight: 600;
+        .cx-message-input {
+          display: flex;
+          gap: 1rem;
+        }
       }
 
       .cx-message-footer-info {
         display: flex;
+        padding: 0 7.5rem 0 0;
         justify-content: space-between;
         .cx-message-footer-info-text {
           width: 100%;
