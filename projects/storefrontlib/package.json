@@ -25,7 +25,7 @@
     "@ngrx/router-store": "^14.3.0",
     "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "ngx-infinite-scroll": "^8.0.0",
+    "ngx-infinite-scroll": "^14.0.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
