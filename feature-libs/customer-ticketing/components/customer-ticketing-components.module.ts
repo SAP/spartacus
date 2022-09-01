@@ -3,16 +3,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { CustomerTicketingCloseModule } from './customer-ticketing-close';
-import {
-  CustomerTicketingCreateModule,
-  defaultCustomerTicketingCreateFormLayoutConfig,
-} from './customer-ticketing-create';
+import { CustomerTicketingCreateModule } from './customer-ticketing-create';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
 import { CustomerTicketingListModule } from './customer-ticketing-list';
-import {
-  CustomerTicketingReopenModule,
-  defaultCustomerTicketingFormLayoutConfig,
-} from './customer-ticketing-reopen';
+import { CustomerTicketingReopenModule } from './customer-ticketing-reopen';
+import { defaultCustomerTicketingFormLayoutConfig } from './shared/customer-ticketing-dialog';
 
 @NgModule({
   imports: [
@@ -26,9 +21,6 @@ import {
   ],
   declarations: [],
   exports: [],
-  providers: [
-    provideDefaultConfig(defaultCustomerTicketingFormLayoutConfig),
-    provideDefaultConfig(defaultCustomerTicketingCreateFormLayoutConfig),
-  ],
+  providers: [provideDefaultConfig(defaultCustomerTicketingFormLayoutConfig)],
 })
 export class CustomerTicketingComponentsModule {}
