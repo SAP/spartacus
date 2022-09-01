@@ -1,1 +1,1 @@
-export * from './customer-ticketing-occ.module';
+export * from './index';

@@ -1,73 +1,50 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import { STATUS, CUSTOM_CLASS } from '@spartacus/customer-ticketing/root';
+import {
+  STATUS,
+  CUSTOM_CLASS,
+  CustomerTicketingFacade,
+  TicketDetails,
+  DATE_FORMAT,
+} from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerTicketingDetailsComponent {
-  constructor(protected translation: TranslationService) {}
+  dateFormat = DATE_FORMAT;
+  ticketDetails$: Observable<TicketDetails | undefined> =
+    this.customerTicketingFacade.getTicket();
 
-  ticketDetails$ = of({
-    associatedTo: {
-      code: '00000001',
-      modifiedAt: '2022-06-28T00:00:00+0000',
-      type: 'Cart',
-    },
-    availableStatusTransitions: [
-      {
-        id: 'CLOSED',
-        name: 'Closed',
-      },
-    ],
-    createdAt: '2022-06-22T14:37:15+0000',
-    id: '00000001',
-    modifiedAt: '2022-06-22T20:25:02+0000',
-    status: {
-      id: 'OPEN',
-      name: 'Open',
-    },
-    subject: 'test ticket again',
-    ticketCategory: {
-      id: 'COMPLAINT',
-      name: 'Complaint',
-    },
-    ticketEvents: [
-      {
-        author: 'Mark Rivers',
-        createdAt: '2022-06-22T20:25:02+0000',
-        message: 'This is the way',
-      },
-      {
-        author: 'Mark Rivers',
-        createdAt: '2022-06-22T14:37:15+0000',
-        message: 'A message to consider',
-      },
-    ],
-  });
+  constructor(
+    protected translation: TranslationService,
+    protected customerTicketingFacade: CustomerTicketingFacade
+  ) {}
 
   prepareCardContent(
     entity: string,
-    titleTranslation: string
+    titleTranslation: string,
+    id?: string
   ): Observable<Card> {
     return this.translation.translate(titleTranslation).pipe(
       filter(() => Boolean(entity)),
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customClass: this.getStatusClass(entity),
+        customClass: this.getStatusClass(id),
       }))
     );
   }
 
-  getStatusClass(status: string): string {
-    return status === STATUS.OPEN
+  getStatusClass(id?: string): string {
+    return id === STATUS.OPEN
       ? CUSTOM_CLASS.OPEN
-      : status === STATUS.CLOSE
+      : id === STATUS.CLOSE
       ? CUSTOM_CLASS.CLOSE
       : '';
   }

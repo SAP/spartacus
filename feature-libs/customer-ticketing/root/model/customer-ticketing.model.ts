@@ -4,6 +4,34 @@ export const enum CUSTOM_CLASS {
 }
 
 export const enum STATUS {
-  OPEN = 'Open',
-  CLOSE = 'Close',
+  OPEN = 'OPEN',
+  CLOSE = 'CLOSE',
+}
+
+export interface TicketDetails {
+  availableStatusTransitions?: Array<Status>;
+  id?: string;
+  createdAt?: string;
+  modifiedAt?: string;
+  status?: Status;
+  subject?: string;
+  ticketCategory?: Category;
+  ticketEvents?: Array<Event>;
+}
+
+export interface Status {
+  id: string;
+  name: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+}
+
+export interface Event {
+  author?: string;
+  createdAt?: string;
+  message?: string;
+  toStatus?: Status;
 }

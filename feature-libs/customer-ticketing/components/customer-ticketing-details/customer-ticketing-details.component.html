@@ -1,3 +1,4 @@
+<!-- TODO:CXEC-17553 (Brian / Parth) add spinner until the data is loaded  -->
 <ng-container *ngIf="ticketDetails$ | async as ticket">
   <div class="cx-ticket-details">
     <div class="container">
@@ -13,7 +14,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              ticket.createdAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              ticket.createdAt | cxDate: dateFormat,
               'customerTicketing.createdOn'
             ) | async
           "
@@ -24,7 +25,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              ticket.modifiedAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              ticket.modifiedAt | cxDate: dateFormat,
               'customerTicketing.changedOn'
             ) | async
           "
@@ -34,8 +35,11 @@
       <div class="cx-details-card">
         <cx-card
           [content]="
-            prepareCardContent(ticket.status.name, 'customerTicketing.status')
-              | async
+            prepareCardContent(
+              ticket.status.name,
+              'customerTicketing.status',
+              ticket.status.id
+            ) | async
           "
         ></cx-card>
       </div>
