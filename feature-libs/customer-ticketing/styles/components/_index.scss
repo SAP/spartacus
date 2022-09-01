@@ -2,9 +2,10 @@
 @import './customer-ticketing-details';
 @import './customer-ticketing-dialog';
 
-$customer-ticketing-allowlist: cx-customer-ticketing-dialog,
-  cx-customer-ticketing-reopen, cx-customer-ticketing-close,
-  cx-customer-ticketing-add, cx-customer-ticketing-details !default;
+$customer-ticketing-allowlist: cx-customer-ticketing-create-dialog,
+  cx-customer-ticketing-reopen-dialog, cx-customer-ticketing-reopen,
+  cx-customer-ticketing-close, cx-customer-ticketing-add,
+  cx-customer-ticketing-details !default;
 
 $skipComponentStyles: () !default;
 

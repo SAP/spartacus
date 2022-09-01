@@ -3,7 +3,7 @@ import { FormUtils } from '@spartacus/storefront';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
-  selector: 'cx-customer-ticketing-dialog',
+  selector: 'cx-customer-ticketing-reopen-dialog',
   templateUrl: './customer-ticketing-reopen-dialog.component.html',
 })
 export class CustomerTicketingReopenDialogComponent
