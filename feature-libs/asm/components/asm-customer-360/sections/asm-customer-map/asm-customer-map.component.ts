@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { AsmConfig } from '@spartacus/asm/core';
+import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
 
 import { MapData, StoreData } from './map-types';
 
@@ -89,11 +89,11 @@ export class AsmCustomerMapComponent implements OnInit {
   selectedStore: StoreData;
 
   constructor(
-    asmConfig: AsmConfig,
+    public config: Customer360SectionConfig,
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer
   ) {
-    this.apiKey = asmConfig.asm?.customer360?.mapsTab?.googleMaps?.apiKey;
+    this.apiKey = config.googleMapsApiKey;
     this.selectedStore = this.storeData.data[0];
   }
 

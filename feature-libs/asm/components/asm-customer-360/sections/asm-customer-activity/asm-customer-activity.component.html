@@ -1,8 +1,8 @@
 <cx-asm-customer-table
   emptyStateText="There is currently no recorded customer activity"
   headerText="General"
-  pageSize="10"
   sortProperty="updated"
   [columns]="columns"
   [entries]="transformedEntries"
+  [pageSize]="config.pageSize"
 ></cx-asm-customer-table>

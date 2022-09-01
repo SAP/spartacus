@@ -4,8 +4,8 @@ import {
   combineStrings,
   formatEpochTime,
   replaceTokens,
-} from '../asm-customer-360.utils';
-import { CustomerTableColumn } from '../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
+} from '../../asm-customer-360.utils';
+import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
 
 @Component({
   selector: 'cx-asm-customer-feedback',

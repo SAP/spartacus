@@ -1,14 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 
-import {
-  ImageType,
-  PriceType,
-  Product,
-  UrlCommand,
-  User,
-} from '@spartacus/core';
+import { ImageType, PriceType, Product, UrlCommand } from '@spartacus/core';
 
 import { Observable, of, Subscription } from 'rxjs';
 import { AsmInterestEntry } from './asm-customer-overview.model';
@@ -18,8 +12,6 @@ import { AsmInterestEntry } from './asm-customer-overview.model';
   templateUrl: './asm-customer-overview.component.html',
 })
 export class AsmCustomerOverviewComponent implements OnInit {
-  @Input() customer: User;
-
   @Output()
   navigate: EventEmitter<UrlCommand> = new EventEmitter();
 
@@ -34,11 +26,9 @@ export class AsmCustomerOverviewComponent implements OnInit {
   constructor(protected asmConfig: AsmConfig) {}
 
   ngOnInit(): void {
-    if (this.customer?.uid) {
-      this.activeCart$ = of(this.getMockCartData());
-      this.savedCart$ = of(this.getMockCartData());
-      this.interests$ = of(this.getMockInterestData());
-    }
+    this.activeCart$ = of(this.getMockCartData());
+    this.savedCart$ = of(this.getMockCartData());
+    this.interests$ = of(this.getMockInterestData());
   }
 
   onSelectProduct(selectedProduct: Product): void {

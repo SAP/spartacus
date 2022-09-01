@@ -1,3 +1,9 @@
+import {
+  AsmCustomerActivityComponent,
+  AsmCustomerMapComponent,
+  AsmCustomerOverviewComponent,
+  AsmCustomerProfileComponent,
+} from '../../components/asm-customer-360/sections/components';
 import { AsmConfig } from './asm-config';
 
 export const defaultAsmConfig: AsmConfig = {
@@ -9,6 +15,45 @@ export const defaultAsmConfig: AsmConfig = {
       maxResults: 20,
     },
     customer360: {
+      tabs: [
+        {
+          name: 'Overview',
+          components: [
+            {
+              component: AsmCustomerOverviewComponent,
+            },
+          ],
+        },
+        {
+          name: 'Profile',
+          components: [
+            {
+              component: AsmCustomerProfileComponent,
+            },
+          ],
+        },
+        {
+          name: 'Activity',
+          components: [
+            {
+              component: AsmCustomerActivityComponent,
+              config: { pageSize: 10 },
+            },
+          ],
+        },
+        {
+          name: 'Maps',
+          components: [
+            {
+              component: AsmCustomerMapComponent,
+              config: {
+                googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                pageSize: 10,
+              },
+            },
+          ],
+        },
+      ],
       activityTab: {
         pageSize: 10,
       },

@@ -3,7 +3,7 @@ import {
   CustomerListingButton,
   CustomerListingTab,
   ListingItem,
-} from '../asm-customer-ui-components/asm-customer-listing/asm-customer-listing.model';
+} from '../../asm-customer-ui-components/asm-customer-listing/asm-customer-listing.model';
 
 @Component({
   selector: 'cx-asm-customer-promotions',

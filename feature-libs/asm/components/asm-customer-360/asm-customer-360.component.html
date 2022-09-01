@@ -31,35 +31,21 @@
               (click)="selectTab(i)"
               [class.active]="activeTab === i"
             >
-              {{ tab.sectionTitle }}
+              {{ tab.name }}
             </a>
           </div>
         </div>
       </div>
       <div class="cx-tab-content modal-body">
-        <ng-container [ngSwitch]="activeTab">
-          <cx-asm-customer-overview
-            *ngSwitchCase="0"
-            [customer]="customer"
-            (navigate)="navigateTo($event)"
-          ></cx-asm-customer-overview>
-          <cx-asm-customer-profile
-            *ngSwitchCase="1"
-            [customer]="customer"
-          ></cx-asm-customer-profile>
-          <cx-asm-customer-activity
-            *ngSwitchCase="2"
-          ></cx-asm-customer-activity>
-          <cx-asm-customer-feedback
-            *ngSwitchCase="3"
-          ></cx-asm-customer-feedback>
-          <cx-asm-customer-promotions
-            *ngSwitchCase="4"
-          ></cx-asm-customer-promotions>
-          <cx-asm-customer-map *ngSwitchCase="5"></cx-asm-customer-map>
-          <span *ngSwitchDefault>
-            {{ getActiveTabContent() }}
-          </span>
+        <ng-container
+          *ngFor="let config of currentTab.components; let i = index"
+        >
+          <ng-container
+            *ngComponentOutlet="
+              config.component;
+              injector: injectors[activeTab][i]
+            "
+          ></ng-container>
         </ng-container>
       </div>
     </div>
