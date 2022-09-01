@@ -162,6 +162,9 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
+          "Administration",
+          "Account-Summary",
+          "Order-Approval",
           "EPD-Visualization",
           "Digital-Payments",
           "CDS",
@@ -172,9 +175,6 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Order-Approval",
-          "Administration",
-          "Account-Summary",
           "ASM",
         ]
       `);
