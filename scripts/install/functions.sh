@@ -3,7 +3,8 @@
 WARNINGS=()
 TEST_RESULTS=()
 TEST_RESULTS_B2B=()
-TIME_MEASUREMENT_TITLES=("Start")
+TIME_MEASUREMENT_CURR_TITLE="Start"
+TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
 # Prints header
@@ -638,15 +639,18 @@ function add_time_measurement {
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
 
     if [ $ELAPSED -gt 30 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
     elif [ $ELAPSED -gt 10 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
     else
-        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TITLE")
+        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
     fi
+
+    TIME_MEASUREMENT_CURR_TITLE="$TITLE"
 }
 
 function print_times {
+    add_time_measurement ""
     echo ""
     echo "Elapsed Time"
 
