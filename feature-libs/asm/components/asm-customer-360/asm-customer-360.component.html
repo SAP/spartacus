@@ -31,7 +31,7 @@
               (click)="selectTab(i)"
               [class.active]="activeTab === i"
             >
-              {{ tab.name }}
+              {{ tab.i18nNameKey | cxTranslate }}
             </a>
           </div>
         </div>

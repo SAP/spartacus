@@ -1,3 +1,37 @@
+export const customer360 = {
+  overview: {
+    tabName: 'Overview',
+    activeCart: 'Active Cart',
+    activeCartCode: 'Active Cart {{code}}',
+    totalNoItems: 'Total No. Items {{count}}',
+    totalPrice: 'Total Price {{price}}',
+    noActiveCart: 'There are currently no Active Cart Items',
+    savedCartCode: 'Last Saved Cart {{code}}',
+    savedCart: 'Last Saved Cart',
+    noSavedCart: 'There are currently no Saved Cart items',
+    interests: 'Interests',
+    noInterests: 'There are currently no Interest items',
+    inStock: 'In Stock',
+    lowStock: 'Low Stock',
+    outOfStock: 'Out of Stock',
+  },
+  profile: {
+    tabName: 'Profile',
+  },
+  activity: {
+    tabName: 'Activity',
+  },
+  feedback: {
+    tabName: 'Feedback',
+  },
+  promotions: {
+    tabName: 'Promotion',
+  },
+  maps: {
+    tabName: 'Maps',
+  },
+};
+
 export const asm = {
   asm: {
     mainLogoLabel: 'SAP',
@@ -39,6 +73,7 @@ export const asm = {
       phone2: 'Phone2',
       paymentMethodHeader: 'Saved Payment Methods',
     },
+    customer360,
     customerOverview: {
       activeCart: 'Active Cart',
       activeCartCode: 'Active Cart {{code}}',

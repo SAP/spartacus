@@ -7,6 +7,5 @@ export abstract class AsmCustomer360TabConfig {
     component: Type<any>;
     config?: Customer360SectionConfig;
   }>;
-  /** TODO: These need to be translation keys. */
-  name: string;
+  i18nNameKey: string;
 }

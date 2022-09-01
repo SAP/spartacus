@@ -19,7 +19,7 @@ export const defaultAsmConfig: AsmConfig = {
     customer360: {
       tabs: [
         {
-          name: 'Overview',
+          i18nNameKey: 'asm.customer360.overview.tabName',
           components: [
             {
               component: AsmCustomerOverviewComponent,
@@ -27,7 +27,7 @@ export const defaultAsmConfig: AsmConfig = {
           ],
         },
         {
-          name: 'Profile',
+          i18nNameKey: 'asm.customer360.profile.tabName',
           components: [
             {
               component: AsmCustomerProfileComponent,
@@ -35,7 +35,7 @@ export const defaultAsmConfig: AsmConfig = {
           ],
         },
         {
-          name: 'Activity',
+          i18nNameKey: 'asm.customer360.activity.tabName',
           components: [
             {
               component: AsmCustomerActivityComponent,
@@ -44,7 +44,7 @@ export const defaultAsmConfig: AsmConfig = {
           ],
         },
         {
-          name: 'Feedback',
+          i18nNameKey: 'asm.customer360.feedback.tabName',
           components: [
             {
               component: AsmCustomerSupportTicketsComponent,
@@ -57,7 +57,7 @@ export const defaultAsmConfig: AsmConfig = {
           ],
         },
         {
-          name: 'Maps',
+          i18nNameKey: 'asm.customer360.maps.tabName',
           components: [
             {
               component: AsmCustomerMapComponent,
