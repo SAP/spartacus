@@ -231,8 +231,7 @@ export class CartEffects {
         ofType(
           CartActions.CART_ADD_ENTRY_SUCCESS,
           CartActions.CART_REMOVE_ENTRY_SUCCESS,
-          CartActions.CART_UPDATE_ENTRY_SUCCESS,
-          CartActions.CART_REMOVE_VOUCHER_SUCCESS
+          CartActions.CART_UPDATE_ENTRY_SUCCESS
         ),
         map(
           (
@@ -240,9 +239,24 @@ export class CartEffects {
               | CartActions.CartAddEntrySuccess
               | CartActions.CartUpdateEntrySuccess
               | CartActions.CartRemoveEntrySuccess
-              | CartActions.CartRemoveVoucherSuccess
           ) => action.payload
         ),
+        map(
+          (payload) =>
+            new CartActions.LoadCart({
+              userId: payload.options.userId,
+              cartId: payload.options.cartId,
+            })
+        )
+      )
+  );
+
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
+  refreshVouchersWithoutProcesses$: Observable<CartActions.LoadCart> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(CartActions.CART_REMOVE_VOUCHER_SUCCESS),
+        map((action: CartActions.CartRemoveVoucherSuccess) => action.payload),
         map(
           (payload) =>
             new CartActions.LoadCart({
@@ -251,7 +265,7 @@ export class CartEffects {
             })
         )
       )
-  );
+    );
 
   resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
     createEffect(() =>

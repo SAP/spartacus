@@ -259,6 +259,7 @@ export class MultiCartService implements MultiCartFacade {
       return;
     }
 
+    // TODO:#xxx - how to pass the rest of the augmented props?
     this.store.dispatch(
       new CartActions.CartAddEntry({ options: optionsOrUserId })
     );
@@ -318,23 +319,20 @@ export class MultiCartService implements MultiCartFacade {
     if (typeof optionsOrUserId === 'string') {
       this.store.dispatch(
         new CartActions.CartRemoveEntry({
-          userId: optionsOrUserId,
-          cartId: cartId ?? '',
-          entryNumber: `${entryNumber}`,
+          options: {
+            userId: optionsOrUserId,
+            cartId: cartId ?? '',
+            entryNumber: entryNumber || 1,
+          },
         })
       );
 
       return;
     }
 
-    // TODO:#xxx - pass an object
-    // this.store.dispatch(
-    //   new CartActions.CartRemoveEntry({
-    //     userId,
-    //     cartId,
-    //     entryNumber: `${entryNumber}`,
-    //   })
-    // );
+    this.store.dispatch(
+      new CartActions.CartRemoveEntry({ options: optionsOrUserId })
+    );
   }
 
   /**
@@ -374,10 +372,12 @@ export class MultiCartService implements MultiCartFacade {
       if (quantity > 0) {
         this.store.dispatch(
           new CartActions.CartUpdateEntry({
-            userId,
-            cartId: cartId ?? '',
-            entryNumber: `${entryNumber}`,
-            quantity,
+            options: {
+              userId,
+              cartId: cartId ?? '',
+              entryNumber: entryNumber || 1,
+              quantity,
+            },
           })
         );
       } else {
@@ -388,8 +388,10 @@ export class MultiCartService implements MultiCartFacade {
     }
 
     if (optionsOrUserId.quantity || 0 > 0) {
-      // TODO:#xxx - pass an object
-      // this.store.dispatch(new CartActions.CartUpdateEntry(optionsOrUserId));
+      // TODO:#xxx - how to pass the rest of the augmented props?
+      this.store.dispatch(
+        new CartActions.CartUpdateEntry({ options: optionsOrUserId })
+      );
     } else {
       this.removeEntry(optionsOrUserId);
     }

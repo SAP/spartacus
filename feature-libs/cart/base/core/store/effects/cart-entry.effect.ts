@@ -76,27 +76,25 @@ export class CartEntryEffects {
       ofType(CartActions.CART_REMOVE_ENTRY),
       map((action: CartActions.CartRemoveEntry) => action.payload),
       concatMap((payload) =>
-        this.cartEntryConnector
-          .remove(payload.userId, payload.cartId, payload.entryNumber)
-          .pipe(
-            map(() => {
-              return new CartActions.CartRemoveEntrySuccess({
+        this.cartEntryConnector.remove(payload.options).pipe(
+          map(() => {
+            return new CartActions.CartRemoveEntrySuccess({
+              ...payload,
+            });
+          }),
+          catchError((error) =>
+            from([
+              new CartActions.CartRemoveEntryFail({
                 ...payload,
-              });
-            }),
-            catchError((error) =>
-              from([
-                new CartActions.CartRemoveEntryFail({
-                  ...payload,
-                  error: normalizeHttpError(error),
-                }),
-                new CartActions.LoadCart({
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                }),
-              ])
-            )
+                error: normalizeHttpError(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.options.cartId,
+                userId: payload.options.userId,
+              }),
+            ])
           )
+        )
       ),
       withdrawOn(this.contextChange$)
     )
@@ -111,32 +109,25 @@ export class CartEntryEffects {
       ofType(CartActions.CART_UPDATE_ENTRY),
       map((action: CartActions.CartUpdateEntry) => action.payload),
       concatMap((payload) =>
-        this.cartEntryConnector
-          .update(
-            payload.userId,
-            payload.cartId,
-            Number(payload.entryNumber),
-            payload.quantity
-          )
-          .pipe(
-            map(() => {
-              return new CartActions.CartUpdateEntrySuccess({
+        this.cartEntryConnector.update(payload.options).pipe(
+          map(() => {
+            return new CartActions.CartUpdateEntrySuccess({
+              ...payload,
+            });
+          }),
+          catchError((error) =>
+            from([
+              new CartActions.CartUpdateEntryFail({
                 ...payload,
-              });
-            }),
-            catchError((error) =>
-              from([
-                new CartActions.CartUpdateEntryFail({
-                  ...payload,
-                  error: normalizeHttpError(error),
-                }),
-                new CartActions.LoadCart({
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                }),
-              ])
-            )
+                error: normalizeHttpError(error),
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.options.cartId,
+                userId: payload.options.userId,
+              }),
+            ])
           )
+        )
       ),
       withdrawOn(this.contextChange$)
     )

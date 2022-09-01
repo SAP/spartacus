@@ -101,19 +101,23 @@ export class ConfiguratorCartEffects {
               switchMap((cartModification: CartModification) => {
                 return [
                   new CartActions.CartUpdateEntrySuccess({
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                    entryNumber: payload.cartEntryNumber,
-                    quantity: cartModification.quantity,
+                    options: {
+                      userId: payload.userId,
+                      cartId: payload.cartId,
+                      entryNumber: Number(payload.cartEntryNumber),
+                      quantity: cartModification.quantity,
+                    },
                   }),
                 ];
               }),
               catchError((error) =>
                 of(
                   new CartActions.CartUpdateEntryFail({
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                    entryNumber: payload.cartEntryNumber,
+                    options: {
+                      userId: payload.userId,
+                      cartId: payload.cartId,
+                      entryNumber: Number(payload.cartEntryNumber),
+                    },
                     error: normalizeHttpError(error),
                   })
                 )
