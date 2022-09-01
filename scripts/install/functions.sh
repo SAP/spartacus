@@ -250,7 +250,10 @@ function install_from_sources {
 
     clone_repo
     printh "Installing Spartacus Repo dependencies."
-    ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
+    ( cd ${CLONE_DIR} && yarn install)
+
+    printh "Building Spartacus Repo libraries"
+    ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
