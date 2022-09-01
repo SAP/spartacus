@@ -12,7 +12,11 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
@@ -125,7 +129,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
           ReplenishmentOrderHistoryComponent,
           MockUrlPipe,

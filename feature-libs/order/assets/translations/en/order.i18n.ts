@@ -133,6 +133,7 @@ export const order = {
     cancelled: 'Cancelled',
     replenishmentHistory: 'Replenishment History',
     notFound: 'No Orders Found',
+    actions: 'Actions',
   },
   AccountOrderHistoryTabContainer: {
     tabs: {
