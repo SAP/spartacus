@@ -6,6 +6,7 @@ import {
   BaseCartOptions,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
+  RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
@@ -95,7 +96,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   public update(
     userId: string,
     cartId: string,
-    entryNumber: number,
+    entryNumber: string | number,
     quantity: number
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
@@ -109,7 +110,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,
-    entryNumber?: number,
+    entryNumber?: string | number,
     quantity?: number
   ): Observable<CartModification> {
     let options: Omit<
@@ -142,11 +143,41 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
+  /**
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `remove(options: BaseCartOptions<RemoveEntryOptions>)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
   public remove(
     userId: string,
     cartId: string,
-    entryNumber: string
+    entryNumber: string | number
+  ): Observable<any>;
+  // TODO:#object-extensibility-deprecation - remove
+  public remove(options: BaseCartOptions<RemoveEntryOptions>): Observable<any>;
+  public remove(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | BaseCartOptions<RemoveEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    entryNumber?: string | number
   ): Observable<any> {
+    let options: Omit<
+      UpdateEntryOptions,
+      'userId' | 'cartId' | 'entryNumber' | 'quantity'
+    > = {};
+    let userId: string;
+
+    // TODO:#object-extensibility-deprecation - remove the `if` part
+    if (typeof optionsOrUserId === 'string') {
+      userId = optionsOrUserId;
+    } else {
+      ({ userId, cartId, entryNumber, ...options } = optionsOrUserId);
+    }
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
@@ -156,6 +187,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         userId,
         cartId,
         entryNumber,
+        ...options,
       },
     });
 

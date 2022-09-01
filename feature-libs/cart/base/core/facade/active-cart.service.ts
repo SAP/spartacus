@@ -6,6 +6,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
+  RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import {
@@ -384,7 +385,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: AddEntryOptions)`.
+   * Instead, use `addEntry(options: AddEntryOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   addEntry(productCode: string, quantity: number): void;
@@ -420,16 +421,25 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   /**
    * Remove entry
    *
-   * @param entry
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: RemoveEntryOptions)`.
    */
-  removeEntry(entry: OrderEntry): void {
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(entry: OrderEntry): void;
+  removeEntry(
+    options:
+      | RemoveEntryOptions
+      // TODO:#object-extensibility-deprecation - remove
+      | OrderEntry
+  ): void {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
         this.multiCartFacade.removeEntry(
           userId,
           cartId,
-          entry.entryNumber as number
+          // TODO:#object-extensibility-deprecation - should be able to remove the `as number` part
+          options.entryNumber as number
         );
       });
   }
@@ -439,6 +449,9 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param entryNumber
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `updateEntry(options: UpdateEntryOptions)`.
    */
   updateEntry(entryNumber: number, quantity: number): void;
   // TODO:#object-extensibility-deprecation - remove

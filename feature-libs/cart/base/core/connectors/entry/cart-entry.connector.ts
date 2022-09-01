@@ -3,6 +3,7 @@ import {
   AddEntryOptions,
   BaseCartOptions,
   CartModification,
+  RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
@@ -56,7 +57,7 @@ export class CartEntryConnector {
   public update(
     userId: string,
     cartId: string,
-    entryNumber: number,
+    entryNumber: string | number,
     qty: number,
     pickupStore?: string
   ): Observable<CartModification>;
@@ -70,7 +71,7 @@ export class CartEntryConnector {
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,
-    entryNumber?: number,
+    entryNumber?: string | number,
     quantity?: number
   ): Observable<CartModification> {
     // TODO:#object-extensibility-deprecation - remove the 'if' part, but leave the if's body
@@ -81,17 +82,40 @@ export class CartEntryConnector {
     return this.adapter.update(
       options,
       cartId ?? '',
-      // TODO:#object-extensibility-deprecation - remove the `|| 0` part
       entryNumber || 0,
       quantity || 1
     );
   }
 
+  /**
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `remove(options: BaseCartOptions<RemoveEntryOptions>)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
   public remove(
     userId: string,
     cartId: string,
-    entryNumber: string
+    entryNumber: string | number
+  ): Observable<any>;
+  // TODO:#object-extensibility-deprecation - remove
+  public remove(
+    options: BaseCartOptions<RemoveEntryOptions>
+  ): Observable<CartModification>;
+  public remove(
+    options:
+      | BaseCartOptions<RemoveEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    entryNumber?: string | number
   ): Observable<any> {
-    return this.adapter.remove(userId, cartId, entryNumber);
+    // TODO:#object-extensibility-deprecation - remove the 'if' part, but leave the if's body
+    if (typeof options !== 'string') {
+      return this.adapter.remove(options);
+    }
+
+    // TODO:#object-extensibility-deprecation - remove
+    return this.adapter.remove(options, cartId ?? '', entryNumber || 0);
   }
 }

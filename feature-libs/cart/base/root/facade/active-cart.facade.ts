@@ -6,6 +6,7 @@ import {
   AddEntryOptions,
   Cart,
   OrderEntry,
+  RemoveEntryOptions,
   UpdateEntryOptions,
 } from '../models/cart.model';
 
@@ -92,7 +93,7 @@ export abstract class ActiveCartFacade {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: AddEntryOptions)`.
+   * Instead, use `addEntry(options: AddEntryOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(productCode: string, quantity: number): void;
@@ -104,9 +105,17 @@ export abstract class ActiveCartFacade {
   /**
    * Remove entry
    *
-   * @param entry
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: RemoveEntryOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract removeEntry(entry: OrderEntry): void;
+  /**
+   * Remove entry
+   */
+  // TODO:#object-extensibility-deprecation - remove the eslint on the next line
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  abstract removeEntry(options: RemoveEntryOptions): void;
 
   /**
    * Update entry

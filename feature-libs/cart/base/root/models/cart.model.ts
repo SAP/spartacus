@@ -209,3 +209,7 @@ export interface UpdateEntryOptions {
   entryNumber: number;
   quantity?: number;
 }
+
+export interface RemoveEntryOptions {
+  entryNumber: number;
+}

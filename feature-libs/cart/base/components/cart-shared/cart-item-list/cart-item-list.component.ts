@@ -204,7 +204,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         item.entryNumber as number
       );
     } else {
-      this.activeCartService.removeEntry(item);
+      this.activeCartService.removeEntry({
+        entryNumber: item.entryNumber as number,
+      });
     }
     delete this.form.controls[this.getControlName(item)];
   }
@@ -228,10 +230,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
               value.quantity
             );
           } else {
-            this.activeCartService.updateEntry(
-              value.entryNumber,
-              value.quantity
-            );
+            this.activeCartService.updateEntry({
+              entryNumber: value.entryNumber,
+              quantity: value.quantity,
+            });
           }
         }
       }),
