@@ -18,7 +18,6 @@ context('scroll Position Restoration', () => {
       scrollPosY = $window.scrollY;
     });
     cy.get('cx-product-list-item .cx-product-name').eq(3).click();
-    cy.wait('@getComponents');
     cy.get('cx-breadcrumb h1').should('contain', PRODUCT_NAME);
 
     cy.go(-1);
@@ -29,6 +28,7 @@ context('scroll Position Restoration', () => {
 
     cy.go(1);
     cy.get('cx-breadcrumb h1').should('contain', PRODUCT_NAME);
+    cy.wait(500);
     cy.window().then(($window) => {
       expect($window.scrollY).to.be.closeTo(0, 0);
     });
