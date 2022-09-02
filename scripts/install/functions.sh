@@ -183,34 +183,34 @@ function create_apps {
     else
         printh "Add csr app"
         create_shell_apps+="create_shell_app ${CSR_APP_NAME}"
-        add_spartacus="add_spartacus_csr ${CSR_APP_NAME}"
-        patch_app_modules="patch_app_module_ts ${CSR_APP_NAME}"
+        add_spartacus+="add_spartacus_csr ${CSR_APP_NAME}"
+        patch_app_modules+="patch_app_module_ts ${CSR_APP_NAME}"
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Add ssr app"
         create_shell_apps+="create_shell_app ${SSR_APP_NAME}"
-        add_spartacus="add_spartacus_ssr ${SSR_APP_NAME}"
-        patch_app_modules="patch_app_module_ts ${SSR_APP_NAME}"
+        add_spartacus+="add_spartacus_ssr ${SSR_APP_NAME}"
+        patch_app_modules+="patch_app_module_ts ${SSR_APP_NAME}"
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Add ssr app (with pwa support)"
         create_shell_apps+="create_shell_app ${SSR_PWA_APP_NAME}"
-        add_spartacus="add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}"
-        patch_app_modules="patch_app_module_ts ${SSR_PWA_APP_NAME}"
+        add_spartacus+="add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}"
+        patch_app_modules+="patch_app_module_ts ${SSR_PWA_APP_NAME}"
     fi
 
     printh "Install Shell Apps"
-    run_parallel create_shell_apps
+    run_parallel "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
-    run_parallel add_spartacus
+    run_parallel "${add_spartacus[@]}"
 
     printh "Patch App Modules"
-    run_parallel patch_app_modules
+    run_parallel "${patch_app_modules[@]}"
 }
 
 function publish_dist_package {
@@ -226,13 +226,14 @@ function publish_package {
 }
 
 function run_parallel {
-    local SEP="%s&%s"
-    local COMMANDS=${1};
-    local PARALLEL_COMMAND=$(printf "$SEP" "${COMMANDS[@]}")
-    PARALLEL_COMMAND="${PARALLEL_COMMAND:${#SEP}}"
-    local EXIT_CODE=0
-    bash -c "$PARALLEL_COMMAND" || EXIT_CODE=$?
-    return EXIT_CODE
+    local SEP=" & "
+    local COMMANDS=("${@}")
+
+    local PCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
+    PCOMMAND="${PCOMMAND:${#SEP}}"
+
+    eval $PCOMMAND
+    wait
 }
 
 function try_command {
