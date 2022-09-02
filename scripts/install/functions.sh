@@ -76,7 +76,7 @@ function clone_repo {
     # ls -l ${BASE_DIR}
     if [ -d "${CLONE_DIR}" ] 
     then
-        (cd "${CLONE_DIR}"; git checkout "${BRANCH}"; git pull --depth 1)
+        (cd "${CLONE_DIR}"; git fetch; git checkout "${BRANCH}"; git pull --depth 1)
     else
         git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
     fi
