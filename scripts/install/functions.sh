@@ -199,7 +199,7 @@ function create_apps {
         patch_app_modules+=("patch_app_module_ts ${SSR_PWA_APP_NAME}")
     fi
 
-    printh "Install Shell Apps"
+    printh "Create Shell Apps"
     run_linear "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
@@ -240,7 +240,6 @@ function run_linear {
     PCOMMAND="${PCOMMAND:${#SEP}}"
 
     eval $PCOMMAND
-    wait
 }
 
 
