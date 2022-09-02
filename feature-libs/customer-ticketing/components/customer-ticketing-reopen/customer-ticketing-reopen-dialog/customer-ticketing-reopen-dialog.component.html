@@ -58,12 +58,12 @@
           </ng-template>
         </cx-file-upload>
 
-        <p class="cx-customer-ticket-input-hint">
+        <p class="cx-customer-ticket-file-upload-hint">
           {{
             'customerTicketing.fileSizeLimit' | cxTranslate: { count: maxSize }
           }}
         </p>
-        <p class="cx-customer-ticket-input-hint" *ngIf="maxEntries === 1">
+        <p class="cx-customer-ticket-file-upload-hint" *ngIf="maxEntries === 1">
           {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
         </p>
 
