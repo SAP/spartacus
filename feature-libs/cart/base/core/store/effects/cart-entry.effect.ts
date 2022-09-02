@@ -14,11 +14,7 @@ import {
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import {
-  CartActions,
-  CartAddEntryFailPayload,
-  CartAddEntryPayload,
-} from '../actions/index';
+import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
@@ -39,35 +35,25 @@ export class CartEntryEffects {
       map((action: CartActions.CartAddEntry) => action.payload),
       concatMap((payload) => {
         return this.cartEntryConnector.add(payload.options).pipe(
-          map((cartModification) => {
-            let augmentedOptions: Omit<CartAddEntryPayload, 'options'> = {};
-            ({ ...augmentedOptions } = payload);
-
-            return new CartActions.CartAddEntrySuccess({
-              options: payload.options,
-              result: cartModification,
-              ...augmentedOptions,
-            });
-          }),
-          catchError((error) => {
-            let augmentedOptions: Omit<
-              CartAddEntryFailPayload,
-              'options' | 'error'
-            > = {};
-            ({ ...augmentedOptions } = payload);
-
-            return from([
+          map(
+            (cartModification) =>
+              new CartActions.CartAddEntrySuccess({
+                result: cartModification,
+                ...payload,
+              })
+          ),
+          catchError((error) =>
+            from([
               new CartActions.CartAddEntryFail({
-                options: payload.options,
                 error: normalizeHttpError(error),
-                ...augmentedOptions,
+                ...payload,
               }),
               new CartActions.LoadCart({
                 cartId: payload.options.cartId,
                 userId: payload.options.userId,
               }),
-            ]);
-          })
+            ])
+          )
         );
       }),
       withdrawOn(this.contextChange$)

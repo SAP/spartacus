@@ -453,9 +453,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.multiCartFacade.removeEntry({
           userId,
           cartId,
-          // TODO:#object-extensibility-deprecation - should be able to remove the `as number` part
+          // TODO:#object-extensibility-deprecation - remove this line
           entryNumber: options.entryNumber as number,
-          // TODO:#xxx - how to pass the rest of augmented options?
           ...options,
         });
       });

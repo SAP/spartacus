@@ -52,17 +52,18 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode?: string,
     quantity?: number
   ): Observable<CartModification> {
-    let options: Omit<
+    let augmentedOptions: Omit<
       AddEntryOptions,
       'userId' | 'cartId' | 'productCode' | 'quantity'
     > = {};
     let userId: string;
 
-    // TODO:#object-extensibility-deprecation - remove the `if` part
+    // TODO:#object-extensibility-deprecation - remove the `if` and its body
     if (typeof optionsOrUserId === 'string') {
       userId = optionsOrUserId;
     } else {
-      ({ userId, cartId, productCode, quantity, ...options } = optionsOrUserId);
+      ({ userId, cartId, productCode, quantity, ...augmentedOptions } =
+        optionsOrUserId);
     }
 
     quantity = quantity || 1;
@@ -72,9 +73,13 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     const urlParams = { userId, cartId: cartId!, quantity };
     const url = this.occEndpointsService.buildUrl('addEntries', { urlParams });
 
-    // TODO:#object-extensibility-deprecation - should be able to remove  and the `productCode!` assertion and the `eslint-disable-next-line` rule below
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const body: any = { ...options, product: { code: productCode! }, quantity };
+    const body: any = {
+      // TODO:#object-extensibility-deprecation - should be able to remove  and the `productCode!` assertion and the `eslint-disable-next-line` rule below
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      product: { code: productCode! },
+      quantity,
+      ...augmentedOptions,
+    };
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -119,17 +124,18 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     entryNumber?: string | number,
     quantity?: number
   ): Observable<CartModification> {
-    let options: Omit<
+    let augmentedOptions: Omit<
       UpdateEntryOptions,
       'userId' | 'cartId' | 'entryNumber' | 'quantity'
     > = {};
     let userId: string;
 
-    // TODO:#object-extensibility-deprecation - remove the `if` part
+    // TODO:#object-extensibility-deprecation - remove the `if` and its body
     if (typeof optionsOrUserId === 'string') {
       userId = optionsOrUserId;
     } else {
-      ({ userId, cartId, entryNumber, quantity, ...options } = optionsOrUserId);
+      ({ userId, cartId, entryNumber, quantity, ...augmentedOptions } =
+        optionsOrUserId);
     }
 
     const headers = new HttpHeaders({
@@ -141,11 +147,17 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         userId,
         cartId,
         entryNumber,
+        // TODO:#xxx pass the augmented options here, or in the PATCH's body?
+        ...augmentedOptions,
       },
     });
 
     return this.http
-      .patch<CartModification>(url, { quantity, ...options }, { headers })
+      .patch<CartModification>(
+        url,
+        { quantity, ...augmentedOptions },
+        { headers }
+      )
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -171,17 +183,17 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     cartId?: string,
     entryNumber?: string | number
   ): Observable<any> {
-    let options: Omit<
+    let augmentedOptions: Omit<
       UpdateEntryOptions,
       'userId' | 'cartId' | 'entryNumber' | 'quantity'
     > = {};
     let userId: string;
 
-    // TODO:#object-extensibility-deprecation - remove the `if` part
+    // TODO:#object-extensibility-deprecation - remove the `if` and its body
     if (typeof optionsOrUserId === 'string') {
       userId = optionsOrUserId;
     } else {
-      ({ userId, cartId, entryNumber, ...options } = optionsOrUserId);
+      ({ userId, cartId, entryNumber, ...augmentedOptions } = optionsOrUserId);
     }
 
     const headers = new HttpHeaders({
@@ -193,7 +205,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         userId,
         cartId,
         entryNumber,
-        ...options,
+        // TODO:#xxx - pass the augmented options here?
+        ...augmentedOptions,
       },
     });
 

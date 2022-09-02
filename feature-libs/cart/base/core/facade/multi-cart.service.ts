@@ -16,7 +16,12 @@ import {
   RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
-import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
+import {
+  isNotUndefined,
+  omitProps,
+  StateUtils,
+  UserIdService,
+} from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import {
   debounce,
@@ -265,9 +270,18 @@ export class MultiCartService implements MultiCartFacade {
       return;
     }
 
-    // TODO:#xxx - how to pass the rest of the augmented props?
+    const augmentedOptions = omitProps(
+      optionsOrUserId,
+      'cartId',
+      'userId',
+      'productCode',
+      'quantity'
+    );
     this.store.dispatch(
-      new CartActions.CartAddEntry({ options: optionsOrUserId })
+      new CartActions.CartAddEntry({
+        options: optionsOrUserId,
+        ...augmentedOptions,
+      })
     );
   }
 
