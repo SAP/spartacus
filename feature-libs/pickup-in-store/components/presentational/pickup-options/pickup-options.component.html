@@ -32,6 +32,7 @@
           >: <strong>{{ displayPickupLocation }}</strong> |
           <a
             role="button"
+            data-change-store-location-link
             class="cx-action-link"
             (click)="onPickupLocationChange()"
             >{{ 'pickupOptions.changeStore' | cxTranslate }}</a
@@ -41,6 +42,7 @@
           |
           <a
             role="button"
+            data-select-store-location-link
             class="cx-action-link"
             (click)="onPickupLocationChange()"
             >{{ 'pickupOptions.selectStore' | cxTranslate }}</a
