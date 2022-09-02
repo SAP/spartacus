@@ -72,12 +72,13 @@ function prepare_install {
 function clone_repo {
     printh "Cloning Spartacus installation repo."
 
-    echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
-    # ls -l ${BASE_DIR}
     if [ -d "${CLONE_DIR}" ] 
     then
+        echo "Pulling ${CLONE_DIR}. Currently in `pwd`"
         (cd "${CLONE_DIR}"; git fetch; git checkout "${BRANCH}"; git pull --depth 1)
     else
+
+        echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
         git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
     fi
 }
