@@ -51,6 +51,8 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      // Disable automatic scroll restoration to avoid race conditions
+      this.viewportScroller.setHistoryScrollRestoration('manual');
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),

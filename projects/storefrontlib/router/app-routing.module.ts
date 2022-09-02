@@ -16,7 +16,6 @@ import { OnNavigateService } from './on-navigate.service';
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
       initialNavigation: 'enabled',
-      scrollPositionRestoration: 'enabled'
     }),
   ],
   providers: [
