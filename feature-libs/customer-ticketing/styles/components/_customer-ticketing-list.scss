@@ -3,30 +3,6 @@
     @include media-breakpoint-down(lg) {
       display: none;
     }
-
-    thead {
-      border-top: 1px solid var(--cx-color-light);
-
-      th {
-        text-transform: none;
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 20px;
-        color: #000000;
-        text-align: left;
-        padding: 16px 0;
-      }
-    }
-    tbody {
-      tr {
-        td {
-          font-size: 14px;
-          line-height: 20px;
-          color: #000000;
-          padding: 16px 0;
-        }
-      }
-    }
   }
 
   .cx-ticketing-list-mobile {
