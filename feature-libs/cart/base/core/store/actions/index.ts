@@ -5,4 +5,5 @@
  */
 
 import * as CartActions from './cart-group.actions';
+export * from './cart-entry.action.model';
 export { CartActions };

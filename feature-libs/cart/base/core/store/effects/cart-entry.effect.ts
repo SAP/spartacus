@@ -14,7 +14,11 @@ import {
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import { CartActions } from '../actions/index';
+import {
+  CartActions,
+  CartAddEntryFailPayload,
+  CartAddEntryPayload,
+} from '../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
@@ -36,10 +40,7 @@ export class CartEntryEffects {
       concatMap((payload) => {
         return this.cartEntryConnector.add(payload.options).pipe(
           map((cartModification) => {
-            let augmentedOptions: Omit<
-              CartActions.CartAddEntryPayload,
-              'options'
-            > = {};
+            let augmentedOptions: Omit<CartAddEntryPayload, 'options'> = {};
             ({ ...augmentedOptions } = payload);
 
             return new CartActions.CartAddEntrySuccess({
@@ -50,7 +51,7 @@ export class CartEntryEffects {
           }),
           catchError((error) => {
             let augmentedOptions: Omit<
-              CartActions.CartAddEntryFailPayload,
+              CartAddEntryFailPayload,
               'options' | 'error'
             > = {};
             ({ ...augmentedOptions } = payload);

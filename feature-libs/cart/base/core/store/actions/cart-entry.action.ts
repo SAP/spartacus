@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AddEntryOptions,
-  BaseCartOptions,
-  CartModification,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
-} from '@spartacus/cart/base/root';
-import {
-  ActionFailPayload,
-  ActionPayload,
-  ActionSuccessPayload,
-  StateUtils,
-} from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
+import {
+  CartAddEntryFailPayload,
+  CartAddEntryPayload,
+  CartAddEntrySuccessPayload,
+  CartRemoveEntryFailPayload,
+  CartRemoveEntryPayload,
+  CartRemoveEntrySuccessPayload,
+  CartUpdateEntryFailPayload,
+  CartUpdateEntryPayload,
+  CartUpdateEntrySuccessPayload,
+} from './cart-entry.action.model';
 
 // TODO:#xxx - handle breaking changes
 
@@ -31,18 +30,6 @@ export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';
 export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
-
-export interface CartAddEntryPayload
-  extends ActionPayload<BaseCartOptions<AddEntryOptions>> {}
-
-export interface CartAddEntrySuccessPayload
-  extends ActionSuccessPayload<
-    BaseCartOptions<AddEntryOptions>,
-    CartModification
-  > {}
-
-export interface CartAddEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<AddEntryOptions>> {}
 
 export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
@@ -65,14 +52,6 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
   }
 }
 
-export interface CartRemoveEntryPayload
-  extends ActionPayload<BaseCartOptions<RemoveEntryOptions>> {}
-
-export interface CartRemoveEntrySuccessPayload extends CartRemoveEntryPayload {}
-
-export interface CartRemoveEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<RemoveEntryOptions>> {}
-
 export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(public payload: CartRemoveEntryPayload) {
@@ -93,14 +72,6 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
     super(MULTI_CART_DATA, payload.options.cartId);
   }
 }
-
-export interface CartUpdateEntryPayload
-  extends ActionPayload<BaseCartOptions<UpdateEntryOptions>> {}
-
-export interface CartUpdateEntrySuccessPayload extends CartUpdateEntryPayload {}
-
-export interface CartUpdateEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<UpdateEntryOptions>> {}
 
 export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_UPDATE_ENTRY;
