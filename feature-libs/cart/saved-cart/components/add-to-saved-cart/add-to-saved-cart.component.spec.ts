@@ -108,7 +108,7 @@ describe('AddToSavedCartComponent', () => {
     );
   });
 
-  it("should show the 'Save cart for later' button", (done) => {
+  it("should enable the 'Save cart for later' button", (done) => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
@@ -133,7 +133,7 @@ describe('AddToSavedCartComponent', () => {
       });
   });
 
-  it("should hide the 'Save cart for later' button if the cart is an empty object", (done) => {
+  it("should disable the 'Save cart for later' button if the cart is an empty object", (done) => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
@@ -153,7 +153,7 @@ describe('AddToSavedCartComponent', () => {
       });
   });
 
-  it("should hide the 'Save cart for later' button if the cart has no entries", (done) => {
+  it("should disable the 'Save cart for later' button if the cart has no entries", (done) => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
