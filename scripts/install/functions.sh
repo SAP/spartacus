@@ -75,7 +75,7 @@ function clone_repo {
     if [ -d "${CLONE_DIR}" ] 
     then
         echo "Pulling ${CLONE_DIR}. Currently in `pwd`"
-        (cd "${CLONE_DIR}"; git fetch; git checkout "${BRANCH}"; git pull --depth 1)
+        (cd "${CLONE_DIR}"; git fetch; git checkout "${BRANCH}"; git reset --hard origin/${BRANCH}; git pull --depth 1)
     else
 
         echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
