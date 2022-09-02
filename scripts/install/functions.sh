@@ -229,6 +229,7 @@ function run_parallel {
     PCOMMAND="${PCOMMAND:${#SEP}}"
 
     eval $PCOMMAND
+    wait
 }
 
 function run_linear {
