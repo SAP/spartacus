@@ -1,3 +1,4 @@
+%cx-customer-ticketing-create-dialog,
 %cx-customer-ticketing-reopen-dialog {
   background-color: rgba(0, 0, 0, 0.5);
 
@@ -38,6 +39,13 @@
         .cx-customer-ticket-input-hint {
           font-size: 0.75rem;
           font-style: italic;
+          text-align: end;
+          margin-bottom: 0;
+        }
+        .cx-customer-ticket-file-upload-hint {
+          font-size: 0.75rem;
+          font-style: italic;
+          text-align: start;
           margin-bottom: 0;
         }
       }
