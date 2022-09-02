@@ -181,7 +181,7 @@ function create_apps {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
-        printh "Installing csr app"
+        printh "Add csr app"
         create_shell_apps+="create_shell_app ${CSR_APP_NAME}"
         add_spartacus="add_spartacus_csr ${CSR_APP_NAME}"
         patch_app_modules="patch_app_module_ts ${CSR_APP_NAME}"
@@ -189,7 +189,7 @@ function create_apps {
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
-        printh "Installing ssr app"
+        printh "Add ssr app"
         create_shell_apps+="create_shell_app ${SSR_APP_NAME}"
         add_spartacus="add_spartacus_ssr ${SSR_APP_NAME}"
         patch_app_modules="patch_app_module_ts ${SSR_APP_NAME}"
@@ -197,7 +197,7 @@ function create_apps {
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
-        printh "Installing ssr app (with pwa support)"
+        printh "Add ssr app (with pwa support)"
         create_shell_apps+="create_shell_app ${SSR_PWA_APP_NAME}"
         add_spartacus="add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}"
         patch_app_modules="patch_app_module_ts ${SSR_PWA_APP_NAME}"
