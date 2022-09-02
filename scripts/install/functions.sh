@@ -203,10 +203,10 @@ function create_apps {
     run_linear "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
-    run_parallel "${add_spartacus[@]}"
+    run_linear "${add_spartacus[@]}"
 
     printh "Patch App Modules"
-    run_parallel "${patch_app_modules[@]}"
+    run_linear "${patch_app_modules[@]}"
 }
 
 function publish_dist_package {
