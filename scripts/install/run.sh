@@ -52,6 +52,7 @@ FORCE_E2E=false
 SKIP_SANITY=false
 SKIP_E2E=false
 TEST_OUT=""
+CLEAN=false
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 

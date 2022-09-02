@@ -30,6 +30,11 @@ function delete_dir {
 }
 
 function cmd_clean {
+    if [ "$CLEAN" = false ]; then
+       printh "Skipping cleaning old spartacus installation workspace"
+       return
+    fi
+
     printh "Cleaning old spartacus installation workspace"
 
     delete_dir ${BASE_DIR}
@@ -779,6 +784,11 @@ function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
         case $1 in
+            --clean)
+                CLEAN=true
+                echo "➖ Clean"
+                shift
+                ;;
             --skipsanity)
                 SKIP_SANITY=true
                 echo "➖ Skip Sanity Check"
