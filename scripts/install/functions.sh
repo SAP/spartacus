@@ -200,13 +200,13 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    run_linear "${create_shell_apps[@]}"
+    run_parallel "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
     run_parallel "${add_spartacus[@]}"
 
     printh "Patch App Modules"
-    run_linear "${patch_app_modules[@]}"
+    run_parallel "${patch_app_modules[@]}"
 }
 
 function publish_dist_package {
@@ -221,15 +221,19 @@ function publish_package {
     try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
+# Currently not working because of
+# https://stackoverflow.com/questions/44509440/bash-script-cant-wait-for-eval-command-to-finish-when-called-in-a-function
 function run_parallel {
     local SEP=" & "
     local COMMANDS=("${@}")
+    local pid=0
 
     local PCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
     PCOMMAND="${PCOMMAND:${#SEP}}"
 
     eval $PCOMMAND
-    wait
+    pid=$!
+    wait pid
 }
 
 function run_linear {
