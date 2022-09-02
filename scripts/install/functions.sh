@@ -88,7 +88,6 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    printh "Creating shell app"
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
 
@@ -126,7 +125,6 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    printh "Adding spartacus csr"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
@@ -142,7 +140,6 @@ function add_spartacus_csr {
 }
 
 function add_spartacus_ssr {
-    printh "Adding spartacus ssr"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
@@ -158,7 +155,6 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
-    printh "Adding spartacus ssr pwa"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
@@ -390,7 +386,6 @@ function build_ssr_pwa {
 # Can be removed after the routing configuration is added to the schmatics.
 # Also remove the $PATCH_APP_MODULE Flag and the parsing part in parseInstallArgs
 function patch_app_module_ts {
-    printh "Patch App Module"
     if [ "$PATCH_APP_MODULE" = false ]; then
         echo " - Skipped"
         return
