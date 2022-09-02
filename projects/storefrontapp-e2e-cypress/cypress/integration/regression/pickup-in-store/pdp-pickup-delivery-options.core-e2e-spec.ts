@@ -1,4 +1,7 @@
-import { mockLocation, LOCATORS as L } from '../../../helpers/pickup-in-store-utils';
+import {
+  mockLocation,
+  LOCATORS as L,
+} from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Pickup delivery options', () => {
@@ -15,7 +18,11 @@ describe('Pickup delivery options', () => {
     });
 
     it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog witout picking a store. Delivery is selected', () => {
-      cy.get(L.DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
+      cy.get(L.DELIVERY_RADIO_BUTTON).should(
+        'have.attr',
+        'aria-checked',
+        'true'
+      );
       cy.get(L.PICKUP_IN_STORE_RADIO_BUTTON).should(
         'have.attr',
         'aria-checked',
@@ -23,7 +30,11 @@ describe('Pickup delivery options', () => {
       );
       cy.get(L.PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(L.DIALOG_CLOSE).click();
-      cy.get(L.DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
+      cy.get(L.DELIVERY_RADIO_BUTTON).should(
+        'have.attr',
+        'aria-checked',
+        'true'
+      );
     });
 
     it('No store is selected, clicking on BOPIS radio button opens modal, can pick a store, clicking on BOPIS radio no longer opens modal, but clicking on "Select Store" link does open modal', () => {
@@ -43,7 +54,11 @@ describe('Pickup delivery options', () => {
 
     it('should open the pickup locations dialog, and dialog should be closeable', () => {
       cy.get(L.BOPIS_TAG).should('exist');
-      cy.get(L.DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
+      cy.get(L.DELIVERY_RADIO_BUTTON).should(
+        'have.attr',
+        'aria-checked',
+        'true'
+      );
       cy.get(L.PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
       cy.get(L.DIALOG_CLOSE).click();

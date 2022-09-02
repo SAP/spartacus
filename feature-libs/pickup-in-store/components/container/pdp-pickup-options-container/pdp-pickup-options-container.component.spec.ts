@@ -49,8 +49,8 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   );
   getStoreDetails = createSpy();
   loadStoreDetails = createSpy();
-  setPickupOptionDelivery = createSpy();
-  setPickupOptionInStore = createSpy();
+  setPickupOptionToDelivery = createSpy();
+  setPickupOptionToPickupInStore = createSpy();
 }
 
 export class MockCurrentProductService {

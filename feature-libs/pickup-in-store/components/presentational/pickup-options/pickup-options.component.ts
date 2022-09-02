@@ -18,7 +18,7 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
  * The presentational component of a pair of radio buttons for pickup options for a product.
  */
 @Component({
-  selector: 'cx-pickup-delivery-options',
+  selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
 })
 export class PickupOptionsComponent implements OnChanges {

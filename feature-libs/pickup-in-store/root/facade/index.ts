@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './cart.facade';
 export * from './intended-pickup-location.facade';
 export * from './pickup-locations-search.facade';
-export * from './cart.facade';
+export * from './pickup-option.facade';

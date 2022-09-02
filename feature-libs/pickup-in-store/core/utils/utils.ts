@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PointOfServiceStock } from '@spartacus/core';
+import { PointOfServiceStock, Stock } from '@spartacus/core';
 
-export function storeHasStock({ stockInfo }: PointOfServiceStock): boolean {
+export function isInStock(stockInfo: Stock | undefined): boolean {
   return (
     !!stockInfo &&
     stockInfo.stockLevelStatus !== 'outOfStock' &&
     stockInfo.stockLevelStatus !== 'lowStock'
   );
+}
+
+export function storeHasStock({ stockInfo }: PointOfServiceStock): boolean {
+  return isInStock(stockInfo);
 }

@@ -17,7 +17,7 @@ export function mockLocation(
   };
 }
 
-const BOPIS_TAG = 'cx-pickup-delivery-options';
+const BOPIS_TAG = 'cx-pickup-options';
 export const LOCATORS = {
   DELIVERY_RADIO_BUTTON: '#delivery',
   PICKUP_IN_STORE_RADIO_BUTTON: '#pickup',

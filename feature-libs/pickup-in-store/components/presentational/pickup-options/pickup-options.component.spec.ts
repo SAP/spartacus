@@ -131,7 +131,7 @@ describe('PickupOptionsComponent', () => {
  * for the purposes of testing the components that wrap it.
  */
 @Component({
-  selector: 'cx-pickup-delivery-options',
+  selector: 'cx-pickup-options',
   template: '',
 })
 export class PickupOptionsStubComponent {

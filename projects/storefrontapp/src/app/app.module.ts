@@ -84,7 +84,7 @@ if (!environment.production) {
     }),
     provideConfig(<FeaturesConfig>{
       features: {
-        level: '5.2',
+        level: '5.1',
       },
     }),
   ],

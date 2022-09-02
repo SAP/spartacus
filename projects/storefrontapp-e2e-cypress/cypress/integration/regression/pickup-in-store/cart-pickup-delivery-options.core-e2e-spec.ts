@@ -1,6 +1,7 @@
 import { mockLocation, LOCATORS as L } from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
 
+
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
