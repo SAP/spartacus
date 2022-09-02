@@ -200,7 +200,7 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    run_linear "${create_shell_apps[@]}"
+    run_parallel "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
     run_linear "${add_spartacus[@]}"
