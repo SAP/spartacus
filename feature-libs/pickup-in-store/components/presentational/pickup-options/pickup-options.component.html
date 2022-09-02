@@ -3,7 +3,7 @@
     <input
       type="radio"
       role="radio"
-      id="delivery"
+      data-pickup="delivery"
       value="delivery"
       (click)="onPickupOptionChange('delivery')"
       formControlName="pickupOption"
@@ -18,7 +18,7 @@
     <input
       type="radio"
       role="radio"
-      id="pickup"
+      data-pickup="pickup"
       value="pickup"
       (click)="onPickupOptionChange('pickup')"
       formControlName="pickupOption"
@@ -29,7 +29,7 @@
       <p>
         {{ 'pickupOptions.pickup' | cxTranslate
         }}<ng-container *ngIf="displayPickupLocation; else selectStore"
-          >: <strong>{{ displayPickupLocation }}</strong> |
+          >: <strong [attr.data-pickup-location]="displayPickupLocation">{{ displayPickupLocation }}</strong> |
           <a
             role="button"
             data-change-store-location-link
