@@ -200,7 +200,7 @@ function create_apps {
     fi
 
     printh "Install Shell Apps"
-    run_parallel "${create_shell_apps[@]}"
+    run_linear "${create_shell_apps[@]}"
 
     printh "Add Spartacus"
     run_parallel "${add_spartacus[@]}"
@@ -231,6 +231,18 @@ function run_parallel {
     eval $PCOMMAND
     wait
 }
+
+function run_linear {
+    local SEP=" && "
+    local COMMANDS=("${@}")
+
+    local PCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
+    PCOMMAND="${PCOMMAND:${#SEP}}"
+
+    eval $PCOMMAND
+    wait
+}
+
 
 function try_command {
     local ERRORMSG=${1};
