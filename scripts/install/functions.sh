@@ -229,17 +229,16 @@ function run_parallel {
     PCOMMAND="${PCOMMAND:${#SEP}}"
 
     eval $PCOMMAND
-    wait
 }
 
 function run_linear {
     local SEP=" && "
     local COMMANDS=("${@}")
 
-    local PCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
-    PCOMMAND="${PCOMMAND:${#SEP}}"
+    local LCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
+    LCOMMAND="${LCOMMAND:${#SEP}}"
 
-    eval $PCOMMAND
+    eval $LCOMMAND
 }
 
 
