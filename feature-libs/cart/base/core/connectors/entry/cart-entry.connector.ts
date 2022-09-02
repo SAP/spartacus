@@ -50,7 +50,7 @@ export class CartEntryConnector {
     if (typeof options !== 'string') {
       return this.adapter.add(options);
     }
-    // TODO:#object-extensibility-deprecation - remove this return statement
+    // TODO:#object-extensibility-deprecation - remove
     return this.adapter.add(options, cartId ?? '', productCode ?? '', quantity);
   }
 

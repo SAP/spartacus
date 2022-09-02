@@ -328,7 +328,7 @@ export class MultiCartService implements MultiCartFacade {
   removeEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | BaseCartOptions<UpdateEntryOptions>
+      | BaseCartOptions<RemoveEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
@@ -350,8 +350,17 @@ export class MultiCartService implements MultiCartFacade {
       return;
     }
 
+    const augmentedOptions = omitProps(
+      optionsOrUserId,
+      'cartId',
+      'userId',
+      'entryNumber'
+    );
     this.store.dispatch(
-      new CartActions.CartRemoveEntry({ options: optionsOrUserId })
+      new CartActions.CartRemoveEntry({
+        options: optionsOrUserId,
+        ...augmentedOptions,
+      })
     );
   }
 
@@ -408,9 +417,18 @@ export class MultiCartService implements MultiCartFacade {
     }
 
     if (optionsOrUserId.quantity || 0 > 0) {
-      // TODO:#xxx - how to pass the rest of the augmented props?
+      const augmentedOptions = omitProps(
+        optionsOrUserId,
+        'cartId',
+        'userId',
+        'entryNumber',
+        'quantity'
+      );
       this.store.dispatch(
-        new CartActions.CartUpdateEntry({ options: optionsOrUserId })
+        new CartActions.CartUpdateEntry({
+          options: optionsOrUserId,
+          ...augmentedOptions,
+        })
       );
     } else {
       this.removeEntry(optionsOrUserId);
