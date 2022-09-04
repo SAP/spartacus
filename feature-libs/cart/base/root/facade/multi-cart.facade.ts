@@ -174,15 +174,28 @@ export abstract class MultiCartFacade {
   /**
    * Add multiple entries to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(userId: string,cartId: string,options: AddEntryOptions[])`.
+   *
    * @param userId
    * @param cartId
    * @param products Array with items (productCode and quantity)
    */
-  // TODO:#xxx - do this as well
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntries(
     userId: string,
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
+  ): void;
+  /**
+   * Add multiple entries to cart
+   */
+  abstract addEntries(
+    userId: string,
+    cartId: string,
+    // TODO:#object-extensibility-deprecation - remove the eslint on the next line
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    options: AddEntryOptions[]
   ): void;
 
   /**

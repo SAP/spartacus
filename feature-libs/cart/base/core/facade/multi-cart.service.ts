@@ -296,15 +296,22 @@ export class MultiCartService implements MultiCartFacade {
     userId: string,
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
+  ): void;
+  addEntries(
+    userId: string,
+    cartId: string,
+    options:
+      | AddEntryOptions[]
+      // TODO:#object-extensibility-deprecation - remove
+      | Array<{ productCode: string; quantity: number }>
   ): void {
-    products.forEach((product) => {
+    options.forEach((option) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
           options: {
             userId,
             cartId,
-            productCode: product.productCode,
-            quantity: product.quantity,
+            ...option,
           },
         })
       );

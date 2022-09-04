@@ -290,10 +290,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Adds entries from guest cart to user cart
    */
   protected addEntriesGuestMerge(cartEntries: OrderEntry[]) {
-    const entriesToAdd = cartEntries.map((entry) => ({
-      productCode: entry.product?.code ?? '',
-      quantity: entry.quantity ?? 0,
-    }));
+    const entriesToAdd = cartEntries.map(
+      (entry) =>
+        <AddEntryOptions>{
+          productCode: entry.product?.code ?? '',
+          quantity: entry.quantity ?? 0,
+        }
+    );
     this.requireLoadedCart(true)
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
@@ -567,10 +570,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void {
-    const entriesToAdd = cartEntries.map((entry) => ({
-      productCode: entry.product?.code ?? '',
-      quantity: entry.quantity ?? 0,
-    }));
+    const entriesToAdd = cartEntries.map(
+      (entry) =>
+        <AddEntryOptions>{
+          productCode: entry.product?.code ?? '',
+          quantity: entry.quantity ?? 0,
+        }
+    );
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
