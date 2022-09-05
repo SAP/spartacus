@@ -22,7 +22,9 @@ export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   @Output()
   inputChange = new EventEmitter<ConfiguratorTextfield.ConfigurationInfo>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.configurationValue);

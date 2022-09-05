@@ -47,7 +47,9 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
   }
 
   // empty, but sub classes might have an implementation
-  ngOnChanges(_changes: SimpleChanges): void {}
+  ngOnChanges(_changes: SimpleChanges): void {
+    // Intentional empty method
+  }
 
   /**
    * Override the (input) config if it undefined or an empty string, with the

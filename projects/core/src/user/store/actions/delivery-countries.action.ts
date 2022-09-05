@@ -9,7 +9,9 @@ export const LOAD_DELIVERY_COUNTRIES_SUCCESS =
 
 export class LoadDeliveryCountries implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export class LoadDeliveryCountriesFail implements Action {

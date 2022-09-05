@@ -61,7 +61,9 @@ export class ResetLoadAnonymousConsentTemplates extends StateUtils.LoaderResetAc
 
 export class GetAllAnonymousConsents {
   readonly type = GET_ALL_ANONYMOUS_CONSENTS;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export class GetAnonymousConsent {
@@ -96,7 +98,9 @@ export class ToggleAnonymousConsentTemplatesUpdated {
 
 export class AnonymousConsentCheckUpdatedVersions {
   readonly type = ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export type AnonymousConsentsActions =

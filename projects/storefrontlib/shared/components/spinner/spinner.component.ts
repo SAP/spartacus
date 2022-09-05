@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './spinner.component.html',
 })
 export class SpinnerComponent {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }

@@ -29,7 +29,7 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
+    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
       if (this.googleMap === null) {
         this.scriptLoader.embedScript({
           src: this.config.googleMaps.apiUrl,
@@ -42,6 +42,7 @@ export class GoogleMapRendererService {
       } else {
         this.drawMap(mapElement, locations, selectMarkerHandler);
       }
+    }
   }
 
   /**

@@ -3,5 +3,7 @@ import { SiteContextEventBuilder } from './site-context-event.builder';
 
 @NgModule({})
 export class SiteContextEventModule {
-  constructor(_siteContextEventBuilder: SiteContextEventBuilder) {}
+  constructor(_siteContextEventBuilder: SiteContextEventBuilder) {
+    // Intentional empty constructor
+  }
 }

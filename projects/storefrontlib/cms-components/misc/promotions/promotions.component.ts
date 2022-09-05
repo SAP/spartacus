@@ -10,5 +10,7 @@ export class PromotionsComponent {
   @Input()
   promotions: Promotion[];
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }

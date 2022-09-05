@@ -8,7 +8,9 @@ import { OrderApprovalDecision } from '../../core/model/order-approval.model';
 export class OccOrderApprovalDecisionNormalizer
   implements Converter<Occ.OrderApprovalDecision, OrderApprovalDecision>
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(
     source: Occ.OrderApprovalDecision,
