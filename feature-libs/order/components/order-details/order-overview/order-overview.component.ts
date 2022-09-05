@@ -36,7 +36,7 @@ export class OrderOverviewComponent implements OnInit {
   set setOrder(order: any) {
     this.order = order;
   }
-  isUserOrgUnitViewer: boolean;
+  isUserOrgUnitViewer: Observable<boolean | undefined>;
 
   constructor(
     protected translation: TranslationService,
@@ -44,11 +44,13 @@ export class OrderOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userAccountFacade.get().subscribe((user: User | undefined) => {
-      this.isUserOrgUnitViewer = !!user?.roles?.includes(
-        B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER
+    this.isUserOrgUnitViewer = this.userAccountFacade
+      .get()
+      .pipe(
+        map((user: User | undefined) =>
+          user?.roles?.includes(B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER)
+        )
       );
-    });
   }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
