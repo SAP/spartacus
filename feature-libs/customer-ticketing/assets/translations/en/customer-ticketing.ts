@@ -15,6 +15,12 @@ export const customerTicketing = {
     uploadFile: 'Upload File',
     fileSizeLimit: 'File Size Limit: {{count}}MB',
     maximumAttachment: 'Maximum of one attachment per message',
+    createNewTicket: 'Add',
+    addNewRequest: 'Add New Request',
+    subject: 'Subject',
+    category: 'Category',
+    associateTo: 'Associate To',
+    attachments: 'Attachments',
   },
 
   customerTicketingList: {
