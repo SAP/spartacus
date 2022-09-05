@@ -15,7 +15,11 @@ import {
   RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  HttpPayload,
+  OccEndpointsService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -108,7 +112,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     userId: string,
     cartId: string,
     entryNumber: string | number,
-    quantity: number
+    quantity: number,
+    pickupStore?: string
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
   public update(
@@ -118,47 +123,75 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
       | BaseCartOptions<UpdateEntryOptions>
-      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
     entryNumber?: string | number,
-    quantity?: number
+    quantity?: number,
+    pickupStore?: string
   ): Observable<CartModification> {
-    let augmentedOptions: Omit<
-      UpdateEntryOptions,
-      'userId' | 'cartId' | 'entryNumber' | 'quantity'
-    > = {};
-    let userId: string;
-
-    // TODO:#object-extensibility-deprecation - remove the `if` and its body
+    // TODO:#object-extensibility-deprecation - remove the whole if-block
     if (typeof optionsOrUserId === 'string') {
-      userId = optionsOrUserId;
-    } else {
-      ({ userId, cartId, entryNumber, quantity, ...augmentedOptions } =
-        optionsOrUserId);
+      let params = {};
+      if (pickupStore) {
+        params = {
+          deliveryPointOfService: {
+            name: pickupStore,
+          },
+        };
+      }
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+
+      const url = this.occEndpointsService.buildUrl('updateEntries', {
+        urlParams: {
+          userId: optionsOrUserId,
+          cartId,
+          entryNumber,
+        },
+      });
+
+      return this.http
+        .patch<CartModification>(url, { quantity, ...params }, { headers })
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
 
+    const { body, urlParams } = this.createUpdateOptions(optionsOrUserId);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
     const url = this.occEndpointsService.buildUrl('updateEntries', {
+      urlParams,
+    });
+
+    return this.http
+      .patch<CartModification>(url, body, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  /**
+   * Creates HTTP's body and URL params based on
+   * the provided options.
+   */
+  protected createUpdateOptions(
+    options: BaseCartOptions<UpdateEntryOptions>
+  ): HttpPayload {
+    const { userId, cartId, entryNumber, quantity, ...augmentedOptions } =
+      options;
+
+    return {
+      body: {
+        quantity,
+        ...augmentedOptions,
+      },
       urlParams: {
         userId,
         cartId,
         entryNumber,
-        // TODO:#xxx pass the augmented options here, or in the PATCH's body?
-        ...augmentedOptions,
       },
-    });
-
-    return this.http
-      .patch<CartModification>(
-        url,
-        { quantity, ...augmentedOptions },
-        { headers }
-      )
-      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+    };
   }
 
   /**

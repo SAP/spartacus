@@ -122,3 +122,14 @@ export interface BaseSite {
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
 }
+
+/**
+ * Used when creating OCC HTTP calls.
+ *
+ * Properties from `body` are put into the HTTP's body,
+ * while the `urlParams` are used as HTTP parameters.
+ */
+export interface HttpPayload<BODY = object, PARAMS = object> {
+  body: BODY;
+  urlParams: PARAMS;
+}

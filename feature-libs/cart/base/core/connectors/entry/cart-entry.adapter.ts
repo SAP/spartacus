@@ -54,7 +54,8 @@ export abstract class CartEntryAdapter {
     userId: string,
     cartId: string,
     entryNumber: string | number,
-    qty: number
+    qty: number,
+    pickupStore?: string
   ): Observable<CartModification>;
   /**
    * Abstract method used to update entry in cart
