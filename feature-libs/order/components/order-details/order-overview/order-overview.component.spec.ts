@@ -500,20 +500,23 @@ describe('OrderOverviewComponent', () => {
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
-    it('should call getBuyerNameCardContent(placedBy: string)', () => {
+    it('should call getBuyerNameCardContent(customer: B2BUser)', () => {
       spyOn(component, 'getBuyerNameCardContent').and.callThrough();
 
       component
-        .getBuyerNameCardContent(mockOrder.orgCustomer?.name)
+        .getBuyerNameCardContent(mockOrder.orgCustomer)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
-          expect(data.text).toEqual([mockOrder.orgCustomer?.name]);
+          expect(data.text).toEqual([
+            mockOrder.orgCustomer?.name,
+            '(' + mockOrder.orgCustomer?.uid + ')',
+          ]);
         })
         .unsubscribe();
 
       expect(component.getBuyerNameCardContent).toHaveBeenCalledWith(
-        mockOrder.orgCustomer?.name
+        mockOrder.orgCustomer
       );
     });
 

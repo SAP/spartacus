@@ -58,7 +58,8 @@
 
         <cx-card
           *ngIf="isUserOrgUnitViewer"
-          [content]="getBuyerNameCardContent(order?.orgCustomer?.name) | async"
+          class="display-inline"
+          [content]="getBuyerNameCardContent(order?.orgCustomer) | async"
         ></cx-card>
       </div>
     </ng-template>
