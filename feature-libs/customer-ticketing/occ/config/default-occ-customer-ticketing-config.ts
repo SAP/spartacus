@@ -5,6 +5,7 @@ export const defaultOccCustomerTicketingConfig: OccConfig = {
     occ: {
       endpoints: {
         getTicket: 'users/${customerId}/tickets/${ticketId}',
+        getTickets: 'users/${customerId}/tickets',
       },
     },
   },
