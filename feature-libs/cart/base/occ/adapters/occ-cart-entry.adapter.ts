@@ -50,56 +50,120 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
       | BaseCartOptions<AddEntryOptions>
-      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
     productCode?: string,
     quantity?: number
   ): Observable<CartModification> {
-    let augmentedOptions: Omit<
-      AddEntryOptions,
-      'userId' | 'cartId' | 'productCode' | 'quantity'
-    > = {};
-    let userId: string;
-
-    // TODO:#object-extensibility-deprecation - remove the `if` and its body
+    // TODO:#object-extensibility-deprecation - remove the whole if-block
     if (typeof optionsOrUserId === 'string') {
-      userId = optionsOrUserId;
-    } else {
-      ({ userId, cartId, productCode, quantity, ...augmentedOptions } =
-        optionsOrUserId);
+      const url = this.occEndpointsService.buildUrl('addEntries', {
+        urlParams: { userId: optionsOrUserId, cartId, quantity },
+      });
+
+      // Handle b2b case where the x-www-form-urlencoded is still used
+      if (url.includes(`quantity=${quantity}`)) {
+        const httpHeaders = new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded',
+        });
+
+        return this.http
+          .post<CartModification>(
+            url,
+            {},
+            {
+              headers: httpHeaders,
+              params: {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                code: productCode!,
+              },
+            }
+          )
+          .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+      }
+
+      const toAdd = {
+        quantity,
+        product: { code: productCode },
+      };
+
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+
+      return this.http
+        .post<CartModification>(url, toAdd, { headers })
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
 
-    quantity = quantity || 1;
-
-    // TODO:#object-extensibility-deprecation - should be able to remove `cartId!` assertion and the `eslint-disable-next-line` rule below
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const urlParams = { userId, cartId: cartId!, quantity };
-    const url = this.occEndpointsService.buildUrl('addEntries', { urlParams });
-
-    const body: any = {
-      // TODO:#object-extensibility-deprecation - should be able to remove  and the `productCode!` assertion and the `eslint-disable-next-line` rule below
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      product: { code: productCode! },
-      quantity,
-      ...augmentedOptions,
-    };
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    const { urlParams, body } = this.createAddOptions(optionsOrUserId);
+    const url = this.occEndpointsService.buildUrl('addEntries', {
+      urlParams,
     });
 
     // Handle b2b case where the x-www-form-urlencoded is still used
     if (url.includes(`quantity=${quantity}`)) {
-      headers = new HttpHeaders({
+      const httpHeaders = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       });
-      // we don't want to send the quantity twice
-      delete body.quantity;
+
+      return this.http
+        .post<CartModification>(
+          url,
+          {},
+          {
+            headers: httpHeaders,
+            params: {
+              code:
+                // TODO:#object-extensibility-deprecation - should be able to remove  and the `productCode!` assertion and the `eslint-disable-next-line` rule below
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                productCode!,
+            },
+          }
+        )
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
 
     return this.http
       .post<CartModification>(url, body, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  /**
+   * Creates HTTP's body and URL params
+   * based on the provided options.
+   * for the `add` functionality
+   */
+  protected createAddOptions(
+    options: BaseCartOptions<AddEntryOptions>
+  ): HttpPayload {
+    const {
+      userId,
+      cartId,
+      productCode,
+      quantity = 1,
+      ...augmentedOptions
+    } = options;
+
+    return {
+      urlParams: {
+        userId,
+        cartId,
+        quantity,
+      },
+      body: {
+        quantity,
+        product: {
+          code: productCode,
+        },
+        ...augmentedOptions,
+      },
+    };
   }
 
   /**
@@ -158,7 +222,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
 
-    const { body, urlParams } = this.createUpdateOptions(optionsOrUserId);
+    const { urlParams, body } = this.createUpdateOptions(optionsOrUserId);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -172,8 +236,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   }
 
   /**
-   * Creates HTTP's body and URL params based on
-   * the provided options.
+   * Creates HTTP's body and URL params
+   * based on the provided options.
+   * for the `update` functionality
    */
   protected createUpdateOptions(
     options: BaseCartOptions<UpdateEntryOptions>
@@ -182,14 +247,14 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       options;
 
     return {
-      body: {
-        quantity,
-        ...augmentedOptions,
-      },
       urlParams: {
         userId,
         cartId,
         entryNumber,
+      },
+      body: {
+        quantity,
+        ...augmentedOptions,
       },
     };
   }

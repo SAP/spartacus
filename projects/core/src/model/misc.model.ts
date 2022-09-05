@@ -129,7 +129,9 @@ export interface BaseSite {
  * Properties from `body` are put into the HTTP's body,
  * while the `urlParams` are used as HTTP parameters.
  */
-export interface HttpPayload<BODY = object, PARAMS = object> {
-  body: BODY;
-  urlParams: PARAMS;
+// TODO:#xxx - rename to RequestOptions?
+export interface HttpPayload {
+  urlParams: object;
+  body: object;
+  queryParams?: object;
 }
