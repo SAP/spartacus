@@ -912,7 +912,7 @@ function print_times {
     local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
-    TIME_MEASUREMENT_TITLES+=("Installation finished in \033[32m${ELAPSED}s\033[m\t.")
+    printf "Installation finished in \033[32m${ELAPSED}s\033[m\t."
 }
                                                                       
 #  _____ _____ _____ _____ _____ __ __    _____ _____ _____ _____ _____ 
