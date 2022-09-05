@@ -6,6 +6,8 @@ TEST_RESULTS_B2B=()
 TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
+HAS_XVFB_INSTALLED=false
+HAS_GNU_PARALLEL_INSTALLED=false
 
 # Prints header
 function printh {
@@ -210,13 +212,27 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    run_linear "${create_shell_apps[@]}"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        run_parallel "${create_shell_apps[@]}"
+    else
+        run_linear "${create_shell_apps[@]}"
+    fi
+    
 
     printh "Add Spartacus"
-    run_linear "${add_spartacus[@]}"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        run_parallel "${add_spartacus[@]}"
+    else
+        run_linear "${add_spartacus[@]}"
+    fi
+    
 
     printh "Patch App Modules"
-    run_linear "${patch_app_modules[@]}"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        run_parallel "${patch_app_modules[@]}"
+    else
+        run_linear "${patch_app_modules[@]}"
+    fi
 }
 
 function publish_dist_package {
@@ -231,22 +247,14 @@ function publish_package {
     try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
-# Currently not working because of
-# https://stackoverflow.com/questions/44509440/bash-script-cant-wait-for-eval-command-to-finish-when-called-in-a-function
 function run_parallel {
-    local SEP=" & "
+    echo "⇶ Running in parallel [fast]"
     local COMMANDS=("${@}")
-    local pid=0
-
-    local PCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
-    PCOMMAND="${PCOMMAND:${#SEP}}"
-
-    eval $PCOMMAND
-    pid=$!
-    wait pid
+    parallel -k --ungroup eval ::: "${commands[@]}"
 }
 
 function run_linear {
+    echo "→ Running linear [slow]"
     local SEP=" && "
     local COMMANDS=("${@}")
 
@@ -255,7 +263,6 @@ function run_linear {
 
     eval $LCOMMAND
 }
-
 
 function try_command {
     local ERRORMSG=${1};
@@ -284,6 +291,8 @@ function restore_clone {
 }
 
 function install_from_sources {
+    run_system_check
+
     run_sanity_check
 
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
@@ -368,6 +377,8 @@ function install_from_sources {
 }
 
 function install_from_npm {
+    run_system_check
+
     run_sanity_check
 
     printh "Installing Spartacus from npm libraries"
@@ -610,13 +621,10 @@ function run_e2e {
         return 0
     fi
 
-    local EXIT_CODE_XVFB=0
-    command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
-    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_B2B" = false ]] ; then
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_B2B" = false ]] ; then
         echo "⏩️ E2E skipped (xvfb is missing)."
         return 0
     fi
-
 
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
@@ -638,9 +646,7 @@ function run_e2e_b2b {
         return 0
     fi
 
-    local EXIT_CODE_XVFB=0
-    command -v xvfb-run &> /dev/null || EXIT_CODE_XVFB=$?
-    if [ $EXIT_CODE_XVFB -ne 0 ] && [[ "$FORCE_E2E" = false ]] ; then
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_E2E" = false ]] ; then
         echo "⏩️ B2B E2E skipped (xvfb is missing)."
         return 0
     fi
@@ -715,6 +721,27 @@ function print_times {
 }
 
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
+function run_system_check {
+    printh "Checking system"
+    local EXIT_CODE
+
+
+    HAS_XVFB_INSTALLED=false
+    EXIT_CODE=0
+    command -v xvfb-run &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_XVFB_INSTALLED=true
+    fi
+
+    HAS_GNU_PARALLEL_INSTALLED=false
+    EXIT_CODE=0
+    command -v parallel &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_GNU_PARALLEL_INSTALLED=true
+    fi
+
+}
 
 function run_sanity_check {
     if [ "$SKIP_SANITY" = true ]; then
