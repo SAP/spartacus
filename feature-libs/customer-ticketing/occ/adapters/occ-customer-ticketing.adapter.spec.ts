@@ -71,4 +71,33 @@ describe('OccCustomerTicketingAdapter', () => {
       mockReq.flush(mockTicketiDetails);
     });
   });
+
+  describe('getTickets', () => {
+    it('should get tickets for the given customer id', (done) => {
+      const mockTicketList = {
+        tickets: [
+          {
+            id: '1',
+            subject: 'mockTicket',
+          },
+        ],
+      };
+
+      service
+        .getTickets(mockCustomerId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockTicketList);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === `users/${mockCustomerId}/tickets`;
+      });
+      
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockTicketList);
+    });
+  }
 });
