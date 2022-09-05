@@ -522,7 +522,7 @@ function start_windows_apps {
     build_csr
     concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
-                                      
+
 #  _____ _____ _____ _____    _____ _____ _____ _____ 
 # |   __|_   _|     |  _  |  |  _  |  _  |  _  |   __|
 # |__   | | | |  |  |   __|  |     |   __|   __|__   |
@@ -908,6 +908,11 @@ function print_times {
     do
         printf " ┕ $MEASURMENT\n"
     done
+
+    local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    TIME_MEASUREMENT_TITLES+=("Installation finished in \033[32m${ELAPSED}s\033[m\t.")
 }
                                                                       
 #  _____ _____ _____ _____ _____ __ __    _____ _____ _____ _____ _____ 
