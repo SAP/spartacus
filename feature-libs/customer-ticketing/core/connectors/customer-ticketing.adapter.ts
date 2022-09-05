@@ -1,4 +1,4 @@
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketList } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 
 export abstract class CustomerTicketingAdapter {
@@ -6,4 +6,6 @@ export abstract class CustomerTicketingAdapter {
     customerId: string,
     ticketId: string
   ): Observable<TicketDetails>;
+
+  abstract getTickets(customerId: string): Observable<TicketList>;
 }

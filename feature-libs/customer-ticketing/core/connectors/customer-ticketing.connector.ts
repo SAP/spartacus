@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketList } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
 
@@ -12,5 +12,9 @@ export class CustomerTicketingConnector {
     ticketId: string
   ): Observable<TicketDetails> {
     return this.adapter.getTicket(customerId, ticketId);
+  }
+
+  public getTickets(customerId: string): Observable<TicketList> {
+    return this.adapter.getTickets(customerId);
   }
 }
