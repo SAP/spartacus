@@ -345,28 +345,28 @@ function add_spartacus_ssr_pwa {
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
-        ng add --package-manager npm --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --package-manager npm --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
+        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
     fi
 }
 
 function add_cdc {
   if [ "$ADD_CDC" = true ] ; then
-        ng add --package-manager npm --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
     fi
 }
 
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add --package-manager npm --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
     fi
 }
 
 function add_product_configurator {
-    ng add --package-manager npm --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
+    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        ng add --package-manager npm --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
+        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
     fi
 }
 
