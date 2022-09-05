@@ -54,19 +54,8 @@ export class ConfiguratorCartEffects {
                 }),
 
                 new CartActions.CartAddEntrySuccess({
-                  options: {
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                    productCode: payload.productCode,
-                    quantity: payload.quantity,
-                  },
-                  result: {
-                    deliveryModeChanged: entry.deliveryModeChanged,
-                    entry: entry.entry,
-                    quantityAdded: entry.quantityAdded,
-                    statusCode: entry.statusCode,
-                    statusMessage: entry.statusMessage,
-                  },
+                  options: payload,
+                  result: entry,
                   ...entry,
                 }),
               ];
@@ -75,12 +64,7 @@ export class ConfiguratorCartEffects {
           catchError((error) =>
             of(
               new CartActions.CartAddEntryFail({
-                options: {
-                  userId: payload.userId,
-                  cartId: payload.cartId,
-                  productCode: payload.productCode,
-                  quantity: payload.quantity,
-                },
+                options: payload,
                 error:
                   error instanceof HttpErrorResponse
                     ? normalizeHttpError(error)
@@ -108,8 +92,7 @@ export class ConfiguratorCartEffects {
                 return [
                   new CartActions.CartUpdateEntrySuccess({
                     options: {
-                      userId: payload.userId,
-                      cartId: payload.cartId,
+                      ...payload,
                       entryNumber: Number(payload.cartEntryNumber),
                       quantity: cartModification.quantity,
                     },
@@ -120,8 +103,7 @@ export class ConfiguratorCartEffects {
                 of(
                   new CartActions.CartUpdateEntryFail({
                     options: {
-                      userId: payload.userId,
-                      cartId: payload.cartId,
+                      ...payload,
                       entryNumber: Number(payload.cartEntryNumber),
                     },
                     error: normalizeHttpError(error),
