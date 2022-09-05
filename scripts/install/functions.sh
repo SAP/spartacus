@@ -248,7 +248,7 @@ function create_apps {
     exec_linear "${create_shell_apps[@]}"
     
     printh "Add Spartacus"
-    exec_linear "${add_spartacus[@]}"
+    run_parallel "${add_spartacus[@]}"
     
     printh "Patch App Modules"
     exec_linear "${patch_app_modules[@]}"
@@ -294,6 +294,8 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
+    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    mkdir YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
@@ -309,6 +311,8 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
+    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    mkdir YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
@@ -324,6 +328,8 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
+    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    mkdir YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
