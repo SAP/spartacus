@@ -102,6 +102,8 @@ function update_projects_versions {
 function create_shell_app {
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
+# export for parallel execution
+export -f create_shell_app
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
@@ -150,6 +152,8 @@ function add_spartacus_csr {
     add_product_configurator
     )
 }
+# export for parallel execution
+export -f add_spartacus_csr
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
@@ -165,6 +169,8 @@ function add_spartacus_ssr {
     add_product_configurator
     )
 }
+# export for parallel execution
+export -f add_spartacus_ssr
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
@@ -180,6 +186,8 @@ function add_spartacus_ssr_pwa {
     add_product_configurator
     )
 }
+# export for parallel execution
+export -f add_spartacus_ssr_pwa
 
 function create_apps {
     local create_shell_apps=()
