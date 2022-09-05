@@ -35,3 +35,28 @@ export interface Event {
   message?: string;
   toStatus?: Status;
 }
+export interface TicketList {
+  pagination?: Pagination;
+  sorts?: Array<Sort>;
+  tickets?: Array<TicketDetails>;
+}
+
+export interface Sort {
+  selected?: boolean;
+  name?: string;
+  code?: string;
+}
+
+export interface Pagination {
+  currentPage?: number;
+  pageSize?: number;
+  sort?: string;
+  totalPages?: number;
+  totalResults?: number;
+}
+
+export interface TicketSearchConfig {
+  pageSize?: number;
+  currentPage?: number;
+  sort?: string;
+}
