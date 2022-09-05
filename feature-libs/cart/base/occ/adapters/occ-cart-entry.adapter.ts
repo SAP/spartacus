@@ -135,9 +135,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   }
 
   /**
-   * Creates HTTP's body and URL params
-   * based on the provided options.
-   * for the `add` functionality
+   * Creates HTTP's request options for the `add` functionality
    */
   protected createAddOptions(
     options: BaseCartOptions<AddEntryOptions>
@@ -236,9 +234,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   }
 
   /**
-   * Creates HTTP's body and URL params
-   * based on the provided options.
-   * for the `update` functionality
+   * Creates HTTP's request options for the `update` functionality
    */
   protected createUpdateOptions(
     options: BaseCartOptions<UpdateEntryOptions>
@@ -276,38 +272,55 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
       | BaseCartOptions<RemoveEntryOptions>
-      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
     entryNumber?: string | number
   ): Observable<any> {
-    let augmentedOptions: Omit<
-      UpdateEntryOptions,
-      'userId' | 'cartId' | 'entryNumber' | 'quantity'
-    > = {};
-    let userId: string;
-
-    // TODO:#object-extensibility-deprecation - remove the `if` and its body
+    // TODO:#object-extensibility-deprecation - remove the whole if-block
     if (typeof optionsOrUserId === 'string') {
-      userId = optionsOrUserId;
-    } else {
-      ({ userId, cartId, entryNumber, ...augmentedOptions } = optionsOrUserId);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+
+      const url = this.occEndpointsService.buildUrl('removeEntries', {
+        urlParams: {
+          userId: optionsOrUserId,
+          cartId,
+          entryNumber,
+        },
+      });
+
+      return this.http.delete(url, { headers });
     }
 
+    const { urlParams, body } = this.createRemoveOptions(optionsOrUserId);
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     const url = this.occEndpointsService.buildUrl('removeEntries', {
+      urlParams,
+    });
+
+    return this.http.delete(url, { headers, body });
+  }
+
+  /**
+   * Creates HTTP's request options for the `remove` functionality
+   */
+  protected createRemoveOptions(
+    options: BaseCartOptions<RemoveEntryOptions>
+  ): HttpPayload {
+    const { userId, cartId, entryNumber, ...augmentedOptions } = options;
+
+    return {
       urlParams: {
         userId,
         cartId,
         entryNumber,
-        // TODO:#xxx - pass the augmented options here?
-        ...augmentedOptions,
       },
-    });
-
-    return this.http.delete(url, { headers });
+      body: augmentedOptions,
+    };
   }
 }
