@@ -141,5 +141,6 @@ export interface HttpOptions {
     | Record<
         string,
         string | number | boolean | ReadonlyArray<string | number | boolean>
-      >;
+      >
+    | object;
 }
