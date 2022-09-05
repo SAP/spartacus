@@ -16,12 +16,7 @@ import {
   RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
-import {
-  isNotUndefined,
-  omitProps,
-  StateUtils,
-  UserIdService,
-} from '@spartacus/core';
+import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import {
   debounce,
@@ -270,17 +265,9 @@ export class MultiCartService implements MultiCartFacade {
       return;
     }
 
-    const augmentedOptions = omitProps(
-      optionsOrUserId,
-      'cartId',
-      'userId',
-      'productCode',
-      'quantity'
-    );
     this.store.dispatch(
       new CartActions.CartAddEntry({
         options: optionsOrUserId,
-        ...augmentedOptions,
       })
     );
   }
@@ -357,16 +344,9 @@ export class MultiCartService implements MultiCartFacade {
       return;
     }
 
-    const augmentedOptions = omitProps(
-      optionsOrUserId,
-      'cartId',
-      'userId',
-      'entryNumber'
-    );
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
         options: optionsOrUserId,
-        ...augmentedOptions,
       })
     );
   }
@@ -424,17 +404,9 @@ export class MultiCartService implements MultiCartFacade {
     }
 
     if (optionsOrUserId.quantity || 0 > 0) {
-      const augmentedOptions = omitProps(
-        optionsOrUserId,
-        'cartId',
-        'userId',
-        'entryNumber',
-        'quantity'
-      );
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
           options: optionsOrUserId,
-          ...augmentedOptions,
         })
       );
     } else {
