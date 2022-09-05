@@ -103,6 +103,13 @@ const mockOrder: Order = {
       name: 'Rustic',
     },
   },
+  orgCustomer: {
+    uid: 'gi.sun@rustic-hw.com',
+    name: 'Gi Sun',
+  },
+  orgUnit: {
+    name: 'Rustic',
+  },
 };
 
 const mockUnformattedAddress = 'test1, , test3, test4';
@@ -484,6 +491,47 @@ describe('OrderOverviewComponent', () => {
         component['normalizeFormattedAddress'](mockFormattedAddress);
 
       expect(address).toEqual(mockFormattedAddress);
+    });
+  });
+
+  describe('when unit order is defined', () => {
+    beforeEach(() => {
+      component.order = mockOrder;
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
+    });
+
+    it('should call getBuyerNameCardContent(placedBy: string)', () => {
+      spyOn(component, 'getBuyerNameCardContent').and.callThrough();
+
+      component
+        .getBuyerNameCardContent(mockOrder.orgCustomer?.name)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([mockOrder.orgCustomer?.name]);
+        })
+        .unsubscribe();
+
+      expect(component.getBuyerNameCardContent).toHaveBeenCalledWith(
+        mockOrder.orgCustomer?.name
+      );
+    });
+
+    it('should call getUnitNameCardContent(orgUnit: string)', () => {
+      spyOn(component, 'getUnitNameCardContent').and.callThrough();
+
+      component
+        .getUnitNameCardContent(mockOrder.orgUnit.name)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([mockOrder.orgUnit.name]);
+        })
+        .unsubscribe();
+
+      expect(component.getUnitNameCardContent).toHaveBeenCalledWith(
+        mockOrder.orgUnit.name
+      );
     });
   });
 });

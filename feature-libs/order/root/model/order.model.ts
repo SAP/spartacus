@@ -122,6 +122,7 @@ export interface Order {
   net?: boolean;
   orderDiscounts?: Price;
   orgCustomer?: B2BUser;
+  orgUnit?: B2BUnit;
   paymentInfo?: PaymentDetails;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];

@@ -15,6 +15,7 @@ export const order = {
     none: 'None {{value}}',
     placed: 'Placed',
     placedBy: 'Placed By',
+    buyer: 'Buyer',
     unit: 'Unit',
     costCenter: 'Cost Center',
     costCenterAndUnit: 'Cost Center / Unit',
