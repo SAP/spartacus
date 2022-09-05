@@ -208,22 +208,136 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
 
 export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
-  constructor(public payload: CartRemoveEntryPayload) {
-    super(MULTI_CART_DATA, payload.options.cartId);
+
+  // TODO:#object-extensibility-deprecation - remove
+  payload: CartRemoveEntryPayload;
+  /**
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `constructor(payload: CartRemoveEntryPayload)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
+  constructor(payload: { cartId: string; userId: string; entryNumber: string });
+  // TODO:#object-extensibility-deprecation - remove
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: CartRemoveEntryPayload);
+  constructor(
+    // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
+    payload:
+      | CartRemoveEntryPayload
+      // TODO:#object-extensibility-deprecation - remove
+      | { cartId: string; userId: string; entryNumber: string }
+  ) {
+    super(
+      MULTI_CART_DATA,
+      // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
+      (payload as CartRemoveEntryPayload).options !== undefined
+        ? (payload as CartRemoveEntryPayload).options.cartId
+        : (payload as any).cartId
+    );
+    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    this.payload =
+      (payload as CartRemoveEntryPayload).options !== undefined
+        ? (payload as CartRemoveEntryPayload)
+        : {
+            options: {
+              ...(payload as any),
+              entryNumber: Number((payload as any).entryNumber),
+            },
+          };
   }
 }
 
 export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
-  constructor(public payload: CartRemoveEntrySuccessPayload) {
-    super(MULTI_CART_DATA, payload.options.cartId);
+
+  // TODO:#object-extensibility-deprecation - remove
+  payload: CartRemoveEntrySuccessPayload;
+  /**
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `constructor(payload: CartRemoveEntrySuccessPayload)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
+  constructor(payload: { cartId: string; userId: string; entryNumber: string });
+  // TODO:#object-extensibility-deprecation - remove
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: CartRemoveEntrySuccessPayload);
+  constructor(
+    // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
+    payload:
+      | CartRemoveEntrySuccessPayload
+      // TODO:#object-extensibility-deprecation - remove
+      | { cartId: string; userId: string; entryNumber: string }
+  ) {
+    super(
+      MULTI_CART_DATA,
+      // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
+      (payload as CartRemoveEntrySuccessPayload).options !== undefined
+        ? (payload as CartRemoveEntrySuccessPayload).options.cartId
+        : (payload as any).cartId
+    );
+    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    this.payload =
+      (payload as CartRemoveEntrySuccessPayload).options !== undefined
+        ? (payload as CartRemoveEntrySuccessPayload)
+        : {
+            options: {
+              ...(payload as any),
+              entryNumber: Number((payload as any).entryNumber),
+            },
+          };
   }
 }
 
 export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
-  constructor(public payload: CartRemoveEntryFailPayload) {
-    super(MULTI_CART_DATA, payload.options.cartId);
+
+  // TODO:#object-extensibility-deprecation - remove
+  payload: CartRemoveEntryFailPayload;
+  /**
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `constructor(payload: CartRemoveEntryFailPayload)`.
+   */
+  // TODO:#object-extensibility-deprecation - remove
+  constructor(payload: {
+    error: any;
+    cartId: string;
+    userId: string;
+    entryNumber: string;
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: CartRemoveEntryFailPayload);
+  constructor(
+    // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
+    payload:
+      | CartRemoveEntryFailPayload
+      // TODO:#object-extensibility-deprecation - remove
+      | {
+          error: any;
+          cartId: string;
+          userId: string;
+          entryNumber: string;
+        }
+  ) {
+    super(
+      MULTI_CART_DATA,
+      // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
+      (payload as CartRemoveEntryFailPayload).options !== undefined
+        ? (payload as CartRemoveEntryFailPayload).options.cartId
+        : (payload as any).cartId
+    );
+    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    this.payload =
+      (payload as CartRemoveEntryFailPayload).options !== undefined
+        ? (payload as CartRemoveEntryFailPayload)
+        : {
+            options: {
+              userId: (payload as any).userId,
+              cartId: (payload as any).cartId,
+              entryNumber: Number((payload as any).entryNumber),
+            },
+            error: (payload as any).error,
+          };
   }
 }
 
