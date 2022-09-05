@@ -70,11 +70,7 @@ export class CartEntryEffects {
       map((action: CartActions.CartRemoveEntry) => action.payload),
       concatMap((payload) =>
         this.cartEntryConnector.remove(payload.options).pipe(
-          map(() => {
-            return new CartActions.CartRemoveEntrySuccess({
-              ...payload,
-            });
-          }),
+          map(() => new CartActions.CartRemoveEntrySuccess(payload)),
           catchError((error) =>
             from([
               new CartActions.CartRemoveEntryFail({
@@ -103,11 +99,7 @@ export class CartEntryEffects {
       map((action: CartActions.CartUpdateEntry) => action.payload),
       concatMap((payload) =>
         this.cartEntryConnector.update(payload.options).pipe(
-          map(() => {
-            return new CartActions.CartUpdateEntrySuccess({
-              ...payload,
-            });
-          }),
+          map(() => new CartActions.CartUpdateEntrySuccess(payload)),
           catchError((error) =>
             from([
               new CartActions.CartUpdateEntryFail({
