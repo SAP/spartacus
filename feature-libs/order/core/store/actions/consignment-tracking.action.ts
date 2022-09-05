@@ -31,7 +31,9 @@ export class LoadConsignmentTrackingSuccess implements Action {
 
 export class ClearConsignmentTracking {
   readonly type = CLEAR_CONSIGNMENT_TRACKING;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export type ConsignmentTrackingAction =

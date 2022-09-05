@@ -3,5 +3,7 @@ import { CartPageEventBuilder } from './cart-page-event.builder';
 
 @NgModule({})
 export class CartPageEventModule {
-  constructor(_cartPageEventBuilder: CartPageEventBuilder) {}
+  constructor(_cartPageEventBuilder: CartPageEventBuilder) {
+    // Intentional empty constructor
+  }
 }

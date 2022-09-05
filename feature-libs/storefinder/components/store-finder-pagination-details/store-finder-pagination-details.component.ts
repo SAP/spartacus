@@ -9,7 +9,9 @@ export class StoreFinderPaginationDetailsComponent {
   @Input()
   pagination: PaginationModel;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   getResultsPerPage(): string {
     if (this.pagination.totalResults > this.pagination.pageSize) {

@@ -101,7 +101,9 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
           BREAKPOINT.xs
         );
       }
-    } else return slots;
+    } else {
+      return slots;
+    }
   }
 
   protected getNavigationSlots(
@@ -127,6 +129,8 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
           BREAKPOINT.xs
         );
       }
-    } else return slots;
+    } else {
+      return slots;
+    }
   }
 }

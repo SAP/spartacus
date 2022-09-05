@@ -3,5 +3,7 @@ import { NavigationEventBuilder } from './navigation-event.builder';
 
 @NgModule({})
 export class NavigationEventModule {
-  constructor(_navigationEventBuilder: NavigationEventBuilder) {}
+  constructor(_navigationEventBuilder: NavigationEventBuilder) {
+    // Intentional empty constructor
+  }
 }

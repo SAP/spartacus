@@ -35,5 +35,7 @@ export class UnitAddressFormComponent implements OnInit {
     protected currentUnitService: CurrentUnitService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Intentional empty method
+  }
 }
