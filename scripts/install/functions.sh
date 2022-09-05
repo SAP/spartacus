@@ -8,20 +8,12 @@ TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 HAS_XVFB_INSTALLED=false
 HAS_GNU_PARALLEL_INSTALLED=false
-
-# Prints header
-function printh {
-    local input="$1"
-    local len=$((${#1}+2))
-    printf "\033[32m" # start green color
-    printf "\n+"
-    printf -- "-%.0s" $(seq 1 $len)
-    printf "+\n| $input |\n+"
-    printf -- "-%.0s" $(seq 1 $len)
-    printf "+\n\n"
-    printf "\033[0m" # end green color
-    add_time_measurement "$input"
-}
+                                           
+#  _____ __    _____ _____ _____ _____ _____ 
+# |     |  |  |   __|  _  |   | |  |  |  _  |
+# |   --|  |__|   __|     | | | |  |  |   __|
+# |_____|_____|_____|__|__|_|___|_____|__|
+#
 
 function delete_dir {
     local dir="${1}"
@@ -43,6 +35,12 @@ function cmd_clean {
     local clean_tasks=( "delete_dir ${BASE_DIR}" "delete_dir storage" "yarn cache clean" )
     run_parallel "${clean_tasks[@]}"
 }
+                                                             
+#  _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+# |  _  | __  |   __|  _  |  _  | __  |  _  |_   _|     |     |   | |
+# |   __|    -|   __|   __|     |    -|     | | | |-   -|  |  | | | |
+# |__|  |__|__|_____|__|  |__|__|__|__|__|__| |_| |_____|_____|_|___|
+#
 
 function prepare_install {
     cmd_clean
@@ -102,192 +100,11 @@ function create_shell_app {
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
 
-function add_b2b {
-    if [ "${ADD_B2B_LIBS}" = true ] ; then
-        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
-    fi
-}
-
-function add_cdc {
-  if [ "$ADD_CDC" = true ] ; then
-        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
-    fi
-}
-
-function add_epd_visualization {
-    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
-    fi
-}
-
-function add_product_configurator {
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
-
-    if [ "$ADD_CPQ" = true ] ; then
-        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
-    fi
-}
-
-# Don't install b2b features here (use add_b2b function for that)
-function add_feature_libs {
-  ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
-  ng add --skip-confirmation @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
-}
-
-function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR}/${1}
-    if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
-    else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
-    fi
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
-    )
-}
-# export for parallel execution
-export -f add_spartacus_csr
-
-function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR}/${1}
-    if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
-    else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
-    fi
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
-    )
-}
-# export for parallel execution
-export -f add_spartacus_ssr
-
-function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR}/${1}
-    if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
-    else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
-    fi
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
-    )
-}
-# export for parallel execution
-export -f add_spartacus_ssr_pwa
-
-function create_apps {
-    local create_shell_apps=()
-    local add_spartacus=()
-    local patch_app_modules=()
-
-    if [ -z "${CSR_PORT}" ]; then
-        echo "Skipping csr app install (no port defined)"
-    else
-        printh "Add csr app"
-        create_shell_apps+=("create_shell_app ${CSR_APP_NAME}")
-        add_spartacus+=("add_spartacus_csr ${CSR_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${CSR_APP_NAME}")
-    fi
-    if [ -z "${SSR_PORT}" ]; then
-        echo "Skipping ssr app install (no port defined)"
-    else
-        printh "Add ssr app"
-        create_shell_apps+=("create_shell_app ${SSR_APP_NAME}")
-        add_spartacus+=("add_spartacus_ssr ${SSR_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${SSR_APP_NAME}")
-    fi
-    if [ -z "${SSR_PWA_PORT}" ]; then
-        echo "Skipping ssr with pwa app install (no port defined)"
-    else
-        printh "Add ssr app (with pwa support)"
-        create_shell_apps+=("create_shell_app ${SSR_PWA_APP_NAME}")
-        add_spartacus+=("add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${SSR_PWA_APP_NAME}")
-    fi
-
-    printh "Create Shell Apps"
-    exec_linear "${create_shell_apps[@]}"
-    
-    printh "Add Spartacus"
-    run_parallel "${add_spartacus[@]}"
-    
-    printh "Patch App Modules"
-    run_parallel "${patch_app_modules[@]}"
-}
-
-function publish_dist_package {
-    local PKG_NAME=${1};
-    printh "Creating ${PKG_NAME} npm package"
-    try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
-}
-
-function publish_package {
-    local PKG_NAME=${1};
-    printh "Creating ${PKG_NAME} npm package"
-    try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
-}
-
-function run_parallel {
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        echo "⇶ Running in parallel [fast]"
-        exec_parallel "${@}"
-    else
-        echo "→ Running linear [slow]"
-        exec_linear "${@}"
-    fi
-}
-
-function exec_parallel {
-    local tasks=("${@}")
-    parallel -k --ungroup eval ::: "${tasks[@]}"
-}
-
-function exec_linear {
-    local sep=" && "
-    local tasks=("${@}")
-
-    local ltasks=$(printf "${sep}%s" "${tasks[@]}")
-    ltasks="${ltasks:${#sep}}"
-
-    eval $ltasks
-}
-
-function try_command {
-    local ERRORMSG=${1};
-    local TRY_COMMAND=${2};
-
-    local EXIT_CODE=0
-    bash -c "$TRY_COMMAND" || EXIT_CODE=$?
-
-    if [ $EXIT_CODE -ne 0 ]; then
-        WARNINGS+=("$ERRORMSG")
-    fi
-}
-
-function restore_clone {
-    if [ ${BRANCH} == 'develop' ]; then
-        pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]}
-        do
-            if [ -f "${path}/package.json-E" ]; then
-                rm ${path}/package.json-E
-            fi
-        done
-        git checkout .
-        popd > /dev/null
-    fi
-}
+#  _____ _____ _____ _____ _____ __    __       _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+# |     |   | |   __|_   _|  _  |  |  |  |     |   __|  _  |  _  | __  |_   _|  _  |     |  |  |   __|
+# |-   -| | | |__   | | | |     |  |__|  |__   |__   |   __|     |    -| | | |     |   --|  |  |__   |
+# |_____|_|___|_____| |_| |__|__|_____|_____|  |_____|__|  |__|__|__|__| |_| |__|__|_____|_____|_____|
+#
 
 function install_from_sources {
     run_system_check
@@ -391,6 +208,183 @@ function install_from_npm {
     print_times
 }
 
+#  _____ _____ _____ _____ _____ _____    _____ _____ _____ _____ 
+# |     | __  |   __|  _  |_   _|   __|  |  _  |  _  |  _  |   __|
+# |   --|    -|   __|     | | | |   __|  |     |   __|   __|__   |
+# |_____|__|__|_____|__|__| |_| |_____|  |__|__|__|  |__|  |_____|
+#
+
+function create_apps {
+    local create_shell_apps=()
+    local add_spartacus=()
+    local patch_app_modules=()
+
+    if [ -z "${CSR_PORT}" ]; then
+        echo "Skipping csr app install (no port defined)"
+    else
+        printh "Add csr app"
+        create_shell_apps+=("create_shell_app ${CSR_APP_NAME}")
+        add_spartacus+=("add_spartacus_csr ${CSR_APP_NAME}")
+        patch_app_modules+=("patch_app_module_ts ${CSR_APP_NAME}")
+    fi
+    if [ -z "${SSR_PORT}" ]; then
+        echo "Skipping ssr app install (no port defined)"
+    else
+        printh "Add ssr app"
+        create_shell_apps+=("create_shell_app ${SSR_APP_NAME}")
+        add_spartacus+=("add_spartacus_ssr ${SSR_APP_NAME}")
+        patch_app_modules+=("patch_app_module_ts ${SSR_APP_NAME}")
+    fi
+    if [ -z "${SSR_PWA_PORT}" ]; then
+        echo "Skipping ssr with pwa app install (no port defined)"
+    else
+        printh "Add ssr app (with pwa support)"
+        create_shell_apps+=("create_shell_app ${SSR_PWA_APP_NAME}")
+        add_spartacus+=("add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}")
+        patch_app_modules+=("patch_app_module_ts ${SSR_PWA_APP_NAME}")
+    fi
+
+    printh "Create Shell Apps"
+    exec_linear "${create_shell_apps[@]}"
+    
+    printh "Add Spartacus"
+    run_parallel "${add_spartacus[@]}"
+    
+    printh "Patch App Modules"
+    exec_linear "${patch_app_modules[@]}"
+}
+
+function publish_dist_package {
+    local PKG_NAME=${1};
+    printh "Creating ${PKG_NAME} npm package"
+    try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+}
+
+function publish_package {
+    local PKG_NAME=${1};
+    printh "Creating ${PKG_NAME} npm package"
+    try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+}
+
+function restore_clone {
+    if [ ${BRANCH} == 'develop' ]; then
+        pushd ../.. > /dev/null
+        for path in ${SPARTACUS_PROJECTS[@]}
+        do
+            if [ -f "${path}/package.json-E" ]; then
+                rm ${path}/package.json-E
+            fi
+        done
+        git checkout .
+        popd > /dev/null
+    fi
+}
+                                                                    
+#  _____ ____  ____     _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+# |  _  |    \|    \   |   __|  _  |  _  | __  |_   _|  _  |     |  |  |   __|
+# |     |  |  |  |  |  |__   |   __|     |    -| | | |     |   --|  |  |__   |
+# |__|__|____/|____/   |_____|__|  |__|__|__|__| |_| |__|__|_____|_____|_____|
+#
+
+# Don't install b2b features here (use add_b2b function for that)
+function add_feature_libs {
+  ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
+  ng add --skip-confirmation @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
+}
+
+function add_spartacus_csr {
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
+    fi
+    add_feature_libs
+    add_b2b
+    add_cdc
+    add_epd_visualization
+    add_product_configurator
+    )
+}
+
+function add_spartacus_ssr {
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+    fi
+    add_feature_libs
+    add_b2b
+    add_cdc
+    add_epd_visualization
+    add_product_configurator
+    )
+}
+
+function add_spartacus_ssr_pwa {
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+    fi
+    add_feature_libs
+    add_b2b
+    add_cdc
+    add_epd_visualization
+    add_product_configurator
+    )
+}
+
+function add_b2b {
+    if [ "${ADD_B2B_LIBS}" = true ] ; then
+        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
+    fi
+}
+
+function add_cdc {
+  if [ "$ADD_CDC" = true ] ; then
+        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_epd_visualization {
+    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
+        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+    fi
+}
+
+function add_product_configurator {
+    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
+
+    if [ "$ADD_CPQ" = true ] ; then
+        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
+    fi
+}
+
+# export for parallel execution
+export INSTALLATION_DIR
+export SPARTACUS_VERSION
+export BACKEND_URL
+export OCC_PREFIX
+export URL_PARAMETERS
+export BASE_SITE
+export -f add_spartacus_ssr
+export -f add_spartacus_ssr_pwa
+export -f add_spartacus_csr
+export -f add_b2b
+export -f add_cdc
+export -f add_epd_visualization
+export -f add_product_configurator
+                               
+#  _____ _____ _____ __    ____  
+# | __  |  |  |     |  |  |    \ 
+# | __ -|  |  |-   -|  |__|  |  |
+# |_____|_____|_____|_____|____/
+#
+
 function build_csr {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app build (No port defined)"
@@ -417,7 +411,12 @@ function build_ssr_pwa {
         ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
-
+                                           
+#  _____ _____ _____ _____ _____ _____ _____ _____ 
+# |  _  |  _  |_   _|     |  |  |     |   | |   __|
+# |   __|     | | | |   --|     |-   -| | | |  |  |
+# |__|  |__|__| |_| |_____|__|__|_____|_|___|_____|
+#
 # Can be removed after the routing configuration is added to the schmatics.
 # Also remove the $PATCH_APP_MODULE Flag and the parsing part in parseInstallArgs
 function patch_app_module_ts {
@@ -460,6 +459,34 @@ function patch_app_module_ts {
 
     printf "$RESULT" > $FILE
 }
+                                                          
+#  _____ _____ _____ _____ _____    _____ _____ _____ _____ 
+# |   __|_   _|  _  | __  |_   _|  |  _  |  _  |  _  |   __|
+# |__   | | | |     |    -| | |    |     |   __|   __|__   |
+# |_____| |_| |__|__|__|__| |_|    |__|__|__|  |__|  |_____|
+#
+
+function start_apps {
+    if [[ "${OSTYPE}" == "cygwin" ]]; then
+        start_windows_apps
+    elif [[ "${OSTYPE}" == "msys" ]]; then
+        start_windows_apps
+    elif [[ "${OSTYPE}" == "win32" ]]; then
+        start_windows_apps
+    else
+        start_csr_unix
+        start_ssr_unix
+        start_ssr_pwa_unix
+    fi
+
+    if [[ "$CHECK_AFTER_START" = true ]] ; then
+        check_apps
+    fi
+
+    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
+        check_b2b
+    fi
+}
 
 function start_csr_unix {
     if [ -z "${CSR_PORT}" ]; then
@@ -495,43 +522,52 @@ function start_windows_apps {
     build_csr
     concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
-
-function start_apps {
-    if [[ "${OSTYPE}" == "cygwin" ]]; then
-        start_windows_apps
-    elif [[ "${OSTYPE}" == "msys" ]]; then
-        start_windows_apps
-    elif [[ "${OSTYPE}" == "win32" ]]; then
-        start_windows_apps
-    else
-        start_csr_unix
-        start_ssr_unix
-        start_ssr_pwa_unix
-    fi
-
-    if [[ "$CHECK_AFTER_START" = true ]] ; then
-        check_apps
-    fi
-
-    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
-        check_b2b
-    fi
-}
+                                      
+#  _____ _____ _____ _____    _____ _____ _____ _____ 
+# |   __|_   _|     |  _  |  |  _  |  _  |  _  |   __|
+# |__   | | | |  |  |   __|  |     |   __|   __|__   |
+# |_____| |_| |_____|__|     |__|__|__|  |__|  |_____|
+#
 
 function stop_apps {
     pm2 stop "${CSR_APP_NAME}-${CSR_PORT}"
     pm2 stop "${SSR_APP_NAME}-${SSR_PORT}"
     pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
+                                                                                                           
+#  _____ _____ _____ _____ _____    _____ _____ _____ _____ 
+# |     |  |  |   __|     |  |  |  |  _  |  _  |  _  |   __|
+# |   --|     |   __|   --|    -|  |     |   __|   __|__   |
+# |_____|__|__|_____|_____|__|__|  |__|__|__|  |__|  |_____|
+#
 
-function cmd_help {
-    echo "Usage: run [command]"
-    echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc, epd"
-    echo " install_npm (from latest npm packages)"
-    echo " start [--port <port>] [--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
-    echo " stop [--port <port>]"
-    echo " help"
+function check_apps {
+    printh "Checking Sparatcus"
+
+    sleep 5
+
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e)
+    
+    echo ""
+    echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+
+    if [ "$TEST_OUT" != "" ]; then
+        local now=$(date)
+        echo -e "\n============================================================\n ⛑️\tB2C TEST | $now \n============================================================\n" >> "$TEST_OUT"
+        echo "$E2E_RESULT" >> "$TEST_OUT"
+        echo "$SSR_RESULT" >> "$TEST_OUT"
+        echo "$CSR_RESULT" >> "$TEST_OUT"
+        echo -e "\n📝 Append results to $TEST_OUT\n"
+    fi
 }
 
 function check_b2b {
@@ -556,35 +592,6 @@ function check_b2b {
     if [ "$TEST_OUT" != "" ]; then
         local now=$(date)
         echo -e "\n=====================================================================\n ⛑️\tB2B TEST | $now \n=====================================================================\n" >> "$TEST_OUT"
-        echo "$E2E_RESULT" >> "$TEST_OUT"
-        echo "$SSR_RESULT" >> "$TEST_OUT"
-        echo "$CSR_RESULT" >> "$TEST_OUT"
-        echo -e "\n📝 Append results to $TEST_OUT\n"
-    fi
-}
-
-function check_apps {
-    printh "Checking Sparatcus"
-
-    sleep 5
-
-    echo "Checking CSR ..."
-    local CSR_RESULT=$(check_csr)
-
-    echo "Checking SSR ..."
-    local SSR_RESULT=$(check_ssr)
-
-    echo "Running E2E ..."
-    local E2E_RESULT=$(run_e2e)
-    
-    echo ""
-    echo "$E2E_RESULT"
-    echo "$SSR_RESULT"
-    echo "$CSR_RESULT"
-
-    if [ "$TEST_OUT" != "" ]; then
-        local now=$(date)
-        echo -e "\n============================================================\n ⛑️\tB2C TEST | $now \n============================================================\n" >> "$TEST_OUT"
         echo "$E2E_RESULT" >> "$TEST_OUT"
         echo "$SSR_RESULT" >> "$TEST_OUT"
         echo "$CSR_RESULT" >> "$TEST_OUT"
@@ -679,137 +686,12 @@ function run_e2e_b2b {
         echo "🚫 [2|2] B2B E2E failed."
     fi
 }
-
-function print_warnings {
-    echo ""
-    echo "${#WARNINGS[@]} Warnings"
-
-    for WARNING in "${WARNINGS[@]}"
-    do
-        echo " ❗️ $WARNING"
-    done
-}
-
-function add_time_measurement {
-    local TITLE=${1};
-    local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
-    local END_TIME=$(date +%s)
-    local ELAPSED=$(($END_TIME - $START_TIME))
-    TIME_MEASUREMENT_TIMES+=("$END_TIME")
-
-    if [ $ELAPSED -gt 30 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
-    elif [ $ELAPSED -gt 10 ]; then 
-        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
-    else
-        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
-    fi
-
-    TIME_MEASUREMENT_CURR_TITLE="$TITLE"
-}
-
-function print_times {
-    add_time_measurement ""
-    echo ""
-    echo "Elapsed Time"
-
-    for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
-    do
-        printf " ┕ $MEASURMENT\n"
-    done
-}
-
-function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
-
-function run_system_check {
-    printh "Checking system"
-    local EXIT_CODE
-
-
-    HAS_XVFB_INSTALLED=false
-    EXIT_CODE=0
-    command -v xvfb-run &> /dev/null || EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ] ; then
-        HAS_XVFB_INSTALLED=true
-    fi
-
-    HAS_GNU_PARALLEL_INSTALLED=false
-    EXIT_CODE=0
-    command -v parallel &> /dev/null || EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ] ; then
-        HAS_GNU_PARALLEL_INSTALLED=true
-    fi
-
-}
-
-function run_sanity_check {
-    if [ "$SKIP_SANITY" = true ]; then
-        printh "Skip config sanity check"
-    else
-        printh "Run config sanity check"
-        ng_sanity_check
-        basesite_sanity_check
-    fi
-}
-
-function basesite_sanity_check {
-    if [ $ADD_B2B_LIBS = true ] && [ "$BASE_SITE" != "powertools-spa" ]; then
-        echo "❗️ You are trying to install with B2B Libraries. You may want to set the BASE_SITE to 'powertools-spa'"
-        echo ""
-        read -p "Do you want to [c]ontinue anyways, [o]verwrite BASE_SITE with 'powertools-spa' or [a]bort? (c/o/a) " yn
-        case $yn in 
-            c ) echo "continue";;
-            o ) echo "Overwrite BASE_SITE with 'powertools-spa'"
-                BASE_SITE='powertools-spa';;
-            a ) echo "abort";
-                exit;;
-            * ) echo "invalid response";
-                exit 1;;
-        esac
-    fi
-}
-
-function ng_sanity_check {
-    if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
-        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
-        if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
-            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI 13.0.0 or higher."
-            echo "   Try to use AngularCLI higher than 12.0.0 and lower than 13.0.0."
-            echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
-            echo ""
-            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
-            case $yn in 
-                c ) echo "continue";;
-                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
-                    ANGULAR_CLI_VERSION='^12.0.5';;
-                a ) echo "abort";
-                    exit;;
-                * ) echo "invalid response";
-                    exit 1;;
-            esac
-        fi
-    fi
-
-    if [[ "$BRANCH" == release/5.0.* ]]; then
-        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
-        if [ $(version $CLEAN_VERSION) -lt $(version "13.0.0") ]; then
-            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI lower than 13.0.0. "
-            echo "   Try to use AngularCLI 13.0.0 or higher."
-            echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
-            echo ""
-            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
-            case $yn in 
-                c ) echo "continue";;
-                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
-                    ANGULAR_CLI_VERSION='^13.3.0';;
-                a ) echo "abort";
-                    exit;;
-                * ) echo "invalid response";
-                    exit 1;;
-            esac
-        fi
-    fi
-}
+                                                                      
+#  _____ _____ _____ _____ _____ _____ _____    _____ _____ _____ _____ 
+# |  _  |  _  | __  |   __|     |   | |   __|  |  _  | __  |   __|   __|
+# |   __|     |    -|__   |-   -| | | |  |  |  |     |    -|  |  |__   |
+# |__|  |__|__|__|__|_____|_____|_|___|_____|  |__|__|__|__|_____|_____|
+#
 
 function parseInstallArgs {
     printh "Parsing arguments"
@@ -981,4 +863,213 @@ function parseStartArgs {
                 ;;
         esac
     done
+}
+
+function cmd_help {
+    echo "Usage: run [command]"
+    echo "Available commands are:"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc, epd"
+    echo " install_npm (from latest npm packages)"
+    echo " start [--port <port>] [--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
+    echo " stop [--port <port>]"
+    echo " help"
+}
+                                                                                          
+#  _____ _____ _____ _____    _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ _____ 
+# |_   _|     |     |   __|  |     |   __|  _  |   __|  |  | __  |   __|     |   __|   | |_   _|
+#   | | |-   -| | | |   __|  | | | |   __|     |__   |  |  |    -|   __| | | |   __| | | | | |  
+#   |_| |_____|_|_|_|_____|  |_|_|_|_____|__|__|_____|_____|__|__|_____|_|_|_|_____|_|___| |_|
+#
+
+function add_time_measurement {
+    local TITLE=${1};
+    local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    TIME_MEASUREMENT_TIMES+=("$END_TIME")
+
+    if [ $ELAPSED -gt 30 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    elif [ $ELAPSED -gt 10 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    else
+        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    fi
+
+    TIME_MEASUREMENT_CURR_TITLE="$TITLE"
+}
+
+function print_times {
+    add_time_measurement ""
+    echo ""
+    echo "Elapsed Time"
+
+    for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
+    do
+        printf " ┕ $MEASURMENT\n"
+    done
+}
+                                                                      
+#  _____ _____ _____ _____ _____ __ __    _____ _____ _____ _____ _____ 
+# |   __|  _  |   | |     |_   _|  |  |  |     |  |  |   __|     |  |  |
+# |__   |     | | | |-   -| | | |_   _|  |   --|     |   __|   --|    -|
+# |_____|__|__|_|___|_____| |_|   |_|    |_____|__|__|_____|_____|__|__|
+#
+
+function run_sanity_check {
+    if [ "$SKIP_SANITY" = true ]; then
+        printh "Skip config sanity check"
+    else
+        printh "Run config sanity check"
+        ng_sanity_check
+        basesite_sanity_check
+    fi
+}
+
+function ng_sanity_check {
+    if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI 13.0.0 or higher."
+            echo "   Try to use AngularCLI higher than 12.0.0 and lower than 13.0.0."
+            echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
+                    ANGULAR_CLI_VERSION='^12.0.5';;
+                a ) echo "abort";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
+
+    if [[ "$BRANCH" == release/5.0.* ]]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -lt $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI lower than 13.0.0. "
+            echo "   Try to use AngularCLI 13.0.0 or higher."
+            echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
+                    ANGULAR_CLI_VERSION='^13.3.0';;
+                a ) echo "abort";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
+}
+
+function basesite_sanity_check {
+    if [ $ADD_B2B_LIBS = true ] && [ "$BASE_SITE" != "powertools-spa" ]; then
+        echo "❗️ You are trying to install with B2B Libraries. You may want to set the BASE_SITE to 'powertools-spa'"
+        echo ""
+        read -p "Do you want to [c]ontinue anyways, [o]verwrite BASE_SITE with 'powertools-spa' or [a]bort? (c/o/a) " yn
+        case $yn in 
+            c ) echo "continue";;
+            o ) echo "Overwrite BASE_SITE with 'powertools-spa'"
+                BASE_SITE='powertools-spa';;
+            a ) echo "abort";
+                exit;;
+            * ) echo "invalid response";
+                exit 1;;
+        esac
+    fi
+}
+
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+                                                                                                         
+#  _____ _____ _____ __    _____ 
+# |  |  |_   _|     |  |  |   __|
+# |  |  | | | |-   -|  |__|__   |
+# |_____| |_| |_____|_____|_____|
+#
+
+function run_system_check {
+    printh "Checking system"
+    local EXIT_CODE
+
+
+    HAS_XVFB_INSTALLED=false
+    EXIT_CODE=0
+    command -v xvfb-run &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_XVFB_INSTALLED=true
+    fi
+
+    HAS_GNU_PARALLEL_INSTALLED=false
+    EXIT_CODE=0
+    command -v parallel &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_GNU_PARALLEL_INSTALLED=true
+    fi
+
+}
+
+function run_parallel {
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        echo "⇶ Running in parallel [fast]"
+        exec_parallel "${@}"
+    else
+        echo "→ Running linear [slow]"
+        exec_linear "${@}"
+    fi
+}
+
+function exec_parallel {
+    local tasks=("${@}")
+    parallel -k --ungroup eval ::: "${tasks[@]}"
+}
+
+function exec_linear {
+    local sep=" && "
+    local tasks=("${@}")
+
+    local ltasks=$(printf "${sep}%s" "${tasks[@]}")
+    ltasks="${ltasks:${#sep}}"
+
+    eval $ltasks
+}
+
+function try_command {
+    local ERRORMSG=${1};
+    local TRY_COMMAND=${2};
+
+    local EXIT_CODE=0
+    bash -c "$TRY_COMMAND" || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -ne 0 ]; then
+        WARNINGS+=("$ERRORMSG")
+    fi
+}
+
+function print_warnings {
+    echo ""
+    echo "${#WARNINGS[@]} Warnings"
+
+    for WARNING in "${WARNINGS[@]}"
+    do
+        echo " ❗️ $WARNING"
+    done
+}
+
+function printh {
+    local input="$1"
+    local len=$((${#1}+2))
+    printf "\033[32m" # start green color
+    printf "\n+"
+    printf -- "-%.0s" $(seq 1 $len)
+    printf "+\n| $input |\n+"
+    printf -- "-%.0s" $(seq 1 $len)
+    printf "+\n\n"
+    printf "\033[0m" # end green color
+    add_time_measurement "$input"
 }
