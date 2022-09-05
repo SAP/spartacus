@@ -17,7 +17,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  HttpPayload,
+  HttpOptions,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -97,9 +97,14 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
 
-    const { urlParams, body } = this.createAddOptions(optionsOrUserId);
+    const {
+      urlParams,
+      body,
+      params: queryParams,
+    } = this.createAddOptions(optionsOrUserId);
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams,
+      queryParams,
     });
 
     // Handle b2b case where the x-www-form-urlencoded is still used
@@ -139,7 +144,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    */
   protected createAddOptions(
     options: BaseCartOptions<AddEntryOptions>
-  ): HttpPayload {
+  ): HttpOptions {
     const {
       userId,
       cartId,
@@ -161,6 +166,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         },
         ...augmentedOptions,
       },
+      params: {},
     };
   }
 
@@ -220,12 +226,17 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
 
-    const { urlParams, body } = this.createUpdateOptions(optionsOrUserId);
+    const {
+      urlParams,
+      body,
+      params: queryParams,
+    } = this.createUpdateOptions(optionsOrUserId);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const url = this.occEndpointsService.buildUrl('updateEntries', {
       urlParams,
+      queryParams,
     });
 
     return this.http
@@ -238,7 +249,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    */
   protected createUpdateOptions(
     options: BaseCartOptions<UpdateEntryOptions>
-  ): HttpPayload {
+  ): HttpOptions {
     const { userId, cartId, entryNumber, quantity, ...augmentedOptions } =
       options;
 
@@ -252,6 +263,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         quantity,
         ...augmentedOptions,
       },
+      params: {},
     };
   }
 
@@ -294,13 +306,18 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       return this.http.delete(url, { headers });
     }
 
-    const { urlParams, body } = this.createRemoveOptions(optionsOrUserId);
+    const {
+      urlParams,
+      params: queryParams,
+      body,
+    } = this.createRemoveOptions(optionsOrUserId);
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     const url = this.occEndpointsService.buildUrl('removeEntries', {
       urlParams,
+      queryParams,
     });
 
     return this.http.delete(url, { headers, body });
@@ -311,7 +328,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    */
   protected createRemoveOptions(
     options: BaseCartOptions<RemoveEntryOptions>
-  ): HttpPayload {
+  ): HttpOptions {
     const { userId, cartId, entryNumber, ...augmentedOptions } = options;
 
     return {
@@ -320,7 +337,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         cartId,
         entryNumber,
       },
-      body: augmentedOptions,
+      body: null,
+      params: augmentedOptions,
     };
   }
 }

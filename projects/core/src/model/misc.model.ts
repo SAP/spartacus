@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpParams } from '@angular/common/http';
 import { Address } from './address.model';
 
 export interface Currency {
@@ -126,12 +127,19 @@ export interface BaseSite {
 /**
  * Used when creating OCC HTTP calls.
  *
- * Properties from `body` are put into the HTTP's body,
- * while the `urlParams` are used as HTTP parameters.
+ * The types match angular's http typings.
+ *
+ * Properties from `body` are put into the HTTP's body.
+ * `urlParams` are used as HTTP parameters.
+ * `params` are used as query parameters.
  */
-// TODO:#xxx - rename to RequestOptions?
-export interface HttpPayload {
-  urlParams: object;
-  body: object;
-  queryParams?: object;
+export interface HttpOptions {
+  urlParams: Record<string, string | number | boolean>;
+  body: any | null;
+  params:
+    | HttpParams
+    | Record<
+        string,
+        string | number | boolean | ReadonlyArray<string | number | boolean>
+      >;
 }
