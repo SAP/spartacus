@@ -7,10 +7,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import {
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-} from '@spartacus/pickup-in-store/root';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { combineLatest } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
@@ -22,9 +19,8 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];
 
   constructor(
-    protected readonly activeCartService: ActiveCartFacade,
-    protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected readonly storeDetails: PickupLocationsSearchFacade
+    protected activeCartService: ActiveCartFacade,
+    protected storeDetails: PickupLocationsSearchFacade
   ) {}
 
   ngOnInit(): void {

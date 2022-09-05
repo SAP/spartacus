@@ -13,7 +13,6 @@ import {
   PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
-  CurrentProductService,
   IconTestingModule,
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -23,7 +22,6 @@ import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
-import { MockCurrentProductService } from '../pdp-pickup-options-container/pdp-pickup-options-container.component.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
@@ -48,6 +46,7 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
   closeDialog(_reason: string): void {}
 }
+
 export class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
@@ -77,6 +76,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let intendedPickupLocationFacade: IntendedPickupLocationFacade;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -103,10 +103,6 @@ describe('PickupDeliveryOptionDialogComponent', () => {
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationService,
-        },
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
         },
         {
           provide: ActiveCartFacade,

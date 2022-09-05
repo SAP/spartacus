@@ -13,11 +13,7 @@ import {
   PickupLocationsSearchFacade,
   PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
-import {
-  CurrentProductService,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -43,13 +39,12 @@ export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
-    protected readonly launchDialogService: LaunchDialogService,
-    protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected readonly currentProductService: CurrentProductService,
-    protected readonly preferredStoreService: PreferredStoreService,
-    protected readonly activeCartFacade: ActiveCartFacade,
-    protected readonly pickupOptionFacade: PickupOptionFacade
+    protected launchDialogService: LaunchDialogService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected preferredStoreService: PreferredStoreService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected pickupOptionFacade: PickupOptionFacade
   ) {
     // Intentional empty constructor
   }

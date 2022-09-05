@@ -22,7 +22,7 @@ import {
  */
 @Injectable()
 export class PickupOptionService implements PickupOptionFacade {
-  constructor(protected readonly store: Store<StateWithPickupOption>) {
+  constructor(protected store: Store<StateWithPickupOption>) {
     // Intentional empty constructor
   }
 
