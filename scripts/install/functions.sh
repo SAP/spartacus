@@ -101,8 +101,6 @@ function update_projects_versions {
 function create_shell_app {
     ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
-# export for parallel execution
-export -f create_shell_app
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
@@ -219,7 +217,7 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    run_parallel "${create_shell_apps[@]}"
+    exec_linear "${create_shell_apps[@]}"
     
     printh "Add Spartacus"
     run_parallel "${add_spartacus[@]}"
