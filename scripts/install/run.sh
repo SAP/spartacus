@@ -53,7 +53,7 @@ SKIP_SANITY=false
 SKIP_E2E=false
 TEST_OUT=""
 CLEAN=false
-PACKAGE_MANAGER="npm"
+PACKAGE_MANAGER="yarn"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
