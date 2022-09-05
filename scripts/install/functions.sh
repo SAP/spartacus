@@ -30,6 +30,7 @@ function delete_dir {
         rm -rf ${dir}
     fi
 }
+export -f delete_dir
 
 function cmd_clean {
     if [ "$CLEAN" = false ]; then
@@ -39,10 +40,8 @@ function cmd_clean {
 
     printh "Cleaning old spartacus installation workspace"
 
-    delete_dir ${BASE_DIR}
-    delete_dir storage
-
-    yarn cache clean
+    local clean_tasks = ("delete_dir ${BASE_DIR}" "delete_dir storage" "yarn cache clean")
+    run_parallel clean_tasks
 }
 
 function prepare_install {
@@ -220,27 +219,13 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        run_parallel "${create_shell_apps[@]}"
-    else
-        run_linear "${create_shell_apps[@]}"
-    fi
+    run_parallel "${create_shell_apps[@]}"
     
-
     printh "Add Spartacus"
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        run_parallel "${add_spartacus[@]}"
-    else
-        run_linear "${add_spartacus[@]}"
-    fi
+    run_parallel "${add_spartacus[@]}"
     
-
     printh "Patch App Modules"
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        run_parallel "${patch_app_modules[@]}"
-    else
-        run_linear "${patch_app_modules[@]}"
-    fi
+    run_parallel "${patch_app_modules[@]}"
 }
 
 function publish_dist_package {
@@ -256,13 +241,21 @@ function publish_package {
 }
 
 function run_parallel {
-    echo "⇶ Running in parallel [fast]"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        echo "⇶ Running in parallel [fast]"
+        exec_parallel "${@}"
+    else
+        echo "→ Running linear [slow]"
+        exec_linear "${@}"
+    fi
+}
+
+function exec_parallel {
     local COMMANDS=("${@}")
     parallel -k --ungroup eval ::: "${commands[@]}"
 }
 
-function run_linear {
-    echo "→ Running linear [slow]"
+function exec_linear {
     local SEP=" && "
     local COMMANDS=("${@}")
 
