@@ -40,8 +40,8 @@ function cmd_clean {
 
     printh "Cleaning old spartacus installation workspace"
 
-    local clean_tasks = ("delete_dir ${BASE_DIR}" "delete_dir storage" "yarn cache clean")
-    run_parallel clean_tasks
+    local clean_tasks=( "delete_dir ${BASE_DIR}" "delete_dir storage" "yarn cache clean" )
+    run_parallel "${clean_tasks[@]}"
 }
 
 function prepare_install {
@@ -251,18 +251,18 @@ function run_parallel {
 }
 
 function exec_parallel {
-    local COMMANDS=("${@}")
-    parallel -k --ungroup eval ::: "${commands[@]}"
+    local tasks=("${@}")
+    parallel -k --ungroup eval ::: "${tasks[@]}"
 }
 
 function exec_linear {
-    local SEP=" && "
-    local COMMANDS=("${@}")
+    local sep=" && "
+    local tasks=("${@}")
 
-    local LCOMMAND=$(printf "${SEP}%s" "${COMMANDS[@]}")
-    LCOMMAND="${LCOMMAND:${#SEP}}"
+    local ltasks=$(printf "${sep}%s" "${tasks[@]}")
+    ltasks="${ltasks:${#sep}}"
 
-    eval $LCOMMAND
+    eval $ltasks
 }
 
 function try_command {
