@@ -14,7 +14,12 @@ module.exports = function (config) {
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'dots'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    junitReporter: {
+      outputFile: 'unit-test-assets.xml',
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
+      useBrowserName: false,
+    },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/assets'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
