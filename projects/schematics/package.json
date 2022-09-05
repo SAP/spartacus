@@ -11,9 +11,9 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "@angular/pwa": "^13.3.0",
@@ -29,7 +29,7 @@
     "@schematics/angular": "^13.3.0",
     "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "^4.6.4"
+    "typescript": "~4.6.4"
   },
   "ng-add": {
     "save": "devDependencies"

@@ -32,7 +32,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for cart library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/cart run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/cart run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for order library"
 exec 5>&1
@@ -44,7 +44,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for order library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/order run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/order run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
@@ -65,7 +65,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for user library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/user run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/user run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for checkout"
 exec 5>&1
@@ -77,7 +77,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for checkout library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/checkout run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/checkout run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for product library"
 exec 5>&1
@@ -89,7 +89,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for product library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/product run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/product run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for organization library"
 exec 5>&1
@@ -101,7 +101,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for organization library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/organization run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/organization run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for smartedit library"
 exec 5>&1
@@ -113,7 +113,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for smartedit library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/smartedit run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/smartedit run test:schematics --coverage=true | tee /dev/fd/5)
 
 
 if [[ $1 == '-h' ]]; then

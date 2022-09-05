@@ -14,7 +14,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for CDS library"
 exec 5>&1
-output=$(yarn --cwd integration-libs/cds run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix integration-libs/cds run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for product-configurator library"
 exec 5>&1
@@ -26,7 +26,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for product-configurator library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/product-configurator run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/product-configurator run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for CDC"
 exec 5>&1
@@ -38,7 +38,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for cdc library"
 exec 5>&1
-output=$(yarn --cwd integration-libs/cdc run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix integration-libs/cdc run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for Digital-Payments"
 exec 5>&1
@@ -50,7 +50,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for Digital-Payments library"
 exec 5>&1
-output=$(yarn --cwd integration-libs/digital-payments run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix integration-libs/digital-payments run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for EPD Visualization"
 exec 5>&1
@@ -62,7 +62,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for EPD Visualization library"
 exec 5>&1
-output=$(yarn --cwd integration-libs/epd-visualization run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix integration-libs/epd-visualization run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for storefinder library"
 exec 5>&1
@@ -74,7 +74,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for storefinder library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/storefinder run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/storefinder run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for qualtrics library"
 exec 5>&1
@@ -86,7 +86,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for qualtrics library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/qualtrics run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/qualtrics run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for asm library"
 exec 5>&1
@@ -98,7 +98,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for asm library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/asm run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/asm run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for tracking"
 exec 5>&1
@@ -110,11 +110,11 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for tracking library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/tracking run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix feature-libs/tracking run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
-output=$(yarn --cwd projects/schematics run test --runInBand --coverage=true | tee /dev/fd/5)
+output=$(npm --prefix projects/schematics run test --runInBand --coverage=true | tee /dev/fd/5)
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
