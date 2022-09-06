@@ -312,9 +312,9 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
-    # mkdir -p "$YARN_CACHE_FOLDER"
-    # export YARN_CACHE_FOLDER
+    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-csr"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
 
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
@@ -333,9 +333,10 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
-    # mkdir -p "$YARN_CACHE_FOLDER"
-    # export YARN_CACHE_FOLDER
+    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-ssr"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
+
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
@@ -352,9 +353,10 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
-    # mkdir -p "$YARN_CACHE_FOLDER"
-    # export YARN_CACHE_FOLDER
+    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-ssr-pwa"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
+
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
@@ -397,19 +399,19 @@ function add_product_configurator {
 }
 
 # export for parallel execution
-export INSTALLATION_DIR
-export SPARTACUS_VERSION
-export BACKEND_URL
-export OCC_PREFIX
-export URL_PARAMETERS
-export BASE_SITE
-export -f add_spartacus_ssr
-export -f add_spartacus_ssr_pwa
-export -f add_spartacus_csr
-export -f add_b2b
-export -f add_cdc
-export -f add_epd_visualization
-export -f add_product_configurator
+# export INSTALLATION_DIR
+# export SPARTACUS_VERSION
+# export BACKEND_URL
+# export OCC_PREFIX
+# export URL_PARAMETERS
+# export BASE_SITE
+# export -f add_spartacus_ssr
+# export -f add_spartacus_ssr_pwa
+# export -f add_spartacus_csr
+# export -f add_b2b
+# export -f add_cdc
+# export -f add_epd_visualization
+# export -f add_product_configurator
                                
 #  _____ _____ _____ __    ____  
 # | __  |  |  |     |  |  |    \ 
