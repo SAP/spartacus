@@ -98,7 +98,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --package-manager ${PACKAGE_MANAGER} --style=scss --routing=false)
+    ( setup_custom_yarn_cache "shell_app_${1}" && cd ${INSTALLATION_DIR} && ng new ${1} --package-manager ${PACKAGE_MANAGER} --style=scss --routing=false)
 }
 
 #  _____ _____ _____ _____ _____ __    __       _____ _____ _____ _____ _____ _____ _____ _____ _____ 
@@ -250,7 +250,7 @@ function create_apps {
     fi
 
     printh "Create Shell Apps"
-    exec_linear "${create_shell_apps[@]}"
+    run_parallel "${create_shell_apps[@]}"
     
     printh "Add Spartacus"
     run_parallel "${add_spartacus[@]}"
@@ -378,21 +378,6 @@ function add_product_configurator {
         ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
     fi
 }
-
-# export for parallel execution
-# export INSTALLATION_DIR
-# export SPARTACUS_VERSION
-# export BACKEND_URL
-# export OCC_PREFIX
-# export URL_PARAMETERS
-# export BASE_SITE
-# export -f add_spartacus_ssr
-# export -f add_spartacus_ssr_pwa
-# export -f add_spartacus_csr
-# export -f add_b2b
-# export -f add_cdc
-# export -f add_epd_visualization
-# export -f add_product_configurator
                                
 #  _____ _____ _____ __    ____  
 # | __  |  |  |     |  |  |    \ 
