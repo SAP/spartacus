@@ -254,15 +254,31 @@ function create_apps {
     exec_linear "${patch_app_modules[@]}"
 }
 
+function clean_package {
+    local PKG_NAME=${1};
+    local dir="storage/${PKG_NAME}"
+    if [ -d ${dir} ]; then
+        echo "deleting directory ./${dir}"
+        rm -rf ${dir}
+        yarn cache clean --force "${PKG_NAME}"
+    fi
+}
+
 function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
+
+    clean_package "${PKG_NAME}"
+    
     try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
 function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
+
+    clean_package "${PKG_NAME}"
+
     try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
 
