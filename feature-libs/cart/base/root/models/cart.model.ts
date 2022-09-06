@@ -6,6 +6,7 @@
 
 import {
   Address,
+  CommonOptions,
   CostCenter,
   Currency,
   PointOfService,
@@ -224,7 +225,9 @@ export interface AddEntryDefaultOptions {
 /**
  * An extendable interface for adding an entry.
  */
-export interface AddEntryOptions extends AddEntryDefaultOptions {}
+export interface AddEntryOptions
+  extends AddEntryDefaultOptions,
+    CommonOptions {}
 
 /**
  * Default options for updating an entry.
@@ -236,7 +239,9 @@ export interface UpdateEntryDefaultOptions {
 /**
  * An extendable interface for updating an entry.
  */
-export interface UpdateEntryOptions extends UpdateEntryDefaultOptions {}
+export interface UpdateEntryOptions
+  extends UpdateEntryDefaultOptions,
+    CommonOptions {}
 
 /**
  * Default options for removing an entry.
@@ -247,4 +252,6 @@ export interface RemoveEntryDefaultOptions {
 /**
  * An extendable interface for removing an entry.
  */
-export interface RemoveEntryOptions extends RemoveEntryDefaultOptions {}
+export interface RemoveEntryOptions
+  extends RemoveEntryDefaultOptions,
+    CommonOptions {}

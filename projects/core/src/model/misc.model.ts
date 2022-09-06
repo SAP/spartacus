@@ -125,6 +125,12 @@ export interface BaseSite {
 }
 
 /**
+ * An extendable interface with options which are
+ * common for all the "options interfaces", e.g. "AddEntryOptions"
+ */
+export interface CommonOptions {}
+
+/**
  * Used when creating OCC HTTP calls.
  *
  * The types match angular's http typings.
