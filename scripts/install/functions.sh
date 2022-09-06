@@ -25,14 +25,14 @@ function delete_dir {
 export -f delete_dir
 
 function cmd_clean {
+    local clean_tasks
     if [ "$CLEAN" = false ]; then
-       printh "Skipping cleaning old spartacus installation workspace"
-       return
+        printh "Skipping full cleaning old spartacus installation workspace"
+        clean_tasks=( "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}" )
+    else 
+        printh "Fully Cleaning old spartacus installation workspace"
+        clean_tasks=( "delete_dir ${BASE_DIR}" "delete_dir storage" "${PACKAGE_MANAGER} cache clean --force" )
     fi
-
-    printh "Cleaning old spartacus installation workspace"
-
-    local clean_tasks=( "delete_dir ${BASE_DIR}" "delete_dir storage" "${PACKAGE_MANAGER} cache clean --force" )
     run_parallel "${clean_tasks[@]}"
 }
                                                              
