@@ -256,7 +256,7 @@ function create_apps {
 
 function clean_package {
     local PKG_PATH="${1}"
-    local NPM_PKG_NAME=(get_package_name "$PKG_PATH/package.json")
+    local NPM_PKG_NAME=$(get_package_name "$PKG_PATH/package.json")
 
     local dir="storage/${NPM_PKG_NAME}"
     echo "clean package ${NPM_PKG_NAME}"
