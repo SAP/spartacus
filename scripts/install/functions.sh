@@ -314,7 +314,7 @@ function add_feature_libs {
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
     YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
-    mkdir -p YARN_CACHE_FOLDER
+    mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
@@ -332,7 +332,7 @@ function add_spartacus_csr {
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
     YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
-    mkdir -p YARN_CACHE_FOLDER
+    mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
@@ -350,7 +350,7 @@ function add_spartacus_ssr {
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
     YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
-    mkdir -p YARN_CACHE_FOLDER
+    mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
