@@ -87,37 +87,37 @@ jobs:
           github-token: ${{ secrets.TECH_PAT_PUB }}
           script: |
             const fs = require('fs');
-            const currtarHeaders = { 'content-type': `application/x-tar`, 'content-length': fs.statSync(`./spartacussampledata-current.tar.gz`).size };
+            const currTarHeaders = { 'content-type': `application/x-tar`, 'content-length': fs.statSync(`./spartacussampledata-current.tar.gz`).size };
             const currZipHeaders = { 'content-type': `application/zip`, 'content-length': fs.statSync(`./spartacussampledata-current.zip`).size };
 
             const prevTarHeaders = { 'content-type': `application/x-tar`, 'content-length': fs.statSync(`./spartacussampledata-previous.tar.gz`).size };
             const prevZipHeaders = { 'content-type': `application/zip`, 'content-length': fs.statSync(`./spartacussampledata-previous.zip`).size };
 
             await github.rest.repos.uploadReleaseAsset({
-              url: `${{steps.vat.outputs.upload_url }}`,
-              release_id: `${{steps.vat.outputs.release_id }}`,
-              headers: currtarHeaders,
+              url: `${{steps.create-update-release.outputs.upload_url }}`,
+              release_id: `${{steps.create-update-release.outputs.release_id }}`,
+              headers: currTarHeaders,
               name: `spartacussampledata-current.tar.gz`,
               file: `fs.readFileSync(./spartacussampledata-current.tar.gz)`
             });
             await github.rest.repos.uploadReleaseAsset({
-              url: `${{steps.vat.outputs.upload_url }}`,
-              release_id: `${{steps.vat.outputs.release_id }}`,
+              url: `${{steps.create-update-release.outputs.upload_url }}`,
+              release_id: `${{steps.create-update-release.outputs.release_id }}`,
               headers: currZipHeaders,
               name: `spartacussampledata-current.zip`,
               file: fs.readFileSync(`./spartacussampledata-current.zip`)
             });
 
             await github.rest.repos.uploadReleaseAsset({
-              url: `${{steps.vat.outputs.upload_url }}`,
-              release_id: `${{steps.vat.outputs.release_id }}`,
+              url: `${{steps.create-update-release.outputs.upload_url }}`,
+              release_id: `${{steps.create-update-release.outputs.release_id }}`,
               headers: prevTarHeaders,
               name: `spartacussampledata-previous.tar.gz`,
               file: `fs.readFileSync(./spartacussampledata-previous.tar.gz)`
             });
             await github.rest.repos.uploadReleaseAsset({
-              url: `${{steps.vat.outputs.upload_url }}`,
-              release_id: `${{steps.vat.outputs.release_id }}`,
+              url: `${{steps.create-update-release.outputs.upload_url }}`,
+              release_id: `${{steps.create-update-release.outputs.release_id }}`,
               headers: prevZipHeaders,
               name: `spartacussampledata-previous.zip`,
               file: fs.readFileSync(`./spartacussampledata-previous.zip`)
