@@ -164,6 +164,9 @@ function install_from_sources {
         'schematics'
     )
 
+    # local dist_packages_commands=()
+    # local packages_commands=()
+
     for package in ${dist_packages[@]}; do
         publish_dist_package ${package}
     done
@@ -1065,6 +1068,7 @@ function exec_parallel_export_vars {
     export OCC_PREFIX
     export URL_PARAMETERS
     export BASE_SITE
+    export -f setup_custom_yarn_cache
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
     export -f add_spartacus_csr
