@@ -312,7 +312,7 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
 
@@ -332,7 +332,7 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
@@ -350,7 +350,7 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
+    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
