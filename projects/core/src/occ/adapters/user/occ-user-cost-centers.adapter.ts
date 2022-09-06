@@ -26,7 +26,6 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
-    // @see feature-libs/asm/root/interceptors/user-id.interceptor.ts
     const context = new HttpContext().set(OCC_ASM_TOKEN, {
       sendUserIdAsHeader: true,
     });

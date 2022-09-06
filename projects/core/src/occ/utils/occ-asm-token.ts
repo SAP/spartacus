@@ -12,6 +12,7 @@ export interface OccAsmContext {
    * to avoid ambiguity.
    * 'string' if the request has the user ID at hand.
    * 'boolean' (or, 'true') if the request does not have the user ID but still needs to send the emulated ID.
+   * @see feature-libs/asm/root/interceptors/user-id-http-header.interceptor.ts
    */
   sendUserIdAsHeader?: string | boolean;
 }

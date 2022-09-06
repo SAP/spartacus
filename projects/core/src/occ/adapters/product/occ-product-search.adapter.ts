@@ -39,7 +39,6 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
-    // @see feature-libs/asm/root/interceptors/user-id.interceptor.ts
     const context = new HttpContext().set(OCC_ASM_TOKEN, {
       sendUserIdAsHeader: true,
     });
