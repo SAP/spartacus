@@ -19,6 +19,9 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
 
+/**
+ * The dialog box to select the pickup location for a product.
+ */
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
@@ -35,7 +38,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   userId: string;
 
   readonly ICON_TYPE = ICON_TYPE;
+  /** The reason given closing the dialog window without selecting a location */
   readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
+  /** The reason given closing the dialog window after selecting a location */
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
@@ -83,6 +88,10 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Find the pickup points of service nearest to a place based on given search parameters.
+   * @param locationSearchParams The latitude and longitude or free text search query to be used
+   */
   onFindStores(locationSearchParams: LocationSearchParams): void {
     this.pickupLocationsSearchService.startSearch({
       productCode: this.productCode,
@@ -90,13 +99,34 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Toggle whether locations without store should be shown or hidden.
+   */
   onHideOutOfStock(): void {
     this.pickupLocationsSearchService.toggleHideOutOfStock();
   }
 
+  // TODO check the logic of CLOSE_WITHOUT_SELECTION on PDP and cart
+  /**
+   * Close the dialog window. This has additional side effects based upon whether
+   * we are making a selection on the PDP or in the cart/during checkout.
+   *
+   * On the PDP:
+   *
+   * If the dialog is closed without making a selection, then the radio buttons
+   * are left on pickup if there already exists an intended pickup location or
+   * to delivery if not.
+   *
+   * Not on the PDP:
+   *
+   * If the window is closed after making a selection, then the cart is updated
+   * to the the new selection.
+   *
+   * @param reason The reason the dialog window was closed
+   */
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
-    if (reason === 'CLOSE_WITHOUT_SELECTION') {
+    if (reason === this.CLOSE_WITHOUT_SELECTION) {
       this.intendedPickupLocationService
         .getIntendedLocation(this.productCode)
         .pipe(
@@ -125,6 +155,10 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Change if the loading spinner should be displayed or not.
+   * @param showSpinner Whether the loading spinner should be displayed
+   */
   showSpinner(showSpinner: boolean): void {
     this.loading = showSpinner;
   }
