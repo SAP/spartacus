@@ -1068,6 +1068,7 @@ function exec_parallel_export_vars {
     export OCC_PREFIX
     export URL_PARAMETERS
     export BASE_SITE
+    export CUSTOM_CACHE_DIR
     export -f setup_custom_yarn_cache
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
