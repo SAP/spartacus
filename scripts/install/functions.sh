@@ -312,9 +312,9 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
+    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
+    # mkdir -p "$YARN_CACHE_FOLDER"
+    # export YARN_CACHE_FOLDER
 
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
@@ -322,6 +322,7 @@ function add_spartacus_csr {
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
     fi
+    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     add_feature_libs
     add_b2b
     add_cdc
@@ -332,14 +333,15 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
+    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
+    # mkdir -p "$YARN_CACHE_FOLDER"
+    # export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     fi
+    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     add_feature_libs
     add_b2b
     add_cdc
@@ -350,14 +352,15 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/yarn-custom-cache/${1}"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
+    # YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache/${1}"
+    # mkdir -p "$YARN_CACHE_FOLDER"
+    # export YARN_CACHE_FOLDER
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     fi
+    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     add_feature_libs
     add_b2b
     add_cdc
@@ -1065,7 +1068,25 @@ function run_parallel {
 
 function exec_parallel {
     local tasks=("${@}")
+    exec_parallel_export_vars
     parallel -k --ungroup eval ::: "${tasks[@]}"
+}
+
+function exec_parallel_export_vars {
+    export BASE_DIR
+    export INSTALLATION_DIR
+    export SPARTACUS_VERSION
+    export BACKEND_URL
+    export OCC_PREFIX
+    export URL_PARAMETERS
+    export BASE_SITE
+    export -f add_spartacus_ssr
+    export -f add_spartacus_ssr_pwa
+    export -f add_spartacus_csr
+    export -f add_b2b
+    export -f add_cdc
+    export -f add_epd_visualization
+    export -f add_product_configurator
 }
 
 function exec_linear {
