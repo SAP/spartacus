@@ -1049,7 +1049,7 @@ function run_parallel_chunked {
     if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
         echo "⇶ Running in parallel chunked [fast]"
         local n="${1}"
-        local args="${@}"
+        local args=("$@")
 
         echo "  > Tasks: $((${#args[@]}-1))"
         echo "  > Chunk-Size: ${n}"
