@@ -1051,6 +1051,9 @@ function run_parallel_chunked {
         local n="${1}"
         local args="${@}"
 
+        echo "  > Tasks: $((${#args[@]}-1))"
+        echo "  > Chunk-Size: ${n}"
+
         for((i=1; i < ${#args[@]}; i+=g))
         do
             chunk=( "${args[@]:i:g}" )
@@ -1088,6 +1091,7 @@ function exec_parallel_export_vars {
     export URL_PARAMETERS
     export BASE_SITE
     export CUSTOM_CACHE_DIR
+    export HAS_GNU_PARALLEL_INSTALLED
     export -f run_parallel_chunked
     export -f run_parallel
     export -f exec_linear
