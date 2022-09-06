@@ -70,7 +70,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
         ? (payload as CartAddEntryPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartAddEntryPayload).options !== undefined
         ? (payload as CartAddEntryPayload)
@@ -128,7 +128,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
         ? (payload as CartAddEntrySuccessPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartAddEntrySuccessPayload).options !== undefined
         ? (payload as CartAddEntrySuccessPayload)
@@ -190,7 +190,7 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
         ? (payload as CartAddEntryFailPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartAddEntryFailPayload).options !== undefined
         ? (payload as CartAddEntryFailPayload)
@@ -231,7 +231,7 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
         ? (payload as CartRemoveEntryPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartRemoveEntryPayload).options !== undefined
         ? (payload as CartRemoveEntryPayload)
@@ -272,7 +272,7 @@ export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementA
         ? (payload as CartRemoveEntrySuccessPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartRemoveEntrySuccessPayload).options !== undefined
         ? (payload as CartRemoveEntrySuccessPayload)
@@ -323,7 +323,7 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
         ? (payload as CartRemoveEntryFailPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartRemoveEntryFailPayload).options !== undefined
         ? (payload as CartRemoveEntryFailPayload)
@@ -375,7 +375,7 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
         ? (payload as CartUpdateEntryPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartUpdateEntryPayload).options !== undefined
         ? (payload as CartUpdateEntryPayload)
@@ -426,7 +426,7 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
         ? (payload as CartUpdateEntrySuccessPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartUpdateEntrySuccessPayload).options !== undefined
         ? (payload as CartUpdateEntrySuccessPayload)
@@ -479,7 +479,7 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
         ? (payload as CartUpdateEntryFailPayload).options.cartId
         : (payload as any).cartId
     );
-    // TODO:#object-extensibility-deprecation - remove, and just use payload.options.cartId
+    // TODO:#object-extensibility-deprecation - remove
     this.payload =
       (payload as CartUpdateEntryFailPayload).options !== undefined
         ? (payload as CartUpdateEntryFailPayload)
