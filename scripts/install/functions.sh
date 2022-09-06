@@ -1096,6 +1096,7 @@ function exec_parallel_export_vars {
     export -f setup_custom_yarn_cache
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
+    export -f add_feature_libs
     export -f add_spartacus_csr
     export -f add_b2b
     export -f add_cdc
