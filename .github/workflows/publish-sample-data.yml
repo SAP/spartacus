@@ -1,9 +1,13 @@
 on:
   workflow_dispatch:
     inputs:
-      sample_branch:
-        description: Publish spartacus sample data to standard Spartacus ccv2 repository
+      current_sample_branch:
+        description: Publish latest spartacus sample data to standard Spartacus ccv2 repository
         default: release/2105/next
+        required: true
+      previous_sample_branch:
+        description: Publish previous version spartacus sample data to standard Spartacus ccv2 repository
+        default: release/2105/4dot4
         required: true
 
 name: Publish Spartacus Sample Data to Spartacus CCv2 repository
@@ -15,19 +19,106 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download the zip and tar files
         run: |
-          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.sample_branch }}.zip --output spartacussampledata.zip
-          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.sample_branch }}.tar.gz --output spartacussampledata.tar.gz
-      - name: Create or update tag
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.current_sample_branch }}.zip --output spartacussampledata-current.zip
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.current_sample_branch }}.tar.gz --output spartacussampledata-current.tar.gz
+
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.previous_sample_branch }}.zip --output spartacussampledata-previous.zip
+          curl -H "Authorization: token ${{ secrets.TECH_PAT }}" -L https://github.tools.sap/cx-commerce/spartacussampledata/archive/${{ github.event.inputs.previous_sample_branch }}.tar.gz --output spartacussampledata-previous.tar.gz
+      - name: Create tag
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.TECH_PAT_PUB }}
           script: |
-            github.rest.git.createRef({
-              owner: SAP-samples,
-              repo: cloud-commerce-sample-setup,
-              ref: 'refs/tags/${{ github.event.inputs.sample_branch }}',
-              sha: tbd-tbd-commit-sha-from-other-repo
-            })
-        - name: Update tag with assets
-          run: |
-            echo "tbd"
+            const referenceResponse = await github.rest.git.getRef({
+              owner: '<owner>?',
+              repo: '<repo>?',
+              ref: 'heads/<main-branchname>?'
+            });
+            const { data: { object: { sha } } } = referenceResponse;
+
+            try {
+              await github.rest.git.deleteRef({
+                owner: '<owner>?',
+                repo: '<repo>?',
+                ref: 'tags/sampledata',
+              });
+
+              await github.rest.git.createRef({
+                owner: '<owner>?',
+                repo: '<repo>?',
+                ref: 'refs/tags/sampledata',
+                sha
+              });
+
+            } catch (error) {
+              if (error.message.includes('not exist')) {
+                await github.rest.git.createRef({
+                owner: '<owner>?',
+                repo: '<repo>?',
+                ref: 'refs/tags/sampledata',
+                sha
+              });
+              }
+            }
+
+      - name: wait
+        run: sleep 5s
+        
+      - name: Create Release
+        id: create-update-release
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.TECH_PAT_PUB }}
+          script: |
+            const createReleaseResponse = await github.rest.repos.createRelease({
+              owner: '<owner>?',
+              repo: '<repo>?',
+              tag_name: 'sampledata'
+            });
+
+            const { data: { id, upload_url }} = createReleaseResponse;
+
+            core.setOutput('release_id', id);
+            core.setOutput('upload_url', upload_url);
+
+      - name: Upload Assets of Release
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.TECH_PAT_PUB }}
+          script: |
+            const fs = require('fs');
+            const currtarHeaders = { 'content-type': `application/x-tar`, 'content-length': fs.statSync(`./spartacussampledata-current.tar.gz`).size };
+            const currZipHeaders = { 'content-type': `application/zip`, 'content-length': fs.statSync(`./spartacussampledata-current.zip`).size };
+
+            const prevTarHeaders = { 'content-type': `application/x-tar`, 'content-length': fs.statSync(`./spartacussampledata-previous.tar.gz`).size };
+            const prevZipHeaders = { 'content-type': `application/zip`, 'content-length': fs.statSync(`./spartacussampledata-previous.zip`).size };
+
+            await github.rest.repos.uploadReleaseAsset({
+              url: `${{steps.vat.outputs.upload_url }}`,
+              release_id: `${{steps.vat.outputs.release_id }}`,
+              headers: currtarHeaders,
+              name: `spartacussampledata-current.tar.gz`,
+              file: `fs.readFileSync(./spartacussampledata-current.tar.gz)`
+            });
+            await github.rest.repos.uploadReleaseAsset({
+              url: `${{steps.vat.outputs.upload_url }}`,
+              release_id: `${{steps.vat.outputs.release_id }}`,
+              headers: currZipHeaders,
+              name: `spartacussampledata-current.zip`,
+              file: fs.readFileSync(`./spartacussampledata-current.zip`)
+            });
+
+            await github.rest.repos.uploadReleaseAsset({
+              url: `${{steps.vat.outputs.upload_url }}`,
+              release_id: `${{steps.vat.outputs.release_id }}`,
+              headers: prevTarHeaders,
+              name: `spartacussampledata-previous.tar.gz`,
+              file: `fs.readFileSync(./spartacussampledata-previous.tar.gz)`
+            });
+            await github.rest.repos.uploadReleaseAsset({
+              url: `${{steps.vat.outputs.upload_url }}`,
+              release_id: `${{steps.vat.outputs.release_id }}`,
+              headers: prevZipHeaders,
+              name: `spartacussampledata-previous.zip`,
+              file: fs.readFileSync(`./spartacussampledata-previous.zip`)
+            });
