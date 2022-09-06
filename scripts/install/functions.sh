@@ -174,6 +174,7 @@ function install_from_sources {
         packages_commands+=( "publish_package ${package}" )
     done
 
+    printh "Publish Packages"
     run_parallel_chunked "6" "${packages_commands[@]}"
 
     create_apps
@@ -274,7 +275,7 @@ function clean_package {
 
 function publish_dist_package {
     local PKG_NAME=${1}
-    printh "Creating ${PKG_NAME} npm package"
+    echo "Creating ${PKG_NAME} npm package"
 
     clean_package "${CLONE_DIR}/dist/${PKG_NAME}"
 
@@ -283,7 +284,7 @@ function publish_dist_package {
 
 function publish_package {
     local PKG_NAME=${1}
-    printh "Creating ${PKG_NAME} npm package"
+    echo "Creating ${PKG_NAME} npm package"
 
     clean_package "${CLONE_DIR}/projects/${PKG_NAME}"
 
@@ -1077,6 +1078,8 @@ function exec_parallel_export_vars {
     export BASE_SITE
     export CUSTOM_CACHE_DIR
     export HAS_GNU_PARALLEL_INSTALLED
+    export -f try_command
+    export -f clean_package
     export -f run_parallel_chunked
     export -f run_parallel
     export -f exec_linear
