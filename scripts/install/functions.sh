@@ -1047,7 +1047,7 @@ function run_parallel_chunked {
         done
     else
         echo "→ Running linear [slow]"
-        exec_linear "${@}"
+        exec_linear "${@:1}"
     fi
 }
 
