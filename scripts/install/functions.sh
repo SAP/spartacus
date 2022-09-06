@@ -8,6 +8,7 @@ TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 HAS_XVFB_INSTALLED=false
 HAS_GNU_PARALLEL_INSTALLED=false
+CUSTOM_CACHE_DIR="$(pwd)/.cache"
                                            
 #  _____ __    _____ _____ _____ _____ _____ 
 # |     |  |  |   __|  _  |   | |  |  |  _  |
@@ -28,10 +29,10 @@ function cmd_clean {
     local clean_tasks
     if [ "$CLEAN" = false ]; then
         printh "Skipping full cleaning old spartacus installation workspace"
-        clean_tasks=( "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}" )
+        clean_tasks=( "delete_dir $CUSTOM_CACHE_DIR" "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}" )
     else 
         printh "Fully Cleaning old spartacus installation workspace"
-        clean_tasks=( "delete_dir ${BASE_DIR}" "delete_dir storage" "${PACKAGE_MANAGER} cache clean --force" )
+        clean_tasks=( "delete_dir $CUSTOM_CACHE_DIR" "delete_dir ${BASE_DIR}" "delete_dir storage" "${PACKAGE_MANAGER} cache clean --force" )
     fi
     run_parallel "${clean_tasks[@]}"
 }
@@ -312,62 +313,38 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-csr"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-
     ( cd ${INSTALLATION_DIR}/${1}
+    setup_custom_yarn_cache "csr"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
     fi
-    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
+    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     )
 }
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-ssr"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-
+    setup_custom_yarn_cache "ssr"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     fi
-    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
+    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     )
 }
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    YARN_CACHE_FOLDER="${BASE_DIR}/.yarn-custom-cache-ssr-pwa"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-
+    setup_custom_yarn_cache "ssr-pwa"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     fi
-    # run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
-    add_feature_libs
-    add_b2b
-    add_cdc
-    add_epd_visualization
-    add_product_configurator
+    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
     )
 }
 
@@ -1024,7 +1001,7 @@ function basesite_sanity_check {
     fi
 }
 
-function "version" { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
                                                                                                          
 #  _____ _____ _____ __    _____ 
 # |  |  |_   _|     |  |  |   __|
@@ -1035,6 +1012,12 @@ function "version" { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,
 function get_package_name {
     local PKG_JSON="${1}"
     cat "${PKG_JSON}" | grep -oP '(?<=\"name\":\s\")[^\"]*'
+}
+
+function setup_custom_yarn_cache {
+    local YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
 }
 
 function run_system_check {
