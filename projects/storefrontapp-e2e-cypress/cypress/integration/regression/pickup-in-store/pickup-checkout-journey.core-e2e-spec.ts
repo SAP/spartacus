@@ -23,8 +23,8 @@ const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
 const PASSWORD = `Password-1234`;
 
 function register() {
-  cy.visit('/', mockLocation(53, 0));
-  cy.get(L.ALLOW_COOKIES_BUTTON).click();
+  cy.get(L.HOME_ICON_LINK).click();
+
   cy.get(L.LOGIN_LINK).click();
   cy.get(L.REGISTER_BUTTON).click();
   cy.get(L.FORM_TITLE).click();
@@ -54,35 +54,38 @@ describe('A user who has a cart with multiple entries checkout with BOPIS', () =
           currency: ['GBP'],
         },
       });
-
-      register();
+      cy.visit('/', mockLocation(53, 0));
+      cy.get(L.ALLOW_COOKIES_BUTTON).click();
+      // register();
     });
 
     it('Does user journey as described above', () => {
       // TODO, we want to pick products by clicking on them, not navigate to them as this breaks the login process
       cy.get(L.SAP_ICON_HOME_LINK).click();
+      cy.get(L.FIRST_PRODUCT).click();
       // cy.get(
       //   `cx-carousel .slide.active :nth-child(1) > cx-product-carousel-item > a`
       // )
       //   .scrollIntoView()
       //   .click({ force: true });
-      cy.wait(100000)
+      // cy.wait(100000)
 
       // cy.visit('/product/300310300', mockLocation(53, 0));
-      // cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('exist');
-      // cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('exist');
-      // cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
-      //   'have.attr',
-      //   'aria-checked',
-      //   'true'
-      // );
-      // cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
-      // cy.get(L.USE_MY_LOCATION).click();
-      // cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).first().click();
-      // cy.intercept({
-      //   method: 'POST',
-      //   url: /users\/anonymous\/carts\/[0-9| a-z|-]*\/entries/,
-      // }).as('apiAddToCart');
+
+      cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('exist');
+      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('exist');
+      cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
+        'have.attr',
+        'aria-checked',
+        'true'
+      );
+      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
+      cy.get(L.USE_MY_LOCATION).click();
+      cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).first().click();
+      cy.intercept({
+        method: 'POST',
+        url: /users\/anonymous\/carts\/[0-9| a-z|-]*\/entries/,
+      }).as('apiAddToCart');
       // cy.get(L.PICKUP_STORE_LOCATION).then((value) => {
       //   cy.log(value[0].innerText.trim());
       //   cy.wrap(value[0].innerText.trim()).as('firstStorePickupLocation');
@@ -95,24 +98,23 @@ describe('A user who has a cart with multiple entries checkout with BOPIS', () =
       // });
       // cy.get(L.VIEW_CART).click();
       // cy.get(L.CHANGE_STORE_LINK).scrollIntoView();
-      // cy.get(L.CHANGE_STORE_LINK).click();
+      // cy.get(L.CHANGE_STORE_LINK).click({ force: true });
+      // cy.log('Click on Modal')
       // cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
+      // cy.wait(10000);
       // cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click();
       // cy.get('@firstStorePickupLocation').then((value) => {
       //   const OLD_STORE_LOCATION_VALUE = value;
+      //   cy.log('OLD_STORE_LOCATION_VALUE', OLD_STORE_LOCATION_VALUE);
       //   cy.get(L.PICKUP_STORE_LOCATION_NOT_VALUE(value)).then((v) => {
       //     const NEW_STORE_LOCATION_VALUE = v[0].innerText.trim();
-      //     expect(NEW_STORE_LOCATION_VALUE).to.not.equal(
-      //       OLD_STORE_LOCATION_VALUE
-      //     );
+      //     // expect(NEW_STORE_LOCATION_VALUE).to.not.equal(
+      //     //   OLD_STORE_LOCATION_VALUE
+      //     // );
       //   });
       // });
       // cy.get(L.SAP_ICON_HOME_LINK).click();
-      // cy.get(
-      //   `cx-carousel .slide.active :nth-child(2) > cx-product-carousel-item > a`
-      // )
-      //   .scrollIntoView()
-      //   .click({ force: true });
+      // cy.get(L.SECOND_PRODUCT).scrollIntoView().click({ force: true });
       // cy.get(L.ADD_TO_CART).click();
       // cy.get(L.VIEW_CART).click();
       // cy.get(L.PICKUP_OPTIONS_RADIO).should('have.length', 4);

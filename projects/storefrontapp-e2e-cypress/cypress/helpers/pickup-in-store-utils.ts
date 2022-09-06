@@ -58,5 +58,8 @@ export const LOCATORS = {
   SUBMIT_REGISTRATION_FORM: `button[type=submit]:contains("Register")`,
   SIGN_IN_BUTTON: `button[type=submit]:contains("Sign In")`,
   SIGNIN_USERNAME: `input[formcontrolname="userId"]`,
-  SIGNIN_PASSWORD: `input[formcontrolname="password"]`
+  SIGNIN_PASSWORD: `input[formcontrolname="password"]`,
+  HOME_ICON_LINK: `.SiteLogo > cx-banner > cx-generic-link > a`,
+  FIRST_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(1) > cx-product-carousel-item > a > .is-initialized > img`,
+  SECOND_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(2) > cx-product-carousel-item > a > .is-initialized > img`
 };
