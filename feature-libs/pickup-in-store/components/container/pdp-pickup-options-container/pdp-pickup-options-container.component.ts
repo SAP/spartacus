@@ -54,12 +54,12 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   private displayNameIsSet = false;
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected pickupOptionFacade: PickupOptionFacade,
     protected preferredStoreService: PreferredStoreService,
-    protected pickupOptionFacade: PickupOptionFacade
+    protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
   }

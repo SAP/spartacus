@@ -19,9 +19,9 @@ export interface BrowserLocation {
 }
 
 export interface StockState {
-  stockLevel: StateUtils.LoaderState<StockLevelState>;
-  hideOutOfStock: boolean;
   browserLocation: BrowserLocation;
+  hideOutOfStock: boolean;
+  stockLevel: StateUtils.LoaderState<StockLevelState>;
   stockLevelAtStore: Record<string, Record<string, Stock | undefined>>;
 }
 

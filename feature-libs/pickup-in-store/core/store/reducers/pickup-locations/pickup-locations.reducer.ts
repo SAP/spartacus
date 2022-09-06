@@ -10,6 +10,7 @@ import { PickupLocationsState } from '../../pickup-location-state';
 
 export const intendedPickupLocationsInitialState: PickupLocationsState['intendedPickupLocations'] =
   {};
+
 export const intendedPickupLocationsReducer = createReducer(
   intendedPickupLocationsInitialState,
   on(PickupLocationActions.AddLocation, (state, { payload }) => ({

@@ -39,12 +39,12 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
+    protected activeCartFacade: ActiveCartFacade,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected preferredStoreService: PreferredStoreService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected pickupOptionFacade: PickupOptionFacade
+    protected pickupOptionFacade: PickupOptionFacade,
+    protected preferredStoreService: PreferredStoreService
   ) {
     // Intentional empty constructor
   }

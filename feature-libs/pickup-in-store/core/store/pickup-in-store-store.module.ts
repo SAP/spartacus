@@ -29,9 +29,6 @@ import { STOCK_FEATURE } from './stock-state';
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forFeature(STOCK_FEATURE, stockReducersToken, {
-      metaReducers: stockMetaReducers,
-    }),
     StoreModule.forFeature(
       PICKUP_LOCATIONS_FEATURE,
       pickupLocationsReducersToken,
@@ -42,12 +39,15 @@ import { STOCK_FEATURE } from './stock-state';
     StoreModule.forFeature(PICKUP_OPTION_FEATURE, pickupOptionReducersToken, {
       metaReducers: pickupOptionMetaReducers,
     }),
+    StoreModule.forFeature(STOCK_FEATURE, stockReducersToken, {
+      metaReducers: stockMetaReducers,
+    }),
     EffectsModule.forFeature(effects),
   ],
   providers: [
-    stockReducersProvider,
     pickupLocationsReducersProvider,
     pickupOptionReducersProvider,
+    stockReducersProvider,
   ],
 })
 export class PickupInStoreStoreModule {}

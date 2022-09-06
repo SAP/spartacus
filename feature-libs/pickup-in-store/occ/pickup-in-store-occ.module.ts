@@ -20,10 +20,10 @@ import { OccStockAdapter } from './adapters/occ-stock.adapter';
 
 @NgModule({
   providers: [
-    provideDefaultConfig(defaultOccStockConfig),
     provideDefaultConfig(defaultOccPickupLocationConfig),
-    { provide: StockAdapter, useClass: OccStockAdapter },
+    provideDefaultConfig(defaultOccStockConfig),
     { provide: PickupLocationAdapter, useClass: OccPickupLocationAdapter },
+    { provide: StockAdapter, useClass: OccStockAdapter },
   ],
 })
 export class PickupInStoreOccModule {}

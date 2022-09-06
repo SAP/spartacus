@@ -30,6 +30,7 @@ describe('pickup-option', () => {
       pageContext: pageContextReducer,
     });
   });
+
   it('should modify the pickup option for a item present in the state', () => {
     const action = PickupOptionActions.SetPickupOption({
       payload: {
@@ -52,6 +53,7 @@ describe('pickup-option', () => {
     const received = pickupOptionReducer(mockState, action);
     expect(received).toEqual(expected);
   });
+
   it('should remove the pickup option for a item present in the state', () => {
     const action = PickupOptionActions.RemovePickupOption({
       payload: {

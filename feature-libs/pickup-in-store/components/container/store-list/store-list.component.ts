@@ -33,9 +33,9 @@ export class StoreListComponent implements OnInit {
   isSearchRunning$: Observable<boolean>;
 
   constructor(
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected preferredStoreService: PreferredStoreService,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade
+    protected preferredStoreService: PreferredStoreService
   ) {
     // Intentional empty constructor
   }

@@ -10,6 +10,7 @@ import { PickupLocationsState } from '../../pickup-location-state';
 
 export const storeDetailsInitialState: PickupLocationsState['storeDetails'] =
   {};
+
 export const storeDetailsReducer = createReducer(
   storeDetailsInitialState,
 

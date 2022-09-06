@@ -99,13 +99,13 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   private displayNameIsSet = false;
 
   constructor(
-    @Optional() protected outlet: OutletContextData<OrderEntry>,
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
-    protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected vcr: ViewContainerRef
+    protected preferredStoreService: PreferredStoreService,
+    protected vcr: ViewContainerRef,
+    @Optional() protected outlet: OutletContextData<OrderEntry>
   ) {
     // Intentional empty constructor
   }

@@ -18,6 +18,6 @@ export type EntryPickupOption = {
 };
 
 export interface PickupOptionState {
-  pickupOption: EntryPickupOption[];
   pageContext: string;
+  pickupOption: EntryPickupOption[];
 }

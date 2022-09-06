@@ -19,8 +19,8 @@ import * as PickupLocationActions from '../actions/pickup-location.action';
 export class PickupLocationEffect {
   constructor(
     private readonly actions$: Actions,
-    private readonly pickupLocationConnector: PickupLocationConnector,
-    private readonly activeCartFacade: ActiveCartFacade
+    private readonly activeCartFacade: ActiveCartFacade,
+    private readonly pickupLocationConnector: PickupLocationConnector
   ) {
     // Intentional empty constructor
   }

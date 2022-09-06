@@ -17,9 +17,6 @@ import {
 } from '../pickup-option-state';
 import { StateWithStock, StockState, STOCK_FEATURE } from '../stock-state';
 
-export const getStockState: MemoizedSelector<StateWithStock, StockState> =
-  createFeatureSelector<StockState>(STOCK_FEATURE);
-
 export const getPickupLocationsState: MemoizedSelector<
   StateWithPickupLocations,
   PickupLocationsState
@@ -29,3 +26,6 @@ export const getPickupOptionState: MemoizedSelector<
   StateWithPickupOption,
   PickupOptionState
 > = createFeatureSelector<PickupOptionState>(PICKUP_OPTION_FEATURE);
+
+export const getStockState: MemoizedSelector<StateWithStock, StockState> =
+  createFeatureSelector<StockState>(STOCK_FEATURE);
