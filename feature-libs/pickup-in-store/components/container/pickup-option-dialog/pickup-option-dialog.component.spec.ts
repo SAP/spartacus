@@ -25,7 +25,7 @@ import { Observable, of } from 'rxjs';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
-import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
+import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
 
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -70,9 +70,9 @@ export class MockActiveCartService {
   }
 }
 
-describe('PickupDeliveryOptionDialogComponent', () => {
-  let component: PickupDeliveryOptionDialogComponent;
-  let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
+describe('PickupOptionDialogComponent', () => {
+  let component: PickupOptionDialogComponent;
+  let fixture: ComponentFixture<PickupOptionDialogComponent>;
   let launchDialogService: LaunchDialogService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let intendedPickupLocationFacade: IntendedPickupLocationFacade;
@@ -80,7 +80,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        PickupDeliveryOptionDialogComponent,
+        PickupOptionDialogComponent,
         StoreSearchStubComponent,
         StoreListStubComponent,
       ],
@@ -115,7 +115,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PickupDeliveryOptionDialogComponent);
+    fixture = TestBed.createComponent(PickupOptionDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);

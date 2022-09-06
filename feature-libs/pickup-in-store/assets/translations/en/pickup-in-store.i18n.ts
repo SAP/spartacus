@@ -4,8 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** Translation keys for the PickupDeliveryOptionDialogComponent */
-export const pickupInStoreDialog = {
+/** Translation keys for the PickupDeliveryInfoComponent */
+export const pickupDeliveryInfo = {
+  inStorePickup: 'In Store Pickup',
+  pickupBy: 'Pick up by',
+  pickupFrom: 'Pick up from',
+};
+
+/** Translation keys for the PickupOptionDialogComponent */
+export const pickupOptionDialog = {
   close: 'Close',
   modalHeader: 'Pickup in Store',
 };
@@ -47,20 +54,13 @@ export const storeSearch = {
   viewAllStores: 'View all stores',
 };
 
-/** Translation keys for the PickupDeliveryInfoComponent */
-export const pickupDeliveryInfo = {
-  inStorePickup: 'In Store Pickup',
-  pickupBy: 'Pick up by',
-  pickupFrom: 'Pick up from',
-};
-
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
-  pickupInStoreDialog,
+  pickupDeliveryInfo,
+  pickupOptionDialog,
   pickupOptions,
   store,
   storeList,
   storeSchedule,
   storeSearch,
-  pickupDeliveryInfo,
 };

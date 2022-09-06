@@ -20,7 +20,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
-import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
+import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 import createSpy = jasmine.createSpy;

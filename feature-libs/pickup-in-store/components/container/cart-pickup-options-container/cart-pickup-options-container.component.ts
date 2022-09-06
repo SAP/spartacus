@@ -37,7 +37,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-type RequiredFields =
+type OrderEntryRequiredFields =
   | 'entryNumber'
   | 'quantity'
   | 'product.code'
@@ -46,7 +46,7 @@ type RequiredFields =
 /** An order entry with all the fields needed for using pickup in store */
 type OrderEntryWithRequiredFields = RequiredDeepPath<
   OrderEntry,
-  RequiredFields
+  OrderEntryRequiredFields
 >;
 /** Custom type guard to ensure we have an order entry with all the required fields */
 export function orderEntryWithRequiredFields(

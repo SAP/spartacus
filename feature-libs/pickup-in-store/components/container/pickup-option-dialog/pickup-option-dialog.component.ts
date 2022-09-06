@@ -20,10 +20,10 @@ import { filter, take, tap } from 'rxjs/operators';
 import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
 
 @Component({
-  selector: 'cx-delivery-pickup-options-dialog',
-  templateUrl: './pickup-delivery-option-dialog.component.html',
+  selector: 'cx-pickup-option-dialog',
+  templateUrl: './pickup-option-dialog.component.html',
 })
-export class PickupDeliveryOptionDialogComponent implements OnInit, OnDestroy {
+export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;
   entryNumber: number;
   quantity: number;
