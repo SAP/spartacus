@@ -12,10 +12,10 @@ import { combineLatest } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-pickup-delivery-info-container',
-  templateUrl: './pickup-delivery-info-container.component.html',
+  selector: 'cx-pickup-info-container',
+  templateUrl: './pickup-info-container.component.html',
 })
-export class PickupDeliveryInfoContainerComponent implements OnInit {
+export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];
 
   constructor(

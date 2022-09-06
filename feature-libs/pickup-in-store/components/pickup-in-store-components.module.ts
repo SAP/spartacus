@@ -11,14 +11,14 @@ import {
   CartPickupOptionsContainerModule,
   defaultPickupOptionsDialogLayoutConfig,
   PdpPickupOptionsContainerModule,
-  PickupDeliveryInfoContainerModule,
+  PickupInfoContainerModule,
 } from './container/index';
 @NgModule({
   imports: [
     ReactiveFormsModule,
     CartPickupOptionsContainerModule,
     PdpPickupOptionsContainerModule,
-    PickupDeliveryInfoContainerModule,
+    PickupInfoContainerModule,
   ],
   providers: [provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)],
 })

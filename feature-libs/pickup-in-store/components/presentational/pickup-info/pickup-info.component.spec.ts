@@ -3,16 +3,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
 import { StoreAddressStubComponent } from '../store/store-address/store-address.component.spec';
 import { StoreScheduleStubComponent } from '../store/store-schedule/store-schedule.component.spec';
-import { PickupDeliveryInfoComponent } from './pickup-delivery-info.component';
+import { PickupInfoComponent } from './pickup-info.component';
 
-describe('PickupDeliveryInfoComponent', () => {
-  let component: PickupDeliveryInfoComponent;
-  let fixture: ComponentFixture<PickupDeliveryInfoComponent>;
+describe('PickupInfoComponent', () => {
+  let component: PickupInfoComponent;
+  let fixture: ComponentFixture<PickupInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        PickupDeliveryInfoComponent,
+        PickupInfoComponent,
         StoreAddressStubComponent,
         StoreScheduleStubComponent,
       ],
@@ -21,7 +21,7 @@ describe('PickupDeliveryInfoComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PickupDeliveryInfoComponent);
+    fixture = TestBed.createComponent(PickupInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -32,13 +32,13 @@ describe('PickupDeliveryInfoComponent', () => {
 });
 
 /**
- * This is a stub of the PickupDeliveryInfoComponent with the same inputs
+ * This is a stub of the PickupInfoComponent with the same inputs
  * for the purposes of testing the components that wrap it.
  */
 @Component({
-  selector: 'cx-pickup-delivery-info',
+  selector: 'cx-pickup-info',
   template: '',
 })
-export class PickupDeliveryInfoStubComponent {
+export class PickupInfoStubComponent {
   @Input() storeDetails: PointOfService;
 }

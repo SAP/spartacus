@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/** Translation keys for the PickupDeliveryInfoComponent */
-export const pickupDeliveryInfo = {
+/** Translation keys for the PickupInfoComponent */
+export const pickupInfo = {
   inStorePickup: 'In Store Pickup',
   pickupBy: 'Pick up by',
   pickupFrom: 'Pick up from',
@@ -56,7 +56,7 @@ export const storeSearch = {
 
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
-  pickupDeliveryInfo,
+  pickupInfo,
   pickupOptionDialog,
   pickupOptions,
   store,

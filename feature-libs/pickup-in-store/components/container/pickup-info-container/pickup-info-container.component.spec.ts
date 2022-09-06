@@ -5,9 +5,8 @@ import {
   PickupLocationsSearchFacade
 } from 'feature-libs/pickup-in-store/root/public_api';
 import { Observable, of } from 'rxjs';
-import { PickupDeliveryInfoStubComponent } from '../../presentational/pickup-delivery-info/pickup-delivery-info.component.spec';
-
-import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-container.component';
+import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
+import { PickupInfoContainerComponent } from './pickup-info-container.component';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
@@ -29,18 +28,15 @@ class MockPickupLocationsSearchFacade
   loadStoreDetails(_name: string): void {}
 }
 
-describe('PickupDeliveryInfoContainerComponent', () => {
-  let component: PickupDeliveryInfoContainerComponent;
-  let fixture: ComponentFixture<PickupDeliveryInfoContainerComponent>;
+describe('PickupInfoContainerComponent', () => {
+  let component: PickupInfoContainerComponent;
+  let fixture: ComponentFixture<PickupInfoContainerComponent>;
   let activeCartService: ActiveCartFacade;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        PickupDeliveryInfoContainerComponent,
-        PickupDeliveryInfoStubComponent,
-      ],
+      declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
       providers: [
         {
           provide: ActiveCartFacade,
@@ -55,7 +51,7 @@ describe('PickupDeliveryInfoContainerComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PickupDeliveryInfoContainerComponent);
+    fixture = TestBed.createComponent(PickupInfoContainerComponent);
     component = fixture.componentInstance;
     activeCartService = TestBed.inject(ActiveCartFacade);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
