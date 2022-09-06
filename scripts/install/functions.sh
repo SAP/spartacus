@@ -1091,6 +1091,8 @@ function exec_parallel_export_vars {
     export -f add_cdc
     export -f add_epd_visualization
     export -f add_product_configurator
+    export -f publish_dist_package
+    export -f publish_package
 }
 
 function exec_linear {
