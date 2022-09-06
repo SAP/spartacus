@@ -255,13 +255,14 @@ function create_apps {
 }
 
 function clean_package {
-    local PKG_NAME=${1}
-    local dir="storage/${PKG_NAME}"
-    echo "clean package ${PKG_NAME}"
+    local PKG_NAME="${1}"
+    local FULL_PKG_NAME="@spartacus/${PKG_NAME}"
+    local dir="storage/${FULL_PKG_NAME}"
+    echo "clean package ${FULL_PKG_NAME}"
     if [ -d ${dir} ]; then
-        echo " - removing package ${PKG_NAME}"
+        echo " - removing package ${FULL_PKG_NAME}"
         rm -rf ${dir}
-        yarn cache clean --force "${PKG_NAME}"
+        yarn cache clean --force "${FULL_PKG_NAME}"
     fi
 }
 
