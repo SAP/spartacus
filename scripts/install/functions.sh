@@ -167,11 +167,11 @@ function install_from_sources {
     local packages_commands=()
 
     for package in ${dist_packages[@]}; do
-        packages_commands+="publish_dist_package ${package}"
+        packages_commands+=( "publish_dist_package ${package}" )
     done
 
     for package in ${packages[@]}; do
-        packages_commands+="publish_package ${package}"
+        packages_commands+=( "publish_package ${package}" )
     done
 
     run_parallel_chunked "6" "${packages_commands[@]}"
@@ -1034,14 +1034,14 @@ function run_parallel_chunked {
     if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
         echo "⇶ Running in parallel chunked [fast]"
         local n="${1}"
-        local args=("$@")
+        local tasks=("$@")
 
-        echo "  > Tasks: $((${#args[@]}-1))"
+        echo "  > Tasks: $((${#tasks[@]}-1))"
         echo "  > Chunk-Size: ${n}"
 
-        for((i=1; i < ${#args[@]}; i+=g))
+        for((i=1; i < ${#tasks[@]}; i+=n))
         do
-            chunk=( "${args[@]:i:g}" )
+            chunk=( "${tasks[@]:i:n}" )
             echo "⇶ Running a chunk in parallel [fast]"
             exec_parallel "${chunk[@]}"
         done
