@@ -34,7 +34,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   cartId: string;
   userId: string;
 
-  readonly iconTypes = ICON_TYPE;
+  readonly ICON_TYPE = ICON_TYPE;
   readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
