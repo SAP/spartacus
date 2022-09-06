@@ -151,7 +151,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -180,7 +180,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -212,7 +212,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
