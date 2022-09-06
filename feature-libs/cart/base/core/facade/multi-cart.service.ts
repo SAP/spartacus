@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   AddEntryOptions,
-  BaseCartOptions,
   Cart,
+  CartOptions,
   CartType,
   MultiCartFacade,
   OrderEntry,
@@ -221,7 +221,7 @@ export class MultiCartService implements MultiCartFacade {
    * Add entry to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: BaseCartOptions<AddEntryOptions>)`.
+   * Instead, use `addEntry(options: CartOptions<AddEntryOptions>)`.
    *
    * @param userId
    * @param cartId
@@ -236,11 +236,11 @@ export class MultiCartService implements MultiCartFacade {
     quantity: number
   ): void;
   // TODO:#object-extensibility-deprecation - remove
-  addEntry(options: BaseCartOptions<AddEntryOptions>): void;
+  addEntry(options: CartOptions<AddEntryOptions>): void;
   addEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | BaseCartOptions<AddEntryOptions>
+      | CartOptions<AddEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
@@ -309,7 +309,7 @@ export class MultiCartService implements MultiCartFacade {
    * Remove entry from cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: BaseCartOptions<RemoveEntryOptions>)`.
+   * Instead, use `removeEntry(options: CartOptions<RemoveEntryOptions>)`.
    *
    * @param userId
    * @param cartId
@@ -318,11 +318,11 @@ export class MultiCartService implements MultiCartFacade {
   // TODO:#object-extensibility-deprecation - remove
   removeEntry(userId: string, cartId: string, entryNumber: number): void;
   // TODO:#object-extensibility-deprecation - remove
-  removeEntry(options: BaseCartOptions<RemoveEntryOptions>): void;
+  removeEntry(options: CartOptions<RemoveEntryOptions>): void;
   removeEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | BaseCartOptions<RemoveEntryOptions>
+      | CartOptions<RemoveEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
@@ -355,7 +355,7 @@ export class MultiCartService implements MultiCartFacade {
    * Update entry in cart. For quantity = 0 it removes entry
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `updateEntry(options: BaseCartOptions<UpdateEntryOptions>)`.
+   * Instead, use `updateEntry(options: CartOptions<UpdateEntryOptions>)`.
    *
    * @param userId
    * @param cartId
@@ -370,11 +370,11 @@ export class MultiCartService implements MultiCartFacade {
     quantity: number
   ): void;
   // TODO:#object-extensibility-deprecation - remove
-  updateEntry(options: BaseCartOptions<UpdateEntryOptions>): void;
+  updateEntry(options: CartOptions<UpdateEntryOptions>): void;
   updateEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | BaseCartOptions<UpdateEntryOptions>
+      | CartOptions<UpdateEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     cartId?: string,

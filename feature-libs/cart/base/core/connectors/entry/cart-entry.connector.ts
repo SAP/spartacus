@@ -7,8 +7,8 @@
 import { Injectable } from '@angular/core';
 import {
   AddEntryOptions,
-  BaseCartOptions,
   CartModification,
+  CartOptions,
   RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
@@ -25,7 +25,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: BaseCartOptions<AddEntryOptions>)`.
+   * Instead, use `add(options: CartOptions<AddEntryOptions>)`.
    */
   public add(
     userId: string,
@@ -35,11 +35,11 @@ export class CartEntryConnector {
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
   public add(
-    options: BaseCartOptions<AddEntryOptions>
+    options: CartOptions<AddEntryOptions>
   ): Observable<CartModification>;
   add(
     options:
-      | BaseCartOptions<AddEntryOptions>
+      | CartOptions<AddEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,
@@ -57,7 +57,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `update(options: BaseCartOptions<UpdateEntryOptions>)`.
+   * Instead, use `update(options: CartOptions<UpdateEntryOptions>)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public update(
@@ -69,11 +69,11 @@ export class CartEntryConnector {
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
   public update(
-    options: BaseCartOptions<UpdateEntryOptions>
+    options: CartOptions<UpdateEntryOptions>
   ): Observable<CartModification>;
   public update(
     options:
-      | BaseCartOptions<UpdateEntryOptions>
+      | CartOptions<UpdateEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,
@@ -96,7 +96,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `remove(options: BaseCartOptions<RemoveEntryOptions>)`.
+   * Instead, use `remove(options: CartOptions<RemoveEntryOptions>)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public remove(
@@ -106,11 +106,11 @@ export class CartEntryConnector {
   ): Observable<any>;
   // TODO:#object-extensibility-deprecation - remove
   public remove(
-    options: BaseCartOptions<RemoveEntryOptions>
+    options: CartOptions<RemoveEntryOptions>
   ): Observable<CartModification>;
   public remove(
     options:
-      | BaseCartOptions<RemoveEntryOptions>
+      | CartOptions<RemoveEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,

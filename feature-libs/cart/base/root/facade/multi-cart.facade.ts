@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
 import {
   AddEntryOptions,
-  BaseCartOptions,
   Cart,
+  CartOptions,
   CartType,
   OrderEntry,
   RemoveEntryOptions,
@@ -152,7 +152,7 @@ export abstract class MultiCartFacade {
    * Add entry to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: BaseCartOptions<AddEntryOptions>)`.
+   * Instead, use `addEntry(options: CartOptions<AddEntryOptions>)`.
    *
    * @param userId
    * @param cartId
@@ -169,7 +169,7 @@ export abstract class MultiCartFacade {
   /**
    * Add entry to active cart
    */
-  abstract addEntry(options: BaseCartOptions<AddEntryOptions>): void;
+  abstract addEntry(options: CartOptions<AddEntryOptions>): void;
 
   /**
    * Add multiple entries to cart
@@ -202,7 +202,7 @@ export abstract class MultiCartFacade {
    * Remove entry from cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: BaseCartOptions<RemoveEntryOptions>)`.
+   * Instead, use `removeEntry(options: CartOptions<RemoveEntryOptions>)`.
    *
    * @param userId
    * @param cartId
@@ -217,7 +217,7 @@ export abstract class MultiCartFacade {
   /**
    * Remove entry from cart
    */
-  abstract removeEntry(options: BaseCartOptions<RemoveEntryOptions>): void;
+  abstract removeEntry(options: CartOptions<RemoveEntryOptions>): void;
 
   /**
    * Update entry in cart. For quantity = 0 it removes entry
@@ -228,7 +228,7 @@ export abstract class MultiCartFacade {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `updateEntry(options: BaseCartOptions<UpdateEntryOptions>)`.
+   * Instead, use `updateEntry(options: CartOptions<UpdateEntryOptions>)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(
@@ -240,7 +240,7 @@ export abstract class MultiCartFacade {
   /**
    * Update entry in cart. For quantity = 0 it removes entry
    */
-  abstract updateEntry(options: BaseCartOptions<UpdateEntryOptions>): void;
+  abstract updateEntry(options: CartOptions<UpdateEntryOptions>): void;
 
   /**
    * Get first entry from cart matching the specified product code

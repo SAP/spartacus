@@ -1,7 +1,7 @@
 import {
   AddEntryOptions,
-  BaseCartOptions,
   CartModification,
+  CartOptions,
   RemoveEntryOptions,
   UpdateEntryOptions,
 } from '@spartacus/cart/base/root';
@@ -15,14 +15,14 @@ import {
  * Payload type for CartAddEntry action
  */
 export interface CartAddEntryPayload
-  extends ActionPayload<BaseCartOptions<AddEntryOptions>> {}
+  extends ActionPayload<CartOptions<AddEntryOptions>> {}
 
 /**
  * Payload type for CartAddEntrySuccess action
  */
 export interface CartAddEntrySuccessPayload
   extends ActionSuccessPayload<
-    BaseCartOptions<AddEntryOptions>,
+    CartOptions<AddEntryOptions>,
     CartModification
   > {}
 
@@ -30,13 +30,13 @@ export interface CartAddEntrySuccessPayload
  * Payload type for CartAddEntryFail action
  */
 export interface CartAddEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<AddEntryOptions>> {}
+  extends ActionFailPayload<CartOptions<AddEntryOptions>> {}
 
 /**
  * Payload type for CartRemoveEntry action
  */
 export interface CartRemoveEntryPayload
-  extends ActionPayload<BaseCartOptions<RemoveEntryOptions>> {}
+  extends ActionPayload<CartOptions<RemoveEntryOptions>> {}
 
 /**
  * Payload type for CartRemoveEntrySuccess action
@@ -47,13 +47,13 @@ export interface CartRemoveEntrySuccessPayload extends CartRemoveEntryPayload {}
  * Payload type for CartRemoveEntryFail action
  */
 export interface CartRemoveEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<RemoveEntryOptions>> {}
+  extends ActionFailPayload<CartOptions<RemoveEntryOptions>> {}
 
 /**
  * Payload type for CartUpdateEntry action
  */
 export interface CartUpdateEntryPayload
-  extends ActionPayload<BaseCartOptions<UpdateEntryOptions>> {}
+  extends ActionPayload<CartOptions<UpdateEntryOptions>> {}
 
 /**
  * Payload type for CartUpdateEntrySuccess action
@@ -64,4 +64,4 @@ export interface CartUpdateEntrySuccessPayload extends CartUpdateEntryPayload {}
  * Payload type for CartUpdateEntryFail action
  */
 export interface CartUpdateEntryFailPayload
-  extends ActionFailPayload<BaseCartOptions<UpdateEntryOptions>> {}
+  extends ActionFailPayload<CartOptions<UpdateEntryOptions>> {}

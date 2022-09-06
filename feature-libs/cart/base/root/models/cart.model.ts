@@ -14,7 +14,6 @@ import {
   Product,
   Promotion,
 } from '@spartacus/core';
-import { BaseUserOptions } from '@spartacus/user/account/root';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -202,20 +201,38 @@ export enum CartValidationStatusCode {
 }
 
 /**
- * Base Cart options, used for extensibility.
+ * Base options for the cart.
+ * Intended for extension / augmentation.
  */
-export type BaseCartOptions<T> = BaseUserOptions<T & { cartId: string }>;
+export interface BaseCartOptions {
+  userId: string;
+  cartId: string;
+}
+/**
+ * Cart options type.
+ * For extension / augmentation, refer to 'BaseCartOptions' interface.
+ */
+export type CartOptions<T> = T & BaseCartOptions;
 
+/**
+ * An extendable interface for adding an entry.
+ */
 export interface AddEntryOptions {
   productCode: string;
   quantity?: number;
 }
 
+/**
+ * An extendable interface for updating an entry.
+ */
 export interface UpdateEntryOptions {
   entryNumber: number;
   quantity?: number;
 }
 
+/**
+ * An extendable interface for removing an entry.
+ */
 export interface RemoveEntryOptions {
   entryNumber: number;
 }
