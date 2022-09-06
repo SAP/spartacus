@@ -77,6 +77,8 @@ export const LOCATORS = {
   PICKUP_STORE_LOCATION_NOT_VALUE: (value) =>
     `[data-pickup-location]:not([data-pickup-location="${value}"])[data-pickup-location]:not([data-pickup-location=""]) `,
   SAP_ICON_HOME_LINK: `.SiteLogo cx-banner cx-generic-link a`,
+  HOME_PAGE_FIRST_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(1) > cx-product-carousel-item > a > .is-initialized > img`,
+  HOME_PAGE_SECOND_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(2) > cx-product-carousel-item > a > .is-initialized > img`,
   PICKUP_OPTIONS_RADIO: `[data-pickup]`,
   PICKUP_OPTIONS_RADIO_DELIVERY: `[data-pickup=delivery]`,
   PICKUP_OPTIONS_RADIO_DELIVERY_CHECKED: `[data-pickup=delivery][aria-checked=true]`,
@@ -111,7 +113,7 @@ export const LOCATORS = {
   ...REVIEW_ORDER_LOCATORS,
 };
 
-const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
+export const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
 const PASSWORD = `Password-1234`;
 
 export const register = () => {
