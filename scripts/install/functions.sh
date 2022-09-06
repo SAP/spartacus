@@ -312,10 +312,11 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR}/${1}
     YARN_CACHE_FOLDER="${BASE_DIR}/.cache/${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
+
+    ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
