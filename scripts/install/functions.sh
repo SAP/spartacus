@@ -1115,7 +1115,7 @@ function exec_linear {
     local ltasks=$(printf "${sep}%s" "${tasks[@]}")
     ltasks="${ltasks:${#sep}}"
 
-    eval $ltasks
+    eval "$ltasks"
 }
 
 function try_command {
