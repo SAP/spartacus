@@ -320,7 +320,7 @@ function add_spartacus_csr {
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
     fi
-    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
+    run_parallel ( "add_feature_libs" "add_b2b" "add_cdc" "add_epd_visualization" "add_product_configurator" )
     )
 }
 
@@ -332,7 +332,7 @@ function add_spartacus_ssr {
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     fi
-    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
+    run_parallel ( "add_feature_libs" "add_b2b" "add_cdc" "add_epd_visualization" "add_product_configurator" )
     )
 }
 
@@ -344,7 +344,7 @@ function add_spartacus_ssr_pwa {
     else
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     fi
-    run_parallel ( add_feature_libs add_b2b add_cdc add_epd_visualization add_product_configurator )
+    run_parallel ( "add_feature_libs" "add_b2b" "add_cdc" "add_epd_visualization" "add_product_configurator" )
     )
 }
 
