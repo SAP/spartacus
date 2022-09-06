@@ -215,24 +215,36 @@ export interface BaseCartOptions {
 export type CartOptions<T> = T & BaseCartOptions;
 
 /**
- * An extendable interface for adding an entry.
+ * Default options for adding an entry.
  */
-export interface AddEntryOptions {
+export interface AddEntryDefaultOptions {
   productCode: string;
   quantity?: number;
 }
+/**
+ * An extendable interface for adding an entry.
+ */
+export interface AddEntryOptions extends AddEntryDefaultOptions {}
 
 /**
- * An extendable interface for updating an entry.
+ * Default options for updating an entry.
  */
-export interface UpdateEntryOptions {
+export interface UpdateEntryDefaultOptions {
   entryNumber: number;
   quantity?: number;
 }
+/**
+ * An extendable interface for updating an entry.
+ */
+export interface UpdateEntryOptions extends UpdateEntryDefaultOptions {}
 
+/**
+ * Default options for removing an entry.
+ */
+export interface RemoveEntryDefaultOptions {
+  entryNumber: number;
+}
 /**
  * An extendable interface for removing an entry.
  */
-export interface RemoveEntryOptions {
-  entryNumber: number;
-}
+export interface RemoveEntryOptions extends RemoveEntryDefaultOptions {}
