@@ -255,15 +255,15 @@ function create_apps {
 }
 
 function clean_package {
-    local PKG_NAME="${1}"
-    local FULL_PKG_NAME="@spartacus/${PKG_NAME}"
-    local dir="storage/${FULL_PKG_NAME}"
-    
-    echo "clean package ${FULL_PKG_NAME}"
+    local PKG_PATH="${1}"
+    local NPM_PKG_NAME=(get_package_name "$PKG_PATH/package.json")
+
+    local dir="storage/${NPM_PKG_NAME}"
+    echo "clean package ${NPM_PKG_NAME}"
     if [ -d ${dir} ]; then
-        echo " - removing package ${FULL_PKG_NAME}"
+        echo " - removing package ${NPM_PKG_NAME}"
         rm -rf ${dir}
-        yarn cache clean --force "${FULL_PKG_NAME}"
+        yarn cache clean --force "${NPM_PKG_NAME}"
     fi
 }
 
@@ -271,7 +271,7 @@ function publish_dist_package {
     local PKG_NAME=${1}
     printh "Creating ${PKG_NAME} npm package"
 
-    clean_package "${PKG_NAME}"
+    clean_package "${CLONE_DIR}/dist/${PKG_NAME}"
 
     try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
@@ -280,7 +280,7 @@ function publish_package {
     local PKG_NAME=${1}
     printh "Creating ${PKG_NAME} npm package"
 
-    clean_package "${PKG_NAME}"
+    clean_package "${CLONE_DIR}/projects/${PKG_NAME}"
 
     try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
 }
@@ -1015,13 +1015,18 @@ function basesite_sanity_check {
     fi
 }
 
-function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+function "version" { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
                                                                                                          
 #  _____ _____ _____ __    _____ 
 # |  |  |_   _|     |  |  |   __|
 # |  |  | | | |-   -|  |__|__   |
 # |_____| |_| |_____|_____|_____|
 #
+
+function get_package_name {
+    local PKG_JSON="${1}"
+    cat "${PKG_JSON}" | grep -oP '(?<=\"name\":\s\")[^\"]*'
+}
 
 function run_system_check {
     printh "Checking system"
