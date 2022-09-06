@@ -164,16 +164,17 @@ function install_from_sources {
         'schematics'
     )
 
-    # local dist_packages_commands=()
-    # local packages_commands=()
+    local packages_commands=()
 
     for package in ${dist_packages[@]}; do
-        publish_dist_package ${package}
+        packages_commands+="publish_dist_package ${package}"
     done
 
     for package in ${packages[@]}; do
-        publish_package ${package}
+        packages_commands+="publish_package ${package}"
     done
+
+    run_parallel_chunked "6" "${packages_commands[@]}"
 
     create_apps
 
@@ -1044,6 +1045,24 @@ function run_system_check {
 
 }
 
+function run_parallel_chunked {
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        echo "⇶ Running in parallel chunked [fast]"
+        local n="${1}"
+        local args="${@}"
+
+        for((i=1; i < ${#args[@]}; i+=g))
+        do
+            chunk=( "${args[@]:i:g}" )
+            echo "⇶ Running a chunk in parallel [fast]"
+            exec_parallel "${chunk[@]}"
+        done
+    else
+        echo "→ Running linear [slow]"
+        exec_linear "${@}"
+    fi
+}
+
 function run_parallel {
     if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
         echo "⇶ Running in parallel [fast]"
@@ -1069,6 +1088,11 @@ function exec_parallel_export_vars {
     export URL_PARAMETERS
     export BASE_SITE
     export CUSTOM_CACHE_DIR
+    export -f run_parallel_chunked
+    export -f run_parallel
+    export -f exec_linear
+    export -f exec_parallel
+    export -f exec_parallel_export_vars
     export -f setup_custom_yarn_cache
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
