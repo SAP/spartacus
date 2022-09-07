@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'cx-dot-spinner',
   templateUrl: './dot-spinner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DotSpinnerComponent {}

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
@@ -18,12 +23,13 @@ import {
   OCC_CART_ID_CURRENT,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { defer, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-bind-cart',
   templateUrl: './asm-bind-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   cartId: FormControl = new FormControl('', [
@@ -31,7 +37,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.minLength(1),
   ]);
 
-  loading = false;
+  loading$: Subject<boolean> = new BehaviorSubject(false);
 
   protected subscription = new Subscription();
 
@@ -70,12 +76,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.activeCartFacade
-        .getActiveCartId()
-        .pipe(filter((id) => Boolean(id)))
-        .subscribe((response) => {
-          this.cartId.setValue(response);
-        })
+      this.activeCartFacade.getActiveCartId().subscribe((response) => {
+        this.cartId.setValue(response ?? '');
+      })
     );
   }
 
@@ -83,29 +86,31 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    if (this.cartId.valid && !this.loading) {
-      const subscription = defer(() => {
-        this.loading = true;
-        return this.bindCartToCurrentUser$.execute(this.cartId.value);
-      })
-        .pipe(finalize(() => (this.loading = false)))
-        .subscribe(
-          () => {
-            this.globalMessageService.add(
-              { key: 'asm.bindCart.success' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          },
-          (error: HttpErrorModel) => {
-            this.globalMessageService.add(
-              error.details?.[0].message ?? '',
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-        );
+    const subscription = this.loading$
+      .asObservable()
+      .pipe(
+        take(1),
+        filter((loading) => !loading && this.cartId.valid),
+        tap(() => this.loading$.next(true)),
+        concatMap(() => this.bindCartToCurrentUser$.execute(this.cartId.value)),
+        finalize(() => this.loading$.next(false))
+      )
+      .subscribe(
+        () => {
+          this.globalMessageService.add(
+            { key: 'asm.bindCart.success' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        },
+        (error: HttpErrorModel) => {
+          this.globalMessageService.add(
+            error.details?.[0].message ?? '',
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      );
 
-      this.subscription.add(subscription);
-    }
+    this.subscription.add(subscription);
   }
 
   clearText() {
