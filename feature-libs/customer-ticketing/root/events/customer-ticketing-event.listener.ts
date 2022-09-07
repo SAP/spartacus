@@ -10,6 +10,7 @@ import { merge, Subscription } from 'rxjs';
 import {
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  TicketEventCreatedEvent,
 } from './customer-ticketing.events';
 
 @Injectable({
@@ -27,7 +28,8 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
+        this.eventService.get(TicketEventCreatedEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })

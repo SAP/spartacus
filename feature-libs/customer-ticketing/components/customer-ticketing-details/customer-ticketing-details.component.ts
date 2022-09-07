@@ -36,7 +36,7 @@ export class CustomerTicketingDetailsComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customClass: this.getStatusClass(id),
+        customClass: this.getStatusClass(id?.toUpperCase()),
       }))
     );
   }

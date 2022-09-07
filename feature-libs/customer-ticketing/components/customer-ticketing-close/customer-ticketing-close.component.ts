@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { STATUS } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
@@ -19,11 +19,18 @@ export class CustomerTicketingCloseComponent {
 
   @ViewChild('element') element: ElementRef;
 
-  isStatusOpen$: Observable<boolean> = this.customerTicketingDetailsService
-    .getTicketStatus()
-    .pipe(
-      map((status) => status === STATUS.OPEN || status === STATUS.INPROCESS)
-    );
+  enableCloseButton$: Observable<boolean | undefined> = combineLatest([
+    this.customerTicketingDetailsService.getTicketStatus(),
+    this.customerTicketingDetailsService.getAvailableTransitionStatus(),
+  ]).pipe(
+    map(
+      ([ticketStatus, availableStatus]) =>
+        (ticketStatus === STATUS.OPEN || ticketStatus === STATUS.INPROCESS) &&
+        availableStatus?.some(
+          (status) => status.id.toUpperCase() === STATUS.CLOSE
+        )
+    )
+  );
 
   constructor(
     protected customerTicketingDetailsService: CustomerTicketingDetailsService,
@@ -33,7 +40,7 @@ export class CustomerTicketingCloseComponent {
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.CUSTOMER_TICKETING_REOPEN,
+      LAUNCH_CALLER.CUSTOMER_TICKETING_CLOSE,
       this.element,
       this.vcr
     );

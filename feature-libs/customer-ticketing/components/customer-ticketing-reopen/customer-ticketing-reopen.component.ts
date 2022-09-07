@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { STATUS } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
@@ -20,9 +20,20 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  isStatusClose$: Observable<boolean> = this.customerTicketingDetailsService
-    .getTicketStatus()
-    .pipe(map((status) => status === STATUS.CLOSE));
+  enableReopenButton$: Observable<boolean | undefined> = combineLatest([
+    this.customerTicketingDetailsService.getTicketStatus(),
+    this.customerTicketingDetailsService.getAvailableTransitionStatus(),
+  ]).pipe(
+    map(
+      ([ticketStatus, availableStatus]) =>
+        ticketStatus === STATUS.CLOSE &&
+        availableStatus?.some(
+          (status) =>
+            status.id.toUpperCase() === STATUS.INPROCESS ||
+            status.id.toUpperCase() === STATUS.OPEN
+        )
+    )
+  );
 
   constructor(
     protected customerTicketingDetailsService: CustomerTicketingDetailsService,

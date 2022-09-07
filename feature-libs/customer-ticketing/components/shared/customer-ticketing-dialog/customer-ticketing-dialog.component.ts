@@ -13,6 +13,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { CustomerTicketingDetailsService } from '../../customer-ticketing-details.service';
 
 @Directive()
 export abstract class CustomerTicketingDialogComponent {
@@ -77,7 +78,8 @@ export abstract class CustomerTicketingDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected customerTicketingConfig: CustomerTicketingConfig,
-    protected filesFormValidators: FilesFormValidators
+    protected filesFormValidators: FilesFormValidators,
+    protected customerTicketingDetailsService: CustomerTicketingDetailsService
   ) {}
 
   protected buildForm(): void {

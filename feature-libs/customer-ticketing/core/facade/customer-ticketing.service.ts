@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
+  Command,
+  CommandService,
+  CommandStrategy,
+  EventService,
   Query,
   QueryNotifier,
   QueryService,
@@ -12,9 +16,17 @@ import {
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
   TicketDetails,
+  TicketEvent,
+  TicketEventCreatedEvent,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
 
 @Injectable()
@@ -32,6 +44,25 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketQueryResetEvent];
   }
 
+  protected createTicketEventCommand: Command<TicketEvent, unknown> =
+    this.commandService.create<TicketEvent>(
+      (ticketEvent) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId, ticketId]) =>
+            this.customerTicketingConnector
+              .createTicketEvent(customerId, ticketId, ticketEvent)
+              .pipe(
+                tap(() =>
+                  this.eventService.dispatch({}, TicketEventCreatedEvent)
+                )
+              )
+          )
+        ),
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
+
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
       () =>
@@ -48,9 +79,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   constructor(
     protected queryService: QueryService,
+    protected commandService: CommandService,
     protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected eventService: EventService
   ) {}
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
@@ -76,5 +109,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   getTicket(): Observable<TicketDetails | undefined> {
     return this.getTicketState().pipe(map((state) => state.data));
+  }
+
+  createTicketEvent(
+    ticketEvent: TicketEvent
+  ): Observable<TicketEvent | unknown> {
+    return this.createTicketEventCommand.execute(ticketEvent);
   }
 }

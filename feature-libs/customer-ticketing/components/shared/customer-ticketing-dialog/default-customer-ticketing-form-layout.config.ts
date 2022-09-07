@@ -1,5 +1,5 @@
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { CustomerTicketingCloseDialogComponent } from '../../customer-ticketing-close/customer-ticketing-close-dialog/customer-ticketing-close-dialog.component';
+import { CustomerTicketingCloseDialogComponent } from '../../customer-ticketing-close';
 import { CustomerTicketingCreateDialogComponent } from '../../customer-ticketing-create';
 import { CustomerTicketingReopenDialogComponent } from '../../customer-ticketing-reopen';
 
