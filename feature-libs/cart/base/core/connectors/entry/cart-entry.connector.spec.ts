@@ -70,4 +70,25 @@ describe('CartEntryConnector', () => {
       entryNumber,
     });
   });
+
+  // TODO:#object-extensibility-deprecation - remove the whole describe block
+  describe('OLD tests', () => {
+    it('add should call adapter', () => {
+      const adapter = TestBed.inject(CartEntryAdapter);
+      service.add('1', '2', '3').subscribe();
+      expect(adapter.add as any).toHaveBeenCalledWith('1', '2', '3', undefined);
+    });
+
+    it('update should call adapter', () => {
+      const adapter = TestBed.inject(CartEntryAdapter);
+      service.update('1', '2', '3', 4).subscribe();
+      expect(adapter.update as any).toHaveBeenCalledWith('1', '2', '3', 4);
+    });
+
+    it('remove should call adapter', () => {
+      const adapter = TestBed.inject(CartEntryAdapter);
+      service.remove('1', '2', '3').subscribe();
+      expect(adapter.remove as any).toHaveBeenCalledWith('1', '2', '3');
+    });
+  });
 });

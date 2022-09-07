@@ -71,7 +71,7 @@ describe('OccCartEntryAdapter', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       let result;
       occCartEntryAdapter
-        .add(userId, cartId, '147852', 5)
+        .add({ userId, cartId, productCode: '147852', quantity: 5 })
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
@@ -91,6 +91,7 @@ describe('OccCartEntryAdapter', () => {
           cartId,
           quantity: 5,
         },
+        queryParams: {},
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -107,7 +108,7 @@ describe('OccCartEntryAdapter', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantity', () => {
       let result;
       occCartEntryAdapter
-        .update(userId, cartId, '12345', 5)
+        .update({ userId, cartId, entryNumber: 12345, quantity: 5 })
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
@@ -127,8 +128,9 @@ describe('OccCartEntryAdapter', () => {
           urlParams: {
             userId,
             cartId,
-            entryNumber: '12345',
+            entryNumber: 12345,
           },
+          queryParams: {},
         }
       );
 
@@ -142,10 +144,8 @@ describe('OccCartEntryAdapter', () => {
     });
 
     it(`should handle 'pickupStore'`, () => {
-      const pickupStore =
-        'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France';
       occCartEntryAdapter
-        .update(userId, cartId, '12345', 5, pickupStore)
+        .update({ userId, cartId, entryNumber: 12345, quantity: 5 })
         .subscribe()
         .unsubscribe();
 
@@ -156,7 +156,6 @@ describe('OccCartEntryAdapter', () => {
 
       expect(mockReq.request.body).toEqual({
         quantity: 5,
-        deliveryPointOfService: { name: pickupStore },
       });
 
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
@@ -165,8 +164,9 @@ describe('OccCartEntryAdapter', () => {
           urlParams: {
             userId,
             cartId,
-            entryNumber: '12345',
+            entryNumber: 12345,
           },
+          queryParams: {},
         }
       );
     });
@@ -198,6 +198,146 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
+    });
+  });
+
+  // TODO:#object-extensibility-deprecation - remove the whole describe block
+  describe('OLD tests', () => {
+    describe('add entry to cart', () => {
+      it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
+        let result;
+        occCartEntryAdapter
+          .add(userId, cartId, '147852', 5)
+          .subscribe((res) => (result = res));
+
+        const mockReq = httpMock.expectOne({
+          method: 'POST',
+          url: 'addEntries',
+        });
+
+        expect(mockReq.request.headers.get('Content-Type')).toEqual(
+          'application/json'
+        );
+
+        expect(mockReq.request.body).toEqual({
+          product: { code: '147852' },
+          quantity: 5,
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
+          urlParams: {
+            userId,
+            cartId,
+            quantity: 5,
+          },
+        });
+
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(cartModified);
+        expect(result).toEqual(cartModified);
+        expect(converterService.pipeable).toHaveBeenCalledWith(
+          CART_MODIFICATION_NORMALIZER
+        );
+      });
+    });
+
+    describe('update entry in a cart', () => {
+      it('should update an entry in a cart for given user id, cart id, entryNumber and quantity', () => {
+        let result;
+        occCartEntryAdapter
+          .update(userId, cartId, '12345', 5)
+          .subscribe((res) => (result = res));
+
+        const mockReq = httpMock.expectOne({
+          method: 'PATCH',
+          url: 'updateEntries',
+        });
+
+        expect(mockReq.request.headers.get('Content-Type')).toEqual(
+          'application/json'
+        );
+
+        expect(mockReq.request.body).toEqual({ quantity: 5 });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'updateEntries',
+          {
+            urlParams: {
+              userId,
+              cartId,
+              entryNumber: '12345',
+            },
+          }
+        );
+
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(cartModified);
+        expect(result).toEqual(cartModified);
+        expect(converterService.pipeable).toHaveBeenCalledWith(
+          CART_MODIFICATION_NORMALIZER
+        );
+      });
+
+      it(`should handle 'pickupStore'`, () => {
+        const pickupStore =
+          'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France';
+        occCartEntryAdapter
+          .update(userId, cartId, '12345', 5, pickupStore)
+          .subscribe()
+          .unsubscribe();
+
+        const mockReq = httpMock.expectOne({
+          method: 'PATCH',
+          url: 'updateEntries',
+        });
+
+        expect(mockReq.request.body).toEqual({
+          quantity: 5,
+          deliveryPointOfService: { name: pickupStore },
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'updateEntries',
+          {
+            urlParams: {
+              userId,
+              cartId,
+              entryNumber: '12345',
+            },
+          }
+        );
+      });
+    });
+
+    describe('remove an entry from cart', () => {
+      it('should remove entry from cart for given user id, cart id and entry number', () => {
+        let result;
+        occCartEntryAdapter
+          .remove(userId, cartId, '147852')
+          .subscribe((res) => (result = res));
+
+        const mockReq = httpMock.expectOne({
+          method: 'DELETE',
+          url: 'removeEntries',
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'removeEntries',
+          {
+            urlParams: {
+              userId,
+              cartId,
+              entryNumber: '147852',
+            },
+          }
+        );
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(cartData);
+        expect(result).toEqual(cartData);
+      });
     });
   });
 });
