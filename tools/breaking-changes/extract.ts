@@ -33,9 +33,6 @@ files.forEach((file: any, index: any) => {
   console.log(
     `Processing(${index + 1}/${files.length}): ${path.dirname(file)}`
   );
-  // if (path.dirname(file).indexOf('dist/storefront') >= 0) {
-  //   runExtractor(path.dirname(file));
-  // }
   runExtractor(path.dirname(file));
 });
 
