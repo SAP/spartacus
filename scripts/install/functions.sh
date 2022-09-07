@@ -1147,6 +1147,7 @@ function exec_parallel {
 }
 
 function exec_parallel_export_vars {
+    export CLONE_DIR
     export BASE_DIR
     export INSTALLATION_DIR
     export SPARTACUS_VERSION
