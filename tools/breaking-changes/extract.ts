@@ -91,8 +91,13 @@ function preparePackageJson(libPath: string): void {
 
 function createPackageJsonFile(libPath: string) {
   const beginIdx = libPath.indexOf(distFolderPath) + distFolderPath.length + 1;
-  const entryPointName = `@spartacus/${libPath.substring(beginIdx)}`;
+  const entryPointNameFromPath = `@spartacus/${libPath.substring(beginIdx)}`;
   const entryPointNameGenerated = getEntryPointName(libPath);
+  if (entryPointNameFromPath !== entryPointNameGenerated) {
+    console.log(
+      `INFO: Module name ${entryPointNameGenerated} differs from path name ${libPath}`
+    );
+  }
   if (!entryPointNameGenerated) {
     console.log(`Error: no module name found in ${libPath}`);
     process.exit(1);
