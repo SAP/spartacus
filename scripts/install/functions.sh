@@ -107,7 +107,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'${SPARTACUS_VERSION}'/g' "package.json"
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'${SPARTACUS_VERSION}'/g' "package.json")
         done
 }
 
@@ -145,7 +145,7 @@ function install_from_sources {
         local proj_src_dir=${project#*:}
 
         local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
-        if [ ! -d ${pkg_src_path} ]; then
+        if [ ! -d "${pkg_src_path}" ]; then
             WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
             printf " \033[33m[!]\033[m ${proj_pck_dir}: ${proj_src_dir}\n"
             continue
