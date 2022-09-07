@@ -5,81 +5,65 @@
 }
 
 %cx-tracking-events {
-  $cx-consignment-tracking-dialog-border-color: 'light' !default;
-  $cx-consignment-tracking-dialog-header-padding-left: 2rem !default;
-  $cx-consignment-tracking-dialog-body-padding-sm: 0 !default;
-
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // z-index: 1040;
-  // width: 100vw;
-  // height: 100vh;
-  // background-color: var(--cx-color, rgba(0, 0, 0, 0.5));
-
-  .cx-dialog-header {
-    padding-top: 2rem;
-    padding-inline-end: 1.75rem;
-    padding-bottom: 0.85rem;
-    padding-inline-start: 1.75rem;
-    border-width: 0;
-    display: flex;
-  }
+  background-color: rgba(0, 0, 0, 0.5);
 
   .cx-consignment-tracking-dialog {
-    // .header {
-    //   padding-inline-start: $cx-consignment-tracking-dialog-header-padding-left;
-    // }
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
 
-    .title {
-      @include type('3');
-    }
+    .cx-consignment-tracking-container {
+      @extend .modal-content;
 
-    .body {
-      @include media-breakpoint-down(sm) {
-        padding: $cx-consignment-tracking-dialog-body-padding-sm;
+      .title {
+        @include type('3');
       }
-    }
 
-    .shipment-heading {
-      position: relative;
-      padding-top: 1.5rem;
-      padding-inline-end: 0;
-      padding-bottom: 0.4rem;
-      padding-inline-start: 2rem;
-      background-color: var(--cx-color-background);
-    }
-
-    .no-tracking-heading {
-      position: relative;
-      padding: $cx-consignment-tracking-dialog-header-padding-left;
-    }
-
-    .shipment-content {
-      padding: 0.6rem 0 1.2rem 0;
-    }
-
-    .shipment-title {
-      @include type('4');
-    }
-
-    .events {
-      .event-body {
-        border-inline-start: 0.7rem solid var(--cx-color-secondary);
-        padding-inline-start: 1rem;
-        margin-bottom: 1rem;
-        div {
-          padding-bottom: 0.6rem;
+      .body {
+        @include media-breakpoint-down(sm) {
+          padding: 0;
         }
-        .event-title {
-          @include type('5');
-        }
-        .event-city {
-          @include type('7');
-        }
-        .enent-content {
-          @include type('6');
-          padding-bottom: 20rem;
+      }
+
+      .shipment-heading {
+        position: relative;
+        padding-top: 1.5rem;
+        padding-inline-end: 0;
+        padding-bottom: 0.4rem;
+        padding-inline-start: 2rem;
+        background-color: var(--cx-color-background);
+      }
+
+      .no-tracking-heading {
+        position: relative;
+        padding: 2rem;
+      }
+
+      .shipment-content {
+        padding: 0.6rem 0 1.2rem 0;
+      }
+
+      .shipment-title {
+        @include type('4');
+      }
+
+      .events {
+        .event-body {
+          border-inline-start: 0.7rem solid var(--cx-color-secondary);
+          padding-inline-start: 1rem;
+          margin-bottom: 1rem;
+          div {
+            padding-bottom: 0.6rem;
+          }
+          .event-title {
+            @include type('5');
+          }
+          .event-city {
+            @include type('7');
+          }
+          .enent-content {
+            @include type('6');
+            padding-bottom: 20rem;
+          }
         }
       }
     }

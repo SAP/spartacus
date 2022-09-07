@@ -18,7 +18,8 @@ import {
   LAUNCH_CALLER,
   ModalRef,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consignment-tracking',
@@ -26,6 +27,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   consignmentStatus: string[] = [
     'SHIPPED',
     'IN_TRANSIT',
@@ -65,15 +67,20 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
       shipDate: consignment.statusDate,
     };
 
-    this.launchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CONSIGNMENT_TRACKING,
       this.element,
       this.vcr,
       modalInstanceData
     );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   ngOnDestroy(): void {
     this.orderHistoryFacade.clearConsignmentTracking();
+    this.subscription?.unsubscribe();
   }
 }
