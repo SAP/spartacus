@@ -136,29 +136,34 @@ function install_from_sources {
     npm set @spartacus:registry http://localhost:4873/
 
     clone_repo
-    printh "Installing Spartacus Repo dependencies."
-    ( cd ${CLONE_DIR} && yarn install)
 
     printh "Checking Packages"
-    declare -A projects
-    for package in ${!SPARTACUS_PROJECTS[@]}; do
-        local pkg_src_dir=${SPARTACUS_PROJECTS[${package}]}
-        local pkg_src_path="${CLONE_DIR}/${pkg_src_dir}"
+    local project_packages=()
+    local project_sources=()
+    for project in ${SPARTACUS_PROJECTS[@]}; do
+        local proj_pck_dir=${project%%:*}
+        local proj_src_dir=${project#*:}
+
+        local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
         if [ ! -d ${pkg_src_path} ]; then
             WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
-            echo " [!] ${package}: ${SPARTACUS_PROJECTS[${package}]}"
+            echo " \033[33m[!]s\033[m ${proj_pck_dir}: ${proj_src_dir}"
             continue
         fi
 
-        projects[${package}]="${pkg_src_dir}"
-        echo " [+] ${package}: ${pkg_src_dir}"
+        project_packages=("${proj_pck_dir}")
+        project_sources=("${proj_src_dir}")
+        echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
     done
+
+    printh "Installing Spartacus Repo dependencies."
+    ( cd ${CLONE_DIR} && yarn install)
 
     printh "Building Spartacus Repo libraries"
     ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
-    update_projects_versions ${projects[@]}
+    update_projects_versions ${project_sources[@]}
 
     verdaccio --config ./config.yaml &
 
@@ -171,7 +176,7 @@ function install_from_sources {
 
     printh "Publish Packages"
     local packages_commands=()
-    for project in ${!projects[@]}; do
+    for project in ${project_packages[@]}; do
         packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
     # run_parallel_chunked "6" "${packages_commands[@]}"
@@ -188,7 +193,7 @@ function install_from_sources {
     npm set @spartacus:registry https://registry.npmjs.org/
 
     printh "Restore clone"
-    restore_clone ${projects[@]}
+    restore_clone ${project_sources[@]}
 
     printh "Print warnings & execution time"
     print_warnings
@@ -1020,6 +1025,9 @@ function run_system_check {
     command -v parallel &> /dev/null || EXIT_CODE=$?
     if [ $EXIT_CODE -eq 0 ] ; then
         HAS_GNU_PARALLEL_INSTALLED=true
+        echo "🚀 Running in rocket speed [using gnu parallel]"
+    else
+        echo "🐢 Running in tutle speed [gnu parallel missing]"
     fi
 
     dep_warnings
