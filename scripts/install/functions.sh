@@ -179,8 +179,7 @@ function install_from_sources {
     for project in ${project_packages[@]}; do
         packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
-    # run_parallel_chunked "6" "${packages_commands[@]}"
-    exec_linear "${packages_commands[@]}"
+    run_parallel_chunked "6" "${packages_commands[@]}"
 
     create_apps
 
