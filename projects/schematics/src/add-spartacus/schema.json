@@ -137,7 +137,7 @@
           },
           {
             "value": "Account-Summary",
-            "label": "Organization - Account Summary (b2b feature)"
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
           },
           {
             "value": "Bulk-Pricing",
