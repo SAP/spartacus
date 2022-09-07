@@ -9,6 +9,7 @@ TIME_MEASUREMENT_TIMES=($(date +%s))
 HAS_XVFB_INSTALLED=false
 HAS_GNU_PARALLEL_INSTALLED=false
 CUSTOM_CACHE_DIR="$(pwd)/.cache"
+EXECUTING_OS="unknown"
                                            
 #  _____ __    _____ _____ _____ _____ _____ 
 # |     |  |  |   __|  _  |   | |  |  |  _  |
@@ -24,13 +25,27 @@ function delete_dir {
     fi
 }
 
+function delete_dir_bg {
+    local dir="${1}"
+    local temp_dir="${1}.delete"
+
+    echo "deleting directory ./${dir} in background"
+    if [ -d ${temp_dir} ]; then
+        rm -rf ${temp_dir}
+    fi
+    if [ -d ${dir} ]; then
+        mv ${dir} ${temp_dir}
+        rm -rf ${temp_dir} &
+    fi
+}
+
 function cmd_clean {
     local clean_tasks=(
-        "delete_dir $CUSTOM_CACHE_DIR"
-        "delete_dir ${CLONE_DIR}"
-        "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}"
-        "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}"
-        "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}"
+        "delete_dir_bg $CUSTOM_CACHE_DIR"
+        "delete_dir_bg ${CLONE_DIR}"
+        "delete_dir_bg ${INSTALLATION_DIR}/${CSR_APP_NAME}"
+        "delete_dir_bg ${INSTALLATION_DIR}/${SSR_APP_NAME}"
+        "delete_dir_bg ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}"
     )
     
     printh "Cleaning old spartacus installation workspace"
@@ -38,7 +53,7 @@ function cmd_clean {
         echo " - Skipping cleaning yarn cache"
         echo ""
     else 
-        clean_tasks+=( "delete_dir storage" )
+        clean_tasks+=( "delete_dir_bg storage" )
         clean_tasks+=( "yarn cache clean --force" )
     fi
     run_parallel "${clean_tasks[@]}"
@@ -705,6 +720,11 @@ function parseInstallArgs {
                 echo "➖ Clean"
                 shift
                 ;;
+            --skipdepwarnings)
+                SKIP_DEP_WARNINGS=true
+                echo "➖ Skip Dependency Warnings"
+                shift
+                ;;
             --skipsanity)
                 SKIP_SANITY=true
                 echo "➖ Skip Sanity Check"
@@ -871,7 +891,7 @@ function parseStartArgs {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--patch] - (from sources), extensions available: b2b, cpq, cdc, epd"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] [--skipdepwarnings] [--patch] - (from sources), extensions available: b2b, cpq, cdc, epd"
     echo " install_npm (from latest npm packages)"
     echo " start [--port <port>] [--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
     echo " stop [--port <port>]"
@@ -994,28 +1014,18 @@ function basesite_sanity_check {
 }
 
 function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
-                                                                                                         
-#  _____ _____ _____ __    _____ 
-# |  |  |_   _|     |  |  |   __|
-# |  |  | | | |-   -|  |__|__   |
-# |_____| |_| |_____|_____|_____|
+                                                                      
+#  _____ __ __ _____ _____ _____ _____    _____ _____ _____ _____ _____ 
+# |   __|  |  |   __|_   _|   __|     |  |     |  |  |   __|     |  |  |
+# |__   |_   _|__   | | | |   __| | | |  |   --|     |   __|   --|    -|
+# |_____| |_| |_____| |_| |_____|_|_|_|  |_____|__|__|_____|_____|__|__|
 #
-
-function get_package_name {
-    local PKG_JSON="${1}"
-    cat "${PKG_JSON}" | grep -oP '(?<=\"name\":\s\")[^\"]*'
-}
-
-function setup_custom_yarn_cache {
-    local YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-}
 
 function run_system_check {
     printh "Checking system"
     local EXIT_CODE
 
+    getOS
 
     HAS_XVFB_INSTALLED=false
     EXIT_CODE=0
@@ -1031,6 +1041,70 @@ function run_system_check {
         HAS_GNU_PARALLEL_INSTALLED=true
     fi
 
+    dep_warnings
+}
+
+function dep_warnings {
+    if [ "${SKIP_DEP_WARNINGS}" == true ]; then 
+        return
+    fi
+
+    if [ "${HAS_GNU_PARALLEL_INSTALLED}" == false ]; then
+        echo "📗 You are missing 'GNU Parallel'. GNU Parallel is significantly reducing the script's runtime."
+        echo ""
+        read -p "Do you want to continue anyways? (y/n)" yn
+        case $yn in 
+            y ) echo "yes";;
+            n ) echo "no";
+                exit;;
+            * ) echo "invalid response";
+                exit 1;;
+        esac
+    fi
+
+    if [ "${HAS_XVFB_INSTALLED}" == false ] && [ "${EXECUTING_OS}" == "LINUX" ]; then
+        echo "📗 You are missing 'XVFB'. This is needed to run headless E2E tests without an desktop environment."
+        echo ""
+        read -p "Do you want to continue anyways? (y/n)" yn
+        case $yn in
+            y ) echo "yes";;
+            n ) echo "no";
+                exit;;
+            * ) echo "invalid response";
+                exit 1;;
+        esac
+    fi
+}
+
+function getOS {
+    if [ "$(uname)" == "Darwin" ]; then
+        EXECUTING_OS="MAC_OS"
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        EXECUTING_OS="LINUX"
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        EXECUTING_OS="WIN"
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        EXECUTING_OS="WIN"
+    else
+        EXECUTING_OS="UNKNOWN"
+    fi
+}
+
+#  _____ _____ _____ __    _____ 
+# |  |  |_   _|     |  |  |   __|
+# |  |  | | | |-   -|  |__|__   |
+# |_____| |_| |_____|_____|_____|
+#
+
+function get_package_name {
+    local PKG_JSON="${1}"
+    cat "${PKG_JSON}"  | grep '"name":' | cut -d':' -f 2 | cut -d'"' -f 2
+}
+
+function setup_custom_yarn_cache {
+    local YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
 }
 
 function run_parallel_chunked {
@@ -1083,6 +1157,7 @@ function exec_parallel_export_vars {
     export CUSTOM_CACHE_DIR
     export HAS_GNU_PARALLEL_INSTALLED
     export -f delete_dir
+    export -f delete_dir_bg
     export -f create_shell_app
     export -f try_command
     export -f clean_package
@@ -1092,6 +1167,7 @@ function exec_parallel_export_vars {
     export -f exec_parallel
     export -f exec_parallel_export_vars
     export -f setup_custom_yarn_cache
+    export -f get_package_name
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
     export -f add_feature_libs
