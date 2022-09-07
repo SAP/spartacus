@@ -56,7 +56,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        'label[for="delivery"]'
+        '[data-pickup="delivery"] + label'
       );
       expect(label.textContent).toContain('pickupOptions.delivery');
     });
@@ -65,7 +65,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        'label[for="pickup"]'
+        '[data-pickup="pickup"] + label'
       );
       expect(label.textContent).toContain('pickupOptions.pickup');
       expect(label.textContent).toContain('pickupOptions.selectStore');
@@ -76,7 +76,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const label = fixture.debugElement.nativeElement.querySelector(
-        'label[for="pickup"]'
+        '[data-pickup="pickup"] + label'
       );
       expect(label.textContent).toContain('pickupOptions.pickup');
       expect(label.textContent).toContain('pickupOptions.changeStore');
@@ -88,14 +88,17 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       // for delivery
-      let radioButton =
-        fixture.debugElement.nativeElement.querySelector('#delivery');
+      let radioButton = fixture.debugElement.nativeElement.querySelector(
+        '[data-pickup="delivery"]'
+      );
       radioButton.click();
 
       expect(component.onPickupOptionChange).toHaveBeenCalledWith('delivery');
 
       // for pickup
-      radioButton = fixture.debugElement.nativeElement.querySelector('#pickup');
+      radioButton = fixture.debugElement.nativeElement.querySelector(
+        '[data-pickup="pickup"]'
+      );
       radioButton.click();
 
       expect(component.onPickupOptionChange).toHaveBeenCalledWith('pickup');
