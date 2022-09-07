@@ -151,8 +151,8 @@ function install_from_sources {
             continue
         fi
 
-        project_packages=("${proj_pck_dir}")
-        project_sources=("${proj_src_dir}")
+        project_packages+=( "${proj_pck_dir}" )
+        project_sources+=( "${proj_src_dir}" )
         echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
     done
 
@@ -180,6 +180,7 @@ function install_from_sources {
         packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
     run_parallel_chunked "6" "${packages_commands[@]}"
+    exec_linear "${packages_commands[@]}"
 
     create_apps
 
