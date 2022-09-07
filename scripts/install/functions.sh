@@ -147,7 +147,7 @@ function install_from_sources {
         local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
         if [ ! -d ${pkg_src_path} ]; then
             WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
-            echo " \033[33m[!]s\033[m ${proj_pck_dir}: ${proj_src_dir}"
+            printf " \033[33m[!]s\033[m ${proj_pck_dir}: ${proj_src_dir}\n"
             continue
         fi
 
