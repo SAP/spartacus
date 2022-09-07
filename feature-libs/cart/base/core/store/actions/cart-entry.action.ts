@@ -19,8 +19,6 @@ import {
   CartUpdateEntrySuccessPayload,
 } from './cart-entry.action.model';
 
-// TODO:#xxx - handle breaking changes
-
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
 export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
