@@ -29,7 +29,11 @@
       <p>
         {{ 'pickupOptions.pickup' | cxTranslate
         }}<ng-container *ngIf="displayPickupLocation; else selectStore"
-          >: <strong [attr.data-pickup-location]="displayPickupLocation">{{ displayPickupLocation }}</strong> |
+          >:
+          <strong [attr.data-pickup-location]="displayPickupLocation">{{
+            displayPickupLocation
+          }}</strong>
+          |
           <a
             role="button"
             data-change-store-location-link
