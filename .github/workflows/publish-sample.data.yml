@@ -1,0 +1,29 @@
+on:
+  workflow_dispatch:
+    inputs:
+      sample_branch:
+        description: Publish new spartacus sample data to standard Spartacus ccv2 repository
+        default: release/2105/next
+        required: true
+      previous_sample_branch:
+        description: Publish previous version spartacus sample data to standard Spartacus ccv2 repository
+        default: release/2105/4dot4
+        required: true
+
+name: Publish Spartacus Sample Data to Spartacus CCv2 repository
+jobs:
+  publish_sample_data: 
+    name: Publishing Spartacus Sample Data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: create release with sample data assets
+        env: 
+          SAMPLE_DATA_NEW: ${{ github.event.inputs.current_sample_branch }}
+          SAMPLE_DATA_OLD: ${{ github.event.inputs.previous_sample_branch }}
+          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GHT_TOKEN: ${{ secrets.GHT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GHT_TOKEN }}
+        run: |
+          scripts/sample-data/publish-sample-data.sh
