@@ -77,9 +77,6 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    if (accountSummaryFacade && translationService) {
-      console.log('test');
-    }
   });
 
   it('should get status options', () => {

@@ -281,8 +281,6 @@ describe('AccountSummaryDocumentComponent', () => {
     const tableRows = tableElement.queryAll(By.css('tr'));
     expect(tableRows?.length).toEqual(10);
 
-    console.log(tableRows);
-
     tableRows?.forEach((row, rowNumber) => {
       const tableCells = row.queryAll(
         By.css('.cx-account-summary-document-value')
@@ -320,12 +318,6 @@ describe('AccountSummaryDocumentComponent', () => {
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments?.[0]
-      );
-
-      console.log('expected', !!tableCells[7].query(By.css('cx-icon')));
-      console.log(
-        'actual',
-        !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.attachments
       );
     });
   });

@@ -93,7 +93,6 @@ describe('AccountSummaryPageMetaResolver', () => {
       });
       it('should NOT return breadcrumb for the Account Summary page', async () => {
         let val = await service.resolveBreadcrumbs().pipe(take(1)).toPromise();
-        console.log('resolveBreadcrumbs 1', val);
         expect(val).toEqual([testHomeBreadcrumb, organizationBreadcrumb]);
       });
     });
@@ -116,7 +115,6 @@ describe('AccountSummaryPageMetaResolver', () => {
 
       it('should insert breadcrumb for the Account Summary page right after the Homepage breadcrumb', async () => {
         let val = await service.resolveBreadcrumbs().pipe(take(1)).toPromise();
-        console.log('resolveBreadcrumbs 2', val);
         expect(val).toEqual([
           testHomeBreadcrumb,
           organizationBreadcrumb,
