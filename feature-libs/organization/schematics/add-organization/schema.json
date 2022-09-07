@@ -25,18 +25,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Administration",
-          "Order-Approval",
-          "Account-Summary"
-        ],
+        "enum": ["Administration", "Order-Approval", "Account-Summary"],
         "type": "string"
       },
-      "default": [
-        "Administration",
-        "Order-Approval",
-        "Account-Summary"
-      ],
+      "default": ["Administration", "Order-Approval", "Account-Summary"],
       "x-prompt": {
         "message": "Which Organization features would you like to set up?",
         "type": "list",

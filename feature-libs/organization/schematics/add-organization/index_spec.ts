@@ -299,7 +299,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should NOT install the required feature dependencies', async () => {
-        const administrationFeatureModule = appTree.readContent(organizationAdministrationFeatureModulePath);
+        const administrationFeatureModule = appTree.readContent(
+          organizationAdministrationFeatureModulePath
+        );
         expect(administrationFeatureModule).toBeFalsy();
       });
 

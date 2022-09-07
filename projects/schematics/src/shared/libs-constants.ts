@@ -103,7 +103,6 @@ export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_COMPONENTS = `@spartacus/org
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ASSETS = `@spartacus/organization/account-summary/assets`;
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_OCC = `@spartacus/organization/account-summary/occ`;
 
-
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
 export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `@spartacus/product/variants/root`;

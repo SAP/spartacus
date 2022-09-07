@@ -31,4 +31,4 @@ import {
     }),
   ],
 })
-export class AccountSummaryFeatureModule { }
+export class AccountSummaryFeatureModule {}

@@ -211,4 +211,4 @@ if (environment.epdVisualization) {
     ...featureModules,
   ],
 })
-export class SpartacusFeaturesModule { }
+export class SpartacusFeaturesModule {}
