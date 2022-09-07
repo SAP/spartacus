@@ -174,19 +174,19 @@ describe('Selective Cart Service', () => {
     service.addEntry('productCode1', 2);
     service.addEntry('productCode2', 2);
 
-    expect(multiCartFacade['addEntry']).toHaveBeenCalledTimes(2);
-    expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
-      OCC_USER_ID_CURRENT,
-      'selectivecartelectronics-spa-test-customer-id',
-      'productCode1',
-      2
-    );
-    expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
-      OCC_USER_ID_CURRENT,
-      'selectivecartelectronics-spa-test-customer-id',
-      'productCode2',
-      2
-    );
+    expect(multiCartFacade.addEntry).toHaveBeenCalledTimes(2);
+    expect(multiCartFacade.addEntry).toHaveBeenCalledWith({
+      userId: OCC_USER_ID_CURRENT,
+      cartId: 'selectivecartelectronics-spa-test-customer-id',
+      productCode: 'productCode1',
+      quantity: 2,
+    });
+    expect(multiCartFacade.addEntry).toHaveBeenCalledWith({
+      userId: OCC_USER_ID_CURRENT,
+      cartId: 'selectivecartelectronics-spa-test-customer-id',
+      productCode: 'productCode2',
+      quantity: 2,
+    });
   });
 
   it('should call multiCartFacade remove entry method with selective cart', () => {
@@ -195,23 +195,23 @@ describe('Selective Cart Service', () => {
     service.removeEntry({
       entryNumber: 3,
     });
-    expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
-      'current',
-      'selectivecartelectronics-spa-test-customer-id',
-      3
-    );
+    expect(multiCartFacade.removeEntry).toHaveBeenCalledWith({
+      userId: 'current',
+      cartId: 'selectivecartelectronics-spa-test-customer-id',
+      entryNumber: 3,
+    });
   });
 
   it('should call multiCartFacade update entry method with selective cart', () => {
     spyOn(multiCartFacade, 'updateEntry').and.callThrough();
 
     service.updateEntry(1, 2);
-    expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
-      'current',
-      'selectivecartelectronics-spa-test-customer-id',
-      1,
-      2
-    );
+    expect(multiCartFacade.updateEntry).toHaveBeenCalledWith({
+      userId: 'current',
+      cartId: 'selectivecartelectronics-spa-test-customer-id',
+      entryNumber: 1,
+      quantity: 2,
+    });
   });
 
   it('should return entry by product code', () => {

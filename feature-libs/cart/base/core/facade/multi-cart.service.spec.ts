@@ -396,10 +396,12 @@ describe('MultiCartService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          productCode: 'productCode',
-          quantity: 2,
+          options: {
+            cartId: 'cartId',
+            userId: 'userId',
+            productCode: 'productCode',
+            quantity: 2,
+          },
         })
       );
     });
@@ -407,26 +409,33 @@ describe('MultiCartService', () => {
 
   describe('addEntries', () => {
     it('should dispatch addEntry action for each product', () => {
-      service.addEntries('userId', 'cartId', [
+      const userId = 'userId';
+      const cartId = 'cartId';
+
+      service.addEntries(userId, cartId, [
         { productCode: 'productCode', quantity: 2 },
         { productCode: 'productCode2', quantity: 3 },
       ]);
       // @ts-ignore
       expect(store.dispatch.calls.argsFor(0)[0]).toEqual(
         new CartActions.CartAddEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          productCode: 'productCode',
-          quantity: 2,
+          options: {
+            cartId,
+            userId,
+            productCode: 'productCode',
+            quantity: 2,
+          },
         })
       );
       // @ts-ignore
       expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
         new CartActions.CartAddEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          productCode: 'productCode2',
-          quantity: 3,
+          options: {
+            cartId,
+            userId,
+            productCode: 'productCode2',
+            quantity: 3,
+          },
         })
       );
     });
@@ -434,12 +443,18 @@ describe('MultiCartService', () => {
 
   describe('removeEntry', () => {
     it('should dispatch RemoveEntry action', () => {
-      service.removeEntry('userId', 'cartId', 0);
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+
+      service.removeEntry({ userId, cartId, entryNumber });
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartRemoveEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          entryNumber: '0',
+          options: {
+            userId,
+            cartId,
+            entryNumber,
+          },
         })
       );
     });
@@ -447,14 +462,21 @@ describe('MultiCartService', () => {
 
   describe('updateEntry', () => {
     it('should dispatch UpdateEntry action for quantity > 0', () => {
-      service.updateEntry('userId', 'cartId', 0, 2);
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+      const quantity = 2;
+
+      service.updateEntry({ userId, cartId, entryNumber, quantity });
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartUpdateEntry({
-          userId: 'userId',
-          cartId: 'cartId',
-          entryNumber: '0',
-          quantity: 2,
+          options: {
+            userId,
+            cartId,
+            entryNumber,
+            quantity,
+          },
         })
       );
     });
@@ -462,9 +484,19 @@ describe('MultiCartService', () => {
     it('should dispatch RemoveEntry action for quantity = 0', () => {
       spyOn(service, 'removeEntry').and.callThrough();
 
-      service.updateEntry('userId', 'cartId', 0, 0);
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+      const quantity = 0;
 
-      expect(service.removeEntry).toHaveBeenCalledWith('userId', 'cartId', 0);
+      service.updateEntry({ userId, cartId, entryNumber, quantity });
+
+      expect(service.removeEntry).toHaveBeenCalledWith({
+        userId,
+        cartId,
+        entryNumber,
+        quantity,
+      } as any);
     });
   });
 

@@ -340,7 +340,6 @@ describe('Cart effect', () => {
       'CartAddEntrySuccess',
       'CartUpdateEntrySuccess',
       'CartRemoveEntrySuccess',
-      'CartRemoveVoucherSuccess',
     ];
 
     cartChangesSuccessActions.forEach((actionName) => {
@@ -361,6 +360,29 @@ describe('Cart effect', () => {
 
         expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
       });
+    });
+  });
+
+  describe('refreshVouchersWithoutProcesses$', () => {
+    it(`should refresh cart on CartRemoveVoucherSuccess`, () => {
+      const action = new CartActions.CartRemoveVoucherSuccess({
+        userId: userId,
+        cartId: cartId,
+        voucherId: 'voucherId',
+      });
+      const loadCompletion = new CartActions.LoadCart({
+        userId: userId,
+        cartId: cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: loadCompletion,
+      });
+
+      expect(cartEffects.refreshVouchersWithoutProcesses$).toBeObservable(
+        expected
+      );
     });
   });
 

@@ -42,14 +42,32 @@ describe('CartEntryConnector', () => {
   });
 
   it('update should call adapter', () => {
+    const userId = '1';
+    const cartId = '2';
+    const entryNumber = 3;
+    const quantity = 4;
+
     const adapter = TestBed.inject(CartEntryAdapter);
-    service.update('1', '2', '3', 4).subscribe();
-    expect(adapter.update).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
+    service.update({ userId, cartId, entryNumber, quantity }).subscribe();
+    expect(adapter.update).toHaveBeenCalledWith({
+      userId,
+      cartId,
+      entryNumber,
+      quantity,
+    });
   });
 
   it('remove should call adapter', () => {
+    const userId = '1';
+    const cartId = '2';
+    const entryNumber = 3;
+
     const adapter = TestBed.inject(CartEntryAdapter);
-    service.remove('1', '2', '3').subscribe();
-    expect(adapter.remove).toHaveBeenCalledWith('1', '2', '3');
+    service.remove({ userId, cartId, entryNumber }).subscribe();
+    expect(adapter.remove).toHaveBeenCalledWith({
+      userId,
+      cartId,
+      entryNumber,
+    });
   });
 });

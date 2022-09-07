@@ -66,8 +66,8 @@ describe('ActiveCartOrderEntriesContext', () => {
       service.addEntries(mockProductData).subscribe();
 
       expect(activeCartFacade.addEntries).toHaveBeenCalledWith([
-        { product: { code: '693923' }, quantity: 1 },
-        { product: { code: '232133' }, quantity: 2 },
+        { productCode: '693923', quantity: 1 },
+        { productCode: '232133', quantity: 2 },
       ]);
       expect(activeCartFacade.getActiveCartId).toHaveBeenCalledWith();
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(

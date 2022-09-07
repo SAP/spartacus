@@ -411,12 +411,12 @@ describe('ActiveCartService', () => {
 
       service.addEntry({ productCode: 'productCode', quantity: 2 });
 
-      expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
-        OCC_USER_ID_ANONYMOUS,
-        'guid',
-        'productCode',
-        2
-      );
+      expect(multiCartFacade.addEntry).toHaveBeenCalledWith({
+        userId: OCC_USER_ID_ANONYMOUS,
+        cartId: 'guid',
+        productCode: 'productCode',
+        quantity: 2,
+      });
     });
   });
 
@@ -429,11 +429,11 @@ describe('ActiveCartService', () => {
       service.removeEntry({
         entryNumber: 3,
       });
-      expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
-        'userId',
-        'cartId',
-        3
-      );
+      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        entryNumber: 3,
+      });
     });
   });
 
@@ -443,13 +443,16 @@ describe('ActiveCartService', () => {
       service['activeCartId$'] = of('cartId');
       spyOn(multiCartFacade, 'updateEntry').and.callThrough();
 
-      service.updateEntry(1, 2);
-      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
-        'userId',
-        'cartId',
-        1,
-        2
-      );
+      const entryNumber = 1;
+      const quantity = 2;
+
+      service.updateEntry({ entryNumber, quantity });
+      expect(multiCartFacade.updateEntry).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        entryNumber,
+        quantity,
+      });
     });
   });
 
