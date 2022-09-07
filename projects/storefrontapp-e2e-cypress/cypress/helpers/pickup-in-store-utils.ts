@@ -11,26 +11,13 @@ export function mockLocation(
   return {
     onBeforeLoad(win) {
       cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake(
-        (successCallback, errorCallback, _options) => {
-          if (typeof latitude === 'number' && typeof longitude === 'number') {
-            return successCallback({ coords: { latitude, longitude } });
-          }
-
-          throw errorCallback({ code: 1 });
+        (successCallback, _options) => {
+          return successCallback({ coords: { latitude, longitude } });
         }
       );
     },
   };
 }
-
-export const isSorted = (arr: any[]) => {
-  let second_index;
-  for (let first_index = 0; first_index < arr.length; first_index++) {
-    second_index = first_index + 1;
-    if (arr[second_index] - arr[first_index] < 0) return false;
-  }
-  return true;
-};
 
 const BOPIS_TAG = 'cx-pickup-options';
 const CHECKOUT_ADDRESS_FORM_LOCATORS = {

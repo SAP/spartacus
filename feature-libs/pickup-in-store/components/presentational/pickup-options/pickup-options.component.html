@@ -3,6 +3,7 @@
     <input
       type="radio"
       role="radio"
+      [attr.id]="deliveryId"
       data-pickup="delivery"
       value="delivery"
       (click)="onPickupOptionChange('delivery')"
@@ -10,7 +11,7 @@
       [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
       [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'delivery'"
     />
-    <label for="delivery">
+    <label [attr.for]="deliveryId">
       {{ 'pickupOptions.delivery' | cxTranslate }}
     </label>
   </div>
@@ -18,6 +19,7 @@
     <input
       type="radio"
       role="radio"
+      [attr.id]="pickupId"
       data-pickup="pickup"
       value="pickup"
       (click)="onPickupOptionChange('pickup')"
@@ -25,7 +27,7 @@
       [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
       [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'pickup'"
     />
-    <label for="pickup">
+    <label [attr.for]="pickupId">
       <p>
         {{ 'pickupOptions.pickup' | cxTranslate
         }}<ng-container *ngIf="displayPickupLocation; else selectStore"
