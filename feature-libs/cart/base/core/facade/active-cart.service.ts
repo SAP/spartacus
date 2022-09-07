@@ -567,16 +567,45 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   /**
    * Add multiple entries to a cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(options: AddEntryOptions[])`.
+   *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
-  addEntries(cartEntries: OrderEntry[]): void {
-    const entriesToAdd = cartEntries.map(
-      (entry) =>
-        <AddEntryOptions>{
-          productCode: entry.product?.code ?? '',
-          quantity: entry.quantity ?? 0,
-        }
-    );
+  addEntries(cartEntries: OrderEntry[]): void;
+  /**
+   * Add multiple entries to a cart
+   */
+  addEntries(
+    options:
+      | AddEntryOptions[]
+      // TODO:#object-extensibility-deprecation - remove the `| OrderEntry[]`
+      | OrderEntry[]
+  ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole if-block
+    if ((options[0] as OrderEntry)?.product !== undefined) {
+      const entriesToAdd = options.map(
+        (entry: OrderEntry) =>
+          <AddEntryOptions>{
+            productCode: entry.product?.code ?? '',
+            quantity: entry.quantity ?? 0,
+          }
+      );
+
+      this.requireLoadedCart()
+        .pipe(withLatestFrom(this.userIdService.getUserId()))
+        .subscribe(([cart, userId]) => {
+          if (cart) {
+            this.multiCartFacade.addEntries(
+              userId,
+              getCartIdByUserId(cart, userId),
+              entriesToAdd
+            );
+          }
+        });
+      return;
+    }
+
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
@@ -584,7 +613,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           this.multiCartFacade.addEntries(
             userId,
             getCartIdByUserId(cart, userId),
-            entriesToAdd
+            // TODO:#object-extensibility-deprecation - remove the `as AddEntryOptions[]` part
+            options as AddEntryOptions[]
           );
         }
       });

@@ -272,8 +272,12 @@ export class MultiCartService implements MultiCartFacade {
     );
   }
 
+  // TODO:#object-extensibility-deprecation - remove
   /**
    * Add multiple entries to cart
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(userId: string,cartId: string,options: AddEntryOptions[])`.
    *
    * @param userId
    * @param cartId
@@ -284,6 +288,9 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void;
+  /**
+   * Add multiple entries to cart
+   */
   addEntries(
     userId: string,
     cartId: string,

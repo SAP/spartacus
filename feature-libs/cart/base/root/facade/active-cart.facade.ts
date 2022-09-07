@@ -166,9 +166,16 @@ export abstract class ActiveCartFacade {
   /**
    * Add multiple entries to a cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(options: UpdateEntryOptions)`.
+   *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntries(cartEntries: OrderEntry[]): void;
+  // TODO:#object-extensibility-deprecation - remove the lint rule
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  abstract addEntries(options: AddEntryOptions[]): void;
 
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 
