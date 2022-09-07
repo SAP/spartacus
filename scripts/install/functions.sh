@@ -98,8 +98,8 @@ function clone_repo {
 }
 
 function update_projects_versions {
-
     projects=$@
+
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
@@ -107,7 +107,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            try_command "[update_projects_versions] Could not update project ${CLONE_DIR}/${i}." "cd \"${CLONE_DIR}/${i}\" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' package.json"
+            cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' "package.json"
         done
 }
 
@@ -142,8 +142,22 @@ function install_from_sources {
     printh "Building Spartacus Repo libraries"
     ( cd ${CLONE_DIR} && yarn build:libs)
 
+    printh "Checking Packages"
+    declare -A projects
+    for package in ${!SPARTACUS_PROJECTS[@]}; do
+        local PKG_PATH="${CLONE_DIR}/${package}"
+        if [ ! -d ${PKG_PATH} ]; then
+            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($PKG_PATH).")
+            echo " [!] ${package}: ${SPARTACUS_PROJECTS[${package}]}"
+            continue
+        fi
+
+        projects[${package}]="${SPARTACUS_PROJECTS[${package}]}"
+        echo " [+] ${package}: ${SPARTACUS_PROJECTS[${package}]}"
+    done
+
     printh "Updating projects versions."
-    update_projects_versions ${SPARTACUS_PROJECTS[@]}
+    update_projects_versions ${projects[@]}
 
     verdaccio --config ./config.yaml &
 
@@ -154,45 +168,13 @@ function install_from_sources {
 
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
-    local dist_packages=(
-        'core'
-        'storefrontlib'
-        'assets'
-        'checkout'
-        'product'
-        'setup'
-        'cart'
-        'order'
-        'asm'
-        'user'
-        'organization'
-        'storefinder'
-        'tracking'
-        'qualtrics'
-        'smartedit'
-        'cds'
-        'cdc'
-        'epd-visualization'
-        'product-configurator'
-    )
-
-    local packages=(
-        'storefrontstyles'
-        'schematics'
-    )
-
-    local packages_commands=()
-
-    for package in ${dist_packages[@]}; do
-        packages_commands+=( "publish_dist_package ${package}" )
-    done
-
-    for package in ${packages[@]}; do
-        packages_commands+=( "publish_package ${package}" )
-    done
-
     printh "Publish Packages"
-    run_parallel_chunked "6" "${packages_commands[@]}"
+    local packages_commands=()
+    for project in ${!projects[@]}; do
+        packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
+    done
+    # run_parallel_chunked "6" "${packages_commands[@]}"
+    exec_linear "${packages_commands[@]}"
 
     create_apps
 
@@ -205,7 +187,7 @@ function install_from_sources {
     npm set @spartacus:registry https://registry.npmjs.org/
 
     printh "Restore clone"
-    restore_clone
+    restore_clone ${projects[@]}
 
     printh "Print warnings & execution time"
     print_warnings
@@ -290,29 +272,27 @@ function clean_package {
     fi
 }
 
-function publish_dist_package {
-    local PKG_NAME=${1}
-    echo "Creating ${PKG_NAME} npm package"
-
-    clean_package "${CLONE_DIR}/dist/${PKG_NAME}"
-
-    try_command "[publish_dist_package] Could not publish package ${CLONE_DIR}/dist/${PKG_NAME}." "cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
-}
-
 function publish_package {
-    local PKG_NAME=${1}
-    echo "Creating ${PKG_NAME} npm package"
+    local PKG_PATH=${1}
+    echo "Creating ${PKG_PATH} npm package"
 
-    clean_package "${CLONE_DIR}/projects/${PKG_NAME}"
+    clean_package "${PKG_PATH}"
 
-    try_command "[publish_package] Could not publish package ${CLONE_DIR}/projects/${PKG_NAME}." "cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version"
+    (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
 function restore_clone {
+    projects=$@
+
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]}
+        for path in ${projects[@]}
         do
+            if [ ! -d ${path} ]; then
+                WARNINGS+=("[restore_clone] Could not restore ${path}: Path not existing ($path).")
+                continue
+            fi
+
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
             fi
@@ -1177,7 +1157,6 @@ function exec_parallel_export_vars {
     export -f add_cdc
     export -f add_epd_visualization
     export -f add_product_configurator
-    export -f publish_dist_package
     export -f publish_package
 }
 
