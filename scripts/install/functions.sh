@@ -23,16 +23,23 @@ function delete_dir {
         rm -rf ${dir}
     fi
 }
-export -f delete_dir
 
 function cmd_clean {
-    local clean_tasks
+    local clean_tasks=(
+        "delete_dir $CUSTOM_CACHE_DIR"
+        "delete_dir ${CLONE_DIR}"
+        "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}"
+        "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}"
+        "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}"
+    )
+    
+    printh "Cleaning old spartacus installation workspace"
     if [ "$CLEAN" = false ]; then
-        printh "Skipping full cleaning old spartacus installation workspace"
-        clean_tasks=( "delete_dir $CUSTOM_CACHE_DIR" "delete_dir ${INSTALLATION_DIR}/${CSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_APP_NAME}" "delete_dir ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME}" )
+        echo " - Skipping cleaning yarn cache"
+        echo ""
     else 
-        printh "Fully Cleaning old spartacus installation workspace"
-        clean_tasks=( "delete_dir $CUSTOM_CACHE_DIR" "delete_dir ${BASE_DIR}" "delete_dir storage" "${PACKAGE_MANAGER} cache clean --force" )
+        clean_tasks+=( "delete_dir storage" )
+        clean_tasks+=( "yarn cache clean --force" )
     fi
     run_parallel "${clean_tasks[@]}"
 }
@@ -71,16 +78,8 @@ function prepare_install {
 
 function clone_repo {
     printh "Cloning Spartacus installation repo."
-
-    if [ -d "${CLONE_DIR}" ] 
-    then
-        echo "Pulling ${CLONE_DIR}. Currently in `pwd`"
-        (cd "${CLONE_DIR}"; git fetch; git checkout "${BRANCH}"; git reset --hard origin/${BRANCH}; git pull --depth 1)
-    else
-
-        echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
-        git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
-    fi
+    echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
+    git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
 
 function update_projects_versions {
@@ -98,7 +97,10 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( setup_custom_yarn_cache "shell_app_${1}" && cd ${INSTALLATION_DIR} && ng new ${1} --package-manager ${PACKAGE_MANAGER} --style=scss --routing=false)
+    ( setup_custom_yarn_cache "shell_app_${1}"
+    cd ${INSTALLATION_DIR}
+    ng new ${1} --package-manager yarn --style=scss --routing=false
+    )
 }
 
 #  _____ _____ _____ _____ _____ __    __       _____ _____ _____ _____ _____ _____ _____ _____ _____ 
@@ -1080,6 +1082,8 @@ function exec_parallel_export_vars {
     export BASE_SITE
     export CUSTOM_CACHE_DIR
     export HAS_GNU_PARALLEL_INSTALLED
+    export -f delete_dir
+    export -f create_shell_app
     export -f try_command
     export -f clean_package
     export -f run_parallel_chunked
