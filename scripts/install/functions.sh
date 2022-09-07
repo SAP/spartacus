@@ -139,22 +139,23 @@ function install_from_sources {
     printh "Installing Spartacus Repo dependencies."
     ( cd ${CLONE_DIR} && yarn install)
 
-    printh "Building Spartacus Repo libraries"
-    ( cd ${CLONE_DIR} && yarn build:libs)
-
     printh "Checking Packages"
     declare -A projects
     for package in ${!SPARTACUS_PROJECTS[@]}; do
-        local PKG_PATH="${CLONE_DIR}/${package}"
-        if [ ! -d ${PKG_PATH} ]; then
-            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($PKG_PATH).")
+        local pkg_src_dir=${SPARTACUS_PROJECTS[${package}]}
+        local pkg_src_path="${CLONE_DIR}/${pkg_src_dir}"
+        if [ ! -d ${pkg_src_path} ]; then
+            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
             echo " [!] ${package}: ${SPARTACUS_PROJECTS[${package}]}"
             continue
         fi
 
-        projects[${package}]="${SPARTACUS_PROJECTS[${package}]}"
-        echo " [+] ${package}: ${SPARTACUS_PROJECTS[${package}]}"
+        projects[${package}]="${pkg_src_dir}"
+        echo " [+] ${package}: ${pkg_src_dir}"
     done
+
+    printh "Building Spartacus Repo libraries"
+    ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${projects[@]}
