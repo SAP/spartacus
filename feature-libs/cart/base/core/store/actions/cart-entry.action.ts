@@ -30,11 +30,159 @@ export const CART_UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const CART_UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartAddEntryOption(
+  payload:
+    | CartAddEntryPayload
+    | {
+        cartId: string;
+        userId: string;
+        productCode: string;
+        quantity: number;
+      }
+): payload is CartAddEntryPayload {
+  return (payload as CartAddEntryPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartAddEntrySuccessOption(
+  payload:
+    | CartAddEntrySuccessPayload
+    | {
+        userId: string;
+        cartId: string;
+        productCode: string;
+        quantity: number;
+        deliveryModeChanged?: boolean;
+        entry?: OrderEntry;
+        quantityAdded?: number;
+        statusCode?: string;
+        statusMessage?: string;
+      }
+): payload is CartAddEntrySuccessPayload {
+  return (payload as CartAddEntrySuccessPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartAddEntryFailOption(
+  payload:
+    | CartAddEntryFailPayload
+    | {
+        userId: string;
+        cartId: string;
+        productCode: string;
+        quantity: number;
+        error: any;
+      }
+): payload is CartAddEntryFailPayload {
+  return (payload as CartAddEntryFailPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartUpdateEntryOption(
+  payload:
+    | CartUpdateEntryPayload
+    | {
+        userId: string;
+        cartId: string;
+        entryNumber: string;
+        quantity: number;
+      }
+): payload is CartUpdateEntryPayload {
+  return (payload as CartUpdateEntryPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartUpdateEntrySuccessOption(
+  payload:
+    | CartUpdateEntrySuccessPayload
+    | {
+        userId: string;
+        cartId: string;
+        entryNumber: string;
+        quantity: number;
+      }
+): payload is CartUpdateEntrySuccessPayload {
+  return (payload as CartUpdateEntrySuccessPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartUpdateEntryFailOption(
+  payload:
+    | CartUpdateEntryFailPayload
+    | {
+        error: any;
+        userId: string;
+        cartId: string;
+        entryNumber: string;
+        quantity?: number;
+      }
+): payload is CartUpdateEntryFailPayload {
+  return (payload as CartUpdateEntryFailPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartRemoveEntryOption(
+  payload:
+    | CartRemoveEntryPayload
+    | { cartId: string; userId: string; entryNumber: string }
+): payload is CartRemoveEntryPayload {
+  return (payload as CartRemoveEntryPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartRemoveEntrySuccessOption(
+  payload:
+    | CartRemoveEntrySuccessPayload
+    | { cartId: string; userId: string; entryNumber: string }
+): payload is CartRemoveEntrySuccessPayload {
+  return (payload as CartRemoveEntrySuccessPayload).options !== undefined;
+}
+
+// TODO:#object-extensibility-deprecation - remove
+/**
+ * @deprecated since 5.1.0 - a helper method for resolving the types. Will be removed in the future major version
+ */
+export function isCartRemoveEntryFailOption(
+  payload:
+    | CartRemoveEntryFailPayload
+    | {
+        error: any;
+        cartId: string;
+        userId: string;
+        entryNumber: string;
+      }
+): payload is CartRemoveEntryFailPayload {
+  return (payload as CartRemoveEntryFailPayload).options !== undefined;
+}
+
 export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartAddEntryPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartAddEntryPayload)`.
@@ -51,7 +199,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   constructor(payload: CartAddEntryPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartAddEntryPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -64,25 +212,14 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartAddEntryPayload).options !== undefined
-        ? (payload as CartAddEntryPayload).options.cartId
-        : (payload as any).cartId
+      isCartAddEntryOption(payload) ? payload.options.cartId : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartAddEntryPayload).options !== undefined
-        ? (payload as CartAddEntryPayload)
-        : {
-            options: payload as any,
-          };
   }
 }
 
 export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartAddEntrySuccessPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartAddEntrySuccessPayload)`.
@@ -104,7 +241,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
   constructor(payload: CartAddEntrySuccessPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartAddEntrySuccessPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -122,37 +259,16 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartAddEntrySuccessPayload).options !== undefined
-        ? (payload as CartAddEntrySuccessPayload).options.cartId
-        : (payload as any).cartId
+      isCartAddEntrySuccessOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartAddEntrySuccessPayload).options !== undefined
-        ? (payload as CartAddEntrySuccessPayload)
-        : {
-            options: {
-              userId: (payload as any).userId,
-              cartId: (payload as any).cartId,
-              productCode: (payload as any).productCode,
-              quantity: (payload as any).quantity,
-            },
-            result: {
-              deliveryModeChanged: (payload as any).deliveryModeChanged,
-              entry: (payload as any).entry,
-              quantityAdded: (payload as any).quantityAdded,
-              statusCode: (payload as any).statusCode,
-              statusMessage: (payload as any).statusMessage,
-            },
-          };
   }
 }
 
 export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_FAIL;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartAddEntryFailPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartAddEntryFailPayload)`.
@@ -170,7 +286,7 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
   constructor(payload: CartAddEntryFailPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartAddEntryFailPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -184,28 +300,16 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartAddEntryFailPayload).options !== undefined
-        ? (payload as CartAddEntryFailPayload).options.cartId
-        : (payload as any).cartId
+      isCartAddEntryFailOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartAddEntryFailPayload).options !== undefined
-        ? (payload as CartAddEntryFailPayload)
-        : {
-            options: {
-              ...(payload as any),
-            },
-            error: (payload as any).error,
-          };
   }
 }
 
 export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartRemoveEntryPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartRemoveEntryPayload)`.
@@ -217,7 +321,7 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   constructor(payload: CartRemoveEntryPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartRemoveEntryPayload
       // TODO:#object-extensibility-deprecation - remove
       | { cartId: string; userId: string; entryNumber: string }
@@ -225,28 +329,14 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartRemoveEntryPayload).options !== undefined
-        ? (payload as CartRemoveEntryPayload).options.cartId
-        : (payload as any).cartId
+      isCartRemoveEntryOption(payload) ? payload.options.cartId : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartRemoveEntryPayload).options !== undefined
-        ? (payload as CartRemoveEntryPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-          };
   }
 }
 
 export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartRemoveEntrySuccessPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartRemoveEntrySuccessPayload)`.
@@ -258,7 +348,7 @@ export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementA
   constructor(payload: CartRemoveEntrySuccessPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartRemoveEntrySuccessPayload
       // TODO:#object-extensibility-deprecation - remove
       | { cartId: string; userId: string; entryNumber: string }
@@ -266,28 +356,16 @@ export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementA
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartRemoveEntrySuccessPayload).options !== undefined
-        ? (payload as CartRemoveEntrySuccessPayload).options.cartId
-        : (payload as any).cartId
+      isCartRemoveEntrySuccessOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartRemoveEntrySuccessPayload).options !== undefined
-        ? (payload as CartRemoveEntrySuccessPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-          };
   }
 }
 
 export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartRemoveEntryFailPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartRemoveEntryFailPayload)`.
@@ -304,7 +382,7 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
   constructor(payload: CartRemoveEntryFailPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartRemoveEntryFailPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -317,29 +395,16 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartRemoveEntryFailPayload).options !== undefined
-        ? (payload as CartRemoveEntryFailPayload).options.cartId
-        : (payload as any).cartId
+      isCartRemoveEntryFailOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartRemoveEntryFailPayload).options !== undefined
-        ? (payload as CartRemoveEntryFailPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-            error: (payload as any).error,
-          };
   }
 }
 
 export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_UPDATE_ENTRY;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartUpdateEntryPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartUpdateEntryPayload)`.
@@ -356,7 +421,7 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   constructor(payload: CartUpdateEntryPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartUpdateEntryPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -369,28 +434,14 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartUpdateEntryPayload).options !== undefined
-        ? (payload as CartUpdateEntryPayload).options.cartId
-        : (payload as any).cartId
+      isCartUpdateEntryOption(payload) ? payload.options.cartId : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartUpdateEntryPayload).options !== undefined
-        ? (payload as CartUpdateEntryPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-          };
   }
 }
 
 export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartUpdateEntrySuccessPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartUpdateEntrySuccessPayload)`.
@@ -407,7 +458,7 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
   constructor(payload: CartUpdateEntrySuccessPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartUpdateEntrySuccessPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -420,28 +471,16 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartUpdateEntrySuccessPayload).options !== undefined
-        ? (payload as CartUpdateEntrySuccessPayload).options.cartId
-        : (payload as any).cartId
+      isCartUpdateEntrySuccessOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartUpdateEntrySuccessPayload).options !== undefined
-        ? (payload as CartUpdateEntrySuccessPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-          };
   }
 }
 
 export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
 
-  // TODO:#object-extensibility-deprecation - remove
-  payload: CartUpdateEntryFailPayload;
   /**
    * @deprecated since 5.1.0, and will be removed in the future major version.
    * Instead, use `constructor(payload: CartUpdateEntryFailPayload)`.
@@ -459,7 +498,7 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
   constructor(payload: CartUpdateEntryFailPayload);
   constructor(
     // TODO:#object-extensibility-deprecation - use the `public` visibility modifier for the `payload`
-    payload:
+    public payload:
       | CartUpdateEntryFailPayload
       // TODO:#object-extensibility-deprecation - remove
       | {
@@ -473,21 +512,10 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
     super(
       MULTI_CART_DATA,
       // TODO:#object-extensibility-deprecation - remove the whole expression, and just pass payload.options.cartId
-      (payload as CartUpdateEntryFailPayload).options !== undefined
-        ? (payload as CartUpdateEntryFailPayload).options.cartId
-        : (payload as any).cartId
+      isCartUpdateEntryFailOption(payload)
+        ? payload.options.cartId
+        : payload.cartId
     );
-    // TODO:#object-extensibility-deprecation - remove
-    this.payload =
-      (payload as CartUpdateEntryFailPayload).options !== undefined
-        ? (payload as CartUpdateEntryFailPayload)
-        : {
-            options: {
-              ...(payload as any),
-              entryNumber: Number((payload as any).entryNumber),
-            },
-            error: (payload as any).error,
-          };
   }
 }
 

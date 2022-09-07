@@ -33,7 +33,7 @@ describe('Cart-entry Actions', () => {
         const action = new CartActions.CartAddEntry(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_ENTRY,
-          payload: payload,
+          payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
             cartId

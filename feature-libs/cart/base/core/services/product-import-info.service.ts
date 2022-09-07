@@ -36,7 +36,23 @@ export class ProductImportInfoService {
       filter(
         (
           action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
-        ) => action.payload.options.cartId === cartId
+        ) => {
+          // TODO:#object-extensibility-deprecation - remove the whole if-else block, and just do this: `return action.payload.options.cartId === cartId`
+          let payloadCartId = '';
+          if (action instanceof CartActions.CartAddEntrySuccess) {
+            payloadCartId = CartActions.isCartAddEntrySuccessOption(
+              action.payload
+            )
+              ? (payloadCartId = action.payload.options.cartId)
+              : action.payload.cartId;
+          } else {
+            payloadCartId = CartActions.isCartAddEntryFailOption(action.payload)
+              ? action.payload.options.cartId
+              : action.payload.cartId;
+          }
+
+          return payloadCartId === cartId;
+        }
       ),
       map((action) => this.mapMessages(action))
     );
@@ -51,10 +67,23 @@ export class ProductImportInfoService {
   protected mapMessages(
     action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
   ): ProductImportInfo {
-    const { productCode } = action.payload.options;
+    let productCode = '';
     if (action instanceof CartActions.CartAddEntrySuccess) {
-      const { quantity } = action.payload.options;
-      const { quantityAdded, entry, statusCode } = action.payload.result;
+      // TODO:#object-extensibility-deprecation - just get the property directly from action.payload.options
+      ({ productCode } = CartActions.isCartAddEntrySuccessOption(action.payload)
+        ? action.payload.options
+        : action.payload);
+      // TODO:#object-extensibility-deprecation - just get the property directly from action.payload.options
+      const { quantity } = CartActions.isCartAddEntrySuccessOption(
+        action.payload
+      )
+        ? action.payload.options
+        : action.payload;
+      // TODO:#object-extensibility-deprecation - just get the properties directly from action.payload.options
+      const { quantityAdded, entry, statusCode } =
+        CartActions.isCartAddEntrySuccessOption(action.payload)
+          ? action.payload.result
+          : action.payload;
 
       if (statusCode === ProductImportStatus.LOW_STOCK) {
         return {
@@ -74,6 +103,10 @@ export class ProductImportInfoService {
     } else if (action instanceof CartActions.CartAddEntryFail) {
       const { error } = action.payload;
       if (error?.details[0]?.type === 'UnknownIdentifierError') {
+        // TODO:#object-extensibility-deprecation - just get the property directly from action.payload.options
+        ({ productCode } = CartActions.isCartAddEntryFailOption(action.payload)
+          ? action.payload.options
+          : action.payload);
         return {
           productCode,
           statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,

@@ -245,14 +245,45 @@ export class CartEffects {
               | CartActions.CartAddEntrySuccess
               | CartActions.CartUpdateEntrySuccess
               | CartActions.CartRemoveEntrySuccess
-          ) => action.payload
-        ),
-        map(
-          (payload) =>
-            new CartActions.LoadCart({
-              userId: payload.options.userId,
-              cartId: payload.options.cartId,
-            })
+          ) => {
+            /**
+             * TODO:#object-extensibility-deprecation - replace the whole rxjs' map block with:
+             * ```ts
+             * const ({ userId, cartId } = action.payload.options);
+             * return new CartActions.LoadCart({
+             *   userId,
+             *   cartId,
+             * });
+             * ```
+             */
+            let userId = '';
+            let cartId = '';
+
+            if (action instanceof CartActions.CartAddEntrySuccess) {
+              if (CartActions.isCartAddEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            } else if (action instanceof CartActions.CartUpdateEntrySuccess) {
+              if (CartActions.isCartUpdateEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            } else if (action instanceof CartActions.CartRemoveEntrySuccess) {
+              if (CartActions.isCartRemoveEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            }
+
+            return new CartActions.LoadCart({
+              userId,
+              cartId,
+            });
+          }
         )
       )
   );
