@@ -12,7 +12,11 @@ import {
   I18nModule,
   provideConfig,
 } from '@spartacus/core';
-import { FormErrorsModule, IconModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  IconModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -30,6 +34,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     ReactiveFormsModule,
     I18nModule,
     FormErrorsModule,
+    PasswordVisibilityToggleModule,
     IconModule,
     FormsModule,
     FeaturesConfigModule,
@@ -54,6 +59,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
+    DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })
