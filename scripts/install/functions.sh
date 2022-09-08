@@ -259,7 +259,7 @@ function create_apps {
     run_parallel "${create_shell_apps[@]}"
     
     printh "Add Spartacus"
-    run_parallel "${add_spartacus[@]}"
+    exec_linear "${add_spartacus[@]}"
     
     printh "Patch App Modules"
     exec_linear "${patch_app_modules[@]}"
