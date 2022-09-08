@@ -2,7 +2,8 @@
   {
     "apiElementName": "ExampleService",
     "entryPoint": "@spartacus/feature/core",
-    "newApiElementName": "ExampleRenamedService"
+    "newApiElementName": "ExampleRenamedService",
+    "migrationComment": "This optional comment will appear in the generated markdown doc.  You can use it to add more info beyond what is automatically generated if needed.  As an example, it can be used if it's usefult to say why a api element was renamed.  If left empty, or if not present, this field will be ignored."
   },
   {
     "apiElementName": "SomeClass",

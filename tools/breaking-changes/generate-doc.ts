@@ -27,8 +27,9 @@ const MD_CODEBLOCK = '\n```\n';
 const deletedCommentsData = common.readDeletedApiCommentsFile();
 const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
+const renamedApiLookupData = common.readRenamedApiLookupFile();
 
-const breakingChangeDoc = [];
+const breakingChangeDoc: any[] = [];
 breakingChangesData.forEach((apiElement: any) => {
   breakingChangeDoc.push(getBreakingChangeDoc(apiElement));
 });
@@ -56,6 +57,12 @@ function getBreakingChangeDoc(apiElement: any): string {
   }
   if (common.isElementRenamed(apiElement)) {
     doc += getRenamedDoc(apiElement) + '\n';
+  }
+  if (
+    common.isElementMoved(apiElement) ||
+    common.isElementRenamed(apiElement)
+  ) {
+    doc += getMovedOrRenamedComment(apiElement);
   }
   doc += getChangedDoc(apiElement);
 
@@ -92,11 +99,7 @@ function getFullName(apiElement: any): string {
 }
 
 function getDeletdDoc(apiElement: any): string {
-  const breakingChangeEntry = common.getTopLevelBreakingChangeEntry(
-    apiElement,
-    'DELETED'
-  );
-  const migrationComment = common.findDeletedApiComment(
+  const migrationComment = common.findApiMigrationComment(
     apiElement,
     deletedCommentsData
   );
@@ -117,6 +120,19 @@ function getMovedDoc(apiElement: any): string {
   }
   return movedDoc;
 }
+
+function getMovedOrRenamedComment(apiElement: any): string {
+  const migrationComment = common.findApiMigrationComment(
+    apiElement,
+    renamedApiLookupData
+  );
+  if (!!migrationComment) {
+    return `${migrationComment}\n`;
+  } else {
+    return '';
+  }
+}
+
 function getRenamedDoc(apiElement: any): string {
   let renamedDoc = '';
   if (common.isElementRenamed(apiElement)) {

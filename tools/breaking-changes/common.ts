@@ -40,7 +40,7 @@ export function readRenamedApiLookupFile(): any {
   return readAndParseDataFile(RENAMED_API_LOOKUP_FILE_PATH);
 }
 
-export function findDeletedApiComment(
+export function findApiMigrationComment(
   apiElement: any,
   deletedApiCommentData: any[]
 ): string {

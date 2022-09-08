@@ -46,7 +46,7 @@ common.writeSchematicsDataOutput(
  */
 
 function getSchematicsData(apiElement: any): any {
-  const migrationComment = common.findDeletedApiComment(
+  const migrationComment = common.findApiMigrationComment(
     apiElement,
     deletedCommentsData
   );
