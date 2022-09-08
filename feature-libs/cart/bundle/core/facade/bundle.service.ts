@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   GlobalMessageService,
-  Product,
   RoutingService,
   SearchConfig,
   WindowRef,
@@ -70,24 +69,6 @@ export class BundleService {
   }
 
   /**
-   * Get all selected products for the bundle
-   *
-   * @param cartId
-   * @param bundleId
-   * @param sectionId
-   * @returns selected products for given bundle
-   */
-  getBundleSelectedProducts(
-    cartId: string,
-    bundleId: number
-  ): Observable<Record<number, Product[]>> {
-    return this.store.pipe(
-      select(BundleSelectors.getSelectedProductsState),
-      map((data: any) => data?.[cartId]?.[bundleId])
-    );
-  }
-
-  /**
    * Start bundle
    *
    * @param cartId
@@ -125,54 +106,6 @@ export class BundleService {
         userId,
         entryGroupNumber,
         searchConfig,
-      })
-    );
-  }
-
-  /**
-   * Select product for bundle section
-   *
-   * @param cartId
-   * @param bundleId
-   * @param sectionId
-   * @param product
-   */
-  addProductToBundle(
-    cartId: string,
-    bundleId: number,
-    sectionId: number,
-    product: Product
-  ) {
-    this.store.dispatch(
-      new BundleActions.AddProductToBundle({
-        cartId,
-        bundleId,
-        sectionId,
-        product,
-      })
-    );
-  }
-
-  /**
-   * Remove product from bundle section
-   *
-   * @param cartId
-   * @param bundleId
-   * @param sectionId
-   * @param product
-   */
-  removeProductFromBundle(
-    cartId: string,
-    bundleId: number,
-    sectionId: number,
-    product: Product
-  ) {
-    this.store.dispatch(
-      new BundleActions.RemoveProductFromBundle({
-        cartId,
-        bundleId,
-        sectionId,
-        product,
       })
     );
   }

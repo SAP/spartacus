@@ -68,28 +68,4 @@ export class CartBundleService {
       )
     );
   }
-
-  toggleProductSelection(
-    isSelected: boolean,
-    cartId: string,
-    bundleId: number,
-    sectionId: number,
-    product: Product
-  ): void {
-    if (isSelected) {
-      this.bundleService.removeProductFromBundle(
-        cartId,
-        bundleId,
-        sectionId,
-        product
-      );
-    } else {
-      this.bundleService.addProductToBundle(
-        cartId,
-        bundleId,
-        sectionId,
-        product
-      );
-    }
-  }
 }

@@ -58,7 +58,7 @@
           </div>
           <cx-bundle-summary
             [bundle]="bundle"
-            [products]="data.allSelectedProducts"
+            [products]="allSelectedProducts$ | async"
             [showAddToCart]="data.isPreview"
           ></cx-bundle-summary>
         </div>

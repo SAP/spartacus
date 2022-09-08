@@ -27,4 +27,10 @@ export class BundleSummaryComponent {
 
     this.routingService.go('cart');
   }
+
+  getTotalPrice(): number {
+    return this.products
+      ?.map((product: any) => product.basePrice.value)
+      ?.reduce((partialSum, a) => partialSum + a, 0);
+  }
 }

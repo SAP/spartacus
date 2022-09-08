@@ -3,7 +3,7 @@
     *ngFor="let product of products"
     class="col-6 col-md-3 mb-3"
     [product]="product"
-    [selected]="selectedProducts | isSelected: product"
+    [selected]="product.selected"
     (selectProduct)="toggleSelection($event)"
     (edit)="onEditProduct($event)"
     [action]="productAction"

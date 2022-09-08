@@ -79,25 +79,26 @@ export class BundleMainComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.bundle$.subscribe(console.log);
+    this.bundle$.subscribe((b) => {
+      this.initActiveSectionProducts();
+      this.getAllowedProducts();
+    });
 
-    this.initActiveSectionProducts();
-    this.initSelectedProducts();
     this.isPreview$ = this.bundleProgress.activeStep$.pipe(
       map((step) => step?.key === PREVIEW_STEP.key)
     );
     this.initBundleProgressSteps();
-    this.getAllowedProducts();
   }
 
-  toggleProductSelection(
-    { product }: ProductSelectionState,
-    sectionId: number
-  ) {
-    this.activeCartService.addToEntryGroup(
-      sectionId ? sectionId : (this.activeStep.key as number),
-      product as OrderEntry
-    );
+  toggleProductSelection(state: ProductSelectionState, sectionId: number) {
+    if (!state.isSelected) {
+      this.activeCartService.addToEntryGroup(
+        sectionId ? sectionId : (this.activeStep.key as number),
+        state.product as OrderEntry
+      );
+    } else {
+      this.activeCartService.removeEntry(state.isSelected as OrderEntry);
+    }
   }
 
   get activeStep() {
@@ -136,12 +137,34 @@ export class BundleMainComponent implements OnInit, OnDestroy {
         const group = bundleSections.find(
           ({ entryGroupNumber }) => entryGroupNumber === activeStep?.key
         );
-        return this.store.select(
-          BundleSelectors.getAvailableEntryGroupEntries(
-            cartId,
-            group?.entryGroupNumber as number
+        return this.store
+          .select(
+            BundleSelectors.getAvailableEntryGroupEntries(
+              cartId,
+              group?.entryGroupNumber as number
+            )
           )
-        );
+          .pipe(
+            // Add selected flag to products
+            map((products) => {
+              return products.map((product) => ({
+                ...product,
+                selected: group?.entries?.find(
+                  (entry) => entry.product?.code === product.code
+                ),
+              }));
+            })
+          );
+      })
+    );
+
+    this.allSelectedProducts$ = this.bundle$.pipe(
+      map((bundle) => {
+        const products = bundle?.entryGroups?.flatMap(
+          (entryGroup) => entryGroup.entries
+        ) as Product[];
+
+        return products;
       })
     );
   }
@@ -182,24 +205,6 @@ export class BundleMainComponent implements OnInit, OnDestroy {
           });
         })
         .unsubscribe()
-    );
-  }
-
-  private initSelectedProducts(): void {
-    this.selectedProductsPerSection$ = combineLatest([
-      this.bundle$,
-      this.cartId$,
-    ]).pipe(
-      switchMap(([bundle, cartId]) =>
-        this.bundleService.getBundleSelectedProducts(
-          cartId,
-          bundle.entryGroupNumber as number
-        )
-      )
-    );
-
-    this.allSelectedProducts$ = this.selectedProductsPerSection$.pipe(
-      map((selections) => Object.values(selections ?? {}).flat())
     );
   }
 }
