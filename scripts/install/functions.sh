@@ -9,7 +9,6 @@ TIME_MEASUREMENT_TIMES=($(date +%s))
 HAS_XVFB_INSTALLED=false
 HAS_GNU_PARALLEL_INSTALLED=false
 CUSTOM_CACHE_DIR="$(pwd)/.cache"
-MAIN_CUSTOM_CACHE="$(pwd)/.cache"
 EXECUTING_OS="unknown"
                                            
 #  _____ __    _____ _____ _____ _____ _____ 
@@ -113,7 +112,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( setup_custom_yarn_cache_copy "${1}"
+    ( setup_custom_yarn_cache "${1}"
     cd ${INSTALLATION_DIR}
     ng new ${1} --package-manager yarn --style=scss --routing=false
     )
@@ -131,8 +130,6 @@ function install_from_sources {
     run_sanity_check
 
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
-
-    setup_custom_yarn_cache_main
 
     prepare_install
 
@@ -329,7 +326,7 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache_copy "${1}"
+    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
@@ -341,7 +338,7 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache_copy "${1}"
+    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
@@ -353,7 +350,7 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache_copy "${1}"
+    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
@@ -1106,17 +1103,9 @@ function get_package_name {
     cat "${PKG_JSON}"  | grep '"name":' | cut -d':' -f 2 | cut -d'"' -f 2
 }
 
-function setup_custom_yarn_cache_main {
+function setup_custom_yarn_cache {
     YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-}
-
-function setup_custom_yarn_cache_copy {
-    YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
-    if [ ! -d ${YARN_CACHE_FOLDER} ]; then
-        cp -R "${MAIN_CUSTOM_CACHE}" "${YARN_CACHE_FOLDER}"
-    fi
     export YARN_CACHE_FOLDER
 }
 
@@ -1170,7 +1159,6 @@ function exec_parallel_export_vars {
     export BASE_SITE
     export CUSTOM_CACHE_DIR
     export HAS_GNU_PARALLEL_INSTALLED
-    export MAIN_CUSTOM_CACHE
     export -f delete_dir
     export -f delete_dir_bg
     export -f create_shell_app
@@ -1181,8 +1169,7 @@ function exec_parallel_export_vars {
     export -f exec_linear
     export -f exec_parallel
     export -f exec_parallel_export_vars
-    export -f setup_custom_yarn_cache_main
-    export -f setup_custom_yarn_cache_copy
+    export -f setup_custom_yarn_cache
     export -f get_package_name
     export -f add_spartacus_ssr
     export -f add_spartacus_ssr_pwa
