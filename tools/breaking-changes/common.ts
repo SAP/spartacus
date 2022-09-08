@@ -18,24 +18,26 @@ export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-a
 export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_MAJOR_VERSION}_0`;
 
 // Shared Functions
+export function readAndParseDataFile(filePath: string): any {
+  const parsedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  console.log(`Read: ${filePath}, ${parsedData.length} entries`);
+  return parsedData;
+}
+
 export function readBreakingChangeFile(): any {
-  const breakingChangesData = JSON.parse(
-    fs.readFileSync(BREAKING_CHANGES_FILE_PATH, 'utf-8')
-  );
-  console.log(
-    `Read: ${BREAKING_CHANGES_FILE_PATH}, ${breakingChangesData.length} entries`
-  );
-  return breakingChangesData;
+  return readAndParseDataFile(BREAKING_CHANGES_FILE_PATH);
 }
 
 export function readDeletedApiCommentsFile(): any {
-  const deletedApiCommentData = JSON.parse(
-    fs.readFileSync(DELETED_API_COMMENTS_FILE_PATH, 'utf-8')
-  );
-  console.log(
-    `Read: ${DELETED_API_COMMENTS_FILE_PATH}, ${deletedApiCommentData.length} entries`
-  );
-  return deletedApiCommentData;
+  return readAndParseDataFile(DELETED_API_COMMENTS_FILE_PATH);
+}
+
+export function readDeletedMembersCommentsFile(): any {
+  return readAndParseDataFile(DELETED_MEMBERS_COMMENTS_FILE_PATH);
+}
+
+export function readRenamedApiLookupFile(): any {
+  return readAndParseDataFile(RENAMED_API_LOOKUP_FILE_PATH);
 }
 
 export function findDeletedApiComment(
@@ -51,16 +53,6 @@ export function findDeletedApiComment(
   return apiCommentEntry?.migrationComment || '';
 }
 
-export function readDeletedMembersCommentsFile(): any {
-  const deletedMembersCommentData = JSON.parse(
-    fs.readFileSync(DELETED_MEMBERS_COMMENTS_FILE_PATH, 'utf-8')
-  );
-  console.log(
-    `Read: ${DELETED_MEMBERS_COMMENTS_FILE_PATH}, ${deletedMembersCommentData.length} entries`
-  );
-  return deletedMembersCommentData;
-}
-
 export function findDeletedMemberComment(
   apiElement: any,
   memberName: string,
@@ -74,16 +66,6 @@ export function findDeletedMemberComment(
     );
   });
   return memberCommentEntry?.migrationComment || '';
-}
-
-export function readRenamedApiLookupFile(): any {
-  const renamedApiLookupData = JSON.parse(
-    fs.readFileSync(RENAMED_API_LOOKUP_FILE_PATH, 'utf-8')
-  );
-  console.log(
-    `Read: ${RENAMED_API_LOOKUP_FILE_PATH}, ${renamedApiLookupData.length} entries`
-  );
-  return renamedApiLookupData;
 }
 
 export function findRenamedApiLookup(
