@@ -3,14 +3,15 @@
     <input
       type="radio"
       role="radio"
-      id="delivery"
+      [attr.id]="deliveryId"
+      data-pickup="delivery"
       value="delivery"
       (click)="onPickupOptionChange('delivery')"
       formControlName="pickupOption"
       [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
       [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'delivery'"
     />
-    <label for="delivery">
+    <label [attr.for]="deliveryId">
       {{ 'pickupOptions.delivery' | cxTranslate }}
     </label>
   </div>
@@ -18,20 +19,26 @@
     <input
       type="radio"
       role="radio"
-      id="pickup"
+      [attr.id]="pickupId"
+      data-pickup="pickup"
       value="pickup"
       (click)="onPickupOptionChange('pickup')"
       formControlName="pickupOption"
       [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
       [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'pickup'"
     />
-    <label for="pickup">
+    <label [attr.for]="pickupId">
       <p>
         {{ 'pickupOptions.pickup' | cxTranslate
         }}<ng-container *ngIf="displayPickupLocation; else selectStore"
-          >: <strong>{{ displayPickupLocation }}</strong> |
+          >:
+          <strong [attr.data-pickup-location]="displayPickupLocation">{{
+            displayPickupLocation
+          }}</strong>
+          |
           <a
             role="button"
+            data-change-store-location-link
             class="cx-action-link"
             (click)="onPickupLocationChange()"
             >{{ 'pickupOptions.changeStore' | cxTranslate }}</a
@@ -41,6 +48,7 @@
           |
           <a
             role="button"
+            data-select-store-location-link
             class="cx-action-link"
             (click)="onPickupLocationChange()"
             >{{ 'pickupOptions.selectStore' | cxTranslate }}</a
