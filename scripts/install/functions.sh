@@ -928,6 +928,7 @@ function print_summary {
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
     printf "\nOS: ${EXECUTING_OS}\n"
+    printf "\nBRANCH: ${BRANCH}\n"
     if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
         printf "Mode: 🚀 [USING GNU PARALLEL]\n"
     else
