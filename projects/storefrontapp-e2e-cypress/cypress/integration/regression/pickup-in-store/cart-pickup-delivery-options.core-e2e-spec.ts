@@ -15,6 +15,7 @@ describe('Pickup delivery options', () => {
         },
       });
       cy.visit('/product/300310300', mockLocation(53, 0));
+      cy.get(L.ALLOW_COOKIES_BUTTON).click();
     });
 
     it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {
