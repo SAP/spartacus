@@ -316,7 +316,7 @@ function addVersionNumber(template: string): string {
   return resolvedTemplate;
 }
 
-function createFoldersForFilePath(filePath: string) {
+export function createFoldersForFilePath(filePath: string) {
   const folderPath = filePath.substring(0, filePath.lastIndexOf('/'));
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });

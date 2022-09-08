@@ -94,6 +94,8 @@ oldApiData.forEach((oldApiElement: any) => {
 
 common.printStats(breakingChanges);
 
+common.createFoldersForFilePath(common.BREAKING_CHANGES_FILE_PATH);
+
 fs.writeFileSync(
   common.BREAKING_CHANGES_FILE_PATH,
   JSON.stringify(breakingChanges)
