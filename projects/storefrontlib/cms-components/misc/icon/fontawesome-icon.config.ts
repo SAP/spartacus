@@ -16,6 +16,7 @@ export const fontawesomeIconConfig: IconConfig = {
       ERROR: 'fas fa-exclamation-circle',
       WARNING: 'fas fa-exclamation-triangle',
       SUCCESS: 'fas fa-check-circle',
+      EMPTY_SUCCESS: 'far fa-check-circle',
       CLOSE: 'fas fa-times',
       VISA: 'fab fa-cc-visa',
       MASTER_CARD: 'fab fa-cc-mastercard',

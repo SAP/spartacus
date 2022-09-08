@@ -1,18 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { BundleCarouselComponent } from './bundle-carousel/bundle-carousel.component';
 import { BundleCarouselModule } from './bundle-carousel/bundle-carousel.module';
+import { BundleMainModule } from './bundle-main/bundle-main.module';
 
 @NgModule({
-  imports: [BundleCarouselModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        BundleCarouselComponent: {
-          component: BundleCarouselComponent,
-        },
-      },
-    }),
-  ],
+  imports: [BundleCarouselModule, BundleMainModule],
 })
 export class BundleComponentsModule {}

@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  EntryGroup,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -15,11 +19,11 @@ export class CartBundleService {
   protected readonly PRODUCT_SCOPE = BundleProductScope.TEMPLATES;
 
   constructor(
-    protected activeCartService: ActiveCartFacade,
+    protected multiCartService: MultiCartFacade,
     protected userIdService: UserIdService,
     protected bundleService: BundleService,
     protected productService: ProductService,
-    protected multiCartService: MultiCartFacade
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   getBundleTemplates(
@@ -41,32 +45,27 @@ export class CartBundleService {
    */
   startBundle(starter: BundleStarter) {
     this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService.startBundle(cartId, userId, starter);
-        });
+      .requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.bundleService.startBundle(<string>cart.guid, userId, starter);
       });
   }
 
   /**
-   * Get allowed Bundle Products
+   * Get bundle for given cart id
    *
-   * @param entryGroupNumber
+   * @param cartId
    */
-  getBundleAllowedProducts(entryGroupNumber: number) {
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService?.getBundleAllowedProducts(
-            cartId,
-            userId,
-            entryGroupNumber
-          );
-        });
-      });
+  getBundle(cartId: string): Observable<EntryGroup> {
+    return this.multiCartService.getEntryGroups(cartId).pipe(
+      map(
+        (groups) =>
+          // There is always cart created for each new bundle so our cart will have only one bundle entry group
+          groups.find((group) =>
+            this.bundleService.isBundle(group)
+          ) as EntryGroup
+      )
+    );
   }
 }

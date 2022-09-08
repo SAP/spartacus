@@ -1,33 +1,35 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <ng-container *cxFeatureLevel="'4.2'">
-        <cx-cart-validation-warnings></cx-cart-validation-warnings>
-      </ng-container>
+  <ng-container *ngIf="!(editingBundle$ | async)">
+    <ng-container *ngIf="entries$ | async as entries">
+      <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
+        <ng-container *cxFeatureLevel="'4.2'">
+          <cx-cart-validation-warnings></cx-cart-validation-warnings>
+        </ng-container>
 
-      <h2 class="cx-total">
-        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-      </h2>
+        <h2 class="cx-total">
+          {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+        </h2>
 
-      <cx-promotions
-        [promotions]="
-          (cart.appliedOrderPromotions || []).concat(
-            cart.potentialOrderPromotions || []
-          )
-        "
-      ></cx-promotions>
+        <cx-promotions
+          [promotions]="
+            (cart.appliedOrderPromotions || []).concat(
+              cart.potentialOrderPromotions || []
+            )
+          "
+        ></cx-promotions>
 
-      <cx-cart-item-list
-        [items]="entries"
-        [bundles]="bundles$ | async"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-        [promotionLocation]="promotionLocation"
-        [options]="{
-          isSaveForLater: false,
-          optionalBtn: saveForLaterBtn
-        }"
-      ></cx-cart-item-list>
-    </div>
+        <cx-cart-item-list
+          [items]="entries"
+          [bundles]="bundles$ | async"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [promotionLocation]="promotionLocation"
+          [options]="{
+            isSaveForLater: false,
+            optionalBtn: saveForLaterBtn
+          }"
+        ></cx-cart-item-list>
+      </div>
+    </ng-container>
   </ng-container>
 </ng-container>
 
@@ -42,3 +44,5 @@
     {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
   </button>
 </ng-template>
+
+<cx-bundle-main></cx-bundle-main>

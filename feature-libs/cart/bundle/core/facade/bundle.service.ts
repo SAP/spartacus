@@ -109,6 +109,7 @@ export class BundleService {
       })
     );
   }
+
   /**
    * Check if given entry group is a bundle
    *

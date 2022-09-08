@@ -18,6 +18,10 @@
   <!-- TODO: Add bundle total price -->
   <!-- TODO: Add bundle edit action -->
   <td role="cell" colspan="3" *ngIf="!readonly" class="cx-actions">
+    <button (click)="editBundle()" class="link cx-action-link cx-remove-btn">
+      {{ 'common.edit' | cxTranslate }}
+    </button>
+
     <button
       (click)="removeBundle()"
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"

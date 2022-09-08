@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/core';
+import { BundleAdapter, BundleStarter } from '@spartacus/cart/bundle/core';
 import {
   ConverterService,
   OccEndpointsService,
@@ -8,7 +9,6 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { BundleAdapter, BundleStarter } from '@spartacus/cart/bundle/core';
 
 @Injectable()
 export class OccBundleAdapter implements BundleAdapter {
