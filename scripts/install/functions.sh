@@ -179,7 +179,7 @@ function install_from_sources {
     for project in ${project_packages[@]}; do
         packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
-    run_parallel_chunked "6" "${packages_commands[@]}"
+    run_parallel_chunked "${SPARTACUS_PUBLISH_PACKAGES_MAX_PARALLEL}" "${packages_commands[@]}"
     exec_linear "${packages_commands[@]}"
 
     create_apps
@@ -1122,7 +1122,6 @@ function run_parallel_chunked {
 function run_parallel {
     if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
         echo "⇶ Running in parallel [fast]"
-        printf "\t> [${@}]\n"
         exec_parallel "${@}"
     else
         echo "→ Running linear [slow]"
