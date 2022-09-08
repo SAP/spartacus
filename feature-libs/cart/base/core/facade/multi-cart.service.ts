@@ -7,7 +7,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  AddEntryOptions,
+  AddEntriesMultiCartFacadeOptions,
+  AddEntryMultiCartFacadeOptions,
   Cart,
   CartOptions,
   CartType,
@@ -221,7 +222,7 @@ export class MultiCartService implements MultiCartFacade {
    * Add entry to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: CartOptions<AddEntryOptions>)`.
+   * Instead, use `addEntry(options: AddEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -236,11 +237,11 @@ export class MultiCartService implements MultiCartFacade {
     quantity: number
   ): void;
   // TODO:#object-extensibility-deprecation - remove
-  addEntry(options: CartOptions<AddEntryOptions>): void;
+  addEntry(options: AddEntryMultiCartFacadeOptions): void;
   addEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<AddEntryOptions>
+      | AddEntryMultiCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
@@ -288,24 +289,42 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(options: AddEntriesMultiCartFacadeOptions): void;
   /**
    * Add multiple entries to cart
    */
   addEntries(
-    userId: string,
-    cartId: string,
-    options:
-      | AddEntryOptions[]
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | AddEntriesMultiCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove
-      | Array<{ productCode: string; quantity: number }>
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    products?: Array<{ productCode: string; quantity: number }>
   ): void {
-    options.forEach((option) => {
+    if (typeof optionsOrUserId === 'string') {
+      (products ?? []).forEach((product) => {
+        this.store.dispatch(
+          new CartActions.CartAddEntry({
+            userId: optionsOrUserId,
+            cartId: cartId ?? '',
+            productCode: product.productCode,
+            quantity: product.quantity,
+          })
+        );
+      });
+      return;
+    }
+
+    optionsOrUserId.entries.forEach((entry) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
           options: {
-            userId,
-            cartId,
-            ...option,
+            userId: optionsOrUserId.userId,
+            cartId: optionsOrUserId.cartId,
+            ...entry,
           },
         })
       );

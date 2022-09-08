@@ -5,7 +5,7 @@
  */
 
 import {
-  AddEntryOptions,
+  AddEntryAdapterOptions,
   CartModification,
   CartOptions,
   RemoveEntryOptions,
@@ -18,7 +18,7 @@ export abstract class CartEntryAdapter {
    * Abstract method used to add entry to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: CartOptions<AddEntryOptions>)`.
+   * Instead, use `add(options: AddEntryAdapterOptions)`.
    *
    * @param userId
    * @param cartId
@@ -35,9 +35,7 @@ export abstract class CartEntryAdapter {
   /**
    * Abstract method used to add entry to cart
    */
-  abstract add(
-    options: CartOptions<AddEntryOptions>
-  ): Observable<CartModification>;
+  abstract add(options: AddEntryAdapterOptions): Observable<CartModification>;
 
   /**
    * Abstract method used to update entry in cart

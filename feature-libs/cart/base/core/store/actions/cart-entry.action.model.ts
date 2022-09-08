@@ -1,5 +1,5 @@
 import {
-  AddEntryOptions,
+  AddEntryActionOptions,
   CartModification,
   CartOptions,
   RemoveEntryOptions,
@@ -11,26 +11,25 @@ import {
   ActionSuccessPayload,
 } from '@spartacus/core';
 
+// TODO:#xxx - remove all these?
+
 /**
  * Payload type for CartAddEntry action
  */
 export interface CartAddEntryPayload
-  extends ActionPayload<CartOptions<AddEntryOptions>> {}
+  extends ActionPayload<AddEntryActionOptions> {}
 
 /**
  * Payload type for CartAddEntrySuccess action
  */
 export interface CartAddEntrySuccessPayload
-  extends ActionSuccessPayload<
-    CartOptions<AddEntryOptions>,
-    CartModification
-  > {}
+  extends ActionSuccessPayload<AddEntryActionOptions, CartModification> {}
 
 /**
  * Payload type for CartAddEntryFail action
  */
 export interface CartAddEntryFailPayload
-  extends ActionFailPayload<CartOptions<AddEntryOptions>> {}
+  extends ActionFailPayload<AddEntryActionOptions> {}
 
 /**
  * Payload type for CartRemoveEntry action

@@ -9,7 +9,8 @@ import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
 import {
-  AddEntryOptions,
+  AddEntriesMultiCartFacadeOptions,
+  AddEntryMultiCartFacadeOptions,
   Cart,
   CartOptions,
   CartType,
@@ -152,7 +153,7 @@ export abstract class MultiCartFacade {
    * Add entry to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: CartOptions<AddEntryOptions>)`.
+   * Instead, use `addEntry(options: AddEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -169,13 +170,13 @@ export abstract class MultiCartFacade {
   /**
    * Add entry to active cart
    */
-  abstract addEntry(options: CartOptions<AddEntryOptions>): void;
+  abstract addEntry(options: AddEntryMultiCartFacadeOptions): void;
 
   /**
    * Add multiple entries to cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntries(userId: string,cartId: string,options: AddEntryOptions[])`.
+   * Instead, use `addEntries(options: AddEntriesMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -190,13 +191,9 @@ export abstract class MultiCartFacade {
   /**
    * Add multiple entries to cart
    */
-  abstract addEntries(
-    userId: string,
-    cartId: string,
-    // TODO:#object-extensibility-deprecation - remove the eslint on the next line
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    options: AddEntryOptions[]
-  ): void;
+  abstract addEntries(options: AddEntriesMultiCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove the eslint on the next line
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
 
   /**
    * Remove entry from cart

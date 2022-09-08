@@ -9,7 +9,8 @@ import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
 import {
-  AddEntryOptions,
+  AddEntriesActiveCartFacadeOptions,
+  AddEntryActiveCartFacadeOptions,
   Cart,
   OrderEntry,
   RemoveEntryOptions,
@@ -99,14 +100,14 @@ export abstract class ActiveCartFacade {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: AddEntryOptions)`.
+   * Instead, use `addEntry(options: AddEntryActiveCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(productCode: string, quantity: number): void;
   /**
    * Add entry to active cart
    */
-  abstract addEntry(options: AddEntryOptions): void;
+  abstract addEntry(options: AddEntryActiveCartFacadeOptions): void;
 
   /**
    * Remove entry
@@ -167,7 +168,7 @@ export abstract class ActiveCartFacade {
    * Add multiple entries to a cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntries(options: UpdateEntryOptions)`.
+   * Instead, use `addEntries(options: AddEntriesActiveCartFacadeOptions)`.
    *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
@@ -175,7 +176,7 @@ export abstract class ActiveCartFacade {
   abstract addEntries(cartEntries: OrderEntry[]): void;
   // TODO:#object-extensibility-deprecation - remove the lint rule
   // eslint-disable-next-line @typescript-eslint/unified-signatures
-  abstract addEntries(options: AddEntryOptions[]): void;
+  abstract addEntries(options: AddEntriesActiveCartFacadeOptions): void;
 
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 

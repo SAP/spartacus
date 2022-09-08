@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
-  AddEntryOptions,
+  AddEntryMultiCartFacadeEntry,
   AddOrderEntriesContext,
   Cart,
   GetOrderEntriesContext,
@@ -69,11 +69,13 @@ export class SavedCartOrderEntriesContext
       this.savedCartId$,
     ]).pipe(
       tap(([userId, cartId]) => {
-        const options: AddEntryOptions[] = products.map((product) => ({
-          productCode: product.productCode,
-          quantity: product.quantity,
-        }));
-        this.multiCartService.addEntries(userId, cartId, options);
+        const entries = products.map<AddEntryMultiCartFacadeEntry>(
+          (product) => ({
+            productCode: product.productCode,
+            quantity: product.quantity,
+          })
+        );
+        this.multiCartService.addEntries({ userId, cartId, entries });
       }),
       map(([_userId, cartId]) => cartId)
     );

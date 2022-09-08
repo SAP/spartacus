@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import {
-  AddEntryOptions,
+  AddEntryConnectorOptions,
   CartModification,
   CartOptions,
   RemoveEntryOptions,
@@ -25,7 +25,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: CartOptions<AddEntryOptions>)`.
+   * Instead, use `add(options: AddEntryConnectorOptions)`.
    */
   public add(
     userId: string,
@@ -34,12 +34,10 @@ export class CartEntryConnector {
     quantity?: number
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
-  public add(
-    options: CartOptions<AddEntryOptions>
-  ): Observable<CartModification>;
+  public add(options: AddEntryConnectorOptions): Observable<CartModification>;
   add(
     options:
-      | CartOptions<AddEntryOptions>
+      | AddEntryConnectorOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,

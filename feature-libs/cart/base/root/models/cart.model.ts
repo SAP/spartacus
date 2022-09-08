@@ -201,33 +201,52 @@ export enum CartValidationStatusCode {
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }
 
-/**
- * Base options for the cart.
- * Intended for extension / augmentation.
- */
-export interface BaseCartOptions {
+// TODO:#xxx - js docs
+// TODO:#xxx - expose?
+// maybe expose for augmenting, maybe not?
+interface AddEntryDefaultOptions {
   userId: string;
   cartId: string;
 }
-/**
- * Cart options type.
- * For extension / augmentation, refer to 'BaseCartOptions' interface.
- */
-export type CartOptions<T> = T & BaseCartOptions;
 
 /**
- * Default options for adding an entry.
+ * Common options for adding an entry.
+ * Intended for extending / augmenting.
  */
-export interface AddEntryDefaultOptions {
+export interface AddEntryCommonOptions extends CommonOptions {
   productCode: string;
   quantity?: number;
 }
-/**
- * An extendable interface for adding an entry.
- */
-export interface AddEntryOptions
-  extends AddEntryDefaultOptions,
-    CommonOptions {}
+
+export interface AddEntryActiveCartFacadeOptions
+  extends AddEntryCommonOptions {}
+export interface AddEntriesActiveCartFacadeOptions {
+  // TODO:#xxx - items? products?
+  entries: AddEntryActiveCartFacadeOptions[];
+}
+
+export interface AddEntryMultiCartFacadeOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryMultiCartFacadeEntry extends AddEntryCommonOptions {}
+export interface AddEntriesMultiCartFacadeOptions
+  extends AddEntryDefaultOptions {
+  // TODO:#xxx - items? products?
+  entries: AddEntryMultiCartFacadeEntry[];
+}
+
+export interface AddEntryActionOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryConnectorOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryAdapterOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
 
 /**
  * Default options for updating an entry.
@@ -255,3 +274,16 @@ export interface RemoveEntryDefaultOptions {
 export interface RemoveEntryOptions
   extends RemoveEntryDefaultOptions,
     CommonOptions {}
+/**
+ * Base options for the cart.
+ * Intended for extension / augmentation.
+ */
+export interface BaseCartOptions {
+  userId: string;
+  cartId: string;
+}
+/**
+ * Cart options type.
+ * For extension / augmentation, refer to 'BaseCartOptions' interface.
+ */
+export type CartOptions<T> = T & BaseCartOptions;

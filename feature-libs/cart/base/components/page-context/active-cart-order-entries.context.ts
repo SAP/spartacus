@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
-  AddEntryOptions,
+  AddEntryActiveCartFacadeOptions,
   AddOrderEntriesContext,
   GetOrderEntriesContext,
   OrderEntriesSource,
@@ -45,19 +45,21 @@ export class ActiveCartOrderEntriesContext
 
   protected add(products: ProductData[]): Observable<string> {
     // TODO:#object-extensibility-deprecation - move to `mapProductsToOrderEntries()`
-    const options: AddEntryOptions[] = products.map((product) => ({
-      productCode: product.productCode,
-      quantity: product.quantity,
-    }));
+    const entries = products.map<AddEntryActiveCartFacadeOptions>(
+      (product) => ({
+        productCode: product.productCode,
+        quantity: product.quantity,
+      })
+    );
 
     // TODO:#object-extensibility-deprecation - replace with this.activeCartFacade.addEntries(this.mapProductsToOrderEntries(products));
-    this.activeCartFacade.addEntries(options);
+    this.activeCartFacade.addEntries({ entries });
     return this.activeCartFacade.getActiveCartId();
   }
 
   /**
    *
-   * @deprecated since 5.1.0 - this method will return `AddEntryOptions[]` instead of `OrderEntry[]` in the future major version.
+   * @deprecated since 5.1.0 - this method will return `AddEntryActiveCartFacadeOptions[]` instead of `OrderEntry[]` in the future major version.
    */
   protected mapProductsToOrderEntries(products: ProductData[]): OrderEntry[] {
     // TODO:#object-extensibility-deprecation - will be replaced by logic from `add()` method above

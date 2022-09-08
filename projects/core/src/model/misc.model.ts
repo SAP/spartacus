@@ -150,3 +150,9 @@ export interface HttpOptions {
       >
     | object;
 }
+
+/**
+ * A common interface for all the options objects.
+ * Intended to be extended / augmented.
+ */
+export interface CommonOptions {}

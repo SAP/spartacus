@@ -7,7 +7,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
-  AddEntryOptions,
+  AddEntriesActiveCartFacadeOptions,
+  AddEntryActiveCartFacadeOptions,
   Cart,
   CartType,
   MultiCartFacade,
@@ -290,21 +291,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Adds entries from guest cart to user cart
    */
   protected addEntriesGuestMerge(cartEntries: OrderEntry[]) {
-    const entriesToAdd = cartEntries.map(
-      (entry) =>
-        <AddEntryOptions>{
-          productCode: entry.product?.code ?? '',
-          quantity: entry.quantity ?? 0,
-        }
+    const entriesToAdd = cartEntries.map<AddEntryActiveCartFacadeOptions>(
+      (entry) => ({
+        productCode: entry.product?.code ?? '',
+        quantity: entry.quantity ?? 0,
+      })
     );
     this.requireLoadedCart(true)
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
-        this.multiCartFacade.addEntries(
+        this.multiCartFacade.addEntries({
           userId,
-          getCartIdByUserId(cart, userId),
-          entriesToAdd
-        );
+          cartId: getCartIdByUserId(cart, userId),
+          entries: entriesToAdd,
+        });
       });
   }
 
@@ -394,16 +394,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntry(options: AddEntryOptions)`.
+   * Instead, use `addEntry(options: AddEntryActiveCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   addEntry(productCode: string, quantity: number): void;
   // TODO:#object-extensibility-deprecation - remove
-  addEntry(options: AddEntryOptions): void;
+  addEntry(options: AddEntryActiveCartFacadeOptions): void;
   addEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrProductCode:
-      | AddEntryOptions
+      | AddEntryActiveCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove
@@ -568,29 +568,29 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Add multiple entries to a cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `addEntries(options: AddEntryOptions[])`.
+   * Instead, use `addEntries(options: AddEntriesActiveCartFacadeOptions)`.
    *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
   addEntries(cartEntries: OrderEntry[]): void;
+  // TODO:#object-extensibility-deprecation - remove eslint rule and method signature
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  addEntries(options: AddEntriesActiveCartFacadeOptions): void;
   /**
    * Add multiple entries to a cart
    */
   addEntries(
     options:
-      | AddEntryOptions[]
-      // TODO:#object-extensibility-deprecation - remove the `| OrderEntry[]`
+      | AddEntriesActiveCartFacadeOptions
+      // TODO:#object-extensibility-deprecation - remove
       | OrderEntry[]
   ): void {
     // TODO:#object-extensibility-deprecation - remove the whole if-block
-    if ((options[0] as OrderEntry)?.product !== undefined) {
-      const entriesToAdd = options.map(
-        (entry: OrderEntry) =>
-          <AddEntryOptions>{
-            productCode: entry.product?.code ?? '',
-            quantity: entry.quantity ?? 0,
-          }
-      );
+    if (Array.isArray(options)) {
+      const entriesToAdd = options.map((entry: OrderEntry) => ({
+        productCode: entry.product?.code ?? '',
+        quantity: entry.quantity ?? 0,
+      }));
 
       this.requireLoadedCart()
         .pipe(withLatestFrom(this.userIdService.getUserId()))
@@ -610,12 +610,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
         if (cart) {
-          this.multiCartFacade.addEntries(
+          this.multiCartFacade.addEntries({
             userId,
-            getCartIdByUserId(cart, userId),
-            // TODO:#object-extensibility-deprecation - remove the `as AddEntryOptions[]` part
-            options as AddEntryOptions[]
-          );
+            cartId: getCartIdByUserId(cart, userId),
+            ...options,
+          });
         }
       });
   }

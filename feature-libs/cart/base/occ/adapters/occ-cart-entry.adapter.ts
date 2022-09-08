@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartEntryAdapter } from '@spartacus/cart/base/core';
 import {
-  AddEntryOptions,
+  AddEntryAdapterOptions,
   CartModification,
   CartOptions,
   CART_MODIFICATION_NORMALIZER,
@@ -33,7 +33,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `add(options: CartOptions<AddEntryOptions>)`.
+   * Instead, use `add(options: AddEntryAdapterOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public add(
@@ -43,13 +43,11 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     quantity?: number
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
-  public add(
-    options: CartOptions<AddEntryOptions>
-  ): Observable<CartModification>;
+  public add(options: AddEntryAdapterOptions): Observable<CartModification>;
   public add(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<AddEntryOptions>
+      | AddEntryAdapterOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
@@ -143,7 +141,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Creates HTTP's request options for the `add` functionality
    */
   protected createAddOptions(
-    options: CartOptions<AddEntryOptions>
+    options: CartOptions<AddEntryAdapterOptions>
   ): HttpOptions {
     const {
       userId,
