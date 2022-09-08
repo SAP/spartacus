@@ -120,11 +120,11 @@ export class LaunchDialogService {
     }
   }
 
-  get dialogClose(): Observable<string | undefined> {
+  get dialogClose(): Observable<any | undefined> {
     return this._dialogClose.asObservable();
   }
 
-  closeDialog(reason: string) {
+  closeDialog(reason: any) {
     this._dialogClose.next(reason);
   }
 

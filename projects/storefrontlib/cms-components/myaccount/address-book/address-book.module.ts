@@ -11,6 +11,7 @@ import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressFormModule } from './address-form/address-form.module';
+import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { AddressFormModule } from './address-form/address-form.module';
         },
       },
     }),
+    provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
     UserAddressService,
   ],
 })

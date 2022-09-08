@@ -1,11 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Address } from '@spartacus/core';
-import { ModalService } from '../../../../../shared/components/modal/index';
+import { LaunchDialogService } from '../../../../../layout';
+import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 
 @Component({
@@ -13,25 +9,25 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
   templateUrl: './suggested-addresses-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuggestedAddressDialogComponent implements OnInit {
+export class SuggestedAddressDialogComponent {
   iconTypes = ICON_TYPE;
-
-  constructor(protected modalService: ModalService) {}
-
-  @Input()
-  suggestedAddresses: Address[];
-  @Input()
-  enteredAddress: Address;
 
   selectedAddress: Address;
 
-  ngOnInit(): void {
-    this.selectedAddress = this.suggestedAddresses.length
-      ? this.suggestedAddresses[0]
-      : this.enteredAddress;
-  }
+  data$ = this.launchDialogService.data$.pipe(tap(this.setSelectedAddress));
+
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
+  }
+
+  setSelectedAddress(data: {
+    suggestedAddresses: Address[];
+    enteredAddress: Address;
+  }): void {
+    this.selectedAddress = data.suggestedAddresses?.length
+      ? data.suggestedAddresses[0]
+      : data.enteredAddress;
   }
 }
