@@ -194,12 +194,15 @@ function install_from_sources {
     printh "Restore clone"
     restore_clone ${project_sources[@]}
 
+    echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+
     printh "Print warnings & execution time"
+    
     print_warnings
 
     print_times
 
-    echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+    print_summary
 }
 
 function install_from_npm {
@@ -216,6 +219,8 @@ function install_from_npm {
     print_warnings
 
     print_times
+
+    print_summary
 }
 
 #  _____ _____ _____ _____ _____ _____    _____ _____ _____ _____ 
@@ -916,11 +921,19 @@ function print_times {
     do
         printf " ┕ $MEASURMENT\n"
     done
+}
 
+function print_summary {
     local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
-    printf "Installation finished in \033[32m${ELAPSED}s\033[m\t."
+    printf "\nOS: ${EXECUTING_OS}\n"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        printf "Mode: 🚀 [USING GNU PARALLEL]\n"
+    else
+        printf "Mode: 🐢 [NO GNU PARALLEL]\n"
+    fi
+    printf "Total Time: \033[32m${ELAPSED}s\033[m\n"
 }
                                                                       
 #  _____ _____ _____ _____ _____ __ __    _____ _____ _____ _____ _____ 
