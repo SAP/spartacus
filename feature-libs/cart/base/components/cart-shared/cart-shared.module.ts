@@ -15,11 +15,12 @@ import {
   PromotionsModule,
   provideOutlet,
 } from '@spartacus/storefront';
-import { CartItemListRowComponent } from './cart-item-list-row/cart-item-list-row.component';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemValidationWarningModule } from '../validation/cart-item-warning/cart-item-validation-warning.module';
+import { CartItemListRowComponent } from './cart-item-list-row/cart-item-list-row.component';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
+import { CartItemContextDirectiveModule } from './cart-item/model/cart-item-context-directive/cart-item-context.directive.module';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    CartItemContextDirectiveModule,
   ],
   providers: [
     provideOutlet({
