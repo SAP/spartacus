@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AccountData } from '../support/require-logged-in.commands';
 import {
   SampleCartProduct,
@@ -80,6 +86,12 @@ export const cartWithB2bProduct: SampleCartProduct = {
   estimatedShipping: '$9.99',
   total: '$35.00',
   totalAndShipping: '$44.99',
+};
+
+export const cartWithB2bProductAndPremiumShipping: SampleCartProduct = {
+  ...cartWithB2bProduct,
+  estimatedShipping: '$16.99',
+  totalAndShipping: '$51.99',
 };
 
 export const b2bAccountShipToUser: SampleUser = {

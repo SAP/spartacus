@@ -14,6 +14,7 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -450,6 +451,34 @@ describe('CartEventBuilder', () => {
 
           expect(result).toEqual(jasmine.objectContaining(eventData));
         });
+      });
+    });
+
+    describe('MergeCartSuccessEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        const eventData: MergeCartSuccessEvent = {
+          cartCode: MOCK_ID,
+          tempCartId: 'abc',
+          ...MOCK_ACTIVE_CART_EVENT,
+        };
+
+        let result: MergeCartSuccessEvent | undefined;
+        const subscription = eventService
+          .get(MergeCartSuccessEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next(
+          new CartActions.MergeCartSuccess({
+            oldCartId: 'old-cart-id',
+            tempCartId: 'abc',
+            ...MOCK_ACTIVE_CART_EVENT,
+          })
+        );
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+
+        subscription.unsubscribe();
       });
     });
   });

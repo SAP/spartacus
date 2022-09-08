@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { clickHamburger, waitForPage } from './checkout-flow';
@@ -93,9 +99,20 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .first()
       .click({ force: true });
   } else {
+    cy.intercept(
+      `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/products/search?fields=*&query=${id}&*`
+    ).as('ProductSearch');
+
     cy.get('cx-searchbox input')
       .clear({ force: true })
       .type(id, { force: true });
+
+    cy.wait(`@ProductSearch`)
+      .its('response.body.freeTextSearch')
+      .should('eq', id);
+
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
@@ -333,9 +350,10 @@ export function logOutAndNavigateToEmptyCart() {
 
 export function addProducts() {
   const prods = products.slice(0, 3);
-  prods.forEach((product) => {
+  prods.forEach((product, index) => {
     cy.visit(`/product/${product.code}`);
     clickAddToCart();
+    checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
   });
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
@@ -34,7 +40,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   protected decisionResultLoading$ =
     this.orderApprovalService.getMakeDecisionResultLoading();
 
-  loading$ = combineLatest([
+  loading$: Observable<boolean> = combineLatest([
     this.orderApprovalLoading$,
     this.decisionResultLoading$,
   ]).pipe(

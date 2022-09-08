@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -121,6 +127,7 @@ export class ConfiguratorCartEffects {
   readConfigurationForCartEntry$: Observable<
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.UpdatePriceSummary
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ReadCartEntryConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -134,6 +141,7 @@ export class ConfiguratorCartEffects {
             switchMap((result: Configurator.Configuration) => [
               new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
               new ConfiguratorActions.UpdatePriceSummary(result),
+              new ConfiguratorActions.SearchVariants(result),
             ]),
             catchError((error) => [
               new ConfiguratorActions.ReadCartEntryConfigurationFail({
