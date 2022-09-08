@@ -46,10 +46,6 @@ common.writeSchematicsDataOutput(
  */
 
 function getSchematicsData(apiElement: any): any {
-  const breakingChangeEntry = common.getTopLevelBreakingChangeEntry(
-    apiElement,
-    'DELETED'
-  );
   const migrationComment = common.findDeletedApiComment(
     apiElement,
     deletedCommentsData
