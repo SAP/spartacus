@@ -4,13 +4,9 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { of, Observable } from 'rxjs';
-
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import {
-  AccountSummaryFacade,
-  AccountSummaryList,
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
@@ -25,12 +21,6 @@ const mockQueryParams: DocumentQueryParams = {
   filterByKey: FilterByOptions.DOCUMENT_NUMBER,
 };
 
-class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
-  getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
-    return of(params ? {} : {});
-  }
-}
-
 @Component({
   selector: 'cx-date-picker',
   template: '',
@@ -44,7 +34,6 @@ class MockDatePickerComponent {
 describe('AccountSummaryDocumentFilterComponent', () => {
   let component: AccountSummaryDocumentFilterComponent;
   let fixture: ComponentFixture<AccountSummaryDocumentFilterComponent>;
-  let accountSummaryFacade: AccountSummaryFacade;
   let translationService: TranslationService;
 
   beforeEach(async () => {
@@ -61,10 +50,8 @@ describe('AccountSummaryDocumentFilterComponent', () => {
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
       ],
     }).compileComponents();
-    accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
   });
 
