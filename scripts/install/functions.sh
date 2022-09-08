@@ -322,7 +322,7 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    # setup_custom_yarn_cache "csr"
+    setup_custom_yarn_cache "csr"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
@@ -334,7 +334,7 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    # setup_custom_yarn_cache "ssr"
+    setup_custom_yarn_cache "ssr"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
@@ -346,7 +346,7 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    # setup_custom_yarn_cache "ssr-pwa"
+    setup_custom_yarn_cache "ssr-pwa"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
