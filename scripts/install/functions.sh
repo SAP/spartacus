@@ -41,7 +41,7 @@ function delete_dir_bg {
 
 function cmd_clean {
     local clean_tasks=(
-        "delete_dir_bg $CUSTOM_CACHE_DIR"
+        "delete_dir_bg ${CUSTOM_CACHE_DIR}"
         "delete_dir_bg ${CLONE_DIR}"
         "delete_dir_bg ${INSTALLATION_DIR}/${CSR_APP_NAME}"
         "delete_dir_bg ${INSTALLATION_DIR}/${SSR_APP_NAME}"
@@ -180,7 +180,6 @@ function install_from_sources {
         packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
     run_parallel_chunked "${SPARTACUS_PUBLISH_PACKAGES_MAX_PARALLEL}" "${packages_commands[@]}"
-    exec_linear "${packages_commands[@]}"
 
     create_apps
 
