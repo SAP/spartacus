@@ -2,11 +2,11 @@
   {
     "apiElementName": "SomeService",
     "entryPoint": "@spartacus/feature/core",
-    "migrationComment": "Use class OtherService instead."
+    "migrationComment": "Use class OtherService instead.  (note: this example won't appear in the migration material because the SomeService class does not exist)"
   },
   {
     "apiElementName": "AwesomeClass",
     "entryPoint": "@spartacus/feature/components",
-    "migrationComment": "This class is not needed anymore.  Things are done in this way instead."
+    "migrationComment": "This class is not needed anymore.  Things are done in this way instead.  (note: this example won't appear in the migration material because the AwesomeClass class does not exist)"
   }
 ]
