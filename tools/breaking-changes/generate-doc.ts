@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as fs from 'fs';
 import * as common from './common';
 import { isMember, isTopLevelApi } from './common';
 /**
@@ -32,7 +33,7 @@ breakingChangesData.forEach((apiElement: any) => {
   breakingChangeDoc.push(getBreakingChangeDoc(apiElement));
 });
 console.log(`Generated ${breakingChangeDoc.length} entries.`);
-common.writeTextDataOutput(
+writeTextDataOutput(
   OUTPUT_FILE_PATH,
   OUTPUT_FILE_TEMPLATE_PATH,
   breakingChangeDoc.join('')
@@ -203,4 +204,23 @@ ${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(
   }
 
   return doc;
+}
+
+export function writeTextDataOutput(
+  outputFilePath: string,
+  templateFilePath: string,
+  outputData: string
+): void {
+  let templateHeader = fs.readFileSync(templateFilePath, 'utf-8');
+  templateHeader = addVersionNumber(templateHeader);
+  const outputFileContent = templateHeader + outputData + '\n';
+  common.createFoldersForFilePath(outputFilePath);
+  fs.writeFileSync(outputFilePath, outputFileContent);
+}
+
+function addVersionNumber(template: string): string {
+  const variable = new RegExp('\\${major_version}', 'g');
+  let resolvedTemplate = template.replace(variable, common.NEW_MAJOR_VERSION);
+
+  return resolvedTemplate;
 }
