@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const navigation = {
   visitHomePage({
     queryStringParams,
@@ -78,4 +84,17 @@ export function navigateToCategory(
     .contains(categoryName)
     .click({ force });
   cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
+}
+
+export function navigateToAMyAccountPage(
+  myAccountOptionText: string,
+  page: string,
+  alias: string
+) {
+  const pageAlias = waitForPage(page, alias);
+
+  cy.selectUserMenuOption({
+    option: myAccountOptionText,
+  });
+  cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
 }
