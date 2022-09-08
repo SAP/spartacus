@@ -10,10 +10,9 @@ import { CartEntryAdapter } from '@spartacus/cart/base/core';
 import {
   AddEntryAdapterOptions,
   CartModification,
-  CartOptions,
   CART_MODIFICATION_NORMALIZER,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryAdapterOptions,
+  UpdateEntryAdapterOptions,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
@@ -140,9 +139,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   /**
    * Creates HTTP's request options for the `add` functionality
    */
-  protected createAddOptions(
-    options: CartOptions<AddEntryAdapterOptions>
-  ): HttpOptions {
+  protected createAddOptions(options: AddEntryAdapterOptions): HttpOptions {
     const {
       userId,
       cartId,
@@ -171,7 +168,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `update(options: CartOptions<UpdateEntryOptions>)`.
+   * Instead, use `update(options: UpdateEntryAdapterOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public update(
@@ -183,12 +180,12 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
   public update(
-    options: CartOptions<UpdateEntryOptions>
+    options: UpdateEntryAdapterOptions
   ): Observable<CartModification>;
   public update(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<UpdateEntryOptions>
+      | UpdateEntryAdapterOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
@@ -246,7 +243,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Creates HTTP's request options for the `update` functionality
    */
   protected createUpdateOptions(
-    options: CartOptions<UpdateEntryOptions>
+    options: UpdateEntryAdapterOptions
   ): HttpOptions {
     const { userId, cartId, entryNumber, quantity, ...augmentedOptions } =
       options;
@@ -268,7 +265,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `remove(options: CartOptions<RemoveEntryOptions>)`.
+   * Instead, use `remove(options: RemoveEntryAdapterOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public remove(
@@ -277,11 +274,11 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     entryNumber: string | number
   ): Observable<any>;
   // TODO:#object-extensibility-deprecation - remove
-  public remove(options: CartOptions<RemoveEntryOptions>): Observable<any>;
+  public remove(options: RemoveEntryAdapterOptions): Observable<any>;
   public remove(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<RemoveEntryOptions>
+      | RemoveEntryAdapterOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and all params after it
       | string,
     cartId?: string,
@@ -325,7 +322,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
    * Creates HTTP's request options for the `remove` functionality
    */
   protected createRemoveOptions(
-    options: CartOptions<RemoveEntryOptions>
+    options: RemoveEntryAdapterOptions
   ): HttpOptions {
     const { userId, cartId, entryNumber, ...augmentedOptions } = options;
 

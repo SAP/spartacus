@@ -1,9 +1,8 @@
 import {
   AddEntryActionOptions,
   CartModification,
-  CartOptions,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryActionOptions,
+  UpdateEntryActionOptions,
 } from '@spartacus/cart/base/root';
 import {
   ActionFailPayload,
@@ -35,7 +34,7 @@ export interface CartAddEntryFailPayload
  * Payload type for CartRemoveEntry action
  */
 export interface CartRemoveEntryPayload
-  extends ActionPayload<CartOptions<RemoveEntryOptions>> {}
+  extends ActionPayload<RemoveEntryActionOptions> {}
 
 /**
  * Payload type for CartRemoveEntrySuccess action
@@ -46,13 +45,13 @@ export interface CartRemoveEntrySuccessPayload extends CartRemoveEntryPayload {}
  * Payload type for CartRemoveEntryFail action
  */
 export interface CartRemoveEntryFailPayload
-  extends ActionFailPayload<CartOptions<RemoveEntryOptions>> {}
+  extends ActionFailPayload<RemoveEntryActionOptions> {}
 
 /**
  * Payload type for CartUpdateEntry action
  */
 export interface CartUpdateEntryPayload
-  extends ActionPayload<CartOptions<UpdateEntryOptions>> {}
+  extends ActionPayload<UpdateEntryActionOptions> {}
 
 /**
  * Payload type for CartUpdateEntrySuccess action
@@ -63,4 +62,4 @@ export interface CartUpdateEntrySuccessPayload extends CartUpdateEntryPayload {}
  * Payload type for CartUpdateEntryFail action
  */
 export interface CartUpdateEntryFailPayload
-  extends ActionFailPayload<CartOptions<UpdateEntryOptions>> {}
+  extends ActionFailPayload<UpdateEntryActionOptions> {}

@@ -67,10 +67,10 @@ export class AddedToCartDialogComponent {
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {
-                this.activeCartFacade.updateEntry(
-                  valueChange.entryNumber,
-                  valueChange.quantity
-                );
+                this.activeCartFacade.updateEntry({
+                  entryNumber: valueChange.entryNumber,
+                  quantity: valueChange.quantity,
+                });
                 if (valueChange.quantity === 0) {
                   this.dismissModal('Removed');
                 }

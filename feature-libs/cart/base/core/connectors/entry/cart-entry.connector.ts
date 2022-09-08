@@ -8,9 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   AddEntryConnectorOptions,
   CartModification,
-  CartOptions,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryConnectorOptions,
+  UpdateEntryConnectorOptions,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from './cart-entry.adapter';
@@ -55,7 +54,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `update(options: CartOptions<UpdateEntryOptions>)`.
+   * Instead, use `update(options: UpdateEntryConnectorOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public update(
@@ -67,11 +66,11 @@ export class CartEntryConnector {
   ): Observable<CartModification>;
   // TODO:#object-extensibility-deprecation - remove
   public update(
-    options: CartOptions<UpdateEntryOptions>
+    options: UpdateEntryConnectorOptions
   ): Observable<CartModification>;
   public update(
     options:
-      | CartOptions<UpdateEntryOptions>
+      | UpdateEntryConnectorOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,
@@ -94,7 +93,7 @@ export class CartEntryConnector {
   /**
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `remove(options: CartOptions<RemoveEntryOptions>)`.
+   * Instead, use `remove(options: RemoveEntryConnectorOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   public remove(
@@ -104,11 +103,11 @@ export class CartEntryConnector {
   ): Observable<any>;
   // TODO:#object-extensibility-deprecation - remove
   public remove(
-    options: CartOptions<RemoveEntryOptions>
+    options: RemoveEntryConnectorOptions
   ): Observable<CartModification>;
   public remove(
     options:
-      | CartOptions<RemoveEntryOptions>
+      | RemoveEntryConnectorOptions
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
     cartId?: string,

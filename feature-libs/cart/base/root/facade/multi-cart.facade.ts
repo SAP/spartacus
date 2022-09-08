@@ -12,11 +12,10 @@ import {
   AddEntriesMultiCartFacadeOptions,
   AddEntryMultiCartFacadeOptions,
   Cart,
-  CartOptions,
   CartType,
   OrderEntry,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryMultiCartFacadeOptions,
+  UpdateEntryMultiCartFacadeOptions,
 } from '../models/cart.model';
 
 @Injectable({
@@ -199,7 +198,7 @@ export abstract class MultiCartFacade {
    * Remove entry from cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: CartOptions<RemoveEntryOptions>)`.
+   * Instead, use `removeEntry(options: RemoveEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -214,7 +213,7 @@ export abstract class MultiCartFacade {
   /**
    * Remove entry from cart
    */
-  abstract removeEntry(options: CartOptions<RemoveEntryOptions>): void;
+  abstract removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
 
   /**
    * Update entry in cart. For quantity = 0 it removes entry
@@ -225,7 +224,7 @@ export abstract class MultiCartFacade {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `updateEntry(options: CartOptions<UpdateEntryOptions>)`.
+   * Instead, use `updateEntry(options: UpdateEntryMultiCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(
@@ -237,7 +236,7 @@ export abstract class MultiCartFacade {
   /**
    * Update entry in cart. For quantity = 0 it removes entry
    */
-  abstract updateEntry(options: CartOptions<UpdateEntryOptions>): void;
+  abstract updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
 
   /**
    * Get first entry from cart matching the specified product code

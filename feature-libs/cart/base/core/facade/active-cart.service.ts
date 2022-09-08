@@ -13,8 +13,8 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryActiveCartFacadeOptions,
+  UpdateEntryActiveCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
@@ -440,13 +440,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Remove entry
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: RemoveEntryOptions)`.
+   * Instead, use `removeEntry(options: RemoveEntryActiveCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   removeEntry(entry: OrderEntry): void;
+  /**
+   * Remove entry
+   */
   removeEntry(
     options:
-      | RemoveEntryOptions
+      | RemoveEntryActiveCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove
       | OrderEntry
   ): void {
@@ -470,15 +473,15 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `updateEntry(options: UpdateEntryOptions)`.
+   * Instead, use `updateEntry(options: UpdateEntryActiveCartFacadeOptions)`.
    */
   updateEntry(entryNumber: number, quantity: number): void;
   // TODO:#object-extensibility-deprecation - remove
-  updateEntry(options: UpdateEntryOptions): void;
+  updateEntry(options: UpdateEntryActiveCartFacadeOptions): void;
   updateEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrEntryNumber:
-      | UpdateEntryOptions
+      | UpdateEntryActiveCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove the `| number`
       | number,
     // TODO:#object-extensibility-deprecation - remove

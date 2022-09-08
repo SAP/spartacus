@@ -10,12 +10,11 @@ import {
   AddEntriesMultiCartFacadeOptions,
   AddEntryMultiCartFacadeOptions,
   Cart,
-  CartOptions,
   CartType,
   MultiCartFacade,
   OrderEntry,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryMultiCartFacadeOptions,
+  UpdateEntryMultiCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
@@ -335,7 +334,7 @@ export class MultiCartService implements MultiCartFacade {
    * Remove entry from cart
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: CartOptions<RemoveEntryOptions>)`.
+   * Instead, use `removeEntry(options: RemoveEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -344,11 +343,11 @@ export class MultiCartService implements MultiCartFacade {
   // TODO:#object-extensibility-deprecation - remove
   removeEntry(userId: string, cartId: string, entryNumber: number): void;
   // TODO:#object-extensibility-deprecation - remove
-  removeEntry(options: CartOptions<RemoveEntryOptions>): void;
+  removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
   removeEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<RemoveEntryOptions>
+      | RemoveEntryMultiCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     // TODO:#object-extensibility-deprecation - remove the rest of params
@@ -381,7 +380,7 @@ export class MultiCartService implements MultiCartFacade {
    * Update entry in cart. For quantity = 0 it removes entry
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `updateEntry(options: CartOptions<UpdateEntryOptions>)`.
+   * Instead, use `updateEntry(options: UpdateEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
@@ -396,11 +395,11 @@ export class MultiCartService implements MultiCartFacade {
     quantity: number
   ): void;
   // TODO:#object-extensibility-deprecation - remove
-  updateEntry(options: CartOptions<UpdateEntryOptions>): void;
+  updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
   updateEntry(
     // TODO:#object-extensibility-deprecation - rename to `options`
     optionsOrUserId:
-      | CartOptions<UpdateEntryOptions>
+      | UpdateEntryMultiCartFacadeOptions
       // TODO:#object-extensibility-deprecation - remove the `| string`
       | string,
     cartId?: string,

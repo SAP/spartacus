@@ -248,42 +248,56 @@ export interface AddEntryAdapterOptions
   extends AddEntryCommonOptions,
     AddEntryDefaultOptions {}
 
-/**
- * Default options for updating an entry.
- */
-export interface UpdateEntryDefaultOptions {
-  entryNumber: number;
-  quantity?: number;
-}
-/**
- * An extendable interface for updating an entry.
- */
-export interface UpdateEntryOptions
-  extends UpdateEntryDefaultOptions,
-    CommonOptions {}
-
-/**
- * Default options for removing an entry.
- */
-export interface RemoveEntryDefaultOptions {
-  entryNumber: number;
-}
-/**
- * An extendable interface for removing an entry.
- */
-export interface RemoveEntryOptions
-  extends RemoveEntryDefaultOptions,
-    CommonOptions {}
-/**
- * Base options for the cart.
- * Intended for extension / augmentation.
- */
-export interface BaseCartOptions {
+interface UpdateEntryDefaultOptions {
   userId: string;
   cartId: string;
 }
-/**
- * Cart options type.
- * For extension / augmentation, refer to 'BaseCartOptions' interface.
- */
-export type CartOptions<T> = T & BaseCartOptions;
+export interface UpdateEntryCommonOptions {
+  entryNumber: number;
+  quantity?: number;
+}
+
+export interface UpdateEntryActiveCartFacadeOptions
+  extends UpdateEntryCommonOptions {}
+
+export interface UpdateEntryMultiCartFacadeOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryActionOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryConnectorOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryAdapterOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+interface RemoveEntryDefaultOptions {
+  userId: string;
+  cartId: string;
+}
+export interface RemoveEntryCommonOptions {
+  entryNumber: number;
+}
+export interface RemoveEntryActiveCartFacadeOptions
+  extends RemoveEntryCommonOptions {}
+
+export interface RemoveEntryMultiCartFacadeOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryActionOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryConnectorOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryAdapterOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}

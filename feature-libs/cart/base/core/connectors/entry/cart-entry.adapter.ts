@@ -7,9 +7,8 @@
 import {
   AddEntryAdapterOptions,
   CartModification,
-  CartOptions,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryAdapterOptions,
+  UpdateEntryAdapterOptions,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
@@ -45,7 +44,7 @@ export abstract class CartEntryAdapter {
    * @param qty
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `update(options: CartOptions<UpdateEntryOptions>)`.
+   * Instead, use `update(options: UpdateEntryAdapterOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract update(
@@ -59,7 +58,7 @@ export abstract class CartEntryAdapter {
    * Abstract method used to update entry in cart
    */
   abstract update(
-    options: CartOptions<UpdateEntryOptions>
+    options: UpdateEntryAdapterOptions
   ): Observable<CartModification>;
 
   /**
@@ -70,7 +69,7 @@ export abstract class CartEntryAdapter {
    * @param entryNumber
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `remove(options: CartOptions<RemoveEntryOptions>)`.
+   * Instead, use `remove(options: RemoveEntryAdapterOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract remove(
@@ -81,5 +80,5 @@ export abstract class CartEntryAdapter {
   /**
    * Abstract method used to remove entry from cart
    */
-  abstract remove(options: CartOptions<RemoveEntryOptions>): Observable<any>;
+  abstract remove(options: RemoveEntryAdapterOptions): Observable<any>;
 }

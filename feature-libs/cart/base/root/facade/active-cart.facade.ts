@@ -13,8 +13,8 @@ import {
   AddEntryActiveCartFacadeOptions,
   Cart,
   OrderEntry,
-  RemoveEntryOptions,
-  UpdateEntryOptions,
+  RemoveEntryActiveCartFacadeOptions,
+  UpdateEntryActiveCartFacadeOptions,
 } from '../models/cart.model';
 
 @Injectable({
@@ -113,7 +113,7 @@ export abstract class ActiveCartFacade {
    * Remove entry
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `removeEntry(options: RemoveEntryOptions)`.
+   * Instead, use `removeEntry(options: RemoveEntryActiveCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract removeEntry(entry: OrderEntry): void;
@@ -122,7 +122,7 @@ export abstract class ActiveCartFacade {
    */
   // TODO:#object-extensibility-deprecation - remove the eslint on the next line
   // eslint-disable-next-line @typescript-eslint/unified-signatures
-  abstract removeEntry(options: RemoveEntryOptions): void;
+  abstract removeEntry(options: RemoveEntryActiveCartFacadeOptions): void;
 
   /**
    * Update entry
@@ -131,14 +131,14 @@ export abstract class ActiveCartFacade {
    * @param quantity
    *
    * @deprecated since 5.1.0, and will be removed in the future major version.
-   * Instead, use `update(options: UpdateEntryOptions)`.
+   * Instead, use `update(options: UpdateEntryActiveCartFacadeOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(entryNumber: number, quantity: number): void;
   /**
    * Update entry
    */
-  abstract updateEntry(options: UpdateEntryOptions): void;
+  abstract updateEntry(options: UpdateEntryActiveCartFacadeOptions): void;
 
   /**
    * Returns cart entry
