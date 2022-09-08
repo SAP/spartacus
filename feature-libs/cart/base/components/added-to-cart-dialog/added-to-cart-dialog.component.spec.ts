@@ -15,7 +15,7 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-  UpdateEntryOptions,
+  UpdateEntryActiveCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import {
   FeaturesConfig,
@@ -46,7 +46,7 @@ class MockModalDirective implements Partial<ModalDirective> {
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   // TODO:#object-extensibility-deprecation - remove
   updateEntry(entryNumber: number, quantity: number): void;
-  updateEntry(options: UpdateEntryOptions): void;
+  updateEntry(options: UpdateEntryActiveCartFacadeOptions): void;
   // TODO:#object-extensibility-deprecation - remove
   updateEntry(_entryNumber: unknown, _quantity?: unknown): void {}
 

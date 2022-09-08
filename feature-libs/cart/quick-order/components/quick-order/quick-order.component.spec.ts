@@ -1,7 +1,11 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  AddEntriesActiveCartFacadeOptions,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
@@ -102,7 +106,13 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return mockCartId$.asObservable();
   }
-  addEntries(_cartEntries: OrderEntry[]): void {}
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(cartEntries: OrderEntry[]): void;
+  // TODO:#object-extensibility-deprecation - remove eslint rule
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  addEntries(options: AddEntriesActiveCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(_options: unknown): void {}
   isStable(): Observable<boolean> {
     return mockIsStable$.asObservable();
   }

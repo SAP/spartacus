@@ -9,14 +9,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
-  CartOptions,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
-  RemoveEntryOptions,
+  RemoveEntryMultiCartFacadeOptions,
   SelectiveCartFacade,
-  UpdateEntryOptions,
+  UpdateEntryMultiCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
@@ -47,7 +46,7 @@ class MockMultiCartService implements Partial<MultiCartFacade> {
     entryNumber: number,
     quantity: number
   ): void;
-  updateEntry(options: CartOptions<UpdateEntryOptions>): void;
+  updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
   // TODO:#object-extensibility-deprecation - remove
   updateEntry(
     _userId: unknown,
@@ -58,7 +57,7 @@ class MockMultiCartService implements Partial<MultiCartFacade> {
 
   // TODO:#object-extensibility-deprecation - remove
   removeEntry(userId: string, cartId: string, entryNumber: number): void;
-  removeEntry(options: CartOptions<RemoveEntryOptions>): void;
+  removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
   // TODO:#object-extensibility-deprecation - remove
   removeEntry(
     _userId: unknown,

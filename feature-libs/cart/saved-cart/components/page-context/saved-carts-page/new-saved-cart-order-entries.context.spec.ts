@@ -95,11 +95,11 @@ describe('NewSavedCartOrderEntriesContext that successfully imports products', (
         saveCartDescription: mockSavedCart.description,
       });
       expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
+      expect(multiCartService.addEntries).toHaveBeenCalledWith({
+        userId: mockUserId,
+        cartId: mockCartId,
+        entries: mockProductData,
+      });
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
         mockCartId
       );
@@ -162,11 +162,11 @@ describe('NewSavedCartOrderEntriesContext that does not successfully import prod
         saveCartDescription: mockSavedCart.description,
       });
       expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
+      expect(multiCartService.addEntries).toHaveBeenCalledWith({
+        userId: mockUserId,
+        cartId: mockCartId,
+        entries: mockProductData,
+      });
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
         mockCartId
       );
@@ -230,11 +230,11 @@ describe('NewSavedCartOrderEntriesContext that does not successfully import prod
         saveCartDescription: mockSavedCart.description,
       });
       expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
+      expect(multiCartService.addEntries).toHaveBeenCalledWith({
+        userId: mockUserId,
+        cartId: mockCartId,
+        entries: mockProductData,
+      });
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
         mockCartId
       );

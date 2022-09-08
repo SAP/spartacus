@@ -453,6 +453,21 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       // TODO:#object-extensibility-deprecation - remove
       | OrderEntry
   ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole `if` block
+    if ((options as OrderEntry).product !== undefined) {
+      this.activeCartId$
+        .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+        .subscribe(([cartId, userId]) => {
+          this.multiCartFacade.removeEntry(
+            userId,
+            cartId,
+            options.entryNumber as number
+          );
+        });
+
+      return;
+    }
+
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {

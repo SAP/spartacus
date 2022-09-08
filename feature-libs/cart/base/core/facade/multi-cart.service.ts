@@ -361,7 +361,7 @@ export class MultiCartService implements MultiCartFacade {
           options: {
             userId: optionsOrUserId,
             cartId: cartId ?? '',
-            entryNumber: entryNumber || 1,
+            entryNumber: entryNumber || 0,
           },
         })
       );

@@ -127,11 +127,11 @@ describe('SavedCartOrderEntriesContext', () => {
 
       expect(userIdService.takeUserId).toHaveBeenCalledWith();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
+      expect(multiCartService.addEntries).toHaveBeenCalledWith({
+        userId: mockUserId,
+        cartId: mockCartId,
+        entries: mockProductData,
+      });
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
         mockCartId
       );
