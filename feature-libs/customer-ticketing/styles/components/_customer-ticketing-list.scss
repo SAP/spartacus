@@ -1,6 +1,6 @@
 %cx-customer-ticketing-list {
   .cx-table {
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(md) {
       display: none;
     }
   }
@@ -8,6 +8,8 @@
   .cx-ticketing-list-mobile {
     @include media-breakpoint-down(lg) {
       border-top: 1px solid var(--cx-color-light);
+      padding-bottom: 10px;
+      padding-top: 10px;
       display: flex;
     }
 
@@ -25,9 +27,21 @@
     }
 
     .cx-ticketing-list-ticket-item-mobile {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      display: inline-block;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      display: block;
+
+      color: var(--cx-color-secondary);
+
+      @include media-breakpoint-down(md) {
+        font-size: var(--cx-font-size, 0.875rem);
+        font-weight: var(--cx-font-weight-bold);
+        min-width: 140px;
+      }
+    }
+
+    .cx-ticketing-list-ticket-item-mobile-description {
+      display: flex;
     }
   }
 

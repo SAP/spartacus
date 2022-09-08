@@ -23,51 +23,51 @@
   <ng-container *ngIf="tickets.length > 0">
     <div class="cx-ticketing-list-mobile" *ngFor="let ticket of tickets">
       <div class="col-11">
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.id }}
           </span>
         </div>
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketingList.subject' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.subject }}
           </span>
         </div>
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.ticketCategory }}
           </span>
         </div>
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketing.createdOn' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.createdAt | cxDate }}
           </span>
         </div>
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketing.changedOn' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.modifiedAt | cxDate }}
           </span>
         </div>
-        <div>
+        <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketing.status' | cxTranslate }}
           </span>
-          <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+          <span class="col-8">
           {{ ticket.status }}
           </span>
         </div>
