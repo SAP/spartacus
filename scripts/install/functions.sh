@@ -1091,7 +1091,7 @@ function get_package_name {
 }
 
 function setup_custom_yarn_cache {
-    local YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
+    YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
     mkdir -p "$YARN_CACHE_FOLDER"
     export YARN_CACHE_FOLDER
 }
