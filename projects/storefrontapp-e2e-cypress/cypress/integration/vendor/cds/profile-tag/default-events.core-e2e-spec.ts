@@ -529,6 +529,56 @@ describe('verifying X-Consent-Reference header addition to occ calls', () => {
   });
 });
 
+describe('Cart merging on login', () => {
+  const loginAlias = 'loginNotification';
+  beforeEach(() => {
+    cdsHelper.setUpMocks(strategyRequestAlias);
+    cy.intercept({
+      method: 'POST',
+      path: '**/users/current/loginnotification**',
+    }).as(loginAlias);
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    profileTagHelper.waitForCMSComponents();
+  });
+
+  it('should send a CartSnapshot event when a cart gets merged after a successful login', () => {
+    anonymousConsents.clickAllowAllFromBanner();
+    loginHelper.registerUser();
+    loginHelper.loginUser();
+    cy.wait(`@${loginAlias}`);
+
+    // reload and wait for all components to be loaded
+    cy.reload();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
+
+    // add first product to cart (logged in user)
+    gotToProductPageWithProductCode('280916');
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    verifyCartSnapshotEventNumberOfEntries(cy, 1);
+
+    // logout
+    loginHelper.signOutUser();
+
+    // add second product to cart (first product for anonymous user)
+    gotToProductPageWithProductCode('932577');
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    verifyCartSnapshotEventNumberOfEntries(cy, 1);
+
+    //login again, merge of carts should occur and a cart snapshot event with two products should be sent
+    cy.visit('/login');
+    loginHelper.loginUser();
+    cy.wait(`@${loginAlias}`);
+
+    verifyCartSnapshotEventNumberOfEntries(cy, 2);
+  });
+});
+
 function goToProductPage(): Cypress.Chainable<number> {
   const productCode = '280916';
   const productPage = checkoutFlow.waitForProductPage(
@@ -540,4 +590,39 @@ function goToProductPage(): Cypress.Chainable<number> {
     .wait(`@${productPage}`)
     .its('response.statusCode')
     .should('eq', 200);
+}
+
+function gotToProductPageWithProductCode(
+  productCode: string
+): Cypress.Chainable<number> {
+  const productPage = checkoutFlow.waitForProductPage(
+    productCode,
+    'getProductPage'
+  );
+  cy.visit(`/product/${productCode}`);
+  return cy
+    .wait(`@${productPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
+function verifyCartSnapshotEventNumberOfEntries(
+  cy: Cypress.cy,
+  expectedNumberOfEntries: number
+) {
+  cy.window().should((win) => {
+    expect(
+      profileTagHelper.eventCount(
+        win,
+        profileTagHelper.EventNames.CART_SNAPSHOT
+      )
+    ).to.equal(1);
+    const cartSnapshotEvent = profileTagHelper.getEvent(
+      win,
+      profileTagHelper.EventNames.CART_SNAPSHOT
+    )[0];
+    expect(cartSnapshotEvent.data.cart.entries.length).to.eq(
+      expectedNumberOfEntries
+    );
+  });
 }

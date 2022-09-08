@@ -104,6 +104,8 @@ const overviewOcc: OccConfigurator.Overview = {
   productCode: productCode,
 };
 
+const variantSearchResult: Configurator.Variant[] = [{ productCode: 'a' }];
+
 const cartModification: CartModification = { quantity: 1 };
 
 describe('OccConfigurationVariantAdapter', () => {
@@ -566,6 +568,33 @@ describe('OccConfigurationVariantAdapter', () => {
       VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
     mockReq.flush(overviewOcc);
+  });
+
+  it('should call searchConfiguratorVariants endpoint', (done) => {
+    occConfiguratorVariantAdapter
+      .searchVariants(configuration.configId)
+      .subscribe((productConfigurationResult) => {
+        expect(productConfigurationResult.length).toBe(1);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === 'searchConfiguratorVariants';
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'searchConfiguratorVariants',
+      {
+        urlParams: {
+          configId,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+
+    mockReq.flush(variantSearchResult);
   });
 
   it('should return configurator type', () => {

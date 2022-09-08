@@ -11,6 +11,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   ImageType,
   NotificationType,
@@ -21,7 +22,9 @@ import {
   ProductService,
   UserInterestsService,
 } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MyInterestsComponent } from './my-interests.component';
@@ -73,6 +76,11 @@ const MockLayoutConfig: LayoutConfig = {};
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  remove() {}
+  add() {}
 }
 
 @Component({
@@ -204,6 +212,7 @@ describe('MyInterestsComponent', () => {
           { provide: LayoutConfig, useValue: MockLayoutConfig },
           { provide: UserInterestsService, useValue: productInterestService },
           { provide: ProductService, useValue: productService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
         declarations: [
           MyInterestsComponent,
@@ -212,6 +221,7 @@ describe('MyInterestsComponent', () => {
           MockSpinnerComponent,
           MockPaginationComponent,
           MockSortingComponent,
+          MockFeatureLevelDirective,
         ],
       }).compileComponents();
     })
@@ -219,6 +229,7 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
+    //globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -260,42 +271,77 @@ describe('MyInterestsComponent', () => {
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
-    expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(
-      1
-    );
+    const table = el.query(By.css('.cx-product-interests-table'));
+    expect(table).toBeTruthy();
+
+    expect(el.query(By.css('.cx-product-interests-title'))).toBeTruthy();
     expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
     expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-item')).length
+      table.queryAll(By.css('.cx-product-interests-product-item')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    expect(table.queryAll(By.css('cx-media')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-image-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-image-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-name')).length).toEqual(2);
+    expect(table.queryAll(By.css('.cx-name')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-code-link')).length
+      table.queryAll(By.css('.cx-product-interests-product-code-link')).length
     ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-code')).length).toEqual(2);
+    expect(table.queryAll(By.css('.cx-code')).length).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-variant-name')).length
-    ).toEqual(2);
-    expect(
-      el.queryAll(By.css('.cx-product-interests-variant-value')).length
+      table.queryAll(By.css('.cx-product-interests-variant-name')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-stock')).length
+      table.queryAll(By.css('.cx-product-interests-variant-value')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-product-price')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(2);
-    expect(
-      el.queryAll(By.css('.cx-product-interests-expiration-date')).length
+      table.queryAll(By.css('.cx-product-interests-product-stock')).length
     ).toEqual(2);
     expect(
-      el.queryAll(By.css('.cx-product-interests-remove-btn')).length
+      table.queryAll(By.css('.cx-product-interests-product-price')).length
     ).toEqual(2);
+    expect(table.queryAll(By.css('.cx-product-interests-type')).length).toEqual(
+      2
+    );
+    expect(
+      table.queryAll(By.css('.cx-product-interests-expiration-date')).length
+    ).toEqual(2);
+    expect(
+      table.queryAll(By.css('.cx-product-interests-remove-btn')).length
+    ).toEqual(2);
+  });
+
+  it("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+    productInterestService.getAndLoadProductInterests.and.returnValue(
+      of(mockedInterests)
+    );
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    fixture.detectChanges();
+
+    const tableHeaders = el.queryAll(By.css('th'));
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      tableHeaders[1].nativeElement,
+      'span',
+      'cx-visually-hidden',
+      undefined,
+      undefined,
+      undefined,
+      'myInterests.item'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      tableHeaders[4].nativeElement,
+      'span',
+      'cx-visually-hidden',
+      undefined,
+      undefined,
+      undefined,
+      'myInterests.remove'
+    );
   });
 
   it('should be able to change page/sort', () => {
