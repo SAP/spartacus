@@ -18,9 +18,9 @@ import * as PickupLocationActions from '../actions/pickup-location.action';
 @Injectable()
 export class PickupLocationEffect {
   constructor(
-    private readonly actions$: Actions,
-    private readonly activeCartFacade: ActiveCartFacade,
-    private readonly pickupLocationConnector: PickupLocationConnector
+    private actions$: Actions,
+    private activeCartFacade: ActiveCartFacade,
+    private pickupLocationConnector: PickupLocationConnector
   ) {
     // Intentional empty constructor
   }

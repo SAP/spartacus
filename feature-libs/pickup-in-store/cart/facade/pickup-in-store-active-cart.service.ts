@@ -20,9 +20,9 @@ import { withLatestFrom } from 'rxjs/operators';
 @Injectable()
 export class PickupInStoreActiveCartService extends ActiveCartService {
   constructor(
-    protected readonly userIdService: UserIdService,
-    protected readonly multiCartFacade: MultiCartFacade,
-    protected readonly intendedPickupLocationFacade: IntendedPickupLocationFacade
+    protected userIdService: UserIdService,
+    protected multiCartFacade: MultiCartFacade,
+    protected intendedPickupLocationFacade: IntendedPickupLocationFacade
   ) {
     super(multiCartFacade, userIdService);
   }
