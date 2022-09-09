@@ -46,7 +46,7 @@
           {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
           </span>
           <span class="col-8">
-          {{ ticket.ticketCategory }}
+          {{ ticket.ticketCategory.name }}
           </span>
         </div>
         <div class="cx-ticketing-list-ticket-item-mobile-description">
@@ -70,7 +70,7 @@
           {{ 'customerTicketing.status' | cxTranslate }}
           </span>
           <span class="col-8">
-          {{ ticket.status }}
+          {{ ticket.status.name }}
           </span>
         </div>
       </div>
@@ -95,10 +95,10 @@
             <a [routerLink]="['/my-account/customer-ticketing', ticket.id]">{{ ticket.id }}</a>
           </td>
           <td>{{ ticket.subject }}</td>
-          <td>{{ ticket.ticketCategory }}</td>
+          <td>{{ ticket.ticketCategory.name }}</td>
           <td>{{ ticket.createdAt | cxDate }}</td>
           <td>{{ ticket.modifiedAt | cxDate }}</td>
-          <td>{{ ticket.status }}</td>
+          <td>{{ ticket.status.name }}</td>
         </tr>
       </tbody>
     </table>
