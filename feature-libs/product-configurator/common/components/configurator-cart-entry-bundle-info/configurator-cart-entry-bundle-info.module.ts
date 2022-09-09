@@ -12,7 +12,7 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 
   providers: [
     provideOutlet({
-      id: CartOutlets.ITEM_BUNDLE_DETAILS,
+      id: CartOutlets.LIST_ITEM,
       position: OutletPosition.AFTER,
       component: ConfiguratorCartEntryBundleInfoComponent,
     }),

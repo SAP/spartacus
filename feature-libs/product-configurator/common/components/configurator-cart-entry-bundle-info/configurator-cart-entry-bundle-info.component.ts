@@ -1,13 +1,21 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import { CartItemComponentOptions, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { OutletContextData } from '@spartacus/storefront';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
+
+interface ItemListContext {
+  readonly: boolean;
+  options: CartItemComponentOptions;
+  item: OrderEntry;
+  quantityControl: FormControl;
+}
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,
@@ -23,17 +31,31 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
     protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
-  ) {}
+    @Optional() public outletContext?: OutletContextData<ItemListContext>
+  ) { }
 
   readonly orderEntry$: Observable<OrderEntry> =
-    this.cartItemContext?.item$ ?? EMPTY;
-
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.item;
+      })
+    ) ?? EMPTY;
   readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.quantityControl;
+      })
+    ) ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =
-    this.cartItemContext?.readonly$ ?? EMPTY;
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.readonly;
+      })
+    ) ?? EMPTY;
 
   hideItems = true;
 
@@ -64,8 +86,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     const configInfos = entry.configurationInfos;
     return configInfos
       ? this.commonConfigUtilsService.isBundleBasedConfigurator(
-          configInfos[0]?.configuratorType
-        )
+        configInfos[0]?.configuratorType
+      )
       : false;
   }
 
@@ -80,7 +102,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(undefined); //TODO: Need cart context to show if save for later
 
   getButtonText(translatedText?: string): string {
     if (!translatedText) {
