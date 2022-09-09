@@ -63,4 +63,12 @@
       background-color: var(--cx-color-inverse);
     }
   }
+
+  .cx-text-green {
+    color: var(--cx-color-success);
+  }
+
+  .cx-text-red {
+    color: var(--cx-color-danger);
+  }
 }

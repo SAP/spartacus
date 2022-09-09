@@ -15,6 +15,11 @@ import { Observable } from 'rxjs';
 })
 export class CustomerTicketingListComponent implements OnInit {
   iconTypes = ICON_TYPE;
+  // Create table Headers
+  tableHeaders = [
+    { key: 'ticketId', label: 'ID' },
+    { key: 'changedOn', label: 'Changed On' },
+  ];
   ticketList: Observable<TicketList | undefined>;
   tickets: Observable<Array<TicketDetails>>;
 
@@ -26,9 +31,17 @@ export class CustomerTicketingListComponent implements OnInit {
   }
 
   constructor(protected customerTicketingFacade: CustomerTicketingFacade) {}
-  // Create table Headers
-  tableHeaders = [
-    { key: 'ticketId', label: 'ID' },
-    { key: 'changedOn', label: 'Changed On' },
-  ];
+
+  getStatusClass = (status: string): string => {
+    switch (status) {
+      case 'OPEN':
+        return 'cx-text-green';
+      case 'REOPENED':
+        return 'cx-text-green';
+      case 'CLOSED':
+        return 'cx-text-red';
+      default:
+        return '';
+    }
+  };
 }
