@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import {
-  CustomerTicketingFacade,
-  TicketDetails,
-} from '@spartacus/customer-ticketing/root';
+import { STATUS, TicketDetails } from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -23,8 +21,10 @@ class MockTranslationService {
   }
 }
 
-class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+class MockCustomerTicketingDetailsService
+  implements Partial<CustomerTicketingDetailsService>
+{
+  getTicketDetails = createSpy().and.returnValue(of(mockTicketDetails));
 }
 
 describe('CustomerTicketingDetailsComponent', () => {
@@ -38,8 +38,8 @@ describe('CustomerTicketingDetailsComponent', () => {
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+          provide: CustomerTicketingDetailsService,
+          useClass: MockCustomerTicketingDetailsService,
         },
       ],
     }).compileComponents();
@@ -80,11 +80,11 @@ describe('CustomerTicketingDetailsComponent', () => {
     }
 
     it('should return open class when the status is open', () => {
-      assertStatusClassByStatusId('cx-text-green', 'OPEN');
+      assertStatusClassByStatusId('cx-text-green', STATUS.OPEN);
     });
 
     it('should return close class when the status is close', () => {
-      assertStatusClassByStatusId('cx-text-gray', 'CLOSE');
+      assertStatusClassByStatusId('cx-text-gray', STATUS.CLOSE);
     });
 
     it('should return empty if the id is not passed', () => {

@@ -30,7 +30,7 @@ export class CustomerTicketingCloseDialogComponent
     }
   }
 
-  prepareTicketEvent(): TicketEvent {
+  protected prepareTicketEvent(): TicketEvent {
     return {
       message: this.form?.get('message')?.value,
       toStatus: {
