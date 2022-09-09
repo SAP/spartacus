@@ -22,7 +22,7 @@
 
   <ng-container *ngIf="tickets.length > 0">
     <div class="cx-ticketing-list-mobile" *ngFor="let ticket of tickets">
-      <div class="col-11">
+      <div>
         <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
@@ -71,9 +71,6 @@
           {{ ticket.status }}
           </span>
         </div>
-      </div>
-      <div class="col-1 cx-tickting-list-ticket-mobile-icon">
-        <cx-icon class="fa fa-angle-right fa-2x"></cx-icon>
       </div>
     </div>
     <table class="table cx-table">
