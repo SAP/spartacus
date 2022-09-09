@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('CustomerTicketingListComponent should init', () => {
   let component: CustomerTicketingListComponent;
@@ -7,6 +8,7 @@ describe('CustomerTicketingListComponent should init', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [CustomerTicketingListComponent],
     }).compileComponents();
   });
