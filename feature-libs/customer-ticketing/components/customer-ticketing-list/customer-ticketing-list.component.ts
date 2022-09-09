@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { of } from 'rxjs';
+// import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
@@ -9,8 +10,20 @@ import { ICON_TYPE } from '@spartacus/storefront';
 })
 export class CustomerTicketingListComponent {
   iconTypes = ICON_TYPE;
+  // ticketDetails$: Observable<TicketDetails | undefined> =
+  // this.customerTicketingFacade.getTicket();
+  tickets = this.customerTicketingFacade.getTickets().pipe(
+    map((tickets) => {
+      console.log('tickets', tickets);
+      return tickets.tickets.map((ticket) => {
+        return {
+          ...ticket,
+        };
+      });
+    })
+  );
 
-  constructor() {}
+  constructor(protected customerTicketingFacade: CustomerTicketingFacade) {}
 
   // Create table Headers
   tableHeaders = [
@@ -18,114 +31,114 @@ export class CustomerTicketingListComponent {
     { key: 'changedOn', label: 'Changed On' },
   ];
 
-  tickets$ = of({
-    pagination: {
-      currentPage: 0,
-      pageSize: 0,
-      sort: 'string',
-      totalPages: 0,
-      totalResults: 0,
-    },
-    sorts: [
-      {
-        code: 'string',
-        name: 'string',
-        selected: true,
-      },
-    ],
-    tickets: [
-      {
-        associatedTo: {
-          code: '00001000',
-          modifiedAt: '2021-01-13T10:06:57+0000',
-          type: 'Cart',
-        },
-        availableStatusTransitions: [
-          {
-            id: 'CLOSED',
-            name: 'Closed',
-          },
-        ],
-        createdAt: '2021-01-13T10:06:57+0000',
-        customerId: 1000001,
-        id: '0000001',
-        modifiedAt: '2021-01-13T10:06:57+0000',
-        status: {
-          id: 'CLOSED',
-          name: 'Closed',
-        },
-        subject: 'My drill is broken.',
-        ticketCategory: {
-          id: 'ENQUIRY',
-          name: 'Enquiry',
-        },
-        ticketEvents: [
-          {
-            addedByAgent: false,
-            author: 'Mark Rivers',
-            createdAt: '2021-01-13T10:06:57+0000',
-            message:
-              'It is broken when I receive it. Please send one replacement to me.',
-            toStatus: {
-              id: 'CLOSED',
-              name: 'Closed',
-            },
-          },
-        ],
-      },
-      {
-        associatedTo: {
-          code: '00002000',
-          modifiedAt: '2021-01-14T10:06:57+0000',
-          type: 'Cart',
-        },
-        availableStatusTransitions: [
-          {
-            id: 'CLOSED',
-            name: 'Closed',
-          },
-        ],
-        createdAt: '2021-01-14T10:06:57+0000',
-        customerId: 1000001,
-        id: '0000002',
-        modifiedAt: '2021-01-14T10:06:57+0000',
-        status: {
-          id: 'OPEN',
-          name: 'Open',
-        },
-        subject: 'Need fix for my door',
-        ticketCategory: {
-          id: 'ENQUIRY',
-          name: 'Enquiry',
-        },
-        ticketEvents: [
-          {
-            addedByAgent: false,
-            author: 'Bob',
-            createdAt: '2021-01-14T10:06:57+0000',
-            message: 'Door received broken',
-            toStatus: {
-              id: 'OPEN',
-              name: 'Open',
-            },
-          },
-        ],
-      },
-    ],
-  });
+  // tickets$ = of({
+  //   pagination: {
+  //     currentPage: 0,
+  //     pageSize: 0,
+  //     sort: 'string',
+  //     totalPages: 0,
+  //     totalResults: 0,
+  //   },
+  //   sorts: [
+  //     {
+  //       code: 'string',
+  //       name: 'string',
+  //       selected: true,
+  //     },
+  //   ],
+  //   tickets: [
+  //     {
+  //       associatedTo: {
+  //         code: '00001000',
+  //         modifiedAt: '2021-01-13T10:06:57+0000',
+  //         type: 'Cart',
+  //       },
+  //       availableStatusTransitions: [
+  //         {
+  //           id: 'CLOSED',
+  //           name: 'Closed',
+  //         },
+  //       ],
+  //       createdAt: '2021-01-13T10:06:57+0000',
+  //       customerId: 1000001,
+  //       id: '0000001',
+  //       modifiedAt: '2021-01-13T10:06:57+0000',
+  //       status: {
+  //         id: 'CLOSED',
+  //         name: 'Closed',
+  //       },
+  //       subject: 'My drill is broken.',
+  //       ticketCategory: {
+  //         id: 'ENQUIRY',
+  //         name: 'Enquiry',
+  //       },
+  //       ticketEvents: [
+  //         {
+  //           addedByAgent: false,
+  //           author: 'Mark Rivers',
+  //           createdAt: '2021-01-13T10:06:57+0000',
+  //           message:
+  //             'It is broken when I receive it. Please send one replacement to me.',
+  //           toStatus: {
+  //             id: 'CLOSED',
+  //             name: 'Closed',
+  //           },
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       associatedTo: {
+  //         code: '00002000',
+  //         modifiedAt: '2021-01-14T10:06:57+0000',
+  //         type: 'Cart',
+  //       },
+  //       availableStatusTransitions: [
+  //         {
+  //           id: 'CLOSED',
+  //           name: 'Closed',
+  //         },
+  //       ],
+  //       createdAt: '2021-01-14T10:06:57+0000',
+  //       customerId: 1000001,
+  //       id: '0000002',
+  //       modifiedAt: '2021-01-14T10:06:57+0000',
+  //       status: {
+  //         id: 'OPEN',
+  //         name: 'Open',
+  //       },
+  //       subject: 'Need fix for my door',
+  //       ticketCategory: {
+  //         id: 'ENQUIRY',
+  //         name: 'Enquiry',
+  //       },
+  //       ticketEvents: [
+  //         {
+  //           addedByAgent: false,
+  //           author: 'Bob',
+  //           createdAt: '2021-01-14T10:06:57+0000',
+  //           message: 'Door received broken',
+  //           toStatus: {
+  //             id: 'OPEN',
+  //             name: 'Open',
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // });
 
-  tickets = this.tickets$.pipe(
-    map((tickets) => {
-      return tickets.tickets.map((ticket) => {
-        return {
-          id: ticket.id,
-          subject: ticket.subject,
-          ticketCategory: ticket.ticketCategory.name,
-          status: ticket.status.name,
-          createdAt: ticket.createdAt,
-          modifiedAt: ticket.modifiedAt,
-        };
-      });
-    })
-  );
+  // tickets = this.tickets$.pipe(
+  //   map((tickets) => {
+  //     return tickets.tickets.map((ticket) => {
+  //       return {
+  //         id: ticket.id,
+  //         subject: ticket.subject,
+  //         ticketCategory: ticket.ticketCategory.name,
+  //         status: ticket.status.name,
+  //         createdAt: ticket.createdAt,
+  //         modifiedAt: ticket.modifiedAt,
+  //       };
+  //     });
+  //   })
+  // );
 }
