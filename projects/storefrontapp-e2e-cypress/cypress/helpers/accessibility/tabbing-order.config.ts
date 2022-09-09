@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {

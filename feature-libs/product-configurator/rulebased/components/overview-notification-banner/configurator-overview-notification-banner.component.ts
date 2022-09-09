@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CommonConfigurator,
@@ -44,10 +50,11 @@ export class ConfiguratorOverviewNotificationBannerComponent {
         return configOv.numberOfIncompleteCharacteristics !== undefined
           ? configOv.numberOfIncompleteCharacteristics
           : configOv.totalNumberOfIssues;
-      } else
+      } else {
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
           : 0;
+      }
     })
   );
 
