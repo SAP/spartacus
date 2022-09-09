@@ -456,6 +456,35 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
+  describe('navigateForProductBound', () => {
+    it('should navigate to OV in case configuration is product bound and we are on product config page', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        mockProductConfiguration,
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
+    });
+
+    it('should handle case that next owner is not defined', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        { ...mockProductConfiguration, nextOwner: undefined },
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        ...navParamsOverview,
+        params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
+      });
+    });
+  });
+
   describe('performNavigation', () => {
     it('should display message on addToCart ', () => {
       //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
