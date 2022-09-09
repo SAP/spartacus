@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
 import { Product, ProductReferences } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable()
 export class ProductReferenceNormalizer
@@ -9,7 +9,7 @@ export class ProductReferenceNormalizer
 {
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Product;
     }
 
     if (source.productReferences) {
@@ -26,14 +26,16 @@ export class ProductReferenceNormalizer
    * - product.references.SIMILAR[0].code
    */
   protected normalize(source: Occ.ProductReference[]): ProductReferences {
-    const references = {};
+    const references: any = {};
 
     if (source) {
       for (const reference of source) {
-        if (!references.hasOwnProperty(reference.referenceType)) {
-          references[reference.referenceType] = [];
+        if (reference.referenceType) {
+          if (!references.hasOwnProperty(reference.referenceType)) {
+            references[reference.referenceType] = [];
+          }
+          references[reference.referenceType].push(reference);
         }
-        references[reference.referenceType].push(reference);
       }
     }
     return references;

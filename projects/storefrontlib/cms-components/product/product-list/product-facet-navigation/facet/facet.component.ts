@@ -98,6 +98,6 @@ export class FacetComponent {
   }
 
   getLinkParams(value: FacetValue) {
-    return this.facetService.getLinkParams(value.query?.query.value);
+    return this.facetService.getLinkParams(value.query?.query?.value ?? '');
   }
 }

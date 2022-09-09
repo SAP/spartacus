@@ -125,14 +125,13 @@ export class SavedCartEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-
             return [
               ...actions,
-              new CartActions.SetActiveCartId(cartId),
               new CartActions.LoadCartSuccess({
                 userId,
                 cartId,
                 cart: savedCart,
+                extraData: { active: true },
               }),
               new SavedCartActions.RestoreSavedCartSuccess({ userId, cartId }),
             ];

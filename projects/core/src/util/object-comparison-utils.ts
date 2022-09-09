@@ -16,7 +16,7 @@ export class ObjectComparisonUtils {
     }
     for (let i = 0; i < aKeysLen; i++) {
       const key = aKeys[i];
-      if (objA[key] !== objB[key]) {
+      if (objA[key as keyof Object] !== objB[key as keyof Object]) {
         return false;
       }
     }
@@ -40,13 +40,18 @@ export class ObjectComparisonUtils {
         if (!objB.hasOwnProperty(key)) {
           return false; // allows to compare objA[ key ] and objB[ key ] when set to undefined
         }
-        if (objA[key] === objB[key]) {
+        if (objA[key as keyof Object] === objB[key as keyof Object]) {
           continue; // if they have the same strict value or identity then they are equal
         }
-        if (typeof objA[key] !== 'object') {
+        if (typeof objA[key as keyof Object] !== 'object') {
           return false; // Numbers, Strings, Functions, Booleans must be strictly equal
         }
-        if (!this.deepEqualObjects(objA[key], objB[key])) {
+        if (
+          !this.deepEqualObjects(
+            objA[key as keyof Object],
+            objB[key as keyof Object]
+          )
+        ) {
           return false;
         }
       }

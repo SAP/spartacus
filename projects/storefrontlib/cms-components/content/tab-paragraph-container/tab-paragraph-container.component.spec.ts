@@ -166,7 +166,7 @@ describe('TabParagraphContainerComponent', () => {
     let childCompFixture: ComponentFixture<TestComponent>;
     childCompFixture = TestBed.createComponent(TestComponent);
 
-    component.children.first.cmpRef = childCompFixture.componentRef;
+    component.children.first['cmpRef'] = childCompFixture.componentRef;
     component.ngAfterViewInit();
 
     let param = '';

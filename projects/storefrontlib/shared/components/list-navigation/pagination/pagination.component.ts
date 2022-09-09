@@ -31,15 +31,17 @@ export class PaginationComponent {
    * Whenever there's a default page specified, the routing logic
    * will omit the page number in routeLink or parameters.
    */
-  @Input() defaultPage;
+  @Input() defaultPage: number | undefined;
 
   private _pagination: PaginationModel;
   get pagination(): PaginationModel {
     return this._pagination;
   }
-  @Input() set pagination(value: PaginationModel) {
-    this._pagination = value;
-    this.render(value);
+  @Input() set pagination(value: PaginationModel | undefined) {
+    if (value) {
+      this._pagination = value;
+      this.render(value);
+    }
   }
 
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -56,8 +58,8 @@ export class PaginationComponent {
       return;
     }
     this.pages = this.paginationBuilder.paginate(
-      pagination.totalPages,
-      pagination.currentPage
+      pagination.totalPages ?? 0,
+      pagination.currentPage ?? 0
     );
   }
 
@@ -68,7 +70,7 @@ export class PaginationComponent {
    * @param type PaginationItemType
    * @returns string
    */
-  getAriaLabel(label: string, type: PaginationItemType): string {
+  getAriaLabel(label?: string, type?: PaginationItemType): string {
     // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
     type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
     type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
@@ -113,6 +115,8 @@ export class PaginationComponent {
     );
     if (
       this.queryParam &&
+      item.number !== undefined &&
+      this.pagination.totalPages !== undefined &&
       item.number < this.pagination.totalPages &&
       !this.isCurrent(item)
     ) {

@@ -36,12 +36,12 @@ export class WithCredentialsInterceptor implements HttpInterceptor {
    */
   protected requiresWithCredentials(request: HttpRequest<any>): boolean {
     return (
-      this.occConfig?.useWithCredentials &&
-      request.url.indexOf(this.occConfig?.prefix) > -1
+      this.occConfig?.useWithCredentials !== undefined &&
+      request.url.indexOf(this.occConfig?.prefix ?? '') > -1
     );
   }
 
   private get occConfig() {
-    return this.config.backend.occ;
+    return this.config.backend?.occ;
   }
 }

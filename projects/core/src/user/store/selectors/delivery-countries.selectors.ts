@@ -30,7 +30,7 @@ export const getAllDeliveryCountries: MemoizedSelector<
 
 export const countrySelectorFactory = (
   isocode: string
-): MemoizedSelector<StateWithUser, Country> =>
+): MemoizedSelector<StateWithUser, Country | null> =>
   createSelector(getDeliveryCountriesEntites, (entities) =>
     Object.keys(entities).length !== 0 ? entities[isocode] : null
   );

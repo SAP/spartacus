@@ -334,6 +334,10 @@ export class MultiCartService implements MultiCartFacade {
     );
   }
 
+  removeCart(cartId: string): void {
+    this.store.dispatch(new CartActions.RemoveCart({ cartId }));
+  }
+
   /**
    * Delete cart
    *

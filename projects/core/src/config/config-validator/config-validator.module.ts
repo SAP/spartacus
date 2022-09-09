@@ -15,7 +15,7 @@ import {
 export function configValidatorFactory(
   configInitializer: ConfigInitializerService,
   validators: ConfigValidator[]
-) {
+): () => void {
   const validate = () => {
     if (isDevMode()) {
       configInitializer

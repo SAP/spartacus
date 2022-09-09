@@ -21,9 +21,8 @@ export class DeferLoaderService {
     protected config: LayoutConfig,
     protected intersectionService: IntersectionService
   ) {
-    this.globalLoadStrategy = config.deferredLoading
-      ? config.deferredLoading.strategy
-      : DeferLoadingStrategy.INSTANT;
+    this.globalLoadStrategy =
+      config.deferredLoading?.strategy ?? DeferLoadingStrategy.INSTANT;
   }
 
   /**
@@ -48,7 +47,7 @@ export class DeferLoaderService {
   }
 
   private shouldLoadInstantly(
-    elementLoadingStrategy: DeferLoadingStrategy
+    elementLoadingStrategy: DeferLoadingStrategy | undefined
   ): boolean {
     return (
       isPlatformServer(this.platformId) ||

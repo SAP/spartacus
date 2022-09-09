@@ -48,10 +48,10 @@ export class FeatureModulesService {
 
         this.features.set(
           featureName,
-          this.resolveDependencies(featureConfig.dependencies).pipe(
+          this.resolveDependencies(featureConfig?.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                featureConfig.module,
+                featureConfig?.module as () => Promise<any>,
                 featureName,
                 deps
               )

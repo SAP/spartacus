@@ -11,7 +11,7 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
 })
 export class ResetPasswordComponent {
   form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   token$: Observable<string> = this.service.resetToken$;
 

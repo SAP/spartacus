@@ -8,8 +8,9 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
@@ -28,7 +29,7 @@ export class CsAgentAuthService {
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store,
-    protected userService: UserService
+    protected userProfileFacade: UserProfileFacade
   ) {}
 
   /**
@@ -54,7 +55,7 @@ export class CsAgentAuthService {
       );
       // Start emulation for currently logged in user
       let customerId: string | undefined;
-      this.userService
+      this.userProfileFacade
         .get()
         .subscribe((user) => (customerId = user?.customerId))
         .unsubscribe();

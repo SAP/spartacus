@@ -87,7 +87,7 @@ export function navigateToConsentPage() {
 }
 
 export function seeBannerAsAnonymous() {
-  cy.get(ANONYMOUS_BANNER).should('exist');
+  cy.get(`${ANONYMOUS_BANNER} .anonymous-consent-banner`).should('be.visible');
 }
 
 export function checkBannerHidden() {
@@ -304,7 +304,6 @@ export function showAnonymousConfigTest() {
   it('should not display consents on the consents management page', () => {
     navigateToConsentPage();
     checkConsentsInConsentPage();
-
     signOutUser();
   });
 

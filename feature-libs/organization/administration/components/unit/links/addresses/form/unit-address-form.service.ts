@@ -8,7 +8,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { FormService } from '../../../../shared/form/form.service';
 
@@ -65,29 +65,31 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   getRegions(): Observable<Region[]> {
-    let selectedCountryCode = this.form.get('country.isocode').value;
+    let selectedCountryCode = this.form?.get('country.isocode')?.value;
     let newCountryCode: string;
 
-    return this.getForm()
-      .get('country.isocode')
-      .valueChanges.pipe(
-        filter((countryIsoCode) => Boolean(countryIsoCode)),
-        switchMap((countryIsoCode) => {
-          newCountryCode = countryIsoCode;
-          return this.userAddressService.getRegions(countryIsoCode);
-        }),
-        tap((regions: Region[]) => {
-          const regionControl = this.form.get('region.isocode');
-          if (!regions || regions.length === 0) {
-            regionControl.disable();
-          } else {
-            regionControl.enable();
-          }
-          if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
-            regionControl.reset();
-          }
-          selectedCountryCode = newCountryCode;
-        })
-      );
+    return (
+      this.getForm()
+        ?.get('country.isocode')
+        ?.valueChanges.pipe(
+          filter((countryIsoCode) => Boolean(countryIsoCode)),
+          switchMap((countryIsoCode) => {
+            newCountryCode = countryIsoCode;
+            return this.userAddressService.getRegions(countryIsoCode);
+          }),
+          tap((regions: Region[]) => {
+            const regionControl = this.form?.get('region.isocode');
+            if (!regions || regions.length === 0) {
+              regionControl?.disable();
+            } else {
+              regionControl?.enable();
+            }
+            if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
+              regionControl?.reset();
+            }
+            selectedCountryCode = newCountryCode;
+          })
+        ) ?? of([])
+    );
   }
 }

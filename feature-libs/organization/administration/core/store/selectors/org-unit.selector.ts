@@ -147,7 +147,7 @@ export const getAssignedUsers = (
 
 export const getB2BAddresses = (
   orgUnitId: string,
-  params: SearchConfig
+  params?: SearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<EntitiesModel<Address>>

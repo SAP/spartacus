@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   CmsConfig,
+  Config,
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -13,7 +14,7 @@ import { CdcJsService } from './service/cdc-js.service';
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
-) {
+): () => Promise<Config> {
   const func = () =>
     configInit
       .getStable('context', 'cdc')

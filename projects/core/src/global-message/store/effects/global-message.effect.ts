@@ -15,6 +15,7 @@ import {
 } from 'rxjs/operators';
 import { Translatable } from '../../../i18n/translatable';
 import { ObjectComparisonUtils } from '../../../util/object-comparison-utils';
+import { isNotUndefined } from '../../../util/type-guards';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
@@ -44,16 +45,19 @@ export class GlobalMessageEffect {
                 ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) >
                 1
             ),
-            map(
-              ([text, messages]: [Translatable, Translatable[]]) =>
-                new GlobalMessageActions.RemoveMessage({
+            map(([text, messages]: [Translatable, Translatable[]]) => {
+              const index = ObjectComparisonUtils.indexOfFirstOccurrence(
+                text,
+                messages
+              );
+              if (index !== undefined) {
+                return new GlobalMessageActions.RemoveMessage({
                   type: message.type,
-                  index: ObjectComparisonUtils.indexOfFirstOccurrence(
-                    text,
-                    messages
-                  ),
-                })
-            )
+                  index,
+                });
+              }
+            }),
+            filter(isNotUndefined)
           )
         )
       )
@@ -67,7 +71,7 @@ export class GlobalMessageEffect {
           ofType(GlobalMessageActions.ADD_MESSAGE),
           pluck('payload'),
           concatMap((message: GlobalMessage) => {
-            const config = this.config.globalMessages[message.type];
+            const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(
               select(
                 GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
@@ -76,11 +80,10 @@ export class GlobalMessageEffect {
               filter(
                 (count: number) =>
                   ((config && config.timeout !== undefined) ||
-                    message.timeout) &&
-                  count &&
+                    message.timeout !== undefined) &&
                   count > 0
               ),
-              delay(message.timeout || config.timeout),
+              delay((message.timeout as number) || (config?.timeout as number)),
               switchMap(() =>
                 of(
                   new GlobalMessageActions.RemoveMessage({

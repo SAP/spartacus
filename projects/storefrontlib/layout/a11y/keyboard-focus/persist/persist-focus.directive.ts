@@ -56,7 +56,7 @@ export class PersistFocusDirective
    * implementations. This is needed to ensure that we can resolve the focus
    * state in case of a repaint.
    */
-  @HostBinding(`attr.${FOCUS_ATTR}`) attr: string;
+  @HostBinding(`attr.${FOCUS_ATTR}`) attr: string | undefined;
 
   @HostListener('focus', ['$event'])
   handleFocus(event?: KeyboardEvent) {
@@ -102,14 +102,14 @@ export class PersistFocusDirective
    * Returns the key for the host element, which is used to persist the
    * focus state. This is useful in cases where the DOM is rebuild.
    */
-  protected get key(): string {
+  protected get key(): string | undefined {
     return (this.config as PersistFocusConfig)?.key;
   }
 
   /**
    * returns the persistence group (if any) for the focusable elements.
    */
-  protected get group(): string {
+  protected get group(): string | null | undefined {
     return this.service.getPersistenceGroup(
       this.host,
       this.config as PersistFocusConfig

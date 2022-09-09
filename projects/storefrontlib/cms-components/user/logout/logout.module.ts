@@ -12,6 +12,7 @@ import { LogoutGuard } from './logout.guard';
     PageLayoutModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [LogoutGuard, CmsPageGuard],
         component: PageLayoutComponent,

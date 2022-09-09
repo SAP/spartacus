@@ -13,7 +13,6 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
-  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
@@ -34,14 +33,6 @@ export class CheckoutDeliveryAddressService
             return this.checkoutDeliveryAddressConnector
               .createAddress(userId, cartId, payload)
               .pipe(
-                tap(() => {
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch(
-                      { userId },
-                      LoadUserAddressesEvent
-                    );
-                  }
-                }),
                 map((address) => {
                   address.titleCode = payload.titleCode;
                   if (payload.region?.isocodeShort) {
@@ -54,11 +45,7 @@ export class CheckoutDeliveryAddressService
                 }),
                 tap((address) =>
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      address,
-                    },
+                    { userId, cartId, address },
                     CheckoutDeliveryAddressCreatedEvent
                   )
                 )

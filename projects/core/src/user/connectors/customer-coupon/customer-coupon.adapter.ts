@@ -1,16 +1,16 @@
 import { Observable } from 'rxjs';
 import {
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 
 export abstract class CustomerCouponAdapter {
   abstract getCustomerCoupons(
     userId: string,
     pageSize: number,
-    currentPage: number,
-    sort: string
+    currentPage?: number,
+    sort?: string
   ): Observable<CustomerCouponSearchResult>;
 
   abstract turnOnNotification(

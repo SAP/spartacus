@@ -17,7 +17,7 @@ export class OutletRendererService {
    */
   render(outlet: string): void {
     if (this.outletRefs.value.size !== 0) {
-      this.outletRefs.value.get(outlet).render();
+      this.outletRefs.value.get(outlet)?.render();
     }
   }
 

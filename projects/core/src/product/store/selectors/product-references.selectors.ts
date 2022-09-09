@@ -27,11 +27,9 @@ export const getSelectedProductReferencesFactory = (
             (item) => item.referenceType === referenceType
           );
         }
-
         return referenceTypeData.list;
-      } else {
-        return [];
       }
     }
+    return [];
   });
 };

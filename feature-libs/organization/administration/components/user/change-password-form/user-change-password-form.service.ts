@@ -36,7 +36,7 @@ export class UserChangePasswordFormService extends FormService<any> {
     this.form = form;
   }
 
-  getForm(item?: User): FormGroup {
+  getForm(item?: User): FormGroup | null {
     // we need do cleanup, to avoid have filled form after next open of that
     this.form = null;
     return super.getForm(item);

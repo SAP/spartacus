@@ -60,12 +60,12 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
     outlet: string,
     position: OutletPosition = OutletPosition.REPLACE,
     stacked = AVOID_STACKED_OUTLETS
-  ): T[] | T {
+  ): T[] | T | undefined {
     const store =
       this.templatesRefs[position] ||
       this.templatesRefs[OutletPosition.REPLACE];
 
-    const templateRef: T[] = store.get(outlet);
+    const templateRef: T[] | undefined = store.get(outlet);
     if (templateRef && !stacked) {
       return templateRef[0];
     }
@@ -94,9 +94,11 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
 
-      existing = existing.filter((val) => val !== value);
+      existing = existing?.filter((val) => val !== value);
 
-      store.set(outlet, existing);
+      if (existing) {
+        store.set(outlet, existing);
+      }
     }
   }
 }

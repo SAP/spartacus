@@ -114,7 +114,7 @@ export class FacadeFactoryService {
 
     const result: any = new (class extends (facade as any) {})();
     (methods ?? []).forEach((method) => {
-      result[method] = (...args) =>
+      result[method] = (...args: any[]) =>
         this.call(resolver$, method as string, args);
     });
     (properties ?? []).forEach((property) => {

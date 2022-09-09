@@ -28,18 +28,18 @@ export class CostCenterItemService extends ItemService<CostCenter> {
   }
 
   update(
-    code,
+    code: string,
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
-    return this.costCenterService.getLoadingStatus(value.code);
+    return this.costCenterService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.create(value);
-    return this.costCenterService.getLoadingStatus(value.code);
+    return this.costCenterService.getLoadingStatus(value.code ?? '');
   }
 
   protected getDetailsRoute(): string {

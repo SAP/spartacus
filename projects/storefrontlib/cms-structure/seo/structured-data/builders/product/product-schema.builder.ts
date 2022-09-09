@@ -24,7 +24,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
 
   build(): Observable<any> {
     return this.currentProduct.getProduct().pipe(
-      switchMap((product: Product) => {
+      switchMap((product: Product | null) => {
         if (product) {
           return combineLatest(this.collect(product)).pipe(
             map((res: {}[]) => Object.assign({}, ...res))

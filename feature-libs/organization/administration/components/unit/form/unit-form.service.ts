@@ -38,8 +38,8 @@ export class UnitFormService extends FormService<B2BUnit> {
   protected toggleParentUnit(item?: B2BUnit): void {
     if (this.isRootUnit(item)) {
       this.form?.removeControl('parentOrgUnit');
-    } else if (!this.form.get('parentOrgUnit')) {
-      this.form.setControl(
+    } else if (!this.form?.get('parentOrgUnit')) {
+      this.form?.setControl(
         'parentOrgUnit',
         new FormGroup({
           uid: new FormControl(null, Validators.required),
@@ -48,14 +48,14 @@ export class UnitFormService extends FormService<B2BUnit> {
     }
   }
 
-  protected isRootUnit(item: B2BUnit): boolean {
+  protected isRootUnit(item: B2BUnit | undefined): boolean {
     // as we don't have full response after toggle item status,
     // we have situation where we have object like {uid, active},
     // so decided to check name as alternative required property
-    return (
+    return Boolean(
       item?.uid &&
-      item?.name &&
-      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+        item?.name &&
+        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

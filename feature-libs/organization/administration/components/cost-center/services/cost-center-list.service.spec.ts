@@ -34,6 +34,7 @@ class MockTableService {
 
 describe('CostCenterListService', () => {
   let service: CostCenterListService;
+  let costCenterService: CostCenterService;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -51,6 +52,7 @@ describe('CostCenterListService', () => {
         ],
       });
       service = TestBed.inject(CostCenterListService);
+      costCenterService = TestBed.inject(CostCenterService);
     });
 
     it('should inject service', () => {
@@ -66,6 +68,14 @@ describe('CostCenterListService', () => {
       service.getData().subscribe((table) => (result = table));
 
       expect(result.values[0].currency).toEqual('USD');
+    });
+
+    it('should get empty table with 10 rows', () => {
+      spyOn(costCenterService, 'getList').and.returnValue(of(undefined));
+      let result: EntitiesModel<CostCenterModel>;
+      service.getData().subscribe((table) => (result = table));
+      expect(result.values.length).toBe(10);
+      expect(result.values[0]).toBeUndefined();
     });
   });
 });

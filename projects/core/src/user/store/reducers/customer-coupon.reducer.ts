@@ -1,8 +1,8 @@
-import * as fromActions from '../actions/customer-coupon.action';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+import * as fromActions from '../actions/customer-coupon.action';
 
 export const initialState: CustomerCouponSearchResult = {
   coupons: [],
@@ -20,8 +20,11 @@ export function reducer(
 
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCustomerCoupon = action.payload.coupon;
-      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
-      state.coupons.forEach((customerCoupon: CustomerCoupon, index) =>
+      const customerCoupons = new Array<CustomerCoupon>(
+        state.coupons?.length ?? 0
+      );
+      state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
+        updatedCustomerCoupon &&
         customerCoupon.couponId === updatedCustomerCoupon.couponId
           ? (customerCoupons[index] = updatedCustomerCoupon)
           : (customerCoupons[index] = customerCoupon)
@@ -31,8 +34,10 @@ export function reducer(
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCouponCode = action.payload;
-      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
-      state.coupons.forEach((customerCoupon: CustomerCoupon, index) =>
+      const customerCoupons = new Array<CustomerCoupon>(
+        state.coupons?.length ?? 0
+      );
+      state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
         customerCoupon.couponId === updatedCouponCode
           ? (customerCoupons[index] = {
               ...customerCoupon,

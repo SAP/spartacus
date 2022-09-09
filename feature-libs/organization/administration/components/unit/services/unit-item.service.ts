@@ -33,16 +33,19 @@ export class UnitItemService extends ItemService<B2BUnit> {
     return this.unitService.get(code);
   }
 
-  update(code, value: B2BUnit): Observable<OrganizationItemStatus<B2BUnit>> {
+  update(
+    code: string,
+    value: B2BUnit
+  ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.update(code, value);
-    return this.unitService.getLoadingStatus(value.uid);
+    return this.unitService.getLoadingStatus(value.uid ?? '');
   }
 
   protected create(
     value: B2BUnit
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.create(value);
-    return this.unitService.getLoadingStatus(value.uid);
+    return this.unitService.getLoadingStatus(value.uid ?? '');
   }
 
   /**

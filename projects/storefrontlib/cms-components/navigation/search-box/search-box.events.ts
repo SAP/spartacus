@@ -10,7 +10,7 @@ export class SearchBoxSuggestionSelectedEvent extends CxEvent {
   static readonly type = 'SearchBoxSuggestionSelectedEvent';
   freeText: string;
   selectedSuggestion: string;
-  searchSuggestions: Suggestion[];
+  searchSuggestions: (Suggestion | string)[];
 }
 
 /**

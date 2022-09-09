@@ -121,7 +121,7 @@ export class LazyModulesService implements OnDestroy {
           this.dependencyModules.set(module, moduleRef);
         }
 
-        return this.dependencyModules.get(module);
+        return this.dependencyModules.get(module) as NgModuleRef<any>;
       }),
       concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>

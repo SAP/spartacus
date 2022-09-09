@@ -13,13 +13,15 @@ import { ProductSelectors } from '../store/selectors/index';
 export class ProductSearchService {
   constructor(protected store: Store<StateWithProduct>) {}
 
-  search(query: string, searchConfig?: SearchConfig): void {
-    this.store.dispatch(
-      new ProductActions.SearchProducts({
-        queryText: query,
-        searchConfig: searchConfig,
-      })
-    );
+  search(query: string | undefined, searchConfig?: SearchConfig): void {
+    if (query) {
+      this.store.dispatch(
+        new ProductActions.SearchProducts({
+          queryText: query,
+          searchConfig: searchConfig,
+        })
+      );
+    }
   }
 
   getResults(): Observable<ProductSearchPage> {

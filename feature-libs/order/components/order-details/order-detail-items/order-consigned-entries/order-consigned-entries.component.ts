@@ -13,6 +13,9 @@ import { Consignment, Order } from '@spartacus/order/root';
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
+  @Input() enableAddToCart: boolean | undefined;
+  @Input() buyItAgainTranslation: string;
+
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
   readonly CartOutlets = CartOutlets;

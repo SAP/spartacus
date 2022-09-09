@@ -45,10 +45,13 @@ export const getAnonymousConsentTemplatesError: MemoizedSelector<
 
 export const getAnonymousConsentTemplate = (
   templateCode: string
-): MemoizedSelector<StateWithAnonymousConsents, ConsentTemplate> => {
+): MemoizedSelector<
+  StateWithAnonymousConsents,
+  ConsentTemplate | undefined
+> => {
   return createSelector(getAnonymousConsentTemplatesValue, (templates) => {
     return templates
       ? templates.find((template) => template.id === templateCode)
-      : null;
+      : undefined;
   });
 };

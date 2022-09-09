@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/payment.model';
-import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -14,7 +13,7 @@ import { StateWithUser } from '../store/user-state';
 })
 export class UserPaymentService {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithUser>,
     protected userIdService: UserIdService
   ) {}
 

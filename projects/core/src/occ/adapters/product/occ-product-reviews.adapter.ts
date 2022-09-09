@@ -1,15 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { Review } from '../../../model/product.model';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
 import {
   PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
 } from '../../../product/connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../../../product/connectors/reviews/product-reviews.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
@@ -21,9 +22,10 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
-      .get(this.getEndpoint(productCode, maxCount))
+      .get<Occ.Product>(this.getEndpoint(productCode, maxCount))
       .pipe(
         pluck('reviews'),
+        map((reviews) => reviews ?? []),
         this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
       );
   }

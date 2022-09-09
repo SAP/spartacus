@@ -22,7 +22,7 @@ export class AddressBookComponent implements OnInit {
 
   showAddAddressForm = false;
   showEditAddressForm = false;
-  editCard: string;
+  editCard: string | null;
 
   constructor(
     public service: AddressBookComponentService,
@@ -58,7 +58,7 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    if (address) {
+    if (address && this.currentAddress['id']) {
       this.service.updateUserAddress(this.currentAddress['id'], address);
     }
   }
@@ -67,7 +67,7 @@ export class AddressBookComponent implements OnInit {
     this.showEditAddressForm = false;
   }
 
-  getCardContent(address: Address) {
+  getCardContent(address: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.default'),
       this.translation.translate('addressCard.setAsDefault'),
@@ -102,7 +102,7 @@ export class AddressBookComponent implements OnInit {
             text: [
               address.line1,
               address.line2,
-              address.town + ', ' + region + address.country.isocode,
+              address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               address.phone,
             ],
@@ -112,7 +112,7 @@ export class AddressBookComponent implements OnInit {
             label: address.defaultAddress
               ? 'addressBook.defaultDeliveryAddress'
               : 'addressBook.additionalDeliveryAddress',
-          };
+          } as Card;
         }
       )
     );

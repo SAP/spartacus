@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  EntitiesModel,
+  isNotUndefined,
+  PaginationModel,
+} from '@spartacus/core';
 import {
   Budget,
   BudgetService,
@@ -31,7 +35,7 @@ export class BudgetListService extends ListService<Budget> {
     pagination: PaginationModel
   ): Observable<EntitiesModel<Budget>> {
     return this.budgetService.getList(pagination).pipe(
-      filter((list) => Boolean(list)),
+      filter(isNotUndefined),
       map((raw) => this.convertBudgets(raw))
     );
   }

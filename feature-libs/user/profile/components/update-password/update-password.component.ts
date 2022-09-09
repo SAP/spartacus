@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UpdatePasswordComponent {
   constructor(protected service: UpdatePasswordComponentService) {}
 
   form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {
     this.service.updatePassword();

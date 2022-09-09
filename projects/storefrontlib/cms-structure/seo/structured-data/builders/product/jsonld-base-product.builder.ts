@@ -39,7 +39,7 @@ export class JsonLdBaseProductBuilder implements JsonLdBuilder<Product> {
    * If the image is not available, an empty object is returned.
    */
   protected getProductImage(product: Product): { image?: string } {
-    const image = product.images?.PRIMARY?.['zoom']?.url;
+    const image = (<any>product.images?.PRIMARY)?.zoom?.url;
     return image ? { image } : {};
   }
 

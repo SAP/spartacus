@@ -50,10 +50,12 @@ export class CurrencyInitializer implements OnDestroy {
    * unless the active currency has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteContextConfig): void {
-    if (!this.currencyService.isInitialized()) {
-      this.currencyService.setActive(
-        getContextParameterDefault(config, CURRENCY_CONTEXT_ID)
-      );
+    const contextParam = getContextParameterDefault(
+      config,
+      CURRENCY_CONTEXT_ID
+    );
+    if (!this.currencyService.isInitialized() && contextParam) {
+      this.currencyService.setActive(contextParam);
     }
   }
 

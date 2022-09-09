@@ -21,7 +21,7 @@ import { UnitUserListService } from '../services/unit-user-list.service';
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;
 
-  unit$: Observable<B2BUnit> = this.currentUnitService
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
 

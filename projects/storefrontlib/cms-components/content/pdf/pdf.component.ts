@@ -24,7 +24,7 @@ export class PDFComponent {
     protected mediaService: MediaService
   ) {}
 
-  addPdfExtension(title: string) {
+  addPdfExtension(title?: string) {
     if (!title) return '';
     const trimTitle = title.trim();
     return trimTitle.endsWith('.pdf') ? trimTitle : `${trimTitle}.pdf`;

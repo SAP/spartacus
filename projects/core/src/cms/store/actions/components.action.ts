@@ -13,7 +13,7 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       uid: string;
-      pageContext: PageContext;
+      pageContext?: PageContext;
     }
   ) {
     super(COMPONENT_ENTITY, payload.uid);
@@ -55,7 +55,7 @@ export class CmsGetComponentFromPage<
   ) {
     super(
       COMPONENT_ENTITY,
-      [].concat(payload).map((cmp) => cmp.component.uid)
+      ([] as any[]).concat(payload).map((cmp) => cmp.component.uid)
     );
   }
 }

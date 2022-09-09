@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
+import { isNotNullable } from '../../util/type-guards';
 import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
@@ -39,7 +40,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
           this.store.dispatch(new SiteContextActions.LoadBaseSites());
         }
       }),
-      filter((sites) => Boolean(sites))
+      filter(isNotNullable)
     );
   }
 

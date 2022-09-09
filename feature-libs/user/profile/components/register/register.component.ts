@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
-    consent: AnonymousConsent;
+    consent: AnonymousConsent | undefined;
     template: string;
   }>;
 
@@ -114,12 +114,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.anonymousConsentsService.getConsent(registerConsent),
       this.anonymousConsentsService.getTemplate(registerConsent),
     ]).pipe(
-      map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
-        return {
-          consent,
-          template: template?.description ? template.description : '',
-        };
-      })
+      map(
+        ([consent, template]: [
+          AnonymousConsent | undefined,
+          ConsentTemplate | undefined
+        ]) => {
+          return {
+            consent,
+            template: template?.description ? template.description : '',
+          };
+        }
+      )
     );
 
     this.subscription.add(
@@ -164,7 +169,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     };
   }
 
-  isConsentGiven(consent: AnonymousConsent): boolean {
+  isConsentGiven(consent: AnonymousConsent | undefined): boolean {
     return this.anonymousConsentsService.isConsentGiven(consent);
   }
 

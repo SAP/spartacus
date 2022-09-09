@@ -107,6 +107,7 @@ describe('Multi Cart effect', () => {
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });
+
     it('should set active cart id to state for LoadCartSuccess', () => {
       const action = new CartActions.LoadCartSuccess({
         userId: 'userId',
@@ -118,6 +119,25 @@ describe('Multi Cart effect', () => {
       const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
         cartType: CartType.ACTIVE,
         cartId: 'cartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should remove active cart id if load an active cart which is saved', () => {
+      const action = new CartActions.LoadCartSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+        cart: { code: 'test', saveTime: new Date() },
+        extraData: { active: true },
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
       });
 
       actions$ = hot('-a', { a: action });

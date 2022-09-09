@@ -33,9 +33,9 @@ export class ProductService {
   get(
     productCode: string,
     scopes: (ProductScope | string)[] | ProductScope | string = DEFAULT_SCOPE
-  ): Observable<Product> {
+  ): Observable<Product | undefined> {
     return productCode
-      ? this.productLoading.get(productCode, [].concat(scopes))
+      ? this.productLoading.get(productCode, ([] as string[]).concat(scopes))
       : of(undefined);
   }
 

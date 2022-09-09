@@ -11,7 +11,7 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Facet code
    */
-  code: string;
+  code?: string;
   /**
    * Facet name
    */
@@ -19,7 +19,7 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Facet value code
    */
-  valueCode: string;
+  valueCode?: string;
   /**
    * Facet value name
    */
@@ -27,5 +27,5 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Indicate whether facet value is toggled on or off
    */
-  selected: boolean;
+  selected?: boolean;
 }

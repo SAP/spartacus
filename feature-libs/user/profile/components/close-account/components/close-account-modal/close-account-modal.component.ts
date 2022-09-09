@@ -7,9 +7,9 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -20,7 +20,7 @@ export class CloseAccountModalComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   isLoggedIn$: Observable<boolean>;
-  isLoading$ = new BehaviorSubject(false);
+  protected loading$ = new BehaviorSubject(false);
 
   constructor(
     protected modalService: ModalService,
@@ -30,6 +30,10 @@ export class CloseAccountModalComponent implements OnInit {
     protected translationService: TranslationService,
     protected userProfile: UserProfileFacade
   ) {}
+
+  get isLoading$(): Observable<boolean> {
+    return this.loading$.asObservable();
+  }
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isUserLoggedIn();
@@ -64,16 +68,16 @@ export class CloseAccountModalComponent implements OnInit {
   }
 
   closeAccount() {
-    this.isLoading$.next(true);
+    this.loading$.next(true);
 
     this.userProfile.close().subscribe({
       next: () => {
         this.onSuccess();
-        this.isLoading$.next(false);
+        this.loading$.next(false);
       },
       error: () => {
         this.onError();
-        this.isLoading$.next(false);
+        this.loading$.next(false);
       },
     });
   }

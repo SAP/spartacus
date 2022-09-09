@@ -18,7 +18,7 @@ export class UserGroupAssignedPermissionsListService extends UserGroupPermission
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<Permission>> {
+  ): Observable<EntitiesModel<Permission> | undefined> {
     return super
       .load(pagination, code)
       .pipe(map((users) => this.filterSelected(users)));

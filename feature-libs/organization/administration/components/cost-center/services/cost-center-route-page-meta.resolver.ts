@@ -16,7 +16,7 @@ export class CostCenterRoutePageMetaResolver extends DefaultRoutePageMetaResolve
     super(translation);
   }
 
-  protected getParams(): Observable<CostCenter> {
+  protected getParams(): Observable<CostCenter | undefined> {
     return this.currentItemService.item$;
   }
 }

@@ -9,7 +9,7 @@ const cmsRoute: Route = {
   component: PageLayoutComponent,
 };
 
-export function addCmsRoute(injector: Injector) {
+export function addCmsRoute(injector: Injector): () => void {
   const result = () => {
     const router = injector.get(Router);
     router.config.push(cmsRoute);

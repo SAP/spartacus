@@ -24,8 +24,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   getCustomerCoupons(
     userId: string,
     pageSize: number,
-    currentPage: number,
-    sort: string
+    currentPage?: number,
+    sort?: string
   ): Observable<CustomerCouponSearchResult> {
     // Currently OCC only supports calls for customer coupons in case of logged users
     if (userId === OCC_USER_ID_ANONYMOUS) {

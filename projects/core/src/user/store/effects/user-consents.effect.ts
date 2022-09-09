@@ -45,8 +45,8 @@ export class UserConsentsEffect {
         this.userConsentConnector
           .giveConsent(
             action.payload.userId,
-            action.payload.consentTemplateId,
-            action.payload.consentTemplateVersion
+            action.payload.consentTemplateId ?? '',
+            action.payload.consentTemplateVersion ?? 0
           )
           .pipe(
             map((consent) => new UserActions.GiveUserConsentSuccess(consent)),

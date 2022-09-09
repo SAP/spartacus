@@ -50,7 +50,7 @@ export class ProductsSearchEffects {
       map((action: ProductActions.GetProductSuggestions) => action.payload),
       switchMap((payload) => {
         return this.productSearchConnector
-          .getSuggestions(payload.term, payload.searchConfig.pageSize)
+          .getSuggestions(payload.term, payload.searchConfig?.pageSize)
           .pipe(
             map((suggestions) => {
               if (suggestions === undefined) {

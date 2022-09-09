@@ -6,7 +6,7 @@ import { SmartEditLauncherService } from './services/smart-edit-launcher.service
 
 export function smartEditFactory(
   smartEditLauncherService: SmartEditLauncherService
-) {
+): () => void {
   const isReady = () => {
     smartEditLauncherService.load();
   };

@@ -17,8 +17,8 @@ export class StringTemplate {
         placeholder,
         // TODO 4.0: default to encodeVariable = true
         encodeVariable
-          ? encodeURIComponent(templateVariables[variableLabel])
-          : templateVariables[variableLabel]
+          ? encodeURIComponent(templateVariables[variableLabel as keyof object])
+          : templateVariables[variableLabel as keyof object]
       );
     }
     return templateString;

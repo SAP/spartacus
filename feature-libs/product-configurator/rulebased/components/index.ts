@@ -21,3 +21,4 @@ export * from './tab-bar/index';
 export * from './update-message/index';
 export * from './configurator-conflict-and-error-messages/index';
 export * from './exit-button/index';
+export * from './variant-carousel/index';

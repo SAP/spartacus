@@ -24,9 +24,13 @@ export class NotCheckoutAuthGuard implements CanActivate {
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
-          return this.router.parseUrl(this.semanticPathService.get('home'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('home') ?? ''
+          );
         } else if (!!getLastValueSync(this.activeCartFacade.isGuestCart())) {
-          return this.router.parseUrl(this.semanticPathService.get('cart'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('cart') ?? ''
+          );
         }
         return !isLoggedIn;
       })

@@ -5,12 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title, UserService } from '@spartacus/core';
+import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
@@ -35,36 +36,38 @@ import { UserItemService } from '../services/user-item.service';
   ],
 })
 export class UserFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   /**
    * Initialize the business unit for the user.
    *
    * If there's a unit provided, we disable the unit form control.
    */
-  @Input() set unitKey(value: string) {
+  @Input() set unitKey(value: string | null) {
     if (value) {
-      this.form?.get('orgUnit.uid').setValue(value);
+      this.form?.get('orgUnit.uid')?.setValue(value);
       this.form?.get('orgUnit')?.disable();
     }
   }
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((units) => {
-      if (units.length === 1) {
-        this.form?.get('orgUnit.uid').setValue(units[0]?.id);
-      }
-    })
-  );
+  units$: Observable<B2BUnitNode[] | undefined> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      tap((units) => {
+        if (units && units.length === 1) {
+          this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+        }
+      })
+    );
 
-  titles$: Observable<Title[]> = this.userService.getTitles();
+  titles$: Observable<Title[]> = this.userProfileFacade.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
 
   constructor(
     protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
-    protected userService: UserService,
+    protected userProfileFacade: UserProfileFacade,
     protected b2bUserService: B2BUserService
   ) {}
 
@@ -82,10 +85,10 @@ export class UserFormComponent implements OnInit {
   }
 
   get roles(): FormArray {
-    return this.form.get('roles') as FormArray;
+    return this.form?.get('roles') as FormArray;
   }
 
   get isAssignedToApprovers(): FormControl {
-    return this.form.get('isAssignedToApprovers') as FormControl;
+    return this.form?.get('isAssignedToApprovers') as FormControl;
   }
 }

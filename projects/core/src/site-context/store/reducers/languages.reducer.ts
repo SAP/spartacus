@@ -18,7 +18,7 @@ export function reducer(
         (langEntities: { [isocode: string]: Language }, language: Language) => {
           return {
             ...langEntities,
-            [language.isocode]: language,
+            [language.isocode ?? '']: language,
           };
         },
         {

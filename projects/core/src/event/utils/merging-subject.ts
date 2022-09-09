@@ -55,7 +55,7 @@ export class MergingSubject<T> {
    * Reference to the subscriber coming from the `share()` operator piped to the `output$` observable.
    * For more, see docs of the `output$` observable;
    */
-  private consumer: Subscriber<any> = null;
+  private consumer: Subscriber<any> | null = null;
 
   /**
    * Registers the given source to pass its values to the `output$` observable.

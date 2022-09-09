@@ -33,7 +33,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
-    return this.userGroupService.getLoadingStatus(value.uid);
+    return this.userGroupService.getLoadingStatus(value.uid ?? '');
   }
 
   delete(code: string): Observable<OrganizationItemStatus<UserGroup>> {
@@ -46,7 +46,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.create(value);
-    return this.userGroupService.getLoadingStatus(value.uid);
+    return this.userGroupService.getLoadingStatus(value.uid ?? '');
   }
 
   protected getDetailsRoute(): string {

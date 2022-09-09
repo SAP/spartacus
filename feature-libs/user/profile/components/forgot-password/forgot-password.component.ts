@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class ForgotPasswordComponent {
   constructor(protected service: ForgotPasswordComponentService) {}
 
   form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {
     this.service.requestEmail();

@@ -18,7 +18,7 @@ import { ProductListComponentService } from './product-list-component.service';
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  isInfiniteScroll: boolean;
+  isInfiniteScroll: boolean | undefined;
 
   model$: Observable<ProductSearchPage> =
     this.productListComponentService.model$;

@@ -245,7 +245,7 @@
   }
 
   cx-org-toggle-link-cell {
-    padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+    padding-inline-start: calc((var(--cx-depth-level) + 3) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
       min-width: 40px;
@@ -254,7 +254,7 @@
 
   @include media-breakpoint-down(md) {
     cx-org-toggle-link-cell {
-      padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+      padding-inline-start: calc(3rem + var(--cx-depth-level) * 1.5rem);
     }
   }
 }
@@ -376,7 +376,6 @@
       padding: 0;
     }
     th {
-      padding-inline-start: 20px;
       font-size: 14px;
     }
 

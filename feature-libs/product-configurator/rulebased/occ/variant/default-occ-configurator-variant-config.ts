@@ -29,6 +29,8 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
 
           getVariantConfigurationOverview:
             'ccpconfigurator/${configId}/configurationOverview',
+
+          searchConfiguratorVariants: 'ccpconfigurator/${configId}/variants',
         },
       },
     },

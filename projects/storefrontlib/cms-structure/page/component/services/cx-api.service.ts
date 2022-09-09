@@ -21,7 +21,6 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
   UserPaymentService,
-  UserService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../model';
 
@@ -58,7 +57,6 @@ export class CxApiService {
     @Optional() public language: LanguageService,
     @Optional() public baseSite: BaseSiteService,
     // user
-    @Optional() public user: UserService,
     @Optional() public userAddress: UserAddressService,
     @Optional() public userConsent: UserConsentService,
     @Optional() public userPayment: UserPaymentService,

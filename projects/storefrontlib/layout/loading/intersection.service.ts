@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, first, flatMap, map } from 'rxjs/operators';
+import { Observable, Observer } from 'rxjs';
+import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
 
@@ -52,18 +52,20 @@ export class IntersectionService {
     element: HTMLElement,
     options: IntersectionOptions = {}
   ): Observable<boolean> {
-    const elementVisible$ = new Observable((observer) => {
-      const rootMargin = this.getRootMargin(options);
-      const intersectOptions = { rootMargin, threshold: options.threshold };
-      const intersectionObserver = new IntersectionObserver((entries) => {
-        observer.next(entries);
-      }, intersectOptions);
-      intersectionObserver.observe(element);
-      return () => {
-        intersectionObserver.disconnect();
-      };
-    }).pipe(
-      flatMap((entries: IntersectionObserverEntry[]) => entries),
+    const elementVisible$ = new Observable(
+      (observer: Observer<IntersectionObserverEntry[]>) => {
+        const rootMargin = this.getRootMargin(options);
+        const intersectOptions = { rootMargin, threshold: options.threshold };
+        const intersectionObserver = new IntersectionObserver((entries) => {
+          observer.next(entries);
+        }, intersectOptions);
+        intersectionObserver.observe(element);
+        return () => {
+          intersectionObserver.disconnect();
+        };
+      }
+    ).pipe(
+      mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) => entry.isIntersecting),
       distinctUntilChanged()
     );
@@ -71,7 +73,7 @@ export class IntersectionService {
     return elementVisible$;
   }
 
-  private getRootMargin(options: IntersectionOptions = {}): string {
+  private getRootMargin(options: IntersectionOptions = {}): string | undefined {
     if (options.rootMargin) {
       return options.rootMargin;
     }

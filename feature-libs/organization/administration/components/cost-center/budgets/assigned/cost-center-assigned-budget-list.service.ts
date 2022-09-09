@@ -15,7 +15,7 @@ export class CostCenterAssignedBudgetListService extends CostCenterBudgetListSer
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<Budget> | undefined> {
     return super
       .load(pagination, code)
       .pipe(map((budgets) => this.filterSelected(budgets)));

@@ -11,7 +11,7 @@ export class OccCostCenterSerializer
 {
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Occ.CostCenter;
     }
     target.activeFlag = source.active;
     delete target.active;

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AuthGuard,
   CmsConfig,
@@ -30,6 +31,7 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
     IconModule,
     SpinnerModule,
     OutletModule,
+    AddToCartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {

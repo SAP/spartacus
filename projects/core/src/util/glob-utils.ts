@@ -54,7 +54,7 @@ export function globToRegex(glob: string, literalQuestionMark = false): string {
       }
     } else {
       const processed = toEscape.reduce(
-        (seg, escape) => seg.replace(escape.replace, escape.with),
+        (seg, escape) => seg?.replace(escape.replace, escape.with),
         segment
       );
       regex += processed;

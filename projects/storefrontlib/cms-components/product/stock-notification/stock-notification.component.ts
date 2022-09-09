@@ -56,14 +56,14 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       this.userIdService.getUserId(),
     ]).pipe(
       tap(([product, userId]) => {
-        this.productCode = product.code;
+        this.productCode = product.code ?? '';
         if (userId !== OCC_USER_ID_ANONYMOUS) {
           this.anonymous = false;
           this.notificationPrefService.loadPreferences();
           this.interestsService.loadProductInterests(
-            null,
-            null,
-            null,
+            undefined,
+            undefined,
+            undefined,
             product.code,
             NotificationType.BACK_IN_STOCK
           );

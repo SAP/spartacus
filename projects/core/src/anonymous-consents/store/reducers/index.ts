@@ -18,7 +18,7 @@ import * as fromAnonymousConsentsBanner from './anonymous-consents-banner.reduce
 import * as fromAnonymousConsentsUpdate from './anonymous-consents-update.reducer';
 import * as fromAnonymousConsents from './anonymous-consents.reducer';
 
-export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
+export function getReducers(): ActionReducerMap<AnonymousConsentsState, any> {
   return {
     templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
     consents: fromAnonymousConsents.reducer,
@@ -45,12 +45,13 @@ export function clearAnonymousConsentTemplates(
 ): ActionReducer<AnonymousConsentsState, Action> {
   return function (state, action) {
     if (
-      action.type === AuthActions.LOGOUT ||
-      action.type === SiteContextActions.LANGUAGE_CHANGE
+      state !== undefined &&
+      (action.type === AuthActions.LOGOUT ||
+        action.type === SiteContextActions.LANGUAGE_CHANGE)
     ) {
       state = {
         ...state,
-        templates: undefined,
+        templates: {},
       };
     }
     return reducer(state, action);

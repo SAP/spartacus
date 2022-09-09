@@ -11,7 +11,7 @@ export const initialState: ComponentsContext = {
 function componentExistsReducer<T>(
   state: boolean | undefined,
   action: CmsActions.CmsComponentAction<T>
-): boolean {
+): boolean | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT_FAIL:
       return false;
@@ -29,7 +29,7 @@ export function reducer<T>(
 ): ComponentsContext {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -43,7 +43,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.LOAD_CMS_COMPONENT_FAIL: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -57,7 +57,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -72,7 +72,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.CMS_GET_COMPONENT_FROM_PAGE: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );

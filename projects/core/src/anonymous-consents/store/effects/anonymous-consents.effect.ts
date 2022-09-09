@@ -146,11 +146,7 @@ export class AnonymousConsentsEffects {
             for (const consent of consents) {
               if (
                 this.anonymousConsentService.isConsentGiven(consent) &&
-                (!this.anonymousConsentsConfig.anonymousConsents
-                  .requiredConsents ||
-                  !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-                    consent.templateCode
-                  ))
+                !this.isRequiredConsent(consent.templateCode)
               ) {
                 for (const template of templates) {
                   if (template.id === consent.templateCode) {
@@ -176,18 +172,26 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  private isRequiredConsent(templateCode: string | undefined): boolean {
+    return Boolean(
+      templateCode &&
+        this.anonymousConsentsConfig.anonymousConsents?.requiredConsents?.includes(
+          templateCode
+        )
+    );
+  }
+
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = createEffect(() =>
     this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
-      filter(
-        (action) =>
-          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-          Boolean(
-            this.anonymousConsentsConfig.anonymousConsents.requiredConsents
-          ) &&
-          Boolean(action)
+      filter((action) =>
+        Boolean(
+          this.anonymousConsentsConfig.anonymousConsents &&
+            this.anonymousConsentsConfig.anonymousConsents.requiredConsents &&
+            action
+        )
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
@@ -212,9 +216,7 @@ export class AnonymousConsentsEffects {
                 this.userConsentService.isConsentWithdrawn(
                   template.currentConsent
                 ) &&
-                this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-                  template.id
-                )
+                this.isRequiredConsent(template.id)
               ) {
                 actions.push(
                   new UserActions.GiveUserConsent({
@@ -253,8 +255,8 @@ export class AnonymousConsentsEffects {
    * @param newVersions versions of the new consents
    */
   private detectUpdatedVersion(
-    currentVersions: number[],
-    newVersions: number[]
+    currentVersions: (number | undefined)[],
+    newVersions: (number | undefined)[]
   ): boolean {
     if (currentVersions.length !== newVersions.length) {
       return true;

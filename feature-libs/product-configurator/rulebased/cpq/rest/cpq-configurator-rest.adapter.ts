@@ -120,4 +120,8 @@ export class CpqConfiguratorRestAdapter
   ): Observable<Configurator.Overview> {
     return this.cpqRestService.readConfigurationOverview(configId);
   }
+
+  searchVariants(): Observable<Configurator.Variant[]> {
+    throw new Error('searchVariants is not supported for the CPQ configurator');
+  }
 }

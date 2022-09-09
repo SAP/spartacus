@@ -10,7 +10,7 @@ export const PROCESSES_LOADER_RESET_ACTION = '[PROCESSES LOADER] RESET';
 
 export interface ProcessesLoaderMeta extends LoaderMeta {
   entityType: string;
-  processesCountDiff?: number;
+  processesCountDiff?: number | null;
 }
 
 export interface ProcessesLoaderAction extends Action {

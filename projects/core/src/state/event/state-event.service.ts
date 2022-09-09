@@ -29,7 +29,7 @@ export class StateEventService {
    */
   register<T>(mapping: ActionToEventMapping<T>): () => void {
     return this.eventService.register(
-      mapping.event,
+      mapping.event as Type<T>,
       this.getFromAction(mapping)
     );
   }
@@ -40,10 +40,10 @@ export class StateEventService {
    */
   protected getFromAction<T>(mapping: ActionToEventMapping<T>): Observable<T> {
     return this.actionsSubject
-      .pipe(ofType(...[].concat(mapping.action)))
+      .pipe(ofType(...([] as string[]).concat(mapping.action)))
       .pipe(
-        map((action: { type: string; payload: T }) =>
-          this.createEvent(action, mapping.event, mapping.factory)
+        map((action: { type: string; payload?: T }) =>
+          this.createEvent(action, mapping.event as Type<T>, mapping.factory)
         )
       );
   }

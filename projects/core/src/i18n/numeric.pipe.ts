@@ -5,7 +5,7 @@ import { LanguageService } from '../site-context/facade/language.service';
 @Pipe({ name: 'cxNumeric' })
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   constructor(protected language: LanguageService) {
-    super(null);
+    super('');
   }
 
   transform(value: any | number | string, digitsInfo?: string): string | null;
@@ -26,7 +26,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   }
 
   protected getActiveLang(): string {
-    let result;
+    let result = '';
     this.language
       .getActive()
       .subscribe((lang) => (result = lang))

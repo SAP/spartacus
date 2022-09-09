@@ -82,6 +82,12 @@ export const cartWithB2bProduct: SampleCartProduct = {
   totalAndShipping: '$44.99',
 };
 
+export const cartWithB2bProductAndPremiumShipping: SampleCartProduct = {
+  ...cartWithB2bProduct,
+  estimatedShipping: '$16.99',
+  totalAndShipping: '$51.99',
+};
+
 export const b2bAccountShipToUser: SampleUser = {
   email: 'powertools-test-user-with-orders@sap.cx.com',
   password: 'pw4all',

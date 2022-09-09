@@ -22,7 +22,7 @@ export class AddToHomeScreenService {
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef
   ) {
-    if (this.config.pwa.addToHomeScreen) {
+    if (this.config.pwa?.addToHomeScreen) {
       this.init();
     }
   }

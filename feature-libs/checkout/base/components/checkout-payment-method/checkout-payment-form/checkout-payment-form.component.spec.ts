@@ -117,7 +117,7 @@ class MockCxIconComponent {
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
-  getCardTypes = createSpy().and.returnValue(of());
+  getPaymentCardTypes = createSpy().and.returnValue(of());
   getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
     of({ loading: false })
   );
@@ -271,9 +271,8 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get supported card types if they exist', () => {
-    mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
-      of(mockCardTypes)
-    );
+    mockCheckoutPaymentService.getPaymentCardTypes =
+      createSpy().and.returnValue(of(mockCardTypes));
 
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
@@ -282,9 +281,8 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
-      of(mockCardTypes)
-    );
+    mockCheckoutPaymentService.getPaymentCardTypes =
+      createSpy().and.returnValue(of(mockCardTypes));
     mockCheckoutDeliveryService.getDeliveryAddressState =
       createSpy().and.returnValue(
         of({ loading: false, error: false, data: mockAddress })
@@ -416,9 +414,8 @@ describe('CheckoutPaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid - with billing address', () => {
-      mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
-        of(mockCardTypes)
-      );
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
         createSpy().and.returnValue(
           of({ loading: false, error: false, data: mockAddress })
@@ -468,9 +465,8 @@ describe('CheckoutPaymentFormComponent', () => {
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
-      mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
-        of(mockCardTypes)
-      );
+      mockCheckoutPaymentService.getPaymentCardTypes =
+        createSpy().and.returnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
         createSpy().and.returnValue(
           of({ loading: false, error: false, data: mockAddress })

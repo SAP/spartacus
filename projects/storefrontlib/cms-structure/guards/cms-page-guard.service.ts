@@ -6,8 +6,8 @@ import {
   Page,
   PageContext,
   PageType,
-  SemanticPathService,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -103,9 +103,13 @@ export class CmsPageGuardService {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
+    const notFoundLabel = this.semanticPathService.get('notFound');
+    if (!notFoundLabel) {
+      return of(false);
+    }
     const notFoundCmsPageContext: PageContext = {
       type: PageType.CONTENT_PAGE,
-      id: this.semanticPathService.get('notFound'),
+      id: notFoundLabel,
     };
 
     return this.cmsService.getPage(notFoundCmsPageContext).pipe(

@@ -125,7 +125,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentFacade.getCardTypes();
+    this.cardTypes$ = this.checkoutPaymentFacade.getPaymentCardTypes();
 
     this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()

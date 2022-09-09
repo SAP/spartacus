@@ -52,10 +52,10 @@ export class NavigationEntryItemEffects {
                 )
             )
           );
-        } else if (data.ids.pageIds.length > 0) {
+          //} else if (data.ids.pageIds.length > 0) {
           // TODO: future work
           // dispatch action to load cms page one by one
-        } else if (data.ids.mediaIds.length > 0) {
+          //} else if (data.ids.mediaIds.length > 0) {
           // TODO: future work
           // send request to get list of media
         } else {

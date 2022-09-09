@@ -9,21 +9,11 @@ import {
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
-import { User } from '../../../model/misc.model';
-import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { CustomerCouponAdapter } from '../../connectors/customer-coupon/customer-coupon.adapter';
-import { UserService } from '../../facade/user.service';
+import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { UserActions } from '../actions/index';
 import { CustomerCouponEffects } from './customer-coupon.effect';
-import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
-
-class MockUserService {
-  loadAddresses = jasmine.createSpy();
-
-  get(): Observable<User> {
-    return of({});
-  }
-}
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -82,7 +72,6 @@ describe('Customer Coupon effect', () => {
       providers: [
         CustomerCouponEffects,
         { provide: CustomerCouponAdapter, useValue: {} },
-        { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$),
       ],

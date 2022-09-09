@@ -7,11 +7,11 @@ import { CellComponent } from '../cell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountCellComponent extends CellComponent {
-  get property(): string {
+  get property(): string | undefined {
     if (this.budget && this.currency) {
       return this.budget + ' ' + this.currency;
     }
-    return;
+    return undefined;
   }
 
   protected get budget() {

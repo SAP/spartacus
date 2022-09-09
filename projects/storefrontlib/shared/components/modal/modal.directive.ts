@@ -88,7 +88,7 @@ export class ModalDirective {
    */
   protected getUrl(): string | undefined {
     const routerLink = this.routerLink ?? this.routerLinkWithHref;
-    return routerLink
+    return routerLink && routerLink.urlTree
       ? this.router.serializeUrl(routerLink.urlTree)
       : undefined;
   }

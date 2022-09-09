@@ -4,6 +4,7 @@ import {
   b2bProduct,
   b2bUnit,
   b2bUser,
+  cartWithB2bProductAndPremiumShipping,
   costCenter,
   order_type,
   poNumber,
@@ -117,8 +118,9 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  const updateAddress = interceptUpdateAddressEndpoint();
-  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
+    'b2b-checkout-replenishment/delivery-address-step/checkout-details.json'
+  );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
@@ -127,22 +129,12 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  //wait for call before updateing address
-  cy.wait(`@${getCheckoutDetails}`)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  //wait for updating address
-  cy.wait(`@${updateAddress}`).its('response.statusCode').should('eq', 200);
-
-  //wait for response with updated address
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .link').click({ force: true });
   });
 
   cy.get('cx-card .card-header').should('contain', 'Selected');
@@ -165,17 +157,30 @@ export function selectAccountShippingAddress() {
 
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
 
 export function selectAccountDeliveryMode() {
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
+    'b2b-checkout-replenishment/delivery-mode-step/checkout-details.json'
+  );
+  const putDeliveryMode = interceptPutDeliveryModeEndpoint();
+
   cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
+  cy.get('cx-delivery-mode input').eq(1).click();
+
+  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-delivery-mode input').first().should('not.be.checked');
 
   cy.get(
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
@@ -238,12 +243,21 @@ export function reviewB2bReviewOrderPage(
       cy.findByText(sampleUser.address.line1);
     });
 
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
-    .find('.cx-card-container')
-    .within(() => {
-      cy.findByText('Standard Delivery');
-    });
+  if (isAccount) {
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Delivery Method')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.findByText('Premium Delivery');
+      });
+  } else {
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Delivery Method')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.findByText('Standard Delivery');
+      });
+  }
 
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
@@ -401,13 +415,21 @@ export function reviewB2bOrderConfirmation(
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
-        cy.contains('Standard Delivery');
+
+        if (
+          cartData.estimatedShipping ===
+          cartWithB2bProductAndPremiumShipping.estimatedShipping
+        ) {
+          cy.contains('Premium Delivery');
+        } else {
+          cy.contains('Standard Delivery');
+        }
       });
     } else {
       cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
-        cy.contains('Standard Delivery');
+        cy.contains('Premium Delivery');
       });
     }
 
@@ -430,36 +452,34 @@ export function reviewB2bOrderConfirmation(
 
 export function interceptPaymentTypesEndpoint(): string {
   const alias = 'getPaymentTypes';
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/paymenttypes*`,
-  }).as(alias);
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/paymenttypes*`,
+    },
+    {
+      fixture:
+        'b2b-checkout-replenishment/method-of-payment-step/payment-types.json',
+      statusCode: 200,
+    }
+  ).as(alias);
 
   return alias;
 }
 
-export function interceptUpdateAddressEndpoint() {
-  const alias = 'updateAddress';
-  cy.intercept({
-    method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`,
-  }).as(alias);
-
-  return alias;
-}
-
-export function interceptCheckoutB2BDetailsEndpoint() {
+export function interceptCheckoutB2BDetailsEndpoint(fixture: string) {
   const alias = 'getCheckoutDetails';
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
-  }).as(alias);
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+    },
+    { fixture, statusCode: 200 }
+  ).as(alias);
 
   return alias;
 }

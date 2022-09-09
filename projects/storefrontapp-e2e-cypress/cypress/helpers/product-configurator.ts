@@ -233,6 +233,14 @@ export function checkAttrValueNotDisplayed(
   cy.get(`${valueLocator}`).should('not.exist');
 }
 
+export function checkVariantCarouselDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('be.visible');
+}
+
+export function checkVariantCarouselNotDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('not.exist');
+}
+
 /**
  * Retrieves attribute ID.
  *

@@ -16,7 +16,7 @@ export class UnitRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
     super(translation);
   }
 
-  protected getParams(): Observable<B2BUnit> {
+  protected getParams(): Observable<B2BUnit | undefined> {
     return this.currentItemService.item$;
   }
 }

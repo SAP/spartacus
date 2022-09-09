@@ -5,6 +5,7 @@ import {
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { Category, EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -363,13 +364,15 @@ export class ProfileTagPushEventsService {
    * @see CartAddEntrySuccessEvent
    * @see CartUpdateEntrySuccessEvent
    * @see CartRemoveEntrySuccessEvent
+   * @see MergeCartSuccessEvent
    * @see CartSnapshotPushEvent
    */
   protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
     return merge(
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartUpdateEntrySuccessEvent),
-      this.eventService.get(CartRemoveEntrySuccessEvent)
+      this.eventService.get(CartRemoveEntrySuccessEvent),
+      this.eventService.get(MergeCartSuccessEvent)
     ).pipe(
       switchMapTo(this.activeCartFacade.takeActive()),
       map(

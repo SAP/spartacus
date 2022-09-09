@@ -14,7 +14,7 @@ export interface StateWithCms {
 export type ComponentsState = StateUtils.EntityState<ComponentsContext>;
 
 export interface ComponentsContext {
-  component: CmsComponent;
+  component?: CmsComponent;
   /**
    * Page context stores an information for which context does the component exist.
    * For example, if `SiteLogoComponent` was successfully loaded for a product page with an ID of 1776948, then this object will contain:

@@ -33,7 +33,9 @@ export class ComponentHandlerService {
    *
    * @param componentMapping
    */
-  protected resolve(componentMapping: CmsComponentMapping): ComponentHandler {
+  protected resolve(
+    componentMapping: CmsComponentMapping
+  ): ComponentHandler | undefined {
     const handler = resolveApplicable(this.handlers, [componentMapping]);
 
     if (isDevMode() && !handler) {
@@ -61,7 +63,9 @@ export class ComponentHandlerService {
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
     module?: NgModuleRef<any>
-  ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
+  ):
+    | Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>
+    | undefined {
     return this.resolve(componentMapping)?.launcher(
       componentMapping,
       viewContainerRef,

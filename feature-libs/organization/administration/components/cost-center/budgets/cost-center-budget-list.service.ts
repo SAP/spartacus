@@ -8,8 +8,8 @@ import {
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class CostCenterBudgetListService extends SubListService<Budget> {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<Budget> | undefined> {
     return this.costCenterService.getBudgets(code, pagination);
   }
 

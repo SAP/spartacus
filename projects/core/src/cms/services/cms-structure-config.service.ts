@@ -74,11 +74,13 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an observable with the `PageConfig`.
    */
-  protected getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
+  protected getPageFromConfig(
+    pageId: string
+  ): Observable<CmsPageConfig | undefined> {
     return of(
       this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find((p) => p.pageId === pageId)
-        : null
+        : undefined
     );
   }
 
@@ -137,7 +139,10 @@ export abstract class CmsStructureConfigService {
     }
 
     for (const position of Object.keys(slots)) {
-      if (!Object.keys(pageStructure.page.slots).includes(position)) {
+      if (
+        pageStructure.page?.slots &&
+        !Object.keys(pageStructure.page.slots).includes(position)
+      ) {
         // the global slot isn't yet part of the page structure
         pageStructure.page.slots[position] = {};
 
@@ -145,7 +150,7 @@ export abstract class CmsStructureConfigService {
           if (!pageStructure.page.slots[position].components) {
             pageStructure.page.slots[position].components = [];
           }
-          pageStructure.page.slots[position].components.push({
+          pageStructure.page.slots[position].components?.push({
             uid: component.uid,
             flexType: component.flexType,
             typeCode: component.typeCode,
@@ -168,7 +173,7 @@ export abstract class CmsStructureConfigService {
   ): ContentSlotComponentData[] {
     const components = [];
     if (slots[position] && slots[position].componentIds) {
-      for (const componentId of slots[position].componentIds) {
+      for (const componentId of slots[position].componentIds ?? []) {
         if (
           this.cmsDataConfig.cmsStructure &&
           this.cmsDataConfig.cmsStructure.components

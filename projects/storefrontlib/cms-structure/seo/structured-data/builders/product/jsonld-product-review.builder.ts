@@ -19,7 +19,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
   ) {}
 
   build(product: Product): Observable<any> {
-    return this.reviewService.getByProductCode(product.code).pipe(
+    return this.reviewService.getByProductCode(product.code ?? '').pipe(
       map((reviews: Review[]) =>
         reviews?.length > 0
           ? {

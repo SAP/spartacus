@@ -10,7 +10,7 @@ export class OccPermissionNormalizer
 {
   convert(source: Occ.Permission, target?: Permission): Permission {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Permission;
     }
     return target;
   }

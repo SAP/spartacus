@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class HamburgerMenuService {
-  isExpanded: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isExpanded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(router: Router) {
     router.events

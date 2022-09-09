@@ -26,9 +26,10 @@ export class ProductImagesComponent {
     map((p: Product) => this.createThumbs(p))
   );
 
-  mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
-    map(([, container]) => container)
-  );
+  mainImage$: Observable<any> = combineLatest([
+    this.product$,
+    this.mainMediaContainer,
+  ]).pipe(map(([, container]) => container));
 
   constructor(protected currentProductService: CurrentProductService) {}
 

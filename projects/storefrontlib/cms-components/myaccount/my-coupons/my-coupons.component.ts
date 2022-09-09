@@ -23,7 +23,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   private PAGE_SIZE = 10;
-  private sortMapping = {
+  private sortMapping: { [key: string]: string } = {
     byStartDateAsc: 'startDate:asc',
     byStartDateDesc: 'startDate:desc',
     byEndDateAsc: 'endDate:asc',
@@ -70,10 +70,10 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
         tap(
           (coupons) =>
             (this.pagination = {
-              currentPage: coupons.pagination.page,
-              pageSize: coupons.pagination.count,
-              totalPages: coupons.pagination.totalPages,
-              totalResults: coupons.pagination.totalCount,
+              currentPage: coupons.pagination?.page,
+              pageSize: coupons.pagination?.count,
+              totalPages: coupons.pagination?.totalPages,
+              totalResults: coupons.pagination?.totalCount,
               sort: this.sort,
             })
         )

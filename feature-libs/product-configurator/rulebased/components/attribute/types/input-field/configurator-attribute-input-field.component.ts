@@ -86,4 +86,16 @@ export class ConfiguratorAttributeInputFieldComponent
       this.sub.unsubscribe();
     }
   }
+
+  /**
+   * Checks if the component needs to be marked as required.
+   * This is never the case if it is used as sub component for an attribute type which allows an additional value
+   * @returns Required?
+   */
+  get isRequired(): boolean {
+    const isNonDomainAttributeType =
+      this.attribute.uiType === Configurator.UiType.STRING ||
+      this.attribute.uiType === Configurator.UiType.NUMERIC;
+    return isNonDomainAttributeType ? this.attribute.required ?? false : false;
+  }
 }

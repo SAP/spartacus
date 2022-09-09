@@ -10,6 +10,7 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { isNotUndefined } from '../../util';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -57,7 +58,9 @@ export class CustomerCouponService {
    */
   getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
     return combineLatest([
-      this.store.pipe(select(UsersSelectors.getCustomerCouponsState)),
+      (<Store<StateWithUser>>this.store).pipe(
+        select(UsersSelectors.getCustomerCouponsState)
+      ),
       this.getClaimCustomerCouponResultLoading(),
     ]).pipe(
       filter(([, loading]) => !loading),
@@ -70,7 +73,8 @@ export class CustomerCouponService {
           this.loadCustomerCoupons(pageSize);
         }
       }),
-      map(([customerCouponsState]) => customerCouponsState.value)
+      map(([customerCouponsState]) => customerCouponsState.value),
+      filter(isNotUndefined)
     );
   }
 
@@ -78,14 +82,18 @@ export class CustomerCouponService {
    * Returns a loaded flag for customer coupons
    */
   getCustomerCouponsLoaded(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getCustomerCouponsLoaded));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getCustomerCouponsLoaded)
+    );
   }
 
   /**
    * Returns a loading flag for customer coupons
    */
   getCustomerCouponsLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getCustomerCouponsLoading));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getCustomerCouponsLoading)
+    );
   }
 
   /**
@@ -107,7 +115,7 @@ export class CustomerCouponService {
    * Returns the subscribe customer coupon notification process loading flag
    */
   getSubscribeCustomerCouponResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -116,7 +124,7 @@ export class CustomerCouponService {
    * Returns the subscribe customer coupon notification process success flag
    */
   getSubscribeCustomerCouponResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -125,7 +133,7 @@ export class CustomerCouponService {
    * Returns the subscribe customer coupon notification process error flag
    */
   getSubscribeCustomerCouponResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -149,7 +157,7 @@ export class CustomerCouponService {
    * Returns the unsubscribe customer coupon notification process loading flag
    */
   getUnsubscribeCustomerCouponResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -158,7 +166,7 @@ export class CustomerCouponService {
    * Returns the unsubscribe customer coupon notification process success flag
    */
   getUnsubscribeCustomerCouponResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -167,7 +175,7 @@ export class CustomerCouponService {
    * Returns the unsubscribe customer coupon notification process error flag
    */
   getUnsubscribeCustomerCouponResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -191,7 +199,7 @@ export class CustomerCouponService {
    * Returns the claim customer coupon notification process success flag
    */
   getClaimCustomerCouponResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
@@ -200,7 +208,7 @@ export class CustomerCouponService {
    * Returns the claim customer coupon notification process loading flag
    */
   getClaimCustomerCouponResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
     );
   }

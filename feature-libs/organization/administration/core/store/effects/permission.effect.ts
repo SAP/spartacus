@@ -95,7 +95,7 @@ export class PermissionEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new PermissionActions.CreatePermissionFail({
-                  permissionCode: payload.permission.code,
+                  permissionCode: payload.permission.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -125,7 +125,7 @@ export class PermissionEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new PermissionActions.UpdatePermissionFail({
-                  permissionCode: payload.permission.code,
+                  permissionCode: payload.permission.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

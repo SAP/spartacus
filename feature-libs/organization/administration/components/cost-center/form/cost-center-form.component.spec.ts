@@ -92,7 +92,7 @@ describe('CostCenterFormComponent', () => {
   });
 
   it('should not render any form controls if the form is falsy', () => {
-    component.form = undefined;
+    component.form = null;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBe(0);
@@ -166,6 +166,18 @@ describe('CostCenterFormComponent', () => {
       );
 
       expect(component.form.get('code').value).toEqual('test code');
+    });
+
+    it('should prevent setting code if value provided is null', () => {
+      component.form = mockForm;
+      component.form.get('name').patchValue(null);
+      component.form.get('code').patchValue(null);
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toBeUndefined();
     });
   });
 });

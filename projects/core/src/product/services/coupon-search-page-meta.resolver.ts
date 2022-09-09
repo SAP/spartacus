@@ -32,7 +32,7 @@ export class CouponSearchPageResolver
     .getResults()
     .pipe(
       filter((data) => !!data?.pagination),
-      map((results) => results.pagination.totalResults)
+      map((results) => results.pagination?.totalResults ?? 0)
     );
 
   constructor(
@@ -54,7 +54,7 @@ export class CouponSearchPageResolver
       this.authService.isUserLoggedIn(),
     ]).pipe(
       map(([homeLabel, couponLabel, isLoggedIn]: [string, string, boolean]) => {
-        const breadcrumbs = [];
+        const breadcrumbs: BreadcrumbMeta[] = [];
         breadcrumbs.push({ label: homeLabel, link: '/' });
         if (isLoggedIn) {
           breadcrumbs.push({

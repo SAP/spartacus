@@ -4,6 +4,6 @@ export enum LoadStatus {
 }
 
 export interface OrganizationItemStatus<T> {
-  status: LoadStatus;
-  item: T;
+  status: LoadStatus | null;
+  item: T | undefined;
 }

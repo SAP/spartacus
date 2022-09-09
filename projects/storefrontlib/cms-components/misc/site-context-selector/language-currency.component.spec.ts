@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -135,17 +135,13 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
   });
 
   it('should contain a language select with number of options', () => {
-    const selectBox = el.query(
-      By.css('cx-site-context-selector[context="language"] select')
-    );
+    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[0];
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
   });
 
   it('should contain a currency select with number of options', () => {
-    const selectBox = el.query(
-      By.css('cx-site-context-selector[context="currency"] select')
-    );
+    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[1];
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockCurrencies.length);
   });

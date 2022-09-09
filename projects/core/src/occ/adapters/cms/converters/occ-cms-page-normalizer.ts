@@ -80,14 +80,20 @@ export class OccCmsPageNormalizer
     if (!source?.contentSlots) {
       return;
     }
-    if (!Array.isArray(source.contentSlots.contentSlot)) {
+    if (
+      source.contentSlots.contentSlot &&
+      !Array.isArray(source.contentSlots.contentSlot)
+    ) {
       source.contentSlots.contentSlot = [source.contentSlots.contentSlot];
     }
+    target.page = target.page ?? {};
     target.page.slots = {};
-    for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] = {} as ContentSlotData;
-      if (slot.properties) {
-        target.page.slots[slot.position].properties = slot.properties;
+    for (const slot of source.contentSlots.contentSlot ?? []) {
+      if (slot.position) {
+        target.page.slots[slot.position] = {} as ContentSlotData;
+        if (slot.properties) {
+          target.page.slots[slot.position].properties = slot.properties;
+        }
       }
     }
   }
@@ -104,7 +110,7 @@ export class OccCmsPageNormalizer
     }
     for (const slot of source.contentSlots.contentSlot) {
       if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components.component) {
+        for (const component of slot.components?.component ?? []) {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
@@ -120,10 +126,15 @@ export class OccCmsPageNormalizer
           } else {
             comp.flexType = component.typeCode;
           }
-          if (!target.page.slots[slot.position].components) {
-            target.page.slots[slot.position].components = [];
+          if (slot.position) {
+            let targetSlot = target.page?.slots?.[slot.position];
+            if (targetSlot) {
+              if (!targetSlot.components) {
+                targetSlot.components = [];
+              }
+              targetSlot.components.push(comp);
+            }
           }
-          target.page.slots[slot.position].components.push(comp);
         }
       }
     }
@@ -145,7 +156,7 @@ export class OccCmsPageNormalizer
 
     for (const slot of source.contentSlots.contentSlot) {
       if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components.component as any) {
+        for (const component of slot.components?.component ?? []) {
           // while we're hoping to get this right from the backend api,
           // the OCC api stills seems out of sync with the right model.
           if (component.modifiedtime) {

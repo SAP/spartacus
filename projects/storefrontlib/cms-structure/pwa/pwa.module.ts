@@ -13,10 +13,12 @@ import { AddToHomeScreenService } from './services/add-to-home-screen.service';
 export function pwaConfigurationFactory(
   pwaConfig: PWAModuleConfig
 ): SwRegistrationOptions {
-  return { enabled: (!isDevMode() && pwaConfig.pwa.enabled) || false };
+  return { enabled: (!isDevMode() && pwaConfig.pwa?.enabled) || false };
 }
 
-export function pwaFactory(addToHomeScreenService): any {
+export function pwaFactory(
+  addToHomeScreenService: AddToHomeScreenService
+): any {
   const result = () => addToHomeScreenService;
   return result;
 }

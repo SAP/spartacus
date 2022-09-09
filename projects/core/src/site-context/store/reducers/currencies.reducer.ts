@@ -18,7 +18,7 @@ export function reducer(
         (currEntities: { [isocode: string]: Currency }, currency: Currency) => {
           return {
             ...currEntities,
-            [currency.isocode]: currency,
+            [currency.isocode ?? '']: currency,
           };
         },
         {

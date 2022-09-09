@@ -34,7 +34,7 @@ export class SiteContextParamsService {
     return getContextParameterValues(this.config, param);
   }
 
-  getParamDefaultValue(param: string): string {
+  getParamDefaultValue(param: string): string | undefined {
     return getContextParameterDefault(this.config, param);
   }
 
@@ -51,7 +51,7 @@ export class SiteContextParamsService {
     }
   }
 
-  getValue(param: string): string {
+  getValue(param: string): string | undefined {
     let value: string | undefined;
 
     const service = this.getSiteContextService(param);

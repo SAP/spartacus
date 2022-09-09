@@ -28,22 +28,24 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      // Handle cost center conflict
-      this.handleOrganizationConflict(
-        message,
-        this.costCenterMask,
-        'costCenter'
-      );
-      // Handle unit conflict
-      this.handleOrganizationConflict(message, this.unitMask, 'unit');
-      // Handle unit conflict
-      this.handleOrganizationConflict(
-        message,
-        this.permissionMask,
-        'permission'
-      );
-      // Handle unknown conflict
-      this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
+      if (message) {
+        // Handle cost center conflict
+        this.handleOrganizationConflict(
+          message,
+          this.costCenterMask,
+          'costCenter'
+        );
+        // Handle unit conflict
+        this.handleOrganizationConflict(message, this.unitMask, 'unit');
+        // Handle unit conflict
+        this.handleOrganizationConflict(
+          message,
+          this.permissionMask,
+          'permission'
+        );
+        // Handle unknown conflict
+        this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
+      }
     });
   }
 
@@ -54,7 +56,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
         this.unitMask,
         this.permissionMask,
         this.unknownMask,
-      ].some((mask) => mask.test(error.message))
+      ].some((mask) => mask.test(error.message ?? ''))
     );
   }
 
@@ -62,7 +64,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
     message: string,
     mask: RegExp,
     key: string
-  ) {
+  ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] };
     if (result) {
@@ -75,7 +77,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) =>
+      (error: any) =>
         error.type === 'ModelSavingError' || error.type === 'DuplicateUidError'
     );
   }

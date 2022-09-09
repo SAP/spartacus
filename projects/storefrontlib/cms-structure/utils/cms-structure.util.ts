@@ -51,7 +51,7 @@ function buildCmsStructure({
     };
   }
 
-  if (componentId && pageSlotPosition) {
+  if (componentId && pageSlotPosition && config.cmsStructure) {
     config.cmsStructure.slots = {
       [pageSlotPosition]: { componentIds: [componentId] },
     };

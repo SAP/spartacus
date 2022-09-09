@@ -7,6 +7,5 @@ import { VisualViewerToolbarButtonComponent } from './visual-viewer-toolbar-butt
   imports: [CommonModule, IconModule],
   declarations: [VisualViewerToolbarButtonComponent],
   exports: [VisualViewerToolbarButtonComponent],
-  entryComponents: [VisualViewerToolbarButtonComponent],
 })
 export class VisualViewerToolbarButtonModule {}

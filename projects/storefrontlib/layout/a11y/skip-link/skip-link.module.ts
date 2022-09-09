@@ -43,7 +43,7 @@ export class SkipLinkModule {}
 export function skipLinkFactory(
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService
-) {
+): () => void {
   const isReady = () => {
     const factory =
       componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);

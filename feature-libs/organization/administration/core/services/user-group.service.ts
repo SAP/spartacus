@@ -5,12 +5,10 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
-import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
@@ -29,7 +27,7 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
@@ -48,7 +46,7 @@ export class UserGroupService {
     );
   }
 
-  loadList(params?: SearchConfig) {
+  loadList(params: SearchConfig) {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
@@ -66,28 +64,28 @@ export class UserGroupService {
     return this.store.select(getUserGroup(userGroupId));
   }
 
-  private getUserGroupValue(userGroupId: string): Observable<Budget> {
+  private getUserGroupValue(userGroupId: string): Observable<UserGroup> {
     return this.store
       .select(getUserGroupValue(userGroupId))
-      .pipe(filter(Boolean));
+      .pipe(filter((userGroup) => Boolean(userGroup)));
   }
 
   private getUserGroupList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getUserGroupList(params));
   }
 
   private getAvailableOrgCustomersList(
     userGroupId: string,
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getAvailableOrgCustomers(userGroupId, params));
   }
 
   private getAvailableOrderApprovalPermissionsList(
     userGroupId: string,
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(
       getAvailableOrderApprovalPermissions(userGroupId, params)
@@ -110,7 +108,9 @@ export class UserGroupService {
     );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<UserGroup>> {
+  getList(
+    params: SearchConfig
+  ): Observable<EntitiesModel<UserGroup> | undefined> {
     return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) => {
@@ -118,9 +118,8 @@ export class UserGroupService {
           this.loadList(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -216,7 +215,7 @@ export class UserGroupService {
   getAvailableOrgCustomers(
     userGroupId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getAvailableOrgCustomersList(userGroupId, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
@@ -224,9 +223,8 @@ export class UserGroupService {
           this.loadAvailableOrgCustomers(userGroupId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -235,7 +233,7 @@ export class UserGroupService {
   getAvailableOrderApprovalPermissions(
     userGroupId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<Permission>> {
+  ): Observable<EntitiesModel<Permission> | undefined> {
     return this.getAvailableOrderApprovalPermissionsList(
       userGroupId,
       params
@@ -246,9 +244,8 @@ export class UserGroupService {
           this.loadAvailableOrderApprovalPermissions(userGroupId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -331,7 +328,9 @@ export class UserGroupService {
     return this.store.select(getUserGroupState(code));
   }
 
-  getErrorState(code): Observable<boolean> {
-    return this.getUserGroupState(code).pipe(map((state) => state.error));
+  getErrorState(code: string): Observable<boolean> {
+    return this.getUserGroupState(code).pipe(
+      map((state) => state.error ?? false)
+    );
   }
 }

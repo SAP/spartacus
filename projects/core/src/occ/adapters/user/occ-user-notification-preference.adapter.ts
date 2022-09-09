@@ -39,7 +39,7 @@ export class OccUserNotificationPreferenceAdapter
         }
       )
       .pipe(
-        map((list) => list.preferences),
+        map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) => throwError(error))
       );

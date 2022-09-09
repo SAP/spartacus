@@ -90,7 +90,7 @@ export class AuthStorageService extends OAuthStorage {
    * @param key
    */
   removeItem(key: string): void {
-    const val = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
+    const val: any = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
     delete val[key];
     (this._token$ as BehaviorSubject<AuthToken>).next({
       ...val,

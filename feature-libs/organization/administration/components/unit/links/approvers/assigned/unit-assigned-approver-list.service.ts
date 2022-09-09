@@ -19,7 +19,7 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     this.unitService.clearAssignedUsersList(
       code,
       B2BUserRole.APPROVER,

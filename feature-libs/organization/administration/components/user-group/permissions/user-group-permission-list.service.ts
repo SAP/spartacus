@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
+  OrganizationItemStatus,
   Permission,
   PermissionService,
   UserGroup,
   UserGroupService,
-  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class UserGroupPermissionListService extends SubListService<Permission> {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<Permission>> {
+  ): Observable<EntitiesModel<Permission> | undefined> {
     return this.userGroupService.getAvailableOrderApprovalPermissions(
       code,
       pagination

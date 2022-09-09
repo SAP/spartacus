@@ -21,7 +21,7 @@ export class CellComponent {
     return this.outlet.context;
   }
 
-  get property(): string {
+  get property(): string | undefined {
     return this.model?.[this.outlet?.context?._field];
   }
 

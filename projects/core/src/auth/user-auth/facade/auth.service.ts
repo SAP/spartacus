@@ -104,6 +104,7 @@ export class AuthService {
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
+        this.setLogoutProgress(false);
         resolve();
       });
     });

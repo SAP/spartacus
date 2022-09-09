@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Address, RoutingService } from '@spartacus/core';
+import { Address, isNotUndefined, RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
   OrgUnitService,
@@ -31,7 +31,7 @@ export class UnitAddressItemService extends ItemService<Address> {
   load(unitUid: string, addressId: string): Observable<Address> {
     return this.unitService
       .getAddress(unitUid, addressId)
-      .pipe(filter((list) => Boolean(list)));
+      .pipe(filter(isNotUndefined));
   }
 
   update(
@@ -50,7 +50,7 @@ export class UnitAddressItemService extends ItemService<Address> {
     this.unitRouteParam$
       .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
-    return this.unitService.getAddressLoadingStatus(null);
+    return this.unitService.getAddressLoadingStatus(value.id ?? '');
   }
 
   protected getDetailsRoute(): string {

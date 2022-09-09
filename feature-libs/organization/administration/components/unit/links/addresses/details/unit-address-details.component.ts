@@ -25,15 +25,15 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
   ],
 })
 export class UnitAddressDetailsComponent {
-  unit$: Observable<B2BUnit> = this.currentUnitService.item$;
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
 
   model$: Observable<Address> = this.itemService.key$.pipe(
     withLatestFrom(this.unit$),
-    switchMap(([code, unit]) => this.itemService.load(unit.uid, code)),
+    switchMap(([code, unit]) => this.itemService.load(unit?.uid, code)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  getCountry(isoCode): Observable<Country> {
+  getCountry(isoCode: string | undefined): Observable<Country | undefined> {
     return this.userAddressService.getDeliveryCountries().pipe(
       tap((countries: Country[]) => {
         if (Object.keys(countries).length === 0) {

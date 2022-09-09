@@ -62,7 +62,7 @@ describe('UserGroup Actions', () => {
     });
 
     describe('LoadUserGroupSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an array', () => {
         const action = new UserGroupActions.LoadUserGroupSuccess([userGroup]);
 
         expect({ ...action }).toEqual({
@@ -71,6 +71,36 @@ describe('UserGroup Actions', () => {
           meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, [
             userGroupId,
           ]),
+        });
+      });
+
+      it('should create the action: payload has list of undefined usergroup uid', () => {
+        const action = new UserGroupActions.LoadUserGroupSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: UserGroupActions.LOAD_USER_GROUP_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, ['']),
+        });
+      });
+
+      it('should create the action: payload is not an array', () => {
+        const action = new UserGroupActions.LoadUserGroupSuccess(userGroup);
+
+        expect({ ...action }).toEqual({
+          type: UserGroupActions.LOAD_USER_GROUP_SUCCESS,
+          payload: userGroup,
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
+        });
+      });
+
+      it('should create the action: payload has undefined usergroup uid', () => {
+        const action = new UserGroupActions.LoadUserGroupSuccess({});
+
+        expect({ ...action }).toEqual({
+          type: UserGroupActions.LOAD_USER_GROUP_SUCCESS,
+          payload: {},
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, ''),
         });
       });
     });

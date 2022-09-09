@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {}
 
   form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {
     this.service.save();

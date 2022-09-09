@@ -20,7 +20,7 @@ export class AtMessageDirective {
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
-  @Input() cxAtMessage: string | string[];
+  @Input() cxAtMessage: string | string[] | undefined;
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,

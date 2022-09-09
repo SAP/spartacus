@@ -125,6 +125,10 @@ export function signOut() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.get('cx-global-message div').should(
+    'contain',
+    'You have successfully signed out.'
+  );
 }
 
 export function registerUser(

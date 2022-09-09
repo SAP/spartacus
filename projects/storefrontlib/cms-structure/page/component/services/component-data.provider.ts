@@ -28,7 +28,7 @@ export class ComponentDataProvider {
    */
   get<T>(uid: string, type?: string): Observable<T> {
     return defer(() => {
-      let staticComponentData: T;
+      let staticComponentData: T | undefined;
 
       if (type) {
         staticComponentData = this.componentsService.getStaticData<T>(type);
