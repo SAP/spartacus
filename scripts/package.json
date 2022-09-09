@@ -1,7 +1,7 @@
 {
   "name": "scripts",
   "version": "1.0.0",
-  "description": "CI, release scripts for spartacus repository",
+  "description": "CI, release scsripts for spartacus repository",
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
