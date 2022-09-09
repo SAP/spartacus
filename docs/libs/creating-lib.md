@@ -182,7 +182,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -210,14 +210,14 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020"
   }
 }
