@@ -67,7 +67,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     this.queryService.create<TicketList | undefined>(
       () =>
         this.customerTicketingListPreConditions().pipe(
-          switchMap(([customerId]) =>
+          switchMap((customerId) =>
             this.customerTicketingConnector.getTickets(customerId)
           )
         ),
