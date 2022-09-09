@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   CustomerTicketingFacade,
@@ -19,6 +19,8 @@ import { LaunchDialogService } from '@spartacus/storefront';
   providedIn: 'root',
 })
 export class CustomerTicketingDetailsService {
+  dataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   protected ticketDetails$ = this.customerTicketingService.getTicket();
 
   constructor(
@@ -44,36 +46,56 @@ export class CustomerTicketingDetailsService {
   getTicketDetails = (): Observable<TicketDetails | undefined> =>
     this.ticketDetails$;
 
+  getTicketState() {
+    this.customerTicketingService.getTicketState().subscribe();
+  }
+
   createTicketEvent(ticketEvent: TicketEvent): void {
+    this.dataLoading$.next(true);
     this.customerTicketingService.createTicketEvent(ticketEvent).subscribe({
       complete: () => {
-        this.launchDialogService.closeDialog(
-          'Ticket status changed successfully'
-        );
-        if (ticketEvent?.toStatus?.id === STATUS.CLOSE) {
-          this.routingService.go({ cxRoute: 'supportTickets' });
-        }
-        this.globalMessageService.add(
-          {
-            key:
-              ticketEvent?.toStatus?.id === STATUS.CLOSE
-                ? 'customerTicketing.RequestClosed'
-                : 'customerTicketing.RequestReopened',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
+        this.customerTicketingService.getTicketState().subscribe((state) => {
+          if (!state.loading) {
+            this.dataLoading$.next(false);
+            this.closeDialog('Ticket event created successfully');
+
+            if (ticketEvent?.toStatus?.id === STATUS.CLOSE) {
+              this.routingService.go({ cxRoute: 'supportTickets' });
+            }
+
+            this.triggerSuccessNotifications(ticketEvent?.toStatus?.id);
+          }
+        });
       },
       error: () => {
-        this.launchDialogService.closeDialog(
-          'Something went wrong while updating ticket event'
-        );
-        this.globalMessageService.add(
-          {
-            key: 'customerTicketing.errorMessage',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
+        this.closeDialog('Something went wrong while updating ticket event');
+        this.triggerErrorNotification();
       },
     });
+  }
+
+  protected closeDialog(reason: string): void {
+    this.launchDialogService.closeDialog(reason);
+  }
+
+  protected triggerSuccessNotifications(id?: string): void {
+    this.globalMessageService.add(
+      {
+        key:
+          id === STATUS.CLOSE
+            ? 'customerTicketing.RequestClosed'
+            : 'customerTicketing.RequestReopened',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
+  protected triggerErrorNotification(): void {
+    this.globalMessageService.add(
+      {
+        key: 'customerTicketing.errorMessage',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }

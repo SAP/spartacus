@@ -13,6 +13,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -25,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormErrorsModule,
     FileUploadModule,
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
