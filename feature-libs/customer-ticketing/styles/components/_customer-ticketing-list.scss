@@ -16,17 +16,6 @@
       &:hover {
         background-color: var(--cx-color-background);
       }
-
-      // @include media-breakpoint-down(md) {
-      //   border-width: 1px 0 0 0;
-      //   border-color: var(--cx-color-light);
-      //   border-style: solid;
-
-      //   &:first-child {
-      //     border-width: 0;
-      //     padding: 1.25rem 0 0 0;
-      //   }
-      // }
     }
 
     th {
@@ -58,22 +47,6 @@
           padding-inline-end: 20px;
         }
       }
-
-      // @include media-breakpoint-down(md) {
-      //   width: 100%;
-      //   display: flex;
-      //   border-width: 0;
-      //   padding: 0 1.25rem;
-
-      //   &:first-child {
-      //     padding-top: 1.25rem;
-      //   }
-
-      //   &:last-child {
-      //     padding-top: 1rem;
-      //     padding-bottom: 1.25rem;
-      //   }
-      // }
     }
   }
 
