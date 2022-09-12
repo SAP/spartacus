@@ -24,7 +24,7 @@
         }
       }
 
-      .shipment-heading {
+      .cx-shipment-heading {
         position: relative;
         padding-top: 1.5rem;
         padding-inline-end: 0;
@@ -33,36 +33,35 @@
         background-color: var(--cx-color-background);
       }
 
-      .no-tracking-heading {
+      .cx-no-tracking-heading {
         position: relative;
         padding: 2rem;
       }
 
-      .shipment-content {
+      .cx-shipment-content {
         padding: 0.6rem 0 1.2rem 0;
       }
 
-      .shipment-title {
+      .cx-shipment-title {
         @include type('4');
       }
 
-      .events {
-        .event-body {
+      .cx-tracking-events {
+        .cx-tracking-event-body {
           border-inline-start: 0.7rem solid var(--cx-color-secondary);
           padding-inline-start: 1rem;
           margin-bottom: 1rem;
           div {
             padding-bottom: 0.6rem;
           }
-          .event-title {
+          .cx-tracking-event-title {
             @include type('5');
           }
-          .event-city {
+          .cx-tracking-event-city {
             @include type('7');
           }
-          .enent-content {
+          .cx-tracking-event-content {
             @include type('6');
-            padding-bottom: 20rem;
           }
         }
       }

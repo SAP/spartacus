@@ -31,27 +31,27 @@
           else noTracking
         "
       >
-        <div class="shipment-heading">
+        <div class="cx-shipment-heading">
           <div class="row">
             <div class="col-sm-12 col-md-6">
-              <div class="shipment-title">
+              <div class="cx-shipment-title">
                 {{
                   'orderDetails.consignmentTracking.dialog.shipped'
                     | cxTranslate
                 }}
               </div>
-              <div class="shipment-content">
+              <div class="cx-shipment-content">
                 {{ shipDate | cxDate: 'medium' }}
               </div>
             </div>
             <div class="col-sm-12 col-md-6">
-              <div class="shipment-title">
+              <div class="cx-shipment-title">
                 {{
                   'orderDetails.consignmentTracking.dialog.estimate'
                     | cxTranslate
                 }}
               </div>
-              <div class="shipment-content">
+              <div class="cx-shipment-content">
                 {{ consignmentTracking?.targetArrivalDate | cxDate: 'medium' }}
               </div>
             </div>
@@ -59,24 +59,24 @@
 
           <div class="row">
             <div class="col-sm-12 col-md-6">
-              <div class="shipment-title">
+              <div class="cx-shipment-title">
                 {{
                   'orderDetails.consignmentTracking.dialog.carrier'
                     | cxTranslate
                 }}
               </div>
-              <div class="shipment-content">
+              <div class="cx-shipment-content">
                 {{ consignmentTracking?.carrierDetails?.name }}
               </div>
             </div>
             <div class="col-sm-12 col-md-6">
-              <div class="shipment-title">
+              <div class="cx-shipment-title">
                 {{
                   'orderDetails.consignmentTracking.dialog.trackingId'
                     | cxTranslate
                 }}
               </div>
-              <div class="shipment-content">
+              <div class="cx-shipment-content">
                 <ng-container *ngIf="consignmentTracking?.trackingUrl">
                   <a
                     target="_blank"
@@ -97,19 +97,21 @@
       </ng-container>
 
       <!-- tracking events -->
-      <div class="events modal-body">
+      <div class="cx-tracking-events modal-body">
         <ng-container
           *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
         >
-          <div class="event-body">
-            <div class="event-content">
+          <div class="cx-tracking-event-body">
+            <div class="cx-tracking-event-content">
               {{ consignmentEvent.eventDate | cxDate: 'medium' }}
             </div>
-            <div class="event-title">
+            <div class="cx-tracking-event-title">
               {{ consignmentEvent.referenceCode }}
             </div>
-            <div class="event-content">{{ consignmentEvent.detail }}</div>
-            <div class="event-city">
+            <div class="cx-tracking-event-content">
+              {{ consignmentEvent.detail }}
+            </div>
+            <div class="cx-tracking-event-city">
               location: {{ consignmentEvent.location }}
             </div>
           </div>
@@ -118,8 +120,8 @@
     </ng-container>
 
     <ng-template #noTracking>
-      <div class="no-tracking-heading">
-        <div class="shipment-content">
+      <div class="cx-no-tracking-heading">
+        <div class="cx-shipment-content">
           {{
             'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate
           }}
@@ -128,7 +130,7 @@
     </ng-template>
 
     <ng-template #loading>
-      <div class="tracking-loading">
+      <div class="cx-tracking-loading">
         <div class="header modal-header">
           <div class="title modal-title">
             {{
