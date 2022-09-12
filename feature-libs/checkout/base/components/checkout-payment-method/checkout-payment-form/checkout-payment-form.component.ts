@@ -28,7 +28,6 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
   ModalRef,
-  ModalService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -107,7 +106,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected modalService: ModalService,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService
   ) {}
