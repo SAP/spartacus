@@ -1,0 +1,45 @@
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      ccv2_branch:
+        description: Branch on ccv2 to update
+        default: test_dist_from_public_build
+        required: true
+      source_branch_to_deploy:
+        description: source branch to deploy on ccv2
+        default: develop
+        required: true
+
+name: Deploy unreleased Spartacus to ccv2 environment
+jobs:
+  deploy_to_ccv2: 
+    name: Deploying to a ccv2 environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+          key: nodemodules-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha || github.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v13-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Deploy to ccv2 environment
+        env: 
+          CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch }}
+          SOURCE_BRANCH_TO_DEPLOY: ${{ github.event.inputs.source_branch_to_deploy }}
+          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+        run: |
+          ci-scripts/deploy-ccv2.sh
+      - name: double check again for the file and dist folder
+        run: |
+          cat projects/storefrontapp/src/app/app.module.ts
+          cd dist && ls -al
