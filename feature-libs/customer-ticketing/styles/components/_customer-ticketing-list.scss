@@ -1,7 +1,79 @@
 %cx-customer-ticketing-list {
   .cx-table {
+    padding: 1.5rem 0 1.125rem 0;
+    margin-bottom: 0;
+    border-width: 1px 0 1px 0;
+    border-color: var(--cx-color-light);
+    border-style: solid;
+
     @include media-breakpoint-down(md) {
       display: none;
+    }
+
+    tr {
+      width: 100%;
+
+      &:hover {
+        background-color: var(--cx-color-background);
+      }
+
+      // @include media-breakpoint-down(md) {
+      //   border-width: 1px 0 0 0;
+      //   border-color: var(--cx-color-light);
+      //   border-style: solid;
+
+      //   &:first-child {
+      //     border-width: 0;
+      //     padding: 1.25rem 0 0 0;
+      //   }
+      // }
+    }
+
+    th {
+      padding: 1rem 0;
+      text-align: start;
+
+      &:first-child {
+        padding-inline-start: 20px;
+      }
+
+      &:last-child {
+        text-align: end;
+        padding-inline-end: 20px;
+      }
+    }
+
+    td {
+      padding-top: 1.6875rem;
+      padding-inline-end: 0.5rem;
+      padding-bottom: 1.75rem;
+      padding-inline-start: 0;
+
+      @include media-breakpoint-up(md) {
+        text-align: start;
+
+        &:last-child {
+          text-align: end;
+          line-height: var(--cx-line-height);
+          padding-inline-end: 20px;
+        }
+      }
+
+      // @include media-breakpoint-down(md) {
+      //   width: 100%;
+      //   display: flex;
+      //   border-width: 0;
+      //   padding: 0 1.25rem;
+
+      //   &:first-child {
+      //     padding-top: 1.25rem;
+      //   }
+
+      //   &:last-child {
+      //     padding-top: 1rem;
+      //     padding-bottom: 1.25rem;
+      //   }
+      // }
     }
   }
 
