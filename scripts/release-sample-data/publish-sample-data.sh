@@ -2,6 +2,27 @@
 
 TAG_NAME=sampledata
 SAMPLE_DATA_ASSETS_FOLDER=sample-data-assets
+IS_SAMPLE_DATA_BRANCH=
+
+echo "-----"
+echo "Verify LATEST sample data branch exist"
+
+IS_SAMPLE_DATA_BRANCH=`git ls-remote --heads https://${GHT_USER}:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $SAMPLE_DATA_NEW`
+
+if [ -z "$IS_SAMPLE_DATA_BRANCH" ]; then
+    echo "Error downloading $SAMPLE_DATA_NEW zip/tar. Verify branch name exist on the sample data repository"
+    exit 1
+fi
+
+echo "-----"
+echo "Verify PREVIOUS sample data branch exist"
+
+IS_SAMPLE_DATA_BRANCH=`git ls-remote --heads https://${GHT_USER}:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $SAMPLE_DATA_OLD`
+
+if [ -z "$IS_SAMPLE_DATA_BRANCH" ]; then
+    echo "Error downloading $SAMPLE_DATA_OLD zip/tar. Verify branch name exist on the sample data repository"
+    exit 1
+fi
 
 echo "-----"
 echo "Downloading LATEST sample data for 5.0"
