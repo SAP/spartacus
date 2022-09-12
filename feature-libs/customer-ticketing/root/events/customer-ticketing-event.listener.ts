@@ -8,6 +8,10 @@ import {
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
 import {
+  GetTicketAssociatedObjectsQueryReloadEvent,
+  GetTicketAssociatedObjectsQueryResetEvent,
+  GetTicketCatQueryReloadEvent,
+  GetTicketCatQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
 } from './customer-ticketing.events';
@@ -41,6 +45,56 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+      })
+    );
+  }
+
+  protected onGetTicketCatQueryReset(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketCatQueryResetEvent);
+      })
+    );
+  }
+
+  protected onGetTicketCatQueryReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketCatQueryReloadEvent);
+      })
+    );
+  }
+
+  protected onGetTicketAssociatedObjectsQueryReset(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch(
+          {},
+          GetTicketAssociatedObjectsQueryResetEvent
+        );
+      })
+    );
+  }
+
+  protected onGetTicketAssociatedObjectsQueryReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch(
+          {},
+          GetTicketAssociatedObjectsQueryReloadEvent
+        );
       })
     );
   }

@@ -41,7 +41,9 @@
             {{ 'customerTicketing.category' | cxTranslate }}
           </span>
           <select class="form-control">
-            <option></option>
+            <option *ngFor="let category of ticketCategories">
+              {{ category.name }}
+            </option>
           </select>
 
           <cx-form-errors [control]="form.get('message')"></cx-form-errors>
@@ -52,7 +54,12 @@
             {{ 'customerTicketing.associateTo' | cxTranslate }}
           </span>
           <select class="form-control">
-            <option></option>
+            <option
+              *ngFor="let objects of ticketAssociatedObjects"
+              [ngValue]="c"
+            >
+              {{ objects.type }} {{ objects.code }}
+            </option>
           </select>
         </label>
 

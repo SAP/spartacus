@@ -93,4 +93,62 @@ describe('CustomerTicketingService', () => {
         });
     });
   });
+  describe('getTicketCategories', () => {
+    it('should call customerTicketingConnector.getTicketCategories', (done) => {
+      service
+        .getTicketCategories()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketCategories);
+          expect(data).toEqual([]);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketCategoriesState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketCategories);
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: [],
+          });
+          done();
+        });
+    });
+  });
+  describe('getTicketAssociatedObjects', () => {
+    it('should call customerTicketingConnector.getTicketAssociatedObjects', (done) => {
+      service
+        .getTicketAssociatedObjects()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(data).toEqual([]);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketAssociatedObjectsState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: [],
+          });
+          done();
+        });
+    });
+  });
 });

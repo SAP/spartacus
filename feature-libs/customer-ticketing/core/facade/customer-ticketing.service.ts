@@ -8,7 +8,13 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  AssociatedObjects,
+  Category,
   CustomerTicketingFacade,
+  GetTicketAssociatedObjectsQueryReloadEvent,
+  GetTicketAssociatedObjectsQueryResetEvent,
+  GetTicketCatQueryReloadEvent,
+  GetTicketCatQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
   TicketDetails,
@@ -19,6 +25,18 @@ import { CustomerTicketingConnector } from '../connectors';
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
+  getTicketCategoriesQueryReloadEvents(): QueryNotifier[] | undefined {
+    return [GetTicketCatQueryReloadEvent];
+  }
+  getTicketCategoriesQueryResetEvents(): QueryNotifier[] | undefined {
+    return [GetTicketCatQueryResetEvent];
+  }
+  getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] | undefined {
+    return [GetTicketAssociatedObjectsQueryReloadEvent];
+  }
+  getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] | undefined {
+    return [GetTicketAssociatedObjectsQueryResetEvent];
+  }
   /**
    * Returns the reload events for the getTicket query.
    */
@@ -45,6 +63,29 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketQueryResetEvents(),
       }
     );
+  protected getTicketCategoriesQuery: Query<Category[]> =
+    this.queryService.create(
+      () => this.customerTicketingConnector.getTicketCategories(),
+      {
+        reloadOn: this.getTicketCategoriesQueryReloadEvents(),
+        resetOn: this.getTicketCategoriesQueryResetEvents(),
+      }
+    );
+  protected getTicketAssociatedObjectsQuery: Query<AssociatedObjects[]> =
+    this.queryService.create(
+      () =>
+        this.customerTicketingAssociatedObjectsPreConditions().pipe(
+          switchMap((customerId) =>
+            this.customerTicketingConnector.getTicketAssociatedObjects(
+              customerId
+            )
+          )
+        ),
+      {
+        reloadOn: this.getTicketAssociatedObjectsQueryReloadEvents(),
+        resetOn: this.getTicketAssociatedObjectsQueryResetEvents(),
+      }
+    );
 
   constructor(
     protected queryService: QueryService,
@@ -52,6 +93,25 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected customerTicketingConnector: CustomerTicketingConnector,
     protected routingService: RoutingService
   ) {}
+  getTicketAssociatedObjectsState(): Observable<
+    QueryState<AssociatedObjects[] | undefined>
+  > {
+    return this.getTicketAssociatedObjectsQuery.getState();
+  }
+  getTicketAssociatedObjects(): Observable<AssociatedObjects[]> {
+    return this.getTicketAssociatedObjectsState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+  getTicketCategories(): Observable<Category[]> {
+    return this.getTicketCategoriesState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+
+  getTicketCategoriesState(): Observable<QueryState<Category[] | undefined>> {
+    return this.getTicketCategoriesQuery.getState();
+  }
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
     return combineLatest([
@@ -67,6 +127,17 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
           throw new Error('Customer ticketing pre conditions not met');
         }
         return [userId, ticketId];
+      })
+    );
+  }
+  protected customerTicketingAssociatedObjectsPreConditions(): Observable<string> {
+    return this.userIdService.getUserId().pipe(
+      take(1),
+      map((userId) => {
+        if (!userId) {
+          throw new Error('Customer ticketing list pre conditions not met');
+        }
+        return userId;
       })
     );
   }
