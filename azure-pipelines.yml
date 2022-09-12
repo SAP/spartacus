@@ -1,0 +1,46 @@
+# Using Piper general purpose pipeline for Azure
+
+trigger:
+  - develop
+
+schedules:
+  - cron: "0 0 * * *" # cron: "*/5 * * * *"
+    displayName: pipeline optimization
+    always: false # whether to always run the pipeline or only if there have been source code changes since the last successful scheduled run. The default is false.
+    branches:
+      include:
+        - develop
+
+resources:
+  repositories:
+  - repository: piper-pipeline-azure
+    endpoint: github.tools.sap
+    type: githubenterprise
+    name: cx-commerce-storefronts/piper-pipeline-azure
+
+extends:
+  template: sap-piper-pipeline.yml@piper-pipeline-azure
+  parameters:
+    buildPackages:
+    - core
+    - styles
+    - assets
+    - storefrontlib
+    - smartedit
+    - qualtrics
+    - tracking
+    - user
+    - product
+    - cart
+    - order
+    - storefinder
+    - asm
+    - checkout
+    - setup
+    - organization
+    - product-configurator
+    - cds
+    - cdc
+    - digital-payments
+    - epd-visualization
+    - schematics

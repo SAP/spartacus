@@ -1,0 +1,43 @@
+general:
+  buildTool: 'npm'
+  productiveBranch: 'develop'
+  pipelineOptimization: false
+  repository: 'pwa-storefront-toolset'
+  owner: 'cx-commerce-storefronts'
+  vaultBasePath: 'piper/PIPELINE-GROUP-2938'
+  vaultPipelineName: 'PIPELINE-13905'
+  vaultServerUrl: 'https://vault.tools.sap'
+  vaultNamespace: 'ies/hyperspace/pipelines'
+  nativeBuild: true
+stages:
+  Central Build:
+steps:
+  artifactPrepareVersion:
+    gitHttpsCredentialVaultSecretName: 'github'
+  sapCallStagingService:
+    url: 'https://staging.repositories.cloud.sap/stage/api'
+    profile: 'group-2938-default'
+  whitesourceExecuteScan:
+    buildTool: 'yarn'
+    whitesourceProductName: 'SHC - SPARTACUS-PIPELINE-1-0-1-0'
+    whitesourceProductToken: '2548a653518b4ec2a140405948f9069c6602e51dcd12442ea1ce43df32606601'
+  sapCheckPPMSCompliance:
+    ppmsID: '73554900100200019318'
+    uploadChangeRequest: true
+    whitesourceProductToken: '2548a653518b4ec2a140405948f9069c6602e51dcd12442ea1ce43df32606601'
+  sonarExecuteScan:
+    serverUrl: 'https://sonar.tools.sap'
+  checkmarxExecuteScan:
+    projectName: 'pwa-storefront-toolset'
+    teamName: '/CxServer/SP/SAP/INTERNAL/SPARTACUS_PIPELINE'
+    preset: '100203' # https://github.wdf.sap.corp/pages/Security-Testing/doc/checkmarx/Presets/  
+    filterPattern: '!**/node_modules/**, !**/storefrontapp-e2e-cypress/**, **/*.html, **/*.xml, **/*.py, **/*.js, **/*.ts, !**/*.spec.ts, !**/*_spec.ts'
+    incremental: false
+  sapCumulusUpload:
+    pipelineId: '614d9067-1e4f-43d7-a671-3b467a72d19b'
+  npmExecuteScripts:
+    buildDescriptorExcludeList: ['sub-folder/**', 'core/**', 'root/**', 'components/**', 'personalization/**', 'tms/**', 'account/**', 'profile/**',
+    'bulk-pricing/**', 'image-zoom/**', 'variants/**', 'base/**', 'import-export/**', 'quick-order/**', 'saved-cart/**', 'wish-list/**', 'scheduled-replenishment/**',
+    'assets/**', 'occ/**', 'b2b/**', 'ssr/**', 'administration/**', 'order-approval/**', 'common/**', 'rulebased/**', 'textfield/**', 'epd-visualization-api/**']
+    dockerImage: 'node:14.18.1-stretch'
+    install: false
