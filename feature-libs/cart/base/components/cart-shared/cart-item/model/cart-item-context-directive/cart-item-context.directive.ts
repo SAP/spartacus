@@ -30,9 +30,7 @@ export class CartItemContextDirective implements OnChanges {
     optionalBtn: null,
   };
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {
-    console.log('CartItemContextDirective.constructor()'); // SPIKE TODO REMOVE
-  }
+  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
