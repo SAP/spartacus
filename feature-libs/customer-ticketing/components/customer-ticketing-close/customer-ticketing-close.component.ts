@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -14,7 +15,7 @@ import { CustomerTicketingDetailsService } from '../customer-ticketing-details.s
   selector: 'cx-customer-ticketing-close',
   templateUrl: './customer-ticketing-close.component.html',
 })
-export class CustomerTicketingCloseComponent {
+export class CustomerTicketingCloseComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
