@@ -10,6 +10,7 @@
   .cx-consignment-tracking-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
+    @extend .modal-lg;
 
     .cx-consignment-tracking-container {
       @extend .modal-content;
