@@ -12,7 +12,6 @@
         (click)="close('Close Close Request Dialog')"
         [attr.aria-label]="'common.close' | cxTranslate"
         class="cx-customer-ticket-form-close close"
-        type="button"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
@@ -77,11 +76,10 @@
         <button
           (click)="close('Close Close Request Dialog')"
           class="btn btn-action"
-          type="button"
         >
           {{ 'customerTicketing.cancel' | cxTranslate }}
         </button>
-        <button (click)="closeRequest()" class="btn btn-primary" type="button">
+        <button (click)="closeRequest()" class="btn btn-primary">
           {{ 'customerTicketing.submit' | cxTranslate }}
         </button>
       </div>
