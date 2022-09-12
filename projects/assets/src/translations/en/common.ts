@@ -215,7 +215,7 @@ export const common = {
     addNewMessage: 'Add New Message',
     send: 'Send',
     uploadFile: 'Upload File',
-    textLabel: '{{author}}. {{text}} at {{date}}',
+    informationLabel: '{{author}}. {{text}} at {{date}}',
     messages: 'Messages',
     addMessagePlaceHolder: 'Start Typing...',
     characterLimitAlert: 'Characters limit reached.',
