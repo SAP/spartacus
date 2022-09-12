@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { EpdVisualizationComponentsModule } from '@spartacus/epd-visualization/components';
-import { EpdVisualizationCoreModule } from '@spartacus/epd-visualization/core';
-import { EpdVisualizationApiModule } from '@spartacus/epd-visualization/epd-visualization-api';
+import { EpdVisualizationComponentsModule } from '@commerce-storefront-toolset/epd-visualization/components';
+import { EpdVisualizationCoreModule } from '@commerce-storefront-toolset/epd-visualization/core';
+import { EpdVisualizationApiModule } from '@commerce-storefront-toolset/epd-visualization/epd-visualization-api';
 
 @NgModule({
   imports: [

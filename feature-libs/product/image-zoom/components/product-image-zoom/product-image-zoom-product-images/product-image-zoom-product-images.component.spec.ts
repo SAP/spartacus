@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ImageGroup, Product, I18nTestingModule } from '@spartacus/core';
+import { ImageGroup, Product, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
-import { CurrentProductService } from '@spartacus/storefront';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
 import { take } from 'rxjs/operators';
 

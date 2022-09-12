@@ -1,6 +1,6 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
+import { BaseSiteService, WindowRef } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';

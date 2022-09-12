@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { normalizeHttpError, SiteContextActions } from '@commerce-storefront-toolset/core';
+import { OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {

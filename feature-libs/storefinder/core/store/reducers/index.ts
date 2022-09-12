@@ -13,7 +13,7 @@ import {
 
 import { InjectionToken, Provider } from '@angular/core';
 import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
-import { SiteContextActions, StateUtils } from '@spartacus/core';
+import { SiteContextActions, StateUtils } from '@commerce-storefront-toolset/core';
 import { StoreFinderActions } from '../actions';
 import { findStoresReducer } from './find-stores.reducer';
 import { viewAllStoresReducer } from './view-all-stores.reducer';

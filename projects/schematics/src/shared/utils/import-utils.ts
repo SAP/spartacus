@@ -82,7 +82,7 @@ export function getImportDeclaration(
 
 /**
  * Collects the higher-order arrow functions.
- * E.g. `() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`,
+ * E.g. `() => import('@commerce-storefront-toolset/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`,
  * but not the inner one `(m) => m.AddToCartModule`.
  */
 export function collectDynamicImports(source: SourceFile): ArrowFunction[] {
@@ -103,7 +103,7 @@ export function collectDynamicImports(source: SourceFile): ArrowFunction[] {
 
 /**
  * Returns the call expression of the dynamic import (if any).
- * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `import('@spartacus/cart/base')`
+ * E.g. for the given `() => import('@commerce-storefront-toolset/cart/base').then((m) => m.CartBaseModule)` it returns `import('@commerce-storefront-toolset/cart/base')`
  */
 export function getDynamicImportCallExpression(
   arrowFunction: ArrowFunction
@@ -114,7 +114,7 @@ export function getDynamicImportCallExpression(
 }
 
 /**
- * Returns the import path, e.g. @spartacus/cart/base
+ * Returns the import path, e.g. @commerce-storefront-toolset/cart/base
  */
 export function getDynamicImportImportPath(
   arrowFunction: ArrowFunction
@@ -126,7 +126,7 @@ export function getDynamicImportImportPath(
 
 /**
  * Returns the import module of the dynamic import (if any).
- * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `m.CartBaseModule`
+ * E.g. for the given `() => import('@commerce-storefront-toolset/cart/base').then((m) => m.CartBaseModule)` it returns `m.CartBaseModule`
  */
 export function getDynamicImportPropertyAccess(
   arrowFunction: ArrowFunction

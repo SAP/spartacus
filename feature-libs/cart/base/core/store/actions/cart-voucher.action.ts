@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@commerce-storefront-toolset/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';

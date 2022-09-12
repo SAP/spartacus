@@ -10,7 +10,7 @@ import {
   CmsNavigationNode,
   CmsService,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { NavigationNode } from './navigation-node.model';

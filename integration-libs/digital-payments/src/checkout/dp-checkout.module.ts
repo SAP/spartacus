@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { occDigitalPaymentsConfig } from './adapters/config/occ-digital-payments-endpoint.config';
 import {
   DP_DETAILS_NORMALIZER,

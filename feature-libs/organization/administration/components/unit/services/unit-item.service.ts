@@ -5,11 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { B2BUnit, RoutingService } from '@spartacus/core';
+import { B2BUnit, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { UnitFormService } from '../form/unit-form.service';

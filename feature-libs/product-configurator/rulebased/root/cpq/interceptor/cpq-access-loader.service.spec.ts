@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';

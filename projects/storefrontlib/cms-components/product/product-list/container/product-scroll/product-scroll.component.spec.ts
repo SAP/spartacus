@@ -8,7 +8,7 @@ import {
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
+import { I18nTestingModule, ProductSearchPage } from '@commerce-storefront-toolset/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../..';
 import { MediaComponent } from '../../../../../shared/components/media';

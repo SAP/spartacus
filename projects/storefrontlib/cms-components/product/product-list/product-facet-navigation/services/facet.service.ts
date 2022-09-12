@@ -6,7 +6,7 @@
 
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Facet } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {

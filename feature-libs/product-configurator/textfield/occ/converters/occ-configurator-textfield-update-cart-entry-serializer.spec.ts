@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfieldUpdateCartEntrySerializer } from './occ-configurator-textfield-update-cart-entry-serializer';
 

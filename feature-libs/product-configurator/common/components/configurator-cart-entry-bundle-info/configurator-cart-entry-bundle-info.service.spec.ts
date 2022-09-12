@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import { ConfigurationInfo } from '../../core/model/common-configurator.model';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';

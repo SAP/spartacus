@@ -10,19 +10,19 @@ import { RouterModule } from '@angular/router';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CardModule,
   IconModule,
   OutletModule,
   PromotionsModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({

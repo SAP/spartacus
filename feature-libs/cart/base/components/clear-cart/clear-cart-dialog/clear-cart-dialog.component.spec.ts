@@ -2,8 +2,8 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
-} from '@spartacus/storefront';
-import { I18nTestingModule } from '@spartacus/core';
+} from '@commerce-storefront-toolset/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';

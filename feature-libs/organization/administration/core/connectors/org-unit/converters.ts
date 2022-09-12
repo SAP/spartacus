@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { B2BApprovalProcess, B2BUnit, Converter } from '@spartacus/core';
+import { B2BApprovalProcess, B2BUnit, Converter } from '@commerce-storefront-toolset/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 
 export const B2BUNIT_NODE_NORMALIZER = new InjectionToken<

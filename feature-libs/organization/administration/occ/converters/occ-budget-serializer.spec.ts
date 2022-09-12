@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Occ, OccConfig, TimeUtils } from '@spartacus/core';
+import { Occ, OccConfig, TimeUtils } from '@commerce-storefront-toolset/core';
 import { TestingTimeUtils } from '../../../../../projects/core/src/util/testing-time-utils';
 import { Budget } from '../../core/model/budget.model';
 import { OccBudgetSerializer } from './occ-budget-serializer';

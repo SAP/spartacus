@@ -13,7 +13,7 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {
   OrganizationState,

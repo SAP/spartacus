@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 // Imported for side effects (module augmentation)
-import '@spartacus/storefront';
+import '@commerce-storefront-toolset/storefront';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,6 @@ export abstract class CartConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends CartConfig {}
 }

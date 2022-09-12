@@ -15,20 +15,20 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ICON_TYPE,
   ModalDirective,
   PromotionsModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { cold } from 'jasmine-marbles';
 import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { ImageLoadingStrategy, MediaFormatSize } from './media.model';
 
 /**
@@ -42,6 +42,6 @@ export abstract class MediaConfig {
   imageLoadingStrategy?: ImageLoadingStrategy;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends MediaConfig {}
 }

@@ -67,7 +67,7 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>,
@@ -80,14 +80,14 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
 `;
 const INHERITANCE_TEST_CLASS = `
     import { Store } from '@ngrx/store';
-    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    import { StateWithProcess, StateWithUser } from '@commerce-storefront-toolset/core';
     export class InheritingService {
       constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
 `;
 const INHERITANCE_IMPORT_TEST_CLASS = `
     import { Store } from '@ngrx/store';
-    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    import { StateWithProcess, StateWithUser } from '@commerce-storefront-toolset/core';
     import { UserAddressService } from './customer-class';
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
@@ -96,13 +96,13 @@ const INHERITANCE_IMPORT_TEST_CLASS = `
     }
 `;
 const IMPORT_MISSING_TEST_CLASS = `
-    import { StateWithProcess, StateWithUser, UserAddressService } from '@spartacus/core';
+    import { StateWithProcess, StateWithUser, UserAddressService } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
 `;
 const NO_CONSTRUCTOR_TEST_CLASS = `
-    import { UserAddressService } from '@spartacus/core';
+    import { UserAddressService } from '@commerce-storefront-toolset/core';
     import { Store } from '@ngrx/store';
     export class InheritingService extends UserAddressService {}
 `;
@@ -113,7 +113,7 @@ const WRONG_PARAMETER_ORDER_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(
         authService: AuthService,
@@ -129,7 +129,7 @@ const NO_SUPER_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>
@@ -142,7 +142,7 @@ const EXPRESSION_NO_SUPER_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>
@@ -157,7 +157,7 @@ const SUPER_PARAMETER_NUMBER_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>
@@ -172,7 +172,7 @@ const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         super(store);
@@ -185,7 +185,7 @@ const VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritedService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>,
@@ -203,7 +203,7 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
       FeatureConfigService,
       PageMetaResolver,
       PageMetaService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class Test extends PageMetaService {
       constructor(
         resolvers: PageMetaResolver[],
@@ -261,7 +261,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
   LaunchDialogService,
   LayoutConfig,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceNameService extends LaunchDialogService {
@@ -279,7 +279,7 @@ import {
   LaunchDialogService,
   LaunchRenderStrategy,
   LayoutConfig,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceNameService extends LaunchDialogService {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import { ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReplenishmentOrder = {};

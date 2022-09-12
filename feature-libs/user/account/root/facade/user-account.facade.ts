@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../model/user.model';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory } from '@commerce-storefront-toolset/core';
 import { USER_ACCOUNT_CORE_FEATURE } from '../feature-name';
 
 @Injectable({

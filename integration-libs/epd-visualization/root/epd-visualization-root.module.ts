@@ -9,7 +9,7 @@ import {
   CmsConfig,
   provideConfigValidator,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { epdVisualizationConfigValidator } from './config';
 import { getEpdVisualizationDefaultConfig } from './config/epd-visualization-default-config';
 import { EPD_VISUALIZATION_FEATURE } from './feature-name';

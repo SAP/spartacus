@@ -9,8 +9,8 @@ import {
   GetOrderEntriesContext,
   OrderEntriesSource,
   OrderEntry,
-} from '@spartacus/cart/base/root';
-import { Order, OrderHistoryFacade } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { Order, OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

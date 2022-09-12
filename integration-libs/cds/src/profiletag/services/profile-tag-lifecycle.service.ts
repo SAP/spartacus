@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { AuthActions, ConsentService, isNotUndefined } from '@spartacus/core';
+import { AuthActions, ConsentService, isNotUndefined } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map, mapTo } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';

@@ -5,10 +5,10 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
-import { EventService } from '@spartacus/core';
-import { ReplenishmentOrderScheduledEvent } from '@spartacus/order/root';
+import { RemoveCartEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutQueryResetEvent } from '@commerce-storefront-toolset/checkout/base/root';
+import { EventService } from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrderScheduledEvent } from '@commerce-storefront-toolset/order/root';
 import { Subscription } from 'rxjs';
 
 @Injectable({

@@ -6,12 +6,12 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   Translatable,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { ICON_TYPE, LaunchDialogService } from '@commerce-storefront-toolset/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';

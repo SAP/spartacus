@@ -8,7 +8,7 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class ReplenishmentOrderHistoryAdapter {

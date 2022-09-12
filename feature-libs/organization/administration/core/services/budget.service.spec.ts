@@ -1,7 +1,7 @@
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
+import { EntitiesModel, SearchConfig, UserIdService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';

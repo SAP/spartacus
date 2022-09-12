@@ -13,8 +13,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule, SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule, SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 

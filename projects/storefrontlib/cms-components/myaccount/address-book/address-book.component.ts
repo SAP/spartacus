@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';

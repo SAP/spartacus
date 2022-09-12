@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ListModule } from '../shared/list/list.module';
 import { UserApproverListModule } from './approvers/user-approver-list.module';
 import { UserChangePasswordFormModule } from './change-password-form/user-change-password-form.module';

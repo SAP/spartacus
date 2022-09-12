@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { CostCenter, StateUtils } from '@spartacus/core';
+import { CostCenter, StateUtils } from '@commerce-storefront-toolset/core';
 import { CostCenterActions } from '../actions/index';
 import {
   CostCenterManagement,

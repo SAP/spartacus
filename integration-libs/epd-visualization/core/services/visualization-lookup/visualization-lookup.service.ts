@@ -12,7 +12,7 @@ import {
   UsageId,
   UsageIdConfig,
   VisualizationInfo,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';

@@ -261,7 +261,7 @@ describe('Workspace utils', () => {
         validateSpartacusInstallation({ dependencies: {} })
       ).toThrowError(
         new SchematicsException(
-          `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
+          `Spartacus is not detected. Please first install Spartacus by running: 'ng add @commerce-storefront-toolset/schematics'.
     To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
         )
       );

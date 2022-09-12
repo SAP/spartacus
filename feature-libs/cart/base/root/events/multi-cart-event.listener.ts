@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { EventService } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { MultiCartFacade } from '../facade/multi-cart.facade';
 import { LoadCartEvent, RemoveCartEvent } from './cart.events';

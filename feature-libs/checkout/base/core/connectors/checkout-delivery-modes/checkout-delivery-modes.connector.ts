@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryModesAdapter } from './checkout-delivery-modes.adapter';
 

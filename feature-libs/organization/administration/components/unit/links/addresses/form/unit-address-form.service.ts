@@ -12,8 +12,8 @@ import {
   Region,
   Title,
   UserAddressService,
-} from '@spartacus/core';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { FormService } from '../../../../shared/form/form.service';

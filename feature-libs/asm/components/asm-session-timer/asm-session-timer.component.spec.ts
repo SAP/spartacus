@@ -6,13 +6,13 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { AsmConfig } from '@spartacus/asm/core';
+import { AsmConfig } from '@commerce-storefront-toolset/asm/core';
 import {
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
   RoutingService,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';

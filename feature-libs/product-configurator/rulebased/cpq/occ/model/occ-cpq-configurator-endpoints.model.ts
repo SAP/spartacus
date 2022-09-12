@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
-declare module '@spartacus/core' {
+import { OccEndpoint } from '@commerce-storefront-toolset/core';
+declare module '@commerce-storefront-toolset/core' {
   interface OccEndpoints {
     /**
      * Endpoint to get Cpq token

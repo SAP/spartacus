@@ -6,7 +6,7 @@ import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryAdapter } from '../../connectors/order-history.adapter';

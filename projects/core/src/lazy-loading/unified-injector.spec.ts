@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UnifiedInjector } from './unified-injector';
-import { LazyModulesService } from '@spartacus/core';
+import { LazyModulesService } from '@commerce-storefront-toolset/core';
 import { of, ReplaySubject } from 'rxjs';
 import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { delay, take, tap, toArray } from 'rxjs/operators';

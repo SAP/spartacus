@@ -269,7 +269,7 @@ function parseParameterImportPaths(publicApiData): void {
 
 function setParamsImportPath(parameters: any[], apiData: any[]) {
   parameters.forEach((param: any, index: number) => {
-    if (param.canonicalReference.startsWith('@spartacus')) {
+    if (param.canonicalReference.startsWith('@commerce-storefront-toolset')) {
       // lookup
       const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
       const importPath = lookupImportPath(param.shortType, kind, apiData);

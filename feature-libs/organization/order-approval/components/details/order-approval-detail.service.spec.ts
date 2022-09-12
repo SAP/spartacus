@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { Observable, of } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';

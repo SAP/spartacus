@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { PopoverModule } from '@spartacus/storefront';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
+import { PopoverModule } from '@commerce-storefront-toolset/storefront';
 import { BudgetDetailsCellComponent } from './budget-details-cell.component';
 
 @NgModule({

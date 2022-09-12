@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaginationModel, PointOfService, SortModel } from '@spartacus/core';
+import { PaginationModel, PointOfService, SortModel } from '@commerce-storefront-toolset/core';
 
 export interface StoreFinderSearchPage {
   boundEastLongitude?: number;

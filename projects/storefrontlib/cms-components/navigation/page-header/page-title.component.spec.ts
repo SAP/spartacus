@@ -1,7 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import { I18nTestingModule, PageMeta, PageMetaService } from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { PageTitleComponent } from './page-title.component';
 import { By } from '@angular/platform-browser';

@@ -5,19 +5,19 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { MergeCartSuccessEvent } from '@spartacus/cart/base/root';
+import { MergeCartSuccessEvent } from '@commerce-storefront-toolset/cart/base/root';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
-} from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   CurrencySetEvent,
   EventService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-} from '@spartacus/core';
-import { OrderPlacedEvent } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutQueryReloadEvent,

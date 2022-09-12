@@ -9,7 +9,7 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 

@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/tracking@${version}",
+    "releaseName": "@commerce-storefront-toolset/tracking@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib tracking --to tracking-${version}"
   },
   "plugins": {
@@ -24,8 +24,8 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/schematics"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/schematics"
           ]
         }
       ]

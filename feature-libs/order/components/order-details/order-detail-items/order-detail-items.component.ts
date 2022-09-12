@@ -5,13 +5,13 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
+import { CartOutlets, PromotionLocation } from '@commerce-storefront-toolset/cart/base/root';
+import { Consignment, Order } from '@commerce-storefront-toolset/order/root';
 import {
   CmsOrderDetailItemsComponent,
   TranslationService,
-} from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';

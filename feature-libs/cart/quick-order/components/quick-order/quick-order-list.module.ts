@@ -13,7 +13,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   AtMessageModule,
   FormErrorsModule,
@@ -22,7 +22,7 @@ import {
   MediaModule,
   MessageComponentModule,
   ProgressButtonModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { QuickOrderComponent } from './quick-order.component';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';
 import { QuickOrderItemComponent } from './table/item/quick-order-item.component';

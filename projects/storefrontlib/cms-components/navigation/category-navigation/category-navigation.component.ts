@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent } from '@spartacus/core';
+import { CmsNavigationComponent } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';

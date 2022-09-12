@@ -5,7 +5,7 @@ import {
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';

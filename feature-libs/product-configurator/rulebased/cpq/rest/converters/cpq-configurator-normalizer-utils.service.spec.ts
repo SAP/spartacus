@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { LanguageService } from '@commerce-storefront-toolset/core';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';

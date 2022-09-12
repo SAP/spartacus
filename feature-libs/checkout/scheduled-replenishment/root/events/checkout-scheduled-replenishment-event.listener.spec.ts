@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import { RemoveCartEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutQueryResetEvent } from '@commerce-storefront-toolset/checkout/base/root';
+import { createFrom, CxEvent, EventService } from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderScheduledEvent,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutScheduledReplenishmentEventListener } from './checkout-scheduled-replenishment-event.listener';
 import createSpy = jasmine.createSpy;

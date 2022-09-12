@@ -1,4 +1,4 @@
-import { Applicable, resolveApplicable } from '@spartacus/core';
+import { Applicable, resolveApplicable } from '@commerce-storefront-toolset/core';
 import createSpy = jasmine.createSpy;
 
 describe('resolveApplicable', () => {

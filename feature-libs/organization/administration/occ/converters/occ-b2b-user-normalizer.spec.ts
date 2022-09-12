@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { B2BUser, Occ, OccConfig } from '@spartacus/core';
+import { B2BUser, Occ, OccConfig } from '@commerce-storefront-toolset/core';
 import { OccB2BUserNormalizer } from './occ-b2b-user-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

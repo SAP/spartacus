@@ -14,7 +14,7 @@ import {
   RouteLoadStrategy,
   RoutingConfigService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuardService } from './cms-page-guard.service';

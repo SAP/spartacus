@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { CostCenter, EntitiesModel, Occ, OccConfig } from '@spartacus/core';
+import { CostCenter, EntitiesModel, Occ, OccConfig } from '@commerce-storefront-toolset/core';
 import { OccCostCenterListNormalizer } from './occ-cost-center-list-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

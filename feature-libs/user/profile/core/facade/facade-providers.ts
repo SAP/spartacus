@@ -13,7 +13,7 @@ import {
   UserPasswordFacade,
   UserProfileFacade,
   UserRegisterFacade,
-} from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/user/profile/root';
 import { Provider } from '@angular/core';
 
 export const facadeProviders: Provider[] = [

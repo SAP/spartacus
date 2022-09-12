@@ -8,8 +8,8 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import {} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import {} from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { CheckoutStep } from '../model/checkout-step.model';
 
 export enum DeliveryModePreferences {
@@ -39,6 +39,6 @@ export abstract class CheckoutConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends CheckoutConfig {}
 }

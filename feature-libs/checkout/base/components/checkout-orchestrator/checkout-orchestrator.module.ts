@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutGuard } from '../guards/checkout.guard';

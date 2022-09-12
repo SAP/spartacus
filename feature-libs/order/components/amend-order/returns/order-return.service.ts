@@ -5,16 +5,16 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CancelOrReturnRequestEntryInput,
   OrderReturnRequestFacade,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../order-details/order-details.service';

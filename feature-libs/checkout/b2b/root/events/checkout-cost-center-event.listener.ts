@@ -8,8 +8,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
-} from '@spartacus/checkout/base/root';
-import { EventService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { EventService } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
 

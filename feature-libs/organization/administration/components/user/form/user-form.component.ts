@@ -11,13 +11,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
+import { B2BUser, B2BUserRole, Title } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';

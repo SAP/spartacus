@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 import {
   importExportTranslationChunksConfig,
   importExportTranslations,
-} from '@spartacus/cart/import-export/assets';
+} from '@commerce-storefront-toolset/cart/import-export/assets';
 import {
   CART_IMPORT_EXPORT_FEATURE,
   ImportExportRootModule,
-} from '@spartacus/cart/import-export/root';
+} from '@commerce-storefront-toolset/cart/import-export/root';
 
 @NgModule({
   imports: [ImportExportRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [CART_IMPORT_EXPORT_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/import-export').then(
+            import('@commerce-storefront-toolset/cart/import-export').then(
               (m) => m.ImportExportModule
             ),
         },

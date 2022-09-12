@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService, SemanticPathService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { RoutingService, SemanticPathService } from '@commerce-storefront-toolset/core';
+import { OrderFacade } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 import createSpy = jasmine.createSpy;

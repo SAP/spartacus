@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
-import { ConfiguratorType } from '@spartacus/product-configurator/common';
+import { normalizeHttpError } from '@commerce-storefront-toolset/core';
+import { ConfiguratorType } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';

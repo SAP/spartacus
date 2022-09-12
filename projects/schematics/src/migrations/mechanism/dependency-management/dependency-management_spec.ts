@@ -127,7 +127,7 @@ describe('dependency management migrations', () => {
         const updatedVersion: string =
           JSON.parse(packageJson).dependencies.bootstrap;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/styles'].bootstrap
+          collectedDependencies['@commerce-storefront-toolset/styles'].bootstrap
         );
       });
     });
@@ -154,7 +154,7 @@ describe('dependency management migrations', () => {
         const updatedVersion: string =
           JSON.parse(packageJson).dependencies.bootstrap;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/styles'].bootstrap
+          collectedDependencies['@commerce-storefront-toolset/styles'].bootstrap
         );
       });
     });

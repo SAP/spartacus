@@ -5,7 +5,7 @@
  */
 
 import { Provider } from '@angular/core';
-import { WishListFacade } from '@spartacus/cart/wish-list/root';
+import { WishListFacade } from '@commerce-storefront-toolset/cart/wish-list/root';
 import { WishListService } from './wish-list.service';
 
 export const facadeProviders: Provider[] = [

@@ -9,7 +9,7 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';

@@ -20,7 +20,7 @@ exports[`Storefront config utils ts-morph config utils getSpartacusProviders sho
   featureModules: {
     personalization: {
       module: () =>
-        import('@spartacus/tracking/personalization').then(
+        import('@commerce-storefront-toolset/tracking/personalization').then(
           (m) => m.PersonalizationModule
         ),
     },

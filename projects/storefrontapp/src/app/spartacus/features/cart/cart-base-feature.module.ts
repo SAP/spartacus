@@ -8,14 +8,14 @@ import { NgModule } from '@angular/core';
 import {
   cartBaseTranslationChunksConfig,
   cartBaseTranslations,
-} from '@spartacus/cart/base/assets';
+} from '@commerce-storefront-toolset/cart/base/assets';
 import {
   ADD_TO_CART_FEATURE,
   CartBaseRootModule,
   CART_BASE_FEATURE,
   MINI_CART_FEATURE,
-} from '@spartacus/cart/base/root';
-import { provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CartBaseRootModule],
@@ -24,7 +24,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_BASE_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+            import('@commerce-storefront-toolset/cart/base').then((m) => m.CartBaseModule),
         },
       },
     }),
@@ -32,7 +32,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [MINI_CART_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/base/components/mini-cart').then(
+            import('@commerce-storefront-toolset/cart/base/components/mini-cart').then(
               (m) => m.MiniCartModule
             ),
         },
@@ -42,7 +42,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [ADD_TO_CART_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/base/components/add-to-cart').then(
+            import('@commerce-storefront-toolset/cart/base/components/add-to-cart').then(
               (m) => m.AddToCartModule
             ),
         },

@@ -8,8 +8,8 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ItemCounterComponent, MediaModule } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';

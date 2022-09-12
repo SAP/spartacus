@@ -10,7 +10,7 @@ import { ActionsSubject } from '@ngrx/store';
 import {
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CartActions } from '../store/actions';

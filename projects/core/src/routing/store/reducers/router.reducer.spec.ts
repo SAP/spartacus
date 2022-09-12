@@ -8,7 +8,7 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
-import { HOME_PAGE_CONTEXT, PageContext } from '@spartacus/core';
+import { HOME_PAGE_CONTEXT, PageContext } from '@commerce-storefront-toolset/core';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfig } from '../../configurable-routes/config/routing-config';
 import { ChangeNextPageContext } from '../actions/router.action';

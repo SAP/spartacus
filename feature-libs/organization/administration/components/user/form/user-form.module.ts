@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { UserFormComponent } from './user-form.component';
 

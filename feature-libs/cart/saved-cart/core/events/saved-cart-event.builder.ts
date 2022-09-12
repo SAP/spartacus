@@ -7,7 +7,7 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import { MultiCartFacade } from '@spartacus/cart/base/root';
+import { MultiCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -21,13 +21,13 @@ import {
   SaveCartEvent,
   SaveCartFailEvent,
   SaveCartSuccessEvent,
-} from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   ActionToEventMapping,
   createFrom,
   EventService,
   StateEventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';

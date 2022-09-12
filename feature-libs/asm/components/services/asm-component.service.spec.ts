@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
-} from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+} from '@commerce-storefront-toolset/asm/root';
+import { AuthService, WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';

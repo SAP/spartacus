@@ -74,9 +74,9 @@ describe('Spartacus Schematics: ng-add', () => {
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@spartacus/core')).toBe(true);
-    expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
-    expect(depPackageList.includes('@spartacus/styles')).toBe(true);
+    expect(depPackageList.includes('@commerce-storefront-toolset/core')).toBe(true);
+    expect(depPackageList.includes('@commerce-storefront-toolset/storefront')).toBe(true);
+    expect(depPackageList.includes('@commerce-storefront-toolset/styles')).toBe(true);
   });
 
   it('should add spartacus with PWA via passed parameter', async () => {

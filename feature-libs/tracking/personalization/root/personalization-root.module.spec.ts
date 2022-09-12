@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsConfig } from '@spartacus/core';
+import { CmsConfig } from '@commerce-storefront-toolset/core';
 import {
   defaultPersonalizationComponentsConfig,
   PersonalizationRootModule,

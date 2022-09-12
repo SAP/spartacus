@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import { budgetCmsConfig, budgetTableConfigFactory } from './budget.config';
 import { BudgetCostCenterListModule } from './cost-centers/budget-cost-center-list.module';

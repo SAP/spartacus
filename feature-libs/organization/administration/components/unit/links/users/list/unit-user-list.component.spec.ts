@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   DisableInfoModule,
   ItemService,

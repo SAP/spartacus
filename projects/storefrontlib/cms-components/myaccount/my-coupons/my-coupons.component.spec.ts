@@ -13,7 +13,7 @@ import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';

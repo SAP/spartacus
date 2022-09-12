@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CartEvent } from '@spartacus/cart/base/root';
+import { CartEvent } from '@commerce-storefront-toolset/cart/base/root';
 
 /**
  * Base saved cart event. Most cart events should have these properties.

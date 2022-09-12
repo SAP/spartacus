@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { RoutingRenderStrategy } from './routing-render.strategy';

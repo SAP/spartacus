@@ -5,13 +5,13 @@ import {
   CartModification,
   CartModificationList,
   CartValidationFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RouterState,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfigService } from '../services/cart-config.service';
 import { CartValidationStateService } from '../services/cart-validation-state.service';

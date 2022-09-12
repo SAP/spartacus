@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutConfigService } from '@spartacus/checkout/base/components';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutConfigService } from '@commerce-storefront-toolset/checkout/base/components';
 import {
   AuthRedirectService,
   AuthService,
@@ -10,8 +10,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-} from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { User, UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
 

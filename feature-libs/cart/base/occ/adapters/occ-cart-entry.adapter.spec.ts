@@ -7,13 +7,13 @@ import {
   Cart,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';

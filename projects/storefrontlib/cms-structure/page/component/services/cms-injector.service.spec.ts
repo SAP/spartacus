@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import { CmsService } from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsInjectorService } from './cms-injector.service';

@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormErrorsComponent } from './form-errors.component';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CommonModule, I18nModule],

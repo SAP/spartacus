@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ICON_TYPE, ModalService } from '@commerce-storefront-toolset/storefront';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 import { CloseAccountComponent } from './close-account.component';
 

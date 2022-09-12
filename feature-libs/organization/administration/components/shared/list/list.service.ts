@@ -5,13 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
   TableService,
   TableStructure,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';

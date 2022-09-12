@@ -17,7 +17,7 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig, translations } from '@spartacus/assets';
+import { translationChunksConfig, translations } from '@commerce-storefront-toolset/assets';
 import {
   FeaturesConfig,
   I18nConfig,
@@ -25,8 +25,8 @@ import {
   provideConfig,
   RoutingConfig,
   TestConfigModule,
-} from '@spartacus/core';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { AppRoutingModule, StorefrontComponent } from '@commerce-storefront-toolset/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/core';
+import '@commerce-storefront-toolset/core';
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   const enum ProductScope {
     BULK_PRICES = 'bulkPrices',
   }

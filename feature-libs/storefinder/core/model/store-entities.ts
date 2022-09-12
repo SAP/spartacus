@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PointOfService } from '@spartacus/core';
+import { PointOfService } from '@commerce-storefront-toolset/core';
 
 export interface StoreEntities {
   pointOfServices?: Array<PointOfService>;

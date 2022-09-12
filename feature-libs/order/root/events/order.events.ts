@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxEvent } from '@spartacus/core';
+import { CxEvent } from '@commerce-storefront-toolset/core';
 import { Order } from '../model/order.model';
 import { ReplenishmentOrder } from '../model/replenishment-order.model';
 

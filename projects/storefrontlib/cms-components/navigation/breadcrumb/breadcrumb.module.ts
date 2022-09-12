@@ -12,7 +12,7 @@ import {
   PageMetaModule,
   provideDefaultConfig,
   I18nModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({

@@ -12,7 +12,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { OccEndpointsService, WindowRef } from '@spartacus/core';
+import { OccEndpointsService, WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';

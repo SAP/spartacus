@@ -12,16 +12,16 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { RoutingService } from '@spartacus/core';
+import { CheckoutPlaceOrderComponent } from '@commerce-storefront-toolset/checkout/base/components';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   OrderFacade,
   ORDER_TYPE,
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 

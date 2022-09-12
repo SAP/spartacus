@@ -12,7 +12,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 @NgModule({

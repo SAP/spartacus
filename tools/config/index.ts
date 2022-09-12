@@ -203,7 +203,7 @@ export type Library = {
    */
   entryPoints: Array<{
     /**
-     * Name of the entry point eg. @spartacus/asm/core
+     * Name of the entry point eg. @commerce-storefront-toolset/asm/core
      */
     entryPoint: string;
     /**

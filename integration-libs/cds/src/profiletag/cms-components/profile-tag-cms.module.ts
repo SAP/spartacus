@@ -10,7 +10,7 @@ import {
   CmsConfig,
   DeferLoadingStrategy,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ProfileTagComponent } from './profile-tag.component';
 
 @NgModule({

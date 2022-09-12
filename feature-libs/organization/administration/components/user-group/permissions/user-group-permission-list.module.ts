@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import { SubListModule } from '../../shared/sub-list/sub-list.module';
 import { UserGroupAssignedPermissionListComponent } from './assigned/user-group-assigned-permission-list.component';
 import { UserGroupPermissionListComponent } from './user-group-permission-list.component';

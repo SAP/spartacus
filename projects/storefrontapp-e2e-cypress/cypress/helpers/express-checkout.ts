@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CheckoutConfig } from '@spartacus/storefront';
+import { CheckoutConfig } from '@commerce-storefront-toolset/storefront';
 import { getSampleUser } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
 

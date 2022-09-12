@@ -9,11 +9,11 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

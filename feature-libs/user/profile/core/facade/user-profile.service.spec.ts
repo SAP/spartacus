@@ -3,9 +3,9 @@ import {
   AuthService,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { Title } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { User, UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
+import { Title } from '@commerce-storefront-toolset/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';

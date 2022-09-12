@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
-} from '@spartacus/cart/base/root';
-import { CxEvent, EventService } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { CxEvent, EventService } from '@commerce-storefront-toolset/core';
+import { ModalService } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 

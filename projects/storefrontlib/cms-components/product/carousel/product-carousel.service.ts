@@ -10,7 +10,7 @@ import {
   Product,
   ProductService,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ProductCarouselItem } from './product-carousel.model';

@@ -5,7 +5,7 @@ import {
   Product,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 import { YotpoService } from './yotpo.service';

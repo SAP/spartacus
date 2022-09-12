@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

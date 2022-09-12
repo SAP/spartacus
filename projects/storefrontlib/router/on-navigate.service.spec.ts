@@ -2,7 +2,7 @@ import { ViewportScroller } from '@angular/common';
 import { ApplicationRef, Component, Injector } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NavigationEnd, Router, Scroll } from '@angular/router';
-import { OnNavigateConfig } from '@spartacus/storefront';
+import { OnNavigateConfig } from '@commerce-storefront-toolset/storefront';
 import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
 

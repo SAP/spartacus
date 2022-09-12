@@ -5,13 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartConfigService, isEmpty } from '@spartacus/cart/base/core';
+import { CartConfigService, isEmpty } from '@commerce-storefront-toolset/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
-import { PageLayoutHandler } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { PageLayoutHandler } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 

@@ -1,4 +1,4 @@
-import { HttpErrorModel } from '@spartacus/core';
+import { HttpErrorModel } from '@commerce-storefront-toolset/core';
 import { normalizeHttpError } from './normalize-http-error';
 import { isJaloError } from './occ-http-error-handlers';
 

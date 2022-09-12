@@ -6,11 +6,11 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryModesAdapter,
   DELIVERY_MODE_NORMALIZER,
-} from '@spartacus/checkout/base/core';
+} from '@commerce-storefront-toolset/checkout/base/core';
 import {
   backOff,
   ConverterService,
@@ -18,7 +18,7 @@ import {
   normalizeHttpError,
   Occ,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, pluck } from 'rxjs/operators';
 

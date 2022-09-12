@@ -11,12 +11,12 @@ import {
   RoutingService,
   SearchConfig,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrganizationActions,
   UserGroup,
-} from '@spartacus/organization/administration/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';

@@ -11,13 +11,13 @@ import {
   MultiCartFacade,
   OrderEntry,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
-} from '@spartacus/core';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,

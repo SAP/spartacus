@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Translatable } from '@spartacus/core';
-import { ExportFileOptions } from '@spartacus/storefront';
+import { Translatable } from '@commerce-storefront-toolset/core';
+import { ExportFileOptions } from '@commerce-storefront-toolset/storefront';
 
 export interface ExportColumn {
   /**

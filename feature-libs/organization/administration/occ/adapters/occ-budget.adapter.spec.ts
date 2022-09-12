@@ -3,11 +3,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import {
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 
 import createSpy = jasmine.createSpy;

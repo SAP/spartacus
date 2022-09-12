@@ -16,7 +16,7 @@ import {
   ProductScope,
   ProductService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';

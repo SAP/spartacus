@@ -2,7 +2,7 @@ import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
+import { CustomerCoupon, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ModalService } from '../../../../shared/components/modal/index';

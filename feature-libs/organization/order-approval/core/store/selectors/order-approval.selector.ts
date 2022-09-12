@@ -9,7 +9,7 @@ import {
   MemoizedSelector,
   createFeatureSelector,
 } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { EntitiesModel, SearchConfig, StateUtils } from '@commerce-storefront-toolset/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import {
   OrderApprovalManagement,

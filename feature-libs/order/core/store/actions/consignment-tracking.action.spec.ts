@@ -1,4 +1,4 @@
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking } from '@commerce-storefront-toolset/order/root';
 import * as fromAction from './consignment-tracking.action';
 
 const mockTracking: ConsignmentTracking = { trackingID: '1234567890' };

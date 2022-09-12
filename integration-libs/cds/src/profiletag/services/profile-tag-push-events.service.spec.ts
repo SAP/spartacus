@@ -8,20 +8,20 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   MergeCartSuccessEvent,
-} from '@spartacus/cart/base/root';
-import { CxEvent, EventService } from '@spartacus/core';
-import { OrderPlacedEvent } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { CxEvent, EventService } from '@commerce-storefront-toolset/core';
+import { OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import {
   CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import {
   PersonalizationContext,
   PersonalizationContextService,
-} from '@spartacus/tracking/personalization/core';
+} from '@commerce-storefront-toolset/tracking/personalization/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';

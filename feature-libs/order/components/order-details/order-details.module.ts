@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
+import { AddToCartModule } from '@commerce-storefront-toolset/cart/base/components/add-to-cart';
 import {
   CmsConfig,
   FeaturesConfig,
@@ -15,13 +15,13 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CardModule,
   OutletModule,
   PromotionsModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';

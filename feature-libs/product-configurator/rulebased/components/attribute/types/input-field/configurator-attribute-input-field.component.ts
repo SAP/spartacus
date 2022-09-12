@@ -14,7 +14,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';

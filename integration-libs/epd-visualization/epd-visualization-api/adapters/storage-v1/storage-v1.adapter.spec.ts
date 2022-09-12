@@ -6,9 +6,9 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { NodesResponse, SceneAdapter } from '@spartacus/epd-visualization/core';
-import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/core';
+import { NodesResponse, SceneAdapter } from '@commerce-storefront-toolset/epd-visualization/core';
+import { getEpdVisualizationDefaultConfig } from '@commerce-storefront-toolset/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { StorageV1Adapter } from './storage-v1.adapter';
 

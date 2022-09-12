@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SmartEditCoreModule } from '@spartacus/smartedit/core';
+import { SmartEditCoreModule } from '@commerce-storefront-toolset/smartedit/core';
 
 @NgModule({
   imports: [SmartEditCoreModule],

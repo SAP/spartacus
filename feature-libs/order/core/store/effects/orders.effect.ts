@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { normalizeHttpError, SiteContextActions } from '@commerce-storefront-toolset/core';
+import { OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {

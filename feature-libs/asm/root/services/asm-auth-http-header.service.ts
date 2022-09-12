@@ -19,7 +19,7 @@ import {
   OccEndpointsService,
   RoutingService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { CsAgentAuthService } from './csagent-auth.service';
 

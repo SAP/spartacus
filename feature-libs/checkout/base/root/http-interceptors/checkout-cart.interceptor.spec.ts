@@ -5,8 +5,8 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MultiCartFacade } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { MultiCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';

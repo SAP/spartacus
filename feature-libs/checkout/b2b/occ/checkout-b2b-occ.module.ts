@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import {
   CheckoutCostCenterAdapter,
   CheckoutPaymentTypeAdapter,
-} from '@spartacus/checkout/b2b/core';
-import { provideDefaultConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/b2b/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { OccCheckoutCostCenterAdapter } from './adapters/occ-checkout-cost-center.adapter';
 import { OccCheckoutPaymentTypeAdapter } from './adapters/occ-checkout-payment-type.adapter';
 import { defaultOccCheckoutB2BConfig } from './config/default-occ-checkout-b2b-config';

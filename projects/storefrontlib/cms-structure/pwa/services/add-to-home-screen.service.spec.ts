@@ -3,7 +3,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { PWAModuleConfig } from '../pwa.module-config';
 import { AddToHomeScreenService } from './add-to-home-screen.service';
 import createSpy = jasmine.createSpy;

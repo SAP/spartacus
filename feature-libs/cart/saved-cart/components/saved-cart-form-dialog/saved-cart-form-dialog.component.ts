@@ -18,23 +18,23 @@ import {
   DeleteCartEvent as DeleteSavedCartEvent,
   DeleteCartFailEvent as DeleteSavedCartFailEvent,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
-} from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FocusConfig,
   FormUtils,
   ICON_TYPE,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { map, mapTo, take } from 'rxjs/operators';
 

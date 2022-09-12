@@ -13,7 +13,7 @@ import {
   OccEndpointsService,
   SearchConfig,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   Permission,
   PermissionAdapter,
@@ -21,7 +21,7 @@ import {
   PERMISSION_NORMALIZER,
   PERMISSION_TYPES_NORMALIZER,
   PERMISSION_SERIALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

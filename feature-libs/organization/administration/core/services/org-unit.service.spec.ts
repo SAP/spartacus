@@ -11,7 +11,7 @@ import {
   ListModel,
   SearchConfig,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {

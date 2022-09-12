@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ContextService, RoutingContextService } from '@spartacus/storefront';
+import { ContextService, RoutingContextService } from '@commerce-storefront-toolset/storefront';
 import createSpy = jasmine.createSpy;
 
 const mockContext: any = { data: [1, 2, 3] };

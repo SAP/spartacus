@@ -3,9 +3,9 @@ import {
   OrderEntry,
   ProductData,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { ProductConnector } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
+import { ProductConnector } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries.context';
 import createSpy = jasmine.createSpy;

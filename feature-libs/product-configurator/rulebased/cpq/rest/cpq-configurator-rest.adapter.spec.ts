@@ -1,13 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';

@@ -15,9 +15,9 @@ To import a snapshot build in your shell app, just update the library dependency
 ```json
 {
   "dependencies" : {
-    "@spartacus/core": "SAP/spartacus-core-builds",
-    "@spartacus/styles": "SAP/spartacus-styles-builds",
-    "@spartacus/storefront": "SAP/spartacus-storefront-builds"
+    "@commerce-storefront-toolset/core": "SAP/spartacus-core-builds",
+    "@commerce-storefront-toolset/styles": "SAP/spartacus-styles-builds",
+    "@commerce-storefront-toolset/storefront": "SAP/spartacus-storefront-builds"
     }
 }
  ```
@@ -29,9 +29,9 @@ If you want to import a specific snapshot, append the suffix of the github repo 
 ```json
 {
   "dependencies" : {
-    "@spartacus/core": "SAP/spartacus-core-builds#core-0.1.0+abcde23f",
-    "@spartacus/styles": "SAP/spartacus-styles-builds#styles-0.1.0+abcde23f",
-    "@spartacus/storefront": "SAP/spartacus-storefront-builds#storefront-0.1.0+abcde23f"
+    "@commerce-storefront-toolset/core": "SAP/spartacus-core-builds#core-0.1.0+abcde23f",
+    "@commerce-storefront-toolset/styles": "SAP/spartacus-styles-builds#styles-0.1.0+abcde23f",
+    "@commerce-storefront-toolset/storefront": "SAP/spartacus-storefront-builds#storefront-0.1.0+abcde23f"
   }
 }
  ```

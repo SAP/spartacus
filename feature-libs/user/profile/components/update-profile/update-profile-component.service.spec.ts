@@ -5,9 +5,9 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   User,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import createSpy = jasmine.createSpy;

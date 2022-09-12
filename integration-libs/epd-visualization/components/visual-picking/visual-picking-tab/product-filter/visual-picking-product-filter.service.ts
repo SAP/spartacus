@@ -5,7 +5,7 @@
  */
 
 import { EventEmitter, Injectable } from '@angular/core';
-import { Product, ProductReference } from '@spartacus/core';
+import { Product, ProductReference } from '@commerce-storefront-toolset/core';
 import { combineLatest, concat, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

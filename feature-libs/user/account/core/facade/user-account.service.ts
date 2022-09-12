@@ -10,14 +10,14 @@ import {
   User,
   UserAccountChangedEvent,
   UserAccountFacade,
-} from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/user/account/root';
 import {
   LoginEvent,
   LogoutEvent,
   Query,
   QueryService,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { switchMap } from 'rxjs/operators';
 import { UserAccountConnector } from '../connectors/user-account.connector';
 

@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { LayoutConfig } from '@spartacus/storefront';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { LayoutConfig } from '@commerce-storefront-toolset/storefront';
 
 /**
  *  Contains the layout configuration for the interactive configuration page. This configuration is

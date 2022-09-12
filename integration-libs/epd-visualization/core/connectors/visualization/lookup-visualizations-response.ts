@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { VisualizationInfo } from '@spartacus/epd-visualization/root';
+import { VisualizationInfo } from '@commerce-storefront-toolset/epd-visualization/root';
 
 export interface LookupVisualizationsResponse {
   visualizations?: VisualizationInfo[];

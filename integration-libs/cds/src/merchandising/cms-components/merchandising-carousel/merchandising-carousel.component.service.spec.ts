@@ -1,5 +1,5 @@
 import { waitForAsync, TestBed, TestBedStatic } from '@angular/core/testing';
-import { Product, ProductService } from '@spartacus/core';
+import { Product, ProductService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import {
   CmsMerchandisingCarouselComponent,
@@ -10,7 +10,7 @@ import {
   MerchandisingProduct,
   StrategyResponse,
   MerchandisingCarouselComponentService,
-} from '@spartacus/cds';
+} from '@commerce-storefront-toolset/cds';
 import {
   MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,

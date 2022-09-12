@@ -5,7 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking } from '@commerce-storefront-toolset/order/root';
 import {
   ConsignmentTrackingState,
   OrderState,

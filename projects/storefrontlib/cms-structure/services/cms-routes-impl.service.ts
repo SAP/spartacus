@@ -12,7 +12,7 @@ import {
   deepMerge,
   PageContext,
   PageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 

@@ -13,12 +13,12 @@ import {
 import {
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   ContextService,
   LaunchDialogService,
   LAUNCH_CALLER,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

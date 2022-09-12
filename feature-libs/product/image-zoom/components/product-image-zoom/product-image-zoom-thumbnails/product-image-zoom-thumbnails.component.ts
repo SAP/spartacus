@@ -13,8 +13,8 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { ImageGroup, isNotNullable } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import { ImageGroup, isNotNullable } from '@commerce-storefront-toolset/core';
+import { ThumbnailsGroup } from '@commerce-storefront-toolset/product/image-zoom/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

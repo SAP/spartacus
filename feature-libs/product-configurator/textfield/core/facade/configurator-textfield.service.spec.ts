@@ -2,16 +2,16 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';

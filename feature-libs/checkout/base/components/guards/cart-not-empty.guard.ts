@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { SemanticPathService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

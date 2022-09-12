@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';

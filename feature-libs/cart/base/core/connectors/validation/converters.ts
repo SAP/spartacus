@@ -5,8 +5,8 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
-import { Converter } from '@spartacus/core';
+import { CartModificationList } from '@commerce-storefront-toolset/cart/base/root';
+import { Converter } from '@commerce-storefront-toolset/core';
 
 export const CART_VALIDATION_NORMALIZER = new InjectionToken<
   Converter<any, CartModificationList>

@@ -18,7 +18,7 @@ import {
   RoutingService,
   SemanticPathService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,

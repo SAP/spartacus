@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthService, SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { AuthService, SemanticPathService } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 import createSpy = jasmine.createSpy;

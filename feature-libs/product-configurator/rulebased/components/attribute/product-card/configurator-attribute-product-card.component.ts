@@ -12,13 +12,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
-import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
+import { Product, ProductService, TranslationService } from '@commerce-storefront-toolset/core';
+import { ConfiguratorProductScope } from '@commerce-storefront-toolset/product-configurator/common';
 import {
   FocusConfig,
   ICON_TYPE,
   KeyboardFocusService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';

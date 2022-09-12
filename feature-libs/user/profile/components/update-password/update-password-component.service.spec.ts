@@ -5,9 +5,9 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;

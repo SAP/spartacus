@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
+import { EntitiesModel, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';

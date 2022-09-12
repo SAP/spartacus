@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { createFrom, EventService } from '@spartacus/core';
+import { createFrom, EventService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';

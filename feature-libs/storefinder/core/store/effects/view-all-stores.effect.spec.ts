@@ -7,7 +7,7 @@ import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './view-all-stores.effect';
 import createSpy = jasmine.createSpy;
-import { OccConfig, SiteContextActions } from '@spartacus/core';
+import { OccConfig, SiteContextActions } from '@commerce-storefront-toolset/core';
 import { StoreCount } from '../../model/store-finder.model';
 
 const mockOccModuleConfig: OccConfig = {

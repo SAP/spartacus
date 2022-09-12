@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultPaginationConfig } from './config/index';
 import { PaginationComponent } from './pagination.component';
 

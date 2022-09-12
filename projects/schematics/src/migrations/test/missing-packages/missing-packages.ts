@@ -12,11 +12,11 @@ import {
 
 const MISSING_PACKAGE_DATA: MissingPackageMigration[] = [
   {
-    package: '@spartacus/checkout',
+    package: '@commerce-storefront-toolset/checkout',
     comment: 'Checkout package missing',
   },
   {
-    package: '@spartacus/asm',
+    package: '@commerce-storefront-toolset/asm',
     comment: 'ASM package missing',
   },
 ];

@@ -29,12 +29,12 @@ import {
 CartAddEntrySuccessEvent,
 CartRemoveEntrySuccessEvent,
 provideConfig,
-} from '@spartacus/core';
-import { NavigationEvent, defaultCmsContentProviders } from '@spartacus/storefront';
-import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
-import { AepModule } from '@spartacus/tracking/tms/aep';
-import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
-import { GtmModule } from '@spartacus/tracking/tms/gtm';
+} from '@commerce-storefront-toolset/core';
+import { NavigationEvent, defaultCmsContentProviders } from '@commerce-storefront-toolset/storefront';
+import { PersonalizationRootModule } from '@commerce-storefront-toolset/tracking/personalization/root';
+import { AepModule } from '@commerce-storefront-toolset/tracking/tms/aep';
+import { BaseTmsModule, TmsConfig } from '@commerce-storefront-toolset/tracking/tms/core';
+import { GtmModule } from '@commerce-storefront-toolset/tracking/tms/gtm';
 import { someFunction, someSpread } from '@some/package';
 
 @NgModule({
@@ -62,7 +62,7 @@ provideConfig({
   featureModules: {
     personalization: {
       module: () =>
-        import('@spartacus/tracking/personalization').then(
+        import('@commerce-storefront-toolset/tracking/personalization').then(
           (m) => m.PersonalizationModule
         ),
     },
@@ -91,12 +91,12 @@ export class TrackingFeatureModule {}
   describe('isSpartacusConfigDuplicate', () => {
     const featureModule = `
     import { NgModule } from '@angular/core';
-    import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+    import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
     import {
       orderTranslationChunksConfig,
       orderTranslations,
-    } from '@spartacus/order/assets';
-    import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+    } from '@commerce-storefront-toolset/order/assets';
+    import { OrderRootModule, ORDER_FEATURE } from '@commerce-storefront-toolset/order/root';
     
     @NgModule({
       declarations: [],
@@ -105,7 +105,7 @@ export class TrackingFeatureModule {}
         provideConfig(<CmsConfig>{
           featureModules: {
             [ORDER_FEATURE]: {
-              module: () => import('@spartacus/order').then((m) => m.OrderModule),
+              module: () => import('@commerce-storefront-toolset/order').then((m) => m.OrderModule),
             }
           },
         }),
@@ -128,7 +128,7 @@ export class TrackingFeatureModule {}
     it('should return true despite the formatting and trailing commas', () => {
       const newContent = `
 provideConfig(<CmsConfig>{
-featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then((m) => m.OrderModule),}}}),`;
+featureModules: {[ORDER_FEATURE]: {module: () => import('@commerce-storefront-toolset/order').then((m) => m.OrderModule),}}}),`;
 
       const initializer =
         getModulePropertyInitializer(sourceFile, 'providers') ?? ({} as any);

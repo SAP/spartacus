@@ -15,7 +15,7 @@ import {
   Product,
   ProductScope,
   ProductService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';

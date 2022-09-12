@@ -5,10 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Command, CommandService, UserIdService } from '@spartacus/core';
+import { Command, CommandService, UserIdService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()

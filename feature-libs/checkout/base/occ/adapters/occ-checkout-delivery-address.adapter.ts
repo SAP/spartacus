@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CheckoutDeliveryAddressAdapter } from '@spartacus/checkout/base/core';
+import { CheckoutDeliveryAddressAdapter } from '@commerce-storefront-toolset/checkout/base/core';
 import {
   Address,
   ADDRESS_NORMALIZER,
@@ -17,7 +17,7 @@ import {
   normalizeHttpError,
   Occ,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

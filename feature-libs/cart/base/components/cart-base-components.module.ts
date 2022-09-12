@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/base/root';
-import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { ActiveCartOrderEntriesContextToken } from '@commerce-storefront-toolset/cart/base/root';
+import { OutletModule, PAGE_LAYOUT_HANDLER } from '@commerce-storefront-toolset/storefront';
 import { ClearCartModule } from './clear-cart/clear-cart-button/clear-cart.module';
 import { AddedToCartDialogModule } from './added-to-cart-dialog/added-to-cart-dialog.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';

@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MODULE_INITIALIZER, provideDefaultConfig } from '@spartacus/core';
+import { MODULE_INITIALIZER, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmConnector } from './connectors/asm.connector';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';

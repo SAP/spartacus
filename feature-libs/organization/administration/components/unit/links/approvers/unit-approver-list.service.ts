@@ -10,13 +10,13 @@ import {
   B2BUserRole,
   EntitiesModel,
   PaginationModel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2BUserService,
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationTableType } from '../../../shared/organization.model';
 import { SubListService } from '../../../shared/sub-list/sub-list.service';

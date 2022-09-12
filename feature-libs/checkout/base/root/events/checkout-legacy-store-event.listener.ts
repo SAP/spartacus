@@ -11,7 +11,7 @@ import {
   LoadUserAddressesEvent,
   LoadUserPaymentMethodsEvent,
   UserActions,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 
 /**

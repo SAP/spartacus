@@ -12,14 +12,14 @@ import {
   I18nModule,
   provideDefaultConfig,
   CmsConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CarouselModule,
   IconModule,
   KeyboardFocusModule,
   MediaModule,
   OutletModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { defaultProductImageZoomLayoutConfig } from './default-product-image-zoom-layout.config';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog/product-image-zoom-dialog.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images/product-image-zoom-product-images.component';

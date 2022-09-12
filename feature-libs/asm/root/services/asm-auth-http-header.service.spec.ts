@@ -11,7 +11,7 @@ import {
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
 import { CsAgentAuthService } from './csagent-auth.service';

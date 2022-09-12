@@ -5,8 +5,8 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Converter } from '@spartacus/core';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
+import { Converter } from '@commerce-storefront-toolset/core';
 
 export const DELIVERY_MODE_NORMALIZER = new InjectionToken<
   Converter<any, DeliveryMode>

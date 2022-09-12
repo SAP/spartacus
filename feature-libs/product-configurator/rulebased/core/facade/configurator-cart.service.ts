@@ -6,17 +6,17 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutQueryFacade } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
   StateUtils,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';

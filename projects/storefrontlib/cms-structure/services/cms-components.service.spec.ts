@@ -4,10 +4,10 @@ import {
   CmsConfig,
   ConfigInitializerService,
   DeferLoadingStrategy,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
-import { CmsFeaturesService } from '@spartacus/storefront';
+import { CmsFeaturesService } from '@commerce-storefront-toolset/storefront';
 import createSpy = jasmine.createSpy;
 
 let service: CmsComponentsService;

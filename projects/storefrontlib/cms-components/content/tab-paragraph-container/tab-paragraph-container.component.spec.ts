@@ -6,7 +6,7 @@ import {
   CMSTabParagraphContainer,
   I18nTestingModule,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';

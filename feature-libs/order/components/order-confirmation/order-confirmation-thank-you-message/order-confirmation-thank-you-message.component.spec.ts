@@ -6,8 +6,8 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   TranslationService,
-} from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { OrderFacade } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;

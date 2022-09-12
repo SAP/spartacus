@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { Converter } from '@commerce-storefront-toolset/core';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 

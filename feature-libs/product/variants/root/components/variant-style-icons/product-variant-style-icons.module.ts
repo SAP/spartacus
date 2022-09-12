@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { UrlModule, I18nModule } from '@spartacus/core';
+import { UrlModule, I18nModule } from '@commerce-storefront-toolset/core';
 import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 import { RouterModule } from '@angular/router';
 

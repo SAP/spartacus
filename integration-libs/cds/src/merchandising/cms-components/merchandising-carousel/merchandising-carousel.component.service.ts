@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProductService } from '@spartacus/core';
+import { ProductService } from '@commerce-storefront-toolset/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models';

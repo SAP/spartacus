@@ -1,5 +1,5 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ScriptLoader } from '@spartacus/core';
+import { ScriptLoader } from '@commerce-storefront-toolset/core';
 import { defaultStoreFinderConfig as config } from '../config/default-store-finder-config';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';

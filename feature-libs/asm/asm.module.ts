@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AsmComponentsModule } from '@spartacus/asm/components';
-import { AsmCoreModule } from '@spartacus/asm/core';
-import { AsmOccModule } from '@spartacus/asm/occ';
+import { AsmComponentsModule } from '@commerce-storefront-toolset/asm/components';
+import { AsmCoreModule } from '@commerce-storefront-toolset/asm/core';
+import { AsmOccModule } from '@commerce-storefront-toolset/asm/occ';
 
 @NgModule({
   imports: [AsmComponentsModule, AsmCoreModule, AsmOccModule],

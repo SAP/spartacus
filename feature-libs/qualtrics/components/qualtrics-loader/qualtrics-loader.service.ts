@@ -12,7 +12,7 @@ import {
   OnDestroy,
   PLATFORM_ID,
 } from '@angular/core';
-import { ScriptLoader, WindowRef } from '@spartacus/core';
+import { ScriptLoader, WindowRef } from '@commerce-storefront-toolset/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 

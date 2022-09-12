@@ -13,7 +13,7 @@ import {
   Principal,
   Product,
   Promotion,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];

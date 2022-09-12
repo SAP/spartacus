@@ -6,9 +6,9 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GeoPoint } from '@spartacus/core';
+import { GeoPoint } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-grid',

@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from '@spartacus/cds';
-import { provideConfig } from '@spartacus/core';
+import { CdsConfig, CdsModule } from '@commerce-storefront-toolset/cds';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CdsModule.forRoot()],

@@ -1,11 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutState } from '@spartacus/checkout/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';

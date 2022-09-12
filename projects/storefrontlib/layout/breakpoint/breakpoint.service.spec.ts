@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 import { BreakpointService } from './breakpoint.service';

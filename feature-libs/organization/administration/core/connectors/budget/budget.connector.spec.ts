@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SearchConfig } from '@spartacus/core';
+import { SearchConfig } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';

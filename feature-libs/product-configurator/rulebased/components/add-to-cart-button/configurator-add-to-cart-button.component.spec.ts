@@ -5,16 +5,16 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { IntersectionService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { IntersectionService } from '@commerce-storefront-toolset/storefront';
 import { OrderHistoryFacade } from 'feature-libs/order/root';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';

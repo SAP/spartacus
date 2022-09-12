@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Promotion } from '@spartacus/core';
+import { Promotion } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-promotions',

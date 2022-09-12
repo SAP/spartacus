@@ -10,7 +10,7 @@ import {
   ProductService,
   RoutingService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';

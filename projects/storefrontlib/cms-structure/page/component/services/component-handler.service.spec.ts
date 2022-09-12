@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponentMapping } from '@spartacus/core';
+import { CmsComponentMapping } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 import { ComponentHandlerService } from './component-handler.service';

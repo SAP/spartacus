@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { User } from '@spartacus/core';
+import { User } from '@commerce-storefront-toolset/core';
 import {
   AsmUi,
   CustomerSearchOptions,

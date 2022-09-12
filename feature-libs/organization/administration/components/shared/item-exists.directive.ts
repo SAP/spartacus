@@ -5,7 +5,7 @@
  */
 
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ItemService } from './item.service';

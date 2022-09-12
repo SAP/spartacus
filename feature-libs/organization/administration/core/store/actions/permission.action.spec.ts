@@ -1,4 +1,4 @@
-import { OrderApprovalPermissionType, StateUtils } from '@spartacus/core';
+import { OrderApprovalPermissionType, StateUtils } from '@commerce-storefront-toolset/core';
 import { Permission } from '../../model/permission.model';
 import {
   PERMISSION_ENTITIES,

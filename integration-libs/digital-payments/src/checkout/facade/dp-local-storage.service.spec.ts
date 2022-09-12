@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DpLocalStorageService } from './dp-local-storage.service';
-import { StatePersistenceService } from '@spartacus/core';
+import { StatePersistenceService } from '@commerce-storefront-toolset/core';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 
 import createSpy = jasmine.createSpy;

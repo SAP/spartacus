@@ -5,8 +5,8 @@ import {
   GlobalMessageType,
   RoutingService,
   User,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { of } from 'rxjs';
 import { ApproverGuard } from './approver.guard';
 import createSpy = jasmine.createSpy;

@@ -12,9 +12,9 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
-} from '@spartacus/core';
-import { ORDER_FEATURE } from '@spartacus/order/root';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ORDER_FEATURE } from '@commerce-storefront-toolset/order/root';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries

@@ -6,12 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import {
   CmsPageGuard,
   HamburgerMenuModule,
   PageLayoutComponent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CpqConfiguratorLayoutModule } from './cpq-configurator-layout.module';
 import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-routing-config';
 

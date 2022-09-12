@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@commerce-storefront-toolset/storefront';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 /**

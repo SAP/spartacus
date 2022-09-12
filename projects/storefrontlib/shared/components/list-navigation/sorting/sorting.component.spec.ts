@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortingComponent } from './sorting.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 
 describe('SortingComponent', () => {
   let component: SortingComponent;

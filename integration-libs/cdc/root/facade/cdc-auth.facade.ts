@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AuthToken, facadeFactory } from '@spartacus/core';
+import { AuthToken, facadeFactory } from '@commerce-storefront-toolset/core';
 import { CDC_CORE_FEATURE } from '../feature-name';
 
 @Injectable({

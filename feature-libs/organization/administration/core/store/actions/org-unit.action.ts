@@ -11,7 +11,7 @@ import {
   ListModel,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import {
   ADDRESS_ENTITIES,

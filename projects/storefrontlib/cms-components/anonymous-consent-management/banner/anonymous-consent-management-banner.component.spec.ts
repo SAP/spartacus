@@ -4,8 +4,8 @@ import {
   AnonymousConsentsService,
   ConsentTemplate,
   I18nTestingModule,
-} from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 

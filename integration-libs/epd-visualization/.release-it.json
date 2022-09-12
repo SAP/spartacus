@@ -22,7 +22,7 @@
       "../../epdvisualizationspartacussampledata-visualizations.zip",
       "../../epdvisualizationspartacussampledata-visualizations.tar.gz"
     ],
-    "releaseName": "@spartacus/epd-visualization@${version}",
+    "releaseName": "@commerce-storefront-toolset/epd-visualization@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib epd-visualization --to epd-visualization-${version}"
   },
   "plugins": {
@@ -31,10 +31,10 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/styles",
-            "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/schematics"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/styles",
+            "peerDependencies.@commerce-storefront-toolset/storefront",
+            "peerDependencies.@commerce-storefront-toolset/schematics"
           ]
         }
       ]

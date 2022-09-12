@@ -6,9 +6,9 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { I18nModule } from '@spartacus/core';
-import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { CartOutlets } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { OutletPosition, provideOutlet } from '@commerce-storefront-toolset/storefront';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 

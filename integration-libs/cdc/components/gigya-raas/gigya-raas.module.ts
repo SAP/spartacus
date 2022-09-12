@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { LayoutConfig } from '@spartacus/storefront';
+import { CmsConfig, ConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
+import { LayoutConfig } from '@commerce-storefront-toolset/storefront';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
 @NgModule({

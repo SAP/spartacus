@@ -5,13 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 import { PRODUCT_VARIANTS_FEATURE } from './feature-name';
 import {
   ProductListOutlets,
   OutletPosition,
   provideOutlet,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ProductVariantStyleIconsComponent } from './components/variant-style-icons/product-variant-style-icons.component';
 import { ProductVariantStyleIconsModule } from './components/variant-style-icons/product-variant-style-icons.module';
 

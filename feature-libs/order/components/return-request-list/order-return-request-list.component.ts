@@ -5,11 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { isNotUndefined, TranslationService } from '@spartacus/core';
+import { isNotUndefined, TranslationService } from '@commerce-storefront-toolset/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 

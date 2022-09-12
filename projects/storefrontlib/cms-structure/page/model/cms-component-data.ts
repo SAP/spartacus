@@ -5,7 +5,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '@commerce-storefront-toolset/core';
 
 export abstract class CmsComponentData<T extends CmsComponent> {
   uid: string;

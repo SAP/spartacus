@@ -10,8 +10,8 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

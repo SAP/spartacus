@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { I18nModule, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 

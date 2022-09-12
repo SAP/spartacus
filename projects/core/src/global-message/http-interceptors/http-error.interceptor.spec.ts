@@ -10,7 +10,7 @@ import {
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpResponseStatus } from '../models/response-status.model';

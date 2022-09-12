@@ -1,8 +1,8 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import {
   CANCEL_RETURN_PROCESS_ID,
   RETURN_REQUESTS,

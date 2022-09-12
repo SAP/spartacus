@@ -12,13 +12,13 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import { RoutingService, TranslationService } from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 

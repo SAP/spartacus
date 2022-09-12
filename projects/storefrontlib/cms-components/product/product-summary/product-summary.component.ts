@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope } from '@spartacus/core';
+import { Product, ProductScope } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';

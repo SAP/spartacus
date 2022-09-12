@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { CartOutlets } from '@commerce-storefront-toolset/cart/base/root';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   AtMessageModule,
   IconModule,
@@ -20,7 +20,7 @@ import {
   OutletModule,
   PromotionsModule,
   provideOutlet,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CartItemListRowComponent } from './cart-item-list-row/cart-item-list-row.component';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemValidationWarningModule } from '../validation/cart-item-warning/cart-item-validation-warning.module';

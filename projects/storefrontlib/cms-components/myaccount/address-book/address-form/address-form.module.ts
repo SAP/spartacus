@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import { IconModule } from '../../../misc/icon/index';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';

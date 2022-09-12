@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { CartPageEvent } from '@spartacus/cart/base/root';
-import { createFrom, EventService } from '@spartacus/core';
-import { NavigationEvent } from '@spartacus/storefront';
+import { CartPageEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { createFrom, EventService } from '@commerce-storefront-toolset/core';
+import { NavigationEvent } from '@commerce-storefront-toolset/storefront';
 import { take } from 'rxjs/operators';
 import { CartPageEventBuilder } from './cart-page-event.builder';
 

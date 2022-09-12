@@ -14,9 +14,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslationService } from '@commerce-storefront-toolset/core';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';

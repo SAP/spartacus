@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, Currency, Language } from '@spartacus/core';
+import { Address, Currency, Language } from '@commerce-storefront-toolset/core';
 
-declare module '@spartacus/user/account/root' {
+declare module '@commerce-storefront-toolset/user/account/root' {
   export interface User {
     currency?: Currency;
     customerId?: string;

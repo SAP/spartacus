@@ -139,13 +139,13 @@ describe('Import utils', () => {
       const result = collectDynamicImports(cartFeatureModule);
       expect(result.length).toBe(3);
       expect(result[0].print()).toEqual(
-        `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)`
+        `() => import('@commerce-storefront-toolset/cart/base').then((m) => m.CartBaseModule)`
       );
       expect(result[1].print()).toEqual(
-        `() => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule)`
+        `() => import('@commerce-storefront-toolset/cart/base/components/mini-cart').then((m) => m.MiniCartModule)`
       );
       expect(result[2].print()).toEqual(
-        `() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`
+        `() => import('@commerce-storefront-toolset/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`
       );
     });
   });
@@ -160,7 +160,7 @@ describe('Import utils', () => {
 
       const dynamicImports = collectDynamicImports(cartFeatureModule);
       const result = getDynamicImportCallExpression(dynamicImports[0]);
-      expect(result?.print()).toEqual(`import('@spartacus/cart/base')`);
+      expect(result?.print()).toEqual(`import('@commerce-storefront-toolset/cart/base')`);
     });
   });
 
@@ -174,7 +174,7 @@ describe('Import utils', () => {
 
       const dynamicImports = collectDynamicImports(cartFeatureModule);
       const result = getDynamicImportImportPath(dynamicImports[0]);
-      expect(result).toEqual(`@spartacus/cart/base`);
+      expect(result).toEqual(`@commerce-storefront-toolset/cart/base`);
     });
   });
 
@@ -205,7 +205,7 @@ describe('Import utils', () => {
         namedImports: ['xxx'],
       });
       expect(results[0].print()).toEqual(
-        `import { xxx } from "@spartacus/core";`
+        `import { xxx } from "@commerce-storefront-toolset/core";`
       );
     });
   });
@@ -256,7 +256,7 @@ describe('Import utils', () => {
         namedImports: [CART_BASE_MODULE],
       });
       expect(result?.print()).toMatchInlineSnapshot(
-        `"() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)"`
+        `"() => import('@commerce-storefront-toolset/cart/base').then((m) => m.CartBaseModule)"`
       );
     });
     it('should return undefined if the import can not be found', () => {

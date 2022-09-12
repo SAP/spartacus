@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 import {

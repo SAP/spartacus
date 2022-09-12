@@ -5,13 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
-import {} from '@spartacus/product-configurator/rulebased/root';
+import { provideConfig } from '@commerce-storefront-toolset/core';
+import { configuratorTranslations } from '@commerce-storefront-toolset/product-configurator/common/assets';
+import {} from '@commerce-storefront-toolset/product-configurator/rulebased/root';
 import {
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   TextfieldConfiguratorRootModule,
-} from '@spartacus/product-configurator/textfield/root';
+} from '@commerce-storefront-toolset/product-configurator/textfield/root';
 
 @NgModule({
   imports: [TextfieldConfiguratorRootModule],
@@ -20,7 +20,7 @@ import {
       featureModules: {
         [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
           module: () =>
-            import('@spartacus/product-configurator/textfield').then(
+            import('@commerce-storefront-toolset/product-configurator/textfield').then(
               (m) => m.TextfieldConfiguratorModule
             ),
         },

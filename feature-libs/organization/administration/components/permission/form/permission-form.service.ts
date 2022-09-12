@@ -6,8 +6,8 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Permission } from '@spartacus/organization/administration/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { Permission } from '@commerce-storefront-toolset/organization/administration/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { FormService } from '../../shared/form/form.service';

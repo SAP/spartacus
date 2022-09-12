@@ -14,7 +14,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { AtMessageModule } from '../../../shared/components/assistive-technology-message/assistive-technology-message.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';

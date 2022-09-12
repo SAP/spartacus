@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { defaultOccConfig } from '@spartacus/core';
+import { defaultOccConfig } from '@commerce-storefront-toolset/core';
 import { SmartEditLauncherService } from '../services/smart-edit-launcher.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 

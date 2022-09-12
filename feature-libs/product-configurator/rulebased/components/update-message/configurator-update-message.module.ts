@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { Config, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { defaultConfiguratorMessageConfig } from '../config/default-configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';

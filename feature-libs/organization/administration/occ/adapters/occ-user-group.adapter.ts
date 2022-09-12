@@ -13,7 +13,7 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2B_USERS_NORMALIZER,
   Permission,
@@ -23,7 +23,7 @@ import {
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
   USER_GROUP_SERIALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

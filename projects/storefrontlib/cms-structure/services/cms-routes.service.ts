@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PageContext } from '@spartacus/core';
+import { PageContext } from '@commerce-storefront-toolset/core';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
 
 // Public injection token for the private implementation of the service `CmsRoutesImplService`.

@@ -39,7 +39,7 @@ const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} '
 <div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
 
 const COMPONENT_INHERITANCE_TEST_CLASS = `
-import { ConsentManagementFormComponent } from '@spartacus/core';
+import { ConsentManagementFormComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-consent-management-form',
@@ -53,7 +53,7 @@ export class Test extends ConsentManagementFormComponent {
 }
 `;
 const COMPONENT_INHERITANCE_EXPECTED_CLASS = `
-import { ConsentManagementFormComponent } from '@spartacus/core';
+import { ConsentManagementFormComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-consent-management-form',
@@ -69,7 +69,7 @@ export class Test extends ConsentManagementFormComponent {
 }
 `;
 const COMPONENT_INHERITANCE_INLINE_TEMPLATE_TEST_CLASS = `
-import { ConsentManagementFormComponent } from '@spartacus/core';
+import { ConsentManagementFormComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-consent-management-form',
@@ -82,7 +82,7 @@ export class Test extends ConsentManagementFormComponent {
 }
 `;
 const COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS = `
-import { ConsentManagementFormComponent } from '@spartacus/core';
+import { ConsentManagementFormComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-consent-management-form',
@@ -96,7 +96,7 @@ export class Test extends ConsentManagementFormComponent {
 }
 `;
 const PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS = `
-import { ProductImagesComponent } from '@spartacus/core';
+import { ProductImagesComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-product-images',
@@ -109,7 +109,7 @@ export class Test extends ProductImagesComponent {
 }
 `;
 const PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS = `
-import { ProductImagesComponent } from '@spartacus/core';
+import { ProductImagesComponent } from '@commerce-storefront-toolset/core';
 import { Component } from '@angular/core';
 @Component({
   selector: 'cx-product-images',
@@ -124,7 +124,7 @@ export class Test extends ProductImagesComponent {
 `;
 const TS_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE = `
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ProductFacetNavigationComponent } from '@spartacus/storefront';
+import { ProductFacetNavigationComponent } from '@commerce-storefront-toolset/storefront';
 @Component({
   selector: 'my-product-facet-navigation',
   templateUrl: './test.html',

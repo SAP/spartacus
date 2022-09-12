@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
+import { DIALOG_TYPE, LayoutConfig } from '@commerce-storefront-toolset/storefront';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog/product-image-zoom-dialog.component';
 
 export const defaultProductImageZoomLayoutConfig: LayoutConfig = {

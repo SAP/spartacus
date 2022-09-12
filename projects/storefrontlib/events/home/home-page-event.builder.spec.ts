@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { createFrom, EventService } from '@spartacus/core';
+import { createFrom, EventService } from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
 import { HomePageEventBuilder } from './home-page-event.builder';

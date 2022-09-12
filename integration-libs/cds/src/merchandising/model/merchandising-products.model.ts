@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import { MerchandisingMetadata } from './merchandising-metadata.model';
 
 export interface MerchandisingProduct extends Product {

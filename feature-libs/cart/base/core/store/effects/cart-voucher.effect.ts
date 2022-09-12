@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';

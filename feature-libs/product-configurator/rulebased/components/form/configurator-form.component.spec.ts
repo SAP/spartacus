@@ -7,14 +7,14 @@ import {
   I18nTestingModule,
   LanguageService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@commerce-storefront-toolset/product-configurator/rulebased';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

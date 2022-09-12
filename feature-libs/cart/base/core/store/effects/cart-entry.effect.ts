@@ -6,12 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
 import {
   normalizeHttpError,
   SiteContextActions,
   withdrawOn,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';

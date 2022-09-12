@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig } from '@spartacus/core';
-import { AdminGuard } from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
-import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
+import { AuthGuard, CmsConfig } from '@commerce-storefront-toolset/core';
+import { AdminGuard } from '@commerce-storefront-toolset/organization/administration/core';
+import { ROUTE_PARAMS } from '@commerce-storefront-toolset/organization/administration/root';
+import { BREAKPOINT, TableConfig, TableLayout } from '@commerce-storefront-toolset/storefront';
 import { MAX_OCC_INTEGER_VALUE } from '../constants';
 import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
 import { ItemService } from '../shared/item.service';

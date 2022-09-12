@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PersonalizationCoreModule } from '@spartacus/tracking/personalization/core';
+import { PersonalizationCoreModule } from '@commerce-storefront-toolset/tracking/personalization/core';
 
 @NgModule({
   imports: [PersonalizationCoreModule],

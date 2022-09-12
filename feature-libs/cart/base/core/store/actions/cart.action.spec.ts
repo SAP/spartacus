@@ -1,5 +1,5 @@
-import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import * as CartActions from './cart.action';
 

@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PageMetaResolver } from '@spartacus/core';
+import { PageMetaResolver } from '@commerce-storefront-toolset/core';
 import { CheckoutDeliveryAddressConnector } from './connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryModesConnector } from './connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutPaymentConnector } from './connectors/checkout-payment/checkout-payment.connector';

@@ -11,7 +11,7 @@ import {
   FeaturesConfig,
   I18nModule,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { SaveForLaterComponent } from './save-for-later.component';
 

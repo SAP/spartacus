@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/setup",
+  "name": "@commerce-storefront-toolset/setup",
   "version": "4.1.0-next.0",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "keywords": [
@@ -17,10 +17,10 @@
   },
   "peerDependencies": {
     "@angular/core": "^13.3.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/user": "4.1.0-next.0"
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0"
   },
   "optionalDependencies": {
     "@nguniversal/express-engine": "^13.1.1",

@@ -11,8 +11,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
 import { filter, map, pluck } from 'rxjs/operators';
 

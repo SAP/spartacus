@@ -9,7 +9,7 @@ import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-consent-management-form',

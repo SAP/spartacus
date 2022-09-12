@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter } from '@commerce-storefront-toolset/core';
 import { NodesResponse } from './nodes-response';
 
 export const NODES_RESPONSE_NORMALIZER = new InjectionToken<

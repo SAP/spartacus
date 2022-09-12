@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CheckoutState } from '@spartacus/checkout/base/root';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutAdapter } from './checkout.adapter';
 

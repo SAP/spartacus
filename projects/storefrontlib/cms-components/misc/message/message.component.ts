@@ -5,7 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType } from '@commerce-storefront-toolset/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 @Component({
   selector: 'cx-message',

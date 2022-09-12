@@ -6,17 +6,17 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, normalizeHttpError } from '@spartacus/core';
+import { ConverterService, normalizeHttpError } from '@commerce-storefront-toolset/core';
 import {
   NodesResponse,
   NODES_RESPONSE_NORMALIZER,
   SceneAdapter,
-} from '@spartacus/epd-visualization/core';
+} from '@commerce-storefront-toolset/epd-visualization/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
   VisualizationApiConfig,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

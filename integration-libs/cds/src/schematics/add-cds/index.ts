@@ -19,7 +19,7 @@ import {
   readPackageJson,
   SpartacusCdsOptions,
   validateSpartacusInstallation,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import { peerDependencies } from '../../../package.json';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {

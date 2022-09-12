@@ -9,14 +9,14 @@ import { RouterModule } from '@angular/router';
 import {
   CART_BASE_FEATURE,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 import {

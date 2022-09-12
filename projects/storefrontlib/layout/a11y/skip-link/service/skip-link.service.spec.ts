@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { KeyboardFocusService } from '../../keyboard-focus';
 import {

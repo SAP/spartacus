@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
+import { DEFAULT_SCOPE, ProductLoadingService } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';

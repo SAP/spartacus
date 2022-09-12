@@ -5,12 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
+import { CART_BASE_FEATURE } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CheckoutEventModule } from './events/checkout-event.module';

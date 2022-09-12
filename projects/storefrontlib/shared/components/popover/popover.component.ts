@@ -19,7 +19,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';

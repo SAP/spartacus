@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TmsCollectorConfig, TmsConfig } from '@spartacus/tracking/tms/core';
+import { TmsCollectorConfig, TmsConfig } from '@commerce-storefront-toolset/tracking/tms/core';
 import { GtmCollectorService } from '../services/gtm-collector.service';
 
 export interface GtmCollectorConfig extends TmsCollectorConfig {
   gtmId?: string;
 }
 
-declare module '@spartacus/tracking/tms/core' {
+declare module '@commerce-storefront-toolset/tracking/tms/core' {
   interface TmsCollectors {
     gtm?: GtmCollectorConfig;
   }

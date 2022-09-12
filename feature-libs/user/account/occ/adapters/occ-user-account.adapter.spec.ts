@@ -9,9 +9,9 @@ import {
   DynamicAttributes,
   OccConfig,
   OccEndpointsService,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { USER_ACCOUNT_NORMALIZER } from '@spartacus/user/account/core';
+} from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
+import { USER_ACCOUNT_NORMALIZER } from '@commerce-storefront-toolset/user/account/core';
 import { OccUserAccountAdapter } from './occ-user-account.adapter';
 
 export const mockOccModuleConfig: OccConfig = {

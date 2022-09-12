@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 

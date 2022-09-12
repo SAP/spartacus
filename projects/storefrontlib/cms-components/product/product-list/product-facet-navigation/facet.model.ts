@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Breadcrumb, Facet } from '@spartacus/core';
+import { Breadcrumb, Facet } from '@commerce-storefront-toolset/core';
 
 /**
  * UI model that holds the full list of facet and active facets for

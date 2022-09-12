@@ -14,8 +14,8 @@ import {
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 

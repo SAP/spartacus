@@ -19,7 +19,7 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
@@ -29,7 +29,7 @@ import {
   B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
   OrgUnitAdapter,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

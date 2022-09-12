@@ -6,13 +6,13 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
+import { ORDER_ENTRIES_CONTEXT } from '@commerce-storefront-toolset/cart/base/root';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
-} from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import { defaultQuickOrderConfig } from './config/default-quick-order.config';
 import {
   CART_QUICK_ORDER_CORE_FEATURE,

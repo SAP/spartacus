@@ -18,7 +18,7 @@ import {
   ProductService,
   SemanticPathService,
   VariantOption,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 /**

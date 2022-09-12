@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
+import { Product, ProductReviewService, Review } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { JsonLdProductReviewBuilder } from './jsonld-product-review.builder';
 

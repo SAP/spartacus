@@ -3,14 +3,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_VALIDATION_NORMALIZER } from '@spartacus/cart/base/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
+import { CART_VALIDATION_NORMALIZER } from '@commerce-storefront-toolset/cart/base/core';
+import { CartModificationList } from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OccCartValidationAdapter } from './occ-cart-validation.adapter';
 
 const mockUserId = 'userId';

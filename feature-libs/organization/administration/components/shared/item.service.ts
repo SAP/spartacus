@@ -6,9 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
-import { FormUtils } from '@spartacus/storefront';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { OrganizationItemStatus } from '@commerce-storefront-toolset/organization/administration/core';
+import { FormUtils } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Address } from '@spartacus/core';
+import { Address } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryAddressAdapter } from './checkout-delivery-address.adapter';
 

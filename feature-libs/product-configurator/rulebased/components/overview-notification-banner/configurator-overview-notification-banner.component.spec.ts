@@ -7,7 +7,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

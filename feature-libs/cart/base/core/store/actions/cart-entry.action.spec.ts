@@ -1,5 +1,5 @@
-import { CartModification } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 

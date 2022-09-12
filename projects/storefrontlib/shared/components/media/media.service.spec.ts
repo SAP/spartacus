@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Config, Image } from '@spartacus/core';
+import { Config, Image } from '@commerce-storefront-toolset/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';

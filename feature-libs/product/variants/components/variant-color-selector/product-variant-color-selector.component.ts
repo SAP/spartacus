@@ -11,7 +11,7 @@ import {
   RoutingService,
   VariantOptionQualifier,
   VariantQualifier,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-product-variant-color-selector',

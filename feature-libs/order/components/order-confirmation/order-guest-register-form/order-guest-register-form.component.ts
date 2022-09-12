@@ -6,9 +6,9 @@
 
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, RoutingService } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { AuthService, RoutingService } from '@commerce-storefront-toolset/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
+import { UserRegisterFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { Subscription } from 'rxjs';
 
 @Component({

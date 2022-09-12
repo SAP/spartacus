@@ -10,14 +10,14 @@ import {
   Product,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { IconLoaderService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { IconLoaderService } from '@commerce-storefront-toolset/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

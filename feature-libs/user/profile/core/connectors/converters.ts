@@ -5,9 +5,9 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+import { Converter } from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
+import { Title, UserSignUp } from '@commerce-storefront-toolset/user/profile/root';
 
 export const USER_PROFILE_NORMALIZER = new InjectionToken<Converter<User, any>>(
   'UserProfileNormalizer'

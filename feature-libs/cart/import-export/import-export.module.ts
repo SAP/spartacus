@@ -9,8 +9,8 @@ import {
   ExportOrderEntriesModule,
   ImportExportOrderEntriesModule,
   ImportOrderEntriesModule,
-} from '@spartacus/cart/import-export/components';
-import { ImportExportCoreModule } from '@spartacus/cart/import-export/core';
+} from '@commerce-storefront-toolset/cart/import-export/components';
+import { ImportExportCoreModule } from '@commerce-storefront-toolset/cart/import-export/core';
 
 @NgModule({
   imports: [

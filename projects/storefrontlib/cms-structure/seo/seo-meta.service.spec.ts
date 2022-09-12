@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
+import { PageMeta, PageMetaService, PageRobotsMeta } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { PageMetaLinkService } from './page-meta-link.service';
 import { SeoMetaService } from './seo-meta.service';

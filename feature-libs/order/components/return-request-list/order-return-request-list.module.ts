@@ -13,8 +13,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ListNavigationModule } from '@commerce-storefront-toolset/storefront';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 @NgModule({

@@ -5,10 +5,10 @@
  */
 
 import { NgModule, Type } from '@angular/core';
-import { CheckoutB2BModule } from '@spartacus/checkout/b2b';
-import { CheckoutModule } from '@spartacus/checkout/base';
-import { CheckoutScheduledReplenishmentModule } from '@spartacus/checkout/scheduled-replenishment';
-import { DigitalPaymentsModule } from '@spartacus/digital-payments';
+import { CheckoutB2BModule } from '@commerce-storefront-toolset/checkout/b2b';
+import { CheckoutModule } from '@commerce-storefront-toolset/checkout/base';
+import { CheckoutScheduledReplenishmentModule } from '@commerce-storefront-toolset/checkout/scheduled-replenishment';
+import { DigitalPaymentsModule } from '@commerce-storefront-toolset/digital-payments';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];

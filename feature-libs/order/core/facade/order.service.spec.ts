@@ -1,11 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
-import { Order, OrderPlacedEvent } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';

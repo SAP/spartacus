@@ -10,12 +10,12 @@ import {
   ActiveCartFacade,
   CartValidationFacade,
   CartValidationStatusCode,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { CartConfigService } from '../services/cart-config.service';

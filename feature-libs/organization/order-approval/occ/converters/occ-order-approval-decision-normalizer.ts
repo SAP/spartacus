@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, Occ } from '@spartacus/core';
+import { Converter, Occ } from '@commerce-storefront-toolset/core';
 import { OrderApprovalDecision } from '../../core/model/order-approval.model';
 
 @Injectable({

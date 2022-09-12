@@ -12,7 +12,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Applicable, CmsComponentMapping, Priority } from '@spartacus/core';
+import { Applicable, CmsComponentMapping, Priority } from '@commerce-storefront-toolset/core';
 
 /**
  * ComponentHandler implementations can be used for instantiating and launching

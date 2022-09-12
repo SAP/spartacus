@@ -5,7 +5,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';

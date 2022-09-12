@@ -5,7 +5,7 @@
  */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CurrentProductService } from '../../../../../cms-components/product/current-product.service';

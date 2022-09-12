@@ -11,7 +11,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 @NgModule({

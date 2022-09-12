@@ -7,8 +7,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DisableInfoComponent } from './disable-info.component';
-import { IconModule } from '@spartacus/storefront';
-import { I18nModule } from '@spartacus/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CommonModule, IconModule, I18nModule],

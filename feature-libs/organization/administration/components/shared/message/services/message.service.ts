@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType } from '@commerce-storefront-toolset/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { MessageData, MessageEventData } from '../message.model';
 

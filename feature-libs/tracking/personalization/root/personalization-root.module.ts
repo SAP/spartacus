@@ -9,7 +9,7 @@ import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultPersonalizationConfig } from './config/default-personalization-config';
 import { PERSONALIZATION_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';

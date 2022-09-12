@@ -2,9 +2,9 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
 

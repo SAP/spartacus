@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SearchConfig, OrderApprovalPermissionType } from '@spartacus/core';
+import { SearchConfig, OrderApprovalPermissionType } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';

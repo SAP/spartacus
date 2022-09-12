@@ -10,7 +10,7 @@ import {
   ServiceWorkerModule,
   SwRegistrationOptions,
 } from '@angular/service-worker';
-import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { Config, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { AddToHomeScreenBannerComponent } from './components/add-to-home-screen-banner/add-to-home-screen-banner.component';
 import { AddToHomeScreenBtnComponent } from './components/add-to-home-screen-btn/add-to-home-screen-btn.component';
 import { defaultPWAModuleConfig, PWAModuleConfig } from './pwa.module-config';

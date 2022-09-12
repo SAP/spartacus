@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, COST_CENTERS_NORMALIZER } from '@spartacus/core';
+import { ConverterService, COST_CENTERS_NORMALIZER } from '@commerce-storefront-toolset/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 

@@ -13,7 +13,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { Image, ImageGroup } from '@spartacus/core';
+import { Image, ImageGroup } from '@commerce-storefront-toolset/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 

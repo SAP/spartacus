@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   Budget,
   BudgetService,
   LoadStatus,
   OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';

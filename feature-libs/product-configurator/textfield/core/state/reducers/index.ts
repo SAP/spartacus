@@ -6,7 +6,7 @@
 
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import {
   ConfigurationTextfieldState,

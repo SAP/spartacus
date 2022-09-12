@@ -1,4 +1,4 @@
-import { B2BUser, StateUtils } from '@spartacus/core';
+import { B2BUser, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   B2B_USER_APPROVERS,
   B2B_USER_ENTITIES,

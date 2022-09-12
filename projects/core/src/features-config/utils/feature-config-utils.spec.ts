@@ -2,7 +2,7 @@ import {
   FeaturesConfig,
   isFeatureEnabled,
   isFeatureLevel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 describe('Feature Config Utils', () => {
   describe('isFeatureLevel', () => {

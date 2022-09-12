@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
-import { BudgetService } from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { BudgetService } from '@commerce-storefront-toolset/organization/administration/core';
+import { ROUTE_PARAMS } from '@commerce-storefront-toolset/organization/administration/root';
 import { of, Subject } from 'rxjs';
 import { CurrentBudgetService } from './current-budget.service';
 

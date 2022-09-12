@@ -10,7 +10,7 @@ import {
   DEFAULT_URL_MATCHER,
   UrlMatcherFactory,
   UrlMatcherService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 export function getProductListingUrlMatcherFactory(

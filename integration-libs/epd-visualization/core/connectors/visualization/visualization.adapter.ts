@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { UsageId } from '@spartacus/epd-visualization/root';
+import { UsageId } from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable } from 'rxjs';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 

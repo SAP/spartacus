@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { DpPaymentRequest } from '../models';
 

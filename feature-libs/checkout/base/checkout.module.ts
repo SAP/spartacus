@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CheckoutComponentsModule } from '@spartacus/checkout/base/components';
-import { CheckoutCoreModule } from '@spartacus/checkout/base/core';
-import { CheckoutOccModule } from '@spartacus/checkout/base/occ';
+import { CheckoutComponentsModule } from '@commerce-storefront-toolset/checkout/base/components';
+import { CheckoutCoreModule } from '@commerce-storefront-toolset/checkout/base/core';
+import { CheckoutOccModule } from '@commerce-storefront-toolset/checkout/base/occ';
 
 @NgModule({
   imports: [CheckoutComponentsModule, CheckoutCoreModule, CheckoutOccModule],

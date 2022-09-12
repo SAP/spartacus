@@ -235,7 +235,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: ASM_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/asm'.`,
+    comment: `'${ASM_MODULE}' was moved to @commerce-storefront-toolset/asm/core. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @commerce-storefront-toolset/asm'.`,
   },
   {
     node: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
@@ -256,77 +256,77 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: SMART_EDIT_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/smartedit'.`,
+    comment: `'${SMART_EDIT_MODULE}' was removed. Use @commerce-storefront-toolset/smartedit instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @commerce-storefront-toolset/smartedit'.`,
   },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking --features=Personalization'.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @commerce-storefront-toolset/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @commerce-storefront-toolset/tracking --features=Personalization'.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/product-variants.module.ts
   {
     node: PRODUCT_VARIANTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product --features=Product-Variants'.`,
+    comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @commerce-storefront-toolset/storefront. Use @commerce-storefront-toolset/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @commerce-storefront-toolset/product --features=Product-Variants'.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/product-variants.component.ts
   {
     node: PRODUCT_VARIANT_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANT_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantsContainerComponent from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${PRODUCT_VARIANT_COMPONENT}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantsContainerComponent from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-color-selector/variant-color-selector.component.ts
   {
     node: VARIANT_COLOR_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_COLOR_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantColorSelectorComponent from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_COLOR_SELECTOR_COMPONENT}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantColorSelectorComponent from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-color-selector/variant-color-selector.module.ts
   {
     node: VARIANT_COLOR_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_COLOR_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantColorSelectorModule from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_COLOR_SELECTOR_MODULE}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantColorSelectorModule from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-size-selector/variant-size-selector.component.ts
   {
     node: VARIANT_SIZE_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_SIZE_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantSizeSelectorComponent from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_SIZE_SELECTOR_COMPONENT}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantSizeSelectorComponent from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-size-selector/variant-size-selector.module.ts
   {
     node: VARIANT_SIZE_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_SIZE_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantSizeSelectorModule from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_SIZE_SELECTOR_MODULE}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantSizeSelectorModule from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-style-selector/variant-style-selector.component.ts
   {
     node: VARIANT_STYLE_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantStyleSelectorComponent from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantStyleSelectorComponent from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/variant-style-selector/variant-style-selector.module.ts
   {
     node: VARIANT_STYLE_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${VARIANT_STYLE_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantStyleSelectorModule from @spartacus/product/variants/components as a replacement.`,
+    comment: `'${VARIANT_STYLE_SELECTOR_MODULE}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantStyleSelectorModule from @commerce-storefront-toolset/product/variants/components as a replacement.`,
   },
   // projects/storefrontlib/cms-components/product/product-variants/guards/product-variant.guard.ts
   {
     node: PRODUCT_VARIANT_GUARD,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANT_GUARD}' was removed from @spartacus/storefront. Use ProductVariantsGuard from @spartacus/product/variants/components instead. Additionally method: findVariant was renamed to findPurchasableProductCode.`,
+    comment: `'${PRODUCT_VARIANT_GUARD}' was removed from @commerce-storefront-toolset/storefront. Use ProductVariantsGuard from @commerce-storefront-toolset/product/variants/components instead. Additionally method: findVariant was renamed to findPurchasableProductCode.`,
   },
   {
     node: PRODUCT_VARIANT_STYLE_ICONS_MODULE,
     importPath: SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
-    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_MODULE}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @spartacus/product/variants/root instead.`,
+    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_MODULE}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @commerce-storefront-toolset/product/variants/root instead.`,
   },
   {
     node: PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
     importPath: SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
-    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_COMPONENT}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @spartacus/product/variants/root instead.`,
+    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_COMPONENT}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @commerce-storefront-toolset/product/variants/root instead.`,
   },
   {
     node: DEFAULT_STATE_CONFIG,
@@ -559,7 +559,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: USER_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/user'.`,
+    comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @commerce-storefront-toolset/user'.`,
   },
   // projects/storefrontlib/shared/components/table/table.model.ts
   {

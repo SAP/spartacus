@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OrderFacade } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 import createSpy = jasmine.createSpy;

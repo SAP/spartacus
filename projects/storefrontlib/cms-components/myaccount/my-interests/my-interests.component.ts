@@ -22,7 +22,7 @@ import {
   ProductService,
   TranslationService,
   UserInterestsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

@@ -12,7 +12,7 @@ import {
   PageType,
   ProductSearchPage,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map, pluck, switchMap } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';

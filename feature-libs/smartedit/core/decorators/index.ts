@@ -5,7 +5,7 @@
  */
 
 import { Provider } from '@angular/core';
-import { ComponentDecorator, SlotDecorator } from '@spartacus/core';
+import { ComponentDecorator, SlotDecorator } from '@commerce-storefront-toolset/core';
 import { SmartEditComponentDecorator } from './smart-edit-component-decorator';
 import { SmartEditSlotDecorator } from './smart-edit-slot-decorator';
 

@@ -12,14 +12,14 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/asm/core';
+} from '@commerce-storefront-toolset/asm/core';
 import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

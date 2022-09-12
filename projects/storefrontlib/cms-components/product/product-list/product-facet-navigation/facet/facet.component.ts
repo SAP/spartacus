@@ -15,7 +15,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { Facet, FacetValue } from '@spartacus/core';
+import { Facet, FacetValue } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';

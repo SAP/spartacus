@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils } from '@commerce-storefront-toolset/core';
 import { Budget } from '../../model/budget.model';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 

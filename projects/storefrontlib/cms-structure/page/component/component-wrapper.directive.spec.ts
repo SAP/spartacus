@@ -21,14 +21,14 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
   EventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
   ComponentEvent,
   ComponentHandler,
   PageComponentModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';

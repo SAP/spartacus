@@ -5,7 +5,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-store-finder-pagination-details',

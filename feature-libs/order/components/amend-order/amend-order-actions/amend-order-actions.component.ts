@@ -10,7 +10,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({

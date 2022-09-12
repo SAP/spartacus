@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { BehaviorSubject } from 'rxjs';
 import { TREE_TOGGLE } from './unit-tree.model';
 

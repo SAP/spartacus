@@ -5,8 +5,8 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Converter } from '@commerce-storefront-toolset/core';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 
 export const CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER = new InjectionToken<

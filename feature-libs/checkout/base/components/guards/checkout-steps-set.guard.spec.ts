@@ -6,8 +6,8 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { RouteConfig, RoutingConfigService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { RouteConfig, RoutingConfigService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';

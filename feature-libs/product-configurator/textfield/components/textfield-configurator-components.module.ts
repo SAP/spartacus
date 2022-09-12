@@ -14,7 +14,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldFormComponent } from './form/configurator-textfield-form.component';
 import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configurator-textfield-input-field.component';

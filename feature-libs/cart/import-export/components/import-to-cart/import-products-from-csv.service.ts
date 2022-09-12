@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProductData } from '@spartacus/cart/base/root';
+import { ProductData } from '@commerce-storefront-toolset/cart/base/root';
 
 @Injectable({
   providedIn: 'root',

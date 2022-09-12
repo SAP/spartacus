@@ -5,11 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
 import {
   OutletContextData,
   TableDataOutletContext,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';

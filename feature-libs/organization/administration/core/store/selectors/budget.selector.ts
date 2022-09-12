@@ -5,7 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { EntitiesModel, SearchConfig, StateUtils } from '@commerce-storefront-toolset/core';
 import { Budget } from '../../model/budget.model';
 import {
   BUDGET_FEATURE,

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { CmsService } from '@commerce-storefront-toolset/core';
 import { defer, EMPTY, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';

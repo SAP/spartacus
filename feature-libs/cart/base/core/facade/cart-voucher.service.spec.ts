@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { CartActions } from '../store/actions/index';

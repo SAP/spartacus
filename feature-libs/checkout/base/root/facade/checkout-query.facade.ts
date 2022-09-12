@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import { facadeFactory, QueryState } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 import { CheckoutState } from '../model/checkout-state.model';

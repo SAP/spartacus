@@ -11,17 +11,17 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { TranslationService } from '@commerce-storefront-toolset/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

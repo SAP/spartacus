@@ -6,15 +6,15 @@ import {
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   Translatable,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 

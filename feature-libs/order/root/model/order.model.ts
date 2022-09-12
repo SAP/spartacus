@@ -13,7 +13,7 @@ import {
   PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   Address,
   B2BUser,
@@ -23,7 +23,7 @@ import {
   Price,
   Principal,
   SortModel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;

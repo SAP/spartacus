@@ -3,8 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
 import { OccConfiguratorCpqAddToCartSerializer } from './occ-configurator-cpq-add-to-cart-serializer';
 

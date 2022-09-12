@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   EMAIL_PATTERN,
   ErrorModel,
   OCC_USER_ID_ANONYMOUS,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 /**
  * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.

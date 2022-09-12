@@ -5,7 +5,7 @@
  */
 
 import { UserAccountService } from './user-account.service';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Provider } from '@angular/core';
 
 export const facadeProviders: Provider[] = [

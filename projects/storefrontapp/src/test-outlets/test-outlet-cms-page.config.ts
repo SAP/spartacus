@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsStructureConfig, ContentSlotComponentData } from '@spartacus/core';
+import { CmsStructureConfig, ContentSlotComponentData } from '@commerce-storefront-toolset/core';
 
 export const paragraphComponents: {
   [key: string]: ContentSlotComponentData | any;

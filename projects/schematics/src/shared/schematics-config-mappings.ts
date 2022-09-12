@@ -117,7 +117,7 @@ export const {
    *
    * {
    * ...,
-   *  '@spartacus/checkout': ['Checkout', 'Checkout-B2B', 'Checkout-Scheduled-Replenishment'],
+   *  '@commerce-storefront-toolset/checkout': ['Checkout', 'Checkout-B2B', 'Checkout-Scheduled-Replenishment'],
    * ...
    * }
    */

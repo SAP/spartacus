@@ -10,13 +10,13 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
 import {
   ICON_TYPE,
   Table,
   TableStructure,
   TrapFocus,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';

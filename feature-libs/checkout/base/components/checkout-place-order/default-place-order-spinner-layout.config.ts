@@ -8,7 +8,7 @@ import {
   DIALOG_TYPE,
   LayoutConfig,
   SpinnerComponent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 export const defaultPlaceOrderSpinnerLayoutConfig: LayoutConfig = {
   launch: {

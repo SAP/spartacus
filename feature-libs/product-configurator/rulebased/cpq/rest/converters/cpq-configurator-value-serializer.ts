@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Converter } from '@commerce-storefront-toolset/core';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorUtils } from './../cpq-configurator-utils';
 

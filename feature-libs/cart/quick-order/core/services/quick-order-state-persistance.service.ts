@@ -5,14 +5,14 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 
 @Injectable({

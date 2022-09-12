@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, Occ, TimeUtils } from '@spartacus/core';
-import { ScheduleReplenishmentForm } from '@spartacus/order/root';
+import { Converter, Occ, TimeUtils } from '@commerce-storefront-toolset/core';
+import { ScheduleReplenishmentForm } from '@commerce-storefront-toolset/order/root';
 
 @Injectable({
   providedIn: 'root',

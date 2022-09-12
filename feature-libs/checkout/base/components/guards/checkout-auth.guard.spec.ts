@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
   GlobalMessageService,
   SemanticPathService,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';

@@ -8,8 +8,8 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   provideDefaultConfig,
   RoutingModule as CoreRoutingModule,
-} from '@spartacus/core';
-import { CmsRouteModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsRouteModule } from '@commerce-storefront-toolset/storefront';
 import { defaultRulebasedRoutingConfig } from './default-rulebased-routing-config';
 
 /**

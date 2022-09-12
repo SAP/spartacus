@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfigModule } from '@spartacus/core';
+import { FeaturesConfigModule } from '@commerce-storefront-toolset/core';
 import { JsonLdDirective } from './json-ld.directive';
 
 @Component({ selector: 'cx-test-cmp', template: '' })

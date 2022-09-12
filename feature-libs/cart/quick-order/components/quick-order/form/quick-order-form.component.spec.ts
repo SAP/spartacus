@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   QuickOrderFacade,
   QuickOrderConfig,
-} from '@spartacus/cart/quick-order/root';
+} from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -11,10 +11,10 @@ import {
   Product,
   Translatable,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 

@@ -5,14 +5,14 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { LoadCartEvent } from '@spartacus/cart/base/root';
+import { LoadCartEvent } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CurrencySetEvent,
   EventService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutDeliveryModeClearedErrorEvent,

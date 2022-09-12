@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RoutesConfig, RoutingConfig } from '@spartacus/core';
+import { RoutesConfig, RoutingConfig } from '@commerce-storefront-toolset/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },

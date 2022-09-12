@@ -5,8 +5,8 @@
  */
 
 // We need these imports for augmentation of OccEndpoints to be picked up
-import { CheckoutOccEndpoints } from '@spartacus/checkout/base/occ';
-import { OccConfig } from '@spartacus/core';
+import { CheckoutOccEndpoints } from '@commerce-storefront-toolset/checkout/base/occ';
+import { OccConfig } from '@commerce-storefront-toolset/core';
 
 const defaultB2bCheckoutDetailsOccEndpoint: CheckoutOccEndpoints = {
   getCheckoutDetails:

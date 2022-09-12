@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
-} from '@spartacus/organization/administration/assets';
+} from '@commerce-storefront-toolset/organization/administration/assets';
 import {
   AdministrationRootModule,
   ORGANIZATION_ADMINISTRATION_FEATURE,
-} from '@spartacus/organization/administration/root';
+} from '@commerce-storefront-toolset/organization/administration/root';
 
 @NgModule({
   declarations: [],
@@ -23,7 +23,7 @@ import {
       featureModules: {
         [ORGANIZATION_ADMINISTRATION_FEATURE]: {
           module: () =>
-            import('@spartacus/organization/administration').then(
+            import('@commerce-storefront-toolset/organization/administration').then(
               (m) => m.AdministrationModule
             ),
         },

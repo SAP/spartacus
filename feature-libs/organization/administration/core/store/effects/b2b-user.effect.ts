@@ -18,8 +18,8 @@ import {
   StateUtils,
   User,
   UserIdService,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,

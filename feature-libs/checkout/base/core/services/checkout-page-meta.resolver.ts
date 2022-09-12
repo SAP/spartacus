@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   PageHeadingResolver,
   BasePageMetaResolver,
@@ -16,7 +16,7 @@ import {
   PageTitleResolver,
   PageType,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 /**

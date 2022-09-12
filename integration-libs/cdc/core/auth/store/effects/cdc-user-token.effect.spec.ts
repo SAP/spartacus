@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AuthToken, GlobalMessageService } from '@spartacus/core';
+import { AuthToken, GlobalMessageService } from '@commerce-storefront-toolset/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CdcAuthService } from '../../facade/cdc-auth.service';

@@ -5,7 +5,7 @@
  */
 
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

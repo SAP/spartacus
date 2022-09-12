@@ -5,7 +5,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageComponent } from './global-message.component';
 import createSpy = jasmine.createSpy;

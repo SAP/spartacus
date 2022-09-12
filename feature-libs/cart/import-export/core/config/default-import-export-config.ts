@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderEntriesSource } from '@spartacus/cart/base/root';
+import { OrderEntriesSource } from '@commerce-storefront-toolset/cart/base/root';
 import { CartNameSource } from '../model/import-entries.config';
 import { ImportExportConfig } from './import-export-config';
 

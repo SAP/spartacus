@@ -10,7 +10,7 @@ import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
   UnifiedInjector,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';

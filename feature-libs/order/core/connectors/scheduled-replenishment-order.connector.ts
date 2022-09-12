@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { ScheduledReplenishmentOrderAdapter } from './scheduled-replenishment-order.adapter';
 

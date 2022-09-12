@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CartValidationFacade } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CartValidationFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { map } from 'rxjs/operators';
 
 @Component({

@@ -19,7 +19,7 @@ import {
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   validateSpartacusInstallation,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import { peerDependencies } from '../../package.json';
 
 export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {

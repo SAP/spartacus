@@ -12,9 +12,9 @@ import {
   HttpErrorModel,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

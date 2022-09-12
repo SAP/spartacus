@@ -13,11 +13,11 @@ import {
   normalizeHttpError,
   OccConfig,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrganizationActions,
   OrgUnitConnector,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';

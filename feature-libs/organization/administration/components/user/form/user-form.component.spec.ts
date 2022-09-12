@@ -7,14 +7,14 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { B2BUserRole, I18nTestingModule, Title } from '@spartacus/core';
+import { B2BUserRole, I18nTestingModule, Title } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { FormErrorsComponent } from '@commerce-storefront-toolset/storefront';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';

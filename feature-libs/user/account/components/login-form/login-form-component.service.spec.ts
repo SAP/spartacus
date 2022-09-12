@@ -6,8 +6,8 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   WindowRef,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import createSpy = jasmine.createSpy;

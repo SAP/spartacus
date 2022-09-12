@@ -10,12 +10,12 @@ import {
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccScheduledReplenishmentOrderAdapter } from './occ-scheduled-replenishment-order.adapter';

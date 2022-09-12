@@ -9,8 +9,8 @@ import {
   OrderEntriesContext,
   OrderEntry,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
-import { ContextService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ContextService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';

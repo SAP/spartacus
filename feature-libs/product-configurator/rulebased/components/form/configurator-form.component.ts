@@ -5,11 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService } from '@commerce-storefront-toolset/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

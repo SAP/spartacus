@@ -9,7 +9,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
   TableFieldOptions,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-org-cell',

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorActions } from '../actions/configurator-textfield.action';
 import { ConfiguratorTextfieldActions } from '../actions/index';

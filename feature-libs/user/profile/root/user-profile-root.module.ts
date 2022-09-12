@@ -9,7 +9,7 @@ import {
   CmsConfig,
   provideDefaultConfigFactory,
   UserProfileFacadeTransitionalToken,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { UserProfileFacade } from './facade/user-profile.facade';
 import {
   USER_PROFILE_CORE_FEATURE,

@@ -11,7 +11,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,

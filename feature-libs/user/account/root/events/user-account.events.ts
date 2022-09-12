@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxEvent } from '@spartacus/core';
+import { CxEvent } from '@commerce-storefront-toolset/core';
 import { User } from '../model/user.model';
 
 export abstract class UserAccountEvent extends CxEvent {

@@ -1,4 +1,4 @@
-import { B2BUser } from '@spartacus/core';
+import { B2BUser } from '@commerce-storefront-toolset/core';
 import { UserGroup } from '../../model/index';
 import {
   B2BUserActions,

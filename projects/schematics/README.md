@@ -42,7 +42,7 @@ Here are some terms you might hear or find in the code:
 
 - installing a feature vs. configuring a features: by _installing_ a feature, we mean specifying a spartacus library in the customers' package.json, and running `yarn` or `npm install` which will download the library into the `node_modules`. By _configuring_ a feature, we mean generating its feature module (e.g. `checkout-feature.module.ts`) where are all features' configuration lives.
 
-- Spartacus library vs. Spartacus feature - a library is a top-level Spartacus library (e.g. `@spartacus/checkout`). A feature is contained withing that library, and it could have its own secondary entry-point (e.g. `@spartacus/checkout/base`). Feature usually have their own menu item in the schematics prompt.
+- Spartacus library vs. Spartacus feature - a library is a top-level Spartacus library (e.g. `@commerce-storefront-toolset/checkout`). A feature is contained withing that library, and it could have its own secondary entry-point (e.g. `@commerce-storefront-toolset/checkout/base`). Feature usually have their own menu item in the schematics prompt.
 
 - "wrapper" modules - refers to our feature extension mechanism, as described [here](https://github.com/SAP/spartacus/pull/15237) (_note_: the link might be moved to the Wiki, so please check there by searching for "wrapper module". Additionally, please notify us to update the link in this file).
 
@@ -62,12 +62,12 @@ Here are some terms you might hear or find in the code:
 
 ### Workflow for testing schematics
 
-- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules/@spartacus && <your-schematics-command>`)
+- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules/@commerce-storefront-toolset && <your-schematics-command>`)
 - try until everything is perfect
 
 ### Workflow for testing migrations
 
-- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
+- add Spartacus by running e.g. `ng add @commerce-storefront-toolset/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @commerce-storefront-toolset/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
 - commit the changes, if any.
 - run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
 - try until everything is perfect
@@ -81,13 +81,13 @@ To start creating the schematics configuration, a developer has to first create 
 The objects has to conform to the `SchematicsConfig` interface:
 
 - `library.featureName` - corresponds to the CLI's feature name defined in `projects/schematics/src/add-spartacus/schema.json`'s `features.items.enum` array.
-- `library.mainScope` - represents the Spartacus library's main scope, e.g. `@spartacus/checkout`.
-- `library.featureScope` - if the library has multiple features organized in secondary entry-points, the entry pont's name should be defined here - e.g. `@spartacus/checkout/base/b2b`.
+- `library.mainScope` - represents the Spartacus library's main scope, e.g. `@commerce-storefront-toolset/checkout`.
+- `library.featureScope` - if the library has multiple features organized in secondary entry-points, the entry pont's name should be defined here - e.g. `@commerce-storefront-toolset/checkout/base/b2b`.
 - `library.b2b` - if the feature is a b2b feature, it will provide the b2b configuration. 
 - `folderName` - the name of the folder where the feature will be created.
 - `moduleName` - the name of the generated feature module.
-- `featureModule` - the feature module's configuration, e.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
-- `rootModule` - the root module's configuration, e.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`. Omit if your feature doesn't have a root module (e.g. `DigitalPayments` doesn't have it).
+- `featureModule` - the feature module's configuration, e.g. `CheckoutB2BModule` from `@commerce-storefront-toolset/checkout/b2b`.
+- `rootModule` - the root module's configuration, e.g. `CheckoutB2BRootModule` from `@commerce-storefront-toolset/checkout/b2b/root`. Omit if your feature doesn't have a root module (e.g. `DigitalPayments` doesn't have it).
 - `lazyLoadingChunk` - if the feature is being installed in a LL manner, this config will be used to provide the LL configuration.
 - `i18n` - configuration for the translations.
 - `styles` - configuration for the styles.
@@ -177,7 +177,7 @@ You can see an example of adding a migration in [this pull request](https://gith
 
 This section is for developers who do the release, and it specifies how to manage the versions in `projects/schematics/src/migrations/migrations.json`.
 
-The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
+The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @commerce-storefront-toolset/schematics --next`:
 
 - `**-migration-v*-validate`
 - `**-migration-v*-rename-symbol`

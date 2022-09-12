@@ -6,7 +6,7 @@
 
 import { of, Subscription } from 'rxjs';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
-import { StatePersistenceService } from '@spartacus/core';
+import { StatePersistenceService } from '@commerce-storefront-toolset/core';
 import { Injectable, OnDestroy } from '@angular/core';
 
 const KEY = 'digital-payment.checkout.request';

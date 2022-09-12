@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, CartOutlets } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 
 @Component({

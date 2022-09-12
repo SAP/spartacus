@@ -1,8 +1,8 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { GlobalMessageType, I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { MessageComponent } from './message.component';
 
 @Component({

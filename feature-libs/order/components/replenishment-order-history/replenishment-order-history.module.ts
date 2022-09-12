@@ -15,8 +15,8 @@ import {
   provideConfig,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ListNavigationModule } from '@commerce-storefront-toolset/storefront';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishment-order-details/default-replenishment-order-cancellation-layout.config';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 

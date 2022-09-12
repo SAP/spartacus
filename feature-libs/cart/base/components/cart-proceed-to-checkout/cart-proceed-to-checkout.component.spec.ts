@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ProgressButtonModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ProgressButtonModule } from '@commerce-storefront-toolset/storefront';
 import { Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 

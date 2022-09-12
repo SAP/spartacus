@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import { TranslationService } from '@commerce-storefront-toolset/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';

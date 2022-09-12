@@ -6,7 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 import { Budget } from '../../model/budget.model';
-import { Converter, EntitiesModel } from '@spartacus/core';
+import { Converter, EntitiesModel } from '@commerce-storefront-toolset/core';
 
 export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
   'BudgetNormalizer'

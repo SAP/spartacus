@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { ExportConfig } from '../model/export-entries.model';
 import { ImportConfig } from '../model/import-entries.config';
 
@@ -21,6 +21,6 @@ export abstract class ImportExportConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends ImportExportConfig {}
 }

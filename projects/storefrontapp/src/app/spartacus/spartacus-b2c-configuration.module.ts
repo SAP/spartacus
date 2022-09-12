@@ -5,14 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CartConfig } from '@spartacus/cart/base/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+import { CartConfig } from '@commerce-storefront-toolset/cart/base/root';
+import { provideConfig, SiteContextConfig } from '@commerce-storefront-toolset/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
   mediaConfig,
   PWAModuleConfig,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [

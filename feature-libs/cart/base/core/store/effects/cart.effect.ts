@@ -7,14 +7,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   isNotUndefined,
   normalizeHttpError,
   OCC_CART_ID_CURRENT,
   SiteContextActions,
   withdrawOn,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,

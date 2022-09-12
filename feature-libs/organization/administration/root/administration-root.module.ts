@@ -10,7 +10,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultBudgetRoutingConfig } from './config/default-budget-routing.config';
 import { defaultCostCenterRoutingConfig } from './config/default-cost-center-routing.config';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';

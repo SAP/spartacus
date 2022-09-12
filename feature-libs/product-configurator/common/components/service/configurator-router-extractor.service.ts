@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { RouterState, RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';

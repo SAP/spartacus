@@ -12,9 +12,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { OrderFacade } from '@commerce-storefront-toolset/order/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 
 @Component({

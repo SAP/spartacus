@@ -6,12 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 
 @NgModule({

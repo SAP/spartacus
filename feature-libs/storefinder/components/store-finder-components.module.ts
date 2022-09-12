@@ -9,13 +9,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
-import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@commerce-storefront-toolset/core';
+import { StoreFinderCoreModule } from '@commerce-storefront-toolset/storefinder/core';
 import {
   IconModule,
   ListNavigationModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ScheduleComponent } from './schedule-component/schedule.component';
 import { StoreFinderGridComponent } from './store-finder-grid/store-finder-grid.component';
 import { StoreFinderHeaderComponent } from './store-finder-header/store-finder-header.component';

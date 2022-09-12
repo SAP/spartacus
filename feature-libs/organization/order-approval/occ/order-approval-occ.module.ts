@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { OrderApprovalAdapter } from '../core/connectors/order-approval.adapter';
 import {
   ORDER_APPROVALS_NORMALIZER,

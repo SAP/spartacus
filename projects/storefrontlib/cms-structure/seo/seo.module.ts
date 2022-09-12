@@ -5,7 +5,7 @@
  */
 
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultSeoConfig } from './config';
 import { htmlLangProvider } from './html-lang-provider';
 import { SeoMetaService } from './seo-meta.service';

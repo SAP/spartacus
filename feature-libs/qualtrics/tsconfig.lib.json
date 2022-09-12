@@ -14,7 +14,7 @@
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@commerce-storefront-toolset/core": ["dist/core"]
     }
   },
   "angularCompilerOptions": {

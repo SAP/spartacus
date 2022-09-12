@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '@commerce-storefront-toolset/core';
 
 export const defaultOccBulkPricingConfig: OccConfig = {
   backend: {

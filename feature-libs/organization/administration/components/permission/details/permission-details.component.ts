@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Permission } from '@spartacus/organization/administration/core';
+import { Permission } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';

@@ -16,7 +16,7 @@ import {
   CmsService,
   CMSTabParagraphContainer,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';

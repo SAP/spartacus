@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
-} from '@spartacus/checkout/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { createFrom, CxEvent, EventService } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';

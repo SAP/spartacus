@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel, HttpErrorModel } from '@spartacus/core';
+import { ErrorModel, HttpErrorModel } from '@commerce-storefront-toolset/core';
 
 export const LOAD_CDC_USER_TOKEN = '[Auth] Load CDC User Token';
 export const LOAD_CDC_USER_TOKEN_FAIL = '[Auth] Load CDC User Token Fail';

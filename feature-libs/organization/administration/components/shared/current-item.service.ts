@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { ROUTE_PARAMS } from '@commerce-storefront-toolset/organization/administration/root';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 

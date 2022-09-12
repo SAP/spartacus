@@ -6,13 +6,13 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
 

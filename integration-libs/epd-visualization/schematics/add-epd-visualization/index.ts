@@ -19,7 +19,7 @@ import {
   readPackageJson,
   SpartacusEpdVisualizationOptions,
   validateSpartacusInstallation,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import { peerDependencies } from '../../package.json';
 
 export function addEpdVisualizationFeature(

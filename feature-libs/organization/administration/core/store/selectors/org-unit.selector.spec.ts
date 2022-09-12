@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Address, B2BUnit, ListModel, StateUtils } from '@spartacus/core';
+import { Address, B2BUnit, ListModel, StateUtils } from '@commerce-storefront-toolset/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 import {

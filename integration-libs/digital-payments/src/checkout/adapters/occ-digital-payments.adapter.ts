@@ -6,13 +6,13 @@
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ConverterService,
   HttpParamsURIEncoder,
   Occ,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CURRENT_CART } from '../../utils/dp-constants';
 import { DpPaymentRequest } from '../models/dp-checkout.model';

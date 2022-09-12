@@ -10,12 +10,12 @@ import {
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   OrderEntry,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
-} from '@spartacus/cart/quick-order/root';
+} from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   Config,
   EventService,
@@ -24,7 +24,7 @@ import {
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   BehaviorSubject,
   Observable,

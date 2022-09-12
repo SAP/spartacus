@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 import { of } from 'rxjs';
 import { CartAdapter } from './cart.adapter';
 import { CartConnector } from './cart.connector';

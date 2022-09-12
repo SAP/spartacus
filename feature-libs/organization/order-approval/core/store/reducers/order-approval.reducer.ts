@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ListModel, StateUtils } from '@spartacus/core';
+import { ListModel, StateUtils } from '@commerce-storefront-toolset/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 

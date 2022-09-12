@@ -12,7 +12,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ExportOrderEntriesComponent } from './export-order-entries.component';
 
 @NgModule({

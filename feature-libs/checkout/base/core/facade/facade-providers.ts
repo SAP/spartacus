@@ -10,7 +10,7 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
 import { CheckoutPaymentService } from './checkout-payment.service';

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import {
   attributeCheckbox,
   attributeRadioButton,

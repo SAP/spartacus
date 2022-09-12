@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartTotalsComponent } from './cart-totals.component';
 

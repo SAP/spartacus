@@ -5,7 +5,7 @@
  */
 
 import { Provider } from '@angular/core';
-import { CdcAuthFacade } from '@spartacus/cdc/root';
+import { CdcAuthFacade } from '@commerce-storefront-toolset/cdc/root';
 import { CdcAuthService } from './cdc-auth.service';
 
 export const facadeProviders: Provider[] = [

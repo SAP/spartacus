@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import { GlobalMessageService, RoutingService } from '@spartacus/core';
-import { Order, OrderHistoryFacade } from '@spartacus/order/root';
+import { GlobalMessageService, RoutingService } from '@commerce-storefront-toolset/core';
+import { Order, OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';

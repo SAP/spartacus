@@ -16,13 +16,13 @@ import {
   provideDefaultConfig,
   RoutingService,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   SpinnerModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
 

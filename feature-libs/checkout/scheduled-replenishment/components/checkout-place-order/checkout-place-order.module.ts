@@ -11,14 +11,14 @@ import { RouterModule } from '@angular/router';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { AtMessageModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { AtMessageModule } from '@commerce-storefront-toolset/storefront';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 
 @NgModule({

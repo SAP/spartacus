@@ -4,11 +4,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CardType, Cart, PaymentDetails } from '@spartacus/cart/base/root';
+import { CardType, Cart, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   PAYMENT_CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
-} from '@spartacus/checkout/base/core';
+} from '@commerce-storefront-toolset/checkout/base/core';
 import {
   ConverterService,
   HttpErrorModel,
@@ -17,7 +17,7 @@ import {
   OccConfig,
   OccEndpoints,
   PAYMENT_DETAILS_NORMALIZER,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';

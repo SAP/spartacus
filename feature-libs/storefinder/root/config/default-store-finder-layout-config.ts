@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LayoutConfig } from '@spartacus/storefront';
+import { LayoutConfig } from '@commerce-storefront-toolset/storefront';
 
 export const defaultStoreFinderLayoutConfig: LayoutConfig = {
   layoutSlots: {

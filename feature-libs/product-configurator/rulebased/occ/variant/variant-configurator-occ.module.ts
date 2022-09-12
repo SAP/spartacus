@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConfigModule } from '@spartacus/core';
+import { ConfigModule } from '@commerce-storefront-toolset/core';
 import { RulebasedConfiguratorConnector } from '../../core/connectors/rulebased-configurator.connector';
 import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';

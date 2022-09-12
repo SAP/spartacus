@@ -13,9 +13,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Config, Product, WindowRef } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
+import { Config, Product, WindowRef } from '@commerce-storefront-toolset/core';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,

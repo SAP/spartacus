@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   CancellationRequestEntryInputList,
   Order,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 
 export const LOAD_ORDER_DETAILS = '[Order] Load Order Details';

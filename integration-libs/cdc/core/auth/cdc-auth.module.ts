@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AuthModule } from '@spartacus/core';
+import { AuthModule } from '@commerce-storefront-toolset/core';
 import { CdcUserAuthenticationTokenService } from './services/user-authentication/cdc-user-authentication-token.service';
 import { CdcAuthStoreModule } from './store/cdc-auth-store.module';
 

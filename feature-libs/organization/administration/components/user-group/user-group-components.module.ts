@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import { UserGroupDetailsModule } from './details/user-group-details.module';
 import { UserGroupFormModule } from './form/user-group-form.module';

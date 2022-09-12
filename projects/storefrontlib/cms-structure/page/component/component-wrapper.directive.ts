@@ -24,7 +24,7 @@ import {
   DynamicAttributeService,
   EventService,
   isNotUndefined,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { filter, finalize, tap } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';

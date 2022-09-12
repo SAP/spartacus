@@ -15,7 +15,7 @@ import {
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';

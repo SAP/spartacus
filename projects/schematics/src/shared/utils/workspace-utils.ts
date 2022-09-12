@@ -178,7 +178,7 @@ export function isWorkspaceProject(project: any): project is WorkspaceProject {
 export function validateSpartacusInstallation(packageJson: any): void {
   if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
     throw new SchematicsException(
-      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
+      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @commerce-storefront-toolset/schematics'.
     To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
     );
   }

@@ -6,8 +6,8 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FeatureModulesService, WindowRef } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { FeatureModulesService, WindowRef } from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 /**

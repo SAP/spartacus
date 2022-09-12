@@ -18,13 +18,13 @@ import {
   OAuthFlow,
   RoutingService,
   Title,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/storefront';
+import { UserRegisterFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { Observable, of, Subject } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;

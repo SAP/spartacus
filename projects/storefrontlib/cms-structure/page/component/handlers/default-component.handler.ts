@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { ComponentHandler } from './component-handler';
 import { Observable } from 'rxjs';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsComponentMapping, Priority } from '@commerce-storefront-toolset/core';
 
 /**
  * Default component handler used for dynamically launching cms components implemented

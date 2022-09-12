@@ -9,7 +9,7 @@ import {
   Address,
   DefaultRoutePageMetaResolver,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CurrentUnitAddressService } from '../links/addresses/services/current-unit-address.service';
 

@@ -13,7 +13,7 @@ const MIGRATION_SCRIPT_NAME = 'migration-v3-storefinder-07';
 const STORE_FINDER_MODULE_IMPORTED_TEST = `
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { B2cStorefrontModule, StoreFinderModule } from '@spartacus/storefront';
+import { B2cStorefrontModule, StoreFinderModule } from '@commerce-storefront-toolset/storefront';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -31,7 +31,7 @@ export class AppModule {}
 const STORE_FINDER_MODULE_IMPORTED_EXPECTED = `
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { B2cStorefrontModule,  } from '@spartacus/storefront';
+import { B2cStorefrontModule,  } from '@commerce-storefront-toolset/storefront';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -50,7 +50,7 @@ export class AppModule {}
 const STOREFRONT_MODULE_IMPORTED_TEST = `
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { B2cStorefrontModule, StorefrontModule } from '@spartacus/storefront';
+import { B2cStorefrontModule, StorefrontModule } from '@commerce-storefront-toolset/storefront';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -68,7 +68,7 @@ export class AppModule {}
 const STOREFRONT_MODULE_IMPORTED_EXPECTED = `
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { B2cStorefrontModule, StorefrontModule } from '@spartacus/storefront';
+import { B2cStorefrontModule, StorefrontModule } from '@commerce-storefront-toolset/storefront';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -105,7 +105,7 @@ describe('Storefinder migration', () => {
       JSON.stringify({
         name: 'xxx',
         dependencies: {
-          '@spartacus/core': '^2.0.0',
+          '@commerce-storefront-toolset/core': '^2.0.0',
         },
       })
     );

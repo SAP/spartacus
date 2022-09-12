@@ -6,12 +6,12 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartEntryAdapter } from '@spartacus/cart/base/core';
+import { CartEntryAdapter } from '@commerce-storefront-toolset/cart/base/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

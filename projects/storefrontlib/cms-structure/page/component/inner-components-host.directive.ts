@@ -16,7 +16,7 @@ import {
   CmsComponent,
   DynamicAttributeService,
   EventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';

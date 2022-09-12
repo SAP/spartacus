@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OrderComponentsModule } from '@spartacus/order/components';
-import { OrderCoreModule } from '@spartacus/order/core';
-import { OrderOccModule } from '@spartacus/order/occ';
+import { OrderComponentsModule } from '@commerce-storefront-toolset/order/components';
+import { OrderCoreModule } from '@commerce-storefront-toolset/order/core';
+import { OrderOccModule } from '@commerce-storefront-toolset/order/occ';
 
 @NgModule({
   imports: [OrderCoreModule, OrderOccModule, OrderComponentsModule],

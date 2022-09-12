@@ -5,11 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   dpTranslationChunksConfig,
   dpTranslations,
-} from '@spartacus/digital-payments/assets';
+} from '@commerce-storefront-toolset/digital-payments/assets';
 
 @NgModule({
   providers: [

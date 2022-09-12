@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 
 class StoreFinderServiceMock {
   getStoreLatitude() {}

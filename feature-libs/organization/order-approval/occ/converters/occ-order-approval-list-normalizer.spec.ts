@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
+import { EntitiesModel, Occ, OccConfig } from '@commerce-storefront-toolset/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OccOrderApprovalListNormalizer } from './occ-order-approval-list-normalizer';
 

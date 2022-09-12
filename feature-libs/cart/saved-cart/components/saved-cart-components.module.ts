@@ -9,8 +9,8 @@ import { RouterModule } from '@angular/router';
 import {
   NewSavedCartOrderEntriesContextToken,
   SavedCartOrderEntriesContextToken,
-} from '@spartacus/cart/saved-cart/root';
-import { provideDefaultConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { AddToSavedCartModule } from './add-to-saved-cart/add-to-saved-cart.module';
 import { SavedCartDetailsModule } from './details/saved-cart-details.module';
 import { SavedCartListModule } from './list/saved-cart-list.module';

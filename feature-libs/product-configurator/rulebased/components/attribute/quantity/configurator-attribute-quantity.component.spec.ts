@@ -8,7 +8,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';

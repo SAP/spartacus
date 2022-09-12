@@ -5,7 +5,7 @@
  */
 
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,

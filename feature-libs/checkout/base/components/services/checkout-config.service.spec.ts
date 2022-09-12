@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import { defaultCheckoutConfig } from '../../root/config/default-checkout-config';
 import { CheckoutConfigService } from './checkout-config.service';
 

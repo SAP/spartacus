@@ -5,7 +5,7 @@ import {
   GlobalMessageType,
   HttpErrorHandler,
   HttpResponseStatus,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BadVoucherRequestHandler } from './bad-voucher-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;

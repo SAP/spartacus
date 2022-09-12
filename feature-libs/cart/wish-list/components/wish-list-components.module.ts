@@ -13,14 +13,14 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   AtMessageModule,
   ItemCounterModule,
   MediaModule,
   PageComponentModule,
   StarRatingModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { WishListItemComponent } from './wish-list-item/wish-list-item.component';
 import { WishListComponent } from './wish-list/wish-list.component';
 

@@ -5,11 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 
 @Injectable({
   providedIn: 'root',

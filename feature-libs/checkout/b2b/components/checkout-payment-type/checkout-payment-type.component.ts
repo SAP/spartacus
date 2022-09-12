@@ -11,14 +11,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { PaymentType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { getLastValueSync, isNotUndefined } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutStepService } from '@commerce-storefront-toolset/checkout/base/components';
+import { CheckoutStepType } from '@commerce-storefront-toolset/checkout/base/root';
+import { getLastValueSync, isNotUndefined } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 

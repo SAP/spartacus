@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
   CONFIG_ID,

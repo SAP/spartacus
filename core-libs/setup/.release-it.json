@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/setup@${version}",
+    "releaseName": "@commerce-storefront-toolset/setup@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib setup --to setup-${version}"
   },
   "plugins": {
@@ -24,8 +24,8 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/user"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/user"
           ]
         }
       ]

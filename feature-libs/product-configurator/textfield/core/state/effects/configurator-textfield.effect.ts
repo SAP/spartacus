@@ -6,9 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/cart/base/core';
-import { normalizeHttpError } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CartActions } from '@commerce-storefront-toolset/cart/base/core';
+import { normalizeHttpError } from '@commerce-storefront-toolset/core';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';

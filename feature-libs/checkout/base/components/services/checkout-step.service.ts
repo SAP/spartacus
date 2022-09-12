@@ -10,8 +10,8 @@ import {
   CheckoutConfig,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { RoutingConfigService, RoutingService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { RoutingConfigService, RoutingService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 

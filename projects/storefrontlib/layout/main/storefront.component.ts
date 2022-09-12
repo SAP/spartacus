@@ -13,7 +13,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   FocusConfig,

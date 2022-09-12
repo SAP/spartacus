@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule, provideConfig } from '@spartacus/core';
+import { I18nModule, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';

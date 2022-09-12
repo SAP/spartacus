@@ -6,7 +6,7 @@ import {
   provideConfigFactory,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Config } from './config-tokens';
 
 describe('Config Providers', () => {

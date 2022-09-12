@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
+import { OCC_USER_ID_ANONYMOUS } from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
 

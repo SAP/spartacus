@@ -5,11 +5,11 @@ import {
   I18nTestingModule,
   Product,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';

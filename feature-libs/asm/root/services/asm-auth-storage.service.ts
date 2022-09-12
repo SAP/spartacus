@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AuthStorageService, AuthToken } from '@spartacus/core';
+import { AuthStorageService, AuthToken } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /**

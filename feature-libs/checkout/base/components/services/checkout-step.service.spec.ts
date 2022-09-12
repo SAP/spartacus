@@ -4,12 +4,12 @@ import {
   CheckoutConfig,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   RouteConfig,
   RoutingConfigService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { CheckoutStepService } from './checkout-step.service';
 import createSpy = jasmine.createSpy;

@@ -13,9 +13,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { AuthService, RoutingService } from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 

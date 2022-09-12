@@ -11,9 +11,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFormType } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

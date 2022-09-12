@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { B2BUser, RoutingService } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+import { B2BUser, RoutingService } from '@commerce-storefront-toolset/core';
+import { B2BUserService } from '@commerce-storefront-toolset/organization/administration/core';
+import { ROUTE_PARAMS } from '@commerce-storefront-toolset/organization/administration/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';

@@ -6,9 +6,9 @@
 
 import { Injectable, isDevMode } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { KeyboardFocusService } from '@spartacus/storefront';
+import { WindowRef } from '@commerce-storefront-toolset/core';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
+import { KeyboardFocusService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';

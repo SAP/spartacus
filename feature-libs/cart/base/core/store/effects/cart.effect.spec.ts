@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CLIENT_AUTH_FEATURE,
   normalizeHttpError,
@@ -11,7 +11,7 @@ import {
   OCC_CART_ID_CURRENT,
   SiteContextActions,
   USER_FEATURE,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import * as fromClientAuthReducers from '../../../../../../projects/core/src/auth/client-auth/store/reducers/index';

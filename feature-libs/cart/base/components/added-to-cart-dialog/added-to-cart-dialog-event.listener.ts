@@ -8,9 +8,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
-} from '@spartacus/cart/base/root';
-import { EventService } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { EventService } from '@commerce-storefront-toolset/core';
+import { ModalRef, ModalService } from '@commerce-storefront-toolset/storefront';
 import { Subscription } from 'rxjs';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 

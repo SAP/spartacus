@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutStepType } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   RouteConfig,
   RoutesConfig,
   RoutingConfigService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';

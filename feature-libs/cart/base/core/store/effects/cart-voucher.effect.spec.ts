@@ -6,7 +6,7 @@ import {
   GlobalMessageService,
   normalizeHttpError,
   OccConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CartVoucherAdapter } from '../../connectors';

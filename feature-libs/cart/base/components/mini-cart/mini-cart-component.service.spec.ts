@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthService,
   EventService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';

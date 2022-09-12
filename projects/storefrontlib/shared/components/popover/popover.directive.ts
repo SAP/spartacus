@@ -19,7 +19,7 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';

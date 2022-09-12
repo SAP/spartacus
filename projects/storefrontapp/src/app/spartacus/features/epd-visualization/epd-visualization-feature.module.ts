@@ -5,16 +5,16 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   epdVisualizationTranslationChunksConfig,
   epdVisualizationTranslations,
-} from '@spartacus/epd-visualization/assets';
+} from '@commerce-storefront-toolset/epd-visualization/assets';
 import {
   EpdVisualizationConfig,
   EpdVisualizationRootModule,
   EPD_VISUALIZATION_FEATURE,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 
 const epdVisualizationConfig: EpdVisualizationConfig = {
   epdVisualization: {
@@ -47,7 +47,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
       featureModules: {
         [EPD_VISUALIZATION_FEATURE]: {
           module: () =>
-            import('@spartacus/epd-visualization').then(
+            import('@commerce-storefront-toolset/epd-visualization').then(
               (m) => m.EpdVisualizationModule
             ),
         },

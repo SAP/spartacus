@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUser } from '@spartacus/core';
+import { B2BUser } from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';

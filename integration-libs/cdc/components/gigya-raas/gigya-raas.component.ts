@@ -11,10 +11,10 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { GigyaRaasComponentData } from '@spartacus/cdc/core';
-import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
-import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import { GigyaRaasComponentData } from '@commerce-storefront-toolset/cdc/core';
+import { CdcConfig, CdcJsService } from '@commerce-storefront-toolset/cdc/root';
+import { BaseSiteService, LanguageService, WindowRef } from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 

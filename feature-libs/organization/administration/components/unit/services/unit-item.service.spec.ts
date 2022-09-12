@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   LoadStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';

@@ -16,13 +16,13 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   SpinnerModule,
   NgSelectA11yModule,
-} from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/storefront';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 

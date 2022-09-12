@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
+import { TableService, TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { OrganizationTableType } from '../organization.model';
 import { ListService } from './list.service';

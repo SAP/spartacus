@@ -17,7 +17,7 @@ import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';

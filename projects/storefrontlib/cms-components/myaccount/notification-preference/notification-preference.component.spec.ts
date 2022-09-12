@@ -4,7 +4,7 @@ import {
   I18nTestingModule,
   NotificationPreference,
   UserNotificationPreferenceService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { DebugElement, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';

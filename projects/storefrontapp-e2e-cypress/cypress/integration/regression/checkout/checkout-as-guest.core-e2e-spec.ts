@@ -1,4 +1,4 @@
-import { CheckoutConfig } from '@spartacus/storefront';
+import { CheckoutConfig } from '@commerce-storefront-toolset/storefront';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import { viewportContext } from '../../../helpers/viewport-context';
 context('Checkout as guest', () => {

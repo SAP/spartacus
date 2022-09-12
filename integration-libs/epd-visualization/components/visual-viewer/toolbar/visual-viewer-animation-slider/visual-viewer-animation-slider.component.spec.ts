@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
 

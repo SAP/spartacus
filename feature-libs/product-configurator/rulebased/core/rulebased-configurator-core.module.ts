@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultConfiguratorCoreConfig } from './config/default-configurator-core.config';
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
 import { ConfiguratorRouterModule } from './facade/routing/configurator-router.module';

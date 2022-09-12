@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';

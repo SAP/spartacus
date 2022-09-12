@@ -7,7 +7,7 @@
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorStateUtils } from '../configurator-state-utils';

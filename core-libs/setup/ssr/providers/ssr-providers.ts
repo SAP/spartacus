@@ -6,7 +6,7 @@
 
 import { StaticProvider } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@commerce-storefront-toolset/core';
 import { getRequestOrigin } from '../util/request-origin';
 import { getRequestUrl } from '../util/request-url';
 

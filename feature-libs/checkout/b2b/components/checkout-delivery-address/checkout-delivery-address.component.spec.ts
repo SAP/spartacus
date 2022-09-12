@@ -2,24 +2,24 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutStepService } from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
-} from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Card } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;

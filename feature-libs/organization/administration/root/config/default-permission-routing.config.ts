@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ParamsMapping, RoutingConfig } from '@spartacus/core';
+import { ParamsMapping, RoutingConfig } from '@commerce-storefront-toolset/core';
 import { ROUTE_PARAMS } from '../route-params';
 
 const listPath = `organization/purchase-limits/:${ROUTE_PARAMS.permissionCode}`;

@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
-} from '@spartacus/product/bulk-pricing/assets';
+} from '@commerce-storefront-toolset/product/bulk-pricing/assets';
 import {
   BulkPricingRootModule,
   PRODUCT_BULK_PRICING_FEATURE,
-} from '@spartacus/product/bulk-pricing/root';
+} from '@commerce-storefront-toolset/product/bulk-pricing/root';
 
 @NgModule({
   imports: [BulkPricingRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [PRODUCT_BULK_PRICING_FEATURE]: {
           module: () =>
-            import('@spartacus/product/bulk-pricing').then(
+            import('@commerce-storefront-toolset/product/bulk-pricing').then(
               (m) => m.BulkPricingModule
             ),
         },

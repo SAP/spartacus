@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import { ItemCounterComponent } from './item-counter.component';
 
 @NgModule({

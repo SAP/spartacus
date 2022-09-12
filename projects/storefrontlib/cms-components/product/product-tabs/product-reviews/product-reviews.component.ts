@@ -17,7 +17,7 @@ import {
   Product,
   ProductReviewService,
   Review,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,

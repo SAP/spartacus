@@ -6,8 +6,8 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConverterService } from '@commerce-storefront-toolset/core';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {

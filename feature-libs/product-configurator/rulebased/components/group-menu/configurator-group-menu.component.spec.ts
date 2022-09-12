@@ -3,19 +3,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

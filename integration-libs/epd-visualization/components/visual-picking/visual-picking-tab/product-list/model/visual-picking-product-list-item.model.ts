@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 
 /**
  * A model object representing a product item in the visual picking product list.

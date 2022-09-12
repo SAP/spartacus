@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import { UrlCommands } from '../configurable-routes';

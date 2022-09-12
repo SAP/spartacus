@@ -9,7 +9,7 @@ import {
   RoutingConfig,
   SemanticPathService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { CdcLogoutGuard } from './cdc-logout.guard';
 

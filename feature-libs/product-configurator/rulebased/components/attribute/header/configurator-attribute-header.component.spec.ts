@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   ConfiguratorUISettingsConfig,
-} from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/rulebased';
 import {
   IconLoaderService,
   IconModule,
   ICON_TYPE,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';

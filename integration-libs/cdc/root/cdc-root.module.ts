@@ -10,8 +10,8 @@ import {
   Config,
   ConfigInitializerService,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { LogoutGuard } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { LogoutGuard } from '@commerce-storefront-toolset/storefront';
 import { tap } from 'rxjs/operators';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';

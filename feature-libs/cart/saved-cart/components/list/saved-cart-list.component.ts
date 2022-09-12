@@ -13,13 +13,13 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
-} from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 

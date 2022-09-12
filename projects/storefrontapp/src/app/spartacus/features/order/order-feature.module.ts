@@ -5,12 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   orderTranslationChunksConfig,
   orderTranslations,
-} from '@spartacus/order/assets';
-import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/assets';
+import { OrderRootModule, ORDER_FEATURE } from '@commerce-storefront-toolset/order/root';
 
 @NgModule({
   imports: [OrderRootModule],
@@ -18,7 +18,7 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORDER_FEATURE]: {
-          module: () => import('@spartacus/order').then((m) => m.OrderModule),
+          module: () => import('@commerce-storefront-toolset/order').then((m) => m.OrderModule),
         },
       },
     }),

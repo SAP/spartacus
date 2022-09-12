@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import { CART_BASE_FEATURE } from '@commerce-storefront-toolset/cart/base/root';
+import { provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 import {
   ADD_TO_WISHLIST_FEATURE,
   CART_WISH_LIST_CORE_FEATURE,

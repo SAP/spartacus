@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   DaysOfWeek,
   OrderFacade,
@@ -10,8 +10,8 @@ import {
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';

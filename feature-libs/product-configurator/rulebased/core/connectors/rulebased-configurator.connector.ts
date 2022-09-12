@@ -5,11 +5,11 @@
  */
 
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';

@@ -5,13 +5,13 @@
  */
 
 import { ConfigurationInfo, StatusSummary } from './common-configurator.model';
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Product {
     configurable?: boolean;
     configuratorType?: string;
   }
 }
-declare module '@spartacus/cart/base/root' {
+declare module '@commerce-storefront-toolset/cart/base/root' {
   interface OrderEntry {
     statusSummaryList?: StatusSummary[];
     configurationInfos?: ConfigurationInfo[];

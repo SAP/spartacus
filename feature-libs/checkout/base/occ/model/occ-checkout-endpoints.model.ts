@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import { OccEndpoint } from '@commerce-storefront-toolset/core';
 
 export interface CheckoutOccEndpoints {
   /**
@@ -57,6 +57,6 @@ export interface CheckoutOccEndpoints {
   deliveryModes?: string | OccEndpoint;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface OccEndpoints extends CheckoutOccEndpoints {}
 }

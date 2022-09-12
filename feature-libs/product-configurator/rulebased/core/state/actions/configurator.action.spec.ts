@@ -1,8 +1,8 @@
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';

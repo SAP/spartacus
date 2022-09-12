@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConfigInitializerService } from './config-initializer.service';
-import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
+import { Config, ConfigInitializer, RootConfig } from '@commerce-storefront-toolset/core';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
 import { tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';

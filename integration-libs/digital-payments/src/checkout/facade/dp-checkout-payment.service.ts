@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   Command,
   CommandService,
@@ -13,7 +13,7 @@ import {
   Query,
   QueryService,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';

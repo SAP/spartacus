@@ -1,6 +1,6 @@
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';
-import { GeoPoint, SearchConfig, StateUtils } from '@spartacus/core';
+import { GeoPoint, SearchConfig, StateUtils } from '@commerce-storefront-toolset/core';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {

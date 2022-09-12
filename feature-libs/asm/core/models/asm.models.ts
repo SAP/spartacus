@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaginationModel, SortModel, User } from '@spartacus/core';
+import { PaginationModel, SortModel, User } from '@commerce-storefront-toolset/core';
 
 export interface CustomerSearchPage {
   entries: User[];

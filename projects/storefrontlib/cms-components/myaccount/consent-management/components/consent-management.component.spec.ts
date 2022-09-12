@@ -18,7 +18,7 @@ import {
   I18nTestingModule,
   Translatable,
   UserConsentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { ConsentManagementComponent } from './consent-management.component';
 

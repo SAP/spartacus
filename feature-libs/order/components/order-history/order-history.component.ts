@@ -15,13 +15,13 @@ import {
   isNotUndefined,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   Order,
   OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 

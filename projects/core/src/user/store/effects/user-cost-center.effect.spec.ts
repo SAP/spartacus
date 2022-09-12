@@ -6,7 +6,7 @@ import {
   CostCenter,
   UserCostCenterAdapter,
   UserCostCenterConnector,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { UserActions } from '../actions/index';

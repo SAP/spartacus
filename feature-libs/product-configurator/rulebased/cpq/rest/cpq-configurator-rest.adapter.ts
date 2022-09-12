@@ -5,15 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   Configurator,
   RulebasedConfiguratorAdapter,
-} from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';

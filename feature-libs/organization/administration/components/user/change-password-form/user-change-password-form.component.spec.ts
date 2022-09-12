@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { FormErrorsComponent } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MessageService } from '@spartacus/organization/administration/components';
+import { MessageService } from '@commerce-storefront-toolset/organization/administration/components';
 
 const mockForm = new FormGroup({
   password: new FormControl(),

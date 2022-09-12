@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { StateUtils } from '@spartacus/core';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxEvent } from '@spartacus/core';
+import { CxEvent } from '@commerce-storefront-toolset/core';
 import { TmsCollectorConfig } from '../config/tms-config';
 
 /**

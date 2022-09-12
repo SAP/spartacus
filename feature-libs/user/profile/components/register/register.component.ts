@@ -22,13 +22,13 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-} from '@spartacus/core';
-import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CustomFormValidators, sortTitles } from '@commerce-storefront-toolset/storefront';
 import {
   Title,
   UserRegisterFacade,
   UserSignUp,
-} from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService } from '@commerce-storefront-toolset/core';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../model/cms.model';

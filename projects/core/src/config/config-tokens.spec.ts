@@ -5,7 +5,7 @@ import {
   provideConfig,
   provideDefaultConfig,
   RootConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 describe('Config Injector Tokens', () => {
   beforeEach(() => {

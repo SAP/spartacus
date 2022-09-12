@@ -9,17 +9,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   KeyboardFocusModule,
   PaginationModule,
   SplitViewModule,
   TableModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { MessageModule } from '../message/message.module';
 import { ListComponent } from './list.component';
-import { PopoverModule } from '@spartacus/storefront';
+import { PopoverModule } from '@commerce-storefront-toolset/storefront';
 
 @NgModule({
   imports: [

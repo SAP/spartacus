@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { ItemService } from '../item.service';
 import { FormComponent } from './form.component';
-import { MessageService } from '@spartacus/organization/administration/components';
-import { LoadStatus } from '@spartacus/organization/administration/core';
+import { MessageService } from '@commerce-storefront-toolset/organization/administration/components';
+import { LoadStatus } from '@commerce-storefront-toolset/organization/administration/core';
 
 const mockItem = { foo: 'bar' };
 

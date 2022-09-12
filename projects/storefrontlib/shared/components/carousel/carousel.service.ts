@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

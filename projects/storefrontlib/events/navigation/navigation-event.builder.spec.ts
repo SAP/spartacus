@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { ActivatedRouterStateSnapshot, EventService } from '@spartacus/core';
+import { ActivatedRouterStateSnapshot, EventService } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NavigationEventBuilder } from './navigation-event.builder';

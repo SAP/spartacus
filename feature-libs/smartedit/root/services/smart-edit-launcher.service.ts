@@ -6,7 +6,7 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FeatureModulesService } from '@spartacus/core';
+import { FeatureModulesService } from '@commerce-storefront-toolset/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**

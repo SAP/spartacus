@@ -4,7 +4,7 @@ import {
   DEFAULT_URL_MATCHER,
   UrlMatcherFactory,
   UrlMatcherService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
 
 const combinedUrlMatcher: UrlMatcher = () => null;

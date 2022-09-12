@@ -13,7 +13,7 @@ import {
   LanguageSetEvent,
   LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutPaymentCardTypesQueryReloadEvent,

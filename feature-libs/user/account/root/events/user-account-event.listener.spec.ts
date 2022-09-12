@@ -5,7 +5,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LogoutEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { UserAccountEventListener } from './user-account-event.listener';
 import createSpy = jasmine.createSpy;

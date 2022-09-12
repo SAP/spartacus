@@ -5,8 +5,8 @@
  */
 
 import { Component } from '@angular/core';
-import { Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { WishListFacade } from '@spartacus/cart/wish-list/root';
+import { Cart, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { WishListFacade } from '@commerce-storefront-toolset/cart/wish-list/root';
 import { Observable } from 'rxjs';
 
 @Component({

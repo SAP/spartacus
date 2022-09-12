@@ -6,15 +6,15 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   LookupVisualizationsResponse,
   VisualizationAdapter,
-} from '@spartacus/epd-visualization/core';
+} from '@commerce-storefront-toolset/epd-visualization/core';
 import {
   getEpdVisualizationDefaultConfig,
   UsageId,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { VisualizationV1Adapter } from './visualization-v1.adapter';
 

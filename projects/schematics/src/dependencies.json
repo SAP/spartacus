@@ -1,6 +1,6 @@
 {
-  "@spartacus/assets": {},
-  "@spartacus/core": {
+  "@commerce-storefront-toolset/assets": {},
+  "@commerce-storefront-toolset/core": {
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/platform-browser": "^13.3.0",
@@ -13,7 +13,7 @@
     "i18next-http-backend": "^1.3.2",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/schematics": {
+  "@commerce-storefront-toolset/schematics": {
     "@angular-devkit/core": "^13.3.0",
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/compiler": "^13.3.0",
@@ -23,7 +23,7 @@
     "typescript": "^4.6.4"
   },
   "storefrontapp-e2e-cypress": {},
-  "@spartacus/storefront": {
+  "@commerce-storefront-toolset/storefront": {
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/forms": "^13.3.0",
@@ -35,35 +35,35 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/router-store": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/styles": {
+  "@commerce-storefront-toolset/styles": {
     "@ng-select/ng-select": "^8.0.0",
     "bootstrap": "^4.6.1"
   },
-  "@spartacus/setup": {
+  "@commerce-storefront-toolset/setup": {
     "@angular/core": "^13.3.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/user": "4.1.0-next.0"
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0"
   },
-  "@spartacus/asm": {
+  "@commerce-storefront-toolset/asm": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/forms": "^13.3.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/cart": {
+  "@commerce-storefront-toolset/cart": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -73,15 +73,15 @@
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/checkout": {
+  "@commerce-storefront-toolset/checkout": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -89,17 +89,17 @@
     "@angular/router": "^13.3.0",
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/order": {
+  "@commerce-storefront-toolset/order": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -109,15 +109,15 @@
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/organization": {
+  "@commerce-storefront-toolset/organization": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -126,27 +126,27 @@
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/product": {
+  "@commerce-storefront-toolset/product": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/router": "^13.3.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/product-configurator": {
+  "@commerce-storefront-toolset/product-configurator": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -155,33 +155,33 @@
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/checkout": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/checkout": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/qualtrics": {
+  "@commerce-storefront-toolset/qualtrics": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/smartedit": {
+  "@commerce-storefront-toolset/smartedit": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/storefinder": {
+  "@commerce-storefront-toolset/storefinder": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -190,21 +190,21 @@
     "@ng-bootstrap/ng-bootstrap": "^11.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/tracking": {
+  "@commerce-storefront-toolset/tracking": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/user": {
+  "@commerce-storefront-toolset/user": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
@@ -212,66 +212,66 @@
     "@angular/router": "^13.3.0",
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/cdc": {
+  "@commerce-storefront-toolset/cdc": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/router": "^13.3.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/asm": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
+    "@commerce-storefront-toolset/asm": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/cds": {
+  "@commerce-storefront-toolset/cds": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/router": "^13.3.0",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/tracking": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/order": "4.2.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/tracking": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/digital-payments": {
+  "@commerce-storefront-toolset/digital-payments": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/forms": "^13.3.0",
     "@angular/router": "^13.3.0",
     "@ng-select/ng-select": "^8.0.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/checkout": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/checkout": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/epd-visualization": {
+  "@commerce-storefront-toolset/epd-visualization": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@angular/forms": "^13.3.0",
     "@angular/router": "^13.3.0",
     "@sapui5/ts-types-esm": "1.98.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/cart": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },

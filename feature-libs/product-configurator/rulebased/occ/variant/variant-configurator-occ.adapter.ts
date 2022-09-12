@@ -9,13 +9,13 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';

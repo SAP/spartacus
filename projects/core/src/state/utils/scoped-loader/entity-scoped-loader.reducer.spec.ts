@@ -1,5 +1,5 @@
 import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 describe('entityScopedLoaderReducer', () => {

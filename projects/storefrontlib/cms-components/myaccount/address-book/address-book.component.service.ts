@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Address, UserAddressService } from '@spartacus/core';
+import { Address, UserAddressService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 @Injectable({

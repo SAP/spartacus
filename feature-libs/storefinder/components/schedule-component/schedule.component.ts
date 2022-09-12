@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { PointOfService, WeekdayOpeningDay } from '@spartacus/core';
+import { PointOfService, WeekdayOpeningDay } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-schedule',

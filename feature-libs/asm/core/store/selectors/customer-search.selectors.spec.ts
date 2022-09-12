@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { StateUtils, User } from '@spartacus/core';
+import { StateUtils, User } from '@commerce-storefront-toolset/core';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions';
 import { StateWithAsm } from '../asm-state';

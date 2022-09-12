@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
-} from '@spartacus/cart/base/root';
-import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ConverterService, PRODUCT_NORMALIZER } from '@commerce-storefront-toolset/core';
 import { OccCartNormalizer } from './occ-cart-normalizer';
 
 class MockConverterService {

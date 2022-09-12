@@ -15,7 +15,7 @@ import {
   SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { SeoConfig } from '../config';
 
 @Injectable({

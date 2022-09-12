@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { CmsRoute, PageType } from '@spartacus/core';
+import { CmsRoute, PageType } from '@commerce-storefront-toolset/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';

@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
-import { normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError } from '@commerce-storefront-toolset/core';
 
 @Injectable()
 export class FindStoresEffect {

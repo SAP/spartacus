@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, OccConfig, TranslationService } from '@spartacus/core';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { Converter, OccConfig, TranslationService } from '@commerce-storefront-toolset/core';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { OccConfigurator } from '../variant-configurator-occ.models';

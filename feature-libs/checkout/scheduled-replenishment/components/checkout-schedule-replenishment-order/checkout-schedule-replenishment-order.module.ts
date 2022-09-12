@@ -10,9 +10,9 @@ import { RouterModule } from '@angular/router';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/checkout/base/components';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 
 @NgModule({

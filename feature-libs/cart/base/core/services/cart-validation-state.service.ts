@@ -5,8 +5,8 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take, tap, withLatestFrom } from 'rxjs/operators';
 

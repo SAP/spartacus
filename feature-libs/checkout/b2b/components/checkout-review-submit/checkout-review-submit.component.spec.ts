@@ -9,19 +9,19 @@ import {
   OrderEntry,
   PaymentDetails,
   PaymentType,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutStepService } from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   CostCenter,
@@ -29,8 +29,8 @@ import {
   I18nTestingModule,
   QueryState,
   UserCostCenterService,
-} from '@spartacus/core';
-import { Card, PromotionsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Card, PromotionsModule } from '@commerce-storefront-toolset/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';

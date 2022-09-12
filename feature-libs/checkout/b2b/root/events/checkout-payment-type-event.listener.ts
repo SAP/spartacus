@@ -8,14 +8,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   CurrencySetEvent,
   EventService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,

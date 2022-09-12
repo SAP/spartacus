@@ -1,5 +1,5 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { backOff } from '@spartacus/core';
+import { backOff } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, defer, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

@@ -6,13 +6,13 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';

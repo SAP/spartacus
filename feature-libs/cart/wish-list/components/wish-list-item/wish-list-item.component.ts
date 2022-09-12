@@ -13,11 +13,11 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: '[cx-wish-list-item], cx-wish-list-item',

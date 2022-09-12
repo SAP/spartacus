@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import { AsmConfig } from '@commerce-storefront-toolset/asm/core';
+import { RoutingService, UserIdService } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';

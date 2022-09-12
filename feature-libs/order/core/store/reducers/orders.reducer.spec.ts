@@ -1,5 +1,5 @@
-import { PaginationModel, SortModel } from '@spartacus/core';
-import { OrderHistory, OrderHistoryList } from '@spartacus/order/root';
+import { PaginationModel, SortModel } from '@commerce-storefront-toolset/core';
+import { OrderHistory, OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromUserOrdersReducer from './orders.reducer';
 

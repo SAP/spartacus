@@ -7,13 +7,13 @@ import {
   CurrencyService,
   I18nTestingModule,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   OrgUnitService,
   PermissionService,
-} from '@spartacus/organization/administration/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { FormErrorsComponent } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';

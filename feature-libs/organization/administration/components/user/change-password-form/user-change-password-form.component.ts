@@ -6,8 +6,8 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { User } from '@spartacus/core';
-import { LoadStatus } from '@spartacus/organization/administration/core';
+import { User } from '@commerce-storefront-toolset/core';
+import { LoadStatus } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { MessageService } from '../../shared/message/services/message.service';

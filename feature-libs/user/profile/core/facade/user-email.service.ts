@@ -10,10 +10,10 @@ import {
   CommandService,
   CommandStrategy,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { UserEmailFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()

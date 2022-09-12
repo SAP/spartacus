@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslationChunkService, TranslationService } from '@spartacus/core';
+import { TranslationChunkService, TranslationService } from '@commerce-storefront-toolset/core';
 import { CmsI18nService } from './cms-i18n.service';
 import { CmsComponentsService } from './cms-components.service';
 import createSpy = jasmine.createSpy;

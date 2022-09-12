@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RoutingConfig } from '@spartacus/core';
+import { RoutingConfig } from '@commerce-storefront-toolset/core';
 
 export const defaultRulebasedRoutingConfig: RoutingConfig = {
   routing: {

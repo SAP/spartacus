@@ -14,7 +14,7 @@ import {
   EntitiesModel,
   normalizeHttpError,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';

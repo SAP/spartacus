@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
+import { ActivatedRoutesService, UnifiedInjector } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ContextToken } from './context.model';

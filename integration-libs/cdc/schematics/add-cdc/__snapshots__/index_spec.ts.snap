@@ -2,9 +2,9 @@
 
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcModule } from \\"@spartacus/cdc\\";
-import { CdcConfig, CdcRootModule } from \\"@spartacus/cdc/root\\";
-import { provideConfig } from \\"@spartacus/core\\";
+import { CdcModule } from \\"@commerce-storefront-toolset/cdc\\";
+import { CdcConfig, CdcRootModule } from \\"@commerce-storefront-toolset/cdc/root\\";
+import { provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -28,8 +28,8 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@commerce-storefront-toolset/cdc/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -40,7 +40,7 @@ import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CDC_FEATURE]: {
         module: () =>
-          import('@spartacus/cdc').then((m) => m.CdcModule),
+          import('@commerce-storefront-toolset/cdc').then((m) => m.CdcModule),
       },
     }
   }),
@@ -61,8 +61,8 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature validation of jsSDKUrl should set the given javascriptUrl 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@commerce-storefront-toolset/cdc/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -73,7 +73,7 @@ import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CDC_FEATURE]: {
         module: () =>
-          import('@spartacus/cdc').then((m) => m.CdcModule),
+          import('@commerce-storefront-toolset/cdc').then((m) => m.CdcModule),
       },
     }
   }),

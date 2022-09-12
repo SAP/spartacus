@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { UsageId } from '@spartacus/epd-visualization/root';
+import { UsageId } from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable } from 'rxjs';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 import { VisualizationAdapter } from './visualization.adapter';

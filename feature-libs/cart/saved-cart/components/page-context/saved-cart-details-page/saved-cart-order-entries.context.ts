@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ProductImportInfoService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -15,9 +15,9 @@ import {
   OrderEntry,
   ProductData,
   ProductImportInfo,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { RoutingService, UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { RoutingService, UserIdService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,

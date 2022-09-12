@@ -6,7 +6,7 @@ import {
   ProductService,
   RoutingConfig,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductVariantsGuard } from './product-variants.guard';

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Breadcrumb, Facet } from '@spartacus/core';
+import { Breadcrumb, Facet } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import {
   FacetCollapseState,

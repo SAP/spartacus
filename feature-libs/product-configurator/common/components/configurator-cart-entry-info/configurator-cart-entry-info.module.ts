@@ -6,13 +6,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { CartOutlets } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   OutletPosition,
   provideOutlet,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorIssuesNotificationModule } from '../configurator-issues-notification/configurator-issues-notification.module';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';

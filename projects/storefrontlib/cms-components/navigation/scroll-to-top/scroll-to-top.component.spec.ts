@@ -6,7 +6,7 @@ import {
   CmsScrollToTopComponent,
   ScrollBehavior,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 import { IconTestingModule } from '../../misc/icon/testing/icon-testing.module';

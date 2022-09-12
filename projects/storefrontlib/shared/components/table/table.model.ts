@@ -5,7 +5,7 @@
  */
 
 import { Type } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel } from '@commerce-storefront-toolset/core';
 
 /**
  * Contains the table data and structure for the `TableComponent`.

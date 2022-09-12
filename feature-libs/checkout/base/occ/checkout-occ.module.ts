@@ -11,8 +11,8 @@ import {
   CheckoutDeliveryAddressAdapter,
   CheckoutDeliveryModesAdapter,
   CheckoutPaymentAdapter,
-} from '@spartacus/checkout/base/core';
-import { provideDefaultConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { OccCheckoutDeliveryAddressAdapter } from './adapters/occ-checkout-delivery-address.adapter';
 import { OccCheckoutDeliveryModesAdapter } from './adapters/occ-checkout-delivery-modes.adapter';
 import { OccCheckoutPaymentAdapter } from './adapters/occ-checkout-payment.adapter';

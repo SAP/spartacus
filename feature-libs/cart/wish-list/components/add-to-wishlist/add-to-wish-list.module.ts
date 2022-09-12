@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule, AtMessageModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule, AtMessageModule } from '@commerce-storefront-toolset/storefront';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({

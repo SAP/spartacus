@@ -8,9 +8,9 @@ import { NgModule } from '@angular/core';
 import {
   asmTranslationChunksConfig,
   asmTranslations,
-} from '@spartacus/asm/assets';
-import { AsmRootModule, ASM_FEATURE } from '@spartacus/asm/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/asm/assets';
+import { AsmRootModule, ASM_FEATURE } from '@commerce-storefront-toolset/asm/root';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [AsmRootModule],
@@ -18,7 +18,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
     provideConfig(<CmsConfig>{
       featureModules: {
         [ASM_FEATURE]: {
-          module: () => import('@spartacus/asm').then((m) => m.AsmModule),
+          module: () => import('@commerce-storefront-toolset/asm').then((m) => m.AsmModule),
         },
       },
     }),

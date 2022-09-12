@@ -10,9 +10,9 @@ import {
   EntitiesModel,
   isNotUndefined,
   PaginationModel,
-} from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { B2BUserService } from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ListService } from '../../shared/list/list.service';

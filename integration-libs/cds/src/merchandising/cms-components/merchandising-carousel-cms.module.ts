@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
-import { CarouselModule, MediaModule } from '@spartacus/storefront';
+import { CmsConfig, provideDefaultConfig, UrlModule } from '@commerce-storefront-toolset/core';
+import { CarouselModule, MediaModule } from '@commerce-storefront-toolset/storefront';
 import { AttributesModule } from './directives/attributes/attributes.module';
 import { MerchandisingCarouselComponent } from './merchandising-carousel/merchandising-carousel.component';
 

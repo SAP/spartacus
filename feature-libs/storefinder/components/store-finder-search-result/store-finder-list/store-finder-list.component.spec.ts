@@ -3,14 +3,14 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import { I18nTestingModule, PointOfService } from '@commerce-storefront-toolset/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import {
   GoogleMapRendererService,
   StoreFinderService,
-} from '@spartacus/storefinder/core';
-import { SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefinder/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';

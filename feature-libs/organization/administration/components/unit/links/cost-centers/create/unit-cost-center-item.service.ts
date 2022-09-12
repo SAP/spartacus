@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CostCenter } from '@spartacus/core';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import { CostCenter } from '@commerce-storefront-toolset/core';
+import { OrganizationItemStatus } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 

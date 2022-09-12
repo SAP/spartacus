@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/digital-payments@${version}",
+    "releaseName": "@commerce-storefront-toolset/digital-payments@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib digital-payments --to digital-payments-${version}"
   },
   "plugins": {
@@ -24,10 +24,10 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/checkout",
-            "peerDependencies.@spartacus/schematics"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/storefront",
+            "peerDependencies.@commerce-storefront-toolset/checkout",
+            "peerDependencies.@commerce-storefront-toolset/schematics"
           ]
         }
       ]

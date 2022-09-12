@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
@@ -14,7 +14,7 @@ import {
   CheckoutQueryFacade,
   CheckoutSupportedDeliveryModesQueryReloadEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Command,
   CommandService,
@@ -26,7 +26,7 @@ import {
   QueryService,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';

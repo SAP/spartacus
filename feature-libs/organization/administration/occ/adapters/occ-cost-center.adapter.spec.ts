@@ -8,8 +8,8 @@ import {
   COST_CENTERS_NORMALIZER,
   COST_CENTER_NORMALIZER,
   OccEndpointsService,
-} from '@spartacus/core';
-import { BUDGETS_NORMALIZER } from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/core';
+import { BUDGETS_NORMALIZER } from '@commerce-storefront-toolset/organization/administration/core';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 
 import createSpy = jasmine.createSpy;

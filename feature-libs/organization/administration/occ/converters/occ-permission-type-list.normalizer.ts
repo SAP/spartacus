@@ -10,8 +10,8 @@ import {
   ConverterService,
   Occ,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
-import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/core';
+import { PERMISSION_TYPE_NORMALIZER } from '@commerce-storefront-toolset/organization/administration/core';
 
 @Injectable({
   providedIn: 'root',

@@ -11,8 +11,8 @@ import {
   Injectable,
   Renderer2,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
-import { EventListenerUtils } from '@spartacus/epd-visualization/root';
+import { WindowRef } from '@commerce-storefront-toolset/core';
+import { EventListenerUtils } from '@commerce-storefront-toolset/epd-visualization/root';
 
 @Injectable({
   providedIn: 'any',

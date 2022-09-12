@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Occ, OccConfig, OrderApprovalPermissionType } from '@spartacus/core';
+import { Occ, OccConfig, OrderApprovalPermissionType } from '@commerce-storefront-toolset/core';
 import { OccPermissionTypeNormalizer } from './occ-permission-type-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

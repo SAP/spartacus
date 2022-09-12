@@ -9,7 +9,7 @@ import {
   Converter,
   EntitiesModel,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Permission } from '../../model/permission.model';
 
 export const PERMISSION_NORMALIZER = new InjectionToken<

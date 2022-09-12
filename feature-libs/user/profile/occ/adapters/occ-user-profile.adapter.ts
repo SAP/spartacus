@@ -13,16 +13,16 @@ import {
   Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import {
   TITLE_NORMALIZER,
   UserProfileAdapter,
   USER_PROFILE_NORMALIZER,
   USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-} from '@spartacus/user/profile/core';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/user/profile/core';
+import { Title, UserSignUp } from '@commerce-storefront-toolset/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 

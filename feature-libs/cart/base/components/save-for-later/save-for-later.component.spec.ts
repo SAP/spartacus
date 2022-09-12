@@ -7,12 +7,12 @@ import {
   CartItemComponentOptions,
   OrderEntry,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({

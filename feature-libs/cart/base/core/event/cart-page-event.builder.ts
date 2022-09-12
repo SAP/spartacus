@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartPageEvent } from '@spartacus/cart/base/root';
-import { createFrom, EventService } from '@spartacus/core';
-import { NavigationEvent } from '@spartacus/storefront';
+import { CartPageEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { createFrom, EventService } from '@commerce-storefront-toolset/core';
+import { NavigationEvent } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

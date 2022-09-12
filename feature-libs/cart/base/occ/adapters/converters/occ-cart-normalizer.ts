@@ -8,13 +8,13 @@ import { Injectable } from '@angular/core';
 import {
   Cart,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   Converter,
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {

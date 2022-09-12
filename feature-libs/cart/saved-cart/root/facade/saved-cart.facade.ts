@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { facadeFactory, StateUtils } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { facadeFactory, StateUtils } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CART_SAVED_CART_CORE_FEATURE } from '../feature-name';
 

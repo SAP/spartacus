@@ -5,7 +5,7 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { HttpErrorHandler } from '@spartacus/core';
+import { HttpErrorHandler } from '@commerce-storefront-toolset/core';
 import { B2BUserConnector } from './connectors/b2b-user/b2b-user.connector';
 import { BudgetConnector } from './connectors/budget/budget.connector';
 import { CostCenterConnector } from './connectors/cost-center/cost-center.connector';

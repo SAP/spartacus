@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 
 interface CpqUpdateInformation {
   standardAttributeCode: string;

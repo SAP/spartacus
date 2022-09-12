@@ -10,7 +10,7 @@ import {
   Product,
   TranslationService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, merge, Observable, of } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 import {

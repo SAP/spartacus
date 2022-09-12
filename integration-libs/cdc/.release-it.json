@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/cdc@${version}",
+    "releaseName": "@commerce-storefront-toolset/cdc@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cdc --to cdc-${version}"
   },
   "plugins": {
@@ -24,11 +24,11 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/asm",
-            "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/schematics",
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/user"
+            "peerDependencies.@commerce-storefront-toolset/asm",
+            "peerDependencies.@commerce-storefront-toolset/storefront",
+            "peerDependencies.@commerce-storefront-toolset/schematics",
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/user"
           ]
         }
       ]

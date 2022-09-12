@@ -10,7 +10,7 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Budget } from '../../model/budget.model';
 import {
   CostCenterManagement,

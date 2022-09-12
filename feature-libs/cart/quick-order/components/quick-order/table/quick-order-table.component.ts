@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 
 @Component({
   selector: 'cx-quick-order-table',

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxEvent } from '@spartacus/core';
+import { CxEvent } from '@commerce-storefront-toolset/core';
 
 /**
  * Lifecycle events for the creation and removal of CMS components.

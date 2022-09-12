@@ -7,13 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartValidationGuard } from '@spartacus/cart/base/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { CartValidationGuard } from '@commerce-storefront-toolset/cart/base/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import {
   AddressFormModule,
   CardModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';

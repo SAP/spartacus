@@ -8,20 +8,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
+import { AddToCartModule } from '@commerce-storefront-toolset/cart/base/components/add-to-cart';
 import {
   CmsComponent,
   I18nTestingModule,
   Product,
   ProductReference,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CarouselModule,
   CmsComponentData,
   IconModule,
   MediaModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';

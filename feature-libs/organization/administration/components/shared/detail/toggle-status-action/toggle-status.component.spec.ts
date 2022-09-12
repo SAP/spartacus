@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ConfirmationMessageComponent } from '@spartacus/organization/administration/components';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ConfirmationMessageComponent } from '@commerce-storefront-toolset/organization/administration/components';
 import {
   Budget,
   LoadStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';

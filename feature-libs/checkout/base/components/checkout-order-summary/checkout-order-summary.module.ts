@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
+import { CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { OutletModule } from '@commerce-storefront-toolset/storefront';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 
 @NgModule({

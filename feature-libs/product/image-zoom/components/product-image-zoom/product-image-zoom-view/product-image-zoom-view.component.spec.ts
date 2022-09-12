@@ -5,14 +5,14 @@ import {
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import { ThumbnailsGroup } from '@commerce-storefront-toolset/product/image-zoom/root';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
 const firstImage = {

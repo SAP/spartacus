@@ -12,9 +12,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { Price } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { Price } from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';

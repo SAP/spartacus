@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CHECKOUT_B2B_CMS_COMPONENTS } from '@spartacus/checkout/b2b/root';
-import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { CHECKOUT_B2B_CMS_COMPONENTS } from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CHECKOUT_FEATURE } from '@commerce-storefront-toolset/checkout/base/root';
+import { CmsConfig, provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 import { CheckoutScheduledReplenishmentEventModule } from './events/checkout-scheduled-replenishment-event.module';
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS: string[] = [

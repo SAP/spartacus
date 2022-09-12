@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Budget } from '@spartacus/organization/administration/core';
+import { Budget } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';

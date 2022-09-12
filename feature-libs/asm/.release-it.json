@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/asm@${version}",
+    "releaseName": "@commerce-storefront-toolset/asm@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib asm --to asm-${version}"
   },
   "plugins": {
@@ -24,9 +24,9 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/schematics"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/storefront",
+            "peerDependencies.@commerce-storefront-toolset/schematics"
           ]
         }
       ]

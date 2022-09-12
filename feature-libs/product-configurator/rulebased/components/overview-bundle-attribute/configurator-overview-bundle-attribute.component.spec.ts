@@ -6,8 +6,8 @@ import {
   ImageType,
   Product,
   ProductService,
-} from '@spartacus/core';
-import { MediaModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { MediaModule } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

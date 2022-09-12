@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   ProductSearchPage,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';

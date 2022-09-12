@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 
 declare global {
   namespace Cypress {

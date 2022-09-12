@@ -2,21 +2,21 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartConfigService } from '@spartacus/cart/base/core';
+import { CartConfigService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthService,
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
-} from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { PromotionsModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CartDetailsComponent } from './cart-details.component';
 

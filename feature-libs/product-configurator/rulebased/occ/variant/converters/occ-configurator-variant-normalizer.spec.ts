@@ -4,7 +4,7 @@ import {
   ConverterService,
   OccConfig,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';

@@ -8,10 +8,10 @@ import {
   I18nTestingModule,
   RoutingService,
   User,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {

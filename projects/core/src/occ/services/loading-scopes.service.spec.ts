@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '@commerce-storefront-toolset/core';
 import { CxEvent } from '../../event/cx-event';
 import { LoadingScopesService } from './loading-scopes.service';
 

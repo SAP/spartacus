@@ -14,8 +14,8 @@ import {
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CostCenter, UserCostCenterService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CostCenter, UserCostCenterService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 

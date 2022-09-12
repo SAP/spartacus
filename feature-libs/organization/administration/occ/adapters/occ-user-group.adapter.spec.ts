@@ -4,14 +4,14 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import {
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
   USER_GROUP_SERIALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
 
 import createSpy = jasmine.createSpy;

@@ -5,23 +5,23 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslations,
-} from '@spartacus/user/account/assets';
+} from '@commerce-storefront-toolset/user/account/assets';
 import {
   UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
-} from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/user/account/root';
 import {
   userProfileTranslationChunksConfig,
   userProfileTranslations,
-} from '@spartacus/user/profile/assets';
+} from '@commerce-storefront-toolset/user/profile/assets';
 import {
   UserProfileRootModule,
   USER_PROFILE_FEATURE,
-} from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/user/profile/root';
 
 @NgModule({
   declarations: [],
@@ -31,7 +31,7 @@ import {
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/user/account').then((m) => m.UserAccountModule),
+            import('@commerce-storefront-toolset/user/account').then((m) => m.UserAccountModule),
         },
       },
     }),
@@ -46,7 +46,7 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+            import('@commerce-storefront-toolset/user/profile').then((m) => m.UserProfileModule),
         },
       },
     }),

@@ -6,12 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, CartVoucherFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ProcessSelectors,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';

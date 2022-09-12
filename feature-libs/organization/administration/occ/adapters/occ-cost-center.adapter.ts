@@ -16,12 +16,12 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   Budget,
   BUDGETS_NORMALIZER,
   CostCenterAdapter,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

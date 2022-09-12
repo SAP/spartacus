@@ -15,7 +15,7 @@ import { scaffoldAppStructure } from './scaffold-app-structure';
 const spartacusModulePath = 'src/app/spartacus/spartacus.module.ts';
 const exampleSpartacusModule = `
 import { NgModule } from '@angular/core';
-import { BaseStorefrontModule } from "@spartacus/storefront";
+import { BaseStorefrontModule } from "@commerce-storefront-toolset/storefront";
 import {MyFeature} from './my-feature.module';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
@@ -47,8 +47,8 @@ export class SpartacusFeaturesModule {}
 const configurationModulePath =
   'src/app/spartacus/spartacus-configuration.module.ts';
 const exampleConfigurationModule = `import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import { layoutConfig } from '@spartacus/storefront';
+import { provideConfig } from '@commerce-storefront-toolset/core';
+import { layoutConfig } from '@commerce-storefront-toolset/storefront';
 
 @NgModule({
   providers: [provideConfig(layoutConfig)],

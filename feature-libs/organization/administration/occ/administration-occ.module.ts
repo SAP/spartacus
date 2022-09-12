@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CostCenterOccModule, provideDefaultConfig } from '@spartacus/core';
+import { CostCenterOccModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import {
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -30,7 +30,7 @@ import {
   UserGroupAdapter,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
 import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
 import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';

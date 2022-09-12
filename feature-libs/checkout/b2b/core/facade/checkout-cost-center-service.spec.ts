@@ -1,17 +1,17 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { CheckoutCostCenterSetEvent } from '@spartacus/checkout/b2b/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutCostCenterSetEvent } from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   CostCenter,
   EventService,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';

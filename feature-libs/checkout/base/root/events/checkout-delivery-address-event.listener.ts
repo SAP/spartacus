@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   DeleteUserAddressEvent,
   EventService,
@@ -15,7 +15,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
   UserAddressEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';

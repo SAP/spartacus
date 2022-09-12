@@ -9,13 +9,13 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   BREAKPOINT,
   BreakpointService,
   LayoutConfig,
   PageLayoutHandler,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 

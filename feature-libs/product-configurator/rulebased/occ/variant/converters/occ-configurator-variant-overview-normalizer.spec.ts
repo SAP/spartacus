@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, TranslationService } from '@spartacus/core';
+import { ConverterService, TranslationService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import {
   GROUP_ID_1,

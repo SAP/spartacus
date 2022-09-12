@@ -12,8 +12,8 @@ import {
   ProtectedRoutesService,
   SemanticPathService,
   WindowRef,
-} from '@spartacus/core';
-import { LogoutGuard } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { LogoutGuard } from '@commerce-storefront-toolset/storefront';
 
 /**
  * @override

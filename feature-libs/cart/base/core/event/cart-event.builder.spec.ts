@@ -15,8 +15,8 @@ import {
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   MergeCartSuccessEvent,
-} from '@spartacus/cart/base/root';
-import { createFrom, EventService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { createFrom, EventService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CartActions } from '../store/actions';

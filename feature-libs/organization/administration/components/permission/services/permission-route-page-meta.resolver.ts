@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   DefaultRoutePageMetaResolver,
   TranslationService,
-} from '@spartacus/core';
-import { Permission } from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/core';
+import { Permission } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { CurrentPermissionService } from './current-permission.service';
 

@@ -11,7 +11,7 @@ import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { ReplaySubject } from 'rxjs';
 
 /**

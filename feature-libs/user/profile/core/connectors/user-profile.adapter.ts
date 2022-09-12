@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { User } from '@spartacus/user/account/root';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@commerce-storefront-toolset/user/profile/root';
 
 export abstract class UserProfileAdapter {
   abstract update(username: string, user: User): Observable<unknown>;

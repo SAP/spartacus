@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentUserGroupService } from './current-user-group.service';

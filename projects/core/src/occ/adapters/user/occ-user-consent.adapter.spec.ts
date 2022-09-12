@@ -7,7 +7,7 @@ import {
   CONSENT_TEMPLATE_NORMALIZER,
   ConverterService,
   Occ,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';

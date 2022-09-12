@@ -12,7 +12,7 @@ import {
   PageType,
   ProtectedRoutesService,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 

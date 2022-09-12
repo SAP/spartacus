@@ -12,7 +12,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { AuthActions, ListModel, StateUtils } from '@spartacus/core';
+import { AuthActions, ListModel, StateUtils } from '@commerce-storefront-toolset/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import {
   OrderApprovalState,

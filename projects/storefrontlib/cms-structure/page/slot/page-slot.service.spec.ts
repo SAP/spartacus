@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PageSlotService } from './page-slot.service';
 import { DOCUMENT } from '@angular/common';
-import { CmsComponentsService } from '@spartacus/storefront';
+import { CmsComponentsService } from '@commerce-storefront-toolset/storefront';
 
 function createSlotElementStub(slotName, top) {
   return {

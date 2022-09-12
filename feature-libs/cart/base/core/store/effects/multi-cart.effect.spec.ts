@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart, CartType } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import { Cart, CartType } from '@commerce-storefront-toolset/cart/base/root';
+import { OCC_CART_ID_CURRENT } from '@commerce-storefront-toolset/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';

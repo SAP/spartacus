@@ -14,8 +14,8 @@ import {
   I18nTestingModule,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
-import { OutletDirective, OutletModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { OutletDirective, OutletModule } from '@commerce-storefront-toolset/storefront';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';

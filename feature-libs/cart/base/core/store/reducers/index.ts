@@ -6,8 +6,8 @@
 
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
-import { AuthActions, StateUtils } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { AuthActions, StateUtils } from '@commerce-storefront-toolset/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
   cartEntitiesReducer,

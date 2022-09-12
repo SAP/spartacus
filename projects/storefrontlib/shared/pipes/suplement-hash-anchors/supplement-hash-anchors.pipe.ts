@@ -5,7 +5,7 @@
  */
 
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 
 /*
  * Supplements the anchor links that contain only the hash fragment in the `href` attribute,

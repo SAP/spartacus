@@ -7,7 +7,7 @@ import {
   PageType,
   GlobalMessageType,
   CustomerCouponService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 
 const params = {

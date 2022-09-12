@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { CommonModule } from '@angular/common';
 import { YotporeviewComponent } from './yotporeview/yotpo-review.component';
 import { YotpostarratingComponent } from './yotpostarrating/yotpo-star-rating.component';

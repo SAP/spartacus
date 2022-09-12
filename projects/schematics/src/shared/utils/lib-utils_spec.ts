@@ -57,12 +57,12 @@ describe('Lib utils', () => {
   const FEATURE_NAME = 'xxx';
   const FEATURE_FOLDER_NAME = 'xxx';
   const FEATURE_MODULE_NAME = 'XxxModule';
-  const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
+  const FEATURE_MODULE_IMPORT_PATH = '@commerce-storefront-toolset/xxx';
   const ROOT_MODULE_NAME = 'XxxModuleRoot';
-  const ROOT_FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx/root';
+  const ROOT_FEATURE_MODULE_IMPORT_PATH = '@commerce-storefront-toolset/xxx/root';
   const I18N_RESOURCES = 'translations';
   const I18N_CHUNKS = 'translationChunk';
-  const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
+  const ASSETS_IMPORT_PATH = '@commerce-storefront-toolset/xxx/assets';
   const SCSS_FILE_NAME = 'xxx.scss';
   const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
 
@@ -103,18 +103,18 @@ describe('Lib utils', () => {
   const CHECKOUT_FEATURE_CONFIG: SchematicConfig = {
     library: {
       featureName: 'checkout',
-      mainScope: '@spartacus/checkout',
-      featureScope: '@spartacus/checkout/base',
+      mainScope: '@commerce-storefront-toolset/checkout',
+      featureScope: '@commerce-storefront-toolset/checkout/base',
     },
     folderName: 'checkout',
     moduleName: 'Checkout',
     featureModule: {
       name: 'CheckoutModule',
-      importPath: '@spartacus/checkout/base',
+      importPath: '@commerce-storefront-toolset/checkout/base',
     },
     rootModule: {
       name: 'CheckoutRootModule',
-      importPath: '@spartacus/checkout/base/root',
+      importPath: '@commerce-storefront-toolset/checkout/base/root',
     },
   };
   const CHECKOUT_OPTIONS: LibraryOptions = {

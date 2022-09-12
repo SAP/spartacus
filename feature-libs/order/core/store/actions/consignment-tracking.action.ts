@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking } from '@commerce-storefront-toolset/order/root';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[Order] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =

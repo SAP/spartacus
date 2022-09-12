@@ -24,9 +24,9 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Product, ProductConnector } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
+import { Product, ProductConnector } from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

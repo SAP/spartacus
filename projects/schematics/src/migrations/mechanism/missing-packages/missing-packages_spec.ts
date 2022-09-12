@@ -12,17 +12,17 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = '03-migration-v4-missing-packages';
 
-const fileWithAsmImport = `import { Something } from "@spartacus/asm";
+const fileWithAsmImport = `import { Something } from "@commerce-storefront-toolset/asm";
 
 console.log(Something)`;
 
-const fileWithAsmEntryPointImport = `import { Something } from "@spartacus/asm/root";
+const fileWithAsmEntryPointImport = `import { Something } from "@commerce-storefront-toolset/asm/root";
 
 console.log(Something)`;
 
 const fileWithoutImports = `console.log('test');`;
 
-const fileWithCheckoutImport = `import { Something } from "@spartacus/checkout";
+const fileWithCheckoutImport = `import { Something } from "@commerce-storefront-toolset/checkout";
 
 console.log(Something)`;
 
@@ -79,7 +79,7 @@ describe('missing packages', () => {
       JSON.stringify({
         name: 'custom-app',
         dependencies: {
-          '@spartacus/checkout': '4.0.0',
+          '@commerce-storefront-toolset/checkout': '4.0.0',
         },
       })
     );

@@ -11,8 +11,8 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE, ModalService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,

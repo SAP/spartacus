@@ -7,12 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   ItemCounterModule,
   MediaModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 
 @NgModule({

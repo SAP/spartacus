@@ -23,7 +23,7 @@ import {
   deepMerge,
   DeferLoadingStrategy,
   isNotUndefined,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { filter, mapTo, share, tap } from 'rxjs/operators';
 import { CmsFeaturesService } from './cms-features.service';

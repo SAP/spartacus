@@ -7,13 +7,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CartActions, CartConnector } from '@spartacus/cart/base/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { CartActions, CartConnector } from '@commerce-storefront-toolset/cart/base/core';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SavedCartConnector } from '../../connectors/saved-cart.connector';

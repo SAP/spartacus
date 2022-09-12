@@ -10,14 +10,14 @@ import {
   Command,
   CommandService,
   UserActions,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
 import {
   Title,
   UserRegisterFacade,
   UserSignUp,
-} from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { tap } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';

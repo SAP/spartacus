@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   Budget,
   BudgetService,
   OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { BudgetFormService } from '../form/budget-form.service';

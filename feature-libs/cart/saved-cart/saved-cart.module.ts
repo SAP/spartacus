@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SavedCartComponentsModule } from '@spartacus/cart/saved-cart/components';
-import { SavedCartCoreModule } from '@spartacus/cart/saved-cart/core';
-import { SavedCartOccModule } from '@spartacus/cart/saved-cart/occ';
+import { SavedCartComponentsModule } from '@commerce-storefront-toolset/cart/saved-cart/components';
+import { SavedCartCoreModule } from '@commerce-storefront-toolset/cart/saved-cart/core';
+import { SavedCartOccModule } from '@commerce-storefront-toolset/cart/saved-cart/occ';
 
 @NgModule({
   imports: [SavedCartCoreModule, SavedCartOccModule, SavedCartComponentsModule],

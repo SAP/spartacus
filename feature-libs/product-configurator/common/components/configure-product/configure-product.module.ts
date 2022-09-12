@@ -12,13 +12,13 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   OutletPosition,
   ProductListOutlets,
   provideOutlet,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ConfigureProductComponent } from './configure-product.component';
 
 @NgModule({

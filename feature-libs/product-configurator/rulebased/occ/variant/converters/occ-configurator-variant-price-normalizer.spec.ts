@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
+import { ConverterService } from '@commerce-storefront-toolset/core';
 import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
 import { OccConfigurator } from '../variant-configurator-occ.models';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 
 class MockConverterService {
   convert() {}

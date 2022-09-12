@@ -7,9 +7,9 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
+import { UserEmailFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import createSpy = jasmine.createSpy;

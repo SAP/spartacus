@@ -6,10 +6,10 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService } from '@commerce-storefront-toolset/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-list',

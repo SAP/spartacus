@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
 import { BaseItem } from '../../organization.model';
 
 @Injectable({

@@ -11,7 +11,7 @@ import {
   ViewContainerRef,
   ChangeDetectorRef,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { FormConfig } from '../../../config/form-config';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 

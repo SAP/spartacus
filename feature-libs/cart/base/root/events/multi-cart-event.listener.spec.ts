@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import { createFrom, CxEvent, EventService } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { MultiCartFacade } from '../facade/multi-cart.facade';
 import { LoadCartEvent, RemoveCartEvent } from './cart.events';

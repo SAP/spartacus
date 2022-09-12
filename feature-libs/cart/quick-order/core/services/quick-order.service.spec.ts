@@ -4,15 +4,15 @@ import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
   OrderEntry,
-} from '@spartacus/cart/base/root';
-import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { defaultQuickOrderConfig } from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   EventService,
   Product,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of, queueScheduler } from 'rxjs';
 import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';

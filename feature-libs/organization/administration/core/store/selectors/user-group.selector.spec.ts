@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
 import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,

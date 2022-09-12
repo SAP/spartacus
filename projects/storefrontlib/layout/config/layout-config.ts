@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config, DeferLoadingStrategy } from '@spartacus/core';
+import { Config, DeferLoadingStrategy } from '@commerce-storefront-toolset/core';
 import { LaunchConfig } from '../launch-dialog/index';
 
 /**
@@ -124,6 +124,6 @@ export abstract class LayoutConfig {
   launch?: LaunchConfig;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends LayoutConfig {}
 }

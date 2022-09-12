@@ -6,12 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import {
   KeyboardFocusModule,
   PaginationModule,
   TableModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CardModule } from '../card/card.module';
 import { MessageModule } from '../message/message.module';
 import { AssignCellComponent } from './assign-cell.component';

@@ -12,7 +12,7 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';

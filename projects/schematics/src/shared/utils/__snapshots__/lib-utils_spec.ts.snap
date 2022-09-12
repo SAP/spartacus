@@ -158,7 +158,7 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/assets\\",
               {
                 \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"input\\": \\"./node_modules/@commerce-storefront-toolset/smartedit/assets\\",
                 \\"output\\": \\"assets/\\"
               }
             ],
@@ -237,7 +237,7 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/assets\\",
               {
                 \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"input\\": \\"./node_modules/@commerce-storefront-toolset/smartedit/assets\\",
                 \\"output\\": \\"assets/\\"
               }
             ],
@@ -262,10 +262,10 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
 
 exports[`Lib utils addLibraryFeature custom config option should add the custom config when set 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdsConfig } from \\"@spartacus/cds\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+import { CdsConfig } from \\"@commerce-storefront-toolset/cds\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { translationChunk, translations } from \\"@commerce-storefront-toolset/xxx/assets\\";
+import { XxxModuleRoot } from \\"@commerce-storefront-toolset/xxx/root\\";
 
 @NgModule({
   declarations: [],
@@ -276,7 +276,7 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
     featureModules: {
       xxx: {
         module: () =>
-          import('@spartacus/xxx').then((m) => m.XxxModule),
+          import('@commerce-storefront-toolset/xxx').then((m) => m.XxxModule),
       },
     }
   }),
@@ -305,8 +305,8 @@ export class XxxFeatureModule { }
 
 exports[`Lib utils addLibraryFeature should NOT add i18n if the config is not present 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { XxxModuleRoot } from \\"@commerce-storefront-toolset/xxx/root\\";
 
 @NgModule({
   declarations: [],
@@ -317,7 +317,7 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
     featureModules: {
       xxx: {
         module: () =>
-          import('@spartacus/xxx').then((m) => m.XxxModule),
+          import('@commerce-storefront-toolset/xxx').then((m) => m.XxxModule),
       },
     }
   })]
@@ -328,9 +328,9 @@ export class XxxFeatureModule { }
 
 exports[`Lib utils addLibraryFeature should add i18n config in feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { translationChunk, translations } from \\"@commerce-storefront-toolset/xxx/assets\\";
+import { XxxModuleRoot } from \\"@commerce-storefront-toolset/xxx/root\\";
 
 @NgModule({
   declarations: [],
@@ -341,7 +341,7 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
     featureModules: {
       xxx: {
         module: () =>
-          import('@spartacus/xxx').then((m) => m.XxxModule),
+          import('@commerce-storefront-toolset/xxx').then((m) => m.XxxModule),
       },
     }
   }),
@@ -359,10 +359,10 @@ export class XxxFeatureModule { }
 
 exports[`Lib utils addLibraryFeature when the eager loading is configured should add it in the eager way 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { XxxModule } from \\"@spartacus/xxx\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { XxxModule } from \\"@commerce-storefront-toolset/xxx\\";
+import { translationChunk, translations } from \\"@commerce-storefront-toolset/xxx/assets\\";
+import { XxxModuleRoot } from \\"@commerce-storefront-toolset/xxx/root\\";
 
 @NgModule({
   declarations: [],
@@ -383,9 +383,9 @@ export class XxxFeatureModule { }
 
 exports[`Lib utils addLibraryFeature when the lazy loading is configured should add it in the lazy loading way 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { translationChunk, translations } from \\"@commerce-storefront-toolset/xxx/assets\\";
+import { XxxModuleRoot } from \\"@commerce-storefront-toolset/xxx/root\\";
 
 @NgModule({
   declarations: [],
@@ -396,7 +396,7 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
     featureModules: {
       xxx: {
         module: () =>
-          import('@spartacus/xxx').then((m) => m.XxxModule),
+          import('@commerce-storefront-toolset/xxx').then((m) => m.XxxModule),
       },
     }
   }),

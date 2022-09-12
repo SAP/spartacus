@@ -8,11 +8,11 @@ import {
   OccConfig,
   SearchConfig,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrganizationActions,
   PermissionConnector,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';

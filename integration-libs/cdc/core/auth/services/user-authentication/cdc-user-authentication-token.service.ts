@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthConfigService, AuthToken } from '@spartacus/core';
+import { AuthConfigService, AuthToken } from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

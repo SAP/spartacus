@@ -10,7 +10,7 @@ import {
   EventService,
   ProductSearchService,
   ProductService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';

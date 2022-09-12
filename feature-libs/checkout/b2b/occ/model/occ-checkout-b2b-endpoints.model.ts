@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import { OccEndpoint } from '@commerce-storefront-toolset/core';
 
 export interface CheckoutB2BOccEndpoints {
   /**
@@ -21,6 +21,6 @@ export interface CheckoutB2BOccEndpoints {
   setCartPaymentType?: string | OccEndpoint;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface OccEndpoints extends CheckoutB2BOccEndpoints {}
 }

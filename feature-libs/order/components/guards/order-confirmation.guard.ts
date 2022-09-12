@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { SemanticPathService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { SemanticPathService } from '@commerce-storefront-toolset/core';
+import { OrderFacade } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

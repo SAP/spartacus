@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { ListService } from '../../../shared/list/list.service';
 import { CurrentUnitService } from '../../services/current-unit.service';

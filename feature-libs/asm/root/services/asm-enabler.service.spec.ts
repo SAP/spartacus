@@ -1,12 +1,12 @@
 import { Location } from '@angular/common';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import {
   LaunchDialogService,
   LayoutConfig,
   OutletService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 

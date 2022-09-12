@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
-import { KeyboardFocusModule } from '@spartacus/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { KeyboardFocusModule } from '@commerce-storefront-toolset/storefront';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';

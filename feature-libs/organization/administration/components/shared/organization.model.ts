@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
 
 export enum OrganizationTableType {
   BUDGET = 'orgBudget',

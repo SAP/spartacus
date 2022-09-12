@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsBannerComponentMedia,
   CmsPDFDocumentComponent,
-} from '@spartacus/core';
-import { CmsComponentData, Media, MediaService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData, Media, MediaService } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFComponent } from './pdf.component';
 

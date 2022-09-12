@@ -6,9 +6,9 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthRedirectService } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { AuthRedirectService } from '@commerce-storefront-toolset/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({

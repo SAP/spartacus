@@ -17,7 +17,7 @@ import {
   Language,
   LanguageService,
   LANGUAGE_CONTEXT_ID,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';

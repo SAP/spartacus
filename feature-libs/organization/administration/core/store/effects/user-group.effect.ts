@@ -12,7 +12,7 @@ import {
   EntitiesModel,
   normalizeHttpError,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';

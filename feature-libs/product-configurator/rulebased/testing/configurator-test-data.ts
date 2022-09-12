@@ -8,8 +8,8 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';

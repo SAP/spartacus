@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ContentType } from '@spartacus/epd-visualization/root';
+import { ContentType } from '@commerce-storefront-toolset/epd-visualization/root';
 import { SceneLoadState } from './scene-load-state';
 
 export interface LoadedSceneInfo {

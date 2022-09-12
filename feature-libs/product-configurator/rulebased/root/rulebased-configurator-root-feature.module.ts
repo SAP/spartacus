@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 
 const cmsComponents: string[] = [

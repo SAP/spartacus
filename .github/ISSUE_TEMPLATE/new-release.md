@@ -71,7 +71,7 @@ Do the following steps to keep track of spartacussampledata releases:
   - Make sure your GITHUB_TOKEN env variable is set and valid
   - Check if you are logged into npm with `npm whoami`
   - If you are not logged in, then login with `npm login`
-  - If there are any problems, setup 2FA for npm & `npm set @spartacus:registry https://registry.npmjs.org/`
+  - If there are any problems, setup 2FA for npm & `npm set @commerce-storefront-toolset:registry https://registry.npmjs.org/`
   - Important note: DO NOT push or tag any of the released and committed libraries from list below. INSTEAD, push all commits together. Then wait for merging branch to maintenance one and tag release with proper version `major.minor.patch`. Also add a `core-major.minor.patch` tag as well.
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
@@ -106,7 +106,7 @@ Do the following steps to keep track of spartacussampledata releases:
   - `next` tag should always reference the last non-stable version
   - `latest` tag should always point to the last stable version
   - You can leave `rc` tag until we release stable release.
-  - Use `npm view @spartacus/NAME@VERSION` (ie. `npm view @spartacus/cdc@next`) instead of clicking thru the `npmjs.org` website (which is much slower)
+  - Use `npm view @commerce-storefront-toolset/NAME@VERSION` (ie. `npm view @commerce-storefront-toolset/cdc@next`) instead of clicking thru the `npmjs.org` website (which is much slower)
   - Use `npm dist-tag` command for tag updates.
 - [ ] Test the released libraries from a new shell app
   - [ ] Change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:

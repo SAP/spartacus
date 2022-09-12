@@ -65,9 +65,9 @@ The dependencies in this procedure are required by the Spartacus storefront.
 There are several libraries you must add to your storefront application. You can do so with yarn, as follows:
 
 ```
-$ yarn add @spartacus/core@next
-$ yarn add @spartacus/storefront@next
-$ yarn add @spartacus/styles@next
+$ yarn add @commerce-storefront-toolset/core@next
+$ yarn add @commerce-storefront-toolset/storefront@next
+$ yarn add @commerce-storefront-toolset/styles@next
 ```
 
 The storefront libraries are not yet released, so we suggest using the `@next` tag to install the latest pre-alpha version that is available.
@@ -77,7 +77,7 @@ The storefront libraries are not yet released, so we suggest using the `@next` t
 1. Open `{mystore}/src/app/app.module.ts` and add the following lines:
 
    ```
-   import { StorefrontModule } from '@spartacus/storefront';
+   import { StorefrontModule } from '@commerce-storefront-toolset/storefront';
    ```
 
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
@@ -93,7 +93,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { StorefrontModule } from '@spartacus/storefront';
+import { StorefrontModule } from '@commerce-storefront-toolset/storefront';
 
 @NgModule({
   declarations: [
@@ -151,10 +151,10 @@ This procedure adds the storefront component in the UI.
    <cx-storefront>Loading...</cx-storefront>
    ```
 
-2. Import the styles from the `@spartacus/styles` library by opening `{approot}/src/styles.scss` and adding the following line:
+2. Import the styles from the `@commerce-storefront-toolset/styles` library by opening `{approot}/src/styles.scss` and adding the following line:
 
    ```
-   @import "~@spartacus/styles/index";
+   @import "~@commerce-storefront-toolset/styles/index";
    ```
 
 # Building and Starting

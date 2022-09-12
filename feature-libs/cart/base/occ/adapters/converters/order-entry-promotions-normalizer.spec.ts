@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PromotionResult } from '@spartacus/cart/base/root';
-import { ConverterService } from '@spartacus/core';
+import { PromotionResult } from '@commerce-storefront-toolset/cart/base/root';
+import { ConverterService } from '@commerce-storefront-toolset/core';
 import { OrderEntryPromotionsNormalizer } from './order-entry-promotions-normalizer';
 
 const mockAppliedProductPromotions: PromotionResult[] = [

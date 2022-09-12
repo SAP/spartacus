@@ -1,9 +1,9 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import { SpinnerModule } from '@spartacus/storefront';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 

@@ -10,7 +10,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { CmsParagraphComponent } from '@spartacus/core';
+import { CmsParagraphComponent } from '@commerce-storefront-toolset/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   createFrom,
   CurrencySetEvent,
@@ -11,7 +11,7 @@ import {
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,

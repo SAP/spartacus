@@ -10,7 +10,7 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import {

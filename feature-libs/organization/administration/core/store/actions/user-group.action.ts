@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils } from '@commerce-storefront-toolset/core';
 import { UserGroup } from '../../model/user-group.model';
 import {
   B2B_USER_ENTITIES,

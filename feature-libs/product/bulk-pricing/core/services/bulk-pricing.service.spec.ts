@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductService } from '@spartacus/core';
+import { ProductService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 

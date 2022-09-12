@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConfigModule } from '@spartacus/core';
+import { ConfigModule } from '@commerce-storefront-toolset/core';
 import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,

@@ -3,7 +3,7 @@ import {
   ConfigInitializerService,
   LanguageService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DirectionMode } from './config/direction.model';
 import { DirectionService } from './direction.service';

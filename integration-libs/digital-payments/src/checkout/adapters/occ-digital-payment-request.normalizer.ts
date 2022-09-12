@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter } from '@commerce-storefront-toolset/core';
 import { DpPaymentRequest } from '../models';
 import { OccDpPaymentRequest } from './occ.models';
 

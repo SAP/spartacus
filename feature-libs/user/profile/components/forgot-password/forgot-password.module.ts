@@ -17,9 +17,9 @@ import {
   provideDefaultConfig,
   RoutingService,
   UrlModule,
-} from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule, SpinnerModule } from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
 

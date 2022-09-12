@@ -5,7 +5,7 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {

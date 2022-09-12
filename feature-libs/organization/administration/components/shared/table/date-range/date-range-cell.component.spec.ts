@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { DateRangeCellComponent } from '..';
 

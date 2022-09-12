@@ -11,12 +11,12 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({

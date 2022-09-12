@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
-import { Order, OrderPlacedEvent } from '@spartacus/order/root';
+import { RemoveCartEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { createFrom, CxEvent, EventService } from '@commerce-storefront-toolset/core';
+import { Order, OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutPlaceOrderEventListener } from './checkout-place-order-event.listener';
 import { CheckoutQueryResetEvent } from './checkout.events';

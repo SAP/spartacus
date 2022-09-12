@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SpinnerModule } from '@spartacus/storefront';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [

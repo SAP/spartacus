@@ -5,8 +5,8 @@
  */
 
 import { Injectable, isDevMode } from '@angular/core';
-import { CmsService, ContentSlotComponentData, Page } from '@spartacus/core';
-import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
+import { CmsService, ContentSlotComponentData, Page } from '@commerce-storefront-toolset/core';
+import { PersonalizationConfig } from '@commerce-storefront-toolset/tracking/personalization/root';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PersonalizationContext } from '../model/personalization-context.model';

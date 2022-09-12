@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { defaultTableConfig } from './config/default-table.config';
 import { TableDataCellModule } from './table-data-cell/table-data-cell.module';

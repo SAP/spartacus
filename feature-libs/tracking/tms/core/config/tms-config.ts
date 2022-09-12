@@ -5,7 +5,7 @@
  */
 
 import { AbstractType, Injectable, Type } from '@angular/core';
-import { Config, CxEvent } from '@spartacus/core';
+import { Config, CxEvent } from '@commerce-storefront-toolset/core';
 import { TmsCollector } from '../model/tms.model';
 
 /**
@@ -46,6 +46,6 @@ export abstract class TmsConfig {
   tagManager?: TmsCollectors;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends TmsConfig {}
 }

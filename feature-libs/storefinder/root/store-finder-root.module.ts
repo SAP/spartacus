@@ -9,7 +9,7 @@ import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultStoreFinderLayoutConfig } from './config/default-store-finder-layout-config';
 import { STORE_FINDER_FEATURE } from './feature-name';
 

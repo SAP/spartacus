@@ -9,7 +9,7 @@ import {
   B2BUser,
   DefaultRoutePageMetaResolver,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CurrentUserService } from './current-user.service';
 

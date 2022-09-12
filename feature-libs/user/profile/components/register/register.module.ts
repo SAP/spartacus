@@ -15,13 +15,13 @@ import {
   NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   SpinnerModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { RegisterComponent } from './register.component';
 
 @NgModule({

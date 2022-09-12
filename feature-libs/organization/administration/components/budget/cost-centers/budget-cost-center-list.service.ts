@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CostCenter, EntitiesModel, PaginationModel } from '@spartacus/core';
+import { CostCenter, EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
 import {
   Budget,
   BudgetService,
-} from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../shared/organization.model';

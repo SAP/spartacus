@@ -13,7 +13,7 @@ import {
   RouteLoadStrategy,
   RoutingConfigService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { NEVER, of } from 'rxjs';
 import { CmsPageGuardService } from './cms-page-guard.service';
 import { CmsPageGuard } from './cms-page.guard';

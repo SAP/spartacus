@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { SubListService } from './sub-list.service';
 

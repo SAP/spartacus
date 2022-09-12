@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, Occ } from '@spartacus/core';
-import { B2BUnitNode } from '@spartacus/organization/administration/core';
+import { Converter, Occ } from '@commerce-storefront-toolset/core';
+import { B2BUnitNode } from '@commerce-storefront-toolset/organization/administration/core';
 
 @Injectable({
   providedIn: 'root',

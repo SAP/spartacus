@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
+import { B2BUnitTreeNode } from '@commerce-storefront-toolset/organization/administration/core';
 import { UnitTreeService } from './unit-tree.service';
 
 const mockedTree = {

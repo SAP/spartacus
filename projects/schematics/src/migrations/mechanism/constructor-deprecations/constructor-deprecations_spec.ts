@@ -23,24 +23,24 @@ import {
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
-    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    import { StateWithProcess, StateWithUser } from '@commerce-storefront-toolset/core';
     export class InheritingService {
       constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
 `;
 const NO_CONSTRUCTOR = `
-    import { UserAddressService } from '@spartacus/core';
+    import { UserAddressService } from '@commerce-storefront-toolset/core';
     import { Store } from '@ngrx/store';
     export class InheritingService extends UserAddressService {}
 `;
 const WRONG_PARAM_ORDER_BUT_VALID = `
 import { ChangeDetectorRef } from '@angular/core';
-import { CartService } from '@spartacus/core';
+import { CartService } from '@commerce-storefront-toolset/core';
 import {
   AddToCartComponent,
   CurrentProductService,
   ModalService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 export class InheritingService extends AddToCartComponent {
   constructor(
     modalService: ModalService,
@@ -54,12 +54,12 @@ export class InheritingService extends AddToCartComponent {
 `;
 const WRONG_PARAM_ORDER_EXPECTED = `
 import { ChangeDetectorRef } from '@angular/core';
-import {  ActiveCartService } from '@spartacus/core';
+import {  ActiveCartService } from '@commerce-storefront-toolset/core';
 import {
   AddToCartComponent,
   CurrentProductService,
   ModalService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 export class InheritingService extends AddToCartComponent {
   constructor(
     modalService: ModalService,
@@ -74,13 +74,13 @@ export class InheritingService extends AddToCartComponent {
 
 const CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END = `
 import { ChangeDetectorRef } from '@angular/core';
-import { CartService } from '@spartacus/core';
+import { CartService } from '@commerce-storefront-toolset/core';
 import {
   AddToCartComponent,
   CmsComponentsService,
   CurrentProductService,
   ModalService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 export class InheritingService extends AddToCartComponent {
   constructor(
     cmsComponentsService: CmsComponentsService,
@@ -96,13 +96,13 @@ export class InheritingService extends AddToCartComponent {
 
 const CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END_EXPECTED = `
 import { ChangeDetectorRef } from '@angular/core';
-import {  ActiveCartService } from '@spartacus/core';
+import {  ActiveCartService } from '@commerce-storefront-toolset/core';
 import {
   AddToCartComponent,
   CmsComponentsService,
   CurrentProductService,
   ModalService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 export class InheritingService extends AddToCartComponent {
   constructor(
     cmsComponentsService: CmsComponentsService,
@@ -122,7 +122,7 @@ const NO_SUPER_CALL = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
@@ -133,7 +133,7 @@ const CALL_EXPRESSION_NO_SUPER = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritingService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         console.log(Math.random());
@@ -146,7 +146,7 @@ const ADD_PARAMETER_VALID_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         super(store);
@@ -159,7 +159,7 @@ const ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
       StateWithProcess,
       StateWithUser,
       UserAddressService
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     export class InheritedService extends UserAddressService {
       constructor(
         store: Store<StateWithUser | StateWithProcess<void>>,
@@ -177,7 +177,7 @@ import {
   StateWithUser,
   UserAddressService,
   AuthService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class InheritedService extends UserAddressService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
@@ -194,7 +194,7 @@ import {
   StateWithUser,
   UserAddressService,
   AuthService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class InheritedService extends UserAddressService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
@@ -211,7 +211,7 @@ import {
   FeatureConfigService,
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -229,7 +229,7 @@ import {
   
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -247,7 +247,7 @@ import {
   FeatureConfigService,
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -267,7 +267,7 @@ import {
   
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -286,7 +286,7 @@ import {
   FeatureConfigService,
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -306,7 +306,7 @@ import {
   FeatureConfigService,
   PageMetaResolver,
   PageMetaService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
@@ -323,7 +323,7 @@ export class Test extends PageMetaService {
 
 const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
     import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@commerce-storefront-toolset/core';
     export class InheritingService extends CheckoutService {
       constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
         super(store, cartDataService);
@@ -332,7 +332,7 @@ const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
 `;
 const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
     import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@commerce-storefront-toolset/core';
     export class InheritingService extends CheckoutService {
       constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
         super(store , authService, activeCartService);
@@ -340,8 +340,8 @@ const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
     }
 `;
 const CART_PAGE_LAYOUT_HANDLER = `
-    import { CartPageLayoutHandler } from '@spartacus/storefront';
-    import { CartService } from '@spartacus/core';
+    import { CartPageLayoutHandler } from '@commerce-storefront-toolset/storefront';
+    import { CartService } from '@commerce-storefront-toolset/core';
     export class InheritingService extends CartPageLayoutHandler {
       constructor(cartService: CartService) {
         super(cartService);
@@ -349,8 +349,8 @@ const CART_PAGE_LAYOUT_HANDLER = `
     }
 `;
 const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
-    import { CartPageLayoutHandler } from '@spartacus/storefront';
-    import {  ActiveCartService, SelectiveCartService } from '@spartacus/core';
+    import { CartPageLayoutHandler } from '@commerce-storefront-toolset/storefront';
+    import {  ActiveCartService, SelectiveCartService } from '@commerce-storefront-toolset/core';
     export class InheritingService extends CartPageLayoutHandler {
       constructor( activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService) {
         super( activeCartService, selectiveCartService);
@@ -369,10 +369,10 @@ import {
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import {PageSlotComponent} from '@spartacus/storefront';
+import {PageSlotComponent} from '@commerce-storefront-toolset/storefront';
 @Component({
   selector: 'custom',
   template: '',
@@ -412,10 +412,10 @@ import {
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import {PageSlotComponent, CmsComponentsService} from '@spartacus/storefront';
+import {PageSlotComponent, CmsComponentsService} from '@commerce-storefront-toolset/storefront';
 @Component({
   selector: 'custom',
   template: '',
@@ -449,7 +449,7 @@ import {
   PageMetaResolver,
   CmsService,
   FeatureConfigService
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
 export class CustomPageMetaService extends PageMetaService {
@@ -469,7 +469,7 @@ import {
   PageMetaResolver,
   CmsService,
   
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
 export class CustomPageMetaService extends PageMetaService {

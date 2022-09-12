@@ -1,4 +1,4 @@
-import { Cart, CartType } from '@spartacus/cart/base/root';
+import { Cart, CartType } from '@commerce-storefront-toolset/cart/base/root';
 import { CartActions } from '../actions/index';
 import * as fromMultiCart from './multi-cart.reducer';
 

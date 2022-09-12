@@ -2,10 +2,10 @@
 
 exports[`Spartacus Order schematics: ng-add Order feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { OrderModule } from \\"@spartacus/order\\";
-import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
-import { OrderRootModule } from \\"@spartacus/order/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { OrderModule } from \\"@commerce-storefront-toolset/order\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@commerce-storefront-toolset/order/assets\\";
+import { OrderRootModule } from \\"@commerce-storefront-toolset/order/root\\";
 
 @NgModule({
   declarations: [],
@@ -26,9 +26,9 @@ export class OrderFeatureModule { }
 
 exports[`Spartacus Order schematics: ng-add Order feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
-import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@commerce-storefront-toolset/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@commerce-storefront-toolset/order/root\\";
 
 @NgModule({
   declarations: [],
@@ -39,7 +39,7 @@ import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
     featureModules: {
       [ORDER_FEATURE]: {
         module: () =>
-          import('@spartacus/order').then((m) => m.OrderModule),
+          import('@commerce-storefront-toolset/order').then((m) => m.OrderModule),
       },
     }
   }),
@@ -55,7 +55,7 @@ export class OrderFeatureModule { }
 "
 `;
 
-exports[`Spartacus Order schematics: ng-add Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/order\\";"`;
+exports[`Spartacus Order schematics: ng-add Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/order\\";"`;
 
 exports[`Spartacus Order schematics: ng-add Order feature general setup styling should update angular.json 1`] = `
 "{

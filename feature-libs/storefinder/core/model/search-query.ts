@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { GeoPoint } from '@spartacus/core';
+import { GeoPoint } from '@commerce-storefront-toolset/core';
 
 export interface StoreFinderSearchQuery {
   queryText?: string;

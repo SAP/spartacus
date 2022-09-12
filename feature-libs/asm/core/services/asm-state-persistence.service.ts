@@ -6,8 +6,8 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
-import { AuthToken, StatePersistenceService } from '@spartacus/core';
+import { AsmAuthStorageService, TokenTarget } from '@commerce-storefront-toolset/asm/root';
+import { AuthToken, StatePersistenceService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { AsmUi } from '../models/asm.models';

@@ -8,8 +8,8 @@ import { NgModule } from '@angular/core';
 
 import { defaultOccStoreFinderConfig } from './adapters/default-occ-store-finder-config';
 import { OccStoreFinderAdapter } from './adapters/occ-store-finder.adapter';
-import { provideDefaultConfig } from '@spartacus/core';
-import { StoreFinderAdapter } from '@spartacus/storefinder/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { StoreFinderAdapter } from '@commerce-storefront-toolset/storefinder/core';
 
 @NgModule({
   providers: [

@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OrderDetailsOrderEntriesContextToken } from '@spartacus/order/root';
+import { OrderDetailsOrderEntriesContextToken } from '@commerce-storefront-toolset/order/root';
 import {
   OrderCancellationModule,
   OrderReturnModule,

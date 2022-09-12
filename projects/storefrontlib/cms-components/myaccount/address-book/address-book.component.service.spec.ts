@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserAddressService } from '@spartacus/core';
+import { Address, User, UserAddressService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';

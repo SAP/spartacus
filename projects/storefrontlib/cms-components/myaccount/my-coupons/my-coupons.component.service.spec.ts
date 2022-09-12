@@ -3,7 +3,7 @@ import {
   CustomerCoupon,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
 const couponForAllProduct: CustomerCoupon = {

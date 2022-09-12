@@ -10,8 +10,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-} from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';

@@ -7,9 +7,9 @@ import {
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { of } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import createSpy = jasmine.createSpy;

@@ -5,7 +5,7 @@ import {
   FeatureModulesService,
   provideConfig,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CmsFeaturesService } from './cms-features.service';
 
 const mockCmsConfig: CmsConfig = {

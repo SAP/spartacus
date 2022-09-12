@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import { provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 import { PRODUCT_IMAGE_ZOOM_FEATURE } from './feature-name';
 
 export function defaultImageZoomComponentsConfig() {

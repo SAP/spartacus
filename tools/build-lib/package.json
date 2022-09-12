@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/build-lib",
+  "name": "@commerce-storefront-toolset/build-lib",
   "version": "0.1.0",
   "description": "Angular Build Architect for Spartacus libraries",
   "main": "augmented-types/index.js",

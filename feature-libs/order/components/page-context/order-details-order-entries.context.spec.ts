@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { OrderHistoryFacade } from '@spartacus/order/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsOrderEntriesContext } from './order-details-order-entries.context';
 import createSpy = jasmine.createSpy;

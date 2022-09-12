@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
+import { CardType, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   AddressValidation,
@@ -16,12 +16,12 @@ import {
   I18nTestingModule,
   UserAddressService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   ICON_TYPE,
   ModalService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;

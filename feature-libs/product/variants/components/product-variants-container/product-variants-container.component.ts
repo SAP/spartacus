@@ -11,8 +11,8 @@ import {
   Product,
   RequiredPick,
   VariantType,
-} from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 

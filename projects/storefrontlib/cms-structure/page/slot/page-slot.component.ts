@@ -21,7 +21,7 @@ import {
   ContentSlotData,
   DynamicAttributeService,
   isNotUndefined,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,

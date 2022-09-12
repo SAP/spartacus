@@ -13,16 +13,16 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { Address, TranslationService } from '@spartacus/core';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { Address, TranslationService } from '@commerce-storefront-toolset/core';
+import { Card, ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';

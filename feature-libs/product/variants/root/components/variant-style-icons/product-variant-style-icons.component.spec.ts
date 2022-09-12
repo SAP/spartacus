@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
+import { OccConfig, VariantOption, VariantQualifier } from '@commerce-storefront-toolset/core';
 import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 
 const mockOccBackendUrl = 'https://';

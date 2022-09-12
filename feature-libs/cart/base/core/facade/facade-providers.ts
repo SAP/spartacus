@@ -11,7 +11,7 @@ import {
   CartVoucherFacade,
   MultiCartFacade,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { ActiveCartService } from './active-cart.service';
 import { CartValidationService } from './cart-validation.service';
 import { CartVoucherService } from './cart-voucher.service';

@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { EntitiesModel, Occ, OccConfig } from '@spartacus/core';
+import { EntitiesModel, Occ, OccConfig } from '@commerce-storefront-toolset/core';
 import { Permission } from '../../core/model/permission.model';
 import { OccPermissionListNormalizer } from './occ-permission-list-normalizer';
 

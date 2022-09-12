@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '@commerce-storefront-toolset/core';
 import { ConfiguratorProductScope } from '../core/model/configurator-product-scope';
 
 export const defaultOccConfiguratorProductConfig: OccConfig = {

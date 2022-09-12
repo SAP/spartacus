@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Order } from '@spartacus/order/root';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class OrderAdapter {

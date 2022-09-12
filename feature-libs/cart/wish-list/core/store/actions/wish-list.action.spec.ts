@@ -1,6 +1,6 @@
-import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { MULTI_CART_DATA } from '@commerce-storefront-toolset/cart/base/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { WishListActions } from './index';
 
 const userId = 'userId';

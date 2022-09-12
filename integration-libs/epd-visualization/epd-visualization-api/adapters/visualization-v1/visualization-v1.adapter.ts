@@ -6,18 +6,18 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, normalizeHttpError } from '@spartacus/core';
+import { ConverterService, normalizeHttpError } from '@commerce-storefront-toolset/core';
 import {
   LookupVisualizationsResponse,
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
   VisualizationAdapter,
-} from '@spartacus/epd-visualization/core';
+} from '@commerce-storefront-toolset/epd-visualization/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
   UsageId,
   VisualizationApiConfig,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

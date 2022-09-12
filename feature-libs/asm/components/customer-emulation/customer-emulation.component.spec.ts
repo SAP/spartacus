@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { I18nTestingModule, User } from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';

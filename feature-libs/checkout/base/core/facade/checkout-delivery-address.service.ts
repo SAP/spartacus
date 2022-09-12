@@ -5,14 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   Command,
@@ -22,7 +22,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';

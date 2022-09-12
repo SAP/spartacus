@@ -17,7 +17,7 @@ import {
   SpartacusOptions,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 

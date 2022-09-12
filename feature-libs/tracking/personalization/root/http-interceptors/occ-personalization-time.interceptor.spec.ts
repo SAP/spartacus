@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccEndpointsService, WindowRef } from '@spartacus/core';
+import { OccEndpointsService, WindowRef } from '@commerce-storefront-toolset/core';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.interceptor';
 

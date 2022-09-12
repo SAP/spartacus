@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { LoginEvent, ScriptLoader } from '@spartacus/core';
-import { WindowObject } from '@spartacus/tracking/tms/core';
+import { LoginEvent, ScriptLoader } from '@commerce-storefront-toolset/core';
+import { WindowObject } from '@commerce-storefront-toolset/tracking/tms/core';
 import '../config/default-aep.config';
 import { AepCollectorConfig } from '../config/default-aep.config';
 import { AepCollectorService } from './aep-collector.service';

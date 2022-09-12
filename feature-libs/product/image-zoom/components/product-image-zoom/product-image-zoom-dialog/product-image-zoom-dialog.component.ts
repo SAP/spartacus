@@ -15,7 +15,7 @@ import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-product-image-zoom-dialog',

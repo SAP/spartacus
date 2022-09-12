@@ -14,7 +14,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 /**
  * Generic in-memory paged list component that can be used to render arbitrary items in

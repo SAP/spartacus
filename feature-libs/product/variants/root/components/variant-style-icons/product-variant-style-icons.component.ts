@@ -18,11 +18,11 @@ import {
   VariantOption,
   VariantOptionQualifier,
   VariantQualifier,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ProductListItemContext,
   ProductListOutlets,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { EMPTY, Observable, Subscription } from 'rxjs';
 
 @Component({

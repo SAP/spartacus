@@ -13,14 +13,14 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { OrderEntriesSource, ProductData } from '@commerce-storefront-toolset/cart/base/root';
+import { ImportExportConfig } from '@commerce-storefront-toolset/cart/import-export/core';
 import {
   FilesFormValidators,
   FormUtils,
   ImportCsvFileService,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';

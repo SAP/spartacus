@@ -7,11 +7,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';

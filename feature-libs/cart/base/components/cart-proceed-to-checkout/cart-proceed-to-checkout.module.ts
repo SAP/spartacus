@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { ProgressButtonModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ProgressButtonModule } from '@commerce-storefront-toolset/storefront';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 
 @NgModule({

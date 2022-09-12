@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 

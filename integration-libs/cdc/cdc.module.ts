@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdcComponentsModule } from '@spartacus/cdc/components';
-import { CdcCoreModule } from '@spartacus/cdc/core';
+import { CdcComponentsModule } from '@commerce-storefront-toolset/cdc/components';
+import { CdcCoreModule } from '@commerce-storefront-toolset/cdc/core';
 
 @NgModule({
   imports: [CdcComponentsModule, CdcCoreModule],

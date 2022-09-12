@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../shared/organization.model';

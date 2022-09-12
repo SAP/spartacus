@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsStructureConfig } from '@spartacus/core';
+import { CmsStructureConfig } from '@commerce-storefront-toolset/core';
 import { BREAKPOINT, LayoutConfig } from '../../layout/config/layout-config';
 import { provideCmsStructure } from './cms-structure.util';
 

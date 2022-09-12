@@ -17,8 +17,8 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { RoutingConfigService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';

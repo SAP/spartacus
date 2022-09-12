@@ -6,8 +6,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 

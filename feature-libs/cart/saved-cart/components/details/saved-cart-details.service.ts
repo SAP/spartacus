@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,

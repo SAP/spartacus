@@ -1,14 +1,14 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule, TranslationService } from '@commerce-storefront-toolset/core';
 import {
   CardModule,
   IconTestingModule,
   LaunchDialogService,
   LAUNCH_CALLER,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';

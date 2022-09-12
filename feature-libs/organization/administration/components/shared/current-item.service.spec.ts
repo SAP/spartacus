@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CurrentItemService } from './current-item.service';
 

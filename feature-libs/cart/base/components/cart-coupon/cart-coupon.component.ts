@@ -10,12 +10,12 @@ import {
   ActiveCartFacade,
   Cart,
   CartVoucherFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

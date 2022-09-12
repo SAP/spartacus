@@ -22,7 +22,7 @@ import {
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { ModalService } from '../../../shared/components/modal/modal.service';

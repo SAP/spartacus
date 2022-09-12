@@ -10,8 +10,8 @@ import {
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
-} from '@spartacus/core';
-import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, ORDER_NORMALIZER } from '@commerce-storefront-toolset/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccOrderAdapter } from './occ-order.adapter';

@@ -6,13 +6,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartValidationGuard } from '@spartacus/cart/base/core';
+import { CartValidationGuard } from '@commerce-storefront-toolset/cart/base/core';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/checkout/base/components';
+import { CmsConfig, ConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 
 @NgModule({

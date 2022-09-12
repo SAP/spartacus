@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ModalService } from '@spartacus/storefront';
+import { ModalService } from '@commerce-storefront-toolset/storefront';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
 @Component({

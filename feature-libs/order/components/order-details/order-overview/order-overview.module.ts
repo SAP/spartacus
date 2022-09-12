@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
-import { CardModule } from '@spartacus/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { CardModule } from '@commerce-storefront-toolset/storefront';
 import { OrderOverviewComponent } from './order-overview.component';
 
 @NgModule({

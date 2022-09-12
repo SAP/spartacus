@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CostCenter, ListModel, StateUtils } from '@spartacus/core';
+import { CostCenter, ListModel, StateUtils } from '@commerce-storefront-toolset/core';
 import { CostCenterActions } from '../actions/index';
 
 export const costCenterInitialState: CostCenter | undefined = undefined;

@@ -6,8 +6,8 @@
 
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { StringTemplate } from '@spartacus/core';
-import { MARKER_HEADER_CPQ_CONFIGURATOR } from '@spartacus/product-configurator/rulebased/root';
+import { StringTemplate } from '@commerce-storefront-toolset/core';
+import { MARKER_HEADER_CPQ_CONFIGURATOR } from '@commerce-storefront-toolset/product-configurator/rulebased/root';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 
 @Injectable({ providedIn: 'root' })

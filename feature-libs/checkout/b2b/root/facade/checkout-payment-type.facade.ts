@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PaymentType } from '@spartacus/cart/base/root';
-import { CHECKOUT_CORE_FEATURE } from '@spartacus/checkout/base/root';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import { PaymentType } from '@commerce-storefront-toolset/cart/base/root';
+import { CHECKOUT_CORE_FEATURE } from '@commerce-storefront-toolset/checkout/base/root';
+import { facadeFactory, QueryState } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 @Injectable({

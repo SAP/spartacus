@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DeferLoadingStrategy } from '@spartacus/core';
+import { DeferLoadingStrategy } from '@commerce-storefront-toolset/core';
 
 export interface IntersectionOptions {
   deferLoading?: DeferLoadingStrategy;

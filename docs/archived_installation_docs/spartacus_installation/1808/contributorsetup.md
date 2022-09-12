@@ -70,7 +70,7 @@ This is the most convenient way for a developer to run the storefront. It allows
 
 Building in production mode has more retrictive rules about what kind of code is allowed, but it also allows you to generate a build that is optimized for production. Use this mode as your development cycle nears completion.
 
-## Building the @spartacus/storefront Library
+## Building the @commerce-storefront-toolset/storefront Library
 
 Contrary to development mode, in production mode you need to package and build a standalone storefront library. This is done with the following command:
 

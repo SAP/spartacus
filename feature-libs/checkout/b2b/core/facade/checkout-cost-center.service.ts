@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutCostCenterSetEvent,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutQueryFacade } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Command,
   CommandService,
@@ -20,7 +20,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';

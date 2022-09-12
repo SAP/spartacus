@@ -1,4 +1,4 @@
-import { AuthToken } from '@spartacus/core';
+import { AuthToken } from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 

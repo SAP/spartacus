@@ -11,9 +11,9 @@ import {
   GlobalMessageType,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { ICON_TYPE, ModalService } from '@commerce-storefront-toolset/storefront';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 

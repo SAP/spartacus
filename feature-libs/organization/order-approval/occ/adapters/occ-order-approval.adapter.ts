@@ -12,7 +12,7 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrderApproval,
   OrderApprovalDecision,

@@ -5,11 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CostCenter, RoutingService } from '@spartacus/core';
+import { CostCenter, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   CostCenterService,
   OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';

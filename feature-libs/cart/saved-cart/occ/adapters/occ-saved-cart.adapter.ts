@@ -6,9 +6,9 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
-import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
+import { Cart, CART_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartAdapter } from '@commerce-storefront-toolset/cart/saved-cart/core';
+import { ConverterService, Occ, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 

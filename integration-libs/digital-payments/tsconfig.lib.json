@@ -13,99 +13,99 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/checkout": ["dist/checkout"],
-      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
-      "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
-      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
-      "@spartacus/checkout/b2b": ["dist/checkout/b2b"],
-      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
-      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root"],
-      "@spartacus/checkout/base/assets": ["dist/checkout/base/assets"],
-      "@spartacus/checkout/base/components": ["dist/checkout/base/components"],
-      "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
-      "@spartacus/checkout/base": ["dist/checkout/base"],
-      "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],
-      "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
-      "@spartacus/checkout/scheduled-replenishment/assets": [
+      "@commerce-storefront-toolset/checkout": ["dist/checkout"],
+      "@commerce-storefront-toolset/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
+      "@commerce-storefront-toolset/checkout/b2b/components": ["dist/checkout/b2b/components"],
+      "@commerce-storefront-toolset/checkout/b2b/core": ["dist/checkout/b2b/core"],
+      "@commerce-storefront-toolset/checkout/b2b": ["dist/checkout/b2b"],
+      "@commerce-storefront-toolset/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
+      "@commerce-storefront-toolset/checkout/b2b/root": ["dist/checkout/b2b/root"],
+      "@commerce-storefront-toolset/checkout/base/assets": ["dist/checkout/base/assets"],
+      "@commerce-storefront-toolset/checkout/base/components": ["dist/checkout/base/components"],
+      "@commerce-storefront-toolset/checkout/base/core": ["dist/checkout/base/core"],
+      "@commerce-storefront-toolset/checkout/base": ["dist/checkout/base"],
+      "@commerce-storefront-toolset/checkout/base/occ": ["dist/checkout/base/occ"],
+      "@commerce-storefront-toolset/checkout/base/root": ["dist/checkout/base/root"],
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/assets": [
         "dist/checkout/scheduled-replenishment/assets"
       ],
-      "@spartacus/checkout/scheduled-replenishment/components": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/components": [
         "dist/checkout/scheduled-replenishment/components"
       ],
-      "@spartacus/checkout/scheduled-replenishment": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment": [
         "dist/checkout/scheduled-replenishment"
       ],
-      "@spartacus/checkout/scheduled-replenishment/root": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
       ],
-      "@spartacus/cart/import-export/assets": [
+      "@commerce-storefront-toolset/cart/import-export/assets": [
         "dist/cart/import-export/assets"
       ],
-      "@spartacus/cart/import-export/components": [
+      "@commerce-storefront-toolset/cart/import-export/components": [
         "dist/cart/import-export/components"
       ],
-      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
-      "@spartacus/cart/import-export": ["dist/cart/import-export"],
-      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
-      "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
-      "@spartacus/cart/base/components/add-to-cart": [
+      "@commerce-storefront-toolset/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@commerce-storefront-toolset/cart/import-export": ["dist/cart/import-export"],
+      "@commerce-storefront-toolset/cart/import-export/root": ["dist/cart/import-export/root"],
+      "@commerce-storefront-toolset/cart/base/assets": ["dist/cart/base/assets"],
+      "@commerce-storefront-toolset/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
       ],
-      "@spartacus/cart/base/components/mini-cart": [
+      "@commerce-storefront-toolset/cart/base/components/mini-cart": [
         "dist/cart/base/components/mini-cart"
       ],
-      "@spartacus/cart/base/components": ["dist/cart/base/components"],
-      "@spartacus/cart/base/core": ["dist/cart/base/core"],
-      "@spartacus/cart/base": ["dist/cart/base"],
-      "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
-      "@spartacus/cart/base/root": ["dist/cart/base/root"],
-      "@spartacus/cart": ["dist/cart"],
-      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
-      "@spartacus/cart/quick-order/components": [
+      "@commerce-storefront-toolset/cart/base/components": ["dist/cart/base/components"],
+      "@commerce-storefront-toolset/cart/base/core": ["dist/cart/base/core"],
+      "@commerce-storefront-toolset/cart/base": ["dist/cart/base"],
+      "@commerce-storefront-toolset/cart/base/occ": ["dist/cart/base/occ"],
+      "@commerce-storefront-toolset/cart/base/root": ["dist/cart/base/root"],
+      "@commerce-storefront-toolset/cart": ["dist/cart"],
+      "@commerce-storefront-toolset/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@commerce-storefront-toolset/cart/quick-order/components": [
         "dist/cart/quick-order/components"
       ],
-      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
-      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
-      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
-      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
-      "@spartacus/cart/saved-cart/components": [
+      "@commerce-storefront-toolset/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@commerce-storefront-toolset/cart/quick-order": ["dist/cart/quick-order"],
+      "@commerce-storefront-toolset/cart/quick-order/root": ["dist/cart/quick-order/root"],
+      "@commerce-storefront-toolset/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
+      "@commerce-storefront-toolset/cart/saved-cart/components": [
         "dist/cart/saved-cart/components"
       ],
-      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
-      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
-      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
-      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
-      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
-      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+      "@commerce-storefront-toolset/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@commerce-storefront-toolset/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@commerce-storefront-toolset/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@commerce-storefront-toolset/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@commerce-storefront-toolset/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
+      "@commerce-storefront-toolset/cart/wish-list/components/add-to-wishlist": [
         "dist/cart/wish-list/components/add-to-wishlist"
       ],
-      "@spartacus/cart/wish-list/components": [
+      "@commerce-storefront-toolset/cart/wish-list/components": [
         "dist/cart/wish-list/components"
       ],
-      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
-      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
-      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/order/components": ["dist/order/components"],
-      "@spartacus/order/core": ["dist/order/core"],
-      "@spartacus/order": ["dist/order"],
-      "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
-      "@spartacus/user/account/assets": ["dist/user/account/assets"],
-      "@spartacus/user/account/components": ["dist/user/account/components"],
-      "@spartacus/user/account/core": ["dist/user/account/core"],
-      "@spartacus/user/account": ["dist/user/account"],
-      "@spartacus/user/account/occ": ["dist/user/account/occ"],
-      "@spartacus/user/account/root": ["dist/user/account/root"],
-      "@spartacus/user": ["dist/user"],
-      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
-      "@spartacus/user/profile/components": ["dist/user/profile/components"],
-      "@spartacus/user/profile/core": ["dist/user/profile/core"],
-      "@spartacus/user/profile": ["dist/user/profile"],
-      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"]
+      "@commerce-storefront-toolset/cart/wish-list/core": ["dist/cart/wish-list/core"],
+      "@commerce-storefront-toolset/cart/wish-list": ["dist/cart/wish-list"],
+      "@commerce-storefront-toolset/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@commerce-storefront-toolset/core": ["dist/core"],
+      "@commerce-storefront-toolset/storefront": ["dist/storefrontlib"],
+      "@commerce-storefront-toolset/order/assets": ["dist/order/assets"],
+      "@commerce-storefront-toolset/order/components": ["dist/order/components"],
+      "@commerce-storefront-toolset/order/core": ["dist/order/core"],
+      "@commerce-storefront-toolset/order": ["dist/order"],
+      "@commerce-storefront-toolset/order/occ": ["dist/order/occ"],
+      "@commerce-storefront-toolset/order/root": ["dist/order/root"],
+      "@commerce-storefront-toolset/user/account/assets": ["dist/user/account/assets"],
+      "@commerce-storefront-toolset/user/account/components": ["dist/user/account/components"],
+      "@commerce-storefront-toolset/user/account/core": ["dist/user/account/core"],
+      "@commerce-storefront-toolset/user/account": ["dist/user/account"],
+      "@commerce-storefront-toolset/user/account/occ": ["dist/user/account/occ"],
+      "@commerce-storefront-toolset/user/account/root": ["dist/user/account/root"],
+      "@commerce-storefront-toolset/user": ["dist/user"],
+      "@commerce-storefront-toolset/user/profile/assets": ["dist/user/profile/assets"],
+      "@commerce-storefront-toolset/user/profile/components": ["dist/user/profile/components"],
+      "@commerce-storefront-toolset/user/profile/core": ["dist/user/profile/core"],
+      "@commerce-storefront-toolset/user/profile": ["dist/user/profile"],
+      "@commerce-storefront-toolset/user/profile/occ": ["dist/user/profile/occ"],
+      "@commerce-storefront-toolset/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {

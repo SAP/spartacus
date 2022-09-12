@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, LoadCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, LoadCartEvent } from '@commerce-storefront-toolset/cart/base/root';
 import {
   createFrom,
   CurrencySetEvent,
@@ -8,7 +8,7 @@ import {
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {

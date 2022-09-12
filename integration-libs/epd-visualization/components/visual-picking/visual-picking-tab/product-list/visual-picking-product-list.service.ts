@@ -9,13 +9,13 @@ import {
   Product,
   ProductReference,
   ProductReferenceService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
   VisualPickingConfig,
-} from '@spartacus/epd-visualization/root';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/epd-visualization/root';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,

@@ -11,7 +11,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
+import { AuthConfigService, AuthService, OAuthFlow } from '@commerce-storefront-toolset/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';

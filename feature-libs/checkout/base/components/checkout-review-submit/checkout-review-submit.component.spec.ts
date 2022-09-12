@@ -8,16 +8,16 @@ import {
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
-import { Card, PromotionsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { Address, Country, I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { Card, PromotionsModule } from '@commerce-storefront-toolset/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';

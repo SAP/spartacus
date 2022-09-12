@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Order } from '@spartacus/order/root';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { OrderAdapter } from './order.adapter';
 

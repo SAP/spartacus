@@ -4,17 +4,17 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
+import { CART_MODIFICATION_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';

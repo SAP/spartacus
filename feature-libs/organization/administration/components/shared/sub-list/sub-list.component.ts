@@ -11,8 +11,8 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableStructure } from '@spartacus/storefront';
+import { EntitiesModel } from '@commerce-storefront-toolset/core';
+import { TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ListComponent } from '../list/list.component';

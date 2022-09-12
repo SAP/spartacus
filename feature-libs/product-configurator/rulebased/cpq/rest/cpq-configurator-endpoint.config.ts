@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 
 interface CpqConfiguratorBackendConfig {
   cpq?: {
@@ -27,6 +27,6 @@ export abstract class CpqConfiguratorEndpointConfig {
   backend?: CpqConfiguratorBackendConfig;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface BackendConfig extends CpqConfiguratorBackendConfig {}
 }

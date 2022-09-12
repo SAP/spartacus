@@ -11,12 +11,12 @@ import {
   CartEntryAdapter,
   CartValidationAdapter,
   CartVoucherAdapter,
-} from '@spartacus/cart/base/core';
+} from '@commerce-storefront-toolset/cart/base/core';
 import {
   CART_NORMALIZER,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
-} from '@spartacus/cart/base/root';
-import { provideDefaultConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
 import { defaultOccCartConfig } from './adapters/default-occ-cart-config';

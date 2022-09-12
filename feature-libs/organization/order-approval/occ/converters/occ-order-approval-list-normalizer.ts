@@ -10,7 +10,7 @@ import {
   ConverterService,
   EntitiesModel,
   Occ,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ORDER_APPROVAL_NORMALIZER } from '../../core/connectors/converters';
 import { OrderApproval } from '../../core/model/order-approval.model';
 

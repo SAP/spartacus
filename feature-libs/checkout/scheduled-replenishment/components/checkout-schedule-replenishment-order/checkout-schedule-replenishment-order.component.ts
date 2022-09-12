@@ -15,8 +15,8 @@ import {
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 

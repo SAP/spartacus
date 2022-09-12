@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
 import { UnitFormService } from './unit-form.service';
 
 describe('UnitFormService', () => {

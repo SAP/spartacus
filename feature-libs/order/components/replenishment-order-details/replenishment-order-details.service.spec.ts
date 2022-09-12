@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from './replenishment-order-details.service';
 
