@@ -15,7 +15,7 @@ declare module '@spartacus/core' {
      */
     getTicketCategories?: string | OccEndpoint;
     /**
-     * Endpoint to get ticket categories
+     * Endpoint to get ticket associated objects
      *
      * * @member {string}
      */

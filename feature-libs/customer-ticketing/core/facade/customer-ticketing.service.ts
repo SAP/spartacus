@@ -135,7 +135,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       take(1),
       map((userId) => {
         if (!userId) {
-          throw new Error('Customer ticketing list pre conditions not met');
+          throw new Error(
+            'Customer ticketing associated objects pre conditions not met'
+          );
         }
         return userId;
       })
