@@ -79,7 +79,7 @@ export class BundleMainComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.bundle$.subscribe((b) => {
+    this.bundle$.subscribe(() => {
       this.initActiveSectionProducts();
       this.getAllowedProducts();
     });

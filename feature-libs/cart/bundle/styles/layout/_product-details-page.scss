@@ -1,32 +1,16 @@
 cx-bundle-carousel {
   grid-column: 2;
-  padding-inline-end: 20px;
   padding-bottom: 0px;
-  padding-inline-start: 20px;
 
   h1 {
-    margin-bottom: 24px;
+    margin: 20px 0;
   }
 
-  .template-row {
-    display: flex;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 12px;
+  select {
+    margin-bottom: 20px;
   }
 
-  label {
-    @include type('5');
-    flex-grow: 1;
-    margin: auto;
-    padding-inline-end: 12px;
-  }
-
-  .btn-action {
-    margin: auto;
-    min-width: 200px;
+  .btn-add-bundle-to-cart {
+    margin-top: 20px;
   }
 }
