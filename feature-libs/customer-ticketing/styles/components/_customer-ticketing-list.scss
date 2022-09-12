@@ -117,13 +117,18 @@
     }
   }
 
+  .cx-ticketing-list-subtitle {
+    display: inline-flex;
+  }
+
   .cx-ticketing-list-select {
-    display: flex;
+    display: inline;
     align-items: center;
     justify-content: space-between;
     padding: 6px 4px;
     border: 1px solid var(--cx-color-light);
     margin-bottom: 20px;
+    margin-left: 4px;
     background-color: #fbfbfb;
 
     @include media-breakpoint-down(lg) {
