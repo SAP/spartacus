@@ -5,16 +5,16 @@
  */
 
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmService, AsmUi } from '@commerce-storefront-toolset/asm/core';
+import { CsAgentAuthService } from '@commerce-storefront-toolset/asm/root';
 import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   User,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';

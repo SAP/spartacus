@@ -6,16 +6,16 @@
       packages: { /* The PackageInfoMap from "lib/packages.ts" */
       // For a commit with description:
       // ------------------------------------------------------
-      //   feat(@spartacus/core): add something to this
+      //   feat(@commerce-storefront-toolset/core): add something to this
       //
       //   Fixes #123
       // ------------------------------------------------------
       // See https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-commits-parser
       commits: [ {
         type: 'feat', // | 'fix' | 'refactor' | 'build' | 'test' | 'ci'
-        scope: '@spartacus/core',  // package name (or null)
+        scope: '@commerce-storefront-toolset/core',  // package name (or null)
         subject: 'add something to this',
-        header: 'feat(@spartacus/core): add something to this',
+        header: 'feat(@commerce-storefront-toolset/core): add something to this',
         body: null,
         footer: 'Fixes #123',
         references: [
@@ -33,28 +33,28 @@
 %><%
   // Sort those packages to the top, in those orders. Others will be sorted alphabetically.
   const CUSTOM_SORT_ORDER = [
-    '@spartacus/core',
-    '@spartacus/storefront',
-    '@spartacus/styles',
-    '@spartacus/assets',
-    '@spartacus/schematics',
-    '@spartacus/user',
-    '@spartacus/cds',
-    '@spartacus/organization',
-    '@spartacus/product',
-    '@spartacus/product-configurator',
-    '@spartacus/storefinder',
-    '@spartacus/checkout',
-    '@spartacus/asm',
-    '@spartacus/smartedit',
-    '@spartacus/qualtrics',
-    '@spartacus/cdc',
-    '@spartacus/digital-payments',
-    '@spartacus/tracking',
-    '@spartacus/cart',
-    '@spartacus/order',
-    '@spartacus/setup',
-    '@spartacus/epd-visualization'
+    '@commerce-storefront-toolset/core',
+    '@commerce-storefront-toolset/storefront',
+    '@commerce-storefront-toolset/styles',
+    '@commerce-storefront-toolset/assets',
+    '@commerce-storefront-toolset/schematics',
+    '@commerce-storefront-toolset/user',
+    '@commerce-storefront-toolset/cds',
+    '@commerce-storefront-toolset/organization',
+    '@commerce-storefront-toolset/product',
+    '@commerce-storefront-toolset/product-configurator',
+    '@commerce-storefront-toolset/storefinder',
+    '@commerce-storefront-toolset/checkout',
+    '@commerce-storefront-toolset/asm',
+    '@commerce-storefront-toolset/smartedit',
+    '@commerce-storefront-toolset/qualtrics',
+    '@commerce-storefront-toolset/cdc',
+    '@commerce-storefront-toolset/digital-payments',
+    '@commerce-storefront-toolset/tracking',
+    '@commerce-storefront-toolset/cart',
+    '@commerce-storefront-toolset/order',
+    '@commerce-storefront-toolset/setup',
+    '@commerce-storefront-toolset/epd-visualization'
   ];
 %>
 # Commits

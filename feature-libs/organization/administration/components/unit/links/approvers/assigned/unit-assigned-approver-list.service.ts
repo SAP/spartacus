@@ -10,7 +10,7 @@ import {
   B2BUserRole,
   EntitiesModel,
   PaginationModel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../../shared/index';

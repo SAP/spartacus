@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
 import { IconModule } from '../../../misc/icon/icon.module';
 import { ActiveFacetsModule } from './active-facets/active-facets.module';
 import { FacetListModule } from './facet-list/facet-list.module';

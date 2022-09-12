@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
-import { StoreFinderOccModule } from '@spartacus/storefinder/occ';
-import { StoreFinderComponentsModule } from '@spartacus/storefinder/components';
+import { StoreFinderCoreModule } from '@commerce-storefront-toolset/storefinder/core';
+import { StoreFinderOccModule } from '@commerce-storefront-toolset/storefinder/occ';
+import { StoreFinderComponentsModule } from '@commerce-storefront-toolset/storefinder/components';
 
 @NgModule({
   imports: [

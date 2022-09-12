@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ProductImportInfoService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   ActiveCartFacade,
   AddOrderEntriesContext,
@@ -14,7 +14,7 @@ import {
   OrderEntry,
   ProductData,
   ProductImportInfo,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 

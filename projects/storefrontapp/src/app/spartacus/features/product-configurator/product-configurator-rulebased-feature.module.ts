@@ -5,13 +5,13 @@
  */
 
 import { NgModule, Type } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
+import { provideConfig } from '@commerce-storefront-toolset/core';
+import { configuratorTranslations } from '@commerce-storefront-toolset/product-configurator/common/assets';
 import {
   CpqConfiguratorRootModule,
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
-} from '@spartacus/product-configurator/rulebased/root';
+} from '@commerce-storefront-toolset/product-configurator/rulebased/root';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];

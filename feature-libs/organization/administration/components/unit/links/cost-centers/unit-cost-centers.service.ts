@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
+import { B2BUser, EntitiesModel, PaginationModel } from '@commerce-storefront-toolset/core';
+import { OrgUnitService } from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { SubListService } from '../../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';

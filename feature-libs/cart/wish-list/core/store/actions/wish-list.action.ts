@@ -5,9 +5,9 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { MULTI_CART_DATA } from '@commerce-storefront-toolset/cart/base/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';

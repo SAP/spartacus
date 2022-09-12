@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import {
   filter,

@@ -15,7 +15,7 @@ import {
   RoutingService,
   VariantOptionQualifier,
   VariantQualifier,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { filter, take } from 'rxjs/operators';
 
 @Component({

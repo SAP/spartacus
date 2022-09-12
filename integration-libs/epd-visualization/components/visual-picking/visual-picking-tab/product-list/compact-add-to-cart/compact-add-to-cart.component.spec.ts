@@ -4,15 +4,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
+import { ActiveCartFacade, Cart, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { CmsComponent, I18nTestingModule, Product } from '@commerce-storefront-toolset/core';
 import {
   CmsComponentData,
   CurrentProductService,
   IconModule,
   ModalService,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
 import { Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';

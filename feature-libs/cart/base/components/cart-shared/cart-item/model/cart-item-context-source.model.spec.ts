@@ -4,7 +4,7 @@ import {
   CartItemComponentOptions,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { CartItemContextSource } from './cart-item-context-source.model';
 
 describe('CartItemContextSource', () => {

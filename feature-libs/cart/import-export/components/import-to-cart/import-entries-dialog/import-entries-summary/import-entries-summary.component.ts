@@ -14,8 +14,8 @@ import {
 import {
   OrderEntriesSource,
   ProductImportSummary,
-} from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-import-entries-summary',

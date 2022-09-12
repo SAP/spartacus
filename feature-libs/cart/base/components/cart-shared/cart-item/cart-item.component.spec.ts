@@ -16,9 +16,9 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
+import { CartItemContext, PromotionLocation } from '@commerce-storefront-toolset/cart/base/root';
+import { FeaturesConfigModule, I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OutletModule } from '@commerce-storefront-toolset/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';

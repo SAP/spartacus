@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import { NotificationPreference, UserInterestsService } from '@spartacus/core';
+import { NotificationPreference, UserInterestsService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 

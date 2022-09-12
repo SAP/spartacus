@@ -1,4 +1,4 @@
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import { ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromReducer from './replenishment-order-details.reducer';
 

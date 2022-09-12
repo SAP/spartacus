@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfigService, AuthToken } from '@spartacus/core';
+import { AuthConfigService, AuthToken } from '@commerce-storefront-toolset/core';
 import { CdcUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
 
 const UID = 'sampleUID';

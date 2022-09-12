@@ -12,7 +12,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { RouterModule } from '@angular/router';

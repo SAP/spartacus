@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ReturnRequest } from '@spartacus/order/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ReturnRequest } from '@commerce-storefront-toolset/order/root';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 import { ReturnRequestTotalsComponent } from './return-request-totals.component';

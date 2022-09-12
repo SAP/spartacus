@@ -2,13 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 import {
   StoreFinderConfig,
   StoreFinderService,
-} from '@spartacus/storefinder/core';
+} from '@commerce-storefront-toolset/storefinder/core';
 
 class ActivatedRouteMock {
   paramsSubscriptionHandler: Function;

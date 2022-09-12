@@ -5,7 +5,7 @@ import {
   EventService,
   LoginEvent,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
 import { TmsCollector, WindowObject } from '../model/tms.model';

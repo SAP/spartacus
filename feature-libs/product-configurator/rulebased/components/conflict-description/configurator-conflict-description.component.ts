@@ -10,7 +10,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 
 @Component({

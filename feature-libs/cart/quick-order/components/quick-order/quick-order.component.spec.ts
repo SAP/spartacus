@@ -1,22 +1,22 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
-} from '@spartacus/cart/quick-order/root';
+} from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   Product,
   Translatable,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CmsComponentData,
   MessageComponentModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';

@@ -12,7 +12,7 @@ import {
   RendererFactory2,
   ViewContainerRef,
 } from '@angular/core';
-import { Applicable, Priority } from '@spartacus/core';
+import { Applicable, Priority } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   DIALOG_TYPE,

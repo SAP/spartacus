@@ -6,12 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { Action, ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
-import { CartType } from '@spartacus/cart/base/root';
+import { CartType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   Config,
   ConfigInitializerService,
   MODULE_INITIALIZER,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 

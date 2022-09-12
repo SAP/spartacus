@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
+import { CmsComponentWithChildren, CmsService, Product } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';

@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { SharedOrganizationModule } from '../shared/shared-organization.module';
 import { PermissionDetailsModule } from './details/permission-details.module';
 import { PermissionFormModule } from './form/permission-form.module';

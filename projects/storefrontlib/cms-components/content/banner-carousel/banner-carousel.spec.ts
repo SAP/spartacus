@@ -5,7 +5,7 @@ import {
   CmsBannerCarouselEffect,
   CmsComponent,
   CmsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { of } from 'rxjs';
 import {

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
 import {
   BasePageMetaResolver,
   I18nTestingModule,
   PageMetaResolver,
   PageMetaService,
   PageRobotsMeta,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
 import createSpy = jasmine.createSpy;

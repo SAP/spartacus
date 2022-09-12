@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';

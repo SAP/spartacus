@@ -11,7 +11,7 @@ import {
   CmsConfig,
   PageMetaModule,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { PageTitleComponent } from './page-title.component';
 
 @NgModule({

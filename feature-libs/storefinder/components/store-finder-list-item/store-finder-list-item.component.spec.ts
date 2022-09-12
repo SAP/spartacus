@@ -3,9 +3,9 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 

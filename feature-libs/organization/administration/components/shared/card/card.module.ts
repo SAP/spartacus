@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { IconModule, SplitViewModule } from '@spartacus/storefront';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
+import { IconModule, SplitViewModule } from '@commerce-storefront-toolset/storefront';
 import { MessageModule } from '../message/message.module';
 import { CardComponent } from './card.component';
-import { PopoverModule } from '@spartacus/storefront';
+import { PopoverModule } from '@commerce-storefront-toolset/storefront';
 /**
  * Provides a reusable card UI component for the organization split views.
  *

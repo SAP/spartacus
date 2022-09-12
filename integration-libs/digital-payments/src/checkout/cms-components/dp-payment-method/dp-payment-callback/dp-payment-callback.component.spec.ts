@@ -6,12 +6,12 @@ import {
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';

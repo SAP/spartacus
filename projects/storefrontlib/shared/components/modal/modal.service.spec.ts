@@ -1,6 +1,6 @@
 import { ApplicationRef, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService } from '@commerce-storefront-toolset/core';
 import { ModalService } from './modal.service';
 
 class MockFeatureConfigService {

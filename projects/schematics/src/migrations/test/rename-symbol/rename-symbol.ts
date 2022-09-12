@@ -17,27 +17,27 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   {
     // 1) For import change
     previousNode: 'OtherComponent1',
-    previousImportPath: '@spartacus/storefront',
-    newImportPath: '@spartacus/storefinder/components',
+    previousImportPath: '@commerce-storefront-toolset/storefront',
+    newImportPath: '@commerce-storefront-toolset/storefinder/components',
   },
   {
     // 2) For import and rename change with alias
     previousNode: 'OtherComponent2',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: '@commerce-storefront-toolset/storefront',
     newNode: 'OtherComponentTest2',
-    newImportPath: '@spartacus/storefinder/components',
+    newImportPath: '@commerce-storefront-toolset/storefinder/components',
   },
   {
     // 3) For import and rename change
     previousNode: 'OtherComponent3',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: '@commerce-storefront-toolset/storefront',
     newNode: 'OtherComponentTest3',
-    newImportPath: '@spartacus/storefinder/components',
+    newImportPath: '@commerce-storefront-toolset/storefinder/components',
   },
   {
     // 4) For name change
     previousNode: 'OtherComponent4',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: '@commerce-storefront-toolset/storefront',
     newNode: 'OtherComponentTest4',
   },
   // projects/core/src/asm/services/asm-auth-http-header.service.ts

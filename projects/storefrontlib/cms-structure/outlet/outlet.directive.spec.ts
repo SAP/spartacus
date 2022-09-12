@@ -1,8 +1,8 @@
 import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { getLastValueSync } from '@spartacus/core';
-import { OutletService } from '@spartacus/storefront';
+import { getLastValueSync } from '@commerce-storefront-toolset/core';
+import { OutletService } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';

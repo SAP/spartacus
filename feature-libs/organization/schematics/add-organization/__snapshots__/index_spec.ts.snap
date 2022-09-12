@@ -2,10 +2,10 @@
 
 exports[`Spartacus Organization schematics: ng-add Administration feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { AdministrationModule } from \\"@spartacus/organization/administration\\";
-import { organizationTranslationChunksConfig, organizationTranslations } from \\"@spartacus/organization/administration/assets\\";
-import { AdministrationRootModule } from \\"@spartacus/organization/administration/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { AdministrationModule } from \\"@commerce-storefront-toolset/organization/administration\\";
+import { organizationTranslationChunksConfig, organizationTranslations } from \\"@commerce-storefront-toolset/organization/administration/assets\\";
+import { AdministrationRootModule } from \\"@commerce-storefront-toolset/organization/administration/root\\";
 
 @NgModule({
   declarations: [],
@@ -26,10 +26,10 @@ export class OrganizationAdministrationFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from \\"@commerce-storefront-toolset/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@commerce-storefront-toolset/core\\";
+import { defaultB2bOccConfig } from \\"@commerce-storefront-toolset/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@commerce-storefront-toolset/storefront\\";
 
 @NgModule({
   declarations: [],
@@ -64,9 +64,9 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { organizationTranslationChunksConfig, organizationTranslations } from \\"@spartacus/organization/administration/assets\\";
-import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from \\"@spartacus/organization/administration/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { organizationTranslationChunksConfig, organizationTranslations } from \\"@commerce-storefront-toolset/organization/administration/assets\\";
+import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from \\"@commerce-storefront-toolset/organization/administration/root\\";
 
 @NgModule({
   declarations: [],
@@ -77,7 +77,7 @@ import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from \\
     featureModules: {
       [ORGANIZATION_ADMINISTRATION_FEATURE]: {
         module: () =>
-          import('@spartacus/organization/administration').then((m) => m.AdministrationModule),
+          import('@commerce-storefront-toolset/organization/administration').then((m) => m.AdministrationModule),
       },
     }
   }),
@@ -93,7 +93,7 @@ export class OrganizationAdministrationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/organization\\";"`;
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should update angular.json 1`] = `
 "{
@@ -223,10 +223,10 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { OrderApprovalModule } from \\"@spartacus/organization/order-approval\\";
-import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@spartacus/organization/order-approval/assets\\";
-import { OrderApprovalRootModule } from \\"@spartacus/organization/order-approval/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { OrderApprovalModule } from \\"@commerce-storefront-toolset/organization/order-approval\\";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@commerce-storefront-toolset/organization/order-approval/assets\\";
+import { OrderApprovalRootModule } from \\"@commerce-storefront-toolset/organization/order-approval/root\\";
 
 @NgModule({
   declarations: [],
@@ -247,10 +247,10 @@ export class OrganizationOrderApprovalFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from \\"@commerce-storefront-toolset/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@commerce-storefront-toolset/core\\";
+import { defaultB2bOccConfig } from \\"@commerce-storefront-toolset/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@commerce-storefront-toolset/storefront\\";
 
 @NgModule({
   declarations: [],
@@ -285,9 +285,9 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@spartacus/organization/order-approval/assets\\";
-import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from \\"@spartacus/organization/order-approval/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@commerce-storefront-toolset/organization/order-approval/assets\\";
+import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from \\"@commerce-storefront-toolset/organization/order-approval/root\\";
 
 @NgModule({
   declarations: [],
@@ -298,7 +298,7 @@ import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from \\"
     featureModules: {
       [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
         module: () =>
-          import('@spartacus/organization/order-approval').then((m) => m.OrderApprovalModule),
+          import('@commerce-storefront-toolset/organization/order-approval').then((m) => m.OrderApprovalModule),
       },
     }
   }),
@@ -314,7 +314,7 @@ export class OrganizationOrderApprovalFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/organization\\";"`;
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should update angular.json 1`] = `
 "{

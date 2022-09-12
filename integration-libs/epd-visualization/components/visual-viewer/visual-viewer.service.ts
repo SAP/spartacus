@@ -13,11 +13,11 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import {
   SceneNodeToProductLookupService,
   VisualizationLookupService,
-} from '@spartacus/epd-visualization/core';
+} from '@commerce-storefront-toolset/epd-visualization/core';
 import {
   ContentType,
   EpdVisualizationConfig,
@@ -25,7 +25,7 @@ import {
   Ui5Config,
   VisualizationApiConfig,
   VisualizationInfo,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,

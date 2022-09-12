@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, TranslationService } from '@spartacus/core';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Converter, TranslationService } from '@commerce-storefront-toolset/core';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';

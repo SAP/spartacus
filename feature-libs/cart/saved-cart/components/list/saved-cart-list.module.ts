@@ -13,8 +13,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ListNavigationModule, SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({

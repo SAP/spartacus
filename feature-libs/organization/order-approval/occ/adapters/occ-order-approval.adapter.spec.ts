@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import {
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,

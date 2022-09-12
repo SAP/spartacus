@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUser, EntitiesModel, User } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+import { B2BUser, EntitiesModel, User } from '@commerce-storefront-toolset/core';
+import { B2BUserService } from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService, TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { UserListService } from './user-list.service';
 

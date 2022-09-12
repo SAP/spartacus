@@ -13,11 +13,11 @@ import {
   OccEndpointsService,
   POINT_OF_SERVICE_NORMALIZER,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/storefinder/core';
+} from '@commerce-storefront-toolset/storefinder/core';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };

@@ -14,8 +14,8 @@ import {
   provideConfig,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { AtMessageModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { AtMessageModule } from '@commerce-storefront-toolset/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';

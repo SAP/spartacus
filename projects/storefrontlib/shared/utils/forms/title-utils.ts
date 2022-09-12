@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Title } from '@spartacus/core';
+import { Title } from '@commerce-storefront-toolset/core';
 
 export const titleScores: { [code: string]: number } = {
   mr: 1,

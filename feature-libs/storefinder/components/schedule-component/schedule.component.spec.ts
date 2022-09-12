@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import { I18nTestingModule, PointOfService } from '@commerce-storefront-toolset/core';
 import { ScheduleComponent } from './schedule.component';
 
 const openDay1 = new Date();

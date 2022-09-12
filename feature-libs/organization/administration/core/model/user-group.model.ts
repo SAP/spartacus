@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUnit, B2BUser, B2BUserRole } from '@spartacus/core';
+import { B2BUnit, B2BUser, B2BUserRole } from '@commerce-storefront-toolset/core';
 import { Permission } from './permission.model';
 
 export interface UserGroup {

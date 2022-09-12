@@ -2,10 +2,10 @@
 
 exports[`Spartacus User schematics: ng-add User Profile feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { UserProfileModule } from \\"@spartacus/user/profile\\";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
-import { UserProfileRootModule } from \\"@spartacus/user/profile/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { UserProfileModule } from \\"@commerce-storefront-toolset/user/profile\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@commerce-storefront-toolset/user/profile/assets\\";
+import { UserProfileRootModule } from \\"@commerce-storefront-toolset/user/profile/root\\";
 
 @NgModule({
   declarations: [],
@@ -26,9 +26,9 @@ export class UserFeatureModule { }
 
 exports[`Spartacus User schematics: ng-add User Profile feature general setup should NOT install the required feature dependencies 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@commerce-storefront-toolset/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@commerce-storefront-toolset/user/profile/root\\";
 
 @NgModule({
   declarations: [],
@@ -39,7 +39,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('@commerce-storefront-toolset/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -57,9 +57,9 @@ export class UserFeatureModule { }
 
 exports[`Spartacus User schematics: ng-add User Profile feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@commerce-storefront-toolset/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@commerce-storefront-toolset/user/profile/root\\";
 
 @NgModule({
   declarations: [],
@@ -70,7 +70,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('@commerce-storefront-toolset/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -86,7 +86,7 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
+exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/user\\";"`;
 
 exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should update angular.json 1`] = `
 "{
@@ -216,10 +216,10 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
 
 exports[`Spartacus User schematics: ng-add User-Account feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { UserAccountModule } from \\"@spartacus/user/account\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule } from \\"@spartacus/user/account/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { UserAccountModule } from \\"@commerce-storefront-toolset/user/account\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@commerce-storefront-toolset/user/account/assets\\";
+import { UserAccountRootModule } from \\"@commerce-storefront-toolset/user/account/root\\";
 
 @NgModule({
   declarations: [],
@@ -240,9 +240,9 @@ export class UserFeatureModule { }
 
 exports[`Spartacus User schematics: ng-add User-Account feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@commerce-storefront-toolset/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@commerce-storefront-toolset/user/account/root\\";
 
 @NgModule({
   declarations: [],
@@ -253,7 +253,7 @@ import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/a
     featureModules: {
       [USER_ACCOUNT_FEATURE]: {
         module: () =>
-          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+          import('@commerce-storefront-toolset/user/account').then((m) => m.UserAccountModule),
       },
     }
   }),
@@ -269,7 +269,7 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
+exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/user\\";"`;
 
 exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should update angular.json 1`] = `
 "{

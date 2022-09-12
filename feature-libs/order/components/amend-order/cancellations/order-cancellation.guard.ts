@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { SemanticPathService } from '@spartacus/core';
+import { SemanticPathService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderCancellationService } from './order-cancellation.service';

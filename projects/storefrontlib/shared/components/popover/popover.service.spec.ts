@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PopoverService } from './popover.service';
 import { Component, ElementRef } from '@angular/core';
-import { PopoverEvent } from '@spartacus/storefront';
+import { PopoverEvent } from '@commerce-storefront-toolset/storefront';
 
 const focusConfig = {
   trap: true,

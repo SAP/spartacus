@@ -5,12 +5,12 @@ import {
   I18nTestingModule,
   PointOfService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
-import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
+import { ICON_TYPE, SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 import createSpy = jasmine.createSpy;
 
 class MockStoreFinderService implements Partial<StoreFinderService> {

@@ -12,16 +12,16 @@ import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
   ConfiguratorType,
   LineItem,
-} from '@spartacus/product-configurator/common';
-import { BreakpointService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';

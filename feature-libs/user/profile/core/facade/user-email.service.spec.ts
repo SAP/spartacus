@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
-import { UserProfileConnector } from '@spartacus/user/profile/core';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@commerce-storefront-toolset/core';
+import { UserProfileConnector } from '@commerce-storefront-toolset/user/profile/core';
 import { Observable, of } from 'rxjs';
 import { UserEmailService } from './user-email.service';
 import createSpy = jasmine.createSpy;

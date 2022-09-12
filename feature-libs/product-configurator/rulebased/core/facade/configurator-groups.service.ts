@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';

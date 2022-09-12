@@ -10,7 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CdcAuthService } from '../../facade/cdc-auth.service';

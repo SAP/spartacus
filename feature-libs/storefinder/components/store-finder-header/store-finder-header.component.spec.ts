@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 
 @Component({
   template: '',

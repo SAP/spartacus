@@ -7,13 +7,13 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-} from '@spartacus/core';
-import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Consignment, Order, ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import {
   CardModule,
   CmsComponentData,
   PromotionsModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';

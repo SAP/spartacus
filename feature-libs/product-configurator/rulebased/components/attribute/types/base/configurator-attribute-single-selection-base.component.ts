@@ -6,7 +6,7 @@
 
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import { TranslationService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';

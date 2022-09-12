@@ -7,13 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   CarouselModule,
   IconModule,
   MediaModule,
   ProductReferencesModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';

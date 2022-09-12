@@ -1,19 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeSetEvent,
-} from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';

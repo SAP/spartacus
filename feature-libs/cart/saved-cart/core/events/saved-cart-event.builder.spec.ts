@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -14,8 +14,8 @@ import {
   SaveCartEvent,
   SaveCartFailEvent,
   SaveCartSuccessEvent,
-} from '@spartacus/cart/saved-cart/root';
-import { EventService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { EventService } from '@commerce-storefront-toolset/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';

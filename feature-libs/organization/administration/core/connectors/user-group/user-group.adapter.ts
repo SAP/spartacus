@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
+import { B2BUser, EntitiesModel, SearchConfig } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';

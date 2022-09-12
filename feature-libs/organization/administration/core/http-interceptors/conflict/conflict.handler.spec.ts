@@ -4,7 +4,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OrganizationConflictHandler } from './conflict.handler';
 
 class MockGlobalMessageService {

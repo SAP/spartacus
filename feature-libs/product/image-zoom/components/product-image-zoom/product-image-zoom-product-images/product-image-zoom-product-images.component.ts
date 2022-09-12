@@ -9,8 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   CurrentProductService,
   ProductImagesComponent,
-} from '@spartacus/storefront';
-import { Product } from '@spartacus/core';
+} from '@commerce-storefront-toolset/storefront';
+import { Product } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-product-images',

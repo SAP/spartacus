@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { VisualViewerToolbarButtonComponent } from './visual-viewer-toolbar-button.component';
 
 describe('VisualViewerToolbarButtonComponent', () => {

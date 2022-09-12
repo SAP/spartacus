@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PageMeta, PageMetaService } from '@spartacus/core';
+import { PageMeta, PageMetaService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.builder';
 

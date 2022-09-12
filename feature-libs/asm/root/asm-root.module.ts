@@ -9,7 +9,7 @@ import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { AsmLoaderModule } from './asm-loader.module';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';

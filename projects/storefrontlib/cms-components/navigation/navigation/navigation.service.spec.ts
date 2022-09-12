@@ -4,7 +4,7 @@ import {
   CmsService,
   NodeItem,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';

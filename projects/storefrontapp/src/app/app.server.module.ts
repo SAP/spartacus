@@ -9,7 +9,7 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
-import { StorefrontComponent } from '@spartacus/storefront';
+import { StorefrontComponent } from '@commerce-storefront-toolset/storefront';
 import { AppModule } from './app.module';
 
 @NgModule({

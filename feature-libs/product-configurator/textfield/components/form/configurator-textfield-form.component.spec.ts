@@ -6,12 +6,12 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
-import { PageLayoutModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { PageLayoutModule } from '@commerce-storefront-toolset/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';

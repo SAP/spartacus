@@ -9,8 +9,8 @@ import {
   CartOutlets,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { Consignment, Order } from '@commerce-storefront-toolset/order/root';
 
 @Component({
   selector: 'cx-order-consigned-entries',

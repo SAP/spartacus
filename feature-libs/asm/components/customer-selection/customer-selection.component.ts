@@ -14,8 +14,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import { User } from '@spartacus/core';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@commerce-storefront-toolset/asm/core';
+import { User } from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 

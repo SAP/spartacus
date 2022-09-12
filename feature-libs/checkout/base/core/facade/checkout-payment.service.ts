@@ -9,7 +9,7 @@ import {
   ActiveCartFacade,
   CardType,
   PaymentDetails,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentCardTypesQueryResetEvent,
@@ -17,7 +17,7 @@ import {
   CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Command,
   CommandService,
@@ -29,7 +29,7 @@ import {
   QueryService,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';

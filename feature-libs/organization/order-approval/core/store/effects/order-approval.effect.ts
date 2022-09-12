@@ -12,7 +12,7 @@ import {
   normalizeHttpError,
   StateUtils,
   OCC_USER_ID_ANONYMOUS,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { OrderApprovalConnector } from '../../connectors/order-approval.connector';

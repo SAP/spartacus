@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   PromotionOrderEntryConsumed,
   PromotionResult,
-} from '@spartacus/cart/base/root';
-import { Converter, Occ } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { Converter, Occ } from '@commerce-storefront-toolset/core';
 
 @Injectable({ providedIn: 'root' })
 export class OrderEntryPromotionsNormalizer

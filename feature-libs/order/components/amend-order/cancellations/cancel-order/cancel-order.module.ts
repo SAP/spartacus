@@ -11,11 +11,11 @@ import {
   CmsConfig,
   provideDefaultConfig,
   I18nModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   MessageComponentModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
 import { OrderAmendService } from '../../amend-order.service';

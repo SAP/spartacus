@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ReturnRequestList } from '@spartacus/order/root';
+import { ReturnRequestList } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReturnRequestList = {

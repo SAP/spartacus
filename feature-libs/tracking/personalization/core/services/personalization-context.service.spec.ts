@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService, Page, PageType } from '@spartacus/core';
-import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
+import { CmsService, Page, PageType } from '@commerce-storefront-toolset/core';
+import { PersonalizationConfig } from '@commerce-storefront-toolset/tracking/personalization/root';
 import { Observable, of } from 'rxjs';
 import { PersonalizationContext } from '../model/personalization-context.model';
 import { PersonalizationContextService } from './personalization-context.service';

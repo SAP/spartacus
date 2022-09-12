@@ -5,9 +5,9 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { StateUtils } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { MULTI_CART_DATA } from '@commerce-storefront-toolset/cart/base/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 

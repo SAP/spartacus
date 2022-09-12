@@ -10,15 +10,15 @@ import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@commerce-storefront-toolset/core';
 import {
   BREAKPOINT,
   LayoutConfig,
   LayoutSlotConfig,
   SlotConfig,
   SlotGroup,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {

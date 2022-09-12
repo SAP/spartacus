@@ -12,7 +12,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
+import { ICON_TYPE, FocusConfig } from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-clear-cart-dialog',

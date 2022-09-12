@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { PaymentType } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutPaymentTypeAdapter } from './checkout-payment-type.adapter';
 

@@ -9,7 +9,7 @@ import {
   Converter,
   ConverterService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';

@@ -7,7 +7,7 @@ import {
   ComponentHandlerService,
   ComponentWrapperDirective,
   PageComponentModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import {
   Component,
   Injector,
@@ -21,7 +21,7 @@ import {
   ConfigInitializerService,
   DynamicAttributeService,
   EventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WebComponentHandler } from './handlers/web-component.handler';

@@ -8,7 +8,7 @@ import {
   ProductService,
   VariantQualifier,
   VariantOptionQualifier,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';

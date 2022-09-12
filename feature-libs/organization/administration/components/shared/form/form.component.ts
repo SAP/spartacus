@@ -12,7 +12,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { LoadStatus } from '@spartacus/organization/administration/core';
+import { LoadStatus } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';

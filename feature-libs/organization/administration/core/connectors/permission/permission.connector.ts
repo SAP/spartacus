@@ -9,7 +9,7 @@ import {
   EntitiesModel,
   SearchConfig,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
 import { PermissionAdapter } from './permission.adapter';

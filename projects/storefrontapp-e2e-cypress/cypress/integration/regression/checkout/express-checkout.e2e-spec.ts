@@ -1,4 +1,4 @@
-import { CheckoutConfig } from '@spartacus/storefront';
+import { CheckoutConfig } from '@commerce-storefront-toolset/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
 import * as expressCheckout from '../../../helpers/express-checkout';
 import { viewportContext } from '../../../helpers/viewport-context';

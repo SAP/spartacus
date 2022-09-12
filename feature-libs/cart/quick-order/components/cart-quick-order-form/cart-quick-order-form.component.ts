@@ -16,12 +16,12 @@ import {
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 

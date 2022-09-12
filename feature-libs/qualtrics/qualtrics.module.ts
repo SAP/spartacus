@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { QualtricsComponentsModule } from '@spartacus/qualtrics/components';
+import { QualtricsComponentsModule } from '@commerce-storefront-toolset/qualtrics/components';
 
 @NgModule({
   imports: [QualtricsComponentsModule],

@@ -1,6 +1,6 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
 import createSpy = jasmine.createSpy;
 

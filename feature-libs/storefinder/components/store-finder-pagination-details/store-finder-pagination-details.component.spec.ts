@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, PaginationModel } from '@spartacus/core';
+import { I18nTestingModule, PaginationModel } from '@commerce-storefront-toolset/core';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
 
 const mockPagination: PaginationModel = {

@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter, B2BUser, EntitiesModel } from '@spartacus/core';
+import { Converter, B2BUser, EntitiesModel } from '@commerce-storefront-toolset/core';
 
 export const B2B_USER_NORMALIZER = new InjectionToken<Converter<any, B2BUser>>(
   'B2BUserNormalizer'

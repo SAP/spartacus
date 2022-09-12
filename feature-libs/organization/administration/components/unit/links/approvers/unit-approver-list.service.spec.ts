@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';
+import { B2BUser, B2BUserRole, EntitiesModel } from '@commerce-storefront-toolset/core';
 import {
   B2BUserService,
   LoadStatus,
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService, TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';
 

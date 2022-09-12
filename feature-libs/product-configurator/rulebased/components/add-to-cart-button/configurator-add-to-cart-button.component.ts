@@ -14,19 +14,19 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
-import { Order, OrderHistoryFacade } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   IntersectionOptions,
   IntersectionService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';

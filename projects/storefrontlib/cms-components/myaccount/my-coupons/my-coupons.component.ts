@@ -9,7 +9,7 @@ import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   PaginationModel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';

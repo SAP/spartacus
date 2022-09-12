@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { FormErrorsComponent } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';

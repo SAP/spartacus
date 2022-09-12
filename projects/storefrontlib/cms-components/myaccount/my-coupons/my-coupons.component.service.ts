@@ -9,7 +9,7 @@ import {
   CustomerCoupon,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { map } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 

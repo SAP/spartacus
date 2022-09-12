@@ -31,7 +31,7 @@ const GET_COMPONENT_STATE_TEST_CLASS = `
       ComponentState,
       StateUtils,
       StateWithCms
-    } from '@spartacus/core';
+    } from '@commerce-storefront-toolset/core';
     import { Observable } from 'rxjs';
 
     export class TestClass {
@@ -53,7 +53,7 @@ const GET_COMPONENT_STATE_TEST_CLASS = `
     }`;
 const GET_COMPONENT_ENTITIES_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
-    import { CmsSelectors, StateWithCms } from '@spartacus/core';
+    import { CmsSelectors, StateWithCms } from '@commerce-storefront-toolset/core';
     import { Observable } from 'rxjs';
 
     export class TestClass {
@@ -79,7 +79,7 @@ const GET_COMPONENT_ENTITIES_TEST_CLASS = `
 `;
 const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
-    import { CmsSelectors, StateUtils, StateWithCms } from '@spartacus/core';
+    import { CmsSelectors, StateUtils, StateWithCms } from '@commerce-storefront-toolset/core';
     import { Observable } from 'rxjs';
 
     export class TestClass {
@@ -107,7 +107,7 @@ const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
 `;
 const COMPONENT_SELECTOR_FACTORY_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
-    import { CmsComponent, CmsSelectors, StateWithCms } from '@spartacus/core';
+    import { CmsComponent, CmsSelectors, StateWithCms } from '@commerce-storefront-toolset/core';
     import { Observable } from 'rxjs';
 
     export class TestClass {
@@ -138,7 +138,7 @@ const ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS = `
     }
 `;
 const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
-    import { CmsActions } from '@spartacus/core';
+    import { CmsActions } from '@commerce-storefront-toolset/core';
     export class Test {
       loadCmsComponent(): void {
         console.log(new CmsActions.LoadCmsComponent('xxx'));
@@ -156,7 +156,7 @@ const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
 `;
 
 const CMS_COMPONENT_ACTIONS_TEST_TWO_CLASSES = `
-    import { CmsActions } from '@spartacus/core';
+    import { CmsActions } from '@commerce-storefront-toolset/core';
     export class Test1 {
       loadCmsComponent(): void {
         console.log(new CmsActions.LoadCmsComponent('xxx'));

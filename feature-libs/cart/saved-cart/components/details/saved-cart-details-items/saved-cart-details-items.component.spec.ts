@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
@@ -10,7 +10,7 @@ import {
   Product,
   RoutingService,
   Translatable,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { AuthRedirectService, I18nTestingModule, User } from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;

@@ -10,7 +10,7 @@ import {
   SearchConfig,
   StateUtils,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Permission } from '../../model/permission.model';
 import {
   OrganizationState,

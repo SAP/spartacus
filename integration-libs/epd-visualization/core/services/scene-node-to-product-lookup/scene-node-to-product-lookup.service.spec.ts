@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/core';
+import { getEpdVisualizationDefaultConfig } from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable, of } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import {

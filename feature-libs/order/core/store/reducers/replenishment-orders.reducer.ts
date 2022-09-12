@@ -7,7 +7,7 @@
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReplenishmentOrderList = {

@@ -5,11 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import {
   CurrentProductService,
   ProductListItemContext,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';

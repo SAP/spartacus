@@ -7,12 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component';
 
 @NgModule({

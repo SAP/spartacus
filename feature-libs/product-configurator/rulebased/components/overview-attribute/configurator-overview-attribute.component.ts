@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { BREAKPOINT, BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { Observable } from 'rxjs';

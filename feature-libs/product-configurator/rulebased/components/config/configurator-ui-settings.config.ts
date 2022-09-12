@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 
 export interface ProductConfiguratorUISettingsConfig {
   updateDebounceTime?: {

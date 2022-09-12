@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { QualtricsEmbeddedFeedbackComponent } from './qualtrics-embedded-feedback/qualtrics-embedded-feedback.component';
 import { defaultQualtricsConfig } from './qualtrics-loader/config/default-qualtrics-config';
 import { QualtricsComponent } from './qualtrics-loader/qualtrics.component';

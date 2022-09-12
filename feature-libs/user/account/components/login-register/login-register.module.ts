@@ -13,8 +13,8 @@ import {
   NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { PageSlotModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { PageSlotModule } from '@commerce-storefront-toolset/storefront';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({

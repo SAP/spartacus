@@ -5,11 +5,11 @@ import {
   PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

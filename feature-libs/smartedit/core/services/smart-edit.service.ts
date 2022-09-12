@@ -13,8 +13,8 @@ import {
   RoutingService,
   ScriptLoader,
   WindowRef,
-} from '@spartacus/core';
-import { SmartEditConfig } from '@spartacus/smartedit/root';
+} from '@commerce-storefront-toolset/core';
+import { SmartEditConfig } from '@commerce-storefront-toolset/smartedit/root';
 import { filter, take } from 'rxjs/operators';
 
 @Injectable({

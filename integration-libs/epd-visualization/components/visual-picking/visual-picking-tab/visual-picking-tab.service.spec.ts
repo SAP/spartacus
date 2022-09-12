@@ -11,9 +11,9 @@ import {
   provideDefaultConfigFactory,
   Translatable,
   WindowRef,
-} from '@spartacus/core';
-import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { getEpdVisualizationDefaultConfig } from '@commerce-storefront-toolset/epd-visualization/root';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';

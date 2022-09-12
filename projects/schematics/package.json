@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/schematics",
+  "name": "@commerce-storefront-toolset/schematics",
   "version": "4.1.0-next.0",
   "description": "Spartacus schematics",
   "keywords": [
@@ -37,26 +37,26 @@
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",
     "packageGroup": [
-      "@spartacus/core",
-      "@spartacus/storefront",
-      "@spartacus/styles",
-      "@spartacus/user",
-      "@spartacus/cds",
-      "@spartacus/assets",
-      "@spartacus/organization",
-      "@spartacus/product",
-      "@spartacus/storefinder",
-      "@spartacus/checkout",
-      "@spartacus/asm",
-      "@spartacus/smartedit",
-      "@spartacus/qualtrics",
-      "@spartacus/cdc",
-      "@spartacus/tracking",
-      "@spartacus/cart",
-      "@spartacus/order",
-      "@spartacus/digital-payments",
-      "@spartacus/epd-visualization",
-      "@spartacus/setup"
+      "@commerce-storefront-toolset/core",
+      "@commerce-storefront-toolset/storefront",
+      "@commerce-storefront-toolset/styles",
+      "@commerce-storefront-toolset/user",
+      "@commerce-storefront-toolset/cds",
+      "@commerce-storefront-toolset/assets",
+      "@commerce-storefront-toolset/organization",
+      "@commerce-storefront-toolset/product",
+      "@commerce-storefront-toolset/storefinder",
+      "@commerce-storefront-toolset/checkout",
+      "@commerce-storefront-toolset/asm",
+      "@commerce-storefront-toolset/smartedit",
+      "@commerce-storefront-toolset/qualtrics",
+      "@commerce-storefront-toolset/cdc",
+      "@commerce-storefront-toolset/tracking",
+      "@commerce-storefront-toolset/cart",
+      "@commerce-storefront-toolset/order",
+      "@commerce-storefront-toolset/digital-payments",
+      "@commerce-storefront-toolset/epd-visualization",
+      "@commerce-storefront-toolset/setup"
     ]
   },
   "schematics": "./src/collection.json"

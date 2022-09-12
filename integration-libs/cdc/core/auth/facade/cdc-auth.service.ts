@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
+import { AsmAuthStorageService, TokenTarget } from '@commerce-storefront-toolset/asm/root';
 import {
   AuthActions,
   AuthRedirectService,
@@ -16,11 +16,11 @@ import {
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { CdcAuthActions } from '../store/actions/index';
-import { CdcAuthFacade } from '@spartacus/cdc/root';
+import { CdcAuthFacade } from '@commerce-storefront-toolset/cdc/root';
 
 /**
  * Service to support custom CDC OAuth flow.

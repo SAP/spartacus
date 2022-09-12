@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { PageComponentModule } from '@spartacus/storefront';
+import { PageComponentModule } from '@commerce-storefront-toolset/storefront';
 import { AsmEnablerService } from './services/asm-enabler.service';
 
 /**

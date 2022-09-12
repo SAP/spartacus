@@ -5,7 +5,7 @@
  */
 
 import { Input, Directive } from '@angular/core';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()

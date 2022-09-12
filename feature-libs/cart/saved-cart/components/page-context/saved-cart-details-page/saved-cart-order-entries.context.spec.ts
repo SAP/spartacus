@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ProductImportInfoService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   Cart,
   MultiCartFacade,
   OrderEntry,
   ProductData,
-} from '@spartacus/cart/base/root';
-import {} from '@spartacus/cart/import-export/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import {} from '@commerce-storefront-toolset/cart/import-export/core';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { RouterState, RoutingService, UserIdService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { SavedCartOrderEntriesContext } from './saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;

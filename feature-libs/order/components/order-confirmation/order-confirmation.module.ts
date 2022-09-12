@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import {
   OrderConfirmationOrderEntriesContextToken,
   OrderFacade,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import {
   CardModule,
   FormErrorsModule,
@@ -19,7 +19,7 @@ import {
   PromotionsModule,
   PwaModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailsService } from '../order-details/order-details.service';

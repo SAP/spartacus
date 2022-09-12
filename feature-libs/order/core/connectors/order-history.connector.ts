@@ -14,7 +14,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { OrderHistoryAdapter } from './order-history.adapter';
 

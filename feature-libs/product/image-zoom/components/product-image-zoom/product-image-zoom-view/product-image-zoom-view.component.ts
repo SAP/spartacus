@@ -16,14 +16,14 @@ import {
   ViewChild,
   EventEmitter,
 } from '@angular/core';
-import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import { ImageGroup, isNotNullable, Product } from '@commerce-storefront-toolset/core';
+import { ThumbnailsGroup } from '@commerce-storefront-toolset/product/image-zoom/root';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
   ICON_TYPE,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import {
   BehaviorSubject,
   combineLatest,

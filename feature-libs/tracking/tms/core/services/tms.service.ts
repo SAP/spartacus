@@ -5,7 +5,7 @@
  */
 
 import { Injectable, Injector, isDevMode, OnDestroy } from '@angular/core';
-import { CxEvent, EventService, WindowRef } from '@spartacus/core';
+import { CxEvent, EventService, WindowRef } from '@commerce-storefront-toolset/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
 import { TmsCollector } from '../model/tms.model';

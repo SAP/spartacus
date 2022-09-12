@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '@commerce-storefront-toolset/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import {
   IconConfig,

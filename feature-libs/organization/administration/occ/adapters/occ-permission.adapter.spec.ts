@@ -3,12 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
 import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
   PERMISSION_SERIALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 
 import createSpy = jasmine.createSpy;

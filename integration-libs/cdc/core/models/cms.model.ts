@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '@commerce-storefront-toolset/core';
 
 export interface GigyaRaasComponentData extends CmsComponent {
   uid?: string; // Unique identifier of the Component

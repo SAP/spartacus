@@ -2,9 +2,9 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nTestingModule } from '@spartacus/core';
-import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
-import { SpinnerModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { ConsignmentTracking, OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events.component';
 

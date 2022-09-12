@@ -12,28 +12,28 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = '00-migration-v4-rename-symbol';
 
-const fileWithSimpleImport = `import { OtherComponent1, Test1Component } from "@spartacus/storefront";
-import { Test2Component } from "@spartacus/core";
+const fileWithSimpleImport = `import { OtherComponent1, Test1Component } from "@commerce-storefront-toolset/storefront";
+import { Test2Component } from "@commerce-storefront-toolset/core";
 
 const array = [OtherComponent1, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-const fileWithSimpleImportWithAlias = `import { OtherComponent2 as Test, Test1Component } from "@spartacus/storefront";
-import { Test2Component } from "@spartacus/core";
+const fileWithSimpleImportWithAlias = `import { OtherComponent2 as Test, Test1Component } from "@commerce-storefront-toolset/storefront";
+import { Test2Component } from "@commerce-storefront-toolset/core";
 
 const array = [Test, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-const fileWithSimpleImportAndRename = `import { OtherComponent3, Test1Component } from "@spartacus/storefront";
-import { Test2Component } from "@spartacus/core";
+const fileWithSimpleImportAndRename = `import { OtherComponent3, Test1Component } from "@commerce-storefront-toolset/storefront";
+import { Test2Component } from "@commerce-storefront-toolset/core";
 
 const array = [OtherComponent3, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
 
-const fileWithRename = `import { OtherComponent4, Test1Component } from "@spartacus/storefront";
-import { Test2Component } from "@spartacus/core";
+const fileWithRename = `import { OtherComponent4, Test1Component } from "@commerce-storefront-toolset/storefront";
+import { Test2Component } from "@commerce-storefront-toolset/core";
 
 const array = [OtherComponent4, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
@@ -49,7 +49,7 @@ import {
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

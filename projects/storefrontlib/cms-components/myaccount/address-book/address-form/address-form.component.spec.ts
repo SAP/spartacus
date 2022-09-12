@@ -13,7 +13,7 @@ import {
   Title,
   UserAddressService,
   UserService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { FormErrorsModule } from '../../../../shared/index';

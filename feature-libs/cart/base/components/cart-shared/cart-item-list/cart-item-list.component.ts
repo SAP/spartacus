@@ -22,9 +22,9 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { UserIdService } from '@commerce-storefront-toolset/core';
+import { OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 

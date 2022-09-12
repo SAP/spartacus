@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { Permission } from '@spartacus/organization/administration/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { Permission } from '@commerce-storefront-toolset/organization/administration/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CurrentPermissionService } from './current-permission.service';

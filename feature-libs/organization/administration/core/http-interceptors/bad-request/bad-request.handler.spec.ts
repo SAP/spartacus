@@ -4,7 +4,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OrganizationBadRequestHandler } from './bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;

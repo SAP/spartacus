@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { CmsConfig, ConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 @NgModule({

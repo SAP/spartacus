@@ -5,8 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Cart, CartType } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { Cart, CartType } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_PROCESSES_INCREMENT = '[Cart] Cart Processes Increment';

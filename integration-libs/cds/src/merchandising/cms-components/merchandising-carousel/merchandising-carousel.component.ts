@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { CmsComponentData, IntersectionService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,

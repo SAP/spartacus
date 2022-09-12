@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
-} from '@spartacus/storefinder/assets';
+} from '@commerce-storefront-toolset/storefinder/assets';
 import {
   StoreFinderRootModule,
   STORE_FINDER_FEATURE,
-} from '@spartacus/storefinder/root';
+} from '@commerce-storefront-toolset/storefinder/root';
 
 @NgModule({
   imports: [StoreFinderRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [STORE_FINDER_FEATURE]: {
           module: () =>
-            import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
+            import('@commerce-storefront-toolset/storefinder').then((m) => m.StoreFinderModule),
         },
       },
     }),

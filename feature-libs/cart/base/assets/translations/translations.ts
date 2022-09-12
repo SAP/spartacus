@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
+import { TranslationChunksConfig, TranslationResources } from '@commerce-storefront-toolset/core';
 import { en } from './en/index';
 
 export const cartBaseTranslations: TranslationResources = {

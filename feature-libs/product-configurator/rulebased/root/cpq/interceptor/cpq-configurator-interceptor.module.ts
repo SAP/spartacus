@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { CpqConfiguratorRestInterceptor } from './cpq-configurator-rest.interceptor';
 import { defaultCpqConfiguratorAuthConfig } from './default-cpq-configurator-auth.config';
 

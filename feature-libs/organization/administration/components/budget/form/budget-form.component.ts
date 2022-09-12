@@ -6,12 +6,12 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { Currency, CurrencyService } from '@spartacus/core';
+import { Currency, CurrencyService } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   Budget,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';

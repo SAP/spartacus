@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { CostCenterAssignedBudgetListComponent } from './cost-center-assigned-budget-list.component';

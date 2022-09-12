@@ -4,7 +4,7 @@ import {
   CmsStructureConfig,
   CmsStructureConfigService,
   CmsStructureModel,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 let mockPageStructure: CmsStructureModel;
 

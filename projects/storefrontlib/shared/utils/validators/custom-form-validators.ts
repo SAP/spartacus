@@ -10,7 +10,7 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
+import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@commerce-storefront-toolset/core';
 
 export class CustomFormValidators {
   /**

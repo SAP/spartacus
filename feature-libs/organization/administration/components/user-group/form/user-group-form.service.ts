@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserGroup } from '@spartacus/organization/administration/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
 import { FormService } from '../../shared/form/form.service';
 
 @Injectable({

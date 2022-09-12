@@ -10,14 +10,14 @@ import {
   Currency,
   CurrencyService,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   OrgUnitService,
   Period,
   Permission,
   PermissionService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';

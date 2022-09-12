@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import { JsonLdProductOfferBuilder } from './jsonld-product-offer.builder';
 
 const simpleProductMock: Product = {

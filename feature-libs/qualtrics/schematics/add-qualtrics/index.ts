@@ -19,7 +19,7 @@ import {
   LibraryOptions as SpartacusQualtricsOptions,
   readPackageJson,
   validateSpartacusInstallation,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import { peerDependencies } from '../../package.json';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {

@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { RulebasedConfiguratorConnector } from '@spartacus/product-configurator/rulebased';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { RulebasedConfiguratorConnector } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { CpqConfiguratorNormalizer } from './converters/cpq-configurator-normalizer';
 import { CpqConfiguratorOverviewNormalizer } from './converters/cpq-configurator-overview-normalizer';
 import { CpqConfiguratorSerializer } from './converters/cpq-configurator-serializer';

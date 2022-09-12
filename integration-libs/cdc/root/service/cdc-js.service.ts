@@ -19,10 +19,10 @@ import {
   ScriptLoader,
   User,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 

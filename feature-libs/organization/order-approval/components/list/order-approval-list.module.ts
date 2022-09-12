@@ -14,8 +14,8 @@ import {
   FeaturesConfigModule,
   I18nModule,
   UrlModule,
-} from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ListNavigationModule } from '@commerce-storefront-toolset/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalListComponent } from './order-approval-list.component';
 

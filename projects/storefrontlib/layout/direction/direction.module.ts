@@ -5,7 +5,7 @@
  */
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { FeatureConfigService, provideDefaultConfig } from '@spartacus/core';
+import { FeatureConfigService, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultDirectionConfig } from './config/default-direction.config';
 import { DirectionService } from './direction.service';
 

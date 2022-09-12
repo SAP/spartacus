@@ -6,9 +6,9 @@
 
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { TranslationService } from '@commerce-storefront-toolset/core';
+import { BREAKPOINT, BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';

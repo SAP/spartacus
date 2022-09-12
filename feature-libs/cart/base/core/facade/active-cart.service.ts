@@ -11,7 +11,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -20,7 +20,7 @@ import {
   StateUtils,
   User,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
   distinctUntilChanged,

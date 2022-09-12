@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
+import { Address, B2BUnit, Country, UserAddressService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   map,

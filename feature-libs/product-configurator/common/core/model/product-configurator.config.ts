@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/core';
+import '@commerce-storefront-toolset/core';
 
 export interface ProductConfiguratorConfig {}
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config {
     productConfigurator?: ProductConfiguratorConfig;
   }

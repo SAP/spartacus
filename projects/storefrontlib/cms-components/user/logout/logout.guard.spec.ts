@@ -8,7 +8,7 @@ import {
   ProtectedRoutesService,
   RoutingConfig,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LogoutGuard } from './logout.guard';

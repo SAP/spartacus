@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentType } from '@spartacus/cart/base/root';
-import '@spartacus/checkout/base/root';
-import { CostCenter } from '@spartacus/core';
+import { PaymentType } from '@commerce-storefront-toolset/cart/base/root';
+import '@commerce-storefront-toolset/checkout/base/root';
+import { CostCenter } from '@commerce-storefront-toolset/core';
 
-declare module '@spartacus/checkout/base/root' {
+declare module '@commerce-storefront-toolset/checkout/base/root' {
   const enum CheckoutStepType {
     PAYMENT_TYPE = 'paymentType',
   }

@@ -1,4 +1,4 @@
-import { CheckoutConfig } from '@spartacus/storefront';
+import { CheckoutConfig } from '@commerce-storefront-toolset/storefront';
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';

@@ -8,7 +8,7 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
@@ -21,7 +21,7 @@ import {
   ORDER_RETURN_REQUEST_NORMALIZER,
   ReturnRequest,
   ReturnRequestEntryInputList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

@@ -15,7 +15,7 @@ import { CmsActions } from '../actions/index';
 import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
 import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError } from '@commerce-storefront-toolset/core';
 
 function mockDateNow(): number {
   return 1000000000000;

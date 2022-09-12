@@ -5,7 +5,7 @@
  */
 
 import { ValueProvider } from '@angular/core';
-import { CmsStructureConfig, provideConfig } from '@spartacus/core';
+import { CmsStructureConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
 import { CmsStructureOptions } from './cms-structure.model';
 

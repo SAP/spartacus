@@ -5,11 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   SmartEditRootModule,
   SMART_EDIT_FEATURE,
-} from '@spartacus/smartedit/root';
+} from '@commerce-storefront-toolset/smartedit/root';
 
 @NgModule({
   imports: [SmartEditRootModule],
@@ -18,7 +18,7 @@ import {
       featureModules: {
         [SMART_EDIT_FEATURE]: {
           module: () =>
-            import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+            import('@commerce-storefront-toolset/smartedit').then((m) => m.SmartEditModule),
         },
       },
     }),

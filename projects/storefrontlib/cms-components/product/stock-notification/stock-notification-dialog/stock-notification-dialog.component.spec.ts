@@ -5,7 +5,7 @@ import {
   UserInterestsService,
   I18nTestingModule,
   NotificationPreference,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { RouterTestingModule } from '@angular/router/testing';

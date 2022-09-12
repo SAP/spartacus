@@ -7,4 +7,4 @@
 /*
  * Public API Surface of my-account
  */
-export * from '@spartacus/organization/administration';
+export * from '@commerce-storefront-toolset/organization/administration';

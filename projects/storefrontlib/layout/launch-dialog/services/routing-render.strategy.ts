@@ -6,7 +6,7 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, RendererFactory2 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 

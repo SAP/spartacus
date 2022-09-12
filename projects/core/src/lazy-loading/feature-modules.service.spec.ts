@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FeatureModulesService } from './feature-modules.service';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import { InjectionToken, NgModule } from '@angular/core';
 
 const mockCmsConfig: CmsConfig = {

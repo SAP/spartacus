@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { UnitDetailsModule } from './details/unit-details.module';
 import { UnitFormModule } from './form/unit-form.module';
 import { UnitAddressModule } from './links/addresses/unit-address.module';

@@ -23,29 +23,29 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
-      '@spartacus/user': path.join(__dirname, 'feature-libs/user'),
-      '@spartacus/organization': path.join(
+      '@commerce-storefront-toolset/styles': path.join(__dirname, 'projects/storefrontstyles'),
+      '@commerce-storefront-toolset/user': path.join(__dirname, 'feature-libs/user'),
+      '@commerce-storefront-toolset/organization': path.join(
         __dirname,
         'feature-libs/organization'
       ),
-      '@spartacus/product': path.join(__dirname, 'feature-libs/product'),
-      '@spartacus/product-configurator': path.join(
+      '@commerce-storefront-toolset/product': path.join(__dirname, 'feature-libs/product'),
+      '@commerce-storefront-toolset/product-configurator': path.join(
         __dirname,
         'feature-libs/product-configurator'
       ),
-      '@spartacus/storefinder': path.join(
+      '@commerce-storefront-toolset/storefinder': path.join(
         __dirname,
         'feature-libs/storefinder'
       ),
-      '@spartacus/checkout': path.join(__dirname, 'feature-libs/checkout'),
-      '@spartacus/asm': path.join(__dirname, 'feature-libs/asm'),
-      '@spartacus/smartedit': path.join(__dirname, 'feature-libs/smartedit'),
-      '@spartacus/qualtrics': path.join(__dirname, 'feature-libs/qualtrics'),
-      '@spartacus/tracking': path.join(__dirname, 'feature-libs/tracking'),
-      '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
-      '@spartacus/order': path.join(__dirname, 'feature-libs/order'),
-      '@spartacus/epd-visualization': path.join(
+      '@commerce-storefront-toolset/checkout': path.join(__dirname, 'feature-libs/checkout'),
+      '@commerce-storefront-toolset/asm': path.join(__dirname, 'feature-libs/asm'),
+      '@commerce-storefront-toolset/smartedit': path.join(__dirname, 'feature-libs/smartedit'),
+      '@commerce-storefront-toolset/qualtrics': path.join(__dirname, 'feature-libs/qualtrics'),
+      '@commerce-storefront-toolset/tracking': path.join(__dirname, 'feature-libs/tracking'),
+      '@commerce-storefront-toolset/cart': path.join(__dirname, 'feature-libs/cart'),
+      '@commerce-storefront-toolset/order': path.join(__dirname, 'feature-libs/order'),
+      '@commerce-storefront-toolset/epd-visualization': path.join(
         __dirname,
         'integration-libs/epd-visualization'
       ),

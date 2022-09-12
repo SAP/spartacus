@@ -10,12 +10,12 @@ import {
   ProcessSelectors,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';

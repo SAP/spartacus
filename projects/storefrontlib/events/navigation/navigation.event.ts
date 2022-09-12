@@ -5,7 +5,7 @@
  */
 
 import { Params } from '@angular/router';
-import { CxEvent, PageContext } from '@spartacus/core';
+import { CxEvent, PageContext } from '@commerce-storefront-toolset/core';
 
 /**
  * Indicates that a user navigated to an arbitrary page.

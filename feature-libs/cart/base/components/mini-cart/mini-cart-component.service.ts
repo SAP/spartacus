@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, CreateCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, CreateCartEvent } from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
@@ -13,7 +13,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,

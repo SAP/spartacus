@@ -9,14 +9,14 @@ import {
   OrderEntry,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   Converter,
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
-} from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {

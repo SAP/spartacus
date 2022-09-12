@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { TableHeaderOutletContext, TableOptions } from '../table.model';
 import { TableHeaderCellComponent } from './table-header-cell.component';
 

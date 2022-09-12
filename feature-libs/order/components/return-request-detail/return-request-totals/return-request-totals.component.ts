@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { ReturnRequest } from '@spartacus/order/root';
+import { ReturnRequest } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 

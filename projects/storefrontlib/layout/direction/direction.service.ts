@@ -9,7 +9,7 @@ import {
   ConfigInitializerService,
   LanguageService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DirectionConfig } from './config/direction.config';

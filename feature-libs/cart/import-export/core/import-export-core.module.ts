@@ -5,7 +5,7 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultImportExportConfig } from './config/default-import-export-config';
 
 @NgModule({})

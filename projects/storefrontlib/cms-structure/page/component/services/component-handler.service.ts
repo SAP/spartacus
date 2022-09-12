@@ -15,7 +15,7 @@ import {
   Optional,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
+import { CmsComponentMapping, resolveApplicable } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 

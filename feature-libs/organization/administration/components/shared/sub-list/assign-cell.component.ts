@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import {
   OutletContextData,
   TableDataOutletContext,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';

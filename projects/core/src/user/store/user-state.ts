@@ -41,7 +41,7 @@ export interface StateWithUser {
 }
 
 /**
- * @deprecated since 3.2, moved to the `@spartacus/user` package.
+ * @deprecated since 3.2, moved to the `@commerce-storefront-toolset/user` package.
  */
 export interface UserState {
   addresses: StateUtils.LoaderState<Address[]>;

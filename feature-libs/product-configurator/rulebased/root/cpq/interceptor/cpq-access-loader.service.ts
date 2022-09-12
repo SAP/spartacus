@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CpqAccessData } from './cpq-access-data.models';
 

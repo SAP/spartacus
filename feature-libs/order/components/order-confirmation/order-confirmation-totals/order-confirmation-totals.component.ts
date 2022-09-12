@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { CartOutlets } from '@commerce-storefront-toolset/cart/base/root';
+import { Order, OrderFacade } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

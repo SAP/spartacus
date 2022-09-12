@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { BaseStorefrontModule } from '@spartacus/storefront';
+import { BaseStorefrontModule } from '@commerce-storefront-toolset/storefront';
 import { environment } from '../../environments/environment';
 import { SpartacusB2bConfigurationModule } from './spartacus-b2b-configuration.module';
 import { SpartacusB2cConfigurationModule } from './spartacus-b2c-configuration.module';

@@ -10,7 +10,7 @@ import {
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 
 @Component({

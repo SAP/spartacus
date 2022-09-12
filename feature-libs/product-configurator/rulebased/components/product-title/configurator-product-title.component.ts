@@ -5,12 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

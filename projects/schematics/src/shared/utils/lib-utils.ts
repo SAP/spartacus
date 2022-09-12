@@ -114,11 +114,11 @@ export interface SchematicConfig {
      */
     featureName: string;
     /**
-     * Spartacus library scope, e.g. `@spartacus/checkout`
+     * Spartacus library scope, e.g. `@commerce-storefront-toolset/checkout`
      */
     mainScope: string;
     /**
-     * E.g. `@spartacus/checkout/base/b2b`
+     * E.g. `@commerce-storefront-toolset/checkout/base/b2b`
      */
     featureScope?: string;
     /**
@@ -137,12 +137,12 @@ export interface SchematicConfig {
   moduleName: string;
   /**
    * The feature module configuration.
-   * E.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
+   * E.g. `CheckoutB2BModule` from `@commerce-storefront-toolset/checkout/b2b`.
    */
   featureModule: Module | Module[];
   /**
    * The root module configuration.
-   * E.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`.
+   * E.g. `CheckoutB2BRootModule` from `@commerce-storefront-toolset/checkout/b2b/root`.
    */
   rootModule?: Module;
   /**
@@ -591,7 +591,7 @@ function createAssetsArray(
     if (typeof asset === 'object') {
       if (
         asset.glob === assetsConfig.glob &&
-        asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
+        asset.input === `./node_modules/@commerce-storefront-toolset/${assetsConfig.input}` &&
         asset.output === (assetsConfig.output || 'assets/')
       ) {
         return angularJsonAssets;
@@ -603,7 +603,7 @@ function createAssetsArray(
     ...angularJsonAssets,
     {
       glob: assetsConfig.glob,
-      input: `./node_modules/@spartacus/${assetsConfig.input}`,
+      input: `./node_modules/@commerce-storefront-toolset/${assetsConfig.input}`,
       output: assetsConfig.output || 'assets/',
     },
   ];

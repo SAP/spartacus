@@ -14,7 +14,7 @@ import {
   StoreCount,
   StoreFinderAdapter,
   StoreFinderSearchPage,
-} from '@spartacus/storefinder/core';
+} from '@commerce-storefront-toolset/storefinder/core';
 import {
   ConverterService,
   GeoPoint,
@@ -23,7 +23,7 @@ import {
   POINT_OF_SERVICE_NORMALIZER,
   PointOfService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {

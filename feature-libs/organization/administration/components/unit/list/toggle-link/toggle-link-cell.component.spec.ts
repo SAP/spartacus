@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
-import { IconModule, OutletContextData } from '@spartacus/storefront';
+import { ToggleLinkCellComponent } from '@commerce-storefront-toolset/organization/administration/components';
+import { IconModule, OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { UnitTreeService } from '../../services/unit-tree.service';
 import createSpy = jasmine.createSpy;

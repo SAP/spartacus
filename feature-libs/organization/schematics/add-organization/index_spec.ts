@@ -21,7 +21,7 @@ import {
   SPARTACUS_ORGANIZATION,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 

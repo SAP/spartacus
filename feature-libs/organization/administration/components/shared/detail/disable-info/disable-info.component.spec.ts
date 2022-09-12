@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';

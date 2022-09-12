@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { AuthService } from '@spartacus/core';
+import { AuthService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
 import {
   distinctUntilChanged,

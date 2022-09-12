@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ProductImportInfoService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -14,9 +14,9 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { UserIdService } from '@commerce-storefront-toolset/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,

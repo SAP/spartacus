@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { ConverterService, PRODUCT_NORMALIZER } from '@commerce-storefront-toolset/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductAdapter } from './occ-product.adapter';
 import createSpy = jasmine.createSpy;

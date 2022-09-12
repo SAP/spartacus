@@ -9,7 +9,7 @@ import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-} from '@spartacus/setup/ssr';
+} from '@commerce-storefront-toolset/setup/ssr';
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';

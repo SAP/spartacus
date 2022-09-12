@@ -5,7 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig, SiteContextConfig } from '@spartacus/core';
+import { OccConfig, SiteContextConfig } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { defaultOccConfig } from '../../config/default-occ-config';
 import { CurrencyService } from '../../../site-context/facade/currency.service';

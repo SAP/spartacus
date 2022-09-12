@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CxEvent, Suggestion } from '@spartacus/core';
+import { CxEvent, Suggestion } from '@commerce-storefront-toolset/core';
 
 /**
  * Indicates that the user chose a suggestion

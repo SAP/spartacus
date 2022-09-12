@@ -158,7 +158,7 @@ function handleConfigUpdate(
 
 /**
  * When library have its own schematics ts config (tsconfig.schematics.json exists) and have
- * schematics as peerDependency we add path to `@spartacus/schematics` lib.
+ * schematics as peerDependency we add path to `@commerce-storefront-toolset/schematics` lib.
  */
 function handleSchematicsConfigs(
   libraries: Record<string, LibraryWithSpartacusDeps>,
@@ -234,7 +234,7 @@ function handleLibConfigs(
         });
       }
       let dependenciesEntryPoints = Array.from(dependencies)
-        // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
+        // @commerce-storefront-toolset/schematics library should be used only in `tsconfig.schematics.json` file.
         .filter((dependency) => dependency !== SPARTACUS_SCHEMATICS)
         .map((library) => libraries[library])
         .reduce((entryPoints, dependency) => {
@@ -242,7 +242,7 @@ function handleLibConfigs(
             (acc, entry) => {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/public_api']
+                // In tsconfig.lib.json files we reference built paths. eg. `@commerce-storefront-toolset/storefront`: ['dist/storefrontlib/public_api']
                 [entry.entryPoint]: [
                   joinPaths('dist', dependency.distDir, entry.directory),
                 ],

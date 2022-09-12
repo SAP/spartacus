@@ -1,4 +1,4 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   OrderApproval,
   OrderApprovalDecision,

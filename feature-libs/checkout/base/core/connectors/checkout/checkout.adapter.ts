@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CheckoutState } from '@spartacus/checkout/base/root';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutAdapter {

@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
+import { Cart, CART_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
@@ -16,7 +16,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   ProductImageNormalizer,
   USE_CLIENT_TOKEN,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OccCartAdapter } from './occ-cart.adapter';
 
 const userId = '123';

@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StoreFinderAdapter } from './store-finder.adapter';
-import { GeoPoint, PointOfService, SearchConfig } from '@spartacus/core';
+import { GeoPoint, PointOfService, SearchConfig } from '@commerce-storefront-toolset/core';
 import { StoreCount, StoreFinderSearchPage } from '../model/store-finder.model';
 
 @Injectable({ providedIn: 'root' })

@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/storefront",
+  "name": "@commerce-storefront-toolset/storefront",
   "version": "4.1.0-next.0",
   "keywords": [
     "spartacus",
@@ -24,7 +24,7 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/router-store": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "^6.6.0"
   },

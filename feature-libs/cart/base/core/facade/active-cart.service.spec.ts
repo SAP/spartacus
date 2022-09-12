@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -8,7 +8,7 @@ import {
   OCC_USER_ID_GUEST,
   StateUtils,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';

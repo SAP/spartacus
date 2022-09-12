@@ -8,16 +8,16 @@ import { NgModule } from '@angular/core';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
-} from '@spartacus/cart/base/root';
-import { CmsConfig, provideConfig } from '@spartacus/core';
-import { NavigationEvent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { CmsConfig, provideConfig } from '@commerce-storefront-toolset/core';
+import { NavigationEvent } from '@commerce-storefront-toolset/storefront';
 import {
   PersonalizationRootModule,
   PERSONALIZATION_FEATURE,
-} from '@spartacus/tracking/personalization/root';
-import { AepModule } from '@spartacus/tracking/tms/aep';
-import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
-import { GtmModule } from '@spartacus/tracking/tms/gtm';
+} from '@commerce-storefront-toolset/tracking/personalization/root';
+import { AepModule } from '@commerce-storefront-toolset/tracking/tms/aep';
+import { BaseTmsModule, TmsConfig } from '@commerce-storefront-toolset/tracking/tms/core';
+import { GtmModule } from '@commerce-storefront-toolset/tracking/tms/gtm';
 
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
       featureModules: {
         [PERSONALIZATION_FEATURE]: {
           module: () =>
-            import('@spartacus/tracking/personalization').then(
+            import('@commerce-storefront-toolset/tracking/personalization').then(
               (m) => m.PersonalizationModule
             ),
         },

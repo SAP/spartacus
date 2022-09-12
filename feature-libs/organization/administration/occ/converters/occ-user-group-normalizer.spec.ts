@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { Occ, OccConfig } from '@spartacus/core';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { Occ, OccConfig } from '@commerce-storefront-toolset/core';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
 import { OccUserGroupNormalizer } from './occ-user-group-normalizer';
 
 const MockOccModuleConfig: OccConfig = {

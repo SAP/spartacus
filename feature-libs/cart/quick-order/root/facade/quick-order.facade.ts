@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { facadeFactory, Product } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { facadeFactory, Product } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
 import { QuickOrderAddEntryEvent } from '../models/quick-order.model';

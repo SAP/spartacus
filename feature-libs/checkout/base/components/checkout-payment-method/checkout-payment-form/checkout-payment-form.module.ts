@@ -8,14 +8,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import {
   CardModule,
   FormErrorsModule,
   IconModule,
   SpinnerModule,
   NgSelectA11yModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @NgModule({

@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
-} from '@spartacus/organization/order-approval/assets';
+} from '@commerce-storefront-toolset/organization/order-approval/assets';
 import {
   OrderApprovalRootModule,
   ORGANIZATION_ORDER_APPROVAL_FEATURE,
-} from '@spartacus/organization/order-approval/root';
+} from '@commerce-storefront-toolset/organization/order-approval/root';
 
 @NgModule({
   imports: [OrderApprovalRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
           module: () =>
-            import('@spartacus/organization/order-approval').then(
+            import('@commerce-storefront-toolset/organization/order-approval').then(
               (m) => m.OrderApprovalModule
             ),
         },

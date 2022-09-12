@@ -5,15 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
   CheckoutPaymentTypeSetEvent,
   CheckoutPaymentTypesQueryReloadEvent,
   CheckoutPaymentTypesQueryResetEvent,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutQueryFacade } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Command,
   CommandService,
@@ -25,7 +25,7 @@ import {
   QueryService,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';

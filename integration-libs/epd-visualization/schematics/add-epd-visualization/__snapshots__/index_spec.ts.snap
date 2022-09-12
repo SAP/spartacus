@@ -2,10 +2,10 @@
 
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature - No compilerOptions in tsconfig eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { EpdVisualizationModule } from \\"@spartacus/epd-visualization\\";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@spartacus/epd-visualization/assets\\";
-import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@spartacus/epd-visualization/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { EpdVisualizationModule } from \\"@commerce-storefront-toolset/epd-visualization\\";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@commerce-storefront-toolset/epd-visualization/assets\\";
+import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@commerce-storefront-toolset/epd-visualization/root\\";
 
 @NgModule({
   declarations: [],
@@ -38,10 +38,10 @@ export class EpdVisualizationFeatureModule { }
 
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { EpdVisualizationModule } from \\"@spartacus/epd-visualization\\";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@spartacus/epd-visualization/assets\\";
-import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@spartacus/epd-visualization/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { EpdVisualizationModule } from \\"@commerce-storefront-toolset/epd-visualization\\";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@commerce-storefront-toolset/epd-visualization/assets\\";
+import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@commerce-storefront-toolset/epd-visualization/root\\";
 
 @NgModule({
   declarations: [],
@@ -74,9 +74,9 @@ export class EpdVisualizationFeatureModule { }
 
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@spartacus/epd-visualization/assets\\";
-import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_FEATURE } from \\"@spartacus/epd-visualization/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from \\"@commerce-storefront-toolset/epd-visualization/assets\\";
+import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_FEATURE } from \\"@commerce-storefront-toolset/epd-visualization/root\\";
 
 @NgModule({
   declarations: [],
@@ -87,7 +87,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_F
     featureModules: {
       [EPD_VISUALIZATION_FEATURE]: {
         module: () =>
-          import('@spartacus/epd-visualization').then((m) => m.EpdVisualizationModule),
+          import('@commerce-storefront-toolset/epd-visualization').then((m) => m.EpdVisualizationModule),
       },
     }
   }),
@@ -114,7 +114,7 @@ export class EpdVisualizationFeatureModule { }
 "
 `;
 
-exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/epd-visualization\\";"`;
+exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/epd-visualization\\";"`;
 
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup styling should update angular.json 1`] = `
 "{

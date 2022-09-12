@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/storefront';
+import '@commerce-storefront-toolset/storefront';
 
-declare module '@spartacus/storefront' {
+declare module '@commerce-storefront-toolset/storefront' {
   const enum LAUNCH_CALLER {
     SAVED_CART = 'SAVED_CART',
   }

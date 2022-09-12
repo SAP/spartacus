@@ -1,4 +1,4 @@
-import { Title } from '@spartacus/core';
+import { Title } from '@commerce-storefront-toolset/core';
 import { sortTitles } from './title-utils';
 
 describe('TitleUtils', () => {

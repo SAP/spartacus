@@ -6,8 +6,8 @@
 
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 

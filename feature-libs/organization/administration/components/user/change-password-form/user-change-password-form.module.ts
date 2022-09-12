@@ -9,12 +9,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   KeyboardFocusModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CardModule } from '../../shared/card/card.module';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 

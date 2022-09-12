@@ -26,7 +26,7 @@ export class UserService {
   /**
    * Returns titles.
    *
-   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
+   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@commerce-storefront-toolset/user` package.
    * We can remove it completely once we move the user-address feature to the User lib.
    */
   getTitles(): Observable<Title[]> {
@@ -34,7 +34,7 @@ export class UserService {
       return this.userProfileFacade.getTitles();
     }
     throw Error(
-      'Cannot get a titles. Install `@spartacus/user` library which provides required services.'
+      'Cannot get a titles. Install `@commerce-storefront-toolset/user` library which provides required services.'
     );
   }
 }

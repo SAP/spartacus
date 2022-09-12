@@ -5,8 +5,8 @@
  */
 
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { OutletContextData } from '@spartacus/storefront';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({

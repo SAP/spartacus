@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   QueryState,
   UserAddressService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';

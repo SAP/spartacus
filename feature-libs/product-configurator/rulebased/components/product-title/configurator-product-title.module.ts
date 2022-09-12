@@ -13,8 +13,8 @@ import {
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
-} from '@spartacus/core';
-import { IconModule, MediaModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule, MediaModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 @NgModule({

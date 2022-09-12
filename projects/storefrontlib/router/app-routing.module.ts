@@ -6,7 +6,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultOnNavigateConfig } from './config/default-on-navigate-config';
 import { OnNavigateService } from './on-navigate.service';
 

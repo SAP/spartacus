@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser } from '@spartacus/core';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import { B2BUser } from '@commerce-storefront-toolset/core';
+import { OrganizationItemStatus } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { UserItemService } from '../../../../user/services/user-item.service';
 

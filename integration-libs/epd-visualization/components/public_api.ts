@@ -5,6 +5,6 @@
  */
 
 /*
- * Public API Surface for @spartacus/epd-visualization/components
+ * Public API Surface for @commerce-storefront-toolset/epd-visualization/components
  */
 export * from './index';

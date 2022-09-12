@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   B2BUserService,
   PermissionService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { of } from 'rxjs';
 import { CurrentUserService } from './current-user.service';
 

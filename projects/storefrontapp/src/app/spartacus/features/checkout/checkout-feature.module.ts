@@ -8,22 +8,22 @@ import { NgModule, Provider, Type } from '@angular/core';
 import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
-} from '@spartacus/checkout/b2b/assets';
-import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/assets';
+import { CheckoutB2BRootModule } from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
-} from '@spartacus/checkout/base/assets';
+} from '@commerce-storefront-toolset/checkout/base/assets';
 import {
   CheckoutRootModule,
   CHECKOUT_FEATURE,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
   checkoutScheduledReplenishmentTranslations,
-} from '@spartacus/checkout/scheduled-replenishment/assets';
-import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
-import { provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/scheduled-replenishment/assets';
+import { CheckoutScheduledReplenishmentRootModule } from '@commerce-storefront-toolset/checkout/scheduled-replenishment/root';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 import { environment } from '../../../../environments/environment';
 
 const extensionModules: Type<any>[] = [];

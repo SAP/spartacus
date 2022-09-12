@@ -8,7 +8,7 @@ import {
   CmsActivatedRouteSnapshot,
   OAuthFlow,
   RoutingConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';

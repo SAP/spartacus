@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { CmsLinkComponent } from '@spartacus/core';
+import { CmsLinkComponent } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';

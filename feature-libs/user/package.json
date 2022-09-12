@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/user",
+  "name": "@commerce-storefront-toolset/user",
   "version": "4.1.0-next.0",
   "description": "User feature library for Spartacus",
   "keywords": [
@@ -32,10 +32,10 @@
     "@angular/router": "^13.3.0",
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/store": "^13.0.2",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/storefront": "4.1.0-next.0",
+    "@commerce-storefront-toolset/styles": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

@@ -8,12 +8,12 @@ import { NgModule } from '@angular/core';
 import {
   CHECKOUT_BASE_CMS_COMPONENTS,
   CHECKOUT_FEATURE,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultB2BCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
 import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';

@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CartVoucherFacade, Voucher } from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-applied-coupons',

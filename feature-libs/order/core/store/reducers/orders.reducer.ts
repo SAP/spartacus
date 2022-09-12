@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: OrderHistoryList = {

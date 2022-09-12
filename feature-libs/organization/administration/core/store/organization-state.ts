@@ -13,7 +13,7 @@ import {
   ListModel,
   OrderApprovalPermissionType,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Budget } from '../model/budget.model';
 import { Permission } from '../model/permission.model';
 import { B2BUnitNode } from '../model/unit-node.model';

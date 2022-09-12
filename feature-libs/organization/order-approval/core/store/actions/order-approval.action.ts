@@ -9,7 +9,7 @@ import {
   PROCESS_FEATURE,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrderApproval,
   OrderApprovalDecision,

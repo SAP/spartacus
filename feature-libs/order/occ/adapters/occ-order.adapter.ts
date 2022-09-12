@@ -16,9 +16,9 @@ import {
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
-} from '@spartacus/core';
-import { OrderAdapter } from '@spartacus/order/core';
-import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { OrderAdapter } from '@commerce-storefront-toolset/order/core';
+import { Order, ORDER_NORMALIZER } from '@commerce-storefront-toolset/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

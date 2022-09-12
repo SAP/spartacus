@@ -12,7 +12,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@commerce-storefront-toolset/core';
 import { CommonConfigurator } from 'feature-libs/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';

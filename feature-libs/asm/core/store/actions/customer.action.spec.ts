@@ -1,4 +1,4 @@
-import { StateUtils, User } from '@spartacus/core';
+import { StateUtils, User } from '@commerce-storefront-toolset/core';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,

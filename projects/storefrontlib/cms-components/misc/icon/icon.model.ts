@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 
 export enum ICON_TYPE {
@@ -57,7 +57,7 @@ export abstract class IconConfig {
   icon?: IconOptions;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends IconConfig {}
 }
 

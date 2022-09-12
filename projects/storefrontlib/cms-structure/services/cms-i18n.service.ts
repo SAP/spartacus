@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { TranslationChunkService, TranslationService } from '@spartacus/core';
+import { TranslationChunkService, TranslationService } from '@commerce-storefront-toolset/core';
 import { CmsComponentsService } from './cms-components.service';
 
 @Injectable({

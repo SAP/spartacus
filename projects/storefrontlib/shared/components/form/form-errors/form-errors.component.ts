@@ -15,7 +15,7 @@ import {
   KeyValueDiffers,
 } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { isObject } from '@spartacus/core';
+import { isObject } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 

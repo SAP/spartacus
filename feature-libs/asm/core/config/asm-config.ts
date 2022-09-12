@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config, OccConfig } from '@spartacus/core';
+import { Config, OccConfig } from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,6 @@ export abstract class AsmConfig extends OccConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends AsmConfig {}
 }

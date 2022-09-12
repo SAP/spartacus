@@ -1,10 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { of } from 'rxjs';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 
 class MockModalService {
   open(_content: any, _options?: ModalOptions): ModalRef {

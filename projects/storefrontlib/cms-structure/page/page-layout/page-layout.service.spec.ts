@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService, Page } from '@spartacus/core';
-import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { CmsService, Page } from '@commerce-storefront-toolset/core';
+import { PAGE_LAYOUT_HANDLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';

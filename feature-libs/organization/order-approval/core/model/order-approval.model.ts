@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderApprovalPermissionType, Principal } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { OrderApprovalPermissionType, Principal } from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 
 export enum OrderApprovalDecisionValue {
   APPROVE = 'APPROVE',

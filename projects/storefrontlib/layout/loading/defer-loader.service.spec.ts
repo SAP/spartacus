@@ -1,7 +1,7 @@
 import { Component, PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DeferLoadingStrategy } from '@spartacus/core';
+import { DeferLoadingStrategy } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { LayoutConfig } from '../config/layout-config';
 import { DeferLoaderService } from './defer-loader.service';

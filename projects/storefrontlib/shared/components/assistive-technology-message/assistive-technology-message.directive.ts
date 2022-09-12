@@ -16,7 +16,7 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 
 @Directive({

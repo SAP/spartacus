@@ -4,26 +4,26 @@ import {
   DeliveryMode,
   PaymentDetails,
   PaymentType,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
+import { CheckoutStepService } from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   CostCenter,
   QueryState,
   RouteConfig,
   RoutingConfigService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutB2BStepsSetGuard } from './checkout-b2b-steps-set.guard';
 

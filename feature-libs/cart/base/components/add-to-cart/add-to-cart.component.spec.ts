@@ -13,19 +13,19 @@ import {
   Cart,
   CartUiEventAddToCart,
   OrderEntry,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
   I18nTestingModule,
   Product,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ProductListItemContext,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';
 

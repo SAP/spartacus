@@ -11,7 +11,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { SortModel } from '@spartacus/core';
+import { SortModel } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-sorting',

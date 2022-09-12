@@ -6,11 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutAuthGuard,
   CheckoutConfigService,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   AuthRedirectService,
   AuthService,
@@ -19,8 +19,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
-} from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { User, UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

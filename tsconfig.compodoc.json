@@ -15,354 +15,354 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/schematics": ["projects/schematics/index"],
-      "@spartacus/setup": ["core-libs/setup/public_api"],
-      "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
-      "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
-      "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
-      "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
-      "@spartacus/asm": ["feature-libs/asm/public_api"],
-      "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
-      "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
-      "@spartacus/cart/base/assets": [
+      "@commerce-storefront-toolset/schematics": ["projects/schematics/index"],
+      "@commerce-storefront-toolset/setup": ["core-libs/setup/public_api"],
+      "@commerce-storefront-toolset/setup/ssr": ["core-libs/setup/ssr/public_api"],
+      "@commerce-storefront-toolset/asm/assets": ["feature-libs/asm/assets/public_api"],
+      "@commerce-storefront-toolset/asm/components": ["feature-libs/asm/components/public_api"],
+      "@commerce-storefront-toolset/asm/core": ["feature-libs/asm/core/public_api"],
+      "@commerce-storefront-toolset/asm": ["feature-libs/asm/public_api"],
+      "@commerce-storefront-toolset/asm/occ": ["feature-libs/asm/occ/public_api"],
+      "@commerce-storefront-toolset/asm/root": ["feature-libs/asm/root/public_api"],
+      "@commerce-storefront-toolset/cart/base/assets": [
         "feature-libs/cart/base/assets/public_api"
       ],
-      "@spartacus/cart/base/components/add-to-cart": [
+      "@commerce-storefront-toolset/cart/base/components/add-to-cart": [
         "feature-libs/cart/base/components/add-to-cart/public_api"
       ],
-      "@spartacus/cart/base/components/mini-cart": [
+      "@commerce-storefront-toolset/cart/base/components/mini-cart": [
         "feature-libs/cart/base/components/mini-cart/public_api"
       ],
-      "@spartacus/cart/base/components": [
+      "@commerce-storefront-toolset/cart/base/components": [
         "feature-libs/cart/base/components/public_api"
       ],
-      "@spartacus/cart/base/core": ["feature-libs/cart/base/core/public_api"],
-      "@spartacus/cart/base": ["feature-libs/cart/base/public_api"],
-      "@spartacus/cart/base/occ": ["feature-libs/cart/base/occ/public_api"],
-      "@spartacus/cart/base/root": ["feature-libs/cart/base/root/public_api"],
-      "@spartacus/cart/import-export/assets": [
+      "@commerce-storefront-toolset/cart/base/core": ["feature-libs/cart/base/core/public_api"],
+      "@commerce-storefront-toolset/cart/base": ["feature-libs/cart/base/public_api"],
+      "@commerce-storefront-toolset/cart/base/occ": ["feature-libs/cart/base/occ/public_api"],
+      "@commerce-storefront-toolset/cart/base/root": ["feature-libs/cart/base/root/public_api"],
+      "@commerce-storefront-toolset/cart/import-export/assets": [
         "feature-libs/cart/import-export/assets/public_api"
       ],
-      "@spartacus/cart/import-export/components": [
+      "@commerce-storefront-toolset/cart/import-export/components": [
         "feature-libs/cart/import-export/components/public_api"
       ],
-      "@spartacus/cart/import-export/core": [
+      "@commerce-storefront-toolset/cart/import-export/core": [
         "feature-libs/cart/import-export/core/public_api"
       ],
-      "@spartacus/cart/import-export": [
+      "@commerce-storefront-toolset/cart/import-export": [
         "feature-libs/cart/import-export/public_api"
       ],
-      "@spartacus/cart/import-export/root": [
+      "@commerce-storefront-toolset/cart/import-export/root": [
         "feature-libs/cart/import-export/root/public_api"
       ],
-      "@spartacus/cart": ["feature-libs/cart/public_api"],
-      "@spartacus/cart/quick-order/assets": [
+      "@commerce-storefront-toolset/cart": ["feature-libs/cart/public_api"],
+      "@commerce-storefront-toolset/cart/quick-order/assets": [
         "feature-libs/cart/quick-order/assets/public_api"
       ],
-      "@spartacus/cart/quick-order/components": [
+      "@commerce-storefront-toolset/cart/quick-order/components": [
         "feature-libs/cart/quick-order/components/public_api"
       ],
-      "@spartacus/cart/quick-order/core": [
+      "@commerce-storefront-toolset/cart/quick-order/core": [
         "feature-libs/cart/quick-order/core/public_api"
       ],
-      "@spartacus/cart/quick-order": [
+      "@commerce-storefront-toolset/cart/quick-order": [
         "feature-libs/cart/quick-order/public_api"
       ],
-      "@spartacus/cart/quick-order/root": [
+      "@commerce-storefront-toolset/cart/quick-order/root": [
         "feature-libs/cart/quick-order/root/public_api"
       ],
-      "@spartacus/cart/saved-cart/assets": [
+      "@commerce-storefront-toolset/cart/saved-cart/assets": [
         "feature-libs/cart/saved-cart/assets/public_api"
       ],
-      "@spartacus/cart/saved-cart/components": [
+      "@commerce-storefront-toolset/cart/saved-cart/components": [
         "feature-libs/cart/saved-cart/components/public_api"
       ],
-      "@spartacus/cart/saved-cart/core": [
+      "@commerce-storefront-toolset/cart/saved-cart/core": [
         "feature-libs/cart/saved-cart/core/public_api"
       ],
-      "@spartacus/cart/saved-cart": ["feature-libs/cart/saved-cart/public_api"],
-      "@spartacus/cart/saved-cart/occ": [
+      "@commerce-storefront-toolset/cart/saved-cart": ["feature-libs/cart/saved-cart/public_api"],
+      "@commerce-storefront-toolset/cart/saved-cart/occ": [
         "feature-libs/cart/saved-cart/occ/public_api"
       ],
-      "@spartacus/cart/saved-cart/root": [
+      "@commerce-storefront-toolset/cart/saved-cart/root": [
         "feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/wish-list/assets": [
+      "@commerce-storefront-toolset/cart/wish-list/assets": [
         "feature-libs/cart/wish-list/assets/public_api"
       ],
-      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+      "@commerce-storefront-toolset/cart/wish-list/components/add-to-wishlist": [
         "feature-libs/cart/wish-list/components/add-to-wishlist/public_api"
       ],
-      "@spartacus/cart/wish-list/components": [
+      "@commerce-storefront-toolset/cart/wish-list/components": [
         "feature-libs/cart/wish-list/components/public_api"
       ],
-      "@spartacus/cart/wish-list/core": [
+      "@commerce-storefront-toolset/cart/wish-list/core": [
         "feature-libs/cart/wish-list/core/public_api"
       ],
-      "@spartacus/cart/wish-list": ["feature-libs/cart/wish-list/public_api"],
-      "@spartacus/cart/wish-list/root": [
+      "@commerce-storefront-toolset/cart/wish-list": ["feature-libs/cart/wish-list/public_api"],
+      "@commerce-storefront-toolset/cart/wish-list/root": [
         "feature-libs/cart/wish-list/root/public_api"
       ],
-      "@spartacus/checkout/b2b/assets": [
+      "@commerce-storefront-toolset/checkout/b2b/assets": [
         "feature-libs/checkout/b2b/assets/public_api"
       ],
-      "@spartacus/checkout/b2b/components": [
+      "@commerce-storefront-toolset/checkout/b2b/components": [
         "feature-libs/checkout/b2b/components/public_api"
       ],
-      "@spartacus/checkout/b2b/core": [
+      "@commerce-storefront-toolset/checkout/b2b/core": [
         "feature-libs/checkout/b2b/core/public_api"
       ],
-      "@spartacus/checkout/b2b": ["feature-libs/checkout/b2b/public_api"],
-      "@spartacus/checkout/b2b/occ": [
+      "@commerce-storefront-toolset/checkout/b2b": ["feature-libs/checkout/b2b/public_api"],
+      "@commerce-storefront-toolset/checkout/b2b/occ": [
         "feature-libs/checkout/b2b/occ/public_api"
       ],
-      "@spartacus/checkout/b2b/root": [
+      "@commerce-storefront-toolset/checkout/b2b/root": [
         "feature-libs/checkout/b2b/root/public_api"
       ],
-      "@spartacus/checkout/base/assets": [
+      "@commerce-storefront-toolset/checkout/base/assets": [
         "feature-libs/checkout/base/assets/public_api"
       ],
-      "@spartacus/checkout/base/components": [
+      "@commerce-storefront-toolset/checkout/base/components": [
         "feature-libs/checkout/base/components/public_api"
       ],
-      "@spartacus/checkout/base/core": [
+      "@commerce-storefront-toolset/checkout/base/core": [
         "feature-libs/checkout/base/core/public_api"
       ],
-      "@spartacus/checkout/base": ["feature-libs/checkout/base/public_api"],
-      "@spartacus/checkout/base/occ": [
+      "@commerce-storefront-toolset/checkout/base": ["feature-libs/checkout/base/public_api"],
+      "@commerce-storefront-toolset/checkout/base/occ": [
         "feature-libs/checkout/base/occ/public_api"
       ],
-      "@spartacus/checkout/base/root": [
+      "@commerce-storefront-toolset/checkout/base/root": [
         "feature-libs/checkout/base/root/public_api"
       ],
-      "@spartacus/checkout": ["feature-libs/checkout/public_api"],
-      "@spartacus/checkout/scheduled-replenishment/assets": [
+      "@commerce-storefront-toolset/checkout": ["feature-libs/checkout/public_api"],
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/assets": [
         "feature-libs/checkout/scheduled-replenishment/assets/public_api"
       ],
-      "@spartacus/checkout/scheduled-replenishment/components": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/components": [
         "feature-libs/checkout/scheduled-replenishment/components/public_api"
       ],
-      "@spartacus/checkout/scheduled-replenishment": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment": [
         "feature-libs/checkout/scheduled-replenishment/public_api"
       ],
-      "@spartacus/checkout/scheduled-replenishment/root": [
+      "@commerce-storefront-toolset/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
-      "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
-      "@spartacus/order/components": [
+      "@commerce-storefront-toolset/order/assets": ["feature-libs/order/assets/public_api"],
+      "@commerce-storefront-toolset/order/components": [
         "feature-libs/order/components/public_api"
       ],
-      "@spartacus/order/core": ["feature-libs/order/core/public_api"],
-      "@spartacus/order": ["feature-libs/order/public_api"],
-      "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
-      "@spartacus/order/root": ["feature-libs/order/root/public_api"],
-      "@spartacus/organization/administration/assets": [
+      "@commerce-storefront-toolset/order/core": ["feature-libs/order/core/public_api"],
+      "@commerce-storefront-toolset/order": ["feature-libs/order/public_api"],
+      "@commerce-storefront-toolset/order/occ": ["feature-libs/order/occ/public_api"],
+      "@commerce-storefront-toolset/order/root": ["feature-libs/order/root/public_api"],
+      "@commerce-storefront-toolset/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
-      "@spartacus/organization/administration/components": [
+      "@commerce-storefront-toolset/organization/administration/components": [
         "feature-libs/organization/administration/components/public_api"
       ],
-      "@spartacus/organization/administration/core": [
+      "@commerce-storefront-toolset/organization/administration/core": [
         "feature-libs/organization/administration/core/public_api"
       ],
-      "@spartacus/organization/administration": [
+      "@commerce-storefront-toolset/organization/administration": [
         "feature-libs/organization/administration/public_api"
       ],
-      "@spartacus/organization/administration/occ": [
+      "@commerce-storefront-toolset/organization/administration/occ": [
         "feature-libs/organization/administration/occ/public_api"
       ],
-      "@spartacus/organization/administration/root": [
+      "@commerce-storefront-toolset/organization/administration/root": [
         "feature-libs/organization/administration/root/public_api"
       ],
-      "@spartacus/organization": ["feature-libs/organization/public_api"],
-      "@spartacus/organization/order-approval/assets": [
+      "@commerce-storefront-toolset/organization": ["feature-libs/organization/public_api"],
+      "@commerce-storefront-toolset/organization/order-approval/assets": [
         "feature-libs/organization/order-approval/assets/public_api"
       ],
-      "@spartacus/organization/order-approval": [
+      "@commerce-storefront-toolset/organization/order-approval": [
         "feature-libs/organization/order-approval/public_api"
       ],
-      "@spartacus/organization/order-approval/root": [
+      "@commerce-storefront-toolset/organization/order-approval/root": [
         "feature-libs/organization/order-approval/root/public_api"
       ],
-      "@spartacus/product-configurator/common/assets": [
+      "@commerce-storefront-toolset/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
       ],
-      "@spartacus/product-configurator/common": [
+      "@commerce-storefront-toolset/product-configurator/common": [
         "feature-libs/product-configurator/common/public_api"
       ],
-      "@spartacus/product-configurator": [
+      "@commerce-storefront-toolset/product-configurator": [
         "feature-libs/product-configurator/public_api"
       ],
-      "@spartacus/product-configurator/rulebased/cpq": [
+      "@commerce-storefront-toolset/product-configurator/rulebased/cpq": [
         "feature-libs/product-configurator/rulebased/cpq/public_api"
       ],
-      "@spartacus/product-configurator/rulebased": [
+      "@commerce-storefront-toolset/product-configurator/rulebased": [
         "feature-libs/product-configurator/rulebased/public_api"
       ],
-      "@spartacus/product-configurator/rulebased/root": [
+      "@commerce-storefront-toolset/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
       ],
-      "@spartacus/product-configurator/textfield": [
+      "@commerce-storefront-toolset/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
       ],
-      "@spartacus/product-configurator/textfield/root": [
+      "@commerce-storefront-toolset/product-configurator/textfield/root": [
         "feature-libs/product-configurator/textfield/root/public_api"
       ],
-      "@spartacus/product/bulk-pricing/assets": [
+      "@commerce-storefront-toolset/product/bulk-pricing/assets": [
         "feature-libs/product/bulk-pricing/assets/public_api"
       ],
-      "@spartacus/product/bulk-pricing/components": [
+      "@commerce-storefront-toolset/product/bulk-pricing/components": [
         "feature-libs/product/bulk-pricing/components/public_api"
       ],
-      "@spartacus/product/bulk-pricing/core": [
+      "@commerce-storefront-toolset/product/bulk-pricing/core": [
         "feature-libs/product/bulk-pricing/core/public_api"
       ],
-      "@spartacus/product/bulk-pricing": [
+      "@commerce-storefront-toolset/product/bulk-pricing": [
         "feature-libs/product/bulk-pricing/public_api"
       ],
-      "@spartacus/product/bulk-pricing/occ": [
+      "@commerce-storefront-toolset/product/bulk-pricing/occ": [
         "feature-libs/product/bulk-pricing/occ/public_api"
       ],
-      "@spartacus/product/bulk-pricing/root": [
+      "@commerce-storefront-toolset/product/bulk-pricing/root": [
         "feature-libs/product/bulk-pricing/root/public_api"
       ],
-      "@spartacus/product/image-zoom/assets": [
+      "@commerce-storefront-toolset/product/image-zoom/assets": [
         "feature-libs/product/image-zoom/assets/public_api"
       ],
-      "@spartacus/product/image-zoom/components": [
+      "@commerce-storefront-toolset/product/image-zoom/components": [
         "feature-libs/product/image-zoom/components/public_api"
       ],
-      "@spartacus/product/image-zoom": [
+      "@commerce-storefront-toolset/product/image-zoom": [
         "feature-libs/product/image-zoom/public_api"
       ],
-      "@spartacus/product/image-zoom/root": [
+      "@commerce-storefront-toolset/product/image-zoom/root": [
         "feature-libs/product/image-zoom/root/public_api"
       ],
-      "@spartacus/product": ["feature-libs/product/public_api"],
-      "@spartacus/product/variants/assets": [
+      "@commerce-storefront-toolset/product": ["feature-libs/product/public_api"],
+      "@commerce-storefront-toolset/product/variants/assets": [
         "feature-libs/product/variants/assets/public_api"
       ],
-      "@spartacus/product/variants/components": [
+      "@commerce-storefront-toolset/product/variants/components": [
         "feature-libs/product/variants/components/public_api"
       ],
-      "@spartacus/product/variants": [
+      "@commerce-storefront-toolset/product/variants": [
         "feature-libs/product/variants/public_api"
       ],
-      "@spartacus/product/variants/occ": [
+      "@commerce-storefront-toolset/product/variants/occ": [
         "feature-libs/product/variants/occ/public_api"
       ],
-      "@spartacus/product/variants/root": [
+      "@commerce-storefront-toolset/product/variants/root": [
         "feature-libs/product/variants/root/public_api"
       ],
-      "@spartacus/qualtrics/components": [
+      "@commerce-storefront-toolset/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],
-      "@spartacus/qualtrics": ["feature-libs/qualtrics/public_api"],
-      "@spartacus/qualtrics/root": ["feature-libs/qualtrics/root/public_api"],
-      "@spartacus/smartedit/core": ["feature-libs/smartedit/core/public_api"],
-      "@spartacus/smartedit": ["feature-libs/smartedit/public_api"],
-      "@spartacus/smartedit/root": ["feature-libs/smartedit/root/public_api"],
-      "@spartacus/storefinder/assets": [
+      "@commerce-storefront-toolset/qualtrics": ["feature-libs/qualtrics/public_api"],
+      "@commerce-storefront-toolset/qualtrics/root": ["feature-libs/qualtrics/root/public_api"],
+      "@commerce-storefront-toolset/smartedit/core": ["feature-libs/smartedit/core/public_api"],
+      "@commerce-storefront-toolset/smartedit": ["feature-libs/smartedit/public_api"],
+      "@commerce-storefront-toolset/smartedit/root": ["feature-libs/smartedit/root/public_api"],
+      "@commerce-storefront-toolset/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
-      "@spartacus/storefinder/components": [
+      "@commerce-storefront-toolset/storefinder/components": [
         "feature-libs/storefinder/components/public_api"
       ],
-      "@spartacus/storefinder/core": [
+      "@commerce-storefront-toolset/storefinder/core": [
         "feature-libs/storefinder/core/public_api"
       ],
-      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
-      "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
-      "@spartacus/storefinder/root": [
+      "@commerce-storefront-toolset/storefinder": ["feature-libs/storefinder/public_api"],
+      "@commerce-storefront-toolset/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
+      "@commerce-storefront-toolset/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/tracking": ["feature-libs/tracking/public_api"],
-      "@spartacus/tracking/personalization/core": [
+      "@commerce-storefront-toolset/tracking": ["feature-libs/tracking/public_api"],
+      "@commerce-storefront-toolset/tracking/personalization/core": [
         "feature-libs/tracking/personalization/core/public_api"
       ],
-      "@spartacus/tracking/personalization": [
+      "@commerce-storefront-toolset/tracking/personalization": [
         "feature-libs/tracking/personalization/public_api"
       ],
-      "@spartacus/tracking/personalization/root": [
+      "@commerce-storefront-toolset/tracking/personalization/root": [
         "feature-libs/tracking/personalization/root/public_api"
       ],
-      "@spartacus/tracking/tms/aep": [
+      "@commerce-storefront-toolset/tracking/tms/aep": [
         "feature-libs/tracking/tms/aep/public_api"
       ],
-      "@spartacus/tracking/tms/core": [
+      "@commerce-storefront-toolset/tracking/tms/core": [
         "feature-libs/tracking/tms/core/public_api"
       ],
-      "@spartacus/tracking/tms/gtm": [
+      "@commerce-storefront-toolset/tracking/tms/gtm": [
         "feature-libs/tracking/tms/gtm/public_api"
       ],
-      "@spartacus/tracking/tms": ["feature-libs/tracking/tms/public_api"],
-      "@spartacus/user/account/assets": [
+      "@commerce-storefront-toolset/tracking/tms": ["feature-libs/tracking/tms/public_api"],
+      "@commerce-storefront-toolset/user/account/assets": [
         "feature-libs/user/account/assets/public_api"
       ],
-      "@spartacus/user/account/components": [
+      "@commerce-storefront-toolset/user/account/components": [
         "feature-libs/user/account/components/public_api"
       ],
-      "@spartacus/user/account/core": [
+      "@commerce-storefront-toolset/user/account/core": [
         "feature-libs/user/account/core/public_api"
       ],
-      "@spartacus/user/account": ["feature-libs/user/account/public_api"],
-      "@spartacus/user/account/occ": [
+      "@commerce-storefront-toolset/user/account": ["feature-libs/user/account/public_api"],
+      "@commerce-storefront-toolset/user/account/occ": [
         "feature-libs/user/account/occ/public_api"
       ],
-      "@spartacus/user/account/root": [
+      "@commerce-storefront-toolset/user/account/root": [
         "feature-libs/user/account/root/public_api"
       ],
-      "@spartacus/user": ["feature-libs/user/public_api"],
-      "@spartacus/user/profile/assets": [
+      "@commerce-storefront-toolset/user": ["feature-libs/user/public_api"],
+      "@commerce-storefront-toolset/user/profile/assets": [
         "feature-libs/user/profile/assets/public_api"
       ],
-      "@spartacus/user/profile/components": [
+      "@commerce-storefront-toolset/user/profile/components": [
         "feature-libs/user/profile/components/public_api"
       ],
-      "@spartacus/user/profile/core": [
+      "@commerce-storefront-toolset/user/profile/core": [
         "feature-libs/user/profile/core/public_api"
       ],
-      "@spartacus/user/profile": ["feature-libs/user/profile/public_api"],
-      "@spartacus/user/profile/occ": [
+      "@commerce-storefront-toolset/user/profile": ["feature-libs/user/profile/public_api"],
+      "@commerce-storefront-toolset/user/profile/occ": [
         "feature-libs/user/profile/occ/public_api"
       ],
-      "@spartacus/user/profile/root": [
+      "@commerce-storefront-toolset/user/profile/root": [
         "feature-libs/user/profile/root/public_api"
       ],
-      "@spartacus/cdc/components": [
+      "@commerce-storefront-toolset/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
-      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
-      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
-      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
-      "@spartacus/cds": ["integration-libs/cds/public_api"],
-      "@spartacus/digital-payments/assets": [
+      "@commerce-storefront-toolset/cdc/core": ["integration-libs/cdc/core/public_api"],
+      "@commerce-storefront-toolset/cdc": ["integration-libs/cdc/public_api"],
+      "@commerce-storefront-toolset/cdc/root": ["integration-libs/cdc/root/public_api"],
+      "@commerce-storefront-toolset/cds": ["integration-libs/cds/public_api"],
+      "@commerce-storefront-toolset/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
-      "@spartacus/digital-payments": [
+      "@commerce-storefront-toolset/digital-payments": [
         "integration-libs/digital-payments/public_api"
       ],
-      "@spartacus/epd-visualization/assets": [
+      "@commerce-storefront-toolset/epd-visualization/assets": [
         "integration-libs/epd-visualization/assets/public_api"
       ],
-      "@spartacus/epd-visualization/components": [
+      "@commerce-storefront-toolset/epd-visualization/components": [
         "integration-libs/epd-visualization/components/public_api"
       ],
-      "@spartacus/epd-visualization/core": [
+      "@commerce-storefront-toolset/epd-visualization/core": [
         "integration-libs/epd-visualization/core/public_api"
       ],
-      "@spartacus/epd-visualization/epd-visualization-api": [
+      "@commerce-storefront-toolset/epd-visualization/epd-visualization-api": [
         "integration-libs/epd-visualization/epd-visualization-api/public_api"
       ],
-      "@spartacus/epd-visualization": [
+      "@commerce-storefront-toolset/epd-visualization": [
         "integration-libs/epd-visualization/public_api"
       ],
-      "@spartacus/epd-visualization/root": [
+      "@commerce-storefront-toolset/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
+      "@commerce-storefront-toolset/assets": ["projects/assets/src/public_api"],
+      "@commerce-storefront-toolset/core": ["projects/core/public_api"],
+      "@commerce-storefront-toolset/storefront": ["projects/storefrontlib/public_api"]
     }
   },
   "exclude": [

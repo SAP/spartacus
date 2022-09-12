@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.module';
 import { ParagraphComponent } from './paragraph.component';
 import { RouterModule } from '@angular/router';

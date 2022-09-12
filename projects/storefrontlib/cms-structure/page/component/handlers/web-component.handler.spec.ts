@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { WebComponentHandler } from './web-component.handler';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { Component, ViewContainerRef } from '@angular/core';
-import { Priority } from '@spartacus/core';
+import { Priority } from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { CxApiService } from '../services/cx-api.service';
 

@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   productVariantsTranslationChunksConfig,
   productVariantsTranslations,
-} from '@spartacus/product/variants/assets';
+} from '@commerce-storefront-toolset/product/variants/assets';
 import {
   ProductVariantsRootModule,
   PRODUCT_VARIANTS_FEATURE,
-} from '@spartacus/product/variants/root';
+} from '@commerce-storefront-toolset/product/variants/root';
 
 @NgModule({
   imports: [ProductVariantsRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [PRODUCT_VARIANTS_FEATURE]: {
           module: () =>
-            import('@spartacus/product/variants').then(
+            import('@commerce-storefront-toolset/product/variants').then(
               (m) => m.ProductVariantsModule
             ),
         },

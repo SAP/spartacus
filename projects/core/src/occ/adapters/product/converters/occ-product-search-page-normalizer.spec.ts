@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
+import { ConverterService } from '@commerce-storefront-toolset/core';
 import { Occ } from '../../../occ-models/occ.models';
 import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer';
 import createSpy = jasmine.createSpy;

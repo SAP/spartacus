@@ -11,11 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   getLastValueSync,
@@ -23,8 +23,8 @@ import {
   GlobalMessageType,
   TranslationService,
   UserPaymentService,
-} from '@spartacus/core';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Card, ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import {
   BehaviorSubject,
   combineLatest,

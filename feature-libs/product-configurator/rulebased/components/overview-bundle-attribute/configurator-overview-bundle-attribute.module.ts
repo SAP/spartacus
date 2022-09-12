@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
-import { MediaModule } from '@spartacus/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { MediaModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorPriceModule } from '../price/configurator-price.module';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 

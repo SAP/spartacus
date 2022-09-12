@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
 
 @NgModule({

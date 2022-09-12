@@ -68,14 +68,14 @@ function startVerdaccio(): ChildProcess {
   execSync('rm -rf ./scripts/install/storage');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   console.log('Pointing npm to verdaccio');
-  execSync(`npm config set @spartacus:registry http://localhost:4873/`);
+  execSync(`npm config set @commerce-storefront-toolset:registry http://localhost:4873/`);
   execSync(`npx wait-on http://localhost:4873/`);
   return res;
 }
 
 function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
-  execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
+  execSync(`npm config set @commerce-storefront-toolset:registry https://registry.npmjs.org/`);
   if (verdaccioProcess) {
     try {
       console.log('Killing verdaccio');

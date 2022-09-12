@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Category, Price } from '@spartacus/core';
+import { Category, Price } from '@commerce-storefront-toolset/core';
 import { PageEvent } from '../page/page.events';
 
 /**

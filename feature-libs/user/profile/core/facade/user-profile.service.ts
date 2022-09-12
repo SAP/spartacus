@@ -15,14 +15,14 @@ import {
   Query,
   QueryService,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   User,
   UserAccountChangedEvent,
   UserAccountFacade,
-} from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
+import { Title, UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { map, switchMap, tap } from 'rxjs/operators';
 

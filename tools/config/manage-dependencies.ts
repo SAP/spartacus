@@ -11,7 +11,7 @@
  * - all dependencies for packages and app are stored only in top level node_modules
  * - internal tooling (cypress, github actions) can have separate node_modules
  * - if library have import in any *.ts, *.scss file to dependency it should be specified as peer (optional) dependency in lib package.json
- * - @spartacus/* peer deps should match version in their package.json
+ * - @commerce-storefront-toolset/* peer deps should match version in their package.json
  * - deps version should match version in the root package.json
  * - all TS packages should have dependency on tslib
  * - all used deps must be listed in root package.json

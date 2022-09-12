@@ -11,13 +11,13 @@ import {
   ProductService,
   RoutingService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/common';
+import { BREAKPOINT, BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

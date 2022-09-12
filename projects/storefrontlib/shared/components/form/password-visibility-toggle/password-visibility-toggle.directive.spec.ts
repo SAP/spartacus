@@ -6,7 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import { I18nTestingModule, WindowRef } from '@commerce-storefront-toolset/core';
 import { FormConfig } from '../../../../shared/config/form-config';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';

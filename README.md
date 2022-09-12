@@ -71,7 +71,7 @@ To get up and running with Spartacus, the recommended approach is to build your 
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
-To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
+To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @commerce-storefront-toolset/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
 
 For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
 
@@ -91,7 +91,7 @@ The latest generated documentation for Spartacus application libraries (modules,
 
 The application documentation is versioned and it is included on the **Assets** section of every release of each and every Spartacus library. You can download the documentation for a particular version by accessing the **Assets** section of any Spartacus library from that particular release, and then clicking on `docs.tar.gz` or `docs.zip`. To find the **Assets** folder for a particular library, access the [Released Libraries for Spartacus](https://github.com/SAP/spartacus/releases), click on the link for the library you are interested in, and scroll to the bottom of the page.
 
-For example, to download the application documentation for the 3.4.0 release, you could access the **Assets** folder of the `@spartacus/storefront@3.4.0` library [here](https://github.com/SAP/spartacus/releases/tag/storefront-3.4.0).
+For example, to download the application documentation for the 3.4.0 release, you could access the **Assets** folder of the `@commerce-storefront-toolset/storefront@3.4.0` library [here](https://github.com/SAP/spartacus/releases/tag/storefront-3.4.0).
 
 **Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce 2005, because the necessary OCC API support is only available in SAP Commerce 2005.
 

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CostCenter, I18nTestingModule } from '@spartacus/core';
+import { CostCenter, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CostCenterRoutePageMetaResolver } from './cost-center-route-page-meta.resolver';

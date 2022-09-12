@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   Command,
   CommandService,
@@ -13,8 +13,8 @@ import {
   EventService,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
-} from '@spartacus/core';
-import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, OrderFacade, OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';

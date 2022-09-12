@@ -1,12 +1,12 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import {
   ContextService,
   LAUNCH_CALLER,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import { ImportOrderEntriesComponent } from './import-order-entries.component';
 import createSpy = jasmine.createSpy;

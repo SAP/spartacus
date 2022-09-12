@@ -5,7 +5,7 @@
  */
 
 import { Injectable, Renderer2 } from '@angular/core';
-import { ComponentDecorator, ContentSlotComponentData } from '@spartacus/core';
+import { ComponentDecorator, ContentSlotComponentData } from '@commerce-storefront-toolset/core';
 import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable({

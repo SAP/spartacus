@@ -1,5 +1,5 @@
-import { StateUtils } from '@spartacus/core';
-import { ReplenishmentOrderList } from '@spartacus/order/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrderList } from '@commerce-storefront-toolset/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 import { OrderActions } from './index';
 

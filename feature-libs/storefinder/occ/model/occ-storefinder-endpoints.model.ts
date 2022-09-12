@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccEndpoint } from '@spartacus/core';
+import { OccEndpoint } from '@commerce-storefront-toolset/core';
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface OccEndpoints {
     /**
      * Get a store location

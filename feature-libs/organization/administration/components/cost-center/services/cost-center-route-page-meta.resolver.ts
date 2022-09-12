@@ -9,7 +9,7 @@ import {
   CostCenter,
   DefaultRoutePageMetaResolver,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CurrentCostCenterService } from './current-cost-center.service';
 

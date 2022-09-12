@@ -5,9 +5,9 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CostCenter, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { DeliveryMode, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
+import { Address, CostCenter, TranslationService } from '@commerce-storefront-toolset/core';
+import { Card } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

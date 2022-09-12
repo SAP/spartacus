@@ -10,7 +10,7 @@ import { SortingComponent } from './sorting.component';
 import { NgSelectA11yModule } from '../../ng-select-a11y/ng-select-a11y.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [

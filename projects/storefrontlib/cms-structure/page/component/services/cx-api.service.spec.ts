@@ -21,7 +21,7 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}

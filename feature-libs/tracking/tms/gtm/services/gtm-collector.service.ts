@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CxEvent, WindowRef } from '@spartacus/core';
+import { CxEvent, WindowRef } from '@commerce-storefront-toolset/core';
 import {
   TmsCollector,
   TmsCollectorConfig,
   WindowObject,
-} from '@spartacus/tracking/tms/core';
+} from '@commerce-storefront-toolset/tracking/tms/core';
 import { GtmCollectorConfig } from '../config/default-gtm.config';
 
 /**

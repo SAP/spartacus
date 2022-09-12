@@ -3,16 +3,16 @@ import {
   ActiveCartFacade,
   MultiCartFacade,
   DeleteCartSuccessEvent as ClearActiveCartSuccessEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@commerce-storefront-toolset/storefront';
 import {
   GlobalMessageService,
   GlobalMessageType,
   UserIdService,
   EventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';

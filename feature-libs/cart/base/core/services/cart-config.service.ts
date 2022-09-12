@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartConfig } from '@spartacus/cart/base/root';
+import { CartConfig } from '@commerce-storefront-toolset/cart/base/root';
 
 @Injectable({
   providedIn: 'root',

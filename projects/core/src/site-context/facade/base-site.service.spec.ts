@@ -6,7 +6,7 @@ import {
   SiteConnector,
   SiteContextConfig,
   StateWithSiteContext,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from '../connectors/site.adapter';
 import { SiteContextActions } from '../store/actions/index';

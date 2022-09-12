@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ImageGroup } from '@spartacus/core';
+import { ImageGroup } from '@commerce-storefront-toolset/core';
 
 export interface ThumbnailsGroup {
   container: ImageGroup;

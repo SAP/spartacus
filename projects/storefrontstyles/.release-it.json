@@ -9,7 +9,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/styles@${version}",
+    "releaseName": "@commerce-storefront-toolset/styles@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib styles --to styles-${version}"
   }
 }

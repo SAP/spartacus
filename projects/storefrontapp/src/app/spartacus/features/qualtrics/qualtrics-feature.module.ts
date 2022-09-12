@@ -5,11 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   QualtricsRootModule,
   QUALTRICS_FEATURE,
-} from '@spartacus/qualtrics/root';
+} from '@commerce-storefront-toolset/qualtrics/root';
 
 @NgModule({
   imports: [QualtricsRootModule],
@@ -18,7 +18,7 @@ import {
       featureModules: {
         [QUALTRICS_FEATURE]: {
           module: () =>
-            import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
+            import('@commerce-storefront-toolset/qualtrics').then((m) => m.QualtricsModule),
         },
       },
     }),

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { contextServiceMapProvider } from '@spartacus/core';
+import { contextServiceMapProvider } from '@commerce-storefront-toolset/core';
 import { of, Subject } from 'rxjs';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
 import { WindowRef } from '../../window/window-ref';

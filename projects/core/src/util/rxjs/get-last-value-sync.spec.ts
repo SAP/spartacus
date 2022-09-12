@@ -1,4 +1,4 @@
-import { getLastValueSync } from '@spartacus/core';
+import { getLastValueSync } from '@commerce-storefront-toolset/core';
 import { EMPTY, from, NEVER, of } from 'rxjs';
 
 describe('getLastValueSync', () => {

@@ -31,7 +31,7 @@ uplinks:
     url: https://registry.npmjs.org/
 
 packages:
-  '@spartacus/**':
+  '@commerce-storefront-toolset/**':
     # allow all users (including non-authenticated users) to read and
     # publish all packages
     #

@@ -12,7 +12,7 @@ import {
   ContextServiceMap,
   provideDefaultConfig,
   SiteContextModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconModule } from '../icon/index';
 import { LanguageCurrencyComponent } from './language-currency.component';

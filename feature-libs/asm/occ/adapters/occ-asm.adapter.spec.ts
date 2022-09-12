@@ -9,7 +9,7 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/asm/core';
+} from '@commerce-storefront-toolset/asm/core';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
@@ -17,7 +17,7 @@ import {
   DynamicAttributes,
   OccEndpointsService,
   User,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
 

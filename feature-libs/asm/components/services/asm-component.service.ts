@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
-} from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+} from '@commerce-storefront-toolset/asm/root';
+import { AuthService, WindowRef } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 @Injectable({

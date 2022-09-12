@@ -8,7 +8,7 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
@@ -16,7 +16,7 @@ import {
   ReplenishmentOrderList,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

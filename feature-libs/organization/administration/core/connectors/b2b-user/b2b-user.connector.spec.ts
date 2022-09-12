@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUser, SearchConfig } from '@spartacus/core';
+import { B2BUser, SearchConfig } from '@commerce-storefront-toolset/core';
 import {
   Permission,
   UserGroup,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { of } from 'rxjs';
 import { B2BUserAdapter } from './b2b-user.adapter';
 import { B2BUserConnector } from './b2b-user.connector';

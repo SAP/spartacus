@@ -11,8 +11,8 @@ import {
   ConverterService,
   EntitiesModel,
   Occ,
-} from '@spartacus/core';
-import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/core';
+import { B2B_USER_NORMALIZER } from '@commerce-storefront-toolset/organization/administration/core';
 
 @Injectable({
   providedIn: 'root',

@@ -15,7 +15,7 @@ import {
   DefaultConfigChunk,
   FeatureModuleConfig,
   FeatureModulesService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 

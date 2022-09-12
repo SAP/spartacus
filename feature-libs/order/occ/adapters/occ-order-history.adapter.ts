@@ -14,8 +14,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   USE_CLIENT_TOKEN,
-} from '@spartacus/core';
-import { OrderHistoryAdapter } from '@spartacus/order/core';
+} from '@commerce-storefront-toolset/core';
+import { OrderHistoryAdapter } from '@commerce-storefront-toolset/order/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
@@ -31,7 +31,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

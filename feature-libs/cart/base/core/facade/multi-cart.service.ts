@@ -11,8 +11,8 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
-} from '@spartacus/cart/base/root';
-import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { isNotUndefined, StateUtils, UserIdService } from '@commerce-storefront-toolset/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import {
   debounce,

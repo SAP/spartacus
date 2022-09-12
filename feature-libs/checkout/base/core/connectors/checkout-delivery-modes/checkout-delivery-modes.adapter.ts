@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutDeliveryModesAdapter {

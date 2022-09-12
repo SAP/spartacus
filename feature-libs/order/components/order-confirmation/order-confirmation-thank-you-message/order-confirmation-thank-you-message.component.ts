@@ -15,8 +15,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
-} from '@spartacus/core';
-import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, OrderFacade, ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
 

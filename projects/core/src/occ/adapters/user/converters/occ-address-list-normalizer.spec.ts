@@ -4,7 +4,7 @@ import {
   EntitiesModel,
   Occ,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 
 import createSpy = jasmine.createSpy;

@@ -4,7 +4,7 @@ import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions, MULTI_CART_FEATURE, StateWithMultiCart } from '../store';

@@ -6,8 +6,8 @@
 
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 
 @Component({
   selector: 'cx-store-finder-search',

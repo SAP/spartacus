@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductVariantsOccModule } from '@spartacus/product/variants/occ';
-import { ProductVariantsComponentsModule } from '@spartacus/product/variants/components';
+import { ProductVariantsOccModule } from '@commerce-storefront-toolset/product/variants/occ';
+import { ProductVariantsComponentsModule } from '@commerce-storefront-toolset/product/variants/components';
 
 @NgModule({
   imports: [ProductVariantsOccModule, ProductVariantsComponentsModule],

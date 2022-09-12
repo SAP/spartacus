@@ -6,8 +6,8 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
-import { ReplenishmentOrderHistoryAdapter } from '@spartacus/order/core';
+import { ConverterService, Occ, OccEndpointsService } from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrderHistoryAdapter } from '@commerce-storefront-toolset/order/core';
 import {
   OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
@@ -15,7 +15,7 @@ import {
   ReplenishmentOrderList,
   REPLENISHMENT_ORDER_HISTORY_NORMALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

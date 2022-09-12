@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": ["../../projects/schematics/index"]
+      "@commerce-storefront-toolset/schematics": ["../../projects/schematics/index"]
     }
   },
   "include": ["src/schematics/**/*.ts"],

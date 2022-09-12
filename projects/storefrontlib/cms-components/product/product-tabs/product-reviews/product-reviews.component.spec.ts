@@ -5,7 +5,7 @@ import {
   I18nTestingModule,
   Product,
   ProductReviewService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { FormErrorsModule, ItemCounterModule } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';

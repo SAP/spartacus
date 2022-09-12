@@ -1,4 +1,4 @@
-import { uniteLatest } from '@spartacus/core';
+import { uniteLatest } from '@commerce-storefront-toolset/core';
 import { of, Subject } from 'rxjs';
 import { map, reduce, take } from 'rxjs/operators';
 

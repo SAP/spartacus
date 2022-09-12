@@ -12,13 +12,13 @@ import {
   ConfigModule,
   I18nModule,
   provideConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FileUploadModule,
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';

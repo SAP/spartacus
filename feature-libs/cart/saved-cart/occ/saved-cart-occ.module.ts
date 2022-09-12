@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { SavedCartAdapter } from '@commerce-storefront-toolset/cart/saved-cart/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { OccSavedCartAdapter } from './adapters/occ-saved-cart.adapter';
 import { defaultOccSavedCartConfig } from './config/default-occ-saved-cart-config';
 

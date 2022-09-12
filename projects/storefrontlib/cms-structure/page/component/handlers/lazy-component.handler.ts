@@ -12,7 +12,7 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsComponentMapping, Priority } from '@commerce-storefront-toolset/core';
 import { from, Observable } from 'rxjs';
 import { DefaultComponentHandler } from './default-component.handler';
 import { switchMap } from 'rxjs/operators';

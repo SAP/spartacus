@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { Product, ProductService, TranslationService } from '@commerce-storefront-toolset/core';
+import { ConfiguratorRouterExtractorService } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

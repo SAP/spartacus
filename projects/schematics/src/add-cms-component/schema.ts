@@ -28,7 +28,7 @@ export interface CxCmsComponentSchema
   cmsComponentDataModel?: string;
   /**
    * Specify the import path for the `CmsComponentData`.
-   * Default is `@spartacus/storefront`
+   * Default is `@commerce-storefront-toolset/storefront`
    */
   cmsComponentDataModelPath: string;
 }

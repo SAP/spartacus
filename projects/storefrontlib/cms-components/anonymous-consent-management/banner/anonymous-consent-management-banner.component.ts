@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-import { AnonymousConsentsService } from '@spartacus/core';
+import { AnonymousConsentsService } from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';

@@ -27,7 +27,7 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CmsComponentData } from '../../model';
 
 @Injectable({

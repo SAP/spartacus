@@ -14,9 +14,9 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';

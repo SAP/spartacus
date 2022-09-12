@@ -6,7 +6,7 @@ import {
   FeatureUnit,
   Classification,
   FeatureValue,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductAttributesComponent } from './product-attributes.component';

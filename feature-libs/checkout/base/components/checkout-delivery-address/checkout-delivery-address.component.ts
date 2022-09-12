@@ -6,11 +6,11 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   getLastValueSync,
@@ -18,8 +18,8 @@ import {
   GlobalMessageType,
   TranslationService,
   UserAddressService,
-} from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Card } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,

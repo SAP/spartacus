@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 

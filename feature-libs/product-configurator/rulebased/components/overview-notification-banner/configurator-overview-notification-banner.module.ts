@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @NgModule({

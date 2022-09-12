@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BApprovalProcess, Occ } from '@spartacus/core';
+import { B2BApprovalProcess, Occ } from '@commerce-storefront-toolset/core';
 import { OccOrgUnitApprovalProcessNormalizer } from './occ-org-unit-approval-processes-normalizer';
 
 describe('OccOrgUnitApprovalProcessNormalizer', () => {

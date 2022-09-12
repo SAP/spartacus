@@ -5,8 +5,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { AuthService } from '@commerce-storefront-toolset/core';
+import { User, UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

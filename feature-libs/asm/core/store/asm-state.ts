@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
 export const ASM_FEATURE = 'asm';

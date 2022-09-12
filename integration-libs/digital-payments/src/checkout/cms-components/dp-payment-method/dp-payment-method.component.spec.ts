@@ -5,22 +5,22 @@ import {
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { ActiveCartFacade, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutStepService } from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
   CheckoutPaymentService,
-} from '@spartacus/checkout/base/core';
+} from '@commerce-storefront-toolset/checkout/base/core';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   QueryState,
   TranslationService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
 const mockPaymentDetails: PaymentDetails = {

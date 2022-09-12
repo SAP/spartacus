@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 @Component({

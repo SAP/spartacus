@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   CheckoutAuthGuard,
   CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import { CheckoutCostCenterModule } from './checkout-cost-center/checkout-cost-center.module';
 import { B2BCheckoutDeliveryAddressModule } from './checkout-delivery-address/checkout-delivery-address.module';
 import { CheckoutPaymentTypeModule } from './checkout-payment-type/checkout-payment-type.module';

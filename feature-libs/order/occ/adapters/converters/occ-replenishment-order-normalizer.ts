@@ -5,14 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '@spartacus/cart/base/root';
+import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
 import {
   Converter,
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
-} from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer

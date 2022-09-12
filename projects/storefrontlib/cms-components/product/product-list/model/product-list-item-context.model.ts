@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 /**

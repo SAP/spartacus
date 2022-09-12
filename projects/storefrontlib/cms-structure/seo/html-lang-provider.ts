@@ -5,7 +5,7 @@
  */
 
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { LanguageService, WindowRef } from '@spartacus/core';
+import { LanguageService, WindowRef } from '@commerce-storefront-toolset/core';
 
 export const htmlLangProvider: Provider = {
   provide: APP_INITIALIZER,

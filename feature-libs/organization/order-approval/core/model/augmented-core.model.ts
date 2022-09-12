@@ -6,7 +6,7 @@
 
 import { OrderApprovalPermissionResult } from './order-approval.model';
 
-declare module '@spartacus/order/root' {
+declare module '@commerce-storefront-toolset/order/root' {
   interface Order {
     permissionResults?: OrderApprovalPermissionResult[];
   }

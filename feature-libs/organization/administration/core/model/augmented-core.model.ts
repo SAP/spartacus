@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BApprovalProcess, Currency } from '@spartacus/core';
+import { B2BApprovalProcess, Currency } from '@commerce-storefront-toolset/core';
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface B2BUnit {
     parentOrgUnit?: Partial<B2BUnit>;
     approvalProcess?: B2BApprovalProcess;

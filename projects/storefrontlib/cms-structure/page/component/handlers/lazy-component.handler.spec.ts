@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LazyComponentHandler } from './lazy-component.handler';
-import { Priority } from '@spartacus/core';
-import { DefaultComponentHandler } from '@spartacus/storefront';
+import { Priority } from '@commerce-storefront-toolset/core';
+import { DefaultComponentHandler } from '@commerce-storefront-toolset/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 

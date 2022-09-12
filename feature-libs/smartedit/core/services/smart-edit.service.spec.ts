@@ -7,7 +7,7 @@ import {
   Page,
   RoutingService,
   ScriptLoader,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
 import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
 import { Observable, of } from 'rxjs';

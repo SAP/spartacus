@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Breadcrumb } from '@spartacus/core';
+import { Breadcrumb } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FacetList } from '../facet.model';

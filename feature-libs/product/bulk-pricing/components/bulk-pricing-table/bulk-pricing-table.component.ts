@@ -5,9 +5,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { BulkPricingService } from '@spartacus/product/bulk-pricing/core';
-import { RoutingService } from '@spartacus/core';
-import { BulkPrice } from '@spartacus/product/bulk-pricing/core';
+import { BulkPricingService } from '@commerce-storefront-toolset/product/bulk-pricing/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { BulkPrice } from '@commerce-storefront-toolset/product/bulk-pricing/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

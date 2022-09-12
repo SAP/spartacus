@@ -11,21 +11,21 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
-} from '@spartacus/cart/quick-order/core';
+} from '@commerce-storefront-toolset/cart/quick-order/core';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
-} from '@spartacus/cart/quick-order/root';
+} from '@commerce-storefront-toolset/cart/quick-order/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   Product,
-} from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';

@@ -11,7 +11,7 @@ import {
   ConverterService,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
@@ -19,7 +19,7 @@ import {
   B2BUNIT_NORMALIZER,
   B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import createSpy = jasmine.createSpy;
 

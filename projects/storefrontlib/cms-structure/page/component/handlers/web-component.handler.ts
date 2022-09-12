@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CxApiService } from '../services/cx-api.service';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsComponentMapping, Priority } from '@commerce-storefront-toolset/core';
 import { CmsComponentData } from '../../model';
 
 /**

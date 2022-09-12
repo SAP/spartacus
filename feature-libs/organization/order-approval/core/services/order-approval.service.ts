@@ -13,7 +13,7 @@ import {
   StateUtils,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, pluck, tap } from 'rxjs/operators';
 import {

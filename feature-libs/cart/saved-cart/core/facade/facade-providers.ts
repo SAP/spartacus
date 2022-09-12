@@ -5,7 +5,7 @@
  */
 
 import { Provider } from '@angular/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
 import { SavedCartService } from './saved-cart.service';
 
 export const facadeProviders: Provider[] = [

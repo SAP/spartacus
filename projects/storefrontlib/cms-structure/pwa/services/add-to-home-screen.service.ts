@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PWAModuleConfig } from '../pwa.module-config';
 

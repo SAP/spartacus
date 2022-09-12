@@ -14,7 +14,7 @@ import {
   PageType,
   RoutingService,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import {
   filter,

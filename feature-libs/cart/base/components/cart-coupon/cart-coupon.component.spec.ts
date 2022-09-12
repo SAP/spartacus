@@ -7,14 +7,14 @@ import {
   Cart,
   CartVoucherFacade,
   Voucher,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeaturesConfigModule,
   I18nTestingModule,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';

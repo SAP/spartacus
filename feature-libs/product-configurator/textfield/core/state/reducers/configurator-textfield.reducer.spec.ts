@@ -1,4 +1,4 @@
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
 import { reducer } from './configurator-textfield.reducer';

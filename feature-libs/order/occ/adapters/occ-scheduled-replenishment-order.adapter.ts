@@ -12,14 +12,14 @@ import {
   isJaloError,
   normalizeHttpError,
   OccEndpointsService,
-} from '@spartacus/core';
-import { ScheduledReplenishmentOrderAdapter } from '@spartacus/order/core';
+} from '@commerce-storefront-toolset/core';
+import { ScheduledReplenishmentOrderAdapter } from '@commerce-storefront-toolset/order/core';
 import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { DeliveryMode, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
+import { Address } from '@commerce-storefront-toolset/core';
 
 export interface CheckoutState {
   deliveryAddress?: Address;

@@ -12,13 +12,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
+import { GlobalMessageService, GlobalMessageType } from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 

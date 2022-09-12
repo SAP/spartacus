@@ -5,15 +5,15 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CartConfigService } from '@spartacus/cart/base/core';
+import { CartConfigService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { AuthService, RoutingService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnit, Occ } from '@spartacus/core';
+import { B2BUnit, Occ } from '@commerce-storefront-toolset/core';
 import { OccOrgUnitNormalizer } from './occ-org-unit-normalizer';
 
 describe('OccOrgUnitNormalizer', () => {

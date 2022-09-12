@@ -10,7 +10,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
   UserGroup,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';

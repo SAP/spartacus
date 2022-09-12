@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
+import { DIALOG_TYPE, LayoutConfig } from '@commerce-storefront-toolset/storefront';
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
 
 export const defaultImportEntriesLayoutConfig: LayoutConfig = {

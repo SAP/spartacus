@@ -8,14 +8,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   ItemCounterModule,
   ModalModule,
   PromotionsModule,
   SpinnerModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 @NgModule({

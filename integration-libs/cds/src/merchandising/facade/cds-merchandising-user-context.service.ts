@@ -10,8 +10,8 @@ import {
   ProductSearchService,
   RoutingService,
   ProductSearchPage,
-} from '@spartacus/core';
-import { FacetService, FacetList } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { FacetService, FacetList } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,

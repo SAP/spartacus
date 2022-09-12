@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   createFrom,
   CxEvent,
@@ -9,7 +9,7 @@ import {
   LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';

@@ -11,11 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { B2BApprovalProcess, B2BUnit, isNotUndefined } from '@spartacus/core';
+import { B2BApprovalProcess, B2BUnit, isNotUndefined } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';

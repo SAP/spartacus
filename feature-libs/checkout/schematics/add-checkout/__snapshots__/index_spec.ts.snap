@@ -2,13 +2,13 @@
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutB2BModule } from \\"@commerce-storefront-toolset/checkout/b2b\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@commerce-storefront-toolset/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@commerce-storefront-toolset/checkout/b2b/root\\";
+import { CheckoutModule } from \\"@commerce-storefront-toolset/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -38,10 +38,10 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from \\"@commerce-storefront-toolset/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@commerce-storefront-toolset/core\\";
+import { defaultB2bOccConfig } from \\"@commerce-storefront-toolset/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@commerce-storefront-toolset/storefront\\";
 
 @NgModule({
   declarations: [],
@@ -76,11 +76,11 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@commerce-storefront-toolset/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@commerce-storefront-toolset/checkout/b2b/root\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -116,8 +116,8 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutB2BModule } from \\"@commerce-storefront-toolset/checkout/b2b\\";
+import { CheckoutModule } from \\"@commerce-storefront-toolset/checkout/base\\";
 
 @NgModule({
   declarations: [],
@@ -130,7 +130,7 @@ export class CheckoutWrapperModule { }
 "
 `;
 
-exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/checkout\\";"`;
+exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/checkout\\";"`;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should update angular.json 1`] = `
 "{
@@ -260,10 +260,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutModule } from \\"@commerce-storefront-toolset/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -284,9 +284,9 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -297,7 +297,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
+          import('@commerce-storefront-toolset/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
@@ -313,7 +313,7 @@ export class CheckoutFeatureModule { }
 "
 `;
 
-exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/checkout\\";"`;
+exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/checkout\\";"`;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should update angular.json 1`] = `
 "{
@@ -443,16 +443,16 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutB2BModule } from \\"@commerce-storefront-toolset/checkout/b2b\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@commerce-storefront-toolset/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@commerce-storefront-toolset/checkout/b2b/root\\";
+import { CheckoutModule } from \\"@commerce-storefront-toolset/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { CheckoutScheduledReplenishmentModule } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment\\";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment/assets\\";
+import { CheckoutScheduledReplenishmentRootModule } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -490,10 +490,10 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from \\"@commerce-storefront-toolset/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@commerce-storefront-toolset/core\\";
+import { defaultB2bOccConfig } from \\"@commerce-storefront-toolset/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@commerce-storefront-toolset/storefront\\";
 
 @NgModule({
   declarations: [],
@@ -528,13 +528,13 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@commerce-storefront-toolset/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@commerce-storefront-toolset/checkout/b2b/root\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@commerce-storefront-toolset/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@commerce-storefront-toolset/checkout/base/root\\";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment/assets\\";
+import { CheckoutScheduledReplenishmentRootModule } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -577,9 +577,9 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
+import { CheckoutB2BModule } from \\"@commerce-storefront-toolset/checkout/b2b\\";
+import { CheckoutModule } from \\"@commerce-storefront-toolset/checkout/base\\";
+import { CheckoutScheduledReplenishmentModule } from \\"@commerce-storefront-toolset/checkout/scheduled-replenishment\\";
 
 @NgModule({
   declarations: [],
@@ -593,7 +593,7 @@ export class CheckoutWrapperModule { }
 "
 `;
 
-exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/checkout\\";"`;
+exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/checkout\\";"`;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should update angular.json 1`] = `
 "{

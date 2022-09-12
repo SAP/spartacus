@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { Configurator } from '../../model/configurator.model';
 
 /**

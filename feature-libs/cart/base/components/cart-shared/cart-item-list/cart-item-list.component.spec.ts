@@ -14,14 +14,14 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   UserIdService,
-} from '@spartacus/core';
-import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { OutletContextData, PromotionsModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CartItemListComponent } from './cart-item-list.component';
 

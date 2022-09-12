@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter, EntitiesModel } from '@spartacus/core';
+import { Converter, EntitiesModel } from '@commerce-storefront-toolset/core';
 import {
   OrderApproval,
   OrderApprovalDecision,

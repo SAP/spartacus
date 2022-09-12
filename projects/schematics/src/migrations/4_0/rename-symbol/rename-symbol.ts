@@ -138,7 +138,7 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // projects/storefrontlib/cms-components/product/config/default-view-config.ts
   {
     previousNode: 'defaultScrollConfig',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: '@commerce-storefront-toolset/storefront',
     newNode: 'defaultViewConfig',
   },
   // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics-loader.service.ts

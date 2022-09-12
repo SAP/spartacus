@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnDestroy } from '@angular/core';
-import { LoadStatus } from '@spartacus/organization/administration/core';
+import { LoadStatus } from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import { ItemService } from '../../item.service';

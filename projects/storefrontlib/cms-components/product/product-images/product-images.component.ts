@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
+import { ImageGroup, isNotNullable, Product } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';

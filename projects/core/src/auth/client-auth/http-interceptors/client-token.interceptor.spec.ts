@@ -9,7 +9,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { defaultOccConfig } from '../../../occ/config/default-occ-config';
 import {

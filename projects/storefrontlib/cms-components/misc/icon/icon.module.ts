@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultIconConfig } from './default-icon.config';
 import { fontawesomeIconConfig } from './fontawesome-icon.config';
 import { IconComponent } from './icon.component';

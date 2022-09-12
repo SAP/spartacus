@@ -1,4 +1,4 @@
-import { CostCenter, StateUtils } from '@spartacus/core';
+import { CostCenter, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   BUDGET_ENTITIES,
   COST_CENTER_ASSIGNED_BUDGETS,

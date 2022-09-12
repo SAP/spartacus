@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { PageSlotModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { PageSlotModule } from '@commerce-storefront-toolset/storefront';
 import { LoginComponent } from './login.component';
 
 @NgModule({

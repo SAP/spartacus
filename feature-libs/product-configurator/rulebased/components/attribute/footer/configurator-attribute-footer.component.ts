@@ -10,8 +10,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';

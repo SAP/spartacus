@@ -5,7 +5,7 @@
  */
 
 import { StoreEntities } from '../model/store-entities';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 
 export const STORE_FINDER_FEATURE = 'stores';
 export const STORE_FINDER_DATA = '[StoreFinder] Store Finder Data';

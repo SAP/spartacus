@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EntitiesModel, SearchConfig } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   OrderApproval,

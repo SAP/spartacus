@@ -8,12 +8,12 @@ import { NgModule } from '@angular/core';
 import {
   quickOrderTranslationChunksConfig,
   quickOrderTranslations,
-} from '@spartacus/cart/quick-order/assets';
+} from '@commerce-storefront-toolset/cart/quick-order/assets';
 import {
   CART_QUICK_ORDER_FEATURE,
   QuickOrderRootModule,
-} from '@spartacus/cart/quick-order/root';
-import { provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/quick-order/root';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [QuickOrderRootModule],
@@ -22,7 +22,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_QUICK_ORDER_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/quick-order').then(
+            import('@commerce-storefront-toolset/cart/quick-order').then(
               (m) => m.QuickOrderModule
             ),
         },

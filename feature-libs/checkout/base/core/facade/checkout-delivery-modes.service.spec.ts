@@ -1,18 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutQueryFacade,
   CheckoutState,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';

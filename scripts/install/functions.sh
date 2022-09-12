@@ -41,7 +41,7 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    npm config set @spartacus:registry https://registry.npmjs.org/
+    npm config set @commerce-storefront-toolset:registry https://registry.npmjs.org/
 
     npm i -g verdaccio@5
     npm i -g npm-cli-login
@@ -85,43 +85,43 @@ function create_shell_app {
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
-        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
+        ng add --skip-confirmation @commerce-storefront-toolset/organization@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @commerce-storefront-toolset/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
     fi
 }
 
 function add_cdc {
   if [ "$ADD_CDC" = true ] ; then
-        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @commerce-storefront-toolset/cdc@${SPARTACUS_VERSION} --interactive false
     fi
 }
 
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+        ng add --skip-confirmation @commerce-storefront-toolset/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
     fi
 }
 
 function add_product_configurator {
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
+    ng add --skip-confirmation @commerce-storefront-toolset/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
+        ng add --skip-confirmation @commerce-storefront-toolset/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
     fi
 }
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
-  ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
-  ng add --skip-confirmation @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
+  ng add --skip-confirmation @commerce-storefront-toolset/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
+  ng add --skip-confirmation @commerce-storefront-toolset/qualtrics@${SPARTACUS_VERSION} --interactive false
 }
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
     fi
     add_feature_libs
     add_b2b
@@ -134,9 +134,9 @@ function add_spartacus_csr {
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     fi
     add_feature_libs
     add_b2b
@@ -149,9 +149,9 @@ function add_spartacus_ssr {
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+      ng add --skip-confirmation @commerce-storefront-toolset/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     fi
     add_feature_libs
     add_b2b
@@ -212,11 +212,11 @@ function restore_clone {
 }
 
 function install_from_sources {
-    printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
+    printh "Installing @commerce-storefront-toolset/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
 
-    npm set @spartacus:registry http://localhost:4873/
+    npm set @commerce-storefront-toolset:registry http://localhost:4873/
 
     printh "Cloning Spartacus source code and installing dependencies."
     clone_repo
@@ -232,7 +232,7 @@ function install_from_sources {
 
     sleep 15
 
-    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
+    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@commerce-storefront-toolset.com -r http://localhost:4873)
 
     local dist_packages=(
         'core'
@@ -275,11 +275,11 @@ function install_from_sources {
 
     (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
-    npm set @spartacus:registry https://registry.npmjs.org/
+    npm set @commerce-storefront-toolset:registry https://registry.npmjs.org/
 
     restore_clone
 
-    echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+    echo "Finished: npm @commerce-storefront-toolset:registry set back to https://registry.npmjs.org/"
 }
 
 function install_from_npm {

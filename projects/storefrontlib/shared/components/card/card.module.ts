@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { TruncateTextPopoverModule } from '../truncate-text-popover/truncate-text-popover.module';
 import { CardComponent } from './card.component';

@@ -7,7 +7,7 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
   I18nTestingModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';

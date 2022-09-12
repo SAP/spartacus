@@ -1,5 +1,5 @@
 // Always bump to the latest (breaking) styles during development.
 $useLatestStyles: true;
 
-@import '@spartacus/styles';
-@import '@spartacus/styles/scss/theme/santorini';
+@import '@commerce-storefront-toolset/styles';
+@import '@commerce-storefront-toolset/styles/scss/theme/santorini';

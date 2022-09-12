@@ -23,13 +23,13 @@ import {
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   MergeCartSuccessEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   ActionToEventMapping,
   createFrom,
   EventService,
   StateEventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { CartActions } from '../store/index';

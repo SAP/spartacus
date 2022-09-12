@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CostCenter, EntitiesModel, SearchConfig } from '@spartacus/core';
+import { CostCenter, EntitiesModel, SearchConfig } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../model/budget.model';
 import { CostCenterAdapter } from './cost-center.adapter';

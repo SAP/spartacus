@@ -11,7 +11,7 @@ import {
   PageMeta,
   PageMetaService,
   PageRobotsMeta,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PageMetaLinkService } from './page-meta-link.service';

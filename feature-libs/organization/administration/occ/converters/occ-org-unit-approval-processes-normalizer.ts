@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, Occ, B2BApprovalProcess } from '@spartacus/core';
+import { Converter, Occ, B2BApprovalProcess } from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

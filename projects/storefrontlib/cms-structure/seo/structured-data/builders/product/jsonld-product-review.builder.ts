@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
+import { Product, ProductReviewService, Review } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SeoConfig } from '../../../config';

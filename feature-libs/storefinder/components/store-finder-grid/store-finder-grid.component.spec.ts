@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import { RoutingService, TranslationService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
-import { StoreFinderService } from '@spartacus/storefinder/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { StoreFinderService } from '@commerce-storefront-toolset/storefinder/core';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import createSpy = jasmine.createSpy;
 
 const countryIsoCode = 'CA';

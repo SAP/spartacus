@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input, NgModule } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsService, ContentSlotData, Page } from '@spartacus/core';
+import { CmsService, ContentSlotData, Page } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet';

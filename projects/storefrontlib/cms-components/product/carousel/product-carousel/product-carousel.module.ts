@@ -12,7 +12,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { PageComponentModule } from '../../../../cms-structure';
 import {
   CarouselModule,

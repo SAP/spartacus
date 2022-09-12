@@ -7,7 +7,7 @@ import {
   ModuleInitializedEvent,
   provideConfig,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { ConfigurationService } from './configuration.service';
 

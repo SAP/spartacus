@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { UserAccountComponentsModule } from '@spartacus/user/account/components';
-import { UserAccountCoreModule } from '@spartacus/user/account/core';
-import { UserAccountOccModule } from '@spartacus/user/account/occ';
+import { UserAccountComponentsModule } from '@commerce-storefront-toolset/user/account/components';
+import { UserAccountCoreModule } from '@commerce-storefront-toolset/user/account/core';
+import { UserAccountOccModule } from '@commerce-storefront-toolset/user/account/occ';
 
 @NgModule({
   imports: [

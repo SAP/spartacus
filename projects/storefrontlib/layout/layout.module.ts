@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 import { OutletRefModule } from '../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { defaultLayoutConfig } from './config/default-layout.config';
 import { DirectionModule } from './direction/direction.module';

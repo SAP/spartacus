@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CartModification } from '@spartacus/cart/base/root';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 

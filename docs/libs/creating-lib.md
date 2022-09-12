@@ -128,7 +128,7 @@ Use the following template:
 
 ```json
 {
-  "name": "@spartacus/TODO:",
+  "name": "@commerce-storefront-toolset/TODO:",
   "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
@@ -150,14 +150,14 @@ Use the following template:
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.0",
-    "@spartacus/storefront": "3.0.0-next.0"
+    "@commerce-storefront-toolset/core": "3.0.0-next.0",
+    "@commerce-storefront-toolset/storefront": "3.0.0-next.0"
   }
 }
 ```
 
 Make sure to replace `TODO:`s with the relevant information.
-Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the need.
+Adjust the `@commerce-storefront-toolset/core` and/or `@commerce-storefront-toolset/storefront` depending on the need.
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 If your library doesn't expose any SCSS styles, remove the section `exports`/`sass`.
@@ -193,8 +193,8 @@ Use the following template:
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@commerce-storefront-toolset/core": ["dist/core"],
+      "@commerce-storefront-toolset/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {
@@ -286,7 +286,7 @@ Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under th
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/TODO:@${version}",
+    "releaseName": "@commerce-storefront-toolset/TODO:@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib TODO: --to TODO:-${version}"
   },
   "plugins": {
@@ -295,8 +295,8 @@ Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under th
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/storefront"
           ]
         }
       ]
@@ -315,7 +315,7 @@ In the `const libraryPaths` object, add the following (and replace the `my-accou
 ```ts
 const libraryPaths = {
   ...,
-  '@spartacus/my-account': 'feature-libs/my-account',
+  '@commerce-storefront-toolset/my-account': 'feature-libs/my-account',
 };
 ```
 
@@ -405,4 +405,4 @@ There are couple of required changes to make sure schematics will work properly
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
 - Build all libs (if it is first time, if not just build your new lib)
 - Publish
-- Add spartacus to new angular project `ng add @spartacus/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa
+- Add spartacus to new angular project `ng add @commerce-storefront-toolset/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa

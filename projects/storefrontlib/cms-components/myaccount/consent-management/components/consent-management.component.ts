@@ -13,7 +13,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserConsentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   BehaviorSubject,
   combineLatest,

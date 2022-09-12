@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Image } from '@spartacus/core';
+import { Image } from '@commerce-storefront-toolset/core';
 
 export interface Media {
   /**

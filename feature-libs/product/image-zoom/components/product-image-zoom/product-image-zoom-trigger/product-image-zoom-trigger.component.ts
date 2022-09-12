@@ -20,7 +20,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/product-image-zoom-dialog.component';

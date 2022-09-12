@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Facet, I18nTestingModule } from '@spartacus/core';
+import { Facet, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';

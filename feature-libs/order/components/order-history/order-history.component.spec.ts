@@ -15,13 +15,13 @@ import {
   I18nTestingModule,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 

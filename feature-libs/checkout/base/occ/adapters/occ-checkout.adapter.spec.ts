@@ -4,14 +4,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CheckoutState } from '@spartacus/checkout/base/root';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   ConverterService,
   HttpErrorModel,
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';

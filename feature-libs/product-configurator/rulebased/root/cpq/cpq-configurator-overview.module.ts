@@ -6,8 +6,8 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import { CpqConfiguratorLayoutModule } from './cpq-configurator-layout.module';
 import { defaultCpqOverviewRoutingConfig } from './default-cpq-overview-routing-config';
 

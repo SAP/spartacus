@@ -9,15 +9,15 @@ import { RouterModule } from '@angular/router';
 import {
   CART_BASE_FEATURE,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
-} from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,

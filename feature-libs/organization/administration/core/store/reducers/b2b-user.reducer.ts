@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { B2BUser, ListModel, StateUtils } from '@spartacus/core';
+import { B2BUser, ListModel, StateUtils } from '@commerce-storefront-toolset/core';
 import {
   B2BUserActions,
   OrgUnitActions,

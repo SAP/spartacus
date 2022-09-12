@@ -6,7 +6,7 @@
 
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
 import { configuratorReducer } from './configurator.reducer';

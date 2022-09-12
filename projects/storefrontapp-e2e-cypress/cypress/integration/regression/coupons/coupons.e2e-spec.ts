@@ -1,4 +1,4 @@
-import { CheckoutConfig } from '@spartacus/storefront';
+import { CheckoutConfig } from '@commerce-storefront-toolset/storefront';
 import { getStateAuth } from '../../../helpers/auth';
 import * as cart from '../../../helpers/cart';
 import * as cartCoupon from '../../../helpers/coupons/cart-coupon';

@@ -2,9 +2,9 @@
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { provideConfig } from \\"@spartacus/core\\";
-import { SmartEditModule } from \\"@spartacus/smartedit\\";
-import { SmartEditConfig, SmartEditRootModule } from \\"@spartacus/smartedit/root\\";
+import { provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { SmartEditModule } from \\"@commerce-storefront-toolset/smartedit\\";
+import { SmartEditConfig, SmartEditRootModule } from \\"@commerce-storefront-toolset/smartedit/root\\";
 
 @NgModule({
   declarations: [],
@@ -57,7 +57,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
               \\"src/assets\\",
               {
                 \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"input\\": \\"./node_modules/@commerce-storefront-toolset/smartedit/assets\\",
                 \\"output\\": \\"assets/\\"
               }
             ],
@@ -135,7 +135,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
               \\"src/assets\\",
               {
                 \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"input\\": \\"./node_modules/@commerce-storefront-toolset/smartedit/assets\\",
                 \\"output\\": \\"assets/\\"
               }
             ],
@@ -159,8 +159,8 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@commerce-storefront-toolset/smartedit/root\\";
 
 @NgModule({
   declarations: [],
@@ -171,7 +171,7 @@ import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spa
     featureModules: {
       [SMART_EDIT_FEATURE]: {
         module: () =>
-          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+          import('@commerce-storefront-toolset/smartedit').then((m) => m.SmartEditModule),
       },
     }
   }),
@@ -189,8 +189,8 @@ export class SmartEditFeatureModule { }
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with allowOrigin config should configure the allowOrigin 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@commerce-storefront-toolset/smartedit/root\\";
 
 @NgModule({
   declarations: [],
@@ -201,7 +201,7 @@ import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spa
     featureModules: {
       [SMART_EDIT_FEATURE]: {
         module: () =>
-          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+          import('@commerce-storefront-toolset/smartedit').then((m) => m.SmartEditModule),
       },
     }
   }),
@@ -219,8 +219,8 @@ export class SmartEditFeatureModule { }
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with storefrontPreviewRoute config should configure the storefrontPreviewRoute 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@commerce-storefront-toolset/smartedit/root\\";
 
 @NgModule({
   declarations: [],
@@ -231,7 +231,7 @@ import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spa
     featureModules: {
       [SMART_EDIT_FEATURE]: {
         module: () =>
-          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+          import('@commerce-storefront-toolset/smartedit').then((m) => m.SmartEditModule),
       },
     }
   }),

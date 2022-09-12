@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 import { YotpoService } from './../service/yotpo.service';

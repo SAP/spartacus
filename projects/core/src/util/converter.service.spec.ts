@@ -2,7 +2,7 @@ import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of, ReplaySubject } from 'rxjs';
 import { Converter, ConverterService } from './converter.service';
-import { LazyModulesService } from '@spartacus/core';
+import { LazyModulesService } from '@commerce-storefront-toolset/core';
 
 const TestConverterInjectionToken = new InjectionToken(
   'TestConverterInjectionToken'

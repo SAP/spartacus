@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GigyaRaasComponentData } from '@spartacus/cdc/core';
-import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
+import { GigyaRaasComponentData } from '@commerce-storefront-toolset/cdc/core';
+import { CdcConfig, CdcJsService } from '@commerce-storefront-toolset/cdc/root';
 import {
   BaseSiteService,
   CmsComponent,
   LanguageService,
   MockTranslatePipe,
-} from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { GigyaRaasComponent } from './gigya-raas.component';
 

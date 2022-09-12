@@ -1,4 +1,4 @@
-import { SERVER_REQUEST_URL } from '@spartacus/core';
+import { SERVER_REQUEST_URL } from '@commerce-storefront-toolset/core';
 import {
   decorateExpressEngine,
   NgExpressEngine,

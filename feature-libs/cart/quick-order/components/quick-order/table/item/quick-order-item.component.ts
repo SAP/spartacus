@@ -13,8 +13,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { QuickOrderFacade } from '@commerce-storefront-toolset/cart/quick-order/root';
 import { Subscription } from 'rxjs';
 
 @Component({

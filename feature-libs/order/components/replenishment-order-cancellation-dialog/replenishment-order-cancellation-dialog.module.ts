@@ -6,12 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@commerce-storefront-toolset/core';
 import {
   IconModule,
   KeyboardFocusModule,
   ModalModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
 @NgModule({

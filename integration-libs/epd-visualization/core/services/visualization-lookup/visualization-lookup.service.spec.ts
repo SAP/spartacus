@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ContentType,
   getEpdVisualizationDefaultConfig,
   UsageId,
   VisualizationInfo,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable, of } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';

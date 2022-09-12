@@ -19,7 +19,7 @@ import {
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   validateSpartacusInstallation,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import { peerDependencies } from '../../package.json';
 
 export function addUserFeatures(options: SpartacusUserOptions): Rule {

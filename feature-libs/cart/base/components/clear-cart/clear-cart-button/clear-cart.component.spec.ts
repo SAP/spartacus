@@ -5,9 +5,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { ClearCartComponent } from './clear-cart.component';
 import { By } from '@angular/platform-browser';

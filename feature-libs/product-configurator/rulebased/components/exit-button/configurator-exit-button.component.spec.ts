@@ -7,20 +7,20 @@ import {
   Product,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorExitButtonComponent,
-} from '@spartacus/product-configurator/rulebased';
-import { BreakpointService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/product-configurator/rulebased';
+import { BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';

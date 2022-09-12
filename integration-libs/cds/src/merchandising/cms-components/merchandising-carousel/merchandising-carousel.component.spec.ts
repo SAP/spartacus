@@ -14,8 +14,8 @@ import {
   PageType,
   Product,
   RoutingService,
-} from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData, IntersectionService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';

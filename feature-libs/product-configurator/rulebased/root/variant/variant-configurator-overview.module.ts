@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@commerce-storefront-toolset/storefront';
 import { VariantConfiguratorOverviewLayoutModule } from './variant-configurator-overview-layout.module';
 
 /**

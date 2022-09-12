@@ -2,12 +2,12 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from '@commerce-storefront-toolset/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
-} from '@spartacus/order/root';
-import { ListNavigationModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { ListNavigationModule } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 

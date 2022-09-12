@@ -7,7 +7,7 @@ import {
   RouterState,
   RoutingService,
   SemanticPathService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';

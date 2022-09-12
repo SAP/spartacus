@@ -4,7 +4,7 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CurrentProductService } from './current-product.service';
 

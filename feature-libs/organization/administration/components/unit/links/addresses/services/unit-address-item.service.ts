@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Address, isNotUndefined, RoutingService } from '@spartacus/core';
+import { Address, isNotUndefined, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { ROUTE_PARAMS } from '@commerce-storefront-toolset/organization/administration/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';

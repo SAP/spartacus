@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsPDFDocumentComponent } from '@spartacus/core';
+import { CmsPDFDocumentComponent } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';

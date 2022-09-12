@@ -6,21 +6,21 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
+import { isSelectiveCart, StateWithMultiCart } from '@commerce-storefront-toolset/cart/base/core';
 import {
   Cart,
   DeleteCartEvent as DeleteSavedCartEvent,
   MultiCartFacade,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   EventService,
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { combineLatest, EMPTY, Observable, queueScheduler } from 'rxjs';
 import {
   distinctUntilChanged,

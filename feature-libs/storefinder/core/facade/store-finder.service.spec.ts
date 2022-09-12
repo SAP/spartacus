@@ -7,7 +7,7 @@ import {
   PointOfService,
   RoutingService,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderSelectors } from '../store';

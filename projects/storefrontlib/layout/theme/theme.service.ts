@@ -10,7 +10,7 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
+import { SiteContextConfig, THEME_CONTEXT_ID } from '@commerce-storefront-toolset/core';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {

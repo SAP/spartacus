@@ -3,9 +3,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConverterService, OccEndpointsService } from '@commerce-storefront-toolset/core';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {

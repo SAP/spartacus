@@ -1,5 +1,5 @@
-import { StateUtils } from '@spartacus/core';
-import { Budget } from '@spartacus/organization/administration/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { Budget } from '@commerce-storefront-toolset/organization/administration/core';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { BudgetActions } from './index';
 

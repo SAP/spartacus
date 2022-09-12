@@ -10,13 +10,13 @@ import {
   LanguageService,
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   SceneAdapter,
   VisualizationAdapter,
-} from '@spartacus/epd-visualization/core';
-import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
-import { SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/epd-visualization/core';
+import { getEpdVisualizationDefaultConfig } from '@commerce-storefront-toolset/epd-visualization/root';
+import { SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of, Subject } from 'rxjs';
 import { StorageV1Adapter } from '../../epd-visualization-api/adapters/storage-v1/storage-v1.adapter';
 import { VisualizationV1Adapter } from '../../epd-visualization-api/adapters/visualization-v1/visualization-v1.adapter';

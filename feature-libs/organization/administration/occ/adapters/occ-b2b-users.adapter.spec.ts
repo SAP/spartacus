@@ -9,14 +9,14 @@ import {
   ConverterService,
   OccEndpointsService,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
   B2B_USER_SERIALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 
 import createSpy = jasmine.createSpy;

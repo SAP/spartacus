@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OutletContextData } from '@commerce-storefront-toolset/storefront';
 import { TableDataCellComponent } from './table-data-cell.component';
 
 describe('TableDataCellComponent', () => {

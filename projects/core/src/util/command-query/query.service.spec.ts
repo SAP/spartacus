@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CxEvent, EventService } from '@spartacus/core';
+import { CxEvent, EventService } from '@commerce-storefront-toolset/core';
 import { defer, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Query, QueryService, QueryState } from './query.service';

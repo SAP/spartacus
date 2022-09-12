@@ -8,7 +8,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { AuthService } from '@spartacus/core';
+import { AuthService } from '@commerce-storefront-toolset/core';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';

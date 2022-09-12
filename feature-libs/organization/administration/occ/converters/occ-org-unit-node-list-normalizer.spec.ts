@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Occ } from '@spartacus/core';
-import { B2BUnitNode } from '@spartacus/organization/administration/core';
+import { Occ } from '@commerce-storefront-toolset/core';
+import { B2BUnitNode } from '@commerce-storefront-toolset/organization/administration/core';
 import { OccOrgUnitNodeListNormalizer } from './occ-org-unit-node-list-normalizer';
 
 describe('OccOrgUnitNodeListNormalizer', () => {

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 
 /**
  * Configuration options for the Qualtrics integration, which allows you to
@@ -29,6 +29,6 @@ export abstract class QualtricsConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends QualtricsConfig {}
 }

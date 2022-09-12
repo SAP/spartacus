@@ -4,7 +4,7 @@ import {
   LanguageService,
   SiteContext,
   SiteContextConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { bufferCount, take } from 'rxjs/operators';
 import { CurrencyService } from '../facade';

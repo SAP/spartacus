@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   declarations: [ConfiguratorPriceComponent],

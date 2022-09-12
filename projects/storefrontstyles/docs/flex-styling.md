@@ -6,13 +6,13 @@ Spartacus provides two methods of styling customization. Firstly, the global loo
 
 The theming in Spartacus refers to the global look and feel of the site. This includes (but isn't limited to) colors, fonts and font sizes. Through re-theming of Spartacus, it's possible to create a site with your own custom branding and identity.
 
-Spartacus provides a default styling library called Sparta in the @spartacus/styles package. This package should be imported into your project through the `styles.scss` file as described in the setup and install guide.
+Spartacus provides a default styling library called Sparta in the @commerce-storefront-toolset/styles package. This package should be imported into your project through the `styles.scss` file as described in the setup and install guide.
 
 There are three possible ways to personalize the Spartacus's theme.
 
 #### Overriding global variables
 
-The default Sparta theme provides a large number of variables that can be overriden to customize the theme. These variables are contained in the @spartacus/styles/scss/theme/sparta/_variables. In order to asign a new value to the scss variables the value in the variables has to be re-assigned before the library import.
+The default Sparta theme provides a large number of variables that can be overriden to customize the theme. These variables are contained in the @commerce-storefront-toolset/styles/scss/theme/sparta/_variables. In order to asign a new value to the scss variables the value in the variables has to be re-assigned before the library import.
 
 For example
 
@@ -20,7 +20,7 @@ For example
 $primary: #e502bf
 $font-weight-normal: 500;
 
-@import '~@spartacus/styles/index';
+@import '~@commerce-storefront-toolset/styles/index';
 ```
 
 #### Extending Sparta theme
@@ -31,7 +31,7 @@ Extending the library can be done by creating a new library and importing the de
 
 Your custom theme library e.g. `custom-styles/index.scss`
 ```scss
-@import '~@spartacus/styles/index';
+@import '~@commerce-storefront-toolset/styles/index';
 
 // Custom Style or imports from other files
 ```
@@ -44,7 +44,7 @@ In your project `styles.scss`
 An alternative method is to create a new library and import in to the project after the default theme.
 
 ```scss
-@import '~@spartacus/styles/index';
+@import '~@commerce-storefront-toolset/styles/index';
 @import 'custom-styles/index.scss';
 ```
 

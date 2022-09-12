@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/base/root';
-import { Converter, Occ } from '@spartacus/core';
+import { PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
+import { Converter, Occ } from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

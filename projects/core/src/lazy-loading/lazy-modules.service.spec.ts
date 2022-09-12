@@ -4,7 +4,7 @@ import {
   createFrom,
   EventService,
   ModuleInitializedEvent,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, zip } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { LazyModulesService } from './lazy-modules.service';

@@ -5,7 +5,7 @@
  */
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { defaultSmartEditConfig } from './config/default-smart-edit-config';
 import { interceptors } from './http-interceptors/index';
 import { SmartEditLauncherService } from './services/smart-edit-launcher.service';

@@ -8,8 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
-import { ContextService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ContextService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 

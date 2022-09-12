@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   OrganizationItemStatus,
   Permission,
   PermissionService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { PermissionFormService } from '../form/permission-form.service';

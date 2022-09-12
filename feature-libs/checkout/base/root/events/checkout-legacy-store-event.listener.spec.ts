@@ -7,7 +7,7 @@ import {
   LoadUserAddressesEvent,
   LoadUserPaymentMethodsEvent,
   UserActions,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { CheckoutLegacyStoreEventListener } from './checkout-legacy-store-event.listener';
 import createSpy = jasmine.createSpy;

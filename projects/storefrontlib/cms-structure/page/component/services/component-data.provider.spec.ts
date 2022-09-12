@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, CmsService } from '@spartacus/core';
+import { CmsComponent, CmsService } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { ComponentDataProvider } from './component-data.provider';

@@ -1,4 +1,4 @@
-import { PageType } from '@spartacus/core';
+import { PageType } from '@commerce-storefront-toolset/core';
 import { RoutingActions } from './index';
 
 describe('Router Actions', () => {

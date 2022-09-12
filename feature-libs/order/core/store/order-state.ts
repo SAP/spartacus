@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import {
   ConsignmentTracking,
   Order,
@@ -13,7 +13,7 @@ import {
   ReplenishmentOrderList,
   ReturnRequest,
   ReturnRequestList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 export const ORDER_FEATURE = 'order';
 
 export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';

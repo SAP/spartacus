@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
+import { B2BUser, B2BUserRole } from '@commerce-storefront-toolset/core';
+import { B2BUserService } from '@commerce-storefront-toolset/organization/administration/core';
 import { FormService } from '../../../../shared/form/form.service';
 
 @Injectable({

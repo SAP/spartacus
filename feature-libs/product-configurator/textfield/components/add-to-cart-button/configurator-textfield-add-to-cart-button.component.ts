@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 

@@ -1,4 +1,4 @@
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking } from '@commerce-storefront-toolset/order/root';
 import { OrderActions } from '../actions/index';
 import * as fromTrackingReducer from './consignment-tracking.reducer';
 

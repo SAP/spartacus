@@ -13,15 +13,15 @@ const MIGRATION_SCRIPT_NAME = 'migration-v2-removed-public-api-deprecation-04';
 
 const REMOVED_NODE_USED_VALID_TEST = `
 import { Dummy } from '@angular/core';
-import { CartEffects } from '@spartacus/core';
-import { notImportant } from '@spartacus/core';
+import { CartEffects } from '@commerce-storefront-toolset/core';
+import { notImportant } from '@commerce-storefront-toolset/core';
 `;
 
 const REMOVED_NODE_USED_EXPECTED = `
 import { Dummy } from '@angular/core';
 // ${TODO_SPARTACUS} 'CartEffects' is no longer part of the public API. Please look into migration guide for more information
-import { CartEffects } from '@spartacus/core';
-import { notImportant } from '@spartacus/core';
+import { CartEffects } from '@commerce-storefront-toolset/core';
+import { notImportant } from '@commerce-storefront-toolset/core';
 `;
 
 const MULTI_LINE_IMPORT_VALID_TEST = `
@@ -29,7 +29,7 @@ import { Dummy } from '@angular/core';
 import {
   CartEffects,
   WishlistEffects
- } from '@spartacus/core';
+ } from '@commerce-storefront-toolset/core';
 `;
 
 const MULTI_LINE_IMPORT_EXPECTED = `
@@ -39,28 +39,28 @@ import { Dummy } from '@angular/core';
 import {
   CartEffects,
   WishlistEffects
- } from '@spartacus/core';
+ } from '@commerce-storefront-toolset/core';
 `;
 
 const NAMESPACED_IMPORT_VALID_TEST = `
-import * as Core from '@spartacus/core';
+import * as Core from '@commerce-storefront-toolset/core';
 
 new Core.CartEffects()
 `;
 
 const NAMESPACED_IMPORT_EXPECTED = `
-import * as Core from '@spartacus/core';
+import * as Core from '@commerce-storefront-toolset/core';
 
 // ${TODO_SPARTACUS} 'CartEffects' is no longer part of the public API. Please look into migration guide for more information
 new Core.CartEffects()
 `;
 
 const NOT_IMPORTED = `
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartService } from '@commerce-storefront-toolset/core';
 `;
 
 const NOT_USED_PROPERTY = `
-import * as Core from '@spartacus/core';
+import * as Core from '@commerce-storefront-toolset/core';
 
 new Core.ActiveCartService()
 `;

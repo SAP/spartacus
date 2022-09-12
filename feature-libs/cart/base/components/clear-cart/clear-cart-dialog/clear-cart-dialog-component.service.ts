@@ -10,15 +10,15 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ActiveCartFacade,
   MultiCartFacade,
   DeleteCartSuccessEvent,
   DeleteCartFailEvent,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import { mapTo, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@commerce-storefront-toolset/storefront';
 import { merge } from 'rxjs';
 
 @Injectable({

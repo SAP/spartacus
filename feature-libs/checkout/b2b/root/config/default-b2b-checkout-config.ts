@@ -8,7 +8,7 @@ import {
   CheckoutConfig,
   CheckoutStepType,
   DeliveryModePreferences,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 
 export const defaultB2BCheckoutConfig: CheckoutConfig = {
   checkout: {

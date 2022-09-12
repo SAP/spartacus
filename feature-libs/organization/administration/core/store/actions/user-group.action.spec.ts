@@ -1,5 +1,5 @@
-import { StateUtils } from '@spartacus/core';
-import { UserGroup } from '@spartacus/organization/administration/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { UserGroup } from '@commerce-storefront-toolset/organization/administration/core';
 import {
   B2B_USER_ENTITIES,
   PERMISSION_ENTITIES,

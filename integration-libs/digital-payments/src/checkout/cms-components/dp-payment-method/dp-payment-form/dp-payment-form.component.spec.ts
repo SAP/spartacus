@@ -4,7 +4,7 @@ import {
   WindowRef,
   GlobalMessageService,
   GlobalMessageType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { DpCheckoutPaymentService } from '../../../facade';

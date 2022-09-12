@@ -8,12 +8,12 @@ import { NgModule } from '@angular/core';
 import {
   savedCartTranslationChunksConfig,
   savedCartTranslations,
-} from '@spartacus/cart/saved-cart/assets';
+} from '@commerce-storefront-toolset/cart/saved-cart/assets';
 import {
   CART_SAVED_CART_FEATURE,
   SavedCartRootModule,
-} from '@spartacus/cart/saved-cart/root';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [SavedCartRootModule],
@@ -22,7 +22,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_SAVED_CART_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/saved-cart').then((m) => m.SavedCartModule),
+            import('@commerce-storefront-toolset/cart/saved-cart').then((m) => m.SavedCartModule),
         },
       },
     }),

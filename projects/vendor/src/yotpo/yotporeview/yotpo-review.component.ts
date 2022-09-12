@@ -7,7 +7,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { YotpoService } from './../service/yotpo.service';
 import { Observable } from 'rxjs';
-import { Product } from '@spartacus/core';
+import { Product } from '@commerce-storefront-toolset/core';
 
 @Component({
   selector: 'cx-yotpo-review',

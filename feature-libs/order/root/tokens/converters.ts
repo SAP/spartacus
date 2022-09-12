@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter } from '@commerce-storefront-toolset/core';
 import { ConsignmentTracking } from '../model/consignment-tracking.model';
 import {
   Order,

@@ -4,7 +4,7 @@ import {
   ProductSearchPage,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of, Observable } from 'rxjs';
 import { isEmpty } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';

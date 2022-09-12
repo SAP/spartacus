@@ -12,13 +12,13 @@ import {
   I18nTestingModule,
   ProductService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OutletDirective,
   OutletModule,
   ProductListItemContext,
   ProductListItemContextSource,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
 import { By } from '@angular/platform-browser';
 

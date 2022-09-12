@@ -12,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel } from '@commerce-storefront-toolset/core';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem, PaginationItemType } from './pagination.model';
 

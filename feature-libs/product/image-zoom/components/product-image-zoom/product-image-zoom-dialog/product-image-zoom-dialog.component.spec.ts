@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@commerce-storefront-toolset/storefront';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 
 class MockLaunchDialogService {
   closeDialog() {}

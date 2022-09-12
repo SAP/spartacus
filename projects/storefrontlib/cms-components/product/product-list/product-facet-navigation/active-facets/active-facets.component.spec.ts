@@ -7,7 +7,7 @@ import {
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
+import { Breadcrumb, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';

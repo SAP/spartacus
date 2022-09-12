@@ -3,12 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart, CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
+import { Cart, CART_VOUCHER_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,

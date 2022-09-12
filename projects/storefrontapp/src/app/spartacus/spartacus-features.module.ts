@@ -14,7 +14,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
@@ -57,7 +57,7 @@ import {
   StockNotificationModule,
   TabParagraphContainerModule,
   VideoModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';

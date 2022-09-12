@@ -12,8 +12,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MultiCartFacade } from '@spartacus/cart/base/root';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { MultiCartFacade } from '@commerce-storefront-toolset/cart/base/root';
+import { RouterState, RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 

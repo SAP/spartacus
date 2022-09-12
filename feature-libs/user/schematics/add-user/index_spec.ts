@@ -17,7 +17,7 @@ import {
   userFeatureModulePath,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
-} from '@spartacus/schematics';
+} from '@commerce-storefront-toolset/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 

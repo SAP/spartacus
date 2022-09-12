@@ -11,8 +11,8 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-} from '@spartacus/cart/base/root';
-import { CmsParagraphComponent, CmsService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { CmsParagraphComponent, CmsService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 @Component({

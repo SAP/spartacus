@@ -2,18 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 import { Observable, of } from 'rxjs';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import { Product, ProductService, TranslationService } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import {
   Configurator,
   ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
+} from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

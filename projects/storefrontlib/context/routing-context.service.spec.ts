@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
-import { RoutingContextService } from '@spartacus/storefront';
+import { ActivatedRoutesService, UnifiedInjector } from '@commerce-storefront-toolset/core';
+import { RoutingContextService } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 

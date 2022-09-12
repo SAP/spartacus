@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { isNotNullable } from '@spartacus/core';
+import { isNotNullable } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OutletDirective } from './outlet.directive';

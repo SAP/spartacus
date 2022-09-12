@@ -9,13 +9,13 @@ import { Injectable } from '@angular/core';
 import {
   CartValidationAdapter,
   CART_VALIDATION_NORMALIZER,
-} from '@spartacus/cart/base/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/core';
+import { CartModificationList } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ConverterService,
   normalizeHttpError,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

@@ -10,12 +10,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
+import { I18nTestingModule, Product, ProductService } from '@commerce-storefront-toolset/core';
 import {
   ItemCounterComponent,
   KeyboardFocusService,
   MediaModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

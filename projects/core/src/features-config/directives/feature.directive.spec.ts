@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
+import { FeaturesConfig, FeaturesConfigModule } from '@commerce-storefront-toolset/core';
 import { By } from '@angular/platform-browser';
 
 @Component({ selector: 'cx-test-cmp', template: '' })

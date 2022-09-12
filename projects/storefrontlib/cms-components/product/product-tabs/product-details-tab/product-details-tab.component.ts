@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
+import { CmsComponentWithChildren, CmsService, Product } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';

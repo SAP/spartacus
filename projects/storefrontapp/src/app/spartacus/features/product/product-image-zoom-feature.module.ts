@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 import {
   productImageZoomTranslationChunksConfig,
   productImageZoomTranslations,
-} from '@spartacus/product/image-zoom/assets';
+} from '@commerce-storefront-toolset/product/image-zoom/assets';
 import {
   ProductImageZoomRootModule,
   PRODUCT_IMAGE_ZOOM_FEATURE,
-} from '@spartacus/product/image-zoom/root';
+} from '@commerce-storefront-toolset/product/image-zoom/root';
 
 @NgModule({
   imports: [ProductImageZoomRootModule],
@@ -22,7 +22,7 @@ import {
       featureModules: {
         [PRODUCT_IMAGE_ZOOM_FEATURE]: {
           module: () =>
-            import('@spartacus/product/image-zoom').then(
+            import('@commerce-storefront-toolset/product/image-zoom').then(
               (m) => m.ProductImageZoomModule
             ),
         },

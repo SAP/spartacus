@@ -7,9 +7,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@commerce-storefront-toolset/core';
 import { UnitListComponent } from './unit-list.component';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { ListModule } from '../../shared/list/list.module';
 import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 

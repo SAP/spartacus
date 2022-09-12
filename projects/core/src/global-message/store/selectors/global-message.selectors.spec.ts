@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Translatable } from '@spartacus/core';
+import { Translatable } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import {
   GlobalMessage,

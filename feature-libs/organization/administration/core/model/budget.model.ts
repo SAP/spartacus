@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Currency, B2BUnit, CostCenter } from '@spartacus/core';
+import { Currency, B2BUnit, CostCenter } from '@commerce-storefront-toolset/core';
 
 export interface Budget {
   active?: boolean;

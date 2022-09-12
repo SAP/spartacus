@@ -12,8 +12,8 @@ import {
   CartModification,
   CartValidationFacade,
   CartValidationStatusCode,
-} from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 

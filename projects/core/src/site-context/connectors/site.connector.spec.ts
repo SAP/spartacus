@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CountryType } from '@spartacus/core';
+import { CountryType } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';

@@ -9,7 +9,7 @@ import {
   CdsMerchandisingSiteContextService,
   CdsMerchandisingUserContextService,
   StrategyResponse,
-} from '@spartacus/cds';
+} from '@commerce-storefront-toolset/cds';
 import createSpy = jasmine.createSpy;
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';

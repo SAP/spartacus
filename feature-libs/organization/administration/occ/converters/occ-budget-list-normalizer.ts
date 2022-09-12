@@ -10,11 +10,11 @@ import {
   ConverterService,
   EntitiesModel,
   Occ,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   Budget,
   BUDGET_NORMALIZER,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 
 @Injectable({
   providedIn: 'root',

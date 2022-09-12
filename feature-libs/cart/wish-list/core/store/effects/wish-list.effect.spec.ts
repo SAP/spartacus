@@ -7,9 +7,9 @@ import {
   getCartIdByUserId,
   MULTI_CART_FEATURE,
   StateWithMultiCart,
-} from '@spartacus/cart/base/core';
-import { Cart, CartType } from '@spartacus/cart/base/root';
-import { SiteContextActions, UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/core';
+import { Cart, CartType } from '@commerce-storefront-toolset/cart/base/root';
+import { SiteContextActions, UserIdService } from '@commerce-storefront-toolset/core';
 import { getMultiCartReducers } from 'feature-libs/cart/base/core/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';

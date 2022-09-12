@@ -9,8 +9,8 @@ import {
   VariantType,
   I18nTestingModule,
   BaseOption,
-} from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
 import { NavigationExtras } from '@angular/router';

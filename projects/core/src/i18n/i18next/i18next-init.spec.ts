@@ -9,7 +9,7 @@ import {
   ConfigInitializerService,
   I18nConfig,
   LanguageService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { i18n } from 'i18next';
 import { RequestCallback } from 'i18next-http-backend';
 import { of } from 'rxjs';

@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/cds@${version}",
+    "releaseName": "@commerce-storefront-toolset/cds@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cds --to cds-${version}"
   },
   "plugins": {
@@ -24,11 +24,11 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/schematics",
-            "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/tracking",
-            "peerDependencies.@spartacus/checkout"
+            "peerDependencies.@commerce-storefront-toolset/core",
+            "peerDependencies.@commerce-storefront-toolset/schematics",
+            "peerDependencies.@commerce-storefront-toolset/storefront",
+            "peerDependencies.@commerce-storefront-toolset/tracking",
+            "peerDependencies.@commerce-storefront-toolset/checkout"
           ]
         }
       ]

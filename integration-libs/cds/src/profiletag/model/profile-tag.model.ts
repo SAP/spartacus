@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
-import { Cart } from '@spartacus/cart/base/root';
+import { PersonalizationAction } from '@commerce-storefront-toolset/tracking/personalization/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {

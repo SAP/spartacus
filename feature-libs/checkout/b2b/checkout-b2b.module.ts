@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CheckoutB2BComponentsModule } from '@spartacus/checkout/b2b/components';
-import { CheckoutB2BCoreModule } from '@spartacus/checkout/b2b/core';
-import { CheckoutB2BOccModule } from '@spartacus/checkout/b2b/occ';
+import { CheckoutB2BComponentsModule } from '@commerce-storefront-toolset/checkout/b2b/components';
+import { CheckoutB2BCoreModule } from '@commerce-storefront-toolset/checkout/b2b/core';
+import { CheckoutB2BOccModule } from '@commerce-storefront-toolset/checkout/b2b/occ';
 
 @NgModule({
   imports: [

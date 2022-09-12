@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponDialogComponent } from './coupon-dialog.component';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { By } from '@angular/platform-browser';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
+import { CustomerCoupon, I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { Input, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 

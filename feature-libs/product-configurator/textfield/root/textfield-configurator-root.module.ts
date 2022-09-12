@@ -7,13 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
-import { CommonConfiguratorModule } from '@spartacus/product-configurator/common';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { CommonConfiguratorModule } from '@commerce-storefront-toolset/product-configurator/common';
 import {
   CmsPageGuard,
   LayoutConfig,
   PageLayoutComponent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator-root-feature.module';
 import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-routing.module';
 

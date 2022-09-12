@@ -12,7 +12,7 @@ import {
   VariantOptionQualifier,
   VariantQualifier,
   VariantType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { ProductVariantStyleSelectorComponent } from './product-variant-style-selector.component';
 

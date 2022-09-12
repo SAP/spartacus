@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { provideConfig } from '@spartacus/core';
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@commerce-storefront-toolset/cdc/root';
+import { provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CdcRootModule],
@@ -14,7 +14,7 @@ import { provideConfig } from '@spartacus/core';
     provideConfig({
       featureModules: {
         [CDC_FEATURE]: {
-          module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
+          module: () => import('@commerce-storefront-toolset/cdc').then((m) => m.CdcModule),
         },
       },
     }),

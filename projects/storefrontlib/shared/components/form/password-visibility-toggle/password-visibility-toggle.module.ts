@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 import { FormConfig } from '../../../../shared/config/form-config';
 import { defaultFormConfig } from '../../../../shared/config/default-form-config';

@@ -14,19 +14,19 @@ import {
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   CheckoutStepService,
   CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { RoutingConfigService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 

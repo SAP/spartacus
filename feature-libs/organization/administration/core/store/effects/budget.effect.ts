@@ -7,7 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EntitiesModel, normalizeHttpError, StateUtils } from '@spartacus/core';
+import { EntitiesModel, normalizeHttpError, StateUtils } from '@commerce-storefront-toolset/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';

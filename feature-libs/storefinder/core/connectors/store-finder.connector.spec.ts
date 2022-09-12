@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
 import createSpy = jasmine.createSpy;
-import { GeoPoint, SearchConfig } from '@spartacus/core';
+import { GeoPoint, SearchConfig } from '@commerce-storefront-toolset/core';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(

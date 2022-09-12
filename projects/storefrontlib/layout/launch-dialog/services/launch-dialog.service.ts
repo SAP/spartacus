@@ -12,7 +12,7 @@ import {
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
-import { resolveApplicable } from '@spartacus/core';
+import { resolveApplicable } from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';

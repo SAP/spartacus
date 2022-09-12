@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductImageZoomComponentsModule } from '@spartacus/product/image-zoom/components';
+import { ProductImageZoomComponentsModule } from '@commerce-storefront-toolset/product/image-zoom/components';
 
 @NgModule({
   imports: [ProductImageZoomComponentsModule],

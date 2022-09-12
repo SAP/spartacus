@@ -5,8 +5,8 @@ import {
   Cart,
   DeleteCartEvent,
   DeleteCartFailEvent,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
@@ -14,13 +14,13 @@ import {
   I18nTestingModule,
   RoutingService,
   Translatable,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   IconTestingModule,
   KeyboardFocusTestingModule,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,

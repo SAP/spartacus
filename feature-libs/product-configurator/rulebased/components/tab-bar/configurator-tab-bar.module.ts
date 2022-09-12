@@ -14,7 +14,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 @NgModule({

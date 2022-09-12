@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { HttpErrorModel } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { HttpErrorModel } from '@commerce-storefront-toolset/core';
 
 export type QuickOrderAddEntryEvent = {
   productCode: string;

@@ -6,12 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, RoutingService } from '@spartacus/core';
+import { B2BUser, RoutingService } from '@commerce-storefront-toolset/core';
 import {
   B2BUserService,
   OrganizationItemStatus,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitUserService } from '../services/current-unit-user.service';

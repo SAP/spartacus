@@ -5,9 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { User } from '@spartacus/user/account/root';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@commerce-storefront-toolset/user/profile/root';
 import { UserProfileAdapter } from './user-profile.adapter';
 
 @Injectable()

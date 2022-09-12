@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { PageMetaResolver } from '@spartacus/core';
+import { PageMetaResolver } from '@commerce-storefront-toolset/core';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
 
 @NgModule({

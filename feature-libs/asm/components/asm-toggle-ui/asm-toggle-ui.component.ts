@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmService, AsmUi } from '@commerce-storefront-toolset/asm/core';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -1,15 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { CartItemContextSource } from '@spartacus/cart/base/components';
+import { CartItemContextSource } from '@commerce-storefront-toolset/cart/base/components';
 import {
   Cart,
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
-import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@commerce-storefront-toolset/core';
+import { BREAKPOINT, LayoutConfig } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,

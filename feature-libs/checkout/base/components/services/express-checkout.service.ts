@@ -9,8 +9,8 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
-import { UserAddressService, UserPaymentService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/checkout/base/root';
+import { UserAddressService, UserPaymentService } from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,

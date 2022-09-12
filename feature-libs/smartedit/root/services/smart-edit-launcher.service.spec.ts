@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
-import { FeatureModulesService } from '@spartacus/core';
+import { FeatureModulesService } from '@commerce-storefront-toolset/core';
 
 class MockLocation {
   path() {

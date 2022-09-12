@@ -9,8 +9,8 @@ import {
   Consignment,
   ConsignmentTracking,
   OrderHistoryFacade,
-} from '@spartacus/order/root';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/root';
+import { ModalRef, ModalService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
 

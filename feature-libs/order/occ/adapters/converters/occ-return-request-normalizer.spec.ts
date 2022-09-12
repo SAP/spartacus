@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { ConverterService, Product, PRODUCT_NORMALIZER } from '@commerce-storefront-toolset/core';
 import { OccReturnRequestNormalizer } from './occ-return-request-normalizer';
 
 describe('OccReturnRequestNormalizer', () => {

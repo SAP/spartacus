@@ -5,7 +5,7 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { BREAKPOINT } from '../../../../layout/config/layout-config';
 import { TableStructureConfiguration } from '../table.model';
 
@@ -59,6 +59,6 @@ export interface ResponsiveTableConfiguration
   [BREAKPOINT.xs]?: TableStructureConfiguration;
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends TableConfig {}
 }

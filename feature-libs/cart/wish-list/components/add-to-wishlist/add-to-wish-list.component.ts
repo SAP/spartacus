@@ -5,10 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, isNotNullable, Product } from '@spartacus/core';
-import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { WishListFacade } from '@commerce-storefront-toolset/cart/wish-list/root';
+import { AuthService, isNotNullable, Product } from '@commerce-storefront-toolset/core';
+import { CurrentProductService, ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 

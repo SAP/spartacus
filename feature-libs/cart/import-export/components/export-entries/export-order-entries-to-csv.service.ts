@@ -5,18 +5,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ExportColumn,
   ExportConfig,
   ImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+} from '@commerce-storefront-toolset/cart/import-export/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
-} from '@spartacus/core';
-import { ExportCsvFileService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { ExportCsvFileService } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 

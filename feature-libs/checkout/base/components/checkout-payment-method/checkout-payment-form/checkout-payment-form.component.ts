@@ -13,11 +13,11 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
+import { CardType, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   AddressValidation,
@@ -27,14 +27,14 @@ import {
   Region,
   UserAddressService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   Card,
   ICON_TYPE,
   ModalRef,
   ModalService,
   SuggestedAddressDialogComponent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 

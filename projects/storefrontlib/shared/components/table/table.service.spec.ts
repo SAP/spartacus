@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { BREAKPOINT, BreakpointService } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { TableConfig } from './config/table.config';
 import { TableLayout, TableStructure } from './table.model';

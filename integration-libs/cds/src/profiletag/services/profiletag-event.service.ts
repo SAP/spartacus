@@ -6,7 +6,7 @@
 
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
+import { BaseSiteService, WindowRef } from '@commerce-storefront-toolset/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,

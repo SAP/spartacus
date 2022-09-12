@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   CostCenter,
   I18nTestingModule,
   UserCostCenterService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 import createSpy = jasmine.createSpy;

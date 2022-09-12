@@ -6,7 +6,7 @@
 
 /// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
-import { ScriptLoader } from '@spartacus/core';
+import { ScriptLoader } from '@commerce-storefront-toolset/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 

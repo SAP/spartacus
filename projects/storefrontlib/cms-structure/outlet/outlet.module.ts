@@ -14,7 +14,7 @@ import {
   Optional,
   Type,
 } from '@angular/core';
-import { MODULE_INITIALIZER } from '@spartacus/core';
+import { MODULE_INITIALIZER } from '@commerce-storefront-toolset/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
 import {

@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
+import { Address, B2BUnit, Country, Region, Title } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';

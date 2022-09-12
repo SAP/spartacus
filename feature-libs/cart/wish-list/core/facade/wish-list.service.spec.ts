@@ -4,10 +4,10 @@ import {
   getCartIdByUserId,
   MULTI_CART_FEATURE,
   StateWithMultiCart,
-} from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import { OCC_USER_ID_ANONYMOUS, User, UserIdService } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/cart/base/core';
+import { Cart, MultiCartFacade, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { OCC_USER_ID_ANONYMOUS, User, UserIdService } from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { getMultiCartReducers } from 'feature-libs/cart/base/core/store/reducers';
 import { Observable, of } from 'rxjs';
 import { WishListActions } from '../store/actions/index';

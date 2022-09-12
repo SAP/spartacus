@@ -2,10 +2,10 @@
 
 exports[`Spartacus Asm schematics: ng-add Asm feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { AsmModule } from \\"@spartacus/asm\\";
-import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
-import { AsmRootModule } from \\"@spartacus/asm/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { AsmModule } from \\"@commerce-storefront-toolset/asm\\";
+import { asmTranslationChunksConfig, asmTranslations } from \\"@commerce-storefront-toolset/asm/assets\\";
+import { AsmRootModule } from \\"@commerce-storefront-toolset/asm/root\\";
+import { I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -26,9 +26,9 @@ export class AsmFeatureModule { }
 
 exports[`Spartacus Asm schematics: ng-add Asm feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
-import { AsmRootModule, ASM_FEATURE } from \\"@spartacus/asm/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { asmTranslationChunksConfig, asmTranslations } from \\"@commerce-storefront-toolset/asm/assets\\";
+import { AsmRootModule, ASM_FEATURE } from \\"@commerce-storefront-toolset/asm/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@commerce-storefront-toolset/core\\";
 
 @NgModule({
   declarations: [],
@@ -39,7 +39,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [ASM_FEATURE]: {
         module: () =>
-          import('@spartacus/asm').then((m) => m.AsmModule),
+          import('@commerce-storefront-toolset/asm').then((m) => m.AsmModule),
       },
     }
   }),
@@ -55,7 +55,7 @@ export class AsmFeatureModule { }
 "
 `;
 
-exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/asm\\";"`;
+exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling should create a proper scss file 1`] = `"@import \\"@commerce-storefront-toolset/asm\\";"`;
 
 exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling should update angular.json 1`] = `
 "{

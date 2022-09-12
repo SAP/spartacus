@@ -12,9 +12,9 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-} from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
+import { UserPasswordFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 

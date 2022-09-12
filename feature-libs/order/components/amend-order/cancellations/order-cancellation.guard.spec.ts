@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SemanticPathService } from '@spartacus/core';
+import { SemanticPathService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { OrderCancellationGuard } from './order-cancellation.guard';
 import { OrderCancellationService } from './order-cancellation.service';

@@ -6,8 +6,8 @@ import {
   GlobalMessageType,
   normalizeHttpError,
   Translatable,
-} from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';

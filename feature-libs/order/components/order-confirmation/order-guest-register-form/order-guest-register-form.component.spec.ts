@@ -4,12 +4,12 @@ import {
   AuthService,
   I18nTestingModule,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/storefront';
+import { UserRegisterFacade } from '@commerce-storefront-toolset/user/profile/root';
 import { of } from 'rxjs';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
 import createSpy = jasmine.createSpy;

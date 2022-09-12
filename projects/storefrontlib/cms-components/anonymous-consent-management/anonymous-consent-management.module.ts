@@ -13,7 +13,7 @@ import {
   I18nModule,
   provideConfig,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { KeyboardFocusModule } from '../../layout/a11y/keyboard-focus/index';
 import { AnonymousConsentManagementBannerComponent } from './banner/anonymous-consent-management-banner.component';
 import { defaultAnonymousConsentLayoutConfig } from './default-anonymous-consent-layout.config';

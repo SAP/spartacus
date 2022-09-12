@@ -11,8 +11,8 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CommonConfigurator } from '@commerce-storefront-toolset/product-configurator/common';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import {

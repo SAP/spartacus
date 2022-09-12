@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter } from '@commerce-storefront-toolset/core';
 import { Configurator } from '../../core/model/configurator.model';
 import { OccConfigurator } from './variant-configurator-occ.models';
 

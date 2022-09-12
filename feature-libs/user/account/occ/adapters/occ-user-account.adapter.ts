@@ -11,12 +11,12 @@ import {
   normalizeHttpError,
   Occ,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   USER_ACCOUNT_NORMALIZER,
   UserAccountAdapter,
-} from '@spartacus/user/account/core';
-import { User } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/user/account/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

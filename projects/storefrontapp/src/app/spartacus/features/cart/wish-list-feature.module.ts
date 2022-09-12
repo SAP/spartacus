@@ -8,13 +8,13 @@ import { NgModule } from '@angular/core';
 import {
   wishListTranslationChunksConfig,
   wishListTranslations,
-} from '@spartacus/cart/wish-list/assets';
+} from '@commerce-storefront-toolset/cart/wish-list/assets';
 import {
   ADD_TO_WISHLIST_FEATURE,
   CART_WISH_LIST_FEATURE,
   WishListRootModule,
-} from '@spartacus/cart/wish-list/root';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/wish-list/root';
+import { I18nConfig, provideConfig } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [WishListRootModule],
@@ -23,11 +23,11 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_WISH_LIST_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
+            import('@commerce-storefront-toolset/cart/wish-list').then((m) => m.WishListModule),
         },
         [ADD_TO_WISHLIST_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
+            import('@commerce-storefront-toolset/cart/wish-list/components/add-to-wishlist').then(
               (m) => m.AddToWishListModule
             ),
         },

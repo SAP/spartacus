@@ -1,6 +1,6 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@commerce-storefront-toolset/core';
 import { ThemeService } from './theme.service';
 
 @Component({

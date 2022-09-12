@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { WishListComponentsModule } from '@spartacus/cart/wish-list/components';
-import { WishListCoreModule } from '@spartacus/cart/wish-list/core';
+import { WishListComponentsModule } from '@commerce-storefront-toolset/cart/wish-list/components';
+import { WishListCoreModule } from '@commerce-storefront-toolset/cart/wish-list/core';
 
 @NgModule({
   imports: [WishListComponentsModule, WishListCoreModule],

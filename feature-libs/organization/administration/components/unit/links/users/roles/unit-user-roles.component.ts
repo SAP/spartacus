@@ -6,11 +6,11 @@
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
+import { B2BUser, B2BUserRole } from '@commerce-storefront-toolset/core';
 import {
   B2BUserService,
   LoadStatus,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';

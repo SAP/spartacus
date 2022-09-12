@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   LoadStatus,
   UserGroup,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ListService } from '../../shared/list/list.service';
 import { SubListComponent } from '../../shared/sub-list/sub-list.component';

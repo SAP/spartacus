@@ -12,8 +12,8 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 @NgModule({

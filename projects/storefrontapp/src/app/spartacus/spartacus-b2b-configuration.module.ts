@@ -5,15 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
-import { defaultB2bOccConfig } from '@spartacus/setup';
+import { defaultB2BCheckoutConfig } from '@commerce-storefront-toolset/checkout/b2b/root';
+import { provideConfig, SiteContextConfig } from '@commerce-storefront-toolset/core';
+import { defaultB2bOccConfig } from '@commerce-storefront-toolset/setup';
 import {
   defaultCmsContentProviders,
   layoutConfig,
   mediaConfig,
   PWAModuleConfig,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { environment } from '../../environments/environment';
 
 const baseSite = environment.epdVisualization

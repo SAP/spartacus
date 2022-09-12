@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@commerce-storefront-toolset/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
   Permission,
   PermissionService,
   UserGroupService,
-} from '@spartacus/organization/administration/core';
-import { TableService, TableStructure } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService, TableStructure } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
 

@@ -3,8 +3,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
-import { OrderReturnRequestFacade, ReturnRequest } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { OrderReturnRequestFacade, ReturnRequest } from '@commerce-storefront-toolset/order/root';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from './return-request.service';
 

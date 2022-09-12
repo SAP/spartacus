@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
-import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
+import { I18nModule } from '@commerce-storefront-toolset/core';
+import { IconModule, KeyboardFocusModule } from '@commerce-storefront-toolset/storefront';
 import { NotificationMessageComponent } from './notification-message.component';
 
 @NgModule({

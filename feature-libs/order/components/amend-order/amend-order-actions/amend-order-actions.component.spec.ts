@@ -5,7 +5,7 @@ import {
   I18nTestingModule,
   RoutingConfigService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
 import { StoreModule } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';

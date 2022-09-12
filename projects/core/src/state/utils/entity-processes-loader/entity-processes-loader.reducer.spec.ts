@@ -1,4 +1,4 @@
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { initialProcessesState } from '../processes-loader';
 import {
   EntityProcessesDecrementAction,

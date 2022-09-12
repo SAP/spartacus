@@ -8,7 +8,7 @@ import { Provider } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
 

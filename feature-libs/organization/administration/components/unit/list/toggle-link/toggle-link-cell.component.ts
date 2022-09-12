@@ -5,12 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
-import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
+import { B2BUnit } from '@commerce-storefront-toolset/core';
+import { B2BUnitTreeNode } from '@commerce-storefront-toolset/organization/administration/core';
 import {
   OutletContextData,
   TableDataOutletContext,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 

@@ -6,7 +6,7 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
+import { ConsignmentTracking, OrderHistoryFacade } from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

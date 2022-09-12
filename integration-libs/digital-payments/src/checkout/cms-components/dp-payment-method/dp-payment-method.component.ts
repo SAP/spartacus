@@ -6,20 +6,20 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
   CheckoutPaymentService,
-} from '@spartacus/checkout/base/core';
+} from '@commerce-storefront-toolset/checkout/base/core';
 import {
   GlobalMessageService,
   TranslationService,
   UserPaymentService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({

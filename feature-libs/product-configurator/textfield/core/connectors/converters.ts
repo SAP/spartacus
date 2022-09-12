@@ -5,7 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter } from '@commerce-storefront-toolset/core';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 
 export const CONFIGURATION_TEXTFIELD_NORMALIZER = new InjectionToken<

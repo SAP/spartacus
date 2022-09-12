@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
 import { MerchandisingConfig } from './merchandising.config';
 import { ProfileTagConfig } from './profile-tag.config';
@@ -25,6 +25,6 @@ export abstract class CdsConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '@commerce-storefront-toolset/core' {
   interface Config extends CdsConfig {}
 }

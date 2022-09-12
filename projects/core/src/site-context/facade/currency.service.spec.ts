@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';

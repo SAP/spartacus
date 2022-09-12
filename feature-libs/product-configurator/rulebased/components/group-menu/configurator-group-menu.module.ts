@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@commerce-storefront-toolset/core';
+import { IconModule, KeyboardFocusModule } from '@commerce-storefront-toolset/storefront';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 @NgModule({

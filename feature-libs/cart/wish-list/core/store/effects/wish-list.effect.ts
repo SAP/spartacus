@@ -13,15 +13,15 @@ import {
   getCartIdByUserId,
   MultiCartSelectors,
   StateWithMultiCart,
-} from '@spartacus/cart/base/core';
-import { CartType } from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/core';
+import { CartType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   isNotUndefined,
   normalizeHttpError,
   SiteContextActions,
   StateUtils,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
   catchError,

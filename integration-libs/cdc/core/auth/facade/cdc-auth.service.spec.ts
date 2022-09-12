@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
+import { AsmAuthStorageService, TokenTarget } from '@commerce-storefront-toolset/asm/root';
 import {
   AuthActions,
   AuthRedirectService,
@@ -10,7 +10,7 @@ import {
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { CdcAuthActions } from '../store';
 import { CdcAuthService } from './cdc-auth.service';

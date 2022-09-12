@@ -3,7 +3,7 @@ import {
   EventService,
   ProductSearchPage,
   ProductSearchService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { BehaviorSubject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { ProductEventBuilder } from './product-event.builder';

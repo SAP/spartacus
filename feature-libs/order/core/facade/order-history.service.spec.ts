@@ -5,8 +5,8 @@ import {
   PROCESS_FEATURE,
   RoutingService,
   UserIdService,
-} from '@spartacus/core';
-import { Order, OrderHistoryList } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order, OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';

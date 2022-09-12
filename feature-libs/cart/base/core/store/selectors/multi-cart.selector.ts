@@ -9,8 +9,8 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { Cart, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import {
   MultiCartState,
   MULTI_CART_FEATURE,

@@ -12,7 +12,7 @@ import {
   ActivatedRouterStateSnapshot,
   createFrom,
   EventService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavigationEvent } from './navigation.event';

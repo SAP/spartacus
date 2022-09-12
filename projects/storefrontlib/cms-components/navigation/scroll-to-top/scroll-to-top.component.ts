@@ -15,7 +15,7 @@ import {
   WindowRef,
   CmsScrollToTopComponent,
   ScrollBehavior,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ICON_TYPE } from '../../misc/icon/icon.model';

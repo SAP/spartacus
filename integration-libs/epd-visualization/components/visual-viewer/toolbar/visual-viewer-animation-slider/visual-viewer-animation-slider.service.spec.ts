@@ -5,8 +5,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LanguageService, TranslationService } from '@spartacus/core';
-import { EventListenerUtils } from '@spartacus/epd-visualization/root';
+import { LanguageService, TranslationService } from '@commerce-storefront-toolset/core';
+import { EventListenerUtils } from '@commerce-storefront-toolset/epd-visualization/root';
 import { Observable, of } from 'rxjs';
 import { DirectionMode } from '../../../../../../projects/storefrontlib/layout/direction/config/direction.model';
 import { DirectionService } from '../../../../../../projects/storefrontlib/layout/direction/direction.service';

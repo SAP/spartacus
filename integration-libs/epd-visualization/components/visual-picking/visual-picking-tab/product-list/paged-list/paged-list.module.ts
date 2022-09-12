@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UrlModule } from '@spartacus/core';
-import { IconModule, MediaModule } from '@spartacus/storefront';
+import { UrlModule } from '@commerce-storefront-toolset/core';
+import { IconModule, MediaModule } from '@commerce-storefront-toolset/storefront';
 import { PagedListComponent } from './paged-list.component';
 
 @NgModule({

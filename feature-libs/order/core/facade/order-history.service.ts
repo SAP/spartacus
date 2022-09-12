@@ -11,14 +11,14 @@ import {
   RoutingService,
   StateWithProcess,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
   Order,
   OrderHistoryFacade,
   OrderHistoryList,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';

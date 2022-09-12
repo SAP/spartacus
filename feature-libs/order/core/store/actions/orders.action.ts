@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { StateUtils } from '@commerce-storefront-toolset/core';
+import { OrderHistoryList } from '@commerce-storefront-toolset/order/root';
 import { ORDERS } from '../order-state';
 
 export const LOAD_USER_ORDERS = '[Order] Load User Orders';

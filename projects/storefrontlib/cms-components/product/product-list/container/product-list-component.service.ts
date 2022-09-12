@@ -14,7 +14,7 @@ import {
   ProductSearchService,
   RouterState,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { combineLatest, Observable, using } from 'rxjs';
 import {
   debounceTime,

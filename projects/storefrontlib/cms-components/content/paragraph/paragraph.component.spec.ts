@@ -3,8 +3,8 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
-import { CmsComponentData } from '@spartacus/storefront';
-import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
+import { CmsComponentData } from '@commerce-storefront-toolset/storefront';
+import { CmsParagraphComponent, CmsComponent } from '@commerce-storefront-toolset/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 

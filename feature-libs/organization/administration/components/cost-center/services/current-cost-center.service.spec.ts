@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
-import { CostCenterService } from '@spartacus/organization/administration/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
+import { CostCenterService } from '@commerce-storefront-toolset/organization/administration/core';
 import { of } from 'rxjs';
 import { CurrentCostCenterService } from './current-cost-center.service';
 

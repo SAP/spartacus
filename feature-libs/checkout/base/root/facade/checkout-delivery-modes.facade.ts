@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/base/root';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import { DeliveryMode } from '@commerce-storefront-toolset/cart/base/root';
+import { facadeFactory, QueryState } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 

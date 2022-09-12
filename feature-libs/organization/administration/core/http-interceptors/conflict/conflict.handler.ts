@@ -12,7 +12,7 @@ import {
   HttpErrorHandler,
   HttpResponseStatus,
   Priority,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 @Injectable({
   providedIn: 'root',

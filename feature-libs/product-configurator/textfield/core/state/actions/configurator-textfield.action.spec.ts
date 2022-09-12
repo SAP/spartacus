@@ -1,4 +1,4 @@
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@commerce-storefront-toolset/product-configurator/common';
 import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
 
 const PRODUCT_CODE = 'HT-1010';

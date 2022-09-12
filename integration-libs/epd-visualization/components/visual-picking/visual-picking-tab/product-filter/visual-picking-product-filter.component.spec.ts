@@ -11,8 +11,8 @@ import {
   MockTranslatePipe,
   ProductReference,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { VisualPickingProductFilterComponent } from './visual-picking-product-filter.component';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';

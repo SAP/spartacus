@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
-import '@spartacus/product-configurator/common';
+import { Config } from '@commerce-storefront-toolset/core';
+import '@commerce-storefront-toolset/product-configurator/common';
 
 export interface ProductConfiguratorCpqAuthConfig {
   cpq?: {
@@ -32,7 +32,7 @@ export abstract class CpqConfiguratorAuthConfig {
   productConfigurator: ProductConfiguratorCpqAuthConfig;
 }
 
-declare module '@spartacus/product-configurator/common' {
+declare module '@commerce-storefront-toolset/product-configurator/common' {
   interface ProductConfiguratorConfig
     extends ProductConfiguratorCpqAuthConfig {}
 }

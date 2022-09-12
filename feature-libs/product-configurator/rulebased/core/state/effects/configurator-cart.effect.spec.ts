@@ -5,14 +5,14 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as ngrxStore from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/base/core';
-import { CartModification } from '@spartacus/cart/base/root';
-import { normalizeHttpError } from '@spartacus/core';
+import { CartActions } from '@commerce-storefront-toolset/cart/base/core';
+import { CartModification } from '@commerce-storefront-toolset/cart/base/root';
+import { normalizeHttpError } from '@commerce-storefront-toolset/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+} from '@commerce-storefront-toolset/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CONFIG_ID } from '../../../testing/configurator-test-data';

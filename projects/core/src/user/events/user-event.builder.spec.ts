@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { EventService } from '@spartacus/core';
+import { EventService } from '@commerce-storefront-toolset/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserActions } from '../store';

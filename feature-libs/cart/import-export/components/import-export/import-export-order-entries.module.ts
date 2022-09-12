@@ -11,8 +11,8 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-} from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { PageComponentModule } from '@commerce-storefront-toolset/storefront';
 import { ExportOrderEntriesModule } from '../export-entries';
 import { ImportOrderEntriesModule } from '../import-to-cart';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';

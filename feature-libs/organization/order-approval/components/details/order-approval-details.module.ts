@@ -14,14 +14,14 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
-} from '@spartacus/order/components';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/order/components';
+import { FormErrorsModule, SpinnerModule } from '@commerce-storefront-toolset/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';

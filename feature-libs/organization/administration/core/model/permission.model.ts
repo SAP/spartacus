@@ -8,7 +8,7 @@ import {
   B2BUnit,
   Currency,
   OrderApprovalPermissionType,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 
 export enum Period {
   DAY = 'DAY',

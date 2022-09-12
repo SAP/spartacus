@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode, PaymentDetails } from '@commerce-storefront-toolset/cart/base/root';
 import {
   Address,
   I18nTestingModule,
   TranslationService,
-} from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Order, ReplenishmentOrder } from '@commerce-storefront-toolset/order/root';
+import { Card } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderOverviewComponent } from './order-overview.component';
 

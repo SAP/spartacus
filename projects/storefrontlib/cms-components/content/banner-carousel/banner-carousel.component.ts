@@ -9,7 +9,7 @@ import {
   CmsBannerCarouselComponent as model,
   CmsService,
   ContentSlotComponentData,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/index';

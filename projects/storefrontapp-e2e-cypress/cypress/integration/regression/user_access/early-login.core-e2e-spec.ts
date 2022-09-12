@@ -1,4 +1,4 @@
-import { RoutingConfig } from '@spartacus/core';
+import { RoutingConfig } from '@commerce-storefront-toolset/core';
 import * as login from '../../../helpers/login';
 
 const FAQ_HEADING = 'Frequently Asked Questions';

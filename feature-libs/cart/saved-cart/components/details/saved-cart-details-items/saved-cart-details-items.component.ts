@@ -15,15 +15,15 @@ import {
   CartOutlets,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
   PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

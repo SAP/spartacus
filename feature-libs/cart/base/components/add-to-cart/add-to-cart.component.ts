@@ -18,18 +18,18 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   CartUiEventAddToCart,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
   isNotNullable,
   Product,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ProductListItemContext,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 

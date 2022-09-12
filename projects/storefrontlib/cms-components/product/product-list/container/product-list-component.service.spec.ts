@@ -8,8 +8,8 @@ import {
   ProductSearchService,
   provideDefaultConfig,
   RoutingService,
-} from '@spartacus/core';
-import { defaultViewConfig, ViewConfig } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { defaultViewConfig, ViewConfig } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 

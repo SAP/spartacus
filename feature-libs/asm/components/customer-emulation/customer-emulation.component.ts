@@ -5,8 +5,8 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { User } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { User } from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 

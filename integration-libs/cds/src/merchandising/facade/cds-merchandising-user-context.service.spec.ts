@@ -5,7 +5,7 @@ import {
   ProductSearchPage,
   ProductSearchService,
   RoutingService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import {
   ProfileTagEventService,
@@ -13,8 +13,8 @@ import {
   CdsMerchandisingUserContextService,
   ConsentChangedPushEvent,
   ProfileTagLifecycleService,
-} from '@spartacus/cds';
-import { FacetService, FacetList } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cds';
+import { FacetService, FacetList } from '@commerce-storefront-toolset/storefront';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};

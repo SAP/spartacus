@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConsignmentTracking } from '@spartacus/order/root';
+import { ConsignmentTracking } from '@commerce-storefront-toolset/order/root';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers';
 import { OrderSelectors } from './index';

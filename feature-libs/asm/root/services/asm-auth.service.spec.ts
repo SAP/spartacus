@@ -9,7 +9,7 @@ import {
   RoutingService,
   StateWithClientAuth,
   UserIdService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { getReducers } from 'projects/core/src/process/store/reducers/index';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';

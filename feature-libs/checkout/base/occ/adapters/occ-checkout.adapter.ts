@@ -9,15 +9,15 @@ import { Injectable } from '@angular/core';
 import {
   CheckoutAdapter,
   CHECKOUT_NORMALIZER,
-} from '@spartacus/checkout/base/core';
-import { CheckoutState } from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/core';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   backOff,
   ConverterService,
   isJaloError,
   normalizeHttpError,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

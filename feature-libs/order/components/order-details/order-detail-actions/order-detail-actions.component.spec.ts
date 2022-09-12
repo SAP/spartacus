@@ -6,8 +6,8 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-} from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';

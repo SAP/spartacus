@@ -6,8 +6,8 @@
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { Price } from '@spartacus/core';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
+import { Price } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 

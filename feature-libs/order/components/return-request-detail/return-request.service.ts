@@ -9,8 +9,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-} from '@spartacus/core';
-import { OrderReturnRequestFacade, ReturnRequest } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/core';
+import { OrderReturnRequestFacade, ReturnRequest } from '@commerce-storefront-toolset/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 

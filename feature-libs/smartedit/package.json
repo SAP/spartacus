@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/smartedit",
+  "name": "@commerce-storefront-toolset/smartedit",
   "version": "4.1.0-next.0",
   "description": "Smart Edit feature library for Spartacus",
   "keywords": [
@@ -23,8 +23,8 @@
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@commerce-storefront-toolset/core": "4.1.0-next.0",
+    "@commerce-storefront-toolset/schematics": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

@@ -9,8 +9,8 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { ContextService, PageComponentModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { ContextService, PageComponentModule } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;

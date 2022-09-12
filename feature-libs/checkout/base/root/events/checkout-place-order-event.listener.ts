@@ -5,9 +5,9 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { EventService } from '@spartacus/core';
-import { OrderPlacedEvent } from '@spartacus/order/root';
+import { RemoveCartEvent } from '@commerce-storefront-toolset/cart/base/root';
+import { EventService } from '@commerce-storefront-toolset/core';
+import { OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import { Subscription } from 'rxjs';
 import { CheckoutQueryResetEvent } from './checkout.events';
 

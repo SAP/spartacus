@@ -5,7 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import {
   ModalRef,

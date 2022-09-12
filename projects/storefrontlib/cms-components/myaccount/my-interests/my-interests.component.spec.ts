@@ -21,7 +21,7 @@ import {
   ProductInterestSearchResult,
   ProductService,
   UserInterestsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';

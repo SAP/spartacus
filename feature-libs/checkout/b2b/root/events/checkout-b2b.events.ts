@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CheckoutEvent } from '@spartacus/checkout/base/root';
+import { CheckoutEvent } from '@commerce-storefront-toolset/checkout/base/root';
 
 /**
  * An abstract event for all the cost center related events.

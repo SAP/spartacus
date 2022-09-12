@@ -11,7 +11,7 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { Translatable } from '@spartacus/core';
+import { Translatable } from '@commerce-storefront-toolset/core';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';

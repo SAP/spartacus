@@ -26,7 +26,7 @@
       "../../spartacussampledata.2105.zip",
       "../../spartacussampledata.2105.tar.gz"
     ],
-    "releaseName": "@spartacus/storefront@${version}",
+    "releaseName": "@commerce-storefront-toolset/storefront@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib storefront --to storefront-${version}"
   },
   "plugins": {
@@ -34,7 +34,7 @@
       "out": [
         {
           "file": "package.json",
-          "path": "peerDependencies.@spartacus/core"
+          "path": "peerDependencies.@commerce-storefront-toolset/core"
         }
       ]
     }

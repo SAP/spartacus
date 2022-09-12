@@ -4,8 +4,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/base/root';
-import { CheckoutState } from '@spartacus/checkout/base/root';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutState } from '@commerce-storefront-toolset/checkout/base/root';
 import {
   Address,
   ADDRESS_NORMALIZER,
@@ -15,7 +15,7 @@ import {
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutDeliveryAddressAdapter } from './occ-checkout-delivery-address.adapter';

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config, Image } from '@spartacus/core';
+import { Config, Image } from '@commerce-storefront-toolset/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,

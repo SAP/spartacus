@@ -5,7 +5,7 @@
  */
 
 import { STORE_FINDER_DATA } from '../store-finder-state';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 import { Action } from '@ngrx/store';
 
 export const VIEW_ALL_STORES = '[StoreFinder] View All Stores';

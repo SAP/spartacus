@@ -1,20 +1,20 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+} from '@commerce-storefront-toolset/cart/import-export/core';
 import {
   GlobalMessageService,
   I18nTestingModule,
   ImageType,
   PriceType,
   TranslationService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   ExportCsvFileService,
   PageComponentModule,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 
 import createSpy = jasmine.createSpy;

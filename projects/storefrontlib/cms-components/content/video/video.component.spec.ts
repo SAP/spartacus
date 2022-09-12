@@ -11,8 +11,8 @@ import {
   PageContext,
   SemanticPathService,
   UrlCommand,
-} from '@spartacus/core';
-import { CmsComponentData, Media } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CmsComponentData, Media } from '@commerce-storefront-toolset/storefront';
 import { MediaService } from '../../../shared/components/media/media.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { VideoComponent } from './video.component';

@@ -5,12 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '@commerce-storefront-toolset/core';
 import {
   OrganizationItemStatus,
   UserGroup,
   UserGroupService,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { UserGroupFormService } from '../form/user-group-form.service';

@@ -1,5 +1,5 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { PROCESS_FEATURE, StateUtils } from '@commerce-storefront-toolset/core';
+import { Order } from '@commerce-storefront-toolset/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
 import { OrderActions } from './index';
 

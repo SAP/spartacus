@@ -7,7 +7,7 @@ import {
   UrlCommands,
   VariantQualifier,
   VariantOptionQualifier,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';

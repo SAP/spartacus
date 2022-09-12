@@ -9,7 +9,7 @@ import {
   ListModel,
   SearchConfig,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   BUDGET_ENTITIES,
   COST_CENTER_ASSIGNED_BUDGETS,

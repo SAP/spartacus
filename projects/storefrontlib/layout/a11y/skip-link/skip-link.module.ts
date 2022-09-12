@@ -14,7 +14,7 @@ import {
   ConfigModule,
   I18nModule,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { KeyboardFocusModule } from '../keyboard-focus/keyboard-focus.module';

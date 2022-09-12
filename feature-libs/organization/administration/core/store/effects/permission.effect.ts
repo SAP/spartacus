@@ -12,7 +12,7 @@ import {
   normalizeHttpError,
   OrderApprovalPermissionType,
   StateUtils,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';

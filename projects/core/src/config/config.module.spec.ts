@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Config } from '@spartacus/core';
+import { Config } from '@commerce-storefront-toolset/core';
 import { ConfigFactory } from './config-factory';
 import {
   provideConfig,

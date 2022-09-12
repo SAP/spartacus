@@ -5,27 +5,27 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@commerce-storefront-toolset/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
+} from '@commerce-storefront-toolset/checkout/b2b/root';
 import {
   CheckoutReviewSubmitComponent,
   CheckoutStepService,
-} from '@spartacus/checkout/base/components';
+} from '@commerce-storefront-toolset/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
+} from '@commerce-storefront-toolset/checkout/base/root';
 import {
   CostCenter,
   TranslationService,
   UserCostCenterService,
-} from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { Card } from '@commerce-storefront-toolset/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

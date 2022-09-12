@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
+import { Cart, CartVoucherFacade, Voucher } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { OutletContextData, PromotionsModule } from '@commerce-storefront-toolset/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { OrderSummaryComponent } from './order-summary.component';

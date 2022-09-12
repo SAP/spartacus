@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address } from '@spartacus/core';
+import { Address } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutDeliveryAddressAdapter {

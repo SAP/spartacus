@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 

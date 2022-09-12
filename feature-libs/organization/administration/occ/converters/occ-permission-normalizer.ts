@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, Occ } from '@spartacus/core';
-import { Permission } from '@spartacus/organization/administration/core';
+import { Converter, Occ } from '@commerce-storefront-toolset/core';
+import { Permission } from '@commerce-storefront-toolset/organization/administration/core';
 
 @Injectable({
   providedIn: 'root',

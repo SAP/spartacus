@@ -10,7 +10,7 @@ import {
   CmsPageGuard,
   HamburgerMenuModule,
   PageLayoutComponent,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { VariantConfiguratorInteractiveLayoutModule } from './variant-configurator-interactive-layout.module';
 
 /**

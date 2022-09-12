@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PageMeta, PageMetaService } from '@spartacus/core';
+import { PageMeta, PageMetaService } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SchemaBuilder } from '../schema.interface';

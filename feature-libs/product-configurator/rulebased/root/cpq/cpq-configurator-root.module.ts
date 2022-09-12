@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import { CpqConfiguratorInteractiveModule } from './cpq-configurator-interactive.module';
 import { CpqConfiguratorOverviewModule } from './cpq-configurator-overview.module';
 import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator-interceptor.module';

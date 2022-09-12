@@ -12,12 +12,12 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
-} from '@spartacus/cart/base/root';
+} from '@commerce-storefront-toolset/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 

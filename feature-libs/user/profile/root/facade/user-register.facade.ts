@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { facadeFactory } from '@commerce-storefront-toolset/core';
+import { User } from '@commerce-storefront-toolset/user/account/root';
 import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '../model/user-profile.model';
 import { USER_PROFILE_CORE_FEATURE } from '../feature-name';

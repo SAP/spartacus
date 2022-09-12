@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig, RoutingConfig } from '@spartacus/core';
+import { provideDefaultConfig, RoutingConfig } from '@commerce-storefront-toolset/core';
 import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
 import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
 

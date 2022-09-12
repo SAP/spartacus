@@ -5,7 +5,7 @@ import {
   EntityLoaderResetAction,
   EntitySuccessAction,
 } from './entity-loader.action';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 
 describe('EntityLoader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';

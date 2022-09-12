@@ -4,15 +4,15 @@ import {
   provideConfigFactory,
   provideDefaultConfigFactory,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import {
   SceneNodeToProductLookupService,
   VisualizationLookupService,
-} from '@spartacus/epd-visualization/core';
+} from '@commerce-storefront-toolset/epd-visualization/core';
 import {
   ContentType,
   getEpdVisualizationDefaultConfig,
-} from '@spartacus/epd-visualization/root';
+} from '@commerce-storefront-toolset/epd-visualization/root';
 import { from, Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';

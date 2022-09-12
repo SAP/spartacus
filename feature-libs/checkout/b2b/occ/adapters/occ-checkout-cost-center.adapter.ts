@@ -6,15 +6,15 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
-import { CheckoutCostCenterAdapter } from '@spartacus/checkout/b2b/core';
+import { Cart, CART_NORMALIZER } from '@commerce-storefront-toolset/cart/base/root';
+import { CheckoutCostCenterAdapter } from '@commerce-storefront-toolset/checkout/b2b/core';
 import {
   backOff,
   ConverterService,
   isJaloError,
   normalizeHttpError,
   OccEndpointsService,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

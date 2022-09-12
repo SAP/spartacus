@@ -22,9 +22,9 @@
     },
     "cmsComponentDataModelPath": {
       "type": "string",
-      "description": "Specify the import path for the CmsComponentData. Default is '@spartacus/core'",
+      "description": "Specify the import path for the CmsComponentData. Default is '@commerce-storefront-toolset/core'",
       "alias": "cms-model-path",
-      "default": "@spartacus/core"
+      "default": "@commerce-storefront-toolset/core"
     },
     "routing": {
       "type": "boolean",

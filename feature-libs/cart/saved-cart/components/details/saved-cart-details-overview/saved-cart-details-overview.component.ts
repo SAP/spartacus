@@ -11,14 +11,14 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { TranslationService } from '@commerce-storefront-toolset/core';
 import {
   Card,
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
-} from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

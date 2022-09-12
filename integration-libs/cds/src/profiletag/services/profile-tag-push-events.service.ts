@@ -12,17 +12,17 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   MergeCartSuccessEvent,
-} from '@spartacus/cart/base/root';
-import { Category, EventService } from '@spartacus/core';
-import { OrderPlacedEvent } from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { Category, EventService } from '@commerce-storefront-toolset/core';
+import { OrderPlacedEvent } from '@commerce-storefront-toolset/order/root';
 import {
   CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
-} from '@spartacus/storefront';
-import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
+} from '@commerce-storefront-toolset/storefront';
+import { PersonalizationContextService } from '@commerce-storefront-toolset/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,

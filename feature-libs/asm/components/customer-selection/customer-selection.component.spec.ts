@@ -8,9 +8,9 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@commerce-storefront-toolset/asm/core';
+import { GlobalMessageService, I18nTestingModule, User } from '@commerce-storefront-toolset/core';
+import { FormErrorsModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 

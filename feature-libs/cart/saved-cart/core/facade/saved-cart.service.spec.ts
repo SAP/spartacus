@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
+import { StateWithMultiCart } from '@commerce-storefront-toolset/cart/base/core';
+import { Cart, MultiCartFacade } from '@commerce-storefront-toolset/cart/base/root';
 import {
   ProcessModule,
   StateUtils,
   User,
   UserIdService,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+} from '@commerce-storefront-toolset/core';
+import { UserAccountFacade } from '@commerce-storefront-toolset/user/account/root';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartService } from './saved-cart.service';

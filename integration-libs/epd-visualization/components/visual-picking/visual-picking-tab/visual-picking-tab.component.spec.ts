@@ -13,8 +13,8 @@ import {
   ProductReference,
   TranslationService,
   UrlModule,
-} from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { IconModule } from '@commerce-storefront-toolset/storefront';
 import { Observable, of, Subject } from 'rxjs';
 import {
   VisualizationLoadInfo,

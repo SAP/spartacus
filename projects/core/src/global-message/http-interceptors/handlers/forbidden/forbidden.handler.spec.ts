@@ -1,6 +1,6 @@
 import { HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService } from '@commerce-storefront-toolset/core';
 import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
 import { MockOccEndpointsService } from '../../../../occ/adapters/user/unit-test.helper';
 import { GlobalMessageService } from '../../../facade';

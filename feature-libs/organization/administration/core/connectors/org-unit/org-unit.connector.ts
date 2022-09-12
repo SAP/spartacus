@@ -12,7 +12,7 @@ import {
   B2BUser,
   EntitiesModel,
   SearchConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitAdapter } from './org-unit.adapter';

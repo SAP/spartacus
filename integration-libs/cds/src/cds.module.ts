@@ -9,7 +9,7 @@ import {
   provideConfig,
   provideConfigValidator,
   provideDefaultConfig,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { CdsConfig, cdsConfigValidator, DEFAULT_CDS_CONFIG } from './config';
 import { MerchandisingModule } from './merchandising';
 import {

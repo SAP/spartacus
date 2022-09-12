@@ -11,8 +11,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-} from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CustomFormValidators } from '@commerce-storefront-toolset/storefront';
 import { BehaviorSubject, from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 

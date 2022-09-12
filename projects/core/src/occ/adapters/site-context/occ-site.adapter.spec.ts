@@ -4,7 +4,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, CountryType } from '@spartacus/core';
+import { ConverterService, CountryType } from '@commerce-storefront-toolset/core';
 import {
   BASE_SITE_NORMALIZER,
   COUNTRY_NORMALIZER,

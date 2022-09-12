@@ -36,7 +36,7 @@ describe('ssr migration', () => {
       JSON.stringify({
         name: 'xxx',
         dependencies: {
-          '@spartacus/core': '^2.0.0',
+          '@commerce-storefront-toolset/core': '^2.0.0',
         },
       })
     );
@@ -98,7 +98,7 @@ describe('ssr migration', () => {
         '/src/server.ts',
         `
   import { ngExpressEngine as engine } from '@nguniversal/express-engine';
-  import { NgExpressEngineDecorator } from '@spartacus/core';
+  import { NgExpressEngineDecorator } from '@commerce-storefront-toolset/core';
   `
       );
 

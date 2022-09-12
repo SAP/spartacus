@@ -12,8 +12,8 @@ import {
   ProductReference,
   Translatable,
   WindowRef,
-} from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import {

@@ -11,7 +11,7 @@ import {
   StoresState,
 } from '../store-finder-state';
 import { getStoreFinderState } from './feature.selector';
-import { StateUtils } from '@spartacus/core';
+import { StateUtils } from '@commerce-storefront-toolset/core';
 
 export const getFindStoresState: MemoizedSelector<
   StateWithStoreFinder,

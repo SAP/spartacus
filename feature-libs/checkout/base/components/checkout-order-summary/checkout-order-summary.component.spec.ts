@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
-} from '@spartacus/cart/base/components';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { PromotionsComponent } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/cart/base/components';
+import { ActiveCartFacade, Cart } from '@commerce-storefront-toolset/cart/base/root';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
+import { PromotionsComponent } from '@commerce-storefront-toolset/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';

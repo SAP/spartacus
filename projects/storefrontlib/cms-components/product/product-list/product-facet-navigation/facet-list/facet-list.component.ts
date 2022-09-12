@@ -14,7 +14,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Facet } from '@commerce-storefront-toolset/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';

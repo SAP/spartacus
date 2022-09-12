@@ -74,28 +74,28 @@ export default async function run(
   ).trim();
 
   const libraryPaths: Record<string, string> = {
-    '@spartacus/storefront': 'projects/storefrontlib',
-    '@spartacus/core': 'projects/core',
-    '@spartacus/styles': 'projects/storefrontstyles',
-    '@spartacus/assets': 'projects/assets',
-    '@spartacus/schematics': 'projects/schematics',
-    '@spartacus/user': 'feature-libs/user',
-    '@spartacus/cds': 'integration-libs/cds',
-    '@spartacus/organization': 'feature-libs/organization',
-    '@spartacus/product': 'feature-libs/product',
-    '@spartacus/product-configurator': 'feature-libs/product-configurator',
-    '@spartacus/storefinder': 'feature-libs/storefinder',
-    '@spartacus/checkout': 'feature-libs/checkout',
-    '@spartacus/asm': 'feature-libs/asm',
-    '@spartacus/smartedit': 'feature-libs/smartedit',
-    '@spartacus/tracking': 'feature-libs/tracking',
-    '@spartacus/qualtrics': 'feature-libs/qualtrics',
-    '@spartacus/cdc': 'integration-libs/cdc',
-    '@spartacus/setup': 'core-libs/setup',
-    '@spartacus/cart': 'feature-libs/cart',
-    '@spartacus/order': 'feature-libs/order',
-    '@spartacus/digital-payments': 'integration-libs/digital-payments',
-    '@spartacus/epd-visualization': 'integration-libs/epd-visualization',
+    '@commerce-storefront-toolset/storefront': 'projects/storefrontlib',
+    '@commerce-storefront-toolset/core': 'projects/core',
+    '@commerce-storefront-toolset/styles': 'projects/storefrontstyles',
+    '@commerce-storefront-toolset/assets': 'projects/assets',
+    '@commerce-storefront-toolset/schematics': 'projects/schematics',
+    '@commerce-storefront-toolset/user': 'feature-libs/user',
+    '@commerce-storefront-toolset/cds': 'integration-libs/cds',
+    '@commerce-storefront-toolset/organization': 'feature-libs/organization',
+    '@commerce-storefront-toolset/product': 'feature-libs/product',
+    '@commerce-storefront-toolset/product-configurator': 'feature-libs/product-configurator',
+    '@commerce-storefront-toolset/storefinder': 'feature-libs/storefinder',
+    '@commerce-storefront-toolset/checkout': 'feature-libs/checkout',
+    '@commerce-storefront-toolset/asm': 'feature-libs/asm',
+    '@commerce-storefront-toolset/smartedit': 'feature-libs/smartedit',
+    '@commerce-storefront-toolset/tracking': 'feature-libs/tracking',
+    '@commerce-storefront-toolset/qualtrics': 'feature-libs/qualtrics',
+    '@commerce-storefront-toolset/cdc': 'integration-libs/cdc',
+    '@commerce-storefront-toolset/setup': 'core-libs/setup',
+    '@commerce-storefront-toolset/cart': 'feature-libs/cart',
+    '@commerce-storefront-toolset/order': 'feature-libs/order',
+    '@commerce-storefront-toolset/digital-payments': 'integration-libs/digital-payments',
+    '@commerce-storefront-toolset/epd-visualization': 'integration-libs/epd-visualization',
   };
 
   const duplexUtil = through(function (
@@ -277,101 +277,101 @@ if (typeof config.to === 'undefined') {
 } else if (typeof config.library === 'string') {
   switch (config.library) {
     case 'core':
-    case '@spartacus/core':
-      config.library = '@spartacus/core';
+    case '@commerce-storefront-toolset/core':
+      config.library = '@commerce-storefront-toolset/core';
       break;
     case 'storefrontlib':
     case 'storefront':
-    case '@spartacus/storefront':
-    case '@spartacus/storefrontlib':
-      config.library = '@spartacus/storefront';
+    case '@commerce-storefront-toolset/storefront':
+    case '@commerce-storefront-toolset/storefrontlib':
+      config.library = '@commerce-storefront-toolset/storefront';
       break;
     case 'styles':
-    case '@spartacus/styles':
+    case '@commerce-storefront-toolset/styles':
     case 'storefrontstyles':
-      config.library = '@spartacus/styles';
+      config.library = '@commerce-storefront-toolset/styles';
       break;
     case 'assets':
-    case '@spartacus/assets':
-      config.library = '@spartacus/assets';
+    case '@commerce-storefront-toolset/assets':
+      config.library = '@commerce-storefront-toolset/assets';
       break;
     case 'schematics':
-    case '@spartacus/schematics':
-      config.library = '@spartacus/schematics';
+    case '@commerce-storefront-toolset/schematics':
+      config.library = '@commerce-storefront-toolset/schematics';
       break;
     case 'user':
-    case '@spartacus/user':
-      config.library = '@spartacus/user';
+    case '@commerce-storefront-toolset/user':
+      config.library = '@commerce-storefront-toolset/user';
       break;
     case 'cds':
-    case '@spartacus/cds':
-      config.library = '@spartacus/cds';
+    case '@commerce-storefront-toolset/cds':
+      config.library = '@commerce-storefront-toolset/cds';
       break;
     case 'organization':
-    case '@spartacus/organization':
-      config.library = '@spartacus/organization';
+    case '@commerce-storefront-toolset/organization':
+      config.library = '@commerce-storefront-toolset/organization';
       break;
     case 'product':
-    case '@spartacus/product':
-    case '@spartacus/product/configurators':
-    case '@spartacus/product/configurators/common':
-    case '@spartacus/product/configurators/cpq':
-    case '@spartacus/product/configurators/variant':
-    case '@spartacus/product/configurators/textfield':
-    case '@spartacus/product/variants':
-      config.library = '@spartacus/product';
+    case '@commerce-storefront-toolset/product':
+    case '@commerce-storefront-toolset/product/configurators':
+    case '@commerce-storefront-toolset/product/configurators/common':
+    case '@commerce-storefront-toolset/product/configurators/cpq':
+    case '@commerce-storefront-toolset/product/configurators/variant':
+    case '@commerce-storefront-toolset/product/configurators/textfield':
+    case '@commerce-storefront-toolset/product/variants':
+      config.library = '@commerce-storefront-toolset/product';
       break;
     case 'product-configurator':
-    case '@spartacus/product-configurator':
-      config.library = '@spartacus/product-configurator';
+    case '@commerce-storefront-toolset/product-configurator':
+      config.library = '@commerce-storefront-toolset/product-configurator';
       break;
     case 'cdc':
-    case '@spartacus/cdc':
-      config.library = '@spartacus/cdc';
+    case '@commerce-storefront-toolset/cdc':
+      config.library = '@commerce-storefront-toolset/cdc';
       break;
     case 'digital-payments':
-    case '@spartacus/digital-payments':
-      config.library = '@spartacus/digital-payments';
+    case '@commerce-storefront-toolset/digital-payments':
+      config.library = '@commerce-storefront-toolset/digital-payments';
       break;
     case 'storefinder':
-    case '@spartacus/storefinder':
-      config.library = '@spartacus/storefinder';
+    case '@commerce-storefront-toolset/storefinder':
+      config.library = '@commerce-storefront-toolset/storefinder';
       break;
     case 'checkout':
-    case '@spartacus/checkout':
-      config.library = '@spartacus/checkout';
+    case '@commerce-storefront-toolset/checkout':
+      config.library = '@commerce-storefront-toolset/checkout';
       break;
     case 'tracking':
-    case '@spartacus/tracking':
-      config.library = '@spartacus/tracking';
+    case '@commerce-storefront-toolset/tracking':
+      config.library = '@commerce-storefront-toolset/tracking';
       break;
     case 'qualtrics':
-    case '@spartacus/qualtrics':
-      config.library = '@spartacus/qualtrics';
+    case '@commerce-storefront-toolset/qualtrics':
+      config.library = '@commerce-storefront-toolset/qualtrics';
       break;
     case 'smartedit':
-    case '@spartacus/smartedit':
-      config.library = '@spartacus/smartedit';
+    case '@commerce-storefront-toolset/smartedit':
+      config.library = '@commerce-storefront-toolset/smartedit';
       break;
     case 'setup':
-    case '@spartacus/setup':
-      config.library = '@spartacus/setup';
+    case '@commerce-storefront-toolset/setup':
+      config.library = '@commerce-storefront-toolset/setup';
       break;
     case 'cart':
-    case '@spartacus/cart':
-      config.library = '@spartacus/cart';
+    case '@commerce-storefront-toolset/cart':
+      config.library = '@commerce-storefront-toolset/cart';
       break;
     case 'order':
-    case '@spartacus/order':
-      config.library = '@spartacus/order';
+    case '@commerce-storefront-toolset/order':
+      config.library = '@commerce-storefront-toolset/order';
       break;
     case 'digital-payments':
-    case '@spartacus/digital-payments':
-      config.library = '@spartacus/digital-payments';
+    case '@commerce-storefront-toolset/digital-payments':
+      config.library = '@commerce-storefront-toolset/digital-payments';
       break;
     case 'epd-visualization':
-    case '@spartacus/epd-visualization':
-      config.library = '@spartacus/epd-visualization';
+    case '@commerce-storefront-toolset/epd-visualization':
+      config.library = '@commerce-storefront-toolset/epd-visualization';
       break;
     default:
       config.library = undefined;

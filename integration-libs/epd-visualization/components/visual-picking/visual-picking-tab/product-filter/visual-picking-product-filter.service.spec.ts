@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ProductReference } from '@spartacus/core';
+import { ProductReference } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';

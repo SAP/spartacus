@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { ProductImportInfoService } from '@commerce-storefront-toolset/cart/base/core';
 import {
   Cart,
   MultiCartFacade,
   ProductData,
   ProductImportStatus,
-} from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { UserIdService } from '@spartacus/core';
+} from '@commerce-storefront-toolset/cart/base/root';
+import { SavedCartFacade } from '@commerce-storefront-toolset/cart/saved-cart/root';
+import { UserIdService } from '@commerce-storefront-toolset/core';
 import { of } from 'rxjs';
 import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;

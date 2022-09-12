@@ -15,7 +15,7 @@ import {
   RoutingService,
   SearchConfig,
   WindowRef,
-} from '@spartacus/core';
+} from '@commerce-storefront-toolset/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { StoreEntities } from '../model';

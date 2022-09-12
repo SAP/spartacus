@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
+import { CartModificationList } from '@commerce-storefront-toolset/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartValidationAdapter } from './cart-validation.adapter';
 

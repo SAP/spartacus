@@ -5,13 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '@commerce-storefront-toolset/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
   OrgUnitService,
-} from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/organization/administration/core';
+import { TableService } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ListService } from '../../shared/list/list.service';

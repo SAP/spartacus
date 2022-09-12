@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@commerce-storefront-toolset/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { SubListComponent } from '@spartacus/organization/administration/components';
+import { SubListComponent } from '@commerce-storefront-toolset/organization/administration/components';
 import {
   LoadStatus,
   OrganizationItemStatus,
   UserGroup,
-} from '@spartacus/organization/administration/core';
+} from '@commerce-storefront-toolset/organization/administration/core';
 import { Component } from '@angular/core';
 const mockKey = 'mock';
 

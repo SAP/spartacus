@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { MultiCartFacade, OrderEntry } from '@commerce-storefront-toolset/cart/base/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
@@ -8,8 +8,8 @@ import {
   StateWithProcess,
   User,
   UserIdService,
-} from '@spartacus/core';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+} from '@commerce-storefront-toolset/core';
+import { UserProfileFacade } from '@commerce-storefront-toolset/user/profile/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

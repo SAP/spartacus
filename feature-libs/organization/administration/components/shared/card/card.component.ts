@@ -10,7 +10,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
+import { ICON_TYPE, ViewComponent } from '@commerce-storefront-toolset/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';

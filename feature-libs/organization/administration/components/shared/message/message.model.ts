@@ -5,8 +5,8 @@
  */
 
 import { Type } from '@angular/core';
-import { GlobalMessageType, Translatable } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { GlobalMessageType, Translatable } from '@commerce-storefront-toolset/core';
+import { ICON_TYPE } from '@commerce-storefront-toolset/storefront';
 import { Subject } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
 

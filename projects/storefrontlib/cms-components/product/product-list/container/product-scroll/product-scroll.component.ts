@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
-import { ProductSearchPage } from '@spartacus/core';
+import { ProductSearchPage } from '@commerce-storefront-toolset/core';
 import { Subscription } from 'rxjs';
 import { ViewConfig } from '../../../../../shared/config/view-config';
 import { ViewModes } from '../../product-view/product-view.component';

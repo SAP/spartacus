@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterState, RoutingService } from '@spartacus/core';
+import { RouterState, RoutingService } from '@commerce-storefront-toolset/core';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';

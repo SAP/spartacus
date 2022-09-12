@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { CartItemContext } from '@spartacus/cart/base/root';
+import { CartItemContext } from '@commerce-storefront-toolset/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 

@@ -7,7 +7,7 @@
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@commerce-storefront-toolset/core';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 

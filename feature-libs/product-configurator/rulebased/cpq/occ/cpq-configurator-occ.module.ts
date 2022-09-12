@@ -13,7 +13,7 @@ import {
 } from './converters/cpq-configurator-occ.converters';
 import { OccConfiguratorCpqAddToCartSerializer } from './converters/occ-configurator-cpq-add-to-cart-serializer';
 import { defaultOccCpqConfiguratorConfigFactory } from './default-occ-configurator-cpq-config';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import { provideDefaultConfigFactory } from '@commerce-storefront-toolset/core';
 
 @NgModule({
   imports: [CommonModule],

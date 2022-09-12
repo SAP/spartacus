@@ -6,19 +6,19 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@commerce-storefront-toolset/core';
 import {
   OrderAdapter,
   OrderHistoryAdapter,
   ReplenishmentOrderHistoryAdapter,
   ScheduledReplenishmentOrderAdapter,
-} from '@spartacus/order/core';
+} from '@commerce-storefront-toolset/order/core';
 import {
   ORDER_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from '@spartacus/order/root';
+} from '@commerce-storefront-toolset/order/root';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';

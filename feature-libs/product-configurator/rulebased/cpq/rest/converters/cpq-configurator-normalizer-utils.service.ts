@@ -10,8 +10,8 @@ import {
   getLocaleId,
 } from '@angular/common';
 import { Injectable, isDevMode } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { LanguageService } from '@commerce-storefront-toolset/core';
+import { Configurator } from '@commerce-storefront-toolset/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
 
 /**

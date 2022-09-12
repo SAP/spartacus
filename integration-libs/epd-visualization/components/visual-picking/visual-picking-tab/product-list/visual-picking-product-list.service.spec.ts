@@ -6,9 +6,9 @@ import {
   ProductScope,
   provideConfigFactory,
   provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
-import { CurrentProductService } from '@spartacus/storefront';
+} from '@commerce-storefront-toolset/core';
+import { getEpdVisualizationDefaultConfig } from '@commerce-storefront-toolset/epd-visualization/root';
+import { CurrentProductService } from '@commerce-storefront-toolset/storefront';
 import { from, Observable, of } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { getTestConfig } from '../../../../root/testing/epd-visualization-test-config';
