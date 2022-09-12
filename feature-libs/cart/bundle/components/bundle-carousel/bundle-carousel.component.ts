@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BundleTemplate, CartBundleService } from '@spartacus/cart/bundle/core';
+import { CartBundleService } from '@spartacus/cart/bundle/core';
 import { Product, RoutingService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -15,6 +15,8 @@ export class BundleCarouselComponent {
   @Input() product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
+  selectedTemplate: string | undefined;
+
   constructor(
     protected currentProductService: CurrentProductService,
     protected routingService: RoutingService,
@@ -23,13 +25,17 @@ export class BundleCarouselComponent {
     protected cartBundleService: CartBundleService
   ) {}
 
-  startBundle(template: BundleTemplate) {
+  startBundle(templateId: string) {
     this.product$.pipe(take(1)).subscribe((product) =>
       this.cartBundleService.startBundle({
         productCode: product?.code,
-        templateId: template.id,
+        templateId: templateId,
         quantity: 1,
       })
     );
+  }
+
+  setTemplate(templateId: string) {
+    this.selectedTemplate = templateId === 'undefined' ? undefined : templateId;
   }
 }
