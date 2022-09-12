@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Permission } from '@spartacus/organization/administration/core';
@@ -52,12 +58,12 @@ export class PermissionFormService
     this.subscription.add(
       form
         .get('orderApprovalPermissionType')
-        .get('code')
-        .valueChanges.pipe(
+        ?.get('code')
+        ?.valueChanges.pipe(
           distinctUntilChanged(),
           filter((code) => !!code)
         )
-        .subscribe((code) => this.amend(form, code))
+        .subscribe((code: PermissionType) => this.amend(form, code))
     );
 
     this.form = form;
@@ -117,10 +123,10 @@ export class PermissionFormService
     this.subscription.unsubscribe();
   }
 
-  protected patchData(item?) {
+  protected patchData(item?: Permission) {
     super.patchData(item);
     if (item?.code !== undefined) {
-      this.form.get('orderApprovalPermissionType').disable();
+      this.form?.get('orderApprovalPermissionType')?.disable();
     }
   }
 }

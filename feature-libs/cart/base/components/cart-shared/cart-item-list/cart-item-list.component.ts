@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -50,6 +56,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
+    displayAddToCart: false,
   };
 
   @Input() cartId: string;

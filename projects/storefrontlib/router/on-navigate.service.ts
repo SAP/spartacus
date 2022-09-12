@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
@@ -54,11 +60,10 @@ export class OnNavigateService {
           const previousRoute = event[0];
           const currentRoute = event[1];
 
-          if (currentRoute.position) {
+          const position = currentRoute.position;
+          if (position) {
             // allow the pages to be repainted before scrolling to proper position
-            setTimeout(() =>
-              this.viewportScroller.scrollToPosition(currentRoute.position)
-            );
+            setTimeout(() => this.viewportScroller.scrollToPosition(position));
           } else {
             if (
               this.config.enableResetViewOnNavigate?.ignoreQueryString &&

@@ -20,8 +20,8 @@
       [queryParams]="getLinkParams(value)"
       class="value"
       [class.selected]="value.selected"
-      [cxFocus]="value.name"
-      (keydown.space)="openLink($event)"
+      [cxFocus]="{ key: value.name }"
+      (keydown.space)="openLink($any($event))"
       [attr.role]="facet.multiSelect ? 'checkbox' : null"
       [attr.aria-checked]="facet.multiSelect ? value.selected : null"
       attr.aria-label="{{
@@ -38,15 +38,16 @@
     <div class="more">
       <a
         *ngFor="
-          let value of facet.values | slice: state.topVisible:state.maxVisible
+          let value of facet.values
+            | slice: state.topVisible ?? 0:state.maxVisible
         "
         #facetValue
         routerLink="./"
         [queryParams]="getLinkParams(value)"
         class="value"
         [class.selected]="value.selected"
-        [cxFocus]="value.name"
-        (keydown.space)="openLink($event)"
+        [cxFocus]="{ key: value.name }"
+        (keydown.space)="openLink($any($event))"
       >
         <span
           >{{ value.name }}<span class="count">{{ value.count }}</span></span
@@ -54,7 +55,11 @@
       </a>
 
       <button
-        *ngIf="state.maxVisible > state.topVisible"
+        *ngIf="
+          state.maxVisible &&
+          state.topVisible &&
+          state.maxVisible > state.topVisible
+        "
         (click)="decreaseVisibleValues()"
         [cxAtMessage]="
           'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
@@ -64,13 +69,18 @@
           'productFacetNavigation.ariaLabelShowLess' | cxTranslate
         }}"
         class="cx-action-link"
-        cxFocus="moreorless"
+        [cxFocus]="{ key: 'moreorless' }"
       >
         {{ 'productList.showLess' | cxTranslate }}
       </button>
 
       <button
-        *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
+        *ngIf="
+          state.maxVisible &&
+          facet.values &&
+          state.maxVisible > 0 &&
+          state.maxVisible < facet.values.length
+        "
         (click)="increaseVisibleValues()"
         [cxAtMessage]="
           'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
@@ -80,7 +90,7 @@
           'productFacetNavigation.ariaLabelShowMore' | cxTranslate
         }}"
         class="cx-action-link"
-        cxFocus="moreorless"
+        [cxFocus]="{ key: 'moreorless' }"
       >
         {{ 'productList.showMore' | cxTranslate }}
       </button>

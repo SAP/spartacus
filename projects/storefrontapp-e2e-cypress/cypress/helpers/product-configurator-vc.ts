@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as configuration from './product-configurator';
 
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
@@ -19,6 +25,23 @@ export function goToConfigurationPage(shopName: string, productId: string) {
   cy.visit(location);
   cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
+}
+
+/**
+ * Navigates to the configuration overview  page
+ */
+export function navigateToOverviewPage() {
+  cy.get('.cx-tab-bar').within(() => {
+    cy.get('a')
+      .filter((index) => index === 1)
+      .click()
+      .then(() => {
+        cy.location('pathname').should(
+          'contain',
+          '/en/USD/configure-overview/vc/product/entityKey/'
+        );
+      });
+  });
 }
 
 /**

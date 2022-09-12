@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -6,7 +12,6 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
@@ -29,7 +34,7 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class B2BUserService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
@@ -48,7 +53,7 @@ export class B2BUserService {
     );
   }
 
-  loadList(params?: SearchConfig): void {
+  loadList(params: SearchConfig): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
@@ -63,7 +68,7 @@ export class B2BUserService {
   private getB2BUserValue(orgCustomerId: string): Observable<B2BUser> {
     return this.store
       .select(getB2BUserValue(orgCustomerId))
-      .pipe(filter(Boolean));
+      .pipe(filter((b2bUser) => Boolean(b2bUser)));
   }
 
   get(orgCustomerId: string): Observable<B2BUser> {
@@ -82,7 +87,9 @@ export class B2BUserService {
     );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<B2BUser>> {
+  getList(
+    params: SearchConfig
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getUserList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
@@ -90,17 +97,16 @@ export class B2BUserService {
           this.loadList(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
-  getErrorState(orgCustomerId): Observable<boolean> {
+  getErrorState(orgCustomerId: string): Observable<boolean> {
     return this.getB2BUserState(orgCustomerId).pipe(
-      map((state) => state.error)
+      map((state) => state.error ?? false)
     );
   }
 
@@ -160,7 +166,7 @@ export class B2BUserService {
   getApprovers(
     orgCustomerId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getB2BUserApproverList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
@@ -168,9 +174,8 @@ export class B2BUserService {
           this.loadApprovers(orgCustomerId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -227,7 +232,7 @@ export class B2BUserService {
   getPermissions(
     orgCustomerId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<Permission>> {
+  ): Observable<EntitiesModel<Permission> | undefined> {
     return this.getB2BUserPermissionList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {
@@ -235,9 +240,8 @@ export class B2BUserService {
           this.loadPermissions(orgCustomerId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<Permission>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -294,7 +298,7 @@ export class B2BUserService {
   getUserGroups(
     orgCustomerId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<UserGroup>> {
+  ): Observable<EntitiesModel<UserGroup> | undefined> {
     return this.getB2BUserUserGroupList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) => {
@@ -302,9 +306,8 @@ export class B2BUserService {
           this.loadUserGroups(orgCustomerId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<UserGroup>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -362,21 +365,21 @@ export class B2BUserService {
 
   private getB2BUserApproverList(
     orgCustomerId: string,
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getB2BUserApprovers(orgCustomerId, params));
   }
 
   private getB2BUserPermissionList(
     orgCustomerId: string,
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(getB2BUserPermissions(orgCustomerId, params));
   }
 
   private getB2BUserUserGroupList(
     orgCustomerId: string,
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getB2BUserUserGroups(orgCustomerId, params));
   }
@@ -388,7 +391,7 @@ export class B2BUserService {
   }
 
   private getUserList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getUserList(params));
   }

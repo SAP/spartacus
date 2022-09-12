@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   CmsConfig,
   FeaturesConfig,
@@ -46,6 +53,7 @@ const moduleComponents = [
     SpinnerModule,
     RouterModule,
     OutletModule,
+    AddToCartModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -55,6 +63,9 @@ const moduleComponents = [
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          data: {
+            enableAddToCart: true,
+          },
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,

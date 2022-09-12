@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ApplicationRef, Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalOptions } from './modal-options';
@@ -39,13 +45,13 @@ export class ModalService {
     });
   }
 
-  getActiveModal(): ModalRef {
+  getActiveModal(): ModalRef | null {
     const modal = this.modals[this.modals.length - 1];
     return modal ? modal : null;
   }
 
   dismissActiveModal(reason?: any): void {
-    const modal: ModalRef = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.dismiss(reason);
@@ -53,7 +59,7 @@ export class ModalService {
   }
 
   closeActiveModal(reason?: any): void {
-    const modal: ModalRef = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.close(reason);

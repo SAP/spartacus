@@ -34,24 +34,24 @@
         'orgBudget.startDate' | cxTranslate
       }}</span>
       <cx-date-picker
-        [control]="form.get('startDate')"
-        [max]="form.get('endDate').value"
+        [control]="$any(form.get('startDate'))"
+        [max]="form.get('endDate')?.value"
         [required]="true"
-        (update)="form.get('endDate').updateValueAndValidity()"
+        (update)="form.get('endDate')?.updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
     <label>
       <span class="label-content">{{ 'orgBudget.endDate' | cxTranslate }}</span>
       <cx-date-picker
-        [control]="form.get('endDate')"
-        [min]="form.get('startDate').value"
+        [control]="$any(form.get('endDate'))"
+        [min]="form.get('startDate')?.value"
         [required]="true"
-        (update)="form.get('startDate').updateValueAndValidity()"
+        (update)="form.get('startDate')?.updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
-    <label [formGroup]="form.get('currency')">
+    <label [formGroup]="$any(form.get('currency'))">
       <span class="label-content required">{{
         'orgBudget.currency' | cxTranslate
       }}</span>
@@ -63,7 +63,7 @@
         [items]="currencies$ | async"
         bindLabel="name"
         bindValue="isocode"
-        [class.invalid]="form.get('currency.isocode').invalid"
+        [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.currency' | cxTranslate"
       >
@@ -84,7 +84,10 @@
       <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
     </label>
 
-    <label *ngIf="units$ | async as units" [formGroup]="form.get('orgUnit')">
+    <label
+      *ngIf="units$ | async as units"
+      [formGroup]="$any(form.get('orgUnit'))"
+    >
       <span class="label-content required">{{
         'orgBudget.businessUnits' | cxTranslate
       }}</span>
@@ -96,7 +99,7 @@
         [items]="units"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('orgUnit.uid').disabled"
+        [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.businessUnits' | cxTranslate"
       >

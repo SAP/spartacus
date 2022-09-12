@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
@@ -9,9 +15,9 @@ import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';
 import { MessageService } from '../../../../shared/message/services/message.service';
+import { UserItemService } from '../../../../user/services/user-item.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 import { UnitUserRolesItemService } from './unit-user-roles-item.service';
-import { UserItemService } from '../../../../user/services/user-item.service';
 
 @Component({
   selector: 'cx-org-unit-user-roles',
@@ -26,17 +32,17 @@ import { UserItemService } from '../../../../user/services/user-item.service';
   ],
 })
 export class UnitUserRolesFormComponent {
-  protected item: B2BUser;
+  protected item: B2BUser | undefined;
 
   @ViewChild(MessageService, { read: MessageService })
   messageService: MessageService;
 
-  form$: Observable<FormGroup> = this.itemService.current$.pipe(
+  form$: Observable<FormGroup | null> = this.itemService.current$.pipe(
     tap((item) => {
       if (!this.item) {
         this.item = item;
       }
-      if (this.item.roles?.join() !== item.roles?.join()) {
+      if (this.item?.roles?.join() !== item?.roles?.join()) {
         this.item = { ...this.item, ...item };
       }
     }),
@@ -54,9 +60,9 @@ export class UnitUserRolesFormComponent {
 
   save(form: FormGroup) {
     form.disable();
-    const roles = [...this.availableRoles].filter((r) => !!form.get(r).value);
+    const roles = [...this.availableRoles].filter((r) => !!form.get(r)?.value);
     this.userItemService
-      .update(this.item.customerId, { roles })
+      .update(this.item?.customerId ?? '', { roles })
       .pipe(
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)

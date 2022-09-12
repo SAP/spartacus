@@ -10,21 +10,24 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_STOREFINDER,
+  storeFinderFeatureModulePath,
+  STOREFINDER_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/storefinder/store-finder-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/storefinder.scss';
 
 describe('Spartacus Storefinder schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_STOREFINDER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -57,7 +60,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
 
   const storefinderFeatureOptions: SpartacusStorefinderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_STOREFINDER_FEATURE],
+    features: [STOREFINDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -99,7 +102,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(storeFinderFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -137,7 +140,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(storeFinderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -166,7 +169,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(storeFinderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-import { OrganizationConflictHandler } from './conflict.handler';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
-  HttpResponseStatus,
   GlobalMessageType,
+  HttpResponseStatus,
 } from '@spartacus/core';
+import { OrganizationConflictHandler } from './conflict.handler';
 
 class MockGlobalMessageService {
   add() {}
@@ -144,5 +144,14 @@ describe('OrganizationConflictHandler', () => {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  });
+
+  it('should not handle conflict if error response does not have enough info', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, {
+      error: {},
+    } as HttpErrorResponse);
+
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 });

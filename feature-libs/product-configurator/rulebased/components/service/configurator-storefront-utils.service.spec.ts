@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -11,7 +12,6 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
-import { By } from '@angular/platform-browser';
 
 let isGroupVisited: Observable<boolean> = of(false);
 
@@ -139,19 +139,6 @@ describe('ConfigUtilsService', () => {
     }
   });
 
-  it("should not scroll to element because browser set to 'false' of windowRef", () => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(true);
-    const nativeWindow = windowRef.nativeWindow;
-    if (nativeWindow) {
-      spyOn(nativeWindow, 'scroll').and.callThrough();
-      classUnderTest.scrollToConfigurationElement(
-        '.VariantConfigurationTemplate'
-      );
-
-      expect(nativeWindow.scroll).toHaveBeenCalledTimes(0);
-    }
-  });
-
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
     isGroupVisited = of(false);
     owner.type = CommonConfigurator.OwnerType.PRODUCT;
@@ -211,6 +198,44 @@ describe('ConfigUtilsService', () => {
     expect(values.length).toBe(1);
   });
 
+  it('should gracefully handle situation that no values are present: an empty array should be returned', () => {
+    const controlArray = new Array<FormControl>();
+    const control1 = new FormControl(true);
+    controlArray.push(control1);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+    };
+
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+    expect(values.length).toBe(0);
+  });
+
+  describe('scroll', () => {
+    it('should handle situation that we are not in browser environment', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      classUnderTest['scroll'](fixture.debugElement.nativeElement);
+      expect(windowRef.nativeWindow).toBeUndefined();
+    });
+  });
+
+  describe('focusOnElementForConflicting', () => {
+    it('should return focusable element if provided and attribute carries no values', () => {
+      const attribute: Configurator.Attribute = { name: 'Name' };
+      const foundFocusableElement = fixture.debugElement.nativeElement;
+      expect(
+        classUnderTest['focusOnElementForConflicting'](
+          attribute,
+          foundFocusableElement,
+          []
+        )
+      ).toBe(foundFocusableElement);
+    });
+  });
+
   describe('Focused elements', () => {
     describe('focusFirstAttribute', () => {
       it('should delegate to keyboard focus service', () => {
@@ -266,8 +291,8 @@ describe('ConfigUtilsService', () => {
         return value;
       }
 
-      function spyFocusForFocusedElements(focusedElements) {
-        focusedElements.forEach((focusedElement) => {
+      function spyFocusForFocusedElements(focusedElements: any) {
+        focusedElements.forEach((focusedElement: any) => {
           spyOn(focusedElement, 'focus').and.callThrough();
         });
       }

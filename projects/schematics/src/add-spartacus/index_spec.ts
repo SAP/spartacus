@@ -11,15 +11,20 @@ import * as path from 'path';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/libs-constants';
+import { spartacusFeaturesModulePath } from '../shared/utils/test-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('add-spartacus', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -533,7 +538,7 @@ describe('add-spartacus', () => {
         .toPromise();
 
       const featureModuleContent = appTree.readContent(
-        '/projects/schematics-test/src/app/spartacus/spartacus-features.module.ts'
+        `/projects/schematics-test/${spartacusFeaturesModulePath}`
       );
       const importModuleOccurrences =
         featureModuleContent.match(/AuthModule.forRoot()/gm)?.length ?? -1;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
@@ -36,15 +42,17 @@ import { PermissionItemService } from '../services/permission-item.service';
   ],
 })
 export class PermissionFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((units) => {
-      if (units.length === 1) {
-        this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
-      }
-    })
-  );
+  units$: Observable<B2BUnitNode[] | undefined> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      tap((units) => {
+        if (units && units.length === 1) {
+          this.form?.get('orgUnit.uid')?.setValue(units[0].id);
+        }
+      })
+    );
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
     tap((currency) => {
@@ -54,7 +62,7 @@ export class PermissionFormComponent implements OnInit {
     })
   );
 
-  types$: Observable<OrderApprovalPermissionType[]> =
+  types$: Observable<OrderApprovalPermissionType[] | undefined> =
     this.permissionService.getTypes();
 
   periods = Object.keys(Period);

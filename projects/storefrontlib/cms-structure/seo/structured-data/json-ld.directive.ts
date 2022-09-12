@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Directive, HostBinding, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
@@ -24,7 +30,7 @@ export class JsonLdDirective {
     this.jsonLD = this.generateJsonLdScript(schema);
   }
 
-  @HostBinding('innerHTML') jsonLD: SafeHtml;
+  @HostBinding('innerHTML') jsonLD: SafeHtml | undefined;
 
   constructor(
     protected jsonLdScriptFactory: JsonLdScriptFactory,
@@ -35,7 +41,7 @@ export class JsonLdDirective {
    * Returns the json-ld script tag with the schema data. The script is
    * _bypassing_ sanitization explicitly.
    */
-  protected generateJsonLdScript(schema: string | {}): SafeHtml {
+  protected generateJsonLdScript(schema: string | {}): SafeHtml | undefined {
     if (schema && this.jsonLdScriptFactory.isJsonLdRequired()) {
       const sanitizedSchema = this.jsonLdScriptFactory.sanitize(schema);
       const html = `<script type="application/ld+json">${sanitizedSchema}</script>`;

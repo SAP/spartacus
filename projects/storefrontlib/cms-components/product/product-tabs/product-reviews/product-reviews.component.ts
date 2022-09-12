@@ -1,12 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  ElementRef,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
+import {
+  isNotNullable,
+  Product,
+  ProductReviewService,
+  Review,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -15,8 +26,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CurrentProductService } from '../../current-product.service';
 import { CustomFormValidators } from '../../../../shared/index';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -35,11 +46,12 @@ export class ProductReviewsComponent {
   maxListItems: number;
   reviewForm: FormGroup;
 
-  product$: Observable<Product> = this.currentProductService.getProduct();
+  product$: Observable<Product | null> =
+    this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
-    filter((p) => !!p),
-    map((p) => p.code),
+    filter(isNotNullable),
+    map((p) => p.code ?? ''),
     distinctUntilChanged(),
     switchMap((productCode) =>
       this.reviewService.getByProductCode(productCode)
@@ -99,7 +111,7 @@ export class ProductReviewsComponent {
       alias: reviewFormControls.reviewerName.value,
     };
 
-    this.reviewService.add(product.code, review);
+    this.reviewService.add(product.code ?? '', review);
 
     this.isWritingReview = false;
     this.resetReviewForm();

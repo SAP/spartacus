@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -118,18 +118,6 @@ describe(`ScheduledReplenishmentOrderService`, () => {
       );
     });
 
-    it(`should dispatch RemoveCartEvent`, () => {
-      service.scheduleReplenishmentOrder(
-        mockScheduleReplenishmentForm,
-        termsChecked
-      );
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        RemoveCartEvent
-      );
-    });
-
     // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
       service.scheduleReplenishmentOrder(
@@ -141,6 +129,7 @@ describe(`ScheduledReplenishmentOrderService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
           replenishmentOrder: mockReplenishmentOrder,
         },
         ReplenishmentOrderScheduledEvent

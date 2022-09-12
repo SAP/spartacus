@@ -308,7 +308,7 @@ describe('ConfiguratorCartEffect', () => {
   });
 
   describe('Effect readConfigurationForCartEntry', () => {
-    it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
+    it('should emit a success action and also trigger the price update and variant search', () => {
       const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
         {
           owner: owner,
@@ -326,10 +326,15 @@ describe('ConfiguratorCartEffect', () => {
         productConfiguration
       );
 
+      const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+        productConfiguration
+      );
+
       actions$ = cold('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: readCartEntrySuccessAction,
         c: updatePriceAction,
+        d: searchVariantsAction,
       });
 
       expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(

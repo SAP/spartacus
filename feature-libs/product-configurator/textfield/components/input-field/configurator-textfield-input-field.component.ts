@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +28,9 @@ export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   @Output()
   inputChange = new EventEmitter<ConfiguratorTextfield.ConfigurationInfo>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.configurationValue);

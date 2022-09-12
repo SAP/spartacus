@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './add-to-cart-button/index';
 export * from './attribute/index';
 export * from './config/index';
@@ -21,3 +27,4 @@ export * from './tab-bar/index';
 export * from './update-message/index';
 export * from './configurator-conflict-and-error-messages/index';
 export * from './exit-button/index';
+export * from './variant-carousel/index';

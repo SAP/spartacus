@@ -30,7 +30,7 @@
           *ngFor="let review of reviews | slice: 0:maxListItems"
         >
           <div class="title">{{ review.headline }}</div>
-          <cx-star-rating [rating]="review.rating"></cx-star-rating>
+          <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
           <div class="name">
             {{ review.alias ? review.alias : review.principal?.name }}
           </div>

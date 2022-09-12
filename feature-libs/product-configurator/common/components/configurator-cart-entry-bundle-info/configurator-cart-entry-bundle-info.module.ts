@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
@@ -12,7 +18,7 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 
   providers: [
     provideOutlet({
-      id: CartOutlets.ITEM_BUNDLE_DETAILS,
+      id: CartOutlets.LIST_ITEM,
       position: OutletPosition.AFTER,
       component: ConfiguratorCartEntryBundleInfoComponent,
     }),
