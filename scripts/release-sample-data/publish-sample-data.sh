@@ -43,9 +43,9 @@ mkdir $SAMPLE_DATA_ASSETS_FOLDER && mv spartacussampledata-* $SAMPLE_DATA_ASSETS
 echo "-----"
 echo "Deleting tag on the remote repository to remove any tied releases"
 
-git push "https://${GHT_USER}:$GHT_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" :refs/tags/$TAG_NAME
+git push "https://${GHT_USER}:$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" :refs/tags/$TAG_NAME
 
 echo "-----"
 echo "Create a release with created tag"
 
-gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/**  --notes "Spartacus sample data releases" --repo "https://${GHT_USER}:$GHT_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git"
+gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/**  --notes "Spartacus sample data releases" --repo "https://${GHT_USER}:$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git"
