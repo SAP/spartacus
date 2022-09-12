@@ -7,7 +7,6 @@
 import { Injectable } from '@angular/core';
 import {
   Cart,
-  CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -142,13 +141,13 @@ export class CommonConfiguratorUtilsService {
 
   /**
    * Determines whether we are in the context of an active cart
-   * @param cartItemContext Cart item context
+   * @param location PromotionLocation
    * @returns Item part of an active cart?
    */
   isActiveCartContext(
-    cartItemContext: CartItemContext | undefined
+    location: Observable<PromotionLocation> | undefined
   ): Observable<boolean> {
-    return (cartItemContext?.location$ ?? EMPTY).pipe(
+    return (location ?? EMPTY).pipe(
       map(
         (location) =>
           location !== PromotionLocation.SaveForLater &&

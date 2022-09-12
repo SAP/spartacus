@@ -6,7 +6,7 @@
 
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemComponentOptions, OrderEntry } from '@spartacus/cart/base/root';
+import { CartItemComponentOptions, OrderEntry, PromotionLocation } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
@@ -21,6 +21,7 @@ interface ItemListContext {
   options: CartItemComponentOptions;
   item: OrderEntry;
   quantityControl: FormControl;
+  promotionLocation: PromotionLocation;
 }
 
 /**
@@ -43,23 +44,25 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly orderEntry$: Observable<OrderEntry> =
     this.outletContext?.context$.pipe(
       map((context: ItemListContext) => {
-        console.log(context);
         return context.item;
       })
     ) ?? EMPTY;
   readonly quantityControl$: Observable<FormControl> =
     this.outletContext?.context$.pipe(
       map((context: ItemListContext) => {
-        console.log(context);
         return context.quantityControl;
       })
     ) ?? EMPTY;
-
   readonly readonly$: Observable<boolean> =
     this.outletContext?.context$.pipe(
       map((context: ItemListContext) => {
-        console.log(context);
         return context.readonly;
+      })
+    ) ?? EMPTY;
+  readonly location?: Observable<PromotionLocation> =
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        return context.promotionLocation;
       })
     ) ?? EMPTY;
 
@@ -108,7 +111,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(undefined); //TODO: Need cart context to show if save for later
+    this.commonConfigUtilsService.isActiveCartContext(this.location);
 
   getButtonText(translatedText?: string): string {
     if (!translatedText) {

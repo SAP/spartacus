@@ -11,6 +11,7 @@ import {
   CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
@@ -22,6 +23,7 @@ interface ItemListContext {
   options: CartItemComponentOptions;
   item: OrderEntry;
   quantityControl: FormControl;
+  promotionLocation: PromotionLocation;
 }
 
 @Component({
@@ -64,10 +66,16 @@ export class ConfiguratorIssuesNotificationComponent {
         return context.readonly;
       })
     ) ?? EMPTY;
+    readonly location?: Observable<PromotionLocation> =
+      this.outletContext?.context$.pipe(
+        map((context: ItemListContext) => {
+          return context.promotionLocation;
+        })
+      ) ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(undefined);
+    this.commonConfigUtilsService.isActiveCartContext(this.location);
 
   /**
    * Verifies whether the item has any issues.
