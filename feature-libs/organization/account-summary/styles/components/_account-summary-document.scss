@@ -217,6 +217,12 @@ cx-account-summary-document {
     }
   }
 
+  .cx-account-summary-document-attachment-btn {
+    color: var(--cx-color-primary);
+    background-color: inherit;
+    border: 0;
+  }
+
   .cx-account-summary-document-attachment-icon {
     font-size: 1.4rem;
   }

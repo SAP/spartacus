@@ -173,32 +173,35 @@
                   {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <a
+                  <button
                     *ngIf="document.attachments?.[0]?.id as attachmentId"
-                    class="cx-action-link"
+                    class="cx-account-summary-document-attachment-btn"
                     (click)="downloadAttachment(document.id, attachmentId)"
                     attr.aria-label="{{
-                      'orgAccountSummary.document.view' | cxTranslate
+                      'orgAccountSummary.document.attachmentDescription'
+                        | cxTranslate
+                          : {
+                              id: document.id,
+                              type: document.orgDocumentType?.name
+                            }
                     }}"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     <cx-icon
                       [type]="ICON_TYPE.FILE"
                       class="cx-account-summary-document-attachment-icon"
                       title="{{
-                        'orgAccountSummary.document.view' | cxTranslate
+                        'orgAccountSummary.document.download' | cxTranslate
                       }}"
                     >
                     </cx-icon>
                     <span
                       class="cx-account-summary-document-attachment-text"
                       [innerText]="
-                        'orgAccountSummary.document.view' | cxTranslate
+                        'orgAccountSummary.document.download' | cxTranslate
                       "
                     >
                     </span>
-                  </a>
+                  </button>
                 </div>
               </td>
             </tr>

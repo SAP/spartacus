@@ -25,7 +25,8 @@ export const accountSummary = {
       openAmount: 'Open Amount',
       status: 'Status',
       attachment: 'Attachment',
-      view: 'View',
+      download: 'Download',
+      attachmentDescription: 'Download attachment for {{type}} {{id}}.',
       noneFound: 'No Documents Found',
     },
     sorts: {
