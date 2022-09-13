@@ -112,8 +112,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( setup_custom_yarn_cache "${1}"
-    cd ${INSTALLATION_DIR}
+    ( cd ${INSTALLATION_DIR}
     ng new ${1} --package-manager yarn --style=scss --routing=false
     )
 }
@@ -230,43 +229,50 @@ function install_from_npm {
 #
 
 function create_apps {
-    local create_shell_apps=()
-    local add_spartacus=()
-    local patch_app_modules=()
+    local create_apps=()
 
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
         printh "Add csr app"
-        create_shell_apps+=("create_shell_app ${CSR_APP_NAME}")
-        add_spartacus+=("add_spartacus_csr ${CSR_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${CSR_APP_NAME}")
+        create_apps+=("create_csr")
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Add ssr app"
-        create_shell_apps+=("create_shell_app ${SSR_APP_NAME}")
-        add_spartacus+=("add_spartacus_ssr ${SSR_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${SSR_APP_NAME}")
+        create_apps+=("create_ssr")
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Add ssr app (with pwa support)"
-        create_shell_apps+=("create_shell_app ${SSR_PWA_APP_NAME}")
-        add_spartacus+=("add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}")
-        patch_app_modules+=("patch_app_module_ts ${SSR_PWA_APP_NAME}")
+        create_apps+=("create_ssr_pwa")
     fi
 
-    printh "Create Shell Apps"
-    run_parallel "${create_shell_apps[@]}"
-    
-    printh "Add Spartacus"
-    run_parallel "${add_spartacus[@]}"
-    
-    printh "Patch App Modules"
-    exec_linear "${patch_app_modules[@]}"
+    printh "Create Apps"
+    run_parallel "${create_apps[@]}"
+}
+
+function create_csr {
+    setup_custom_yarn_cache "CSR"
+    create_shell_app ${CSR_APP_NAME}
+    add_spartacus_csr ${CSR_APP_NAME}
+    patch_app_module_ts ${CSR_APP_NAME}
+}
+
+function create_ssr {
+    setup_custom_yarn_cache "SSR"
+    create_shell_app ${SSR_APP_NAME}
+    add_spartacus_ssr ${SSR_APP_NAME}
+    patch_app_module_ts ${SSR_APP_NAME}
+}
+
+function create_ssr_pwa {
+    setup_custom_yarn_cache "SSR_PWA"
+    create_shell_app ${SSR_PWA_APP_NAME}
+    add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+    patch_app_module_ts ${SSR_PWA_APP_NAME}
 }
 
 function clean_package {
@@ -326,7 +332,6 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
     else
@@ -338,7 +343,6 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
     else
@@ -350,7 +354,6 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    setup_custom_yarn_cache "${1}"
     if [ "$BASE_SITE" = "" ] ; then
       ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
     else
@@ -1175,6 +1178,9 @@ function exec_parallel_export_vars {
     export -f add_spartacus_ssr_pwa
     export -f add_feature_libs
     export -f add_spartacus_csr
+    export -f create_csr
+    export -f create_ssr
+    export -f create_ssr_pwa
     export -f add_b2b
     export -f add_cdc
     export -f add_epd_visualization
