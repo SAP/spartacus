@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -6,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-tracking-events',
   templateUrl: './tracking-events.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
