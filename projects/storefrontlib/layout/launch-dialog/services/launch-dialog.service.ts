@@ -15,7 +15,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
-  private _dialogClose = new BehaviorSubject<string | undefined>(undefined);
+  private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
   get data$(): Observable<any> {
