@@ -27,12 +27,12 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
 
   constructor(
     private orderHistoryFacade: OrderHistoryFacade,
-    protected launchdialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.launchdialogService.data$.subscribe((data) => {
+      this.launchDialogService.data$.subscribe((data) => {
         this.init(data.tracking$, data.shipDate);
       })
     );
@@ -49,6 +49,6 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
   }
 
   close(reason?: any): void {
-    this.launchdialogService.closeDialog(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 }
