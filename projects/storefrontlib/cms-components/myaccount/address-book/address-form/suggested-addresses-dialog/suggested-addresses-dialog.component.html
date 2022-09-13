@@ -1,5 +1,9 @@
-<div *ngIf="data$ | async as data" class="cx-suggested-addresses-dialog">
-  <div class="cx-suggested-addresses-container">
+<div
+  class="cx-suggested-addresses-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
+  <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
     <div class="cx-suggested-addresses-header">
       <div class="cx-suggested-addresses-title">
         {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}

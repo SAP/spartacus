@@ -88,4 +88,12 @@ describe('SuggestedAddressDialogComponent', () => {
 
     expect(component.selectedAddress).toEqual(enteredAddress);
   });
+
+  it('should closeModal when user click outside', () => {
+    const el = fixture.debugElement.nativeElement;
+    spyOn(component, 'closeModal');
+
+    el.click();
+    expect(component.closeModal).toHaveBeenCalledWith('Cross click');
+  });
 });

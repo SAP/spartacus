@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { Address } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../../layout';
+import { FocusConfig, LaunchDialogService } from '../../../../../layout';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 
@@ -11,12 +16,28 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
 })
 export class SuggestedAddressDialogComponent {
   iconTypes = ICON_TYPE;
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
   selectedAddress: Address;
 
   data$ = this.launchDialogService.data$.pipe(tap(this.setSelectedAddress));
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.closeModal('Cross click');
+    }
+  }
+
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
+  ) {}
 
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
