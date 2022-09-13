@@ -20,7 +20,7 @@ EXECUTING_OS="unknown"
 function delete_dir {
     local dir="${1}"
     if [ -d ${dir} ]; then
-        echo "deleting directory ./${dir}"
+        echo "deleting directory ${dir}"
         rm -rf ${dir}
     fi
 }
@@ -29,7 +29,7 @@ function delete_dir_bg {
     local dir="${1}"
     local temp_dir="${1}.delete"
 
-    echo "deleting directory ./${dir} in background"
+    echo "deleting directory ${dir} in background"
     if [ -d ${temp_dir} ]; then
         rm -rf ${temp_dir}
     fi
