@@ -124,4 +124,12 @@ describe('TrackingEventsComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
     expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
   });
+
+  it('should emit handleClick event', () => {
+    spyOn(component, 'handleClick');
+    expect(component.handleClick).toHaveBeenCalledTimes(0);
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(component.handleClick).toHaveBeenCalledTimes(1);
+  });
 });
