@@ -5,6 +5,8 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeatureLevelDirective,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -129,7 +131,12 @@ describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          NgSelectModule,
+          FeaturesConfigModule,
+        ],
         declarations: [
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
@@ -144,6 +151,12 @@ describe('ConfigurationOverviewFormComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '4.2' },
+            },
           },
         ],
       }).compileComponents();
@@ -410,6 +423,58 @@ describe('ConfigurationOverviewFormComponent', () => {
         'true',
         'Group 1'
       );
+    });
+  });
+
+  describe('getGroupLevelStyleClasses', () => {
+    const group: Configurator.GroupOverview = {
+      id: 'G1',
+      groupDescription: 'Group 1',
+    };
+
+    const groupWithSubgroups: Configurator.GroupOverview = {
+      id: 'G1',
+      groupDescription: 'Group 1',
+      subGroups: [
+        {
+          id: 'SG1',
+          groupDescription: 'Subgroup 1',
+        },
+        {
+          id: 'SG2',
+          groupDescription: 'Subgroup 2',
+        },
+      ],
+    };
+
+    it('should return top level style class without subgroup', () => {
+      initialize();
+      const result = component.getGroupLevelStyleClasses(1, group.subGroups);
+      expect(result).toEqual('cx-group topLevel');
+    });
+
+    it('should return top level style class with subgroup', () => {
+      initialize();
+      const result = component.getGroupLevelStyleClasses(
+        1,
+        groupWithSubgroups.subGroups
+      );
+      expect(result).toEqual('cx-group topLevel subgroupTopLevel');
+    });
+
+    it('should return subgroup level 2 style class', () => {
+      initialize();
+      const result = component.getGroupLevelStyleClasses(
+        2,
+        groupWithSubgroups.subGroups
+      );
+      expect(result).toEqual('cx-group subgroup subgroupLevel2');
+    });
+
+    it('should return subgroup level 3 style class', () => {
+      initialize();
+      const result = component.getGroupLevelStyleClasses(3, group.subGroups);
+      expect(result).toEqual('cx-group subgroup subgroupLevel3');
     });
   });
 });
