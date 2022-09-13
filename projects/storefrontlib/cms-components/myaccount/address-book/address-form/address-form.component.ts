@@ -23,13 +23,9 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import {
-  ModalRef,
-  ModalService,
-} from '../../../../shared/components/modal/index';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 
 @Component({
@@ -71,7 +67,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @ViewChild('submit') element: ElementRef;
 
   subscription: Subscription = new Subscription();
-  suggestedAddressModalRef: ModalRef | null;
 
   addressForm: FormGroup = this.fb.group({
     country: this.fb.group({
@@ -96,7 +91,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    protected modalService: ModalService,
     protected translation: TranslationService,
     protected launchDialogService: LaunchDialogService
   ) {}
