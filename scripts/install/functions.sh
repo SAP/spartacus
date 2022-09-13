@@ -1162,6 +1162,9 @@ function exec_parallel_export_vars {
     export BASE_SITE
     export CUSTOM_CACHE_DIR
     export HAS_GNU_PARALLEL_INSTALLED
+    export CSR_APP_NAME
+    export SSR_APP_NAME
+    export SSR_PWA_APP_NAME
     export -f delete_dir
     export -f delete_dir_bg
     export -f create_shell_app
