@@ -26,8 +26,8 @@
       </ng-container>
     </tr>
   </thead>
-  <tbody class="cx-item-list-items">
     <ng-container *ngFor="let item of items; let i = index">
+      <tbody class="cx-item-list-items">
       <ng-container
         *ngIf="getControl(item) | async as control"
         [class.is-changed]="control.get('quantity').disabled"
@@ -54,8 +54,8 @@
           ></tr
         ></ng-template>
       </ng-container>
+    </tbody>
     </ng-container>
-  </tbody>
 </table>
 
 <ng-template #totalHeader>

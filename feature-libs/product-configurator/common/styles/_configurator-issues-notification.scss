@@ -4,9 +4,14 @@
 
   &:not(:empty) {
     display: table-row;
-    background-color: rgba(245, 206, 206, 1);
+
+    td{
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+    }
 
     .issue-notification-container {
+      background-color: rgba(245, 206, 206, 1);
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -15,9 +20,7 @@
       padding-inline-end: 5px;
       padding-block-start: 5px;
       padding-block-end: 5px;
-
-      margin-block-start: 1.25rem;
-      margin-block-end: 1.25rem;
+      
 
       cx-icon {
         align-self: flex-start;
