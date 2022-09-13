@@ -126,10 +126,15 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should emit handleClick event', () => {
-    spyOn(component, 'handleClick');
+    spyOn(component, 'handleClick').and.callThrough();
+    spyOn(component, 'close');
+
     expect(component.handleClick).toHaveBeenCalledTimes(0);
+
     el.nativeElement.click();
     fixture.detectChanges();
+
     expect(component.handleClick).toHaveBeenCalledTimes(1);
+    expect(component.close).toHaveBeenCalledWith('Cross click');
   });
 });
