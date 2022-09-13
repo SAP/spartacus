@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
 import { Input, Component, DebugElement } from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '../../../../../layout/index';
 import { Observable, of } from 'rxjs';
 
 const mockCoupon: CustomerCoupon = {

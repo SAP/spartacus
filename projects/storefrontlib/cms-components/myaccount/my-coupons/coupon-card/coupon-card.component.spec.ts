@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
