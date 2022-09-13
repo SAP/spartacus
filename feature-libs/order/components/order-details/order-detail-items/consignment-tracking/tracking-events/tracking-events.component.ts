@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -25,9 +27,17 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
     focusOnEscape: true,
   };
 
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
+
   constructor(
     private orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
   ) {}
 
   ngOnInit(): void {
