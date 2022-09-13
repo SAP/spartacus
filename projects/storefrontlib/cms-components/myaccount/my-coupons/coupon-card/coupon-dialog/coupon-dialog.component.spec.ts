@@ -33,7 +33,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-fdescribe('CouponDialogComponent', () => {
+describe('CouponDialogComponent', () => {
   let component: CouponDialogComponent;
   let fixture: ComponentFixture<CouponDialogComponent>;
   let el: DebugElement;
