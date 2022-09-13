@@ -1165,6 +1165,7 @@ function exec_parallel_export_vars {
     export CSR_APP_NAME
     export SSR_APP_NAME
     export SSR_PWA_APP_NAME
+    export PATCH_APP_MODULE
     export -f delete_dir
     export -f delete_dir_bg
     export -f create_shell_app
@@ -1189,6 +1190,7 @@ function exec_parallel_export_vars {
     export -f add_epd_visualization
     export -f add_product_configurator
     export -f publish_package
+    export -f patch_app_module_ts
 }
 
 function exec_linear {
