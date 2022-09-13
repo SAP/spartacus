@@ -81,8 +81,8 @@ cd -
 echo "-----"
 echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure"
 
-cp -R dist/storefrontapp/ $GHT_REPO/js-storefront/$B2C_STORE/dist/$B2C_STORE/browser/
-cp -R dist/storefrontapp-server/ $GHT_REPO/js-storefront/$B2C_STORE/dist/$B2C_STORE/server/
+cp -a dist/storefrontapp/. $GHT_REPO/js-storefront/$B2C_STORE/dist/$B2C_STORE/browser/
+cp -a dist/storefrontapp-server/. $GHT_REPO/js-storefront/$B2C_STORE/dist/$B2C_STORE/server/
 
 echo "-----"
 echo "Push to remote repository"
