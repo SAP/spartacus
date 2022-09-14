@@ -1,5 +1,9 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
+  defaultAddress,
+  defaultPaymentDetails,
+  fillAddressForm,
+  fillPaymentForm,
   LOCATORS as L,
   login,
   mockLocation,
@@ -17,10 +21,10 @@ import {
   - The user selects which store they want to collect from (by default the last store they selected, falling back to the nearest store).
   - The user adds the product to the cart. (The cart entries post call will have the "deliveryPointOfService" field).
   - From the cart, the user can change the location they wish to pick up the product from.
-  The user checks out.
-  During checkout, the user can change the pickup location.
-  During the order review, the user can change the pickup location.
-  The user completes checkout and sees the order details. On here they can see their pickup location.
+  TODO:- The user checks out.
+  TODO:- During checkout, the user can change the pickup location.
+  TODO:- During the order review, the user can change the pickup location.
+  TODO:- The user completes checkout and sees the order details. On here they can see their pickup location.
 
 */
 describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', () => {
@@ -105,6 +109,14 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
             .should('not.equal', firstStoreName);
         });
       });
+
+      // The user checks out.
+      cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).click();
+      fillAddressForm(defaultAddress);
+      cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
+      cy.get(L.CHECKOUT_DELIVERY_MODE_CONTINUE_BUTTON).click();
+      fillPaymentForm(defaultPaymentDetails);
+      cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
 
       //
     });
