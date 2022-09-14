@@ -191,7 +191,6 @@ export class DeleteCartFailEvent extends CartEvent {
   static readonly type = 'DeleteCartFailEvent';
 }
 
-
 export class AddCartVoucherEvent extends CartEvent {
   /**
    * Event's type
@@ -214,4 +213,3 @@ export class AddCartVoucherFailEvent extends AddCartVoucherEvent {
   static readonly type = 'AddCartVoucherFailEvent';
   error: unknown;
 }
-
