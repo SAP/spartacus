@@ -213,4 +213,3 @@ export class RemoveCartVoucherFailEvent extends RemoveCartVoucherEvent {
   static readonly type = 'RemoveCartVoucherFailEvent';
   error: unknown;
 }
-
