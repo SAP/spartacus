@@ -49,11 +49,13 @@ export class CDCForgotPasswordComponentService
           this.cdcJsService
             .resetPasswordWithoutScreenSet(this.form.value.userEmail)
             .subscribe((isResetResponse) => {
+              this.busy$.next(false);
               if (isResetResponse.status === 'OK') {
                 this.redirect();
               }
             });
         } else {
+          this.busy$.next(false);
           // CDC Gigya SDK not loaded, show error to the user
           this.globalMessage.add(
             {
@@ -62,7 +64,6 @@ export class CDCForgotPasswordComponentService
             GlobalMessageType.MSG_TYPE_ERROR
           );
         }
-        this.busy$.next(false);
       })
     );
   }
