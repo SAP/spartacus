@@ -176,7 +176,9 @@ export class CdcJsService implements OnDestroy {
     user: UserSignUp
   ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((initRegistration) => {
-      if (user.uid && user.password) {
+      if (!user.uid || !user.password) {
+        initRegistration.error(undefined);
+      } else {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
         ]?.accounts?.initRegistration({
