@@ -212,6 +212,8 @@ function restore_clone {
 }
 
 function install_from_sources {
+    run_sanity_check
+
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
@@ -283,6 +285,8 @@ function install_from_sources {
 }
 
 function install_from_npm {
+    run_sanity_check
+
     printh "Installing Spartacus from npm libraries"
 
     prepare_install
@@ -373,11 +377,83 @@ function stop_apps {
 }
 
 function cmd_help {
-    echo "Usage: run [command]"
+    echo "Usage: run [command] [options...]"
     echo "Available commands are:"
-    echo " install (from sources)"
-    echo " install_npm (from latest npm packages)"
+    echo " install [--skipsanity] (from sources)"
+    echo " install_npm [--skipsanity] (from latest npm packages)"
     echo " start"
     echo " stop"
     echo " help"
+}
+
+function run_sanity_check {
+    if [ "$SKIP_SANITY" = true ]; then
+        printh "Skip config sanity check"
+    else
+        printh "Run config sanity check"
+        ng_sanity_check
+        basesite_sanity_check
+    fi
+}
+
+function ng_sanity_check {
+    if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -ge $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI 13.0.0 or higher."
+            echo "   Try to use AngularCLI higher than 12.0.0 and lower than 13.0.0."
+            echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
+                    ANGULAR_CLI_VERSION='^12.0.5';;
+                a ) echo "abort";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
+
+    if [[ "$BRANCH" == release/5.0.* ]]; then
+        local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
+        if [ $(version $CLEAN_VERSION) -lt $(version "13.0.0") ]; then
+            echo "❗️ You are trying to install a release which seems to be uncompatible with AngularCLI lower than 13.0.0. "
+            echo "   Try to use AngularCLI 13.0.0 or higher."
+            echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
+            echo ""
+            read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
+            case $yn in 
+                c ) echo "continue";;
+                o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
+                    ANGULAR_CLI_VERSION='^13.3.0';;
+                a ) echo "abort";
+                    exit;;
+                * ) echo "invalid response";
+                    exit 1;;
+            esac
+        fi
+    fi
+}
+
+function parseInstallArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --skipsanity)
+                SKIP_SANITY=true
+                echo "➖ Skip Sanity Check"
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
 }
