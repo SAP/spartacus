@@ -75,7 +75,7 @@ function getDocHeader(apiElement: any): string {
   let docHeader = `
 
 
-# ${apiElement.kind} ${getFullName(apiElement)} 
+# ${apiElement.kind} ${getFullName(apiElement)}
 ## ${apiElement.entryPoint}
 
 `;
@@ -159,12 +159,12 @@ function getMembersDoc(apiElement: any): string {
           } changed.\n`;
           doc += `
 
-Previous version: 
+Previous version:
 ${MD_CODEBLOCK}${common.getMemberStateDoc(
             memberBreakingChange.old
           )}${MD_CODEBLOCK}
 
-Current version: 
+Current version:
 ${MD_CODEBLOCK}${common.getMemberStateDoc(
             memberBreakingChange.new
           )}${MD_CODEBLOCK}
@@ -209,10 +209,10 @@ function getChangedDoc(apiElement: any): string {
     doc += `
 ${apiElement.kind} ${apiElement.name} changed.
 
-Previous version: 
+Previous version:
 ${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(apiElement)}${MD_CODEBLOCK}
 
-Current version: 
+Current version:
 ${MD_CODEBLOCK}${common.getTopLevelApiStateDoc(
       apiElement.newApiElement
     )}${MD_CODEBLOCK}
