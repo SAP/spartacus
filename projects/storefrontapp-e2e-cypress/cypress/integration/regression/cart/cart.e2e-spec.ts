@@ -4,8 +4,6 @@ import * as alerts from '../../../helpers/global-message';
 import { clickHamburger } from '../../../helpers/homepage';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
-import { ItemList, moveItem } from '../../../helpers/save-for-later';
-import { products } from '../../../helpers/cart';
 
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -37,22 +35,6 @@ describe('Cart', () => {
 
       it('should add product and manipulate cart quantity', () => {
         cart.manipulateCartQuantity();
-      });
-
-      it('should be unable to save a cart for later if there is no active cart', () => {
-        cart.addProductFromPdp();
-
-        cy.get('cx-mini-cart a').click();
-
-        cy.get('cx-add-to-saved-cart').should('not.be.disabled');
-
-        moveItem(products[0], ItemList.SaveForLater);
-
-        cy.get('button').contains('Save For Later').should('not.exist');
-
-        cy.get('cx-add-to-saved-cart')
-          .contains('Save cart for later')
-          .should('be.disabled');
       });
     });
   });
