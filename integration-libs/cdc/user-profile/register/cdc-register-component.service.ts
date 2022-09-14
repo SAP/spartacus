@@ -21,15 +21,16 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         new Observable<User>((userRegistered) => {
           // Registering user through CDC Gigya SDK
           if (user.firstName && user.lastName && user.uid && user.password) {
-            this.cdcJSService
-              .registerUserWithoutScreenSet(user)
-              .subscribe((result) => {
-                if (result.status) {
+            this.cdcJSService.registerUserWithoutScreenSet(user).subscribe({
+              next: (result) => {
+                if (result.status === 'OK') {
                   userRegistered.complete();
                 } else {
                   userRegistered.error(null);
                 }
-              });
+              },
+              error: (error) => userRegistered.error(error),
+            });
           }
         })
     );

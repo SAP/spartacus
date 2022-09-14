@@ -177,19 +177,20 @@ export class CdcJsService implements OnDestroy {
   ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((initRegistration) => {
       if (!user.uid || !user.password) {
-        initRegistration.error(undefined);
+        initRegistration.error(null);
       } else {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
         ]?.accounts?.initRegistration({
           callback: (response: any) => {
             this.zone.run(() => {
-              this.onInitRegistrationHandler(user, response).subscribe(
-                (result) => {
+              this.onInitRegistrationHandler(user, response).subscribe({
+                next: (result) => {
                   initRegistration.next(result);
                   initRegistration.complete();
-                }
-              );
+                },
+                error: (error) => initRegistration.error(error),
+              });
             });
           },
         });
