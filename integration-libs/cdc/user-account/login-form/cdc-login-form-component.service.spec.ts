@@ -34,8 +34,8 @@ class MockGlobalMessageService {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValues(of(true), of(false));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
-    of(user)
+  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
+    of({ status: 'OK' })
   );
   loginUserWithoutScreenSet = createSpy().and.returnValues(of(true));
 }

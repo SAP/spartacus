@@ -48,8 +48,8 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.callFake(() => of(true));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
-    of(user)
+  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
+    of({ status: 'OK' })
   );
   onLoginEventHandler = createSpy();
 }

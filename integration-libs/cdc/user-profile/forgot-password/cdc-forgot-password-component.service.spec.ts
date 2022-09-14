@@ -35,11 +35,13 @@ class MockGlobalMessageService {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValue(of(false));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
-    of(user)
+  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
+    of({ status: 'OK' })
   );
   onLoginEventHandler = createSpy();
-  resetPasswordWithoutScreenSet = createSpy().and.returnValue(of(true));
+  resetPasswordWithoutScreenSet = createSpy().and.callFake(() =>
+    of({ status: 'OK' })
+  );
 }
 
 describe('CDCForgotPasswordComponentService', () => {

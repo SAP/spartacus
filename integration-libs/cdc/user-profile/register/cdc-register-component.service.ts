@@ -23,8 +23,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           if (user.firstName && user.lastName && user.uid && user.password) {
             this.cdcJSService
               .registerUserWithoutScreenSet(user)
-              .subscribe((isRegistered) => {
-                if (isRegistered) {
+              .subscribe((result) => {
+                if (result.status) {
                   userRegistered.complete();
                 } else {
                   userRegistered.error(null);
