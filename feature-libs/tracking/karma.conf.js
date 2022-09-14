@@ -11,11 +11,17 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-junit-reporter'),
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'dots'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    junitReporter: {
+      outputFile: 'unit-test-tracking.xml',
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
+      useBrowserName: false,
+    },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/tracking'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],

@@ -37,7 +37,7 @@ class MockCDCJsService implements Partial<CdcJsService> {
   registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
     of(user)
   );
-  loginUserWithoutScreenSet = createSpy();
+  loginUserWithoutScreenSet = createSpy().and.returnValues(of(true));
 }
 
 class MockLoginFormComponentService

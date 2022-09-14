@@ -31,12 +31,13 @@ export class CdcLoginFormComponentService
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {
           // Logging in using CDC Gigya SDK
-          this.cdcJsService.loginUserWithoutScreenSet(
-            this.form.value.userId.toLowerCase(),
-            this.form.value.password,
-            true
-          );
-          this.busy$.next(false);
+          this.cdcJsService
+            .loginUserWithoutScreenSet(
+              this.form.value.userId.toLowerCase(),
+              this.form.value.password,
+              true
+            )
+            .subscribe(() => this.busy$.next(false));
         } else {
           // CDC Gigya SDK not loaded, show error to the user
           this.globalMessageService.add(

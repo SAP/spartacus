@@ -39,7 +39,7 @@ class MockCDCJsService implements Partial<CdcJsService> {
     of(user)
   );
   onLoginEventHandler = createSpy();
-  resetPasswordWithoutScreenSet = createSpy().and.stub();
+  resetPasswordWithoutScreenSet = createSpy().and.returnValue(of(true));
 }
 
 describe('CDCForgotPasswordComponentService', () => {

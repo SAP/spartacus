@@ -6,7 +6,6 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
-  UserActions,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
@@ -22,10 +21,16 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         new Observable<User>((userRegistered) => {
           // Registering user through CDC Gigya SDK
           if (user.firstName && user.lastName && user.uid && user.password) {
-            this.cdcJSService.registerUserWithoutScreenSet(user);
+            this.cdcJSService
+              .registerUserWithoutScreenSet(user)
+              .subscribe((isRegistered) => {
+                if (isRegistered) {
+                  userRegistered.complete();
+                } else {
+                  userRegistered.error(null);
+                }
+              });
           }
-          this.store.dispatch(new UserActions.RegisterUserSuccess());
-          userRegistered.complete();
         })
     );
 

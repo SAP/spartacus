@@ -288,7 +288,7 @@ describe('CdcJsService', () => {
         id_token: 'id_token',
       };
 
-      service.onLoginEventHandler('electronics-spa', response);
+      service['onLoginEventHandler']('electronics-spa', response);
 
       expect(cdcAuth.loginWithCustomCdcFlow).toHaveBeenCalledWith(
         response.UID,
@@ -302,7 +302,7 @@ describe('CdcJsService', () => {
     it('should not login user when on login event have empty payload', () => {
       spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
-      service.onLoginEventHandler('electronics-spa');
+      service['onLoginEventHandler']('electronics-spa');
 
       expect(cdcAuth.loginWithCustomCdcFlow).not.toHaveBeenCalled();
     });
@@ -318,20 +318,25 @@ describe('CdcJsService', () => {
     });
     it('should call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
-      service.registerUserWithoutScreenSet({
-        uid: 'uid',
-        password: 'password',
-      });
-      expect(
-        winRef.nativeWindow['gigya'].accounts.initRegistration
-      ).toHaveBeenCalled();
+      expect(service.registerUserWithoutScreenSet).toBeTruthy();
+      service
+        .registerUserWithoutScreenSet({
+          uid: 'uid',
+          password: 'password',
+        })
+        .subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.initRegistration
+          ).toHaveBeenCalled();
+        });
     });
   });
 
   describe('onInitRegistrationHandler', () => {
-    it('should not do anything', () => {
+    it('should register the user', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'register');
-      service.onInitRegistrationHandler(
+      expect(service['onInitRegistrationHandler']).toBeTruthy();
+      service['onInitRegistrationHandler'](
         {
           uid: 'uid',
           password: 'password',
@@ -339,26 +344,25 @@ describe('CdcJsService', () => {
           lastName: 'lname',
         },
         { regToken: 'TOKEN' }
-      );
-      expect(
-        winRef.nativeWindow['gigya'].accounts.register
-      ).toHaveBeenCalledWith({
-        email: 'uid',
-        password: 'password',
-        profile: {
-          firstName: 'fname',
-          lastName: 'lname',
-        },
-        regToken: 'TOKEN',
-        ignoreInterruptions: true,
-        finalizeRegistration: true,
-        callback: jasmine.any(Function),
+      ).subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.register
+        ).toHaveBeenCalledWith({
+          email: 'uid',
+          password: 'password',
+          profile: {
+            firstName: 'fname',
+            lastName: 'lname',
+          },
+          regToken: 'TOKEN',
+          callback: jasmine.any(Function),
+        });
       });
     });
 
     it('should not do anything', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'register');
-      service.onInitRegistrationHandler({}, null);
+      service['onInitRegistrationHandler']({}, null);
       expect(
         winRef.nativeWindow['gigya'].accounts.register
       ).not.toHaveBeenCalled();
@@ -368,13 +372,18 @@ describe('CdcJsService', () => {
   describe('loginUserWithoutScreenSet', () => {
     it('should login user without screenset', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
-      service.loginUserWithoutScreenSet('uid', 'password', { key: 'value' });
-
-      expect(winRef.nativeWindow['gigya'].accounts.login).toHaveBeenCalledWith({
-        loginID: 'uid',
-        password: 'password',
-        callback: jasmine.any(Function),
-      });
+      expect(service.loginUserWithoutScreenSet).toBeTruthy();
+      service
+        .loginUserWithoutScreenSet('uid', 'password', { key: 'value' })
+        .subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.login
+          ).toHaveBeenCalledWith({
+            loginID: 'uid',
+            password: 'password',
+            callback: jasmine.any(Function),
+          });
+        });
     });
 
     it('should not login user without screenset and having empty response', () => {
@@ -390,17 +399,21 @@ describe('CdcJsService', () => {
   describe('resetPasswordWithoutScreenSet', () => {
     it('should not call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
-      service.resetPasswordWithoutScreenSet('');
-      expect(
-        winRef.nativeWindow['gigya'].accounts.resetPassword
-      ).not.toHaveBeenCalled();
+      expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
+      service.resetPasswordWithoutScreenSet('').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.resetPassword
+        ).not.toHaveBeenCalled();
+      });
     });
     it('should call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
-      service.resetPasswordWithoutScreenSet('test@mail.com');
-      expect(
-        winRef.nativeWindow['gigya'].accounts.resetPassword
-      ).toHaveBeenCalled();
+      expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
+      service.resetPasswordWithoutScreenSet('test@mail.com').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.resetPassword
+        ).toHaveBeenCalled();
+      });
     });
   });
 
@@ -408,7 +421,7 @@ describe('CdcJsService', () => {
     it('should not show anything with no response', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleLoginError(null);
+      service['handleLoginError'](null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -416,7 +429,7 @@ describe('CdcJsService', () => {
     it('should not show error messages on success', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleLoginError({
+      service['handleLoginError']({
         status: 'OK',
       });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
@@ -426,7 +439,7 @@ describe('CdcJsService', () => {
     it('should show error', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleLoginError({
+      service['handleLoginError']({
         status: 'FAIL',
         statusMessage: 'Error',
       });
@@ -447,7 +460,7 @@ describe('CdcJsService', () => {
     it('should not show anything with no response', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleRegisterError(null);
+      service['handleRegisterError'](null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -455,7 +468,7 @@ describe('CdcJsService', () => {
     it('should not show error messages on success', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleRegisterError({
+      service['handleRegisterError']({
         status: 'OK',
       });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
@@ -465,7 +478,7 @@ describe('CdcJsService', () => {
     it('should show error', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleRegisterError({
+      service['handleRegisterError']({
         status: 'FAIL',
         statusMessage: 'Error',
         validationErrors: [
@@ -486,7 +499,7 @@ describe('CdcJsService', () => {
     it('should not show Error with no response', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleResetPassResponse(null);
+      service['handleResetPassResponse'](null);
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'httpHandlers.unknownError',
@@ -499,7 +512,7 @@ describe('CdcJsService', () => {
     it('should not show error messages on success', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleResetPassResponse({
+      service['handleResetPassResponse']({
         status: 'OK',
       });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
@@ -512,7 +525,7 @@ describe('CdcJsService', () => {
     it('should show error', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleResetPassResponse({
+      service['handleResetPassResponse']({
         status: 'FAIL',
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
