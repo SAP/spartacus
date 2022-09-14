@@ -182,7 +182,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -210,14 +210,14 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020"
   }
 }
@@ -336,7 +336,7 @@ Add the library unit tests with code coverage
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
-output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test TODO: --source-map --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"

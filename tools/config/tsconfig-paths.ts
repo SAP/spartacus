@@ -64,9 +64,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(
-          lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
+        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
+          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
+        ),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {

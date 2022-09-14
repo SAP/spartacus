@@ -7,7 +7,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   Address,
   AddressValidation,
@@ -70,7 +74,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regionsSub: Subscription;
   suggestedAddressModalRef: ModalRef | null;
 
-  addressForm: FormGroup = this.fb.group({
+  addressForm: UntypedFormGroup = this.fb.group({
     country: this.fb.group({
       isocode: [null, Validators.required],
     }),
@@ -89,7 +93,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,

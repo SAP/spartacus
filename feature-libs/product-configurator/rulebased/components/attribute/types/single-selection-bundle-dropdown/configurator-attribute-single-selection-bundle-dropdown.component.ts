@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
@@ -19,7 +19,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeDropDownForm = new FormControl('');
+  attributeDropDownForm = new UntypedFormControl('');
   selectionValue: Configurator.Value;
 
   @Input() group: string;

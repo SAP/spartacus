@@ -7,7 +7,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -54,8 +54,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  addToCartForm = new FormGroup({
-    quantity: new FormControl(1, { updateOn: 'blur' }),
+  addToCartForm = new UntypedFormGroup({
+    quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
 
   constructor(

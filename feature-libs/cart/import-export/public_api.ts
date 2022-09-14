@@ -1,1 +1,1 @@
-export * from './index';
+export * from './import-export.module';

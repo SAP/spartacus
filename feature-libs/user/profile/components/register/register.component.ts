@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
-  registerForm: FormGroup = this.fb.group(
+  registerForm: UntypedFormGroup = this.fb.group(
     {
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
-      newsletter: new FormControl({
+      newsletter: new UntypedFormControl({
         value: false,
         disabled: this.isConsentRequired(),
       }),
@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,

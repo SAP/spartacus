@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
 import {
   B2BUserService,
@@ -31,7 +31,7 @@ export class UnitUserRolesFormComponent {
   @ViewChild(MessageService, { read: MessageService })
   messageService: MessageService;
 
-  form$: Observable<FormGroup | null> = this.itemService.current$.pipe(
+  form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     tap((item) => {
       if (!this.item) {
         this.item = item;
@@ -52,7 +52,7 @@ export class UnitUserRolesFormComponent {
     protected userItemService: UserItemService
   ) {}
 
-  save(form: FormGroup) {
+  save(form: UntypedFormGroup) {
     form.disable();
     const roles = [...this.availableRoles].filter((r) => !!form.get(r)?.value);
     this.userItemService
