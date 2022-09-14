@@ -219,13 +219,13 @@ export class CdcJsService implements OnDestroy {
           finalizeRegistration: true,
           callback: (response: any) => {
             this.zone.run(() => {
-              if (response && response.status === 'FAIL') {
+              if (response?.status === 'OK') {
+                isRegistered.next({ status: response.status });
+                isRegistered.complete();
+              } else {
                 this.handleRegisterError(response);
-                isRegistered.next({ status: response.status });
-              } else if (response && response.status === 'OK') {
-                isRegistered.next({ status: response.status });
+                isRegistered.error(undefined);
               }
-              isRegistered.complete();
             });
           },
         });
@@ -252,13 +252,13 @@ export class CdcJsService implements OnDestroy {
           password: password,
           callback: (response: any) => {
             this.zone.run(() => {
-              if (response && response.status === 'FAIL') {
+              if (response?.status === 'OK') {
+                isLoggedIn.next({ status: response.status });
+                isLoggedIn.complete();
+              } else {
                 this.handleLoginError(response);
-                isLoggedIn.next({ status: response.status });
-              } else if (response && response.status === 'OK') {
-                isLoggedIn.next({ status: response.status });
+                isLoggedIn.error(undefined);
               }
-              isLoggedIn.complete();
             });
           },
         });
@@ -321,12 +321,13 @@ export class CdcJsService implements OnDestroy {
           callback: (response: any) => {
             this.zone.run(() => {
               this.handleResetPassResponse(response);
-              if (response && response.status === 'FAIL') {
+
+              if (response?.status === 'OK') {
                 isResetPassword.next({ status: response.status });
-              } else if (response && response.status === 'OK') {
-                isResetPassword.next({ status: response.status });
+                isResetPassword.complete();
+              } else {
+                isResetPassword.error(undefined);
               }
-              isResetPassword.complete();
             });
           },
         });
