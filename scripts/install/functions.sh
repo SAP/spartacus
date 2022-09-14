@@ -392,7 +392,6 @@ function run_sanity_check {
     else
         printh "Run config sanity check"
         ng_sanity_check
-        basesite_sanity_check
     fi
 }
 
