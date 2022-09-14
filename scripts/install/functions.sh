@@ -200,11 +200,6 @@ function restore_clone {
         pushd ../.. > /dev/null
         for path in ${projects[@]}
         do
-            if [ ! -d ${path} ]; then
-                WARNINGS+=("[restore_clone] Could not restore ${path}: Path not existing ($path).")
-                continue
-            fi
-
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
             fi
