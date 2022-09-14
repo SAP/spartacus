@@ -364,6 +364,14 @@ function start_apps {
         start_ssr_unix
         start_ssr_pwa_unix
     fi
+
+    if [[ "$CHECK_AFTER_START" = true ]] ; then
+        check_apps
+    fi
+
+    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
+        check_b2b
+    fi
 }
 
 function stop_apps {
@@ -373,11 +381,198 @@ function stop_apps {
 }
 
 function cmd_help {
-    echo "Usage: run [command]"
+    echo "Usage: run [command] [options...]"
     echo "Available commands are:"
     echo " install (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start"
+    echo " start [--check] [--check-b2b] [--test-out <outfile>] [--force-e2e] [--skip-e2e]"
     echo " stop"
     echo " help"
+}
+
+function parseStartArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -c|--check)
+                CHECK_AFTER_START=true
+                echo "➖ Check SSR and SSR after start"
+                shift
+                ;;
+            --check-b2b)
+                CHECK_B2B_AFTER_START=true
+                echo "➖ Check B2B after start"
+                shift
+                ;;
+            --test-out)
+                TEST_OUT="$2"
+                echo "➖ TEST_OUT to $TEST_OUT"
+                shift
+                shift
+                ;;
+            --force-e2e)
+                FORCE_E2E=true
+                echo "➖ Force E2E Tests"
+                shift
+                ;;
+            --skip-e2e)
+                SKIP_E2E=true
+                echo "➖ Skip E2E Tests"
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function check_apps {
+    printh "Checking Sparatcus"
+
+    sleep 5
+
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e)
+    
+    echo ""
+    echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+
+    if [ "$TEST_OUT" != "" ]; then
+        local now=$(date)
+        echo -e "\n============================================================\n ⛑️\tB2C TEST | $now \n============================================================\n" >> "$TEST_OUT"
+        echo "$E2E_RESULT" >> "$TEST_OUT"
+        echo "$SSR_RESULT" >> "$TEST_OUT"
+        echo "$CSR_RESULT" >> "$TEST_OUT"
+        echo -e "\n📝 Append results to $TEST_OUT\n"
+    fi
+}
+
+function check_b2b {
+    printh "Checking Sparatcus B2B"
+
+    sleep 5
+
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e_b2b)
+    
+    echo ""
+    echo "$E2E_RESULT"
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+
+    if [ "$TEST_OUT" != "" ]; then
+        local now=$(date)
+        echo -e "\n=====================================================================\n ⛑️\tB2B TEST | $now \n=====================================================================\n" >> "$TEST_OUT"
+        echo "$E2E_RESULT" >> "$TEST_OUT"
+        echo "$SSR_RESULT" >> "$TEST_OUT"
+        echo "$CSR_RESULT" >> "$TEST_OUT"
+        echo -e "\n📝 Append results to $TEST_OUT\n"
+    fi
+}
+
+function check_csr {
+    local EXIT_CODE=0
+    curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ CSR is working."
+    else
+        echo "🚫 CSR is NOT working."
+    fi
+}
+
+function check_ssr {
+    local EXIT_CODE=0
+    curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ SSR is working."
+    else
+        echo "🚫 SSR is NOT working."
+    fi
+}
+
+function run_e2e {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_B2B" = false ]] ; then
+        echo "⏩️ E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    local EXIT_CODE=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ E2E successful."
+    else
+        echo "🚫 E2E failed."
+    fi
+}
+
+function run_e2e_b2b {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_E2E" = false ]] ; then
+        echo "⏩️ B2B E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+    local OUTPUT
+    local EXIT_CODE_1
+    local EXIT_CODE_2
+
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_1=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_2=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    if [ $EXIT_CODE_1 -eq 0 ]; then
+        echo "✅ [1|2] B2B E2E successful."
+    else
+        echo "🚫 [1|2] B2B E2E failed."
+    fi
+
+    if [ $EXIT_CODE_2 -eq 0 ]; then
+        echo "✅ [2|2] B2B E2E successful."
+    else
+        echo "🚫 [2|2] B2B E2E failed."
+    fi
 }
