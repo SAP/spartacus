@@ -224,7 +224,7 @@ export class CdcJsService implements OnDestroy {
                 isRegistered.complete();
               } else {
                 this.handleRegisterError(response);
-                isRegistered.error(undefined);
+                isRegistered.error(response);
               }
             });
           },
@@ -257,7 +257,7 @@ export class CdcJsService implements OnDestroy {
                 isLoggedIn.complete();
               } else {
                 this.handleLoginError(response);
-                isLoggedIn.error(undefined);
+                isLoggedIn.error(response);
               }
             });
           },
@@ -326,7 +326,7 @@ export class CdcJsService implements OnDestroy {
                 isResetPassword.next({ status: response.status });
                 isResetPassword.complete();
               } else {
-                isResetPassword.error(undefined);
+                isResetPassword.error(response);
               }
             });
           },
