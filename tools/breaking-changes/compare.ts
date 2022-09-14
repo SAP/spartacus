@@ -306,15 +306,6 @@ function isParametersBreakingChangeDetected(
   return false;
 }
 
-function paramDiff(oldMember: any, newMember: any): any[] {
-  return oldMember.parameters.filter(
-    (oldParameter: any) =>
-      !newMember.parameters.find((newParameter: any) =>
-        isIdenticalParams(oldParameter, newParameter)
-      )
-  );
-}
-
 function isIdenticalParams(oldParam: any, newParam: any) {
   return oldParam.name === newParam?.name && oldParam.type === newParam?.type;
 }
