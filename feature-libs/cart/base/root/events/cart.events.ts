@@ -211,5 +211,27 @@ export class AddCartVoucherFailEvent extends AddCartVoucherEvent {
    * Event's type
    */
   static readonly type = 'AddCartVoucherFailEvent';
+}
+
+export class RemoveCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherEvent';
+  voucherId: string;
+}
+
+export class RemoveCartVoucherSuccessEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherSuccessEvent';
+}
+
+export class RemoveCartVoucherFailEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'RemoveCartVoucherFailEvent';
   error: unknown;
 }

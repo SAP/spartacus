@@ -17,6 +17,9 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  RemoveCartVoucherEvent,
+  RemoveCartVoucherFailEvent,
+  RemoveCartVoucherSuccessEvent,
   MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
@@ -516,6 +519,71 @@ describe('CartEventBuilder', () => {
             .subscribe((value) => (result = value));
 
           actions$.next(new CartActions.CartAddVoucherFail(eventData));
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+    });
+
+    describe('RemoveCartVoucherEvents', () => {
+      const voucherId = 'mockVoucherId';
+
+      describe('RemoveCartVoucherEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: RemoveCartVoucherEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: RemoveCartVoucherEvent | undefined;
+          eventService
+            .get(RemoveCartVoucherEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartRemoveVoucher(eventData));
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('RemoveCartVoucherSuccessEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: RemoveCartVoucherSuccessEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: RemoveCartVoucherSuccessEvent | undefined;
+          eventService
+            .get(RemoveCartVoucherSuccessEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartRemoveVoucherSuccess(eventData));
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('RemoveCartVoucherFailEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: RemoveCartVoucherFailEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            error: { error: 'error' },
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: RemoveCartVoucherFailEvent | undefined;
+          eventService
+            .get(RemoveCartVoucherFailEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartRemoveVoucherFail(eventData));
 
           expect(result).toEqual(jasmine.objectContaining(eventData));
         });
