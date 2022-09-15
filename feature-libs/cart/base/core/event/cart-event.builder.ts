@@ -9,6 +9,9 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  AddCartVoucherEvent,
+  AddCartVoucherFailEvent,
+  AddCartVoucherSuccessEvent,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
@@ -60,6 +63,7 @@ export class CartEventBuilder {
     this.registerRemoveEntry();
     this.registerUpdateEntry();
     this.registerDeleteCart();
+    this.registerAddCartVoucher();
     this.registerRemoveCartVoucher();
     this.registerMergeCartSuccess();
   }
@@ -158,6 +162,23 @@ export class CartEventBuilder {
           ...action.payload,
           cartCode: action.payload.cartId,
         }),
+    });
+  }
+
+  protected registerAddCartVoucher(): void {
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER,
+      event: AddCartVoucherEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER_SUCCESS,
+      event: AddCartVoucherSuccessEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER_FAIL,
+      event: AddCartVoucherFailEvent,
     });
   }
 

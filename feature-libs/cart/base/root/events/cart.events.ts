@@ -191,6 +191,29 @@ export class DeleteCartFailEvent extends CartEvent {
   static readonly type = 'DeleteCartFailEvent';
 }
 
+export class AddCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'AddCartVoucherEvent';
+  voucherId: string;
+}
+
+export class AddCartVoucherSuccessEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherSuccessEvent';
+}
+
+export class AddCartVoucherFailEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherFailEvent';
+  error: unknown;
+}
+
 export class RemoveCartVoucherEvent extends CartEvent {
   /**
    * Event's type
