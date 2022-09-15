@@ -46,11 +46,13 @@ fi
 
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
+SKIP_SANITY=false
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
     case "${current_command}" in
         'install' )
+            parseInstallArgs $@
             install_from_sources;;
         'install_npm' )
             install_from_npm;;
