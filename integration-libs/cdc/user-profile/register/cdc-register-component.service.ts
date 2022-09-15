@@ -10,8 +10,8 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
@@ -52,23 +52,21 @@ export class CDCRegisterComponentService extends RegisterComponentService {
    */
   register(user: UserSignUp): Observable<User> {
     return this.cdcJSService.didLoad().pipe(
-      mergeMap((cdcLoaded: boolean) => {
-        if (cdcLoaded) {
-          // Logging in using CDC Gigya SDK, update the registerCommand
-          return this.registerCommand.execute({ user });
-        } else {
-          // CDC Gigya SDK not loaded, show error
+      tap((cdcLoaded) => {
+        if (!cdcLoaded) {
           this.globalMessageService.add(
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return new Observable<User>((userNotRegistered) => {
-            userNotRegistered.complete();
-          });
+          throwError('errorHandlers.scriptFailedToLoad');
         }
-      })
+      }),
+      switchMap(() =>
+        // Logging in using CDC Gigya SDK, update the registerCommand
+        this.registerCommand.execute({ user })
+      )
     );
   }
 }
