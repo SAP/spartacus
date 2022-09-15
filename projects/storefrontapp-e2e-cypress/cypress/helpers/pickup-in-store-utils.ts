@@ -111,8 +111,10 @@ export const LOCATORS = {
 export const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
 const PASSWORD = `Password-1234`;
 
-export const register = () => {
-  cy.get(LOCATORS.LOGIN_LINK).click();
+export const register = (clickLoginLink = true) => {
+  if (clickLoginLink) {
+    cy.get(LOCATORS.LOGIN_LINK).click();
+  }
   cy.get(LOCATORS.REGISTER_BUTTON).click();
   cy.get(LOCATORS.FORM_TITLE).click();
   cy.get(LOCATORS.FORM_TITLE_ENTRY_MR).click();
@@ -125,8 +127,10 @@ export const register = () => {
   cy.get(LOCATORS.FORM_TANDC).click();
   cy.get(LOCATORS.SUBMIT_REGISTRATION_FORM).click();
 };
-export const login = () => {
-  cy.get(LOCATORS.LOGIN_LINK).click();
+export const login = (clickLoginLink = true) => {
+  if (clickLoginLink) {
+    cy.get(LOCATORS.LOGIN_LINK).click();
+  }
   cy.get(LOCATORS.SIGNIN_USERNAME).type(EMAIL_ADDRESS);
   cy.get(LOCATORS.SIGNIN_PASSWORD).type(PASSWORD);
   cy.get(LOCATORS.SIGN_IN_BUTTON).click();
