@@ -361,6 +361,15 @@ function start_apps {
         start_ssr_unix
         start_ssr_pwa_unix
     fi
+
+
+    if [[ "$CHECK_AFTER_START" = true ]] ; then
+        check_apps
+    fi
+
+    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
+        check_b2b
+    fi
 }
 
 function stop_apps {
@@ -374,7 +383,7 @@ function cmd_help {
     echo "Available commands are:"
     echo " install [--skipsanity] (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start"
+    echo " start [-c|--check] [--check-b2b]"
     echo " stop"
     echo " help"
 }
@@ -387,6 +396,60 @@ function print_warnings {
     do
         echo " ❗️ $WARNING"
     done
+}
+
+function check_apps {
+    printh "Checking Sparatcus"
+
+    sleep 5
+
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo ""
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+}
+
+function check_b2b {
+    printh "Checking Sparatcus B2B"
+
+    sleep 5
+
+    echo "Checking CSR ..."
+    local CSR_RESULT=$(check_csr)
+
+    echo "Checking SSR ..."
+    local SSR_RESULT=$(check_ssr)
+
+    echo ""
+    echo "$SSR_RESULT"
+    echo "$CSR_RESULT"
+}
+
+function check_csr {
+    local EXIT_CODE=0
+    curl http://127.0.0.1:4200 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ CSR is working."
+    else
+        echo "🚫 CSR is NOT working."
+    fi
+}
+
+function check_ssr {
+    local EXIT_CODE=0
+    curl http://127.0.0.1:4100 &> /dev/null || EXIT_CODE=$?
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ SSR is working."
+    else
+        echo "🚫 SSR is NOT working."
+    fi
 }
 
 function run_sanity_check {
@@ -447,6 +510,31 @@ function parseInstallArgs {
             --skipsanity)
                 SKIP_SANITY=true
                 echo "➖ Skip Sanity Check"
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function parseStartArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -c|--check)
+                CHECK_AFTER_START=true
+                echo "➖ Check SSR and SSR after start"
+                shift
+                ;;
+            --check-b2b)
+                CHECK_B2B_AFTER_START=true
+                echo "➖ Check B2B after start"
                 shift
                 ;;
             -*|--*)
