@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+WARNINGS=()
+
 # Prints header
 function printh {
     local input="$1"
@@ -192,15 +194,17 @@ function publish_dist_package {
 }
 
 function publish_package {
-    local PKG_NAME=${1};
-    printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    local PKG_PATH=${1}
+    echo "Creating ${PKG_PATH} npm package"
+    (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
 function restore_clone {
+    projects=$@
+
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]}
+        for path in ${projects[@]}
         do
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
@@ -220,12 +224,33 @@ function install_from_sources {
 
     npm set @spartacus:registry http://localhost:4873/
 
-    printh "Cloning Spartacus source code and installing dependencies."
+    printh "Cloning Spartacus source code."
     clone_repo
+
+    printh "Checking Packages"
+    local project_packages=()
+    local project_sources=()
+    for project in ${SPARTACUS_PROJECTS[@]}; do
+        local proj_pck_dir=${project%%:*}
+        local proj_src_dir=${project#*:}
+
+        local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
+        if [ ! -d "${pkg_src_path}" ]; then
+            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
+            printf " \033[33m[!]\033[m ${proj_pck_dir}: ${proj_src_dir}\n"
+            continue
+        fi
+
+        project_packages+=( "${proj_pck_dir}" )
+        project_sources+=( "${proj_src_dir}" )
+        echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
+    done
+
+    printh "Installing dependencies."
     ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
-    update_projects_versions ${SPARTACUS_PROJECTS[@]}
+    update_projects_versions ${project_sources[@]}
 
     verdaccio --config ./config.yaml &
 
@@ -236,39 +261,9 @@ function install_from_sources {
 
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
-    local dist_packages=(
-        'core'
-        'storefrontlib'
-        'assets'
-        'checkout'
-        'product'
-        'setup'
-        'cart'
-        'order'
-        'asm'
-        'user'
-        'organization'
-        'storefinder'
-        'tracking'
-        'qualtrics'
-        'smartedit'
-        'cds'
-        'cdc'
-        'epd-visualization'
-        'product-configurator'
-    )
-
-    local packages=(
-        'storefrontstyles'
-        'schematics'
-    )
-
-    for package in ${dist_packages[@]}; do
-        publish_dist_package ${package}
-    done
-
-    for package in ${packages[@]}; do
-        publish_package ${package}
+    printh "Publish Packages"
+    for project in ${project_packages[@]}; do
+        publish_package "${CLONE_DIR}/${project}"
     done
 
     create_apps
@@ -279,7 +274,7 @@ function install_from_sources {
 
     npm set @spartacus:registry https://registry.npmjs.org/
 
-    restore_clone
+    restore_clone ${project_sources[@]}
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
@@ -382,6 +377,16 @@ function cmd_help {
     echo " start"
     echo " stop"
     echo " help"
+}
+
+function print_warnings {
+    echo ""
+    echo "${#WARNINGS[@]} Warnings"
+
+    for WARNING in "${WARNINGS[@]}"
+    do
+        echo " ❗️ $WARNING"
+    done
 }
 
 function run_sanity_check {
