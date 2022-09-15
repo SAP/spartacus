@@ -20,13 +20,18 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
-  getHtml() {
+
+  getResourceType() {
     // Intentional empty method
   }
   getStyleClasses() {
     // Intentional empty method
   }
-  addStyleClasses() {
+
+  getSvgPath() {
+    // Intentional empty method
+  }
+  getSymbol() {
     // Intentional empty method
   }
   addLinkResource() {

@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -13,7 +12,7 @@ import {
   IconConfigResource,
   IconOptions,
   IconResourceType,
-  ICON_TYPE,
+  ICON_TYPE_STRING,
 } from './icon.model';
 
 @Injectable({
@@ -21,6 +20,7 @@ import {
 })
 export class IconLoaderService {
   private loadedResources: string[] = [];
+
   constructor(
     protected winRef: WindowRef,
     protected iconConfig: IconConfig,
@@ -29,26 +29,52 @@ export class IconLoaderService {
 
   /**
    * Returns an html fragment which can be added to the DOM in a safe way.
+   *
+   * @deprecated only exists for backwards compatibility, html generation has been moved to icon component
    */
-  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
-    if (this.isResourceType(type, IconResourceType.SVG)) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
+  getHtml(type: ICON_TYPE_STRING): SafeHtml | undefined {
+    if (this.getResourceType(type) === IconResourceType.SVG) {
+      const url = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        this.getSvgPath(type) || null
       );
-    }
-    if (this.isResourceType(type, IconResourceType.TEXT)) {
-      const symbol = this.getSymbol(type);
-      if (symbol) {
-        return this.sanitizer.bypassSecurityTrustHtml(symbol);
+      if (url) {
+        const useElement = this.winRef.document.createElement('use');
+        useElement.setAttribute('xlink:href', url);
+        const svgElement = this.winRef.document.createElement('svg');
+        svgElement.appendChild(useElement);
+        return this.sanitizer.bypassSecurityTrustHtml(svgElement.outerHTML);
       }
     }
+    if (this.getResourceType(type) === IconResourceType.TEXT) {
+      const symbol = this.getSymbol(type);
+      if (symbol) {
+        const helperDiv = this.winRef.document.createElement('div');
+        helperDiv.textContent = symbol;
+        return this.sanitizer.bypassSecurityTrustHtml(helperDiv.innerHTML);
+      }
+    }
+  }
+
+  /**
+   * Get the `IconResourceType` that is configured for the given `ICON_TYPE`
+   * Defaults to `IconResourceType.LINK`, if an unknown `IconResourceType` is configured or none is configured.
+   */
+  getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
+    const iconResourceType = this.config?.resources?.find((res) =>
+      res.types?.includes(iconType)
+    )?.type;
+    if (!Object.values<any>(IconResourceType).includes(iconResourceType)) {
+      return IconResourceType.LINK;
+    }
+    return <IconResourceType>iconResourceType;
   }
 
   /**
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
+  getFlipDirection(type: ICON_TYPE_STRING): DirectionMode | undefined {
     return this.config?.flipDirection?.[type];
   }
 
@@ -56,42 +82,23 @@ export class IconLoaderService {
    *
    * Returns the symbol class(es) for the icon type.
    */
-  getStyleClasses(iconType: ICON_TYPE | string): string {
+  getStyleClasses(iconType: ICON_TYPE_STRING): string {
     return this.getSymbol(iconType) || '';
   }
 
   /**
-   * Indicates whether the given `ICON_TYPE` is configured for
-   * the given `IconResourceType`.
-   */
-  private isResourceType(
-    iconType: ICON_TYPE | string,
-    resourceType: IconResourceType
-  ): boolean {
-    return (
-      this.config?.resources !== undefined &&
-      !!this.config.resources.find(
-        (res) =>
-          res.types && res.type === resourceType && res.types.includes(iconType)
-      )
-    );
-  }
-
-  /**
    * Returns the path to the svg link. The link supports path names
-   * as well, if the config a[[s been setup to support a svg file path.
+   * as well, if the config has been setup to support a svg file path.
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  private getSvgPath(iconType: ICON_TYPE | string): string | undefined {
+  getSvgPath(iconType: ICON_TYPE_STRING): string | undefined {
     const svgResource = this.config?.resources?.find(
       (res) =>
-        res.type === IconResourceType.SVG &&
-        res.types &&
-        res.types.includes(iconType)
+        res.type === IconResourceType.SVG && res.types?.includes(iconType)
     );
     if (svgResource) {
-      return svgResource.url
+      return svgResource?.url
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
         : `#${this.getSymbol(iconType)}`;
     }
@@ -105,51 +112,51 @@ export class IconLoaderService {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined = this.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
-    if (
-      resource &&
-      resource.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
+  addLinkResource(iconType: ICON_TYPE_STRING): void {
+    const resource = this.findResource(iconType, IconResourceType.LINK);
+
+    if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url;
-      head.appendChild(link);
+      // using DOM APIs, so need to sanitize our URLs manually
+      const sanitizedUrl = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        resource.url
+      );
+      if (sanitizedUrl) {
+        const head = this.winRef.document.getElementsByTagName('head')[0];
+        const link = this.winRef.document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = sanitizedUrl;
+        head.appendChild(link);
+      }
     }
   }
 
+  /**
+   * Find the IconConfigResource configured for given iconType and resourceType.
+   * Try to find a resource, specific to both the iconType and the resourceType.
+   * Otherwise, try to find a one-size-fits-all resource for the resourceType, if any.
+   */
   private findResource(
-    iconType: ICON_TYPE | string,
+    iconType: ICON_TYPE_STRING,
     resourceType: IconResourceType
   ): IconConfigResource | undefined {
-    if (!this.config?.resources) {
-      return;
-    }
-
-    let resource = this.config.resources.find(
-      (res) =>
-        res.type === resourceType && res.types && res.types.includes(iconType)
+    return (
+      this.config?.resources?.find(
+        (res) => res.type === resourceType && res.types?.includes(iconType)
+      ) ||
+      this.config?.resources?.find(
+        (res) => res.type === resourceType && !res.types
+      )
     );
-    // no specific resource found, let's try to find a one-size-fits-all resource
-    if (!resource) {
-      resource = this.config.resources.find(
-        (res) => (res.type === resourceType && !res.types) || res.types === []
-      );
-    }
-    return resource;
   }
 
-  getSymbol(iconType: ICON_TYPE | string) {
-    if (this.config && this.config.symbols && this.config.symbols[iconType]) {
-      return this.config.symbols[iconType];
-    }
+  /**
+   * Get the symbol configured for given iconType, if any.
+   */
+  getSymbol(iconType: ICON_TYPE_STRING): string | undefined {
+    return this.config?.symbols?.[iconType];
   }
 
   private get config(): IconOptions | undefined {

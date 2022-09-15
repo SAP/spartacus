@@ -16,17 +16,13 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
+export class MockIconLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
 
+  getResourceType() {}
   addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
   getFlipDirection(): void {}
 }
 
@@ -61,7 +57,7 @@ describe('ConfigAttributeFooterComponent', () => {
         imports: [I18nTestingModule, IconModule],
         declarations: [ConfiguratorAttributeFooterComponent],
         providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,

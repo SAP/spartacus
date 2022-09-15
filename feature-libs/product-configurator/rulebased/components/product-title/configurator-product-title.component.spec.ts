@@ -131,7 +131,8 @@ class MockConfiguratorCommonsService {
   }
 }
 
-export class MockIconFontLoaderService {
+export class MockIconLoaderService {
+  getResourceType() {}
   getFlipDirection(): void {}
 }
 
@@ -190,7 +191,7 @@ describe('ConfigProductTitleComponent', () => {
             provide: ProductService,
             useClass: MockProductService,
           },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
           {
             provide: FeaturesConfig,
             useValue: {

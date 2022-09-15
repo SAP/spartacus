@@ -48,8 +48,9 @@ class MockConfiguratorCommonsService {
   }
 }
 
-export class MockIconFontLoaderService {
+export class MockIconLoaderService {
   getFlipDirection(): void {}
+  getResourceType() {}
 }
 
 describe('ConfigurationGroupTitleComponent', () => {
@@ -82,7 +83,7 @@ describe('ConfigurationGroupTitleComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupService,
           },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
         ],
       });
     })
