@@ -110,7 +110,11 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Intentional empty method
+  }
 }

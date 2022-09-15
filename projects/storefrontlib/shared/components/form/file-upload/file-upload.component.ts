@@ -65,8 +65,12 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   // ControlValueAccessor START
-  protected onChangeCallback: Function = () => {};
-  protected onTouchedCallback: Function = () => {};
+  protected onChangeCallback: Function = () => {
+    // Intentional empty arrow function
+  };
+  protected onTouchedCallback: Function = () => {
+    // Intentional empty arrow function
+  };
   registerOnChange(callback: Function): void {
     this.onChangeCallback = callback;
   }

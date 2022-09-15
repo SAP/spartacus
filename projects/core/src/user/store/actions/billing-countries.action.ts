@@ -13,7 +13,9 @@ export const LOAD_BILLING_COUNTRIES_SUCCESS =
 
 export class LoadBillingCountries implements Action {
   readonly type = LOAD_BILLING_COUNTRIES;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export class LoadBillingCountriesFail implements Action {

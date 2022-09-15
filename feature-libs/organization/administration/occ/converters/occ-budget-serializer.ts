@@ -10,7 +10,9 @@ import { Budget } from '@spartacus/organization/administration/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccBudgetSerializer implements Converter<Budget, Occ.Budget> {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(source: Budget, target?: Occ.Budget): Occ.Budget {
     if (target === undefined) {

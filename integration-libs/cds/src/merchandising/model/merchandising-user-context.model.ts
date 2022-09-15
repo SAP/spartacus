@@ -10,4 +10,5 @@ export interface MerchandisingUserContext {
   products?: string[];
   facets?: string;
   consentReference?: string;
+  searchPhrase?: string;
 }

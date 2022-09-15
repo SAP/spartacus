@@ -139,52 +139,21 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
     // standard interval a - b
     if (value.name.includes(' - ')) {
-      let index = value.name.indexOf(' - ');
-      minVal = value.name.substring(0, index);
-      maxVal = value.name.substring(index + 3, value.name.length);
-      interval.minValueIncluded = true;
-      interval.maxValueIncluded = true;
-      if (minVal.includes('>')) {
-        interval.minValueIncluded = false;
-        minVal = minVal.replace('>', '');
-      }
-
-      if (maxVal.includes('<')) {
-        interval.maxValueIncluded = false;
-        maxVal = maxVal.replace('<', '');
-      }
+      ({ minVal, maxVal } = this.handleStandardInterval(
+        value.name,
+        minVal,
+        maxVal,
+        interval
+      ));
 
       // infinite interval or single value
     } else {
-      if (value.name.includes('>')) {
-        minVal = value.name;
-        interval.minValueIncluded = false;
-        minVal = minVal.replace('>', '');
-      }
-      if (value.name.includes('<')) {
-        maxVal = value.name;
-        interval.maxValueIncluded = false;
-        maxVal = maxVal.replace('<', '');
-      }
-      if (value.name.includes('≥')) {
-        minVal = value.name;
-        interval.minValueIncluded = true;
-        minVal = minVal.replace('≥', '');
-      }
-      if (value.name.includes('≤')) {
-        maxVal = value.name;
-        interval.maxValueIncluded = true;
-        maxVal = maxVal.replace('≤', '');
-      }
-      if (
-        !value.name.includes('>') &&
-        !value.name.includes('<') &&
-        !value.name.includes('≤') &&
-        !value.name.includes('≥')
-      ) {
-        minVal = value.name;
-        maxVal = value.name;
-      }
+      ({ minVal, maxVal } = this.handleSingleOrInfinite(
+        value.name,
+        minVal,
+        interval,
+        maxVal
+      ));
     }
 
     if (minVal && minVal.length > 0) {
@@ -195,6 +164,67 @@ export class ConfiguratorAttributeNumericInputFieldService {
     }
 
     return interval;
+  }
+
+  protected handleSingleOrInfinite(
+    valueName: string,
+    minVal: string,
+    interval: ConfiguratorAttributeNumericInterval,
+    maxVal: string
+  ) {
+    if (valueName.includes('>')) {
+      minVal = valueName;
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+    if (valueName.includes('<')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    if (valueName.includes('≥')) {
+      minVal = valueName;
+      interval.minValueIncluded = true;
+      minVal = minVal.replace('≥', '');
+    }
+    if (valueName.includes('≤')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = true;
+      maxVal = maxVal.replace('≤', '');
+    }
+    if (
+      !valueName.includes('>') &&
+      !valueName.includes('<') &&
+      !valueName.includes('≤') &&
+      !valueName.includes('≥')
+    ) {
+      minVal = valueName;
+      maxVal = valueName;
+    }
+    return { minVal, maxVal };
+  }
+
+  protected handleStandardInterval(
+    valueName: string,
+    minVal: string,
+    maxVal: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    let index = valueName.indexOf(' - ');
+    minVal = valueName.substring(0, index);
+    maxVal = valueName.substring(index + 3, valueName.length);
+    interval.minValueIncluded = true;
+    interval.maxValueIncluded = true;
+    if (minVal.includes('>')) {
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+
+    if (maxVal.includes('<')) {
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    return { minVal, maxVal };
   }
 
   /**

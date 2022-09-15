@@ -17,7 +17,9 @@ export class OccConfiguratorVariantAddToCartSerializer
       OccConfigurator.AddToCartParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(
     source: Configurator.AddToCartParameters,

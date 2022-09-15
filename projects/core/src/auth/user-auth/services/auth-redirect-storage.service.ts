@@ -15,7 +15,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthRedirectStorageService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   private redirectUrl$: Observable<string | undefined> = new BehaviorSubject<
     string | undefined

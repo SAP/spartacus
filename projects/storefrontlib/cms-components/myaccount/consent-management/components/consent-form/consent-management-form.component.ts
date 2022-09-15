@@ -33,7 +33,9 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit(): void {
     if (this.consent) {
