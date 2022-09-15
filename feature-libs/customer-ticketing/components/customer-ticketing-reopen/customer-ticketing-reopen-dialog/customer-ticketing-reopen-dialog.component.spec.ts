@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { STATUS, STATUS_NAME } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { CustomerTicketingDetailsService } from '../../customer-ticketing-details.service';
 
@@ -18,6 +19,7 @@ class MockCustomerTicketingDetailsService
 describe('CustomerTicketingReopenDialogComponent', () => {
   let component: CustomerTicketingReopenDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
+  let customerTicketingDetailsService: CustomerTicketingDetailsService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,6 +33,10 @@ describe('CustomerTicketingReopenDialogComponent', () => {
         },
       ],
     }).compileComponents();
+
+    customerTicketingDetailsService = TestBed.inject(
+      CustomerTicketingDetailsService
+    );
   });
 
   beforeEach(() => {
@@ -41,5 +47,41 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should build form', () => {
+    expect(component.form.get('message')?.value).toBeDefined();
+    expect(component.form.get('file')?.value).toBeDefined();
+  });
+
+  describe('reopenRequest', () => {
+    it('should not call createTicketEvent if the form is invalid', () => {
+      spyOn(customerTicketingDetailsService, 'createTicketEvent');
+
+      component.form.get('message')?.setValue('');
+      component.reopenRequest();
+
+      expect(
+        customerTicketingDetailsService.createTicketEvent
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call createTicketEvent if the form is valid', () => {
+      const mockEvent = {
+        message: 'mockMessage',
+        toStatus: {
+          id: STATUS.INPROCESS,
+          name: STATUS_NAME.INPROCESS,
+        },
+      };
+      spyOn(customerTicketingDetailsService, 'createTicketEvent');
+
+      component.form.get('message')?.setValue('mockMessage');
+      component.reopenRequest();
+
+      expect(
+        customerTicketingDetailsService.createTicketEvent
+      ).toHaveBeenCalledWith(mockEvent);
+    });
   });
 });
