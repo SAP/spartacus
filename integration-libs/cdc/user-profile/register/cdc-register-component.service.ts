@@ -10,29 +10,24 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
   protected registerCommand: Command<{ user: UserSignUp }, User> =
-    this.command.create(
-      ({ user }) =>
-        new Observable<User>((userRegistered) => {
+    this.command.create(({ user }) =>
+      this.validateUser(user).pipe(
+        switchMap(() =>
           // Registering user through CDC Gigya SDK
-          if (user.firstName && user.lastName && user.uid && user.password) {
-            this.cdcJSService.registerUserWithoutScreenSet(user).subscribe({
-              next: (result) => {
-                if (result.status === 'OK') {
-                  userRegistered.complete();
-                } else {
-                  userRegistered.error(null);
-                }
-              },
-              error: (error) => userRegistered.error(error),
-            });
+          this.cdcJSService.registerUserWithoutScreenSet(user)
+        ),
+        tap((result) => {
+          if (result.status !== 'OK') {
+            throwError(null);
           }
         })
+      )
     );
 
   constructor(
@@ -43,6 +38,13 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected globalMessageService: GlobalMessageService
   ) {
     super(userRegisterFacade);
+  }
+
+  protected validateUser(user: UserSignUp): Observable<unknown> {
+    if (!user.firstName || !user.lastName || !user.uid || !user.password) {
+      return throwError(`The provided user is not valid: ${user}`);
+    }
+    return of();
   }
 
   /**
