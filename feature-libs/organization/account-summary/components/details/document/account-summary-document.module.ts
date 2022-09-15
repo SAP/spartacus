@@ -17,7 +17,6 @@ export const accountSummaryDocumentCmsConfig: CmsConfig = {
   },
 };
 
-
 @NgModule({
   declarations: [AccountSummaryDocumentComponent],
   imports: [
