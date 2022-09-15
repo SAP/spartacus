@@ -21,7 +21,8 @@ context('B2B - Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    it("should fetch cost centers based on the emulated user's role", () => {
+    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side
+    it.skip("should fetch cost centers based on the emulated user's role", () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],

@@ -94,7 +94,8 @@ context('Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    it("should fetch products in a category based on the emulated user's authentication", () => {
+    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side
+    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
       cy.cxConfig({
         context: {
           baseSite: ['apparel-uk-spa'],

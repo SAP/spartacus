@@ -12,6 +12,8 @@ import {
 } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {
+  Config,
+  isFeatureEnabled,
   OCC_ASM_TOKEN,
   OCC_USER_ID_CONSTANTS,
   UserIdService,
@@ -30,6 +32,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
   protected readonly uniqueUserIdConstants: Set<string>;
 
   constructor(
+    protected config: Config,
     protected userIdService: UserIdService,
     @Inject(OCC_USER_ID_CONSTANTS)
     protected userIdConstants: { [identifier: string]: string }
@@ -41,6 +44,10 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    if (!isFeatureEnabled(this.config, 'enableCommerceCloudUserIdHeader')) {
+      return next.handle(httpRequest);
+    }
+
     const asmContext = httpRequest.context.get(OCC_ASM_TOKEN);
 
     let userIdObservable: Observable<string | undefined>;
