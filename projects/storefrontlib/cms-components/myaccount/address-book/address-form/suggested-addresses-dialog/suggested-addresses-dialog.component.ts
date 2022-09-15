@@ -3,10 +3,11 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnInit,
 } from '@angular/core';
 import { Address } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { FocusConfig, LaunchDialogService } from '../../../../../layout';
-import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 
 @Component({
@@ -14,7 +15,7 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
   templateUrl: './suggested-addresses-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SuggestedAddressDialogComponent {
+export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -25,7 +26,7 @@ export class SuggestedAddressDialogComponent {
 
   selectedAddress: Address;
 
-  data$ = this.launchDialogService.data$.pipe(tap(this.setSelectedAddress));
+  data$ = this.launchDialogService.data$;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -39,6 +40,10 @@ export class SuggestedAddressDialogComponent {
     protected el: ElementRef
   ) {}
 
+  ngOnInit(): void {
+    this.data$.pipe(take(1)).subscribe((data) => this.setSelectedAddress(data));
+  }
+
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }
@@ -50,5 +55,6 @@ export class SuggestedAddressDialogComponent {
     this.selectedAddress = data.suggestedAddresses?.length
       ? data.suggestedAddresses[0]
       : data.enteredAddress;
+    console.log(this.selectedAddress);
   }
 }
