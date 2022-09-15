@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 WARNINGS=()
+HAS_XVFB_INSTALLED=false
 
 # Prints header
 function printh {
@@ -216,6 +217,8 @@ function restore_clone {
 }
 
 function install_from_sources {
+    run_system_check
+
     run_sanity_check
 
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
@@ -383,7 +386,7 @@ function cmd_help {
     echo "Available commands are:"
     echo " install [--skipsanity] (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start [-c|--check] [--check-b2b]"
+    echo " start [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
     echo " stop"
     echo " help"
 }
@@ -409,7 +412,11 @@ function check_apps {
     echo "Checking SSR ..."
     local SSR_RESULT=$(check_ssr)
 
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e)
+
     echo ""
+    echo "$E2E_RESULT"
     echo "$SSR_RESULT"
     echo "$CSR_RESULT"
 }
@@ -425,7 +432,11 @@ function check_b2b {
     echo "Checking SSR ..."
     local SSR_RESULT=$(check_ssr)
 
+    echo "Running E2E ..."
+    local E2E_RESULT=$(run_e2e_b2b)
+
     echo ""
+    echo "$E2E_RESULT"
     echo "$SSR_RESULT"
     echo "$CSR_RESULT"
 }
@@ -449,6 +460,72 @@ function check_ssr {
         echo "✅ SSR is working."
     else
         echo "🚫 SSR is NOT working."
+    fi
+}
+
+function run_e2e {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_B2B" = false ]] ; then
+        echo "⏩️ E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    local EXIT_CODE=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    if [ $EXIT_CODE -eq 0 ]; then
+        echo "✅ E2E successful."
+    else
+        echo "🚫 E2E failed."
+    fi
+}
+
+function run_e2e_b2b {
+    if [[ "$SKIP_E2E" = true ]] ; then
+        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        return 0
+    fi
+
+    if [ "$HAS_XVFB_INSTALLED" = false ] && [[ "$FORCE_E2E" = false ]] ; then
+        echo "⏩️ B2B E2E skipped (xvfb is missing)."
+        return 0
+    fi
+
+    local OUTPUT
+    local EXIT_CODE_1
+    local EXIT_CODE_2
+
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_1=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts")
+    EXIT_CODE_2=$?
+
+    echo "$OUTPUT"
+    echo ""
+
+    if [ $EXIT_CODE_1 -eq 0 ]; then
+        echo "✅ [1|2] B2B E2E successful."
+    else
+        echo "🚫 [1|2] B2B E2E failed."
+    fi
+
+    if [ $EXIT_CODE_2 -eq 0 ]; then
+        echo "✅ [2|2] B2B E2E successful."
+    else
+        echo "🚫 [2|2] B2B E2E failed."
     fi
 }
 
@@ -503,6 +580,17 @@ function ng_sanity_check {
     fi
 }
 
+function run_system_check {
+    printh "Checking system"
+
+    HAS_XVFB_INSTALLED=false
+    EXIT_CODE=0
+    command -v xvfb-run &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_XVFB_INSTALLED=true
+    fi
+}
+
 function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
@@ -535,6 +623,16 @@ function parseStartArgs {
             --check-b2b)
                 CHECK_B2B_AFTER_START=true
                 echo "➖ Check B2B after start"
+                shift
+                ;;
+            --force-e2e)
+                FORCE_E2E=true
+                echo "➖ Force E2E Tests"
+                shift
+                ;;
+            --skip-e2e)
+                SKIP_E2E=true
+                echo "➖ Skip E2E Tests"
                 shift
                 ;;
             -*|--*)
