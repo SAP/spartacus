@@ -64,6 +64,14 @@ function getBreakingChangeDoc(apiElement: any): string {
   ) {
     doc += getMovedOrRenamedComment(apiElement);
   }
+
+  const migrationComment = common.findApiMigrationComment(
+    apiElement,
+    deletedCommentsData
+  );
+  if (!!migrationComment) {
+    doc += migrationComment + '\n';
+  }
   doc += getChangedDoc(apiElement);
 
   doc += getMembersDoc(apiElement);
@@ -79,14 +87,6 @@ function getDocHeader(apiElement: any): string {
 ## ${apiElement.entryPoint}
 
 `;
-
-  if (!!apiElement.migrationComment) {
-    docHeader += `
-${apiElement.migrationComment}
-
-`;
-  }
-
   return docHeader;
 }
 
@@ -99,14 +99,13 @@ function getFullName(apiElement: any): string {
 }
 
 function getDeletdDoc(apiElement: any): string {
-  const migrationComment = common.findApiMigrationComment(
-    apiElement,
-    deletedCommentsData
-  );
-
   return `
 ${common.generateTopLevelApiDeletedComment(apiElement)}
-${migrationComment}`;
+`;
+}
+
+function getMigrationComment(apiElement: any): string {
+  return common.findApiMigrationComment(apiElement, deletedCommentsData);
 }
 
 function getMovedDoc(apiElement: any): string {
@@ -150,6 +149,12 @@ function getMembersDoc(apiElement: any): string {
 
   if (memberBreakingChanges && memberBreakingChanges?.length > 0) {
     memberBreakingChanges.forEach((memberBreakingChange: any) => {
+      const memberMigrationComment = common.findDeletedMemberComment(
+        apiElement,
+        memberBreakingChange.changeElementName,
+        deletedMembersCommentData
+      );
+
       switch (memberBreakingChange.changeType) {
         case 'CHANGED': {
           doc += `\n### ${memberBreakingChange.changeKind}${
@@ -169,18 +174,13 @@ ${MD_CODEBLOCK}${common.getMemberStateDoc(
             memberBreakingChange.new
           )}${MD_CODEBLOCK}
 `;
-          if (!!memberBreakingChange.migrationComment) {
-            doc += `\n${memberBreakingChange.migrationComment}\n`;
+
+          if (!!memberMigrationComment) {
+            doc += `\n${memberMigrationComment}\n`;
           }
           break;
         }
         case 'DELETED': {
-          const memberMigrationComment = common.findDeletedMemberComment(
-            apiElement,
-            memberBreakingChange.changeElementName,
-            deletedMembersCommentData
-          );
-
           doc += `\n### ${memberBreakingChange.old.kind} ${memberBreakingChange.old.name} is removed.\n`;
           doc += `\n${memberMigrationComment}\n`;
           break;
