@@ -40,8 +40,8 @@ See the [Release documentation](https://sap.github.io/spartacus-docs/release-inf
 If you are working with Spartacus 4.x, your Angular development environment should include the following:
 
 - [Angular CLI](https://angular.io/): **12.0** or later, < 13.
-- node.js: 12 (12.16.1 or later) or 14.x.
 - yarn: v1.15 or later
+- node.js: The most recent **14.x** version is required. Version 12.x reached end-of-life on April 30, 2022, and is no longer supported by Spartacus. It is strongly recommended that you migrate any existing Spartacus storefronts to Node.js 14 as soon as possible. If there are any issues with Spartacus and Node.js 14, please upgrade to the latest releases. If you continue to experience issues with Node.js 14, create a support ticket with SAP. Spartacus also supports version 16.x of Node.js, but this version is not yet supported in Commerce Cloud in the Public Cloud builder.
 
 If you are working with Spartacus 3.x, your Angular development environment should include the following:
 
