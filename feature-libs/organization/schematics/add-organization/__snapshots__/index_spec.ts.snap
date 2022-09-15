@@ -5,12 +5,12 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature eager
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { AccountSummaryModule } from \\"@spartacus/organization/account-summary\\";
 import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from \\"@spartacus/organization/account-summary/assets\\";
-import { OrderApprovalRootModule } from \\"@spartacus/organization/order-approval/root\\";
+import { AccountSummaryRootModule } from \\"@spartacus/organization/order-approval/root\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    OrderApprovalRootModule,
+    AccountSummaryRootModule,
     AccountSummaryModule
   ],
   providers: [provideConfig(<I18nConfig>{
@@ -67,12 +67,12 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from \\"@spartacus/organization/account-summary/assets\\";
 import { ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from \\"@spartacus/organization/account-summary/root\\";
-import { OrderApprovalRootModule } from \\"@spartacus/organization/order-approval/root\\";
+import { AccountSummaryRootModule } from \\"@spartacus/organization/order-approval/root\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    OrderApprovalRootModule
+    AccountSummaryRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
