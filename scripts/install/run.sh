@@ -51,6 +51,7 @@ CHECK_AFTER_START=false
 CHECK_B2B_AFTER_START=false
 FORCE_E2E=false
 SKIP_E2E=false
+MAX_PARALLEL="6"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 

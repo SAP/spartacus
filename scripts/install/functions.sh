@@ -2,8 +2,13 @@
 
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
+HAS_GNU_PARALLEL_INSTALLED=false
 
-# Prints header
+TIME_MEASUREMENT_CURR_TITLE="Start"
+TIME_MEASUREMENT_TITLES=()
+TIME_MEASUREMENT_TIMES=($(date +%s))
+
+# Prints header adds time measurement
 function printh {
     local input="$1"
     local len=$((${#1}+2))
@@ -14,13 +19,20 @@ function printh {
     printf -- "-%.0s" $(seq 1 $len)
     printf "+\n\n"
     printf "\033[0m" # end green color
+    add_time_measurement "$input"
 }
 
 function delete_dir {
     local dir="${1}"
+    local temp_dir="${1}.delete"
+
+    echo "deleting directory ${dir} in background"
+    if [ -d ${temp_dir} ]; then
+        rm -rf ${temp_dir}
+    fi
     if [ -d ${dir} ]; then
-        echo "deleting directory ./${dir}"
-        rm -rf ${dir}
+        mv ${dir} ${temp_dir}
+        rm -rf ${temp_dir} &
     fi
 }
 
@@ -69,17 +81,17 @@ function clone_repo {
 }
 
 function update_projects_versions {
-
     projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    for i in ${projects}
-        do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
-        done
+    local update_commands=()
+    for project in ${projects}; do
+        update_commands+=( "cd \"${CLONE_DIR}/${project}\" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' package.json" )
+    done
+    run_parallel_chunked "${MAX_PARALLEL}" "${update_commands[@]}"
 }
 
 function create_shell_app {
@@ -188,12 +200,6 @@ function create_apps {
     fi
 }
 
-function publish_dist_package {
-    local PKG_NAME=${1};
-    printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
-}
-
 function publish_package {
     local PKG_PATH=${1}
     echo "Creating ${PKG_PATH} npm package"
@@ -265,9 +271,11 @@ function install_from_sources {
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     printh "Publish Packages"
+    local packages_commands=()
     for project in ${project_packages[@]}; do
-        publish_package "${CLONE_DIR}/${project}"
+        packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
     done
+    run_parallel_chunked "${MAX_PARALLEL}" "${packages_commands[@]}"
 
     create_apps
 
@@ -280,6 +288,12 @@ function install_from_sources {
     restore_clone ${project_sources[@]}
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+
+    print_warnings
+
+    print_times
+
+    print_summary
 }
 
 function install_from_npm {
@@ -529,6 +543,67 @@ function run_e2e_b2b {
     fi
 }
 
+function run_parallel_chunked {
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        echo "⇶ Running in parallel chunked [fast]"
+        local n="${1}"
+        local tasks=("$@")
+
+        echo "  > Tasks: $((${#tasks[@]}-1))"
+        echo "  > Chunk-Size: ${n}"
+
+        for((i=1; i < ${#tasks[@]}; i+=n))
+        do
+            chunk=( "${tasks[@]:i:n}" )
+            echo "⇶ Running a chunk in parallel [fast]"
+            for c in "${chunk[@]}"
+            do
+                echo "  > ${c}"
+            done
+            exec_parallel "${chunk[@]}"
+        done
+    else
+        echo "→ Running linear [slow]"
+        local tasks=("$@")
+        unset tasks[0]
+        exec_linear "${tasks[@]}"
+    fi
+}
+
+function run_parallel {
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        echo "⇶ Running in parallel [fast]"
+        exec_parallel "${@}"
+    else
+        echo "→ Running linear [slow]"
+        exec_linear "${@}"
+    fi
+}
+
+function exec_parallel {
+    local tasks=("${@}")
+    exec_parallel_export_vars
+    parallel -k --ungroup eval ::: "${tasks[@]}"
+}
+
+function exec_linear {
+    local sep=" && "
+    local tasks=("${@}")
+
+    local ltasks=$(printf "${sep}%s" "${tasks[@]}")
+    ltasks="${ltasks:${#sep}}"
+
+    exec_parallel_export_vars
+    eval "$ltasks"
+}
+
+function exec_parallel_export_vars {
+    export CLONE_DIR
+    export SPARTACUS_VERSION
+    export -f publish_package
+}
+
+
 function run_sanity_check {
     if [ "$SKIP_SANITY" = true ]; then
         printh "Skip config sanity check"
@@ -537,6 +612,8 @@ function run_sanity_check {
         ng_sanity_check
     fi
 }
+
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function ng_sanity_check {
     if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
@@ -588,6 +665,16 @@ function run_system_check {
     command -v xvfb-run &> /dev/null || EXIT_CODE=$?
     if [ $EXIT_CODE -eq 0 ] ; then
         HAS_XVFB_INSTALLED=true
+    fi
+
+    HAS_GNU_PARALLEL_INSTALLED=false
+    EXIT_CODE=0
+    command -v parallel &> /dev/null || EXIT_CODE=$?
+    if [ $EXIT_CODE -eq 0 ] ; then
+        HAS_GNU_PARALLEL_INSTALLED=true
+        echo "🚀 Running in rocket speed [using gnu parallel]"
+    else
+        echo "🐢 Running in tutle speed [gnu parallel missing]"
     fi
 }
 
@@ -644,4 +731,47 @@ function parseStartArgs {
                 ;;
         esac
     done
+}
+
+function add_time_measurement {
+    local TITLE=${1};
+    local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    TIME_MEASUREMENT_TIMES+=("$END_TIME")
+
+    if [ $ELAPSED -gt 30 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    elif [ $ELAPSED -gt 10 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    else
+        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    fi
+
+    TIME_MEASUREMENT_CURR_TITLE="$TITLE"
+}
+
+function print_times {
+    add_time_measurement ""
+    echo ""
+    echo "Elapsed Time"
+
+    for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
+    do
+        printf " ┕ $MEASURMENT\n"
+    done
+}
+
+function print_summary {
+    local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    printf "\nOS: ${EXECUTING_OS}\n"
+    printf "BRANCH: ${BRANCH}\n"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        printf "Mode: 🚀 [USING GNU PARALLEL]\n"
+    else
+        printf "Mode: 🐢 [NO GNU PARALLEL]\n"
+    fi 
+    printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
 }
