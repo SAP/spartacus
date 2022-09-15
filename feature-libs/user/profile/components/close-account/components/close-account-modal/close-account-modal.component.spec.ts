@@ -137,4 +137,12 @@ describe('CloseAccountModalComponent', () => {
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
+
+  it('should closeModal when user click outside', () => {
+    const el = fixture.debugElement.nativeElement;
+    spyOn(component, 'dismissModal');
+
+    el.click();
+    expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
+  });
 });
