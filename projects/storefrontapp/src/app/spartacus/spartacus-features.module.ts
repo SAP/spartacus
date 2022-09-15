@@ -89,6 +89,7 @@ const featureModules = [];
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
+    AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule
   );
@@ -205,8 +206,6 @@ if (environment.epdVisualization) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-
-    AccountSummaryFeatureModule,
 
     ...featureModules,
   ],

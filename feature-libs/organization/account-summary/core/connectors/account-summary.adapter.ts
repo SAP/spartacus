@@ -42,5 +42,5 @@ export abstract class AccountSummaryAdapter {
     orgUnitId: string,
     orgDocumentId: string,
     orgDocumentAttachmentId: string
-  ): Observable<any>;
+  ): Observable<Blob>;
 }

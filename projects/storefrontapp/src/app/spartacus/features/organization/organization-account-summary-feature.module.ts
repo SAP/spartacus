@@ -10,7 +10,6 @@ import {
 } from '@spartacus/organization/account-summary/root';
 
 @NgModule({
-  declarations: [],
   imports: [AccountSummaryRootModule],
   providers: [
     provideConfig(<CmsConfig>{

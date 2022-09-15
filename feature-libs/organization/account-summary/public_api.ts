@@ -1,1 +1,1 @@
-export * from './index';
+export * from './account-summary.module';

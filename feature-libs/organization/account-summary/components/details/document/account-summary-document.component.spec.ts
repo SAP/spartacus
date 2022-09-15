@@ -65,8 +65,12 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   getDocumentAttachment(
     orgDocumentId?: string,
     orgDocumentAttachmentId?: string
-  ): Observable<any> {
-    return of(orgDocumentId && orgDocumentAttachmentId ? blob : undefined);
+  ): Observable<Blob> {
+    if (orgDocumentId && orgDocumentAttachmentId) {
+      return of(blob);
+    } else {
+      return of();
+    }
   }
 }
 

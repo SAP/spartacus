@@ -21,7 +21,7 @@ import {
 
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 
-import { HeaderComponent } from './header.component';
+import { AccountSummaryHeaderComponent } from './account-summary-header.component';
 import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 
 @Component({
@@ -38,15 +38,15 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   }
 }
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('AccountSummaryHeaderComponent', () => {
+  let component: AccountSummaryHeaderComponent;
+  let fixture: ComponentFixture<AccountSummaryHeaderComponent>;
   let translationService: TranslationService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [HeaderComponent, MockCardComponent],
+      declarations: [AccountSummaryHeaderComponent, MockCardComponent],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: TranslationService, useClass: MockTranslationService },
@@ -55,14 +55,13 @@ describe('HeaderComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(AccountSummaryHeaderComponent);
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
     fixture.detectChanges();
   });
 
   it('should create', fakeAsync(() => {
-    component.ngOnInit();
     tick();
     fixture.detectChanges();
     expect(component).toBeTruthy();

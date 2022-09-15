@@ -48,7 +48,7 @@ export class AccountSummaryService implements AccountSummaryFacade {
   getDocumentAttachment(
     orgDocumentId: string,
     orgDocumentAttachmentId: string
-  ): Observable<any> {
+  ): Observable<Blob> {
     return this.accountSummaryConnector
       .getDocumentAttachment(
         this.userId,

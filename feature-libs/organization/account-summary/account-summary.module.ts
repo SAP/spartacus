@@ -9,6 +9,5 @@ import { AccountSummaryComponentsModule } from '@spartacus/organization/account-
     AccountSummaryOccModule,
     AccountSummaryComponentsModule,
   ],
-  declarations: [],
 })
 export class AccountSummaryModule {}

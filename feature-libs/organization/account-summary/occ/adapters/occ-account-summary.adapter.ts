@@ -1,6 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  normalizeHttpError,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   AccountSummaryAdapter,
   ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
@@ -27,11 +31,11 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     orgUnit: string
   ): Observable<AccountSummaryDetails> {
     return this.http
-      .get<AccountSummaryDetails>(
-        this.getAccountSummaryEndPoint(userId, orgUnit)
-      )
+      .get<AccountSummaryDetails>(this.buildAccountSummaryUrl(userId, orgUnit))
       .pipe(
-        catchError((error: HttpErrorResponse) => throwError(error)),
+        catchError((error: HttpErrorResponse) =>
+          throwError(normalizeHttpError(error))
+        ),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
   }
@@ -43,10 +47,12 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
   ): Observable<AccountSummaryList> {
     return this.http
       .get<AccountSummaryList>(
-        this.getDocumentListEndPoint(userId, orgUnit, params)
+        this.buildDocumentListUrl(userId, orgUnit, params)
       )
       .pipe(
-        catchError((error: HttpErrorResponse) => throwError(error)),
+        catchError((error: HttpErrorResponse) =>
+          throwError(normalizeHttpError(error))
+        ),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
   }
@@ -56,14 +62,14 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     orgUnitId: string,
     orgDocumentId: string,
     orgDocumentAttachmentId: string
-  ): Observable<any> {
+  ): Observable<Blob> {
     const options = {
       responseType: 'blob' as 'json',
     };
 
     return this.http
-      .get<Observable<any>>(
-        this.getDocumentAttachmentEndPoint(
+      .get<Blob>(
+        this.buildDocumentAttachmentUrl(
           userId,
           orgUnitId,
           orgDocumentId,
@@ -71,16 +77,20 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         ),
         options
       )
-      .pipe(catchError((error: HttpErrorResponse) => throwError(error)));
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          throwError(normalizeHttpError(error))
+        )
+      );
   }
 
-  private getAccountSummaryEndPoint(userId: string, orgUnitId: string): string {
+  private buildAccountSummaryUrl(userId: string, orgUnitId: string): string {
     return this.occEndpoints.buildUrl('accountSummary', {
       urlParams: { userId, orgUnitId },
     });
   }
 
-  private getDocumentListEndPoint(
+  private buildDocumentListUrl(
     userId: string,
     orgUnitId: string,
     queryParams: DocumentQueryParams
@@ -91,7 +101,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     });
   }
 
-  private getDocumentAttachmentEndPoint(
+  private buildDocumentAttachmentUrl(
     userId: string,
     orgUnitId: string,
     orgDocumentId: string,

@@ -6,3 +6,6 @@
 
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE =
   'organizationAccountSummary';
+
+export const ORGANIZATION_ACCOUNT_SUMMARY_CORE_FEATURE =
+  'organizationAccountSummaryCore';

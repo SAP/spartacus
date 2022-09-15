@@ -19,18 +19,29 @@ import {
         'getDocumentList',
         'getDocumentAttachment',
       ],
-      async: true,
     }),
 })
 export abstract class AccountSummaryFacade {
+  /**
+   * Returns the account summary header details for a orgUnit and current logged in user
+   */
   abstract getAccountSummary(): Observable<AccountSummaryDetails>;
 
+  /**
+   * Returns the result of account summary documents search
+   * @param params Search parameters
+   */
   abstract getDocumentList(
     params: DocumentQueryParams
   ): Observable<AccountSummaryList>;
 
+  /**
+   * Returns the document blob for given orgDocumentId and orgDocumentAttachmentId
+   * @param orgDocumentId organization document id
+   * @param orgDocumentAttachmentId attachment id belonging to a organization document id
+   */
   abstract getDocumentAttachment(
     orgDocumentId?: string,
     orgDocumentAttachmentId?: string
-  ): Observable<any>;
+  ): Observable<Blob>;
 }

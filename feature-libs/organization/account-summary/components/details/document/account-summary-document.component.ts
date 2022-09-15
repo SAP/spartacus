@@ -34,7 +34,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
   sortOptions: SortModel[];
 
   constructor(
-    private accountSummaryFacade: AccountSummaryFacade,
+    protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
     private downloadService: FileDownloadService
   ) {}
@@ -67,6 +67,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
   downloadAttachment(documentId?: string, attachmentId?: string): void {
     this.accountSummaryFacade
       .getDocumentAttachment(documentId, attachmentId)
+      .pipe(take(1))
       .subscribe((data) => {
         let file = new Blob([data], { type: data.type });
         let url = URL.createObjectURL(file);
@@ -97,13 +98,16 @@ export class AccountSummaryDocumentComponent implements OnInit {
 
   private addNamesToSortModel(sorts: Array<SortModel>) {
     this.sortOptions = sorts;
-    const translations =
-      sorts?.map((sort) =>
-        this.translation.translate(`orgAccountSummary.sorts.${sort.code}`)
-      ) ?? [];
-
-    combineLatest(translations).subscribe((translated) =>
-      this.sortOptions.forEach((sort, index) => (sort.name = translated[index]))
+    const translations = sorts.map((sort) =>
+      this.translation.translate(`orgAccountSummary.sorts.${sort.code}`)
     );
+
+    combineLatest(translations)
+      .pipe(take(sorts.length))
+      .subscribe((translated) =>
+        this.sortOptions.forEach(
+          (sort, index) => (sort.name = translated[index])
+        )
+      );
   }
 }

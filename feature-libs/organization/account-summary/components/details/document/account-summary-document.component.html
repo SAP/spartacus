@@ -1,4 +1,4 @@
-<ng-container *ngIf="accountSummary$.asObservable() | async as accountSummary">
+<ng-container *ngIf="accountSummary$ | async as accountSummary">
   <div>
     <!-- HEADER -->
     <div class="cx-account-summary-document-header">
@@ -173,35 +173,32 @@
                   {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <button
+                  <a
                     *ngIf="document.attachments?.[0]?.id as attachmentId"
-                    class="cx-account-summary-document-attachment-btn"
+                    class="cx-action-link"
                     (click)="downloadAttachment(document.id, attachmentId)"
                     attr.aria-label="{{
-                      'orgAccountSummary.document.attachmentDescription'
-                        | cxTranslate
-                          : {
-                              id: document.id,
-                              type: document.orgDocumentType?.name
-                            }
+                      'orgAccountSummary.document.view' | cxTranslate
                     }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <cx-icon
                       [type]="ICON_TYPE.FILE"
                       class="cx-account-summary-document-attachment-icon"
                       title="{{
-                        'orgAccountSummary.document.download' | cxTranslate
+                        'orgAccountSummary.document.view' | cxTranslate
                       }}"
                     >
                     </cx-icon>
                     <span
                       class="cx-account-summary-document-attachment-text"
                       [innerText]="
-                        'orgAccountSummary.document.download' | cxTranslate
+                        'orgAccountSummary.document.view' | cxTranslate
                       "
                     >
                     </span>
-                  </button>
+                  </a>
                 </div>
               </td>
             </tr>

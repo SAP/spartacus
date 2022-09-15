@@ -4,7 +4,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import {
   AccountSummaryItemService,
   AccountSummaryUnitListService,
-} from '../../services';
+} from '../services';
 import { AccountSummaryListComponent } from './account-summary-list.component';
 
 class MockAccountSummaryUnitListService {}

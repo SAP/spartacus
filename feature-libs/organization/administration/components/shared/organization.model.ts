@@ -7,7 +7,6 @@
 import { B2BUnit } from '@spartacus/core';
 
 export enum OrganizationTableType {
-  ACCOUNT_SUMMARY_UNIT = 'orgAccountSummary',
   BUDGET = 'orgBudget',
   BUDGET_ASSIGNED_COST_CENTERS = 'orgBudgetAssignedCostCenters',
   COST_CENTER = 'orgCostCenter',

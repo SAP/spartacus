@@ -29,6 +29,10 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
     super(contentPageMetaResolver, translation, semanticPath, routingService);
   }
 
+  route = 'orgAccountSummary';
+  label = 'Account Summaries';
+  path = '/organization/account-summary';
+
   /**
    * Breadcrumbs of the Account Summary page.
    */
@@ -38,7 +42,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) => {
-      return semanticRoute === 'orgAccountSummary'
+      return semanticRoute === this.route
         ? this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY).pipe(
             map((label) => [
               {
@@ -49,7 +53,9 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
           )
         : combineLatest([
             this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY),
-            this.translation.translate('accountSummary.breadcrumbs.list'),
+            this.translation.translate(
+              'orgAccountSummaryList.breadcrumbs.list'
+            ),
           ]).pipe(
             map(([orgLabel, _label]) => [
               {
@@ -57,8 +63,8 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
                 link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
               },
               {
-                label: 'Account Summaries',
-                link: this.semanticPath.get('orgAccountSummary'),
+                label: this.label,
+                link: this.semanticPath.get(this.route),
               },
             ])
           );
@@ -80,9 +86,6 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
   );
 
   getScore(page: Page): number {
-    return (
-      super.getScore(page) +
-      (page.label?.startsWith('/organization/account-summary') ? 1 : -1)
-    );
+    return super.getScore(page) + (page.label?.startsWith(this.path) ? 1 : -1);
   }
 }

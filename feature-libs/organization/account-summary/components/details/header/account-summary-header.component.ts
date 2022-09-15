@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Address, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
@@ -12,19 +12,16 @@ const notApplicable = 'n/a';
 
 @Component({
   selector: 'cx-account-summary-header',
-  templateUrl: './header.component.html',
+  templateUrl: './account-summary-header.component.html',
 })
-export class HeaderComponent implements OnInit {
-  headerDetails$: Observable<AccountSummaryDetails>;
+export class AccountSummaryHeaderComponent {
+  headerDetails$: Observable<AccountSummaryDetails> =
+    this.accountSummaryFacade.getAccountSummary();
 
   constructor(
-    private accountSummaryFacade: AccountSummaryFacade,
+    protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService
   ) {}
-
-  ngOnInit(): void {
-    this.headerDetails$ = this.accountSummaryFacade.getAccountSummary();
-  }
 
   getIdCardContent(id?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.uid').pipe(
@@ -44,12 +41,10 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getAddressCardContent(billingAddress?: Address | any): Observable<Card> {
+  getAddressCardContent(billingAddress?: Address): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.address').pipe(
       map((addressTitle) => {
-        const name =
-          billingAddress?.fullnameWithTitle ?? // sometimes fullnameWithTitle is not set
-          `${billingAddress?.title}, ${billingAddress?.firstName} ${billingAddress?.lastName}`;
+        const name = `${billingAddress?.title}, ${billingAddress?.firstName} ${billingAddress?.lastName}`;
         const address = billingAddress?.formattedAddress;
         const country = billingAddress?.country?.name;
         return {
@@ -57,7 +52,7 @@ export class HeaderComponent implements OnInit {
           text: Boolean(billingAddress)
             ? [name, address, country]
             : [notApplicable],
-        };
+        } as Card;
       })
     );
   }

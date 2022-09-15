@@ -13,6 +13,8 @@ import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orgUnit = 'orgUnit';
+const orgDocumentId = 'document-test-id';
+const orgDocumentAttachmentId = 'attachment-test-id';
 
 const queryParams: DocumentQueryParams = {
   status: DocumentStatus.ALL,
@@ -104,6 +106,21 @@ describe('AccountSummaryConnector', () => {
       userId,
       orgUnit,
       queryParams
+    );
+  });
+
+  it('it should load account summary document attachments', () => {
+    service.getDocumentAttachment(
+      userId,
+      orgUnit,
+      orgDocumentId,
+      orgDocumentAttachmentId
+    );
+    expect(adapter.getDocumentAttachment).toHaveBeenCalledWith(
+      userId,
+      orgUnit,
+      orgDocumentId,
+      orgDocumentAttachmentId
     );
   });
 });

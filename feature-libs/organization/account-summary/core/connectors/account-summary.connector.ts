@@ -31,7 +31,7 @@ export class AccountSummaryConnector {
     orgUnitId: string,
     orgDocumentId: string,
     orgDocumentAttachmentId: string
-  ): Observable<any> {
+  ): Observable<Blob> {
     return this.accountSummaryAdapter.getDocumentAttachment(
       userId,
       orgUnitId,

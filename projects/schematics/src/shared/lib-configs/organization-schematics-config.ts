@@ -115,6 +115,7 @@ export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: SchematicConfig = {
 export const ORGANIZATION_ACCOUNT_SUMMARY_MODULE_NAME =
   'organizationAccountSummary';
 export const ACCOUNT_SUMMARY_MODULE = 'AccountSummaryModule';
+export const ACCOUNT_SUMMARY_ROOT_MODULE = 'AccountSummaryRootModule';
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_ACCOUNT_SUMMARY_FEATURE';
 export const ACCOUNT_SUMMARY_TRANSLATIONS = 'accountSummaryTranslations';
@@ -135,7 +136,7 @@ export const ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG: SchematicConfig = {
     importPath: SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY,
   },
   rootModule: {
-    name: ORDER_APPROVAL_ROOT_MODULE,
+    name: ACCOUNT_SUMMARY_ROOT_MODULE,
     importPath: SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT,
   },
   lazyLoadingChunk: {
