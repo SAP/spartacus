@@ -13,7 +13,9 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VisualPickingProductFilterService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * The current filter value.

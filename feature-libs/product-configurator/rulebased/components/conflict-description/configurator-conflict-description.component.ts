@@ -26,7 +26,9 @@ export class ConfiguratorConflictDescriptionComponent {
 
   @HostBinding('tabindex') tabindex = '0';
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Verifies whether the  conflict description should be displayed for the current group.

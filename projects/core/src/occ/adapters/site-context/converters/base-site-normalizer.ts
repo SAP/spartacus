@@ -11,7 +11,9 @@ import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
 export class BaseSiteNormalizer implements Converter<Occ.BaseSite, BaseSite> {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(source: Occ.BaseSite, target?: BaseSite): BaseSite {
     if (target === undefined) {

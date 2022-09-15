@@ -9,5 +9,7 @@ import { ProductEventBuilder } from './product-event.builder';
 
 @NgModule({})
 export class ProductEventModule {
-  constructor(_productEventBuilder: ProductEventBuilder) {}
+  constructor(_productEventBuilder: ProductEventBuilder) {
+    // Intentional empty constructor
+  }
 }

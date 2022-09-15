@@ -25,5 +25,7 @@ export class ProgressButtonComponent {
   @Output()
   clickEvent = new EventEmitter<void>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
