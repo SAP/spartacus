@@ -103,7 +103,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
     );
 
     combineLatest(translations)
-      .pipe(take(sorts.length))
+      .pipe(take(1))
       .subscribe((translated) =>
         this.sortOptions.forEach(
           (sort, index) => (sort.name = translated[index])

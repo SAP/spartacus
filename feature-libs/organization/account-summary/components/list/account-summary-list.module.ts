@@ -8,41 +8,13 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  BREAKPOINT,
   IconModule,
-  TableConfig,
-  TableLayout,
 } from '@spartacus/storefront';
 import {
   ListModule,
-  ToggleLinkCellComponent,
 } from '@spartacus/organization/administration/components';
 import { AccountSummaryListComponent } from './account-summary-list.component';
-import { OrganizationTableType } from '../services/organization.table.type';
-import { accountSummaryCmsConfig } from './account-summary.config';
-
-export function accountSummaryUnitsTableConfigFactory(): TableConfig {
-  return accountSummaryUnitsTableConfig;
-}
-
-export const accountSummaryUnitsTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.ACCOUNT_SUMMARY_UNIT]: {
-      cells: ['name'],
-      options: {
-        layout: TableLayout.VERTICAL,
-        cells: {
-          name: {
-            dataComponent: ToggleLinkCellComponent,
-          },
-        },
-      },
-      [BREAKPOINT.lg]: {
-        cells: ['name'],
-      },
-    },
-  },
-};
+import { accountSummaryListCmsConfig, accountSummaryUnitsTableConfigFactory } from './account-summary-list.config';
 
 @NgModule({
   imports: [
@@ -54,7 +26,7 @@ export const accountSummaryUnitsTableConfig: TableConfig = {
     ListModule,
   ],
   providers: [
-    provideDefaultConfig(accountSummaryCmsConfig),
+    provideDefaultConfig(accountSummaryListCmsConfig),
     provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory),
   ],
   declarations: [AccountSummaryListComponent],
