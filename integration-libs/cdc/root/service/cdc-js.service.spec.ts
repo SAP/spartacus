@@ -407,7 +407,7 @@ describe('CdcJsService', () => {
 
     it('should not login user without screenset and having empty response', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
-      service.loginUserWithoutScreenSet('uid', 'password', null);
+      service.loginUserWithoutScreenSet('uid', 'password');
 
       expect(
         winRef.nativeWindow['gigya'].accounts.login
