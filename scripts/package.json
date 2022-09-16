@@ -10,9 +10,14 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@spartacus/schematics": "999.999.999",
     "jasmine": "^3.4.0",
     "jasmine-data-provider": "^2.2.0",
     "typescript": "^4.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@spartacus/product-configurator": "999.999.999",
+    "@spartacus/qualtrics": "999.999.999",
+    "@spartacus/tracking": "999.999.999"
+  }
 }

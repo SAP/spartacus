@@ -3,6 +3,7 @@
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
 HAS_GNU_PARALLEL_INSTALLED=false
+CUSTOM_CACHE_DIR="$(pwd)/.cache"
 
 TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
@@ -41,6 +42,7 @@ function cmd_clean {
 
     delete_dir ${BASE_DIR}
     delete_dir storage
+    delete_dir ${CUSTOM_CACHE_DIR}
 
     yarn cache clean
 }
@@ -95,7 +97,7 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
+    ( cd ${INSTALLATION_DIR} && ng new ${1} --package-manager yarn --style=scss --routing=false)
 }
 
 function add_b2b {
@@ -177,27 +179,53 @@ function add_spartacus_ssr_pwa {
 }
 
 function create_apps {
+    local create_apps=()
+
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
-        printh "Installing csr app"
-        create_shell_app ${CSR_APP_NAME}
-        add_spartacus_csr ${CSR_APP_NAME}
+        printh "Add csr app"
+        create_apps+=("create_csr")
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
-        printh "Installing ssr app"
-        create_shell_app ${SSR_APP_NAME}
-        add_spartacus_ssr ${SSR_APP_NAME}
+        printh "Add ssr app"
+        create_apps+=("create_ssr")
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
-        printh "Installing ssr app (with pwa support)"
-        create_shell_app ${SSR_PWA_APP_NAME}
-        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+        printh "Add ssr app (with pwa support)"
+        create_apps+=("create_ssr_pwa")
     fi
+
+    printh "Create Apps"
+    run_parallel "${create_apps[@]}"
+}
+
+function create_csr {
+    setup_custom_yarn_cache "CSR"
+    create_shell_app ${CSR_APP_NAME}
+    add_spartacus_csr ${CSR_APP_NAME}
+}
+
+function create_ssr {
+    setup_custom_yarn_cache "SSR"
+    create_shell_app ${SSR_APP_NAME}
+    add_spartacus_ssr ${SSR_APP_NAME}
+}
+
+function create_ssr_pwa {
+    setup_custom_yarn_cache "SSR_PWA"
+    create_shell_app ${SSR_PWA_APP_NAME}
+    add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+}
+
+function setup_custom_yarn_cache {
+    YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
+    mkdir -p "$YARN_CACHE_FOLDER"
+    export YARN_CACHE_FOLDER
 }
 
 function publish_package {
@@ -255,7 +283,7 @@ function install_from_sources {
         echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
     done
 
-    printh "Installing dependencies."
+    printh "Installing dependencies & build libs"
     ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
@@ -599,8 +627,31 @@ function exec_linear {
 
 function exec_parallel_export_vars {
     export CLONE_DIR
+    export BASE_DIR
+    export INSTALLATION_DIR
+    export BACKEND_URL
+    export OCC_PREFIX
+    export URL_PARAMETERS
+    export BASE_SITE
+    export CUSTOM_CACHE_DIR
+    export CSR_APP_NAME
+    export SSR_APP_NAME
+    export SSR_PWA_APP_NAME
     export SPARTACUS_VERSION
     export -f publish_package
+    export -f setup_custom_yarn_cache
+    export -f add_spartacus_ssr
+    export -f add_spartacus_ssr_pwa
+    export -f add_feature_libs
+    export -f add_spartacus_csr
+    export -f create_shell_app
+    export -f create_csr
+    export -f create_ssr
+    export -f create_ssr_pwa
+    export -f add_b2b
+    export -f add_cdc
+    export -f add_epd_visualization
+    export -f add_product_configurator
 }
 
 
