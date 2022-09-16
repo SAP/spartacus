@@ -39,8 +39,7 @@ export class CdcLoginFormComponentService
           this.cdcJsService
             .loginUserWithoutScreenSet(
               this.form.value.userId.toLowerCase(),
-              this.form.value.password,
-              true
+              this.form.value.password
             )
             .subscribe({
               next: () => this.busy$.next(false),

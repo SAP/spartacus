@@ -243,29 +243,26 @@ export class CdcJsService implements OnDestroy {
    */
   loginUserWithoutScreenSet(
     email: string,
-    password: string,
-    response: any
+    password: string
   ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isLoggedIn) => {
-      if (response) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.login({
-          loginID: email,
-          password: password,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                isLoggedIn.next({ status: response.status });
-                isLoggedIn.complete();
-              } else {
-                this.handleLoginError(response);
-                isLoggedIn.error(response);
-              }
-            });
-          },
-        });
-      }
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.login({
+        loginID: email,
+        password: password,
+        callback: (response: any) => {
+          this.zone.run(() => {
+            if (response?.status === 'OK') {
+              isLoggedIn.next({ status: response.status });
+              isLoggedIn.complete();
+            } else {
+              this.handleLoginError(response);
+              isLoggedIn.error(response);
+            }
+          });
+        },
+      });
     });
   }
 

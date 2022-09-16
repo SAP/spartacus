@@ -100,8 +100,7 @@ describe('CdcLoginComponentService', () => {
       cdcLoginService.login();
       expect(cdcJsService.loginUserWithoutScreenSet).toHaveBeenCalledWith(
         userId,
-        password,
-        true
+        password
       );
       expect(cdcLoginService['busy$'].value).toBe(false);
     });
