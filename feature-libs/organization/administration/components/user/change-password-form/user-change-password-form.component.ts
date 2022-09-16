@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { User } from '@spartacus/core';
@@ -15,7 +21,7 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   host: { class: 'content-wrapper' },
 })
 export class UserChangePasswordFormComponent {
-  form$: Observable<FormGroup> = this.itemService.current$.pipe(
+  form$: Observable<FormGroup | null> = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import Chainable = Cypress.Chainable;
 import * as configurationOverview from './product-configurator-overview';
 import * as configurationVc from './product-configurator-vc';
@@ -43,6 +49,17 @@ export function clickOnResolveIssuesLinkOnOP(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+    });
+}
+
+/**
+ * Clicks on 'Resolve Issues' link on the product overview page in case overview still refers to product bound configuration
+ */
+export function clickOnResolveIssuesLinkOnOPProductBound(): void {
+  cy.get(resolveIssuesLinkSelector)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
     });
 }
 
@@ -100,15 +117,12 @@ export function verifyNotificationBannerOnOP(
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, 'ISSUE', numberOfIssues);
   } else {
-    element.should('not.contain.html', 'div.cx-error-msg');
+    element.get('.cx-error-msg').should('not.exist');
   }
-  element = cy.get('cx-configurator-overview-notification-banner', {
-    timeout: 10000,
-  });
   if (numberOfConflicts) {
     this.checkNotificationBannerOnOP(element, 'CONFLICT', numberOfConflicts);
   } else {
-    element.should('not.contain.html', 'div.cx-conflict-msg');
+    element.get('.cx-conflict-msg').should('not.exist');
   }
 }
 

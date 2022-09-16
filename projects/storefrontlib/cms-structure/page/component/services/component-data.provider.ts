@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CmsService } from '@spartacus/core';
 import { defer, EMPTY, Observable, of } from 'rxjs';
@@ -28,7 +34,7 @@ export class ComponentDataProvider {
    */
   get<T>(uid: string, type?: string): Observable<T> {
     return defer(() => {
-      let staticComponentData: T;
+      let staticComponentData: T | undefined;
 
       if (type) {
         staticComponentData = this.componentsService.getStaticData<T>(type);

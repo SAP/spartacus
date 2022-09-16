@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Directive,
   HostListener,
@@ -88,7 +94,7 @@ export class ModalDirective {
    */
   protected getUrl(): string | undefined {
     const routerLink = this.routerLink ?? this.routerLinkWithHref;
-    return routerLink
+    return routerLink && routerLink.urlTree
       ? this.router.serializeUrl(routerLink.urlTree)
       : undefined;
   }

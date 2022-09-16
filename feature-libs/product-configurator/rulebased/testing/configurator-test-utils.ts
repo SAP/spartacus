@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Configurator component test utils service provides helper functions for the component tests.
  */
@@ -64,6 +70,35 @@ export class ConfiguratorTestUtils {
       groups: [],
       flatGroups: [],
       interactionState: {},
+    };
+    return configuration;
+  }
+
+  static createVariants(): Configurator.Variant[] {
+    const variants: Configurator.Variant[] = [];
+    for (let index = 0; index < 10; index++) {
+      let variant: Configurator.Variant = {
+        productCode: 'productCode' + index,
+      };
+
+      variants.push(variant);
+    }
+
+    return variants;
+  }
+
+  static createConfigurationWithVariants(
+    configId: string,
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
+  ): Configurator.Configuration {
+    const configuration: Configurator.Configuration = {
+      configId: configId,
+      productCode: '',
+      owner: owner,
+      groups: [],
+      flatGroups: [],
+      interactionState: {},
+      variants: this.createVariants(),
     };
     return configuration;
   }

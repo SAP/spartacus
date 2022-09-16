@@ -16,7 +16,7 @@
     [muted]="mute"
     [attr.aria-label]="'player.label' | cxTranslate"
   >
-    <source src="{{ source }}" type="{{ data.video.mime }}" />
+    <source src="{{ source }}" type="{{ data.video?.mime }}" />
   </video>
 </div>
 

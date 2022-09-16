@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -30,6 +36,7 @@ import { ConfiguratorBasicEffectService } from './configurator-basic-effect.serv
 export class ConfiguratorBasicEffects {
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.CreateConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -54,6 +61,7 @@ export class ConfiguratorBasicEffects {
                 new ConfiguratorActions.CreateConfigurationSuccess(
                   configuration
                 ),
+                new ConfiguratorActions.SearchVariants(configuration),
               ];
             }),
             catchError((error) => [
@@ -82,11 +90,9 @@ export class ConfiguratorBasicEffects {
             action.payload.configuration.owner
           )
           .pipe(
-            switchMap((configuration: Configurator.Configuration) => {
-              return [
-                new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-              ];
-            }),
+            switchMap((configuration: Configurator.Configuration) => [
+              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+            ]),
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
@@ -198,6 +204,7 @@ export class ConfiguratorBasicEffects {
   updateConfigurationSuccess$: Observable<
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.UpdatePriceSummary
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ChangeGroup
   > = createEffect(() =>
     this.actions$.pipe(
@@ -249,11 +256,18 @@ export class ConfiguratorBasicEffects {
                       currentGroup: container.groupIdFromPayload,
                     },
                   });
+                const searchVariantsAction =
+                  new ConfiguratorActions.SearchVariants(payload);
                 return container.currentGroupId === container.groupIdFromPayload
-                  ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
+                  ? [
+                      updateFinalizeSuccessAction,
+                      updatePriceSummaryAction,
+                      searchVariantsAction,
+                    ]
                   : [
                       updateFinalizeSuccessAction,
                       updatePriceSummaryAction,
+                      searchVariantsAction,
                       new ConfiguratorActions.ChangeGroup({
                         configuration: payload,
                         groupId: container.groupIdFromPayload,

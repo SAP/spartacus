@@ -1,13 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CustomerCoupon } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import {
   ModalRef,
   ModalService,
 } from '../../../../shared/components/modal/index';
-import { CouponDialogComponent } from './coupon-dialog/coupon-dialog.component';
-import { CustomerCoupon } from '@spartacus/core';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
-import { Observable } from 'rxjs';
+import { CouponDialogComponent } from './coupon-dialog/coupon-dialog.component';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -31,7 +36,7 @@ export class CouponCardComponent {
 
   onSubscriptionChange(): void {
     this.notificationChanged.emit({
-      couponId: this.coupon.couponId,
+      couponId: this.coupon.couponId ?? '',
       notification: !this.coupon.notificationOn,
     });
   }

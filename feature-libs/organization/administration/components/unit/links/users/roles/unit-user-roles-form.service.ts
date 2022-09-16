@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
@@ -14,7 +20,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
     super();
   }
 
-  getForm(item?: B2BUser): FormGroup {
+  getForm(item?: B2BUser): FormGroup | null {
     // if form already exist, while switching between users
     // it didn't patchData again, so used force rebuild
     this.form = null;
@@ -33,7 +39,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
     super.patchData(item);
     if (item) {
       item.roles?.forEach((role) => {
-        this.form.get(role).setValue(true);
+        this.form?.get(role)?.setValue(true);
       });
     }
   }

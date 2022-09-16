@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const configurator = {
   configurator: {
     header: {
@@ -41,6 +47,7 @@ export const configurator = {
       requiredAttribute: '{{param}} required',
       defaultRequiredMessage: 'Enter a value for the required field',
       singleSelectRequiredMessage: 'Select a value',
+      singleSelectAdditionalRequiredMessage: 'Select or enter a value',
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
@@ -196,6 +203,12 @@ export const configurator = {
       numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
       numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
+      additionalValue: 'You can also enter an additional value.',
+      addToCartPrices:
+        'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
+    },
+    variantCarousel: {
+      title: 'Pre-configured Versions',
     },
   },
 };

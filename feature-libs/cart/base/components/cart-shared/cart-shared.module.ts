@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +27,7 @@ import { CartItemValidationWarningModule } from '../validation/cart-item-warning
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
 
 @NgModule({
   imports: [
@@ -40,6 +47,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    AddToCartModule,
   ],
   providers: [
     provideOutlet({

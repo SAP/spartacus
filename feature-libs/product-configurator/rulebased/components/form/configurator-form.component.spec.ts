@@ -126,6 +126,9 @@ class MockConfiguratorGroupsService {
   getPreviousGroup(): Observable<string> {
     return of('');
   }
+  isGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
   subscribeToUpdateConfiguration() {}
   setGroupStatusVisited(): void {}
   navigateToConflictSolver(): void {}
@@ -438,6 +441,46 @@ describe('ConfigurationFormComponent', () => {
 
     it('should return group ID string', () => {
       expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('Rendering', () => {
+    it('should support radio button attribute type', () => {
+      const component = createComponent();
+      component.configuration$ = of(ConfigurationTestData.productConfiguration);
+      component.currentGroup$ = of(
+        ConfigurationTestData.productConfiguration.groups[0]
+      );
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        1
+      );
+    });
+
+    it('should display the radio button component for attribute type RADIOBUTTON_ADDITIONAL_INPUT', () => {
+      const component = createComponent();
+      const configurationWithAdditionalValueType =
+        ConfigurationTestData.productConfiguration;
+      configurationWithAdditionalValueType.groups[0].attributes?.push({
+        name: 'AdditionalVal',
+        uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      });
+      component.configuration$ = of(configurationWithAdditionalValueType);
+      component.currentGroup$ = of(
+        configurationWithAdditionalValueType.groups[0]
+      );
+      fixture.detectChanges();
+      //now we expect 2 attributes resulting in a radio button component
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        2
+      );
     });
   });
 });

@@ -31,7 +31,7 @@ import {
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
-import { SPARTACUS_CORE } from '../libs-constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   addConstructorParam,
   buildSpartacusComment,
@@ -294,7 +294,10 @@ export class ServiceNameService extends LaunchDialogService {
 }`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('File utils', () => {
   let appTree: UnitTestTree;

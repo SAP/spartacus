@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -125,7 +131,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentFacade.getCardTypes();
+    this.cardTypes$ = this.checkoutPaymentFacade.getPaymentCardTypes();
 
     this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()

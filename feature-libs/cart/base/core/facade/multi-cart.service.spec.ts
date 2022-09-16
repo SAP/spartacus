@@ -532,6 +532,18 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('removeCart', () => {
+    it('should dispatch RemoveCart action', () => {
+      service.removeCart('cartId');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.RemoveCart({
+          cartId: 'cartId',
+        })
+      );
+    });
+  });
+
   describe('deleteCart', () => {
     it('should dispatch DeleteCart action', () => {
       service.deleteCart('cartId', 'userId');

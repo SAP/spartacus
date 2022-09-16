@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
@@ -151,5 +157,17 @@ export class ConfiguratorAttributeBaseComponent {
     } else {
       throw new Error('No attribute code for: ' + attribute.name);
     }
+  }
+  /**
+   * Checks if attribute type allows additional values
+   * @param attribute Attribute
+   * @returns true if attribute type allows to enter additional values
+   */
+  protected isWithAdditionalValues(attribute: Configurator.Attribute): boolean {
+    const uiType = attribute.uiType;
+    return (
+      uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
+      uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
+    );
   }
 }

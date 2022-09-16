@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -86,7 +92,7 @@ export class VideoComponent {
         })
         .pipe(take(1))
         .subscribe((page) => {
-          this.routerLink = page.label;
+          this.routerLink = page?.label;
           this.cd.markForCheck();
         });
     } else if (data.product) {

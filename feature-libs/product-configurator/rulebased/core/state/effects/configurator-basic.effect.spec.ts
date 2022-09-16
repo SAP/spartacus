@@ -95,6 +95,9 @@ const productConfigurationAttributeOnNestedGroup: Configurator.Configuration = {
   groups: [parentGroup],
   flatGroups: [parentGroup],
 };
+const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+  productConfiguration
+);
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -165,11 +168,14 @@ describe('ConfiguratorEffect', () => {
       productConfiguration.owner
     );
 
-    const completion = new ConfiguratorActions.CreateConfigurationSuccess(
-      productConfiguration
-    );
+    const configurationSuccessAction =
+      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration);
+
     actions$ = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
+    const expected = cold('-(bc)', {
+      b: configurationSuccessAction,
+      c: searchVariantsAction,
+    });
 
     expect(configEffects.createConfiguration$).toBeObservable(expected);
   });
@@ -375,6 +381,7 @@ describe('ConfiguratorEffect', () => {
         ...productConfiguration,
         interactionState: { currentGroup: groupId },
       });
+
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: groupId,
@@ -382,10 +389,11 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: changeGroup,
+        d: searchVariantsAction,
+        e: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -405,6 +413,10 @@ describe('ConfiguratorEffect', () => {
         ...productConfigurationAttributeOnNestedGroup,
         interactionState: { currentGroup: groupId },
       });
+      const searchVariantsActionAttributeOnNestedGroup =
+        new ConfiguratorActions.SearchVariants(
+          productConfigurationAttributeOnNestedGroup
+        );
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfigurationAttributeOnNestedGroup,
         groupId: groupId,
@@ -412,10 +424,11 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: changeGroup,
+        d: searchVariantsActionAttributeOnNestedGroup,
+        e: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -443,9 +456,10 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: finalizeSuccess,
         c: updatePrices,
+        d: searchVariantsAction,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
