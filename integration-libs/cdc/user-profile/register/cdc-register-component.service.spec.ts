@@ -104,7 +104,7 @@ describe('CdcRegisterComponentService', () => {
   });
 
   describe('Register', () => {
-    it('should be able to register user through CDC', () => {
+    it('should be able to register user through CDC', (done) => {
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
         expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
@@ -116,6 +116,7 @@ describe('CdcRegisterComponentService', () => {
         });
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
     });
 
     it('should NOT happen without CDC, should show error', (done) => {
