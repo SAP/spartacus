@@ -546,6 +546,10 @@ export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
   'MerchandisingFacetToQueryparamNormalizer';
 export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
 
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
