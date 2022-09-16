@@ -106,10 +106,13 @@ export function findRenamedElementInApi(
 
   if (!renamedApiMapping) return undefined;
 
+  const newEntryPoint =
+    renamedApiMapping.newEntryPoint || renamedApiMapping.entryPoint;
+
   const renamedElemment = findElementInApi(
     newApiData,
     renamedApiMapping.newApiElementName,
-    renamedApiMapping.newEntryPoint
+    newEntryPoint
   );
 
   return renamedElemment;
