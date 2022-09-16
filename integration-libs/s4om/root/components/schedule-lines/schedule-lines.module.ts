@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-  IconModule
-} from '@spartacus/storefront';
+import { IconModule } from '@spartacus/storefront';
 import { ScheduleLinesComponent } from './schedule-lines.component';
 
 @NgModule({
