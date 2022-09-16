@@ -50,7 +50,7 @@ writeTextDataOutput(
 function getBreakingChangeDoc(apiElement: any): string {
   let doc = getDocHeader(apiElement);
   if (common.isElementDeleted(apiElement)) {
-    doc += getDeletdDoc(apiElement) + '\n';
+    doc += getDeletedDoc(apiElement) + '\n';
   }
 
   if (common.isElementMoved(apiElement)) {
@@ -99,7 +99,7 @@ function getFullName(apiElement: any): string {
   }
 }
 
-function getDeletdDoc(apiElement: any): string {
+function getDeletedDoc(apiElement: any): string {
   return `
 ${common.generateTopLevelApiDeletedComment(apiElement)}
 `;

@@ -109,13 +109,13 @@ export function findRenamedElementInApi(
   const newEntryPoint =
     renamedApiMapping.newEntryPoint || renamedApiMapping.entryPoint;
 
-  const renamedElemment = findElementInApi(
+  const renamedElement = findElementInApi(
     newApiData,
     renamedApiMapping.newApiElementName,
     newEntryPoint
   );
 
-  return renamedElemment;
+  return renamedElement;
 }
 
 export function printStats(breakingChangeElements: any[]) {
