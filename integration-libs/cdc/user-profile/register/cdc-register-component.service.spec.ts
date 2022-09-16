@@ -48,8 +48,8 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.callFake(() => of(true));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
-    of(user)
+  registerUserWithoutScreenSet = createSpy().and.callFake(() =>
+    of({ status: 'OK' })
   );
   onLoginEventHandler = createSpy();
 }
@@ -104,7 +104,7 @@ describe('CdcRegisterComponentService', () => {
   });
 
   describe('Register', () => {
-    it('should be able to register user through CDC', () => {
+    it('should be able to register user through CDC', (done) => {
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
         expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
@@ -116,25 +116,31 @@ describe('CdcRegisterComponentService', () => {
         });
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
     });
 
-    it('should NOT happen without CDC, should show error', () => {
+    it('should NOT happen without CDC, should show error', (done) => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
       cdcJsService.didLoad = createSpy().and.callFake(() => of(false));
-      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
-        expect(
-          cdcJsService.registerUserWithoutScreenSet
-        ).not.toHaveBeenCalled();
-        expect(connector.register).not.toHaveBeenCalled();
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          {
-            key: 'errorHandlers.scriptFailedToLoad',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
+      cdcUserRegisterService.register(userRegisterFormData).subscribe({
+        error: () => {
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).not.toHaveBeenCalled();
+          expect(connector.register).not.toHaveBeenCalled();
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            {
+              key: 'errorHandlers.scriptFailedToLoad',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).not.toHaveBeenCalled();
+          done();
+        },
       });
-      expect(cdcJsService.registerUserWithoutScreenSet).not.toHaveBeenCalled();
     });
   });
 });

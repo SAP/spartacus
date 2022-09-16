@@ -172,20 +172,25 @@ export class CdcJsService implements OnDestroy {
    *
    * @param user: UserSignUp
    */
-  registerUserWithoutScreenSet(user: UserSignUp): Observable<Boolean> {
-    return new Observable<Boolean>((initRegistration) => {
-      if (user.uid && user.password) {
+  registerUserWithoutScreenSet(
+    user: UserSignUp
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((initRegistration) => {
+      if (!user.uid || !user.password) {
+        initRegistration.error(null);
+      } else {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
         ]?.accounts?.initRegistration({
           callback: (response: any) => {
             this.zone.run(() => {
-              this.onInitRegistrationHandler(user, response).subscribe(
-                (status) => {
-                  initRegistration.next(status);
+              this.onInitRegistrationHandler(user, response).subscribe({
+                next: (result) => {
+                  initRegistration.next(result);
                   initRegistration.complete();
-                }
-              );
+                },
+                error: (error) => initRegistration.error(error),
+              });
             });
           },
         });
@@ -201,8 +206,8 @@ export class CdcJsService implements OnDestroy {
   protected onInitRegistrationHandler(
     user: UserSignUp,
     response: any
-  ): Observable<Boolean> {
-    return new Observable<Boolean>((isRegistered) => {
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isRegistered) => {
       if (response && response.regToken && user.uid && user.password) {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
@@ -217,13 +222,13 @@ export class CdcJsService implements OnDestroy {
           finalizeRegistration: true,
           callback: (response: any) => {
             this.zone.run(() => {
-              if (response && response.status === 'FAIL') {
+              if (response?.status === 'OK') {
+                isRegistered.next({ status: response.status });
+                isRegistered.complete();
+              } else {
                 this.handleRegisterError(response);
-                isRegistered.next(false);
-              } else if (response && response.status === 'OK') {
-                isRegistered.next(true);
+                isRegistered.error(response);
               }
-              isRegistered.complete();
             });
           },
         });
@@ -240,8 +245,8 @@ export class CdcJsService implements OnDestroy {
     email: string,
     password: string,
     response: any
-  ): Observable<Boolean> {
-    return new Observable<Boolean>((isLoggedIn) => {
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isLoggedIn) => {
       if (response) {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
@@ -250,13 +255,13 @@ export class CdcJsService implements OnDestroy {
           password: password,
           callback: (response: any) => {
             this.zone.run(() => {
-              if (response && response.status === 'FAIL') {
+              if (response?.status === 'OK') {
+                isLoggedIn.next({ status: response.status });
+                isLoggedIn.complete();
+              } else {
                 this.handleLoginError(response);
-                isLoggedIn.next(false);
-              } else if (response && response.status === 'OK') {
-                isLoggedIn.next(true);
+                isLoggedIn.error(response);
               }
-              isLoggedIn.complete();
             });
           },
         });
@@ -309,8 +314,8 @@ export class CdcJsService implements OnDestroy {
    * @param email
    * @param password
    */
-  resetPasswordWithoutScreenSet(email: string): Observable<Boolean> {
-    return new Observable<Boolean>((isResetPassword) => {
+  resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isResetPassword) => {
       if (email && email.length > 0) {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
@@ -319,12 +324,13 @@ export class CdcJsService implements OnDestroy {
           callback: (response: any) => {
             this.zone.run(() => {
               this.handleResetPassResponse(response);
-              if (response && response.status === 'FAIL') {
-                isResetPassword.next(false);
-              } else if (response && response.status === 'OK') {
-                isResetPassword.next(true);
+
+              if (response?.status === 'OK') {
+                isResetPassword.next({ status: response.status });
+                isResetPassword.complete();
+              } else {
+                isResetPassword.error(response);
               }
-              isResetPassword.complete();
             });
           },
         });

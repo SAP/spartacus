@@ -10,28 +10,15 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
   protected registerCommand: Command<{ user: UserSignUp }, User> =
-    this.command.create(
-      ({ user }) =>
-        new Observable<User>((userRegistered) => {
-          // Registering user through CDC Gigya SDK
-          if (user.firstName && user.lastName && user.uid && user.password) {
-            this.cdcJSService
-              .registerUserWithoutScreenSet(user)
-              .subscribe((isRegistered) => {
-                if (isRegistered) {
-                  userRegistered.complete();
-                } else {
-                  userRegistered.error(null);
-                }
-              });
-          }
-        })
+    this.command.create(({ user }) =>
+      // Registering user through CDC Gigya SDK
+      this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
   constructor(
@@ -50,24 +37,26 @@ export class CDCRegisterComponentService extends RegisterComponentService {
    * @param user as UserSignUp
    */
   register(user: UserSignUp): Observable<User> {
+    if (!user.firstName || !user.lastName || !user.uid || !user.password) {
+      return throwError(`The provided user is not valid: ${user}`);
+    }
+
     return this.cdcJSService.didLoad().pipe(
-      mergeMap((cdcLoaded: boolean) => {
-        if (cdcLoaded) {
-          // Logging in using CDC Gigya SDK, update the registerCommand
-          return this.registerCommand.execute({ user });
-        } else {
-          // CDC Gigya SDK not loaded, show error
+      tap((cdcLoaded) => {
+        if (!cdcLoaded) {
           this.globalMessageService.add(
             {
               key: 'errorHandlers.scriptFailedToLoad',
             },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return new Observable<User>((userNotRegistered) => {
-            userNotRegistered.complete();
-          });
+          throw new Error(`CDC script didn't load.`);
         }
-      })
+      }),
+      switchMap(() =>
+        // Logging in using CDC Gigya SDK, update the registerCommand
+        this.registerCommand.execute({ user })
+      )
     );
   }
 }
