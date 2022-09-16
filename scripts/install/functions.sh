@@ -9,6 +9,8 @@ TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
+KEEP_YARN_CACHE=false
+
 # Prints header adds time measurement
 function printh {
     local input="$1"
@@ -29,7 +31,7 @@ function delete_dir {
 
     echo "deleting directory ${dir} in background"
     if [ -d ${temp_dir} ]; then
-        rm -rf ${temp_dir}
+        delete_dir ${temp_dir}
     fi
     if [ -d ${dir} ]; then
         mv ${dir} ${temp_dir}
@@ -42,13 +44,15 @@ function cmd_clean {
 
     delete_dir ${BASE_DIR}
     delete_dir storage
-    delete_dir ${CUSTOM_CACHE_DIR}
-
-    yarn cache clean
+    if [[ "${KEEP_YARN_CACHE}" = false ]]; then
+        delete_dir ${CUSTOM_CACHE_DIR}
+    fi
 }
 
 function prepare_install {
     cmd_clean
+
+    setup_custom_yarn_cache "global"
 
     printh "Installing installation script prerequisites"
 
@@ -733,6 +737,11 @@ function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
         case $1 in
+            --cache)
+                KEEP_YARN_CACHE=true
+                echo "➖ Keep Yarn Cache"
+                shift
+                ;;
             --skipsanity)
                 SKIP_SANITY=true
                 echo "➖ Skip Sanity Check"
