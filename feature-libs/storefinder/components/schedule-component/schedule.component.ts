@@ -17,7 +17,9 @@ export class ScheduleComponent implements OnInit {
 
   weekDays: WeekdayOpeningDay[];
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit(): void {
     if (this.location) {

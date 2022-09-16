@@ -9,5 +9,7 @@ import { HomePageEventBuilder } from './home-page-event.builder';
 
 @NgModule({})
 export class HomePageEventModule {
-  constructor(_homePageEventBuilder: HomePageEventBuilder) {}
+  constructor(_homePageEventBuilder: HomePageEventBuilder) {
+    // Intentional empty constructor
+  }
 }

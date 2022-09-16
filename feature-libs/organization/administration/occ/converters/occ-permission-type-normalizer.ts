@@ -14,7 +14,9 @@ export class OccPermissionTypeNormalizer
   implements
     Converter<Occ.OrderApprovalPermissionType, OrderApprovalPermissionType>
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(
     source: Occ.OrderApprovalPermissionType,

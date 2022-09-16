@@ -139,7 +139,9 @@ export class PaginationBuilder {
             isGap ? null : { number: gapNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     const addLastGap = () => {
@@ -171,7 +173,9 @@ export class PaginationBuilder {
             isGap ? null : { number: nextPageNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     pages.unshift(...addFirstGap());

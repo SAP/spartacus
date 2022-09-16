@@ -9,5 +9,7 @@ import { CartEventBuilder } from './cart-event.builder';
 
 @NgModule({})
 export class CartEventModule {
-  constructor(_CartEventBuilder: CartEventBuilder) {}
+  constructor(_CartEventBuilder: CartEventBuilder) {
+    // Intentional empty constructor
+  }
 }

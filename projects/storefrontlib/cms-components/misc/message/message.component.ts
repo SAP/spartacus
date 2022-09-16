@@ -41,7 +41,9 @@ export class MessageComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   get getCssClassesForMessage(): Record<string, boolean> {
     return {

@@ -46,6 +46,8 @@ export class CpqConfiguratorValueSerializer
   ): Configurator.Value {
     if (attribute.values && attribute.values.length > 0) {
       return attribute.values[0];
-    } else throw new Error('No values present');
+    } else {
+      throw new Error('No values present');
+    }
   }
 }
