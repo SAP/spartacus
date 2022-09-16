@@ -430,10 +430,10 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command] [options...]"
     echo "Available commands are:"
-    echo " install [--skipsanity] (from sources)"
+    echo " install [--port <port>] [--skipsanity] (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
-    echo " stop"
+    echo " start [--port <port>] [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
+    echo " stop [--port <port>]"
     echo " help"
 }
 
@@ -747,6 +747,20 @@ function parseInstallArgs {
                 echo "➖ Skip Sanity Check"
                 shift
                 ;;
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
@@ -780,6 +794,49 @@ function parseStartArgs {
             --skip-e2e)
                 SKIP_E2E=true
                 echo "➖ Skip E2E Tests"
+                shift
+                ;;
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function parseStopArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
                 shift
                 ;;
             -*|--*)
