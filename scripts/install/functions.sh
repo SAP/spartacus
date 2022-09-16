@@ -761,6 +761,38 @@ function parseInstallArgs {
                 shift
                 shift
                 ;;
+            -s|--basesite)
+                BASE_SITE="$2"
+                echo "➖ BASE_SITE to $BASE_SITE"
+                shift
+                shift
+                ;;
+            -b|--branch)
+                BRANCH="$2"
+                echo "➖ Branch to $BRANCH"
+                shift
+                shift
+                ;;
+            b2b)
+                ADD_B2B_LIBS=true
+                echo "➖ Added B2B Libs"         
+                shift
+                ;;
+            cpq)
+                ADD_CPQ=true
+                echo "➖ Added CPQ"   
+                shift
+                ;;
+            cdc)
+                ADD_CDC=true
+                echo "➖ Added CDC"   
+                shift
+                ;;
+            epd)
+                ADD_EPD_VISUALIZATION=true
+                echo "➖ Added EPD"   
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
