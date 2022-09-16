@@ -15,6 +15,8 @@ export class CDCForgotPasswordComponentService
   extends ForgotPasswordComponentService
   implements OnDestroy
 {
+  protected subscription = new Subscription();
+
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -30,7 +32,6 @@ export class CDCForgotPasswordComponentService
     );
   }
 
-  protected subscription: Subscription = new Subscription();
   /**
    * Sends an email to through CDC SDK to reset the password.
    */
@@ -48,9 +49,9 @@ export class CDCForgotPasswordComponentService
           // Reset password using CDC Gigya SDK
           this.cdcJsService
             .resetPasswordWithoutScreenSet(this.form.value.userEmail)
-            .subscribe((isResetResponse) => {
+            .subscribe((response) => {
               this.busy$.next(false);
-              if (isResetResponse.status === 'OK') {
+              if (response.status === 'OK') {
                 this.redirect();
               }
             });

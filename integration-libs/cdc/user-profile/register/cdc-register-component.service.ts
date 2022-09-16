@@ -10,7 +10,7 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
@@ -18,13 +18,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   protected registerCommand: Command<{ user: UserSignUp }, User> =
     this.command.create(({ user }) =>
       // Registering user through CDC Gigya SDK
-      this.cdcJSService.registerUserWithoutScreenSet(user).pipe(
-        tap((result) => {
-          if (result.status !== 'OK') {
-            throw new Error(`Received an unexpected status: ${result.status}`);
-          }
-        })
-      )
+      this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
   constructor(
@@ -44,7 +38,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
    */
   register(user: UserSignUp): Observable<User> {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
-      throw new Error(`The provided user is not valid: ${user}`);
+      return throwError(`The provided user is not valid: ${user}`);
     }
 
     return this.cdcJSService.didLoad().pipe(

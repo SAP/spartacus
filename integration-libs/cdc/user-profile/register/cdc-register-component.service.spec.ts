@@ -118,23 +118,28 @@ describe('CdcRegisterComponentService', () => {
       expect(cdcJsService.didLoad).toHaveBeenCalled();
     });
 
-    it('should NOT happen without CDC, should show error', () => {
+    it('should NOT happen without CDC, should show error', (done) => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
       cdcJsService.didLoad = createSpy().and.callFake(() => of(false));
-      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
-        expect(
-          cdcJsService.registerUserWithoutScreenSet
-        ).not.toHaveBeenCalled();
-        expect(connector.register).not.toHaveBeenCalled();
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          {
-            key: 'errorHandlers.scriptFailedToLoad',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
+      cdcUserRegisterService.register(userRegisterFormData).subscribe({
+        error: () => {
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).not.toHaveBeenCalled();
+          expect(connector.register).not.toHaveBeenCalled();
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            {
+              key: 'errorHandlers.scriptFailedToLoad',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).not.toHaveBeenCalled();
+          done();
+        },
       });
-      expect(cdcJsService.registerUserWithoutScreenSet).not.toHaveBeenCalled();
     });
   });
 });
