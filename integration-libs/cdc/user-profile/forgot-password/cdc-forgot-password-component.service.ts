@@ -49,11 +49,14 @@ export class CDCForgotPasswordComponentService
           // Reset password using CDC Gigya SDK
           this.cdcJsService
             .resetPasswordWithoutScreenSet(this.form.value.userEmail)
-            .subscribe((response) => {
-              this.busy$.next(false);
-              if (response.status === 'OK') {
-                this.redirect();
-              }
+            .subscribe({
+              next: (response) => {
+                this.busy$.next(false);
+                if (response.status === 'OK') {
+                  this.redirect();
+                }
+              },
+              error: () => this.busy$.next(false),
             });
         } else {
           this.busy$.next(false);

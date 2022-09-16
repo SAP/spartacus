@@ -12,7 +12,7 @@ import {
 import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -103,6 +103,16 @@ describe('CdcLoginComponentService', () => {
         password,
         true
       );
+      expect(cdcLoginService['busy$'].value).toBe(false);
+    });
+
+    it('should handle a failed request through CDC SDK', () => {
+      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
+      (cdcJsService.loginUserWithoutScreenSet as jasmine.Spy).and.returnValue(
+        throwError('test error: such email does not exist!')
+      );
+      cdcLoginService.login();
+      expect(cdcLoginService['busy$'].value).toBe(false);
     });
 
     it('should NOT happen without CDC, should show error', () => {
@@ -119,6 +129,28 @@ describe('CdcLoginComponentService', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+      expect(cdcLoginService['busy$'].value).toBe(false);
+    });
+
+    describe('when email is invalid', () => {
+      beforeEach(() => {
+        cdcLoginService.form.setValue({
+          userId: 'invalid.email',
+          password: 'password',
+        });
+      });
+
+      it('should not request email', () => {
+        cdcLoginService.login();
+        expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
+        expect(cdcLoginService['busy$'].value).toBe(false);
+      });
+
+      it('should not reset the form', () => {
+        spyOn(cdcLoginService.form, 'reset').and.stub();
+        cdcLoginService.login();
+        expect(cdcLoginService.form.reset).not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CDCForgotPasswordComponentService } from './cdc-forgot-password-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -102,6 +102,17 @@ describe('CDCForgotPasswordComponentService', () => {
         expect(cdcJsService.resetPasswordWithoutScreenSet).toHaveBeenCalledWith(
           'test@test.com'
         );
+        expect(service['busy$'].value).toBe(false);
+      });
+
+      it('should handle a failed email request through CDC SDK', () => {
+        cdcJsService.didLoad = createSpy().and.returnValue(of(true));
+        (
+          cdcJsService.resetPasswordWithoutScreenSet as jasmine.Spy
+        ).and.returnValue(throwError('test error: such email does not exist!'));
+        service.requestEmail();
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(service['busy$'].value).toBe(false);
       });
 
       it('should show error and should not redirect if CDC SDK did not load', () => {
@@ -117,6 +128,7 @@ describe('CDCForgotPasswordComponentService', () => {
           },
           GlobalMessageType.MSG_TYPE_ERROR
         );
+        expect(service['busy$'].value).toBe(false);
       });
 
       it('should route the user to login', () => {
@@ -134,7 +146,7 @@ describe('CDCForgotPasswordComponentService', () => {
       });
     });
 
-    describe('error', () => {
+    describe('when email is invalid', () => {
       beforeEach(() => {
         service.form.setValue({
           userEmail: 'invalid.email',
@@ -146,6 +158,7 @@ describe('CDCForgotPasswordComponentService', () => {
         expect(
           cdcJsService.resetPasswordWithoutScreenSet
         ).not.toHaveBeenCalled();
+        expect(service['busy$'].value).toBe(false);
       });
 
       it('should not route the user', () => {
