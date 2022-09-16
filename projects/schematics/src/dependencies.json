@@ -58,7 +58,7 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
@@ -74,9 +74,9 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
@@ -92,9 +92,9 @@
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
@@ -111,9 +111,9 @@
     "@ngrx/store": "^13.0.2",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "@spartacus/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
@@ -128,7 +128,7 @@
     "@ngrx/store": "^13.0.2",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
@@ -140,9 +140,9 @@
     "@angular/core": "^13.3.0",
     "@angular/router": "^13.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
@@ -159,9 +159,9 @@
     "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/qualtrics": {
@@ -169,7 +169,7 @@
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
@@ -178,7 +178,7 @@
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/storefinder": {
@@ -191,7 +191,7 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
@@ -201,7 +201,7 @@
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/user": {
@@ -213,9 +213,9 @@
     "@ng-select/ng-select": "^8.0.0",
     "@ngrx/store": "^13.0.2",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/cdc": {
@@ -227,7 +227,7 @@
     "@ngrx/store": "^13.0.2",
     "@spartacus/asm": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
@@ -241,7 +241,7 @@
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/tracking": "4.1.0-next.0",
     "rxjs": "^6.6.0"
@@ -256,7 +256,7 @@
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
@@ -269,9 +269,9 @@
     "@sapui5/ts-types-esm": "1.98.0",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
@@ -279,17 +279,10 @@
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
-<<<<<<< Updated upstream
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0",
     "@spartacus/storefront": "4.1.0-next.0",
-=======
-    "@spartacus/cart": "4.1.1",
-    "@spartacus/core": "4.1.1",
-    "@spartacus/schematics": "4.1.1",
-    "@spartacus/storefront": "4.1.1",
->>>>>>> Stashed changes
     "rxjs": "^6.6.0"
   },
   "storefrontapp": {
