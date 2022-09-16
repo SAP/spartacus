@@ -42,7 +42,10 @@ export class CdcLoginFormComponentService
               this.form.value.password,
               true
             )
-            .subscribe(() => this.busy$.next(false));
+            .subscribe({
+              next: () => this.busy$.next(false),
+              error: () => this.busy$.next(false),
+            });
         } else {
           // CDC Gigya SDK not loaded, show error to the user
           this.globalMessageService.add(
