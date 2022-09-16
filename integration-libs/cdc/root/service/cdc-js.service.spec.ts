@@ -393,23 +393,21 @@ describe('CdcJsService', () => {
         }
       );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
-      service
-        .loginUserWithoutScreenSet('uid', 'password', { key: 'value' })
-        .subscribe(() => {
-          expect(
-            winRef.nativeWindow['gigya'].accounts.login
-          ).toHaveBeenCalledWith({
-            loginID: 'uid',
-            password: 'password',
-            callback: jasmine.any(Function),
-          });
-          done();
+      service.loginUserWithoutScreenSet('uid', 'password').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.login
+        ).toHaveBeenCalledWith({
+          loginID: 'uid',
+          password: 'password',
+          callback: jasmine.any(Function),
         });
+        done();
+      });
     });
 
     it('should not login user without screenset and having empty response', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
-      service.loginUserWithoutScreenSet('uid', 'password', null);
+      service.loginUserWithoutScreenSet('uid', 'password');
 
       expect(
         winRef.nativeWindow['gigya'].accounts.login
