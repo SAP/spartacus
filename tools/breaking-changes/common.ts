@@ -14,7 +14,7 @@ export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-
 export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}_0`;
 export const API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/migration-comments-api-elements.json`;
 export const MEMBERS_MIGRATION_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/migration-comments-members.json`;
-export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-api-mapping.json`;
+export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-api-mappings.json`;
 export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_MAJOR_VERSION}_0`;
 
 // Shared Functions
