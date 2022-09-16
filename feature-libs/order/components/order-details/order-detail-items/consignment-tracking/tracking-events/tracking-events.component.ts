@@ -41,7 +41,7 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
   }
 
   constructor(
-    private orderHistoryFacade: OrderHistoryFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
   ) {}

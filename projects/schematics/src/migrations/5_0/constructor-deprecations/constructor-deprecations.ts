@@ -38,6 +38,8 @@ import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.co
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 import { CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-product.service.migration';
 import { CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-user-context.service.migration';
+import { CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/consignment-tracking.component.migration';
+import { TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/tracking-events.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CART_TOTALS_COMPONENT_MIGRATION,
@@ -71,6 +73,8 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   BANNER_COMPONENT_MIGRATION,
   CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION,
   CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION,
+  CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION,
+  TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
