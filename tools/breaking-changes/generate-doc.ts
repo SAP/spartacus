@@ -24,8 +24,9 @@ const OUTPUT_FILE_TEMPLATE_PATH = `generate-doc.out.template`;
 const OUTPUT_FILE_PATH = `${common.MAJOR_VERSION_DOC_HOME}/generated-typescript-changes-doc.md`;
 const MD_CODEBLOCK = '\n```\n';
 
-const deletedCommentsData = common.readDeletedApiCommentsFile();
-const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
+const apiElementMigrationCommentData =
+  common.readApiElementMigrationCommentsFile();
+const memberMigrationCommentData = common.readMemberMigrationCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
 const renamedApiLookupData = common.readRenamedApiLookupFile();
 
@@ -65,9 +66,9 @@ function getBreakingChangeDoc(apiElement: any): string {
     doc += getMovedOrRenamedComment(apiElement);
   }
 
-  const migrationComment = common.findApiMigrationComment(
+  const migrationComment = common.findApiElementMigrationComment(
     apiElement,
-    deletedCommentsData
+    apiElementMigrationCommentData
   );
   if (!!migrationComment) {
     doc += migrationComment + '\n';
@@ -104,10 +105,6 @@ ${common.generateTopLevelApiDeletedComment(apiElement)}
 `;
 }
 
-function getMigrationComment(apiElement: any): string {
-  return common.findApiMigrationComment(apiElement, deletedCommentsData);
-}
-
 function getMovedDoc(apiElement: any): string {
   let movedDoc = '';
   if (!!apiElement.newApiElement.entryPoint) {
@@ -121,7 +118,7 @@ function getMovedDoc(apiElement: any): string {
 }
 
 function getMovedOrRenamedComment(apiElement: any): string {
-  const migrationComment = common.findApiMigrationComment(
+  const migrationComment = common.findApiElementMigrationComment(
     apiElement,
     renamedApiLookupData
   );
@@ -149,10 +146,10 @@ function getMembersDoc(apiElement: any): string {
 
   if (memberBreakingChanges && memberBreakingChanges?.length > 0) {
     memberBreakingChanges.forEach((memberBreakingChange: any) => {
-      const memberMigrationComment = common.findDeletedMemberComment(
+      const memberMigrationComment = common.findMemberMigrationComment(
         apiElement,
         memberBreakingChange.changeElementName,
-        deletedMembersCommentData
+        memberMigrationCommentData
       );
 
       switch (memberBreakingChange.changeType) {

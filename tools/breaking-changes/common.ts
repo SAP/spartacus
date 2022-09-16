@@ -12,8 +12,8 @@ import stringifyObject from 'stringify-object';
 export const NEW_MAJOR_VERSION = '6'; // Increment this number to match the current release for which the script is used.
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
 export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}_0`;
-export const DELETED_API_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api.json`;
-export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-renamed-api-members.json`;
+export const API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api.json`;
+export const MEMBERS_MIGRATION_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-renamed-api-members.json`;
 export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-api.json`;
 export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_MAJOR_VERSION}_0`;
 
@@ -28,19 +28,19 @@ export function readBreakingChangeFile(): any {
   return readAndParseDataFile(BREAKING_CHANGES_FILE_PATH);
 }
 
-export function readDeletedApiCommentsFile(): any {
-  return readAndParseDataFile(DELETED_API_COMMENTS_FILE_PATH);
+export function readApiElementMigrationCommentsFile(): any {
+  return readAndParseDataFile(API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH);
 }
 
-export function readDeletedMembersCommentsFile(): any {
-  return readAndParseDataFile(DELETED_MEMBERS_COMMENTS_FILE_PATH);
+export function readMemberMigrationCommentsFile(): any {
+  return readAndParseDataFile(MEMBERS_MIGRATION_COMMENTS_FILE_PATH);
 }
 
 export function readRenamedApiLookupFile(): any {
   return readAndParseDataFile(RENAMED_API_LOOKUP_FILE_PATH);
 }
 
-export function findApiMigrationComment(
+export function findApiElementMigrationComment(
   apiElement: any,
   deletedApiCommentData: any[]
 ): string {
@@ -53,7 +53,7 @@ export function findApiMigrationComment(
   return apiCommentEntry?.migrationComment || '';
 }
 
-export function findDeletedMemberComment(
+export function findMemberMigrationComment(
   apiElement: any,
   memberName: string,
   deletedMemberCommentData: any[]

@@ -22,7 +22,7 @@ import * as common from './common';
 const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/removed-public-api-deprecations/data/generated-removed-public-api.migration.ts`;
 const OUTPUT_FILE_TEMPLATE_PATH = `generate-deleted.out.template`;
 
-const deletedCommentsData = common.readDeletedApiCommentsFile();
+const deletedCommentsData = common.readApiElementMigrationCommentsFile();
 const breakingChangesData = common.readBreakingChangeFile();
 
 const deletedApiSchematics = [];
@@ -46,7 +46,7 @@ common.writeSchematicsDataOutput(
  */
 
 function getSchematicsData(apiElement: any): any {
-  const migrationComment = common.findApiMigrationComment(
+  const migrationComment = common.findApiElementMigrationComment(
     apiElement,
     deletedCommentsData
   );
