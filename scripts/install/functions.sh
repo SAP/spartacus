@@ -430,7 +430,7 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command] [options...]"
     echo "Available commands are:"
-    echo " install [--port <port>] [--skipsanity] (from sources)"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] (from sources)"
     echo " install_npm (from latest npm packages)"
     echo " start [--port <port>] [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
     echo " stop [--port <port>]"
