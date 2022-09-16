@@ -12,6 +12,7 @@ $modal-max-width-sm: 100% !important;
 $modal-min-width-sm: 100% !important;
 
 .modal {
+  background-color: rgba(0, 0, 0, 0.5);
   &-header {
     padding: $modal-header-padding;
   }
@@ -61,6 +62,10 @@ $modal-min-width-sm: 100% !important;
     max-width: $modal-max-width-md;
     min-width: $modal-min-width-md;
   }
+}
+
+.cx-modal-header { 
+  padding: 10px 15px;
 }
 
 .cx-modal-content {

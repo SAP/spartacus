@@ -4,7 +4,7 @@
   (esc)="closeModal('Escape clicked')"
 >
   <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
-    <div class="cx-suggested-addresses-header">
+    <div class="cx-suggested-addresses-header cx-modal-header">
       <div class="cx-suggested-addresses-title">
         {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
       </div>
@@ -51,14 +51,15 @@
             {{ data.suggestedAddresses.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
-            {{ suggestedAddress?.firstName }}
-            {{ suggestedAddress?.lastName }}<br />
-            {{ suggestedAddress?.line1 }}<br />
-            <span>{{ suggestedAddress?.line2 }}</span
-            ><br />
-            {{ suggestedAddress?.town }}
-            {{ suggestedAddress?.region?.isocode }}<br />
-            {{ suggestedAddress?.postalCode }}
+            <div class="cx-card-container">
+              <div class="cx-card-label">{{ suggestedAddress?.firstName }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.lastName }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.line1 }}</div>
+              <div class="cx-card-label"><span>{{ suggestedAddress?.line2 }}</span></div>
+              <div class="cx-card-label">{{ suggestedAddress?.town }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.region?.isocode }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.postalCode }}</div>
+            </div>
           </div>
         </div>
         <div class="form-check">
@@ -77,20 +78,19 @@
             {{ 'addressSuggestion.enteredAddress' | cxTranslate }}
           </label>
           <div class="cx-dialog-entered">
-            {{ data.enteredAddress?.firstName }}
-            {{ data.enteredAddress?.lastName }}<br />
-            {{ data.enteredAddress?.line1 }}<br />
-            <span>{{ data.enteredAddress?.line2 }}</span
-            ><br />
-            {{ data.enteredAddress?.town }}
-            {{ data.enteredAddress?.region?.isocode }}<br />
-            {{ data.enteredAddress?.postalCode }}
+            <div class="cx-card-container">
+              <div class="cx-card-label">{{ data.enteredAddress?.firstName }} {{ data.enteredAddress?.lastName }}</div>
+              <div class="cx-card-label">{{ data.enteredAddress?.line1 }}</div>
+              <div class="cx-card-label"><span>{{ data.enteredAddress?.line2 }}</span></div>
+              <div class="cx-card-label">{{ data.enteredAddress?.town }} {{ data.enteredAddress?.region?.isocode }}</div>
+              <div class="cx-card-label">{{ data.enteredAddress?.postalCode }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="cx-suggested-addresses-footer">
-      <div class="cx-dialog-actions col-sm-12 col-md-6 offset-md-6">
+      <div class="cx-dialog-actions col-sm-12 col-md-12 col-lg-6">
         <button
           class="btn btn-secondary cx-dialog-buttons"
           (click)="closeModal('Edit address')"

@@ -1,5 +1,4 @@
 %cx-suggested-addresses-dialog {
-  background-color: rgba(0, 0, 0, 0.5);
   .cx-suggested-addresses-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
@@ -24,8 +23,9 @@
 
       .cx-suggested-addresses-footer {
         display: flex;
+        justify-content: flex-end;
 
-        button {
+        .cx-dialog-buttons {
           flex: 0 0 calc(50% - 0.5rem);
 
           &:first-child {
