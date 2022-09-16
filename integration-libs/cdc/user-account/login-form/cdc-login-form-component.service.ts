@@ -26,6 +26,11 @@ export class CdcLoginFormComponentService
   protected subscription: Subscription = new Subscription();
 
   login() {
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.busy$.next(true);
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
