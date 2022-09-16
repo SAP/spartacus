@@ -316,8 +316,17 @@ describe('CdcJsService', () => {
         winRef.nativeWindow['gigya'].accounts.initRegistration
       ).not.toHaveBeenCalled();
     });
-    it('should call register', () => {
-      spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
+
+    it('should call register', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'initRegistration'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      spyOn(service as any, 'onInitRegistrationHandler').and.returnValue(
+        of({ status: 'OK' })
+      );
       expect(service.registerUserWithoutScreenSet).toBeTruthy();
       service
         .registerUserWithoutScreenSet({
@@ -328,13 +337,18 @@ describe('CdcJsService', () => {
           expect(
             winRef.nativeWindow['gigya'].accounts.initRegistration
           ).toHaveBeenCalled();
+          done();
         });
     });
   });
 
   describe('onInitRegistrationHandler', () => {
-    it('should register the user', () => {
-      spyOn(winRef.nativeWindow['gigya'].accounts, 'register');
+    it('should register the user', (done) => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'register').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
       expect(service['onInitRegistrationHandler']).toBeTruthy();
       service['onInitRegistrationHandler'](
         {
@@ -355,8 +369,10 @@ describe('CdcJsService', () => {
             lastName: 'lname',
           },
           regToken: 'TOKEN',
+          finalizeRegistration: true,
           callback: jasmine.any(Function),
         });
+        done();
       });
     });
 
@@ -370,8 +386,12 @@ describe('CdcJsService', () => {
   });
 
   describe('loginUserWithoutScreenSet', () => {
-    it('should login user without screenset', () => {
-      spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
+    it('should login user without screenset', (done) => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
       expect(service.loginUserWithoutScreenSet).toBeTruthy();
       service
         .loginUserWithoutScreenSet('uid', 'password', { key: 'value' })
@@ -383,6 +403,7 @@ describe('CdcJsService', () => {
             password: 'password',
             callback: jasmine.any(Function),
           });
+          done();
         });
     });
 
@@ -397,22 +418,35 @@ describe('CdcJsService', () => {
   });
 
   describe('resetPasswordWithoutScreenSet', () => {
-    it('should not call register', () => {
-      spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
+    it('should not call reset password', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'resetPassword'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
       service.resetPasswordWithoutScreenSet('').subscribe(() => {
         expect(
           winRef.nativeWindow['gigya'].accounts.resetPassword
         ).not.toHaveBeenCalled();
       });
+      done();
     });
-    it('should call register', () => {
-      spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
+
+    it('should call reset password', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'resetPassword'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
       expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
       service.resetPasswordWithoutScreenSet('test@mail.com').subscribe(() => {
         expect(
           winRef.nativeWindow['gigya'].accounts.resetPassword
         ).toHaveBeenCalled();
+        done();
       });
     });
   });
