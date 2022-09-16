@@ -13,11 +13,7 @@ import {
   ConsignmentTracking,
   OrderHistoryFacade,
 } from '@spartacus/order/root';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-  ModalRef,
-} from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -34,7 +30,6 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
     'DELIVERY_REJECTED',
     'DELIVERING',
   ];
-  modalRef: ModalRef;
   @ViewChild('element') element: ElementRef;
 
   @Input()
@@ -44,9 +39,9 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentTracking$: Observable<ConsignmentTracking>;
 
   constructor(
-    private orderHistoryFacade: OrderHistoryFacade,
-    private launchDialogService: LaunchDialogService,
-    private vcr: ViewContainerRef
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit() {

@@ -546,6 +546,10 @@ export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
   'MerchandisingFacetToQueryparamNormalizer';
 export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
 
+export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
+export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
+export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
+export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
 export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
 export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
 export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
