@@ -14,8 +14,6 @@ export class FutureStockConnector {
     userId: string,
     productCode: string
   ): Observable<ProductFutureStock> {
-    console.log('CODE: ', productCode);
-
     return this.adapter.getFutureStock(userId, productCode);
   }
 
