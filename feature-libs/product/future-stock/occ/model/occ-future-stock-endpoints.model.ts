@@ -4,11 +4,11 @@ export interface FutureStockOccEndpoints {
   /**
    * Get a specific future stock.
    */
-  getFutureStock?: string | OccEndpoint;
+  futureStock?: string | OccEndpoint;
   /**
    * Get all future stocks.
    */
-  getFutureStocks?: string | OccEndpoint;
+  futureStocks?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

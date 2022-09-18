@@ -11,16 +11,18 @@ export class FutureStockConnector {
   constructor(protected adapter: FutureStockAdapter) {}
 
   public getFutureStock(
-    productCode: string,
-    userId: string
+    userId: string,
+    productCode: string
   ): Observable<ProductFutureStock> {
-    return this.adapter.getFutureStock(productCode, userId);
+    console.log('CODE: ', productCode);
+
+    return this.adapter.getFutureStock(userId, productCode);
   }
 
   public getFutureStocks(
-    productCodes: string,
-    userId: string
+    userId: string,
+    productCodes: string
   ): Observable<ProductFutureStockList> {
-    return this.adapter.getFutureStocks(productCodes, userId);
+    return this.adapter.getFutureStocks(userId, productCodes);
   }
 }

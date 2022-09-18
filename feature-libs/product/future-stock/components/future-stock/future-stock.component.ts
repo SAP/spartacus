@@ -21,7 +21,7 @@ export class FutureStockComponent implements OnInit, OnDestroy {
 
     if(!this.futureStocks) {
       this.futureStockSubscription = this.futureStocks$.subscribe((futureStocks) => {
-        this.futureStocks = (futureStocks && futureStocks.length !== 0) ? futureStocks : 'This product has no future availability information.';
+        this.futureStocks = (futureStocks && futureStocks.futureStocks.length !== 0) ? futureStocks : 'This product has no future availability information.';
       });
     }
   }

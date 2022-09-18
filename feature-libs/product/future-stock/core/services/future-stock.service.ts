@@ -14,8 +14,9 @@ export class FutureStockService implements FutureStockFacade {
     this.queryService.create<ProductFutureStock>(
       () => this.routingService.getRouterState().pipe(
         withLatestFrom(this.userIdService.takeUserId()),
-        switchMap(([{ state }, userId]) =>
-          this.futureStockConnector.getFutureStock(state.params[this.PRODUCT_KEY], userId)
+        switchMap(([{ state }, userId]) => {
+          return this.futureStockConnector.getFutureStock(userId, state.params[this.PRODUCT_KEY]);
+        }
       )), {
       }
     );

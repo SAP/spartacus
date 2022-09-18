@@ -18,7 +18,7 @@ export const environment: Environment = {
   occBaseUrl: 'https://spartacus-dev4.eastus.cloudapp.azure.com:59002/',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
-  b2b: false,
+  b2b: true,
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,

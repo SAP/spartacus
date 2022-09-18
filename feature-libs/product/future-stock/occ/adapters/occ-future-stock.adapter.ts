@@ -55,7 +55,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
     userId: string,
     productCode: string
   ): string {
-    return this.occEndpoints.buildUrl('getFutureStock', {
+    return this.occEndpoints.buildUrl('futureStock', {
       urlParams: { userId, productCode },
     });
   }
@@ -70,7 +70,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       params['productCodes'] = productCodes;
     }
 
-    return this.occEndpoints.buildUrl('getFutureStocks', {
+    return this.occEndpoints.buildUrl('futureStocks', {
       urlParams: { userId },
       queryParams: params,
     });
