@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Config, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -31,7 +31,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
   noResults: boolean = false;
@@ -223,8 +223,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm() {
-    const form = new FormGroup({});
-    form.setControl('product', new FormControl(null));
+    const form = new UntypedFormGroup({});
+    form.setControl('product', new UntypedFormControl(null));
 
     this.form = form;
   }

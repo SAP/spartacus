@@ -6,7 +6,7 @@
 
 import {
   AbstractControl,
-  FormGroup,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
@@ -80,7 +80,7 @@ export class CustomFormValidators {
     password: string,
     passwordConfirmation: string
   ): any {
-    const validator = (formGroup: FormGroup) =>
+    const validator = (formGroup: UntypedFormGroup) =>
       controlsMustMatch(
         formGroup,
         password,
@@ -103,7 +103,7 @@ export class CustomFormValidators {
    * @memberof CustomFormValidators
    */
   static emailsMustMatch(email: string, emailConfirmation: string): any {
-    const validator = (formGroup: FormGroup) =>
+    const validator = (formGroup: UntypedFormGroup) =>
       controlsMustMatch(
         formGroup,
         email,
@@ -195,8 +195,10 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     getDate: (value: string) => Date | undefined
-  ): (_: FormGroup) => ValidationErrors | null {
-    const validator = (formGroup: FormGroup): ValidationErrors | null => {
+  ): (_: UntypedFormGroup) => ValidationErrors | null {
+    const validator = (
+      formGroup: UntypedFormGroup
+    ): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
@@ -229,7 +231,7 @@ export class CustomFormValidators {
  * @param errorName Error which will be returned by validator
  */
 export function controlsMustMatch(
-  formGroup: FormGroup,
+  formGroup: UntypedFormGroup,
   firstControlName: string,
   secondControlName: string,
   errorName: string
