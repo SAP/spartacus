@@ -106,7 +106,6 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -286,7 +285,6 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -466,7 +464,6 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",

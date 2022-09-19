@@ -106,7 +106,6 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -324,7 +323,6 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",

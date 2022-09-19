@@ -99,7 +99,6 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -279,7 +278,6 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",

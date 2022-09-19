@@ -140,7 +140,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -378,7 +377,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -595,7 +593,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -775,7 +772,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",

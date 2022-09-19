@@ -143,7 +143,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -323,7 +322,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
@@ -600,7 +598,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        
         }
       },
       \\"root\\": \\"\\",
