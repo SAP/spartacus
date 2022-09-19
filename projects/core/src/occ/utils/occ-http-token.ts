@@ -6,7 +6,7 @@
 
 import { HttpContextToken } from '@angular/common/http';
 
-export interface OccAsmContext {
+export interface OccHttpContext {
   /**
    * Indicates to the interceptor that the emulated customer ID should be sent to the OCC
    * to avoid ambiguity.
@@ -17,4 +17,4 @@ export interface OccAsmContext {
   sendUserIdAsHeader?: string | boolean;
 }
 
-export const OCC_ASM_TOKEN = new HttpContextToken<OccAsmContext>(() => ({}));
+export const OCC_HTTP_TOKEN = new HttpContextToken<OccHttpContext>(() => ({}));

@@ -15,7 +15,7 @@ import { take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../../projects/core/src/occ/utils/occ-constants';
 import { UserIdService } from '../../../../projects/core/src/auth/user-auth/facade';
 import {
-  OCC_ASM_TOKEN,
+  OCC_HTTP_TOKEN,
   OCC_USER_ID_CONSTANTS,
 } from '../../../../projects/core/src/occ/utils';
 import { UserIdHttpHeaderInterceptor } from './user-id-http-header.interceptor';
@@ -134,7 +134,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
   it("should add a 'sap-commerce-cloud-user-id' header to the request if a user is being emulated", (done) => {
     initializeMocks();
 
-    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
     });
 
@@ -159,7 +159,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
   it("should add a 'sap-commerce-cloud-user-id' header to the request if a user ID is provided", (done) => {
     initializeMocks();
 
-    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: 'user002',
     });
 
@@ -202,7 +202,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
 
     initializeMocks();
 
-    const context = new HttpContext().set(OCC_ASM_TOKEN, {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
     });
 

@@ -14,7 +14,7 @@ import { Inject, Injectable } from '@angular/core';
 import {
   Config,
   isFeatureEnabled,
-  OCC_ASM_TOKEN,
+  OCC_HTTP_TOKEN,
   OCC_USER_ID_CONSTANTS,
   UserIdService,
 } from '@spartacus/core';
@@ -48,7 +48,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
       return next.handle(httpRequest);
     }
 
-    const asmContext = httpRequest.context.get(OCC_ASM_TOKEN);
+    const asmContext = httpRequest.context.get(OCC_HTTP_TOKEN);
 
     let userIdObservable: Observable<string | undefined>;
 
