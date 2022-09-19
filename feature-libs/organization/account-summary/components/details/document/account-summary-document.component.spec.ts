@@ -121,7 +121,6 @@ describe('AccountSummaryDocumentComponent', () => {
   it('should read document list', () => {
     let accountSummaryList: AccountSummaryList;
     component.accountSummary$
-      .asObservable()
       .pipe(take(1))
       .subscribe((value: AccountSummaryList) => (accountSummaryList = value));
     expect(accountSummaryList).toEqual(mockAccountSummaryList);
@@ -133,41 +132,41 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('Should change page and sort', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'fetchDocuments').and.callThrough();
+    spyOn<any>(component, 'updateQueryParams').and.callThrough();
     spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
 
     // By default page will be 0
-    expect(component.queryParams.page).toEqual(0);
+    expect(component._queryParams.page).toEqual(0);
 
     // Change the page
     const newPage = 5;
     component.pageChange(newPage);
 
     // The query params should be updated with the new page
-    expect(component['fetchDocuments']).toHaveBeenCalled();
-    expect(component.queryParams.page).toEqual(newPage);
+    expect(component['updateQueryParams']).toHaveBeenCalled();
+    expect(component._queryParams.page).toEqual(newPage);
 
     // A new call with updated parameters is made to Account Summary Facade
     expect(accountSummaryFacade.getDocumentList).toHaveBeenCalledWith({
-      ...component.queryParams,
+      ...component._queryParams,
       page: newPage,
       fields: DocumentFields.DEFAULT,
     });
 
     // Getting ready to change sort, make sure that current sort is different than new sort code
     const newSortCode = 'NEW_SORT_CODE';
-    expect(component.queryParams.sort).not.toEqual(newSortCode);
+    expect(component._queryParams.sort).not.toEqual(newSortCode);
 
     // Change the sort
     component.changeSortCode(newSortCode);
 
     // Expect sort to be updated and page to be set back to 0
-    expect(component.queryParams.sort).toEqual(newSortCode);
-    expect(component.queryParams.page).not.toEqual(newPage);
-    expect(component.queryParams.page).toEqual(0);
+    expect(component._queryParams.sort).toEqual(newSortCode);
+    expect(component._queryParams.page).not.toEqual(newPage);
+    expect(component._queryParams.page).toEqual(0);
 
     expect(accountSummaryFacade.getDocumentList).toHaveBeenCalledWith({
-      ...component.queryParams,
+      ...component._queryParams,
       sort: newSortCode,
       page: 0,
       fields: DocumentFields.DEFAULT,
@@ -176,7 +175,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('should change filters', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'fetchDocuments').and.callThrough();
+    spyOn<any>(component, 'updateQueryParams').and.callThrough();
     spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
 
     // Change the filters
@@ -195,17 +194,17 @@ describe('AccountSummaryDocumentComponent', () => {
     });
 
     // The query params should be updated with the new page
-    expect(component['fetchDocuments']).toHaveBeenCalled();
-    expect(component.queryParams.page).toEqual(0);
-    expect(component.queryParams.status).toEqual(status);
-    expect(component.queryParams.startRange).toEqual(startRange);
-    expect(component.queryParams.endRange).toEqual(endRange);
-    expect(component.queryParams.filterByKey).toEqual(filterByKey);
-    expect(component.queryParams.filterByValue).toEqual(filterByValue);
+    expect(component['updateQueryParams']).toHaveBeenCalled();
+    expect(component._queryParams.page).toEqual(0);
+    expect(component._queryParams.status).toEqual(status);
+    expect(component._queryParams.startRange).toEqual(startRange);
+    expect(component._queryParams.endRange).toEqual(endRange);
+    expect(component._queryParams.filterByKey).toEqual(filterByKey);
+    expect(component._queryParams.filterByValue).toEqual(filterByValue);
 
     // A new call with updated parameters is made to Account Summary Facade
     expect(accountSummaryFacade.getDocumentList).toHaveBeenCalledWith({
-      ...component.queryParams,
+      ...component._queryParams,
       page: 0,
       fields: DocumentFields.DEFAULT,
       status,

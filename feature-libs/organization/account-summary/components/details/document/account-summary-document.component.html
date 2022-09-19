@@ -11,7 +11,7 @@
     <div class="cx-account-summary-document-body">
       <cx-account-summary-document-filter
         [documentTypeOptions]="documentTypeOptions"
-        [initialFilters]="queryParams"
+        [initialFilters]="_queryParams"
         (filterListEvent)="filterChange($event)"
       >
       </cx-account-summary-document-filter>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SortModel, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
@@ -10,28 +10,43 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
 })
-export class AccountSummaryDocumentComponent implements OnInit {
+export class AccountSummaryDocumentComponent {
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
-  accountSummary$: BehaviorSubject<AccountSummaryList> =
-    new BehaviorSubject<AccountSummaryList>({});
-  queryParams: DocumentQueryParams = {
+  documentTypeOptions: AccountSummaryDocumentType[];
+  sortOptions: SortModel[];
+
+  // Contains the initial query parameters and will be updated with current state of filters
+  _queryParams: DocumentQueryParams = {
     status: DocumentStatus.ALL,
     filterByKey: FilterByOptions.DOCUMENT_NUMBER,
     page: 0,
     pageSize: 10,
+    fields: DocumentFields.FULL,
   };
+  // Used to fire event every time query params are changed
+  queryParams$ = new BehaviorSubject<DocumentQueryParams>(this._queryParams);
+  // Used by template to subscribe to data from documents api
+  accountSummary$: Observable<AccountSummaryList> = this.queryParams$.pipe(
+    switchMap((param) => this.accountSummaryFacade.getDocumentList(param)),
+    tap((accountSummaryList: AccountSummaryList) => {
+      if (!this.documentTypeOptions && accountSummaryList.orgDocumentTypes) {
+        this.documentTypeOptions = accountSummaryList.orgDocumentTypes;
+      }
 
-  documentTypeOptions: AccountSummaryDocumentType[];
-  sortOptions: SortModel[];
+      if (!this.sortOptions && accountSummaryList.sorts) {
+        this.addNamesToSortModel(accountSummaryList.sorts);
+      }
+    })
+  );
 
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
@@ -39,29 +54,28 @@ export class AccountSummaryDocumentComponent implements OnInit {
     private downloadService: FileDownloadService
   ) {}
 
-  ngOnInit(): void {
-    this.fetchDocuments(true);
-  }
-
   pageChange(page: number): void {
-    this.queryParams.page = page;
-    this.fetchDocuments();
+    this.updateQueryParams({
+      page: page,
+    });
   }
 
   changeSortCode(sortCode: string): void {
-    this.queryParams.sort = sortCode;
-    this.queryParams.page = 0;
-    this.fetchDocuments();
+    this.updateQueryParams({
+      sort: sortCode,
+      page: 0,
+    });
   }
 
   filterChange(newFilters: DocumentQueryParams): void {
-    this.queryParams.page = 0;
-    this.queryParams.status = newFilters.status;
-    this.queryParams.startRange = newFilters.startRange;
-    this.queryParams.endRange = newFilters.endRange;
-    this.queryParams.filterByKey = newFilters.filterByKey;
-    this.queryParams.filterByValue = newFilters.filterByValue;
-    this.fetchDocuments();
+    this.updateQueryParams({
+      page: 0,
+      status: newFilters.status,
+      startRange: newFilters.startRange,
+      endRange: newFilters.endRange,
+      filterByKey: newFilters.filterByKey,
+      filterByValue: newFilters.filterByValue,
+    });
   }
 
   downloadAttachment(documentId?: string, attachmentId?: string): void {
@@ -75,25 +89,13 @@ export class AccountSummaryDocumentComponent implements OnInit {
       });
   }
 
-  private fetchDocuments(isFullFetch = false): void {
-    const params = {
-      ...this.queryParams,
-      fields: isFullFetch ? DocumentFields.FULL : DocumentFields.DEFAULT,
+  private updateQueryParams(partialParams: DocumentQueryParams) {
+    this._queryParams = {
+      ...this._queryParams,
+      ...partialParams,
+      fields: DocumentFields.DEFAULT,
     };
-    this.accountSummaryFacade
-      .getDocumentList(params)
-      .pipe(take(1))
-      .subscribe((accountSummaryList: AccountSummaryList) => {
-        if (!this.documentTypeOptions && accountSummaryList.orgDocumentTypes) {
-          this.documentTypeOptions = accountSummaryList.orgDocumentTypes;
-        }
-
-        if (!this.sortOptions && accountSummaryList.sorts) {
-          this.addNamesToSortModel(accountSummaryList.sorts);
-        }
-
-        this.accountSummary$.next(accountSummaryList);
-      });
+    this.queryParams$.next(this._queryParams);
   }
 
   private addNamesToSortModel(sorts: Array<SortModel>) {
