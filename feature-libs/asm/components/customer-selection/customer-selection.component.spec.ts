@@ -129,7 +129,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    // TODO: (CXSPA-153) Change div.spinner to use cx-dot-spinner component
+    // TODO: (CXSPA-1291) Change div.spinner to use cx-dot-spinner component
     expect(el.query(By.css('div.spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });
