@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -58,12 +61,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
 
+  @ViewChild('element') element: ElementRef;
+
   constructor(
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected vcr: ViewContainerRef,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -165,6 +171,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     newEvent.productCode = productCode;
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    newEvent.vcr = this.vcr;
+    newEvent.element = this.element;
     return newEvent;
   }
 

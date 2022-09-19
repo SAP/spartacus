@@ -1,13 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartUiEventAddToCart,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
@@ -22,7 +23,7 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -32,19 +33,34 @@ export class AddedToCartDialogComponent {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
-  modalIsOpen = false;
-
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
 
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   protected quantityControl$: Observable<UntypedFormControl>;
 
+  protected subscription = new Subscription();
+
   constructor(
-    protected modalService: ModalService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected launchDialogService: LaunchDialogService
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe(
+        (dialogData: CartUiEventAddToCart) => {
+          this.entry$ = this.activeCartFacade.getLastEntry(
+            dialogData.productCode
+          );
+          this.quantity = dialogData.quantity;
+          this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+            dialogData.numberOfEntriesBeforeAdd
+          );
+        }
+      )
+    );
+  }
+
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.
@@ -81,20 +97,6 @@ export class AddedToCartDialogComponent {
     return this.quantityControl$;
   }
 
-  init(
-    productCode: string,
-    quantity: number,
-    numberOfEntriesBeforeAdd: number
-  ): void {
-    // Display last entry for new product code. This always corresponds to
-    // our new item, independently of whether merging occured or not
-    this.entry$ = this.activeCartFacade.getLastEntry(productCode);
-    this.quantity = quantity;
-    this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
-      numberOfEntriesBeforeAdd
-    );
-  }
-
   protected getAddedEntryWasMerged(
     numberOfEntriesBeforeAdd: number
   ): Observable<boolean> {
@@ -126,7 +128,11 @@ export class AddedToCartDialogComponent {
     return <UntypedFormControl>this.form.get('quantity');
   }
 
-  dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+  dismissModal(reason: string): void {
+    this.launchDialogService.closeDialog(reason);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

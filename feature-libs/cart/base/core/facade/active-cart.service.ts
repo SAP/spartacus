@@ -185,6 +185,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param productCode
    */
   getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
+    console.log(productCode);
     return this.activeCartId$.pipe(
       switchMap((cartId) =>
         this.multiCartFacade.getLastEntry(cartId, productCode)
