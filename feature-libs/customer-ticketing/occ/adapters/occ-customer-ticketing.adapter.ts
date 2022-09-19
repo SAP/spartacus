@@ -8,7 +8,6 @@ import {
 import {
   CustomerTicketingAdapter,
   CUSTOMER_TICKETING_NORMALIZER,
-  CUSTOMER_TICKETING_SERIALIZER,
 } from '@spartacus/customer-ticketing/core';
 import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
@@ -47,7 +46,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   ): Observable<TicketEvent> {
     ticketEvent = this.converter.convert(
       ticketEvent,
-      CUSTOMER_TICKETING_SERIALIZER
+      CUSTOMER_TICKETING_NORMALIZER
     );
     return this.http
       .post<TicketEvent>(
