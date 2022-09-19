@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as fs from 'fs';
 import * as common from './common';
 
 /**
@@ -18,10 +17,6 @@ import * as common from './common';
  * -----------
  */
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
+const breakingChangesData = common.readBreakingChangeFile();
 
 common.printStats(breakingChangesData);
