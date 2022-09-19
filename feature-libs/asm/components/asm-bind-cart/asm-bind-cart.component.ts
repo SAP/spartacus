@@ -37,7 +37,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.minLength(1),
   ]);
 
-  loading$: Subject<boolean> = new BehaviorSubject(false);
+  loading$: Subject<boolean> = new BehaviorSubject<boolean>(false);
 
   protected subscription = new Subscription();
 
