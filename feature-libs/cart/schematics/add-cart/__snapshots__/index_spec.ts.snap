@@ -88,9 +88,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -198,8 +196,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -271,9 +268,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -381,8 +376,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -454,9 +448,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -564,8 +556,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -637,9 +628,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -747,8 +736,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -830,9 +818,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -940,7 +926,6 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

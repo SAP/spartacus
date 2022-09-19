@@ -140,9 +140,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -250,8 +248,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -381,9 +378,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -491,8 +486,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -601,9 +595,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -711,8 +703,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -784,9 +775,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -894,7 +883,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

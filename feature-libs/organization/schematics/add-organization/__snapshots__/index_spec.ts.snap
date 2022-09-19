@@ -106,9 +106,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -216,8 +214,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -327,9 +324,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
+        
         }
       },
       \\"root\\": \\"\\",
@@ -437,7 +432,6 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
