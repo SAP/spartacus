@@ -156,7 +156,7 @@ describe('AsmBindCartComponent', () => {
 
       component.bindCartToCustomer();
 
-      expect(asmBindCartFacade.bindCart).toHaveBeenCalledTimes(0);
+      expect(asmBindCartFacade.bindCart).not.toHaveBeenCalled();
     });
 
     it('should alert through global messsages when the bind cart fails', () => {
