@@ -5,7 +5,6 @@ import {
   CustomerTicketingFacade,
   STATUS,
   Status,
-  TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import {
@@ -21,7 +20,7 @@ import { LaunchDialogService } from '@spartacus/storefront';
 export class CustomerTicketingDetailsService {
   dataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  protected ticketDetails$ = this.customerTicketingService.getTicket();
+  ticketDetails$ = this.customerTicketingService.getTicket();
 
   constructor(
     protected customerTicketingService: CustomerTicketingFacade,
@@ -30,24 +29,20 @@ export class CustomerTicketingDetailsService {
     protected routingService: RoutingService
   ) {}
 
-  getTicketSubject = (): Observable<string | undefined> =>
-    this.ticketDetails$.pipe(map((details) => details?.subject));
+  getTicketSubject(): Observable<string | undefined> {
+    return this.ticketDetails$.pipe(map((details) => details?.subject));
+  }
 
-  getTicketStatus = (): Observable<string | undefined> =>
-    this.ticketDetails$.pipe(
+  getTicketStatus(): Observable<string | undefined> {
+    return this.ticketDetails$.pipe(
       map((details) => details?.status?.id?.toUpperCase())
     );
+  }
 
-  getAvailableTransitionStatus = (): Observable<Status[] | undefined> =>
-    this.ticketDetails$.pipe(
+  getAvailableTransitionStatus(): Observable<Status[] | undefined> {
+    return this.ticketDetails$.pipe(
       map((details) => details?.availableStatusTransitions)
     );
-
-  getTicketDetails = (): Observable<TicketDetails | undefined> =>
-    this.ticketDetails$;
-
-  getTicketState() {
-    this.customerTicketingService.getTicketState().subscribe();
   }
 
   createTicketEvent(ticketEvent: TicketEvent): void {
@@ -83,8 +78,8 @@ export class CustomerTicketingDetailsService {
       {
         key:
           id === STATUS.CLOSE
-            ? 'customerTicketing.RequestClosed'
-            : 'customerTicketing.RequestReopened',
+            ? 'customerTicketing.requestClosed'
+            : 'customerTicketing.requestReopened',
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );

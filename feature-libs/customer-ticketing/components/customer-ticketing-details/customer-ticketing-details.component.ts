@@ -19,7 +19,7 @@ import { CustomerTicketingDetailsService } from '../customer-ticketing-details.s
 export class CustomerTicketingDetailsComponent {
   dateFormat = DATE_FORMAT;
   ticketDetails$: Observable<TicketDetails | undefined> =
-    this.customerTicketingDetailsService.getTicketDetails();
+    this.customerTicketingDetailsService.ticketDetails$;
 
   constructor(
     protected translation: TranslationService,

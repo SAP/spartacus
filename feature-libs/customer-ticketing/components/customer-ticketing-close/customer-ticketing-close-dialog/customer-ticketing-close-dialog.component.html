@@ -9,7 +9,7 @@
         {{ 'customerTicketing.closeRequest' | cxTranslate }}
       </div>
       <button
-        (click)="close('Close Close Request Dialog')"
+        (click)="close('Close Request Dialog')"
         [attr.aria-label]="'common.close' | cxTranslate"
         class="cx-customer-ticket-form-close close"
       >
@@ -43,40 +43,8 @@
         </label>
       </div>
 
-      <div>
-        <cx-file-upload
-          [formControl]="form.get('file')"
-          [accept]="allowedTypes"
-          [multiple]="maxEntries > 1"
-        >
-          <ng-template>
-            <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
-            <span class="cx-message-footer-text">{{
-              'customerTicketing.uploadFile' | cxTranslate
-            }}</span>
-          </ng-template>
-        </cx-file-upload>
-
-        <p class="cx-customer-ticket-file-upload-hint">
-          {{
-            'customerTicketing.fileSizeLimit' | cxTranslate: { count: maxSize }
-          }}
-        </p>
-        <p class="cx-customer-ticket-file-upload-hint" *ngIf="maxEntries === 1">
-          {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
-        </p>
-
-        <cx-form-errors
-          [control]="form.get('file')"
-          prefix="formErrors.file"
-        ></cx-form-errors>
-      </div>
-
       <div class="cx-customer-ticket-form-footer">
-        <button
-          (click)="close('Close Close Request Dialog')"
-          class="btn btn-action"
-        >
+        <button (click)="close('Close Request Dialog')" class="btn btn-action">
           {{ 'customerTicketing.cancel' | cxTranslate }}
         </button>
         <button (click)="closeRequest()" class="btn btn-primary">
