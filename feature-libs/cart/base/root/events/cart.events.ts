@@ -1,3 +1,4 @@
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
 import { OrderEntry } from '../models/cart.model';
 
@@ -120,6 +121,14 @@ export class CartUiEventAddToCart extends CxEvent {
   productCode: string;
   quantity: number;
   numberOfEntriesBeforeAdd: number;
+  /**
+   * ElementRef which triggers dialog opening.
+   */
+  element?: ElementRef;
+  /**
+   * ViewContainerRef instance for inline dialog rendering.
+   */
+  vcr?: ViewContainerRef;
 }
 
 /**
