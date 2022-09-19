@@ -184,7 +184,6 @@ describe('AddedToCartDialogComponent', () => {
       component.quantity = -1;
       component.entry$ = EMPTY;
       component.addedEntryWasMerged$ = EMPTY;
-      //      launchDialogService.data$.subscribe();
       spyOn(activeCartFacade, 'getLastEntry').and.returnValue(
         cold('a', { a: mockOrderEntries[0] })
       );
