@@ -55,10 +55,16 @@
               <div class="cx-card-label">{{ suggestedAddress?.firstName }}</div>
               <div class="cx-card-label">{{ suggestedAddress?.lastName }}</div>
               <div class="cx-card-label">{{ suggestedAddress?.line1 }}</div>
-              <div class="cx-card-label"><span>{{ suggestedAddress?.line2 }}</span></div>
+              <div class="cx-card-label">
+                <span>{{ suggestedAddress?.line2 }}</span>
+              </div>
               <div class="cx-card-label">{{ suggestedAddress?.town }}</div>
-              <div class="cx-card-label">{{ suggestedAddress?.region?.isocode }}</div>
-              <div class="cx-card-label">{{ suggestedAddress?.postalCode }}</div>
+              <div class="cx-card-label">
+                {{ suggestedAddress?.region?.isocode }}
+              </div>
+              <div class="cx-card-label">
+                {{ suggestedAddress?.postalCode }}
+              </div>
             </div>
           </div>
         </div>
@@ -79,11 +85,21 @@
           </label>
           <div class="cx-dialog-entered">
             <div class="cx-card-container">
-              <div class="cx-card-label">{{ data.enteredAddress?.firstName }} {{ data.enteredAddress?.lastName }}</div>
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.firstName }}
+                {{ data.enteredAddress?.lastName }}
+              </div>
               <div class="cx-card-label">{{ data.enteredAddress?.line1 }}</div>
-              <div class="cx-card-label"><span>{{ data.enteredAddress?.line2 }}</span></div>
-              <div class="cx-card-label">{{ data.enteredAddress?.town }} {{ data.enteredAddress?.region?.isocode }}</div>
-              <div class="cx-card-label">{{ data.enteredAddress?.postalCode }}</div>
+              <div class="cx-card-label">
+                <span>{{ data.enteredAddress?.line2 }}</span>
+              </div>
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.town }}
+                {{ data.enteredAddress?.region?.isocode }}
+              </div>
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.postalCode }}
+              </div>
             </div>
           </div>
         </div>
