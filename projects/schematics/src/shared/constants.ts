@@ -258,6 +258,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
+export const SUGGESTED_ADDRESS_DIALOG_COMPONENT = `SuggestedAddressDialogComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
