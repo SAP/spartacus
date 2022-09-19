@@ -6,28 +6,32 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-const notApplicable = 'n/a';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
 })
 export class AccountSummaryHeaderComponent {
+  notApplicable: string;
   headerDetails$: Observable<AccountSummaryDetails> =
     this.accountSummaryFacade.getAccountSummary();
 
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService
-  ) {}
+  ) {
+    this.translation
+      .translate('orgAccountSummary.details.notApplicable')
+      .pipe(take(1))
+      .subscribe((text) => (this.notApplicable = text));
+  }
 
   getIdCardContent(id?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.uid').pipe(
       map((idTitle) => ({
         title: idTitle,
-        text: [id || notApplicable],
+        text: [id || this.notApplicable],
       }))
     );
   }
@@ -36,7 +40,7 @@ export class AccountSummaryHeaderComponent {
     return this.translation.translate('orgAccountSummary.details.name').pipe(
       map((nameTitle) => ({
         title: nameTitle,
-        text: [name || notApplicable],
+        text: [name || this.notApplicable],
       }))
     );
   }
@@ -51,7 +55,7 @@ export class AccountSummaryHeaderComponent {
           title: addressTitle,
           text: Boolean(billingAddress)
             ? [name, address, country]
-            : [notApplicable],
+            : [this.notApplicable],
         } as Card;
       })
     );
@@ -63,7 +67,7 @@ export class AccountSummaryHeaderComponent {
       .pipe(
         map((creditRepTitle) => ({
           title: creditRepTitle,
-          text: [creditRep || notApplicable],
+          text: [creditRep || this.notApplicable],
         }))
       );
   }
@@ -74,7 +78,7 @@ export class AccountSummaryHeaderComponent {
       .pipe(
         map((creditLineTitle) => ({
           title: creditLineTitle,
-          text: [creditLine || notApplicable],
+          text: [creditLine || this.notApplicable],
         }))
       );
   }
@@ -85,7 +89,7 @@ export class AccountSummaryHeaderComponent {
       .pipe(
         map((currentBalanceTitle) => ({
           title: currentBalanceTitle,
-          text: [currentBalance || notApplicable],
+          text: [currentBalance || this.notApplicable],
         }))
       );
   }
@@ -96,7 +100,7 @@ export class AccountSummaryHeaderComponent {
       .pipe(
         map((openBalanceTitle) => ({
           title: openBalanceTitle,
-          text: [openBalance || notApplicable],
+          text: [openBalance || this.notApplicable],
         }))
       );
   }
@@ -107,7 +111,7 @@ export class AccountSummaryHeaderComponent {
       .pipe(
         map((pastDueBalanceTitle) => ({
           title: pastDueBalanceTitle,
-          text: [pastDueBalance ?? notApplicable],
+          text: [pastDueBalance ?? this.notApplicable],
         }))
       );
   }

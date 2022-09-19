@@ -13,6 +13,7 @@ export const orgAccountSummary = {
     pastDueBalance: 'Past Due Balance',
     dayRange: '{{minBoundary}}-{{maxBoundary}} Days',
     dayPlus: '{{minBoundary}}+ Days',
+    notApplicable: 'n/a',
   },
   document: {
     header: 'Documents',
