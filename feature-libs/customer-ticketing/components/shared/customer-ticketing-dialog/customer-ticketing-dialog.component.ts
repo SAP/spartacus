@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -14,17 +15,16 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { CustomerTicketingDetailsService } from '../../customer-ticketing-details.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Directive()
 export abstract class CustomerTicketingDialogComponent {
   iconTypes = ICON_TYPE;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
-
-  isDataLoading$: Observable<boolean> =
-    this.customerTicketingDetailsService.dataLoading$;
+  isDataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -84,8 +84,8 @@ export abstract class CustomerTicketingDialogComponent {
     protected el: ElementRef,
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected filesFormValidators: FilesFormValidators,
-    protected customerTicketingDetailsService: CustomerTicketingDetailsService,
-    protected customerTicketingFacade: CustomerTicketingFacade
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected routingService: RoutingService
   ) {}
 
   protected buildForm(): void {

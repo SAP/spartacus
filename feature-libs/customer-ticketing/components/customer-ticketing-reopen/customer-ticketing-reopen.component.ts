@@ -5,11 +5,13 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { STATUS } from '@spartacus/customer-ticketing/root';
+import {
+  CustomerTicketingFacade,
+  STATUS,
+} from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',
@@ -20,23 +22,23 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  enableReopenButton$: Observable<boolean | undefined> = combineLatest([
-    this.customerTicketingDetailsService.getTicketStatus(),
-    this.customerTicketingDetailsService.getAvailableTransitionStatus(),
-  ]).pipe(
-    map(
-      ([ticketStatus, availableStatus]) =>
-        ticketStatus === STATUS.CLOSE &&
-        availableStatus?.some(
-          (status) =>
-            status.id.toUpperCase() === STATUS.INPROCESS ||
-            status.id.toUpperCase() === STATUS.OPEN
+  enableReopenButton$: Observable<boolean | undefined> =
+    this.customerTicketingFacade
+      .getTicket()
+      .pipe(
+        map(
+          (ticket) =>
+            ticket?.status?.id === STATUS.CLOSE &&
+            ticket.availableStatusTransitions?.some(
+              (status) =>
+                status.id.toUpperCase() === STATUS.INPROCESS ||
+                status.id.toUpperCase() === STATUS.OPEN
+            )
         )
-    )
-  );
+      );
 
   constructor(
-    protected customerTicketingDetailsService: CustomerTicketingDetailsService,
+    protected customerTicketingFacade: CustomerTicketingFacade,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}

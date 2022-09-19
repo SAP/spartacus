@@ -10,4 +10,5 @@ export class GetTicketQueryReloadEvent extends CxEvent {
 
 export class TicketEventCreatedEvent extends CxEvent {
   static readonly type = 'TicketEventCreatedEvent';
+  status: string;
 }

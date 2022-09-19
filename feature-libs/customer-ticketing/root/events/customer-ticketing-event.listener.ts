@@ -2,11 +2,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CurrencySetEvent,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
+import { STATUS } from '../model';
 import {
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
@@ -19,9 +22,13 @@ import {
 export class CustomerTicketingEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor(
+    protected eventService: EventService,
+    protected globalMessageService: GlobalMessageService
+  ) {
     this.onGetTicketQueryReload();
     this.onGetTicketQueryReset();
+    this.onTicketEventCreated();
   }
 
   protected onGetTicketQueryReload(): void {
@@ -43,6 +50,22 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+      })
+    );
+  }
+
+  protected onTicketEventCreated(): void {
+    this.subscriptions.add(
+      this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
+        this.globalMessageService.add(
+          {
+            key:
+              status === STATUS.CLOSE
+                ? 'customerTicketing.requestClosed'
+                : 'customerTicketing.requestReopened',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
       })
     );
   }

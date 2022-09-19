@@ -5,11 +5,11 @@ import {
   CUSTOM_CLASS,
   TicketDetails,
   DATE_FORMAT,
+  CustomerTicketingFacade,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
 @Component({
   selector: 'cx-customer-ticketing-details',
@@ -19,11 +19,11 @@ import { CustomerTicketingDetailsService } from '../customer-ticketing-details.s
 export class CustomerTicketingDetailsComponent {
   dateFormat = DATE_FORMAT;
   ticketDetails$: Observable<TicketDetails | undefined> =
-    this.customerTicketingDetailsService.ticketDetails$;
+    this.customerTicketingFacade.getTicket();
 
   constructor(
     protected translation: TranslationService,
-    protected customerTicketingDetailsService: CustomerTicketingDetailsService
+    protected customerTicketingFacade: CustomerTicketingFacade
   ) {}
 
   prepareCardContent(

@@ -4,7 +4,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
@@ -16,6 +16,11 @@ const mockRoutingParams = { ticketCode: '1' };
 const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'MockTicket',
+};
+
+const mockCreateEventResponse: TicketEvent = {
+  code: 'mockCode',
+  message: 'mock message',
 };
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -30,6 +35,7 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  createTicketEvent = createSpy().and.returnValue(of(mockCreateEventResponse));
 }
 
 describe('CustomerTicketingService', () => {
@@ -89,6 +95,29 @@ describe('CustomerTicketingService', () => {
             error: false,
             data: mockTicketDetails,
           });
+          done();
+        });
+    });
+  });
+
+  describe('createTicketEvent', () => {
+    it('should call customerTicketingConnector.createTicketEvent', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: 'mockTicket',
+          name: 'mockTicket',
+        },
+      };
+      service
+        .createTicketEvent(mockTicketEvent)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.createTicketEvent).toHaveBeenCalledWith(
+            mockUserId,
+            mockRoutingParams.ticketCode,
+            mockTicketEvent
+          );
+          expect(data).toEqual(mockCreateEventResponse);
           done();
         });
     });

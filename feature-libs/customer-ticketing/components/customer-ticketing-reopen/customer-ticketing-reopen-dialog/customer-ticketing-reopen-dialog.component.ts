@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   STATUS,
   STATUS_NAME,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
@@ -13,8 +14,10 @@ import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketin
 })
 export class CustomerTicketingReopenDialogComponent
   extends CustomerTicketingDialogComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
+  subscription: Subscription;
+
   ngOnInit(): void {
     this.buildForm();
   }
@@ -24,9 +27,18 @@ export class CustomerTicketingReopenDialogComponent
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
-      this.customerTicketingDetailsService.createTicketEvent(
-        this.prepareTicketEvent()
-      );
+      this.isDataLoading$.next(true);
+      this.subscription = this.customerTicketingFacade
+        .createTicketEvent(this.prepareTicketEvent())
+        .subscribe({
+          complete: () => {
+            this.isDataLoading$.next(false);
+            this.close('Ticket reopened successfully');
+          },
+          error: () => {
+            this.close('Something went wrong while reopening ticket');
+          },
+        });
     }
   }
 
@@ -38,5 +50,11 @@ export class CustomerTicketingReopenDialogComponent
         name: STATUS_NAME.INPROCESS,
       },
     };
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
