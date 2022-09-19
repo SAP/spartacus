@@ -6,17 +6,17 @@ echo "-----"
 
 echo "Running unit tests and code coverage for core"
 
-ng test core --watch=false --source-mapp --code-coverage --browsers=ChromeHeadless
+ng test core --watch=false --source-map --code-coverage --browsers=ChromeHeadless
 
 
 echo "Running unit tests and code coverage for storefrontlib"
 
-ng test storefrontlib --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test storefrontlib --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 
 echo "Running unit tests and code coverage for cart library"
 
-ng test cart --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test cart --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for cart library"
 
@@ -24,7 +24,7 @@ yarn --cwd feature-libs/cart run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for order library"
 
-ng test order --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test order --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for order library"
 
@@ -32,12 +32,12 @@ yarn --cwd feature-libs/order run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for setup"
 
-ng test setup --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test setup --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 
 echo "Running unit tests and code coverage for user"
 
-ng test user --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test user --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for user library"
 
@@ -45,7 +45,7 @@ yarn --cwd feature-libs/user run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for checkout"
 
-ng test checkout --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test checkout --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for checkout library"
 
@@ -53,7 +53,7 @@ yarn --cwd feature-libs/checkout run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for product library"
 
-ng test product --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test product --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for product library"
 
@@ -61,7 +61,7 @@ yarn --cwd feature-libs/product run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for organization library"
 
-ng test organization --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test organization --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for organization library"
 
@@ -69,7 +69,7 @@ yarn --cwd feature-libs/organization run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for smartedit library"
 
-ng test smartedit --source-mapp --watch=false --code-coverage --browsers=ChromeHeadless
+ng test smartedit --source-map --watch=false --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for smartedit library"
 
