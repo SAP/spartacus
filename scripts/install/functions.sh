@@ -209,19 +209,19 @@ function create_apps {
 }
 
 function create_csr {
-    setup_custom_yarn_cache "CSR"
+    setup_custom_yarn_cache "global"
     create_shell_app ${CSR_APP_NAME}
     add_spartacus_csr ${CSR_APP_NAME}
 }
 
 function create_ssr {
-    setup_custom_yarn_cache "SSR"
+    setup_custom_yarn_cache "global"
     create_shell_app ${SSR_APP_NAME}
     add_spartacus_ssr ${SSR_APP_NAME}
 }
 
 function create_ssr_pwa {
-    setup_custom_yarn_cache "SSR_PWA"
+    setup_custom_yarn_cache "global"
     create_shell_app ${SSR_PWA_APP_NAME}
     add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
 }
@@ -232,9 +232,31 @@ function setup_custom_yarn_cache {
     export YARN_CACHE_FOLDER
 }
 
+
+function clean_package {
+    local PKG_PATH="${1}"
+    local NPM_PKG_NAME=$(get_package_name "$PKG_PATH/package.json")
+
+    local dir="storage/${NPM_PKG_NAME}"
+    echo "clean package ${NPM_PKG_NAME}"
+    if [ -d ${dir} ]; then
+        echo " - removing package ${NPM_PKG_NAME}"
+        rm -rf ${dir}
+        yarn cache clean --force "${NPM_PKG_NAME}"
+    fi
+}
+
+function get_package_name {
+    local PKG_JSON="${1}"
+    cat "${PKG_JSON}"  | grep '"name":' | cut -d':' -f 2 | cut -d'"' -f 2
+}
+
 function publish_package {
     local PKG_PATH=${1}
     echo "Creating ${PKG_PATH} npm package"
+
+    clean_package "${PKG_PATH}"
+
     (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
@@ -648,6 +670,8 @@ function exec_parallel_export_vars {
     export -f add_spartacus_ssr_pwa
     export -f add_feature_libs
     export -f add_spartacus_csr
+    export -f clean_package
+    export -f get_package_name
     export -f create_shell_app
     export -f create_csr
     export -f create_ssr
