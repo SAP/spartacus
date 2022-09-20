@@ -14,7 +14,7 @@ describe('Cart', () => {
     });
 
     context('Registered user', () => {
-      beforeEach(() => {
+      before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
         visitHomePage();
