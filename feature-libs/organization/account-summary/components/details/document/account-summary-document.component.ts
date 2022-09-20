@@ -80,12 +80,8 @@ export class AccountSummaryDocumentComponent {
 
   filterChange(newFilters: DocumentQueryParams): void {
     this.updateQueryParams({
+      ...newFilters,
       page: 0,
-      status: newFilters.status,
-      startRange: newFilters.startRange,
-      endRange: newFilters.endRange,
-      filterByKey: newFilters.filterByKey,
-      filterByValue: newFilters.filterByValue,
     });
   }
 
@@ -101,11 +97,13 @@ export class AccountSummaryDocumentComponent {
   }
 
   private updateQueryParams(partialParams: DocumentQueryParams) {
-    this._queryParams = {
-      ...this._queryParams,
-      ...partialParams,
-      fields: DocumentFields.DEFAULT,
-    };
+    // Overwrite each value present in partialParams to _queryParams
+    Object.entries(partialParams).forEach(
+      (param) => ((this._queryParams as any)[param[0]] = param[1])
+    );
+    // Every request (after the initial) should ask for DEFAULT fields
+    this._queryParams.fields = DocumentFields.DEFAULT;
+
     this.queryParams$.next(this._queryParams);
   }
 
