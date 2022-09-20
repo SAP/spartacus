@@ -135,7 +135,14 @@
                 </div>
                 <div class="cx-account-summary-document-value">
                   <span *ngIf="document.amount && document.currency?.isocode">
-                    {{ document.amount | currency: document.currency?.isocode }}
+                    {{
+                      document.amount
+                        | currency
+                          : document.currency?.isocode
+                          : 'symbol-narrow'
+                          : undefined
+                          : selectedLanguage
+                    }}
                   </span>
                 </div>
               </td>
@@ -148,7 +155,12 @@
                     *ngIf="document.openAmount && document.currency?.isocode"
                   >
                     {{
-                      document.openAmount | currency: document.currency?.isocode
+                      document.openAmount
+                        | currency
+                          : document.currency?.isocode
+                          : 'symbol-narrow'
+                          : undefined
+                          : selectedLanguage
                     }}
                   </span>
                 </div>

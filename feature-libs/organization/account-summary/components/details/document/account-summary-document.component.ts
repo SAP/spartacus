@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { SortModel, TranslationService } from '@spartacus/core';
+import {
+  LanguageService,
+  SortModel,
+  TranslationService,
+} from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   AccountSummaryFacade,
@@ -23,6 +27,7 @@ export class AccountSummaryDocumentComponent {
 
   documentTypeOptions: AccountSummaryDocumentType[];
   sortOptions: SortModel[];
+  selectedLanguage: string;
 
   // Contains the initial query parameters and will be updated with current state of filters
   _queryParams: DocumentQueryParams = {
@@ -51,8 +56,14 @@ export class AccountSummaryDocumentComponent {
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
-    private downloadService: FileDownloadService
-  ) {}
+    private downloadService: FileDownloadService,
+    private languageService: LanguageService
+  ) {
+    this.languageService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((activeLanguage) => (this.selectedLanguage = activeLanguage));
+  }
 
   pageChange(page: number): void {
     this.updateQueryParams({
