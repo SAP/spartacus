@@ -151,6 +151,8 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
+export const ADDED_TO_CART_DIALOG_EVENT_LISTENER =
+  'AddedToCartDialogEventListener';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
