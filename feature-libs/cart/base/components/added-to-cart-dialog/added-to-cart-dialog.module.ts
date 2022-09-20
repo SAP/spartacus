@@ -6,6 +6,7 @@ import { I18nModule, provideConfig, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   ItemCounterModule,
+  KeyboardFocusModule,
   ModalModule,
   PromotionsModule,
   SpinnerModule,
@@ -28,6 +29,7 @@ import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.c
     I18nModule,
     ItemCounterModule,
     ModalModule,
+    KeyboardFocusModule,
   ],
   providers: [provideConfig(defaultAddedToCartLayoutConfig)],
   declarations: [AddedToCartDialogComponent],

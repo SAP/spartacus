@@ -12,7 +12,11 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   filter,
@@ -41,6 +45,13 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   quantity = 0;
 
   form: FormGroup = new FormGroup({});
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
   protected quantityControl$: Observable<FormControl>;
 
