@@ -179,7 +179,7 @@ describe('AddedToCartDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('init', () => {
+  describe('init()', () => {
     it('should init the component', () => {
       component.quantity = -1;
       component.entry$ = EMPTY;

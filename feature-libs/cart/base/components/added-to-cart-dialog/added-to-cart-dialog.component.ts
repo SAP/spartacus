@@ -55,11 +55,9 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService.data$.subscribe(
         (dialogData: CartUiEventAddToCart) => {
-          this.entry$ = this.activeCartFacade.getLastEntry(
-            dialogData.productCode
-          );
-          this.quantity = dialogData.quantity;
-          this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+          this.init(
+            dialogData.productCode,
+            dialogData.quantity,
             dialogData.numberOfEntriesBeforeAdd
           );
         }
@@ -103,6 +101,20 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     return this.quantityControl$;
   }
 
+  init(
+    productCode: string,
+    quantity: number,
+    numberOfEntriesBeforeAdd: number
+  ): void {
+    // Display last entry for new product code. This always corresponds to
+    // our new item, independently of whether merging occured or not
+    this.entry$ = this.activeCartFacade.getLastEntry(productCode);
+    this.quantity = quantity;
+    this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+      numberOfEntriesBeforeAdd
+    );
+  }
+
   protected getAddedEntryWasMerged(
     numberOfEntriesBeforeAdd: number
   ): Observable<boolean> {
@@ -132,7 +144,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     return <FormControl>this.form.get('quantity');
   }
 
-  dismissModal(reason: string): void {
+  dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }
 
