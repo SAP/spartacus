@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 
 import {
   I18nTestingModule,
+  LanguageService,
   SortModel,
   TranslationService,
 } from '@spartacus/core';
@@ -78,6 +79,12 @@ class MockFileDownloadService {
   download = createSpy('MockFileDownloadService.download Spy');
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
+
 describe('AccountSummaryDocumentComponent', () => {
   let component: AccountSummaryDocumentComponent;
   let fixture: ComponentFixture<AccountSummaryDocumentComponent>;
@@ -95,12 +102,10 @@ describe('AccountSummaryDocumentComponent', () => {
         MockSortingComponent,
       ],
       providers: [
-        {
-          provide: TranslationService,
-          useClass: MockTranslationService,
-        },
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);

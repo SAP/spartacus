@@ -134,16 +134,23 @@
                   }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <span *ngIf="document.amount && document.currency?.isocode">
-                    {{
-                      document.amount
-                        | currency
-                          : document.currency?.isocode
-                          : 'symbol-narrow'
-                          : undefined
-                          : selectedLanguage
-                    }}
+                  <span
+                    *ngIf="document.formattedAmount; else noFormattedAmount"
+                  >
+                    {{ document.formattedAmount }}
                   </span>
+                  <ng-template #noFormattedAmount>
+                    <span *ngIf="document.amount && document.currency?.isocode">
+                      {{
+                        document.amount
+                          | currency
+                            : document.currency?.isocode
+                            : 'symbol-narrow'
+                            : undefined
+                            : selectedLanguage
+                      }}
+                    </span>
+                  </ng-template>
                 </div>
               </td>
               <td class="cx-account-summary-document-monetary">
@@ -152,17 +159,27 @@
                 </div>
                 <div class="cx-account-summary-document-value">
                   <span
-                    *ngIf="document.openAmount && document.currency?.isocode"
+                    *ngIf="
+                      document.formattedOpenAmount;
+                      else noFormattedOpenAmount
+                    "
                   >
-                    {{
-                      document.openAmount
-                        | currency
-                          : document.currency?.isocode
-                          : 'symbol-narrow'
-                          : undefined
-                          : selectedLanguage
-                    }}
+                    {{ document.formattedOpenAmount }}
                   </span>
+                  <ng-template #noFormattedOpenAmount>
+                    <span
+                      *ngIf="document.openAmount && document.currency?.isocode"
+                    >
+                      {{
+                        document.openAmount
+                          | currency
+                            : document.currency?.isocode
+                            : 'symbol-narrow'
+                            : undefined
+                            : selectedLanguage
+                      }}
+                    </span>
+                  </ng-template>
                 </div>
               </td>
               <td class="cx-account-summary-document-status">

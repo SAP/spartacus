@@ -70,7 +70,9 @@ export interface AccountSummaryDocument {
   status?: DocumentStatus;
   createdAtDate?: string;
   dueAtDate?: string;
+  formattedAmount?: string;
   amount?: number;
+  formattedOpenAmount?: string;
   openAmount?: number;
   currency?: Currency;
   attachments?: OrgDocumentAttachment[];
