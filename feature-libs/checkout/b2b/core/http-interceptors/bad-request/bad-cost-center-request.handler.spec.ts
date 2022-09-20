@@ -1,11 +1,12 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import {
-  GlobalMessageService, GlobalMessageType, HttpErrorHandler,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorHandler,
   HttpResponseStatus,
 } from '@spartacus/core';
 import { BadCostCenterRequestHandler } from './bad-cost-center-request.handler';
-
 
 const MockRequest = {} as HttpRequest<any>;
 
@@ -22,7 +23,6 @@ const MockCostCenterErrorResponse = {
   },
   url: 'https://mockURL/occ/v2/powertools-spa/users/mockUsr/carts/00001004/costcenter?costCenterId=mockCostCtr',
 } as HttpErrorResponse;
-
 
 class MockGlobalMessageService {
   add() {}

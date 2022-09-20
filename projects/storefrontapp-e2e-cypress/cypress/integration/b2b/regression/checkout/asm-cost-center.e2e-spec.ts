@@ -1,7 +1,7 @@
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as asm from '../../../../helpers/asm';
-import * as alerts from "../../../../helpers/global-message";
-import {POWERTOOLS_BASESITE} from "../../../../sample-data/b2b-checkout";
+import * as alerts from '../../../../helpers/global-message';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 
 context('B2B - ASM Account Checkout', () => {
   before(() => {

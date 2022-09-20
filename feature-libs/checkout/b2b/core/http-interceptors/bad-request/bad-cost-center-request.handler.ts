@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { HttpErrorResponse, HttpRequest } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import {
   ErrorModel,
   GlobalMessageType,
@@ -27,9 +27,12 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
   }
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-     if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
-        this.globalMessageService.add({ key: 'httpHandlers.invalidCostCenter' }, GlobalMessageType.MSG_TYPE_ERROR);
-      }
+    if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
+      this.globalMessageService.add(
+        { key: 'httpHandlers.invalidCostCenter' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
@@ -41,7 +44,10 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
   private isCostCenterRequest(errorResponse: HttpErrorResponse): boolean {
     if (errorResponse?.url) {
       const url = new URL(errorResponse.url);
-      return url.pathname.endsWith('costcenter') && new URLSearchParams(url.search).has('costCenterId');
+      return (
+        url.pathname.endsWith('costcenter') &&
+        new URLSearchParams(url.search).has('costCenterId')
+      );
     }
 
     return false;
