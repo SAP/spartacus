@@ -1,13 +1,10 @@
 %cx-close-account-modal {
-  background-color: rgba(0, 0, 0, 0.5);
-
   .cx-close-account-modal {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
 
     .cx-close-account-modal-container {
       @extend .modal-content;
-      padding: 1rem;
 
       .cx-close-account-modal-header {
         display: flex;
@@ -19,7 +16,6 @@
 
       .cx-close-account-modal-body {
         @extend .modal-body;
-        padding: 1rem 0;
       }
 
       .cx-close-account-modal-footer {
@@ -27,6 +23,11 @@
 
         button {
           flex: 0 0 calc(50% - 0.5rem);
+          text-transform: lowercase;
+
+          &:first-line {
+            text-transform: capitalize;
+          }
 
           &:first-child {
             margin-inline-end: 0.5rem;

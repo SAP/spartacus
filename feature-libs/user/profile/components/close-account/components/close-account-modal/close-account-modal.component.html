@@ -5,7 +5,7 @@
     (esc)="dismissModal('Escape click')"
   >
     <div class="cx-close-account-modal-container">
-      <div class="cx-close-account-modal-header">
+      <div class="cx-close-account-modal-header cx-modal-header">
         <h3 class="cx-close-account-modal-title">
           {{ 'closeAccount.confirmAccountClosure' | cxTranslate }}
         </h3>
@@ -28,12 +28,12 @@
       </div>
 
       <ng-template #loaded>
-        <div class="cx-close-account-modal-body">
+        <div class="cx-close-account-modal-body modal-body">
           <p class="cx-confirmation">
             {{ 'closeAccount.confirmAccountClosureMessage' | cxTranslate }}
           </p>
         </div>
-        <div class="cx-close-account-modal-footer">
+        <div class="cx-close-account-modal-footer cx-modal-footer">
           <button class="btn btn-primary" (click)="closeAccount()">
             {{ 'closeAccount.closeMyAccount' | cxTranslate }}
           </button>
