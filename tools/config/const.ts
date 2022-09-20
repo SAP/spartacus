@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const PACKAGE_JSON = 'package.json';
 export const NG_PACKAGE_JSON = 'ng-package.json';
 export const SPARTACUS_SCOPE = '@spartacus';
