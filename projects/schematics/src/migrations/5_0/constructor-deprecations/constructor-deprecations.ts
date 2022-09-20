@@ -10,7 +10,6 @@ import { SUGGESTED_ADDRESS_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data
 import { ADDRESS_FORM_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/address-form.component.migration';
 import { ADDED_TO_CART_DIALOG_EVENT_LISTENER_CONSTRUCTOR_MIGRATION } from './data/added-to-cart-dialog-event.listener.migration';
 import { ADDED_TO_CART_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/added-to-cart-dialog.component.migration';
-import { ADD_TO_CART_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/add-to-cart.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
@@ -22,7 +21,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ADDRESS_FORM_COMPONENT_CONSTRUCTOR_MIGRATION,
   ADDED_TO_CART_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
   ADDED_TO_CART_DIALOG_EVENT_LISTENER_CONSTRUCTOR_MIGRATION,
-  ADD_TO_CART_COMPONENT_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
