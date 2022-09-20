@@ -24,31 +24,10 @@
       height: 70vh;
     }
 
-    .cx-nav {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-    }
-
     .cx-nav-item {
       button {
         background: none;
         color: var(--cx-color-primary);
-      }
-    }
-
-    .cx-nav-link {
-      display: block;
-      padding: 0.5rem 1rem;
-      border: none;
-      &.active {
-        background-color: var(--cx-color-inverse);
-        color: var(--cx-color-primary);
-        border-width: 0 0 5px 0;
-        border-style: solid;
       }
     }
   }
@@ -141,7 +120,7 @@
     }
   }
 
-  ul.nav {
+  .cx-nav {
     border-bottom: 1px solid #dee2e6;
     justify-content: center;
   }
