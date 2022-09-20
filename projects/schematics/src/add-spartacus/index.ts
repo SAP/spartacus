@@ -97,10 +97,10 @@ function installStyles(options: SpartacusOptions): Rule {
       '\n' +
       `$styleVersion: ${
         options.featureLevel || getSpartacusCurrentFeatureLevel()
-      };\n@import '~@spartacus/styles/index';\n`;
+      };\n@import '@spartacus/styles/index';\n`;
 
     if (options?.theme) {
-      insertion += `\n@import '~@spartacus/styles/scss/theme/${options.theme}';\n`;
+      insertion += `\n@import '@spartacus/styles/scss/theme/${options.theme}';\n`;
     }
 
     if (htmlContent.includes(insertion)) {

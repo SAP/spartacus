@@ -134,7 +134,9 @@ export class IconLoaderService {
     // no specific resource found, let's try to find a one-size-fits-all resource
     if (!resource) {
       resource = this.config.resources.find(
-        (res) => (res.type === resourceType && !res.types) || res.types === []
+        (res) =>
+          (res.type === resourceType && !res.types) ||
+          (res.types && res.types.length === 0)
       );
     }
     return resource;
