@@ -1,10 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  TestBedStatic,
-} from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
@@ -133,7 +129,7 @@ describe('CartItemListComponent', () => {
     ['removeEntry', 'updateEntry']
   );
 
-  function configureTestingModule(): TestBedStatic {
+  function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
