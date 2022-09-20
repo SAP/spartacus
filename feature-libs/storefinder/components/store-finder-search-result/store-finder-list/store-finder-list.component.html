@@ -64,13 +64,13 @@
 
     <!-- mobile tabs for column set only -->
     <div *ngIf="locations?.stores" class="cx-columns-mobile">
-      <ul role="tablist" class="nav">
-        <li class="nav-item" *ngFor="let mode of displayModes | keyvalue">
+      <ul class="cx-nav" role="tablist">
+        <li class="cx-nav-item" *ngFor="let mode of displayModes | keyvalue">
           <button
             [id]="'tab-' + mode?.value"
             role="tab"
             [ngClass]="{
-              'nav-link': true,
+              'cx-nav-link': true,
               active: isDisplayModeActive(mode?.value)
             }"
             [attr.aria-controls]="'tab-' + mode?.value + '-panel'"
@@ -82,7 +82,7 @@
           </button>
         </li>
       </ul>
-      <div class="tab-content">
+      <div class="cx-tab-content">
         <div [ngSwitch]="activeDisplayMode">
           <ng-template [ngSwitchCase]="displayModes.LIST_VIEW">
             <div
