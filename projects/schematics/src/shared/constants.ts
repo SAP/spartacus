@@ -553,6 +553,9 @@ export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
 export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
 export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
 export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
 
 /***** Classes end *****/
 
