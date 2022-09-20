@@ -12,6 +12,8 @@ import { ADDED_TO_CART_DIALOG_EVENT_LISTENER_CONSTRUCTOR_MIGRATION } from './dat
 import { ADDED_TO_CART_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/added-to-cart-dialog.component.migration';
 import { CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/close-account-modal.component.migration';
 import { CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/close-account.component.migration';
+import { COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-card.component.migration';
+import { COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-dialog.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
@@ -25,6 +27,8 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ADDED_TO_CART_DIALOG_EVENT_LISTENER_CONSTRUCTOR_MIGRATION,
   CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION,
   CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION,
+  COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION,
+  COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
