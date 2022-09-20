@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CxEvent } from '@spartacus/core';
 import { Order } from '../model/order.model';
 import { ReplenishmentOrder } from '../model/replenishment-order.model';

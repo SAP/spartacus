@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CmsComponent } from '../../../model/cms.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { serializePageContext } from '../../utils/cms-utils';
