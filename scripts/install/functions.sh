@@ -209,19 +209,19 @@ function create_apps {
 }
 
 function create_csr {
-    setup_custom_yarn_cache "global"
+    setup_custom_yarn_cache "csr"
     create_shell_app ${CSR_APP_NAME}
     add_spartacus_csr ${CSR_APP_NAME}
 }
 
 function create_ssr {
-    setup_custom_yarn_cache "global"
+    setup_custom_yarn_cache "ssr"
     create_shell_app ${SSR_APP_NAME}
     add_spartacus_ssr ${SSR_APP_NAME}
 }
 
 function create_ssr_pwa {
-    setup_custom_yarn_cache "global"
+    setup_custom_yarn_cache "pwa"
     create_shell_app ${SSR_PWA_APP_NAME}
     add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
 }
