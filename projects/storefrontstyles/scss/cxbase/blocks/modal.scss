@@ -12,6 +12,7 @@ $modal-max-width-sm: 100% !important;
 $modal-min-width-sm: 100% !important;
 
 .modal {
+  background-color: rgba(0, 0, 0, 0.5);
   &-header {
     padding: $modal-header-padding;
   }
@@ -30,6 +31,10 @@ $modal-min-width-sm: 100% !important;
     margin-inline-start: 0;
     margin-inline-end: 0;
     align-self: flex-end;
+
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
   }
 
   &[aria-hidden='false'] {
@@ -63,7 +68,18 @@ $modal-min-width-sm: 100% !important;
   }
 }
 
+.cx-modal-header {
+  padding-top: 2rem;
+  padding-inline-end: 1.75rem;
+  padding-bottom: 0.85rem;
+  padding-inline-start: 1.75rem;
+}
+
 .cx-modal-content {
   background-color: var(--cx-color-inverse);
   width: 100%;
+}
+
+.cx-modal-footer {
+  padding: 0px 27px 30px;
 }

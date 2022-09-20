@@ -25,9 +25,9 @@ import {
 import {
   Card,
   ICON_TYPE,
+  LaunchDialogService,
+  LAUNCH_CALLER,
   ModalRef,
-  ModalService,
-  SuggestedAddressDialogComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -106,8 +106,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -211,25 +211,17 @@ export class CheckoutPaymentFormComponent implements OnInit {
     } as Card;
   }
 
+  //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {
-    if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
-        SuggestedAddressDialogComponent,
-        { centered: true, size: 'lg' }
-      );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress =
-        this.billingAddressForm.value;
-      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
-        results.suggestedAddresses;
-      this.suggestedAddressModalRef.result
-        .then(() => {
-          this.suggestedAddressModalRef = null;
-        })
-        .catch(() => {
-          // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.suggestedAddressModalRef = null;
-        });
-    }
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.SUGGESTED_ADDRESSES,
+      undefined,
+      {
+        enteredAddress: this.billingAddressForm.value,
+        suggestedAddresses: results.suggestedAddresses,
+      }
+    );
+    //TODO: Add logic that handle dialog's actions. Scope of CXSPA-1276
   }
 
   close(): void {
@@ -239,7 +231,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
   back(): void {
     this.goBack.emit();
   }
-
+  /**
+   *TODO: This method is not used, but should be. It triggers suggested addresses modal under the hood.
+   *
+   * See ticket CXSPA-1276
+   */
   verifyAddress(): void {
     if (this.sameAsDeliveryAddress) {
       this.next();
