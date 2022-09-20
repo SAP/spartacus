@@ -13,12 +13,14 @@ export class UnitOrderConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
+    filters?: string,
     sort?: string
   ): Observable<OrderHistoryList> {
     return this.adapter.loadUnitOrderHistory(
       userId,
       pageSize,
       currentPage,
+      filters,
       sort
     );
   }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -19,6 +19,7 @@ import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.compo
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     NgSelectModule,
     ListNavigationModule,
     UrlModule,

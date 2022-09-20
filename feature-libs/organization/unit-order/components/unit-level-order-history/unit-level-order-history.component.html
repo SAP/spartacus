@@ -6,10 +6,31 @@
   <ng-container *ngIf="type.orderHistory as orderHistory">
     <div>
       <!-- HEADER -->
-      <div class="cx-unit-level-order-history-header">
-        <h2>
-          {{ 'unitLevelOrderHistory.orderHistory' | cxTranslate }}
-        </h2>
+
+      <div class="cx-unit-level-order-history-filters top">
+        <label class="cx-unit-level-order-history-filters-group form-group"
+        ><span>
+          {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+        </span>
+          <input
+            #queryInputUser
+            [formControl]="userFilter"
+            (keyup)="onFiltering()"
+            type="text"
+            class="form-control"
+            [attr.aria-label]="'unitLevelOrderHistory.filterByUserLabel' | cxTranslate"
+            placeholder="{{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}"
+          />
+          <input
+            #queryInputUnit
+            [formControl]="unitFilter"
+            (keyup)="onFiltering()"
+            type="text"
+            class="form-control"
+            [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
+            placeholder="{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}"
+          />
+        </label>
       </div>
 
       <!-- BODY -->

@@ -123,6 +123,34 @@
     }
   }
 
+  .cx-unit-level-order-history-filters-group {
+    padding: 0;
+    margin-bottom: 0rem;
+    align-items: center;
+    display: flex;
+    width: 40%;
+
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+
+    cx-sorting {
+      width: 100%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem;
+      width: 100%;
+    }
+  }
+
+  .cx-unit-level-order-history-filters {
+    input {
+      margin-left: 0.5rem;
+    }
+  }
+
   .cx-unit-level-order-history-form-group {
     padding: 0;
     margin-bottom: 0;

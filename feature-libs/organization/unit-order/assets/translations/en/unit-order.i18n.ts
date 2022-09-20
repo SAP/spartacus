@@ -17,5 +17,12 @@ export const unitOrder = {
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
     notFound: 'No Orders Found',
+    //--------------------
+    applyFilter: 'Apply',
+    filterBy: 'Filter by',
+    filterByUser: 'Buyer',
+    filterByUserLabel: 'Buyer name',
+    filterByUnit: 'Unit',
+    filterByUnitLabel: 'Unit name',
   },
 };

@@ -20,6 +20,7 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
+    filters?: string,
     sort?: string
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
@@ -28,6 +29,9 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
     }
     if (currentPage) {
       params['currentPage'] = currentPage.toString();
+    }
+    if (filters) {
+      params['filters'] = filters.toString();
     }
     if (sort) {
       params['sort'] = sort.toString();
