@@ -186,7 +186,6 @@
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
-    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
