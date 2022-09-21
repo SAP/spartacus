@@ -27,6 +27,7 @@ export const customerTicketing = {
     subject: 'Subject',
     ticketCategory: 'Category',
     sortSubtitle: 'Sort by',
+    sortOrders: 'Sort orders',
     noTickets: `You don't have any request`,
     requestTitle: 'All Requests',
 
