@@ -1,3 +1,5 @@
+import { SortModel, PaginationModel } from '@spartacus/core';
+
 export const enum CUSTOM_CLASS {
   CLOSE = 'cx-text-gray',
   OPEN = 'cx-text-green',
@@ -34,4 +36,16 @@ export interface Event {
   createdAt?: string;
   message?: string;
   toStatus?: Status;
+}
+
+export interface TicketList {
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+  tickets?: Array<TicketDetails>;
+}
+
+export interface TicketSearchConfig {
+  pageSize?: number;
+  currentPage?: number;
+  sort?: string;
 }
