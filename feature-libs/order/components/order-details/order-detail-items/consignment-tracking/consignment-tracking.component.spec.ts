@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -75,7 +74,7 @@ describe('ConsignmentTrackingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule, SpinnerModule, I18nTestingModule],
+      imports: [SpinnerModule, I18nTestingModule],
       declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
