@@ -1,0 +1,6 @@
+//
+// Generated file, don't update manually.
+//
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+
+export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = 
