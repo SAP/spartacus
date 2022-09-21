@@ -1,27 +1,44 @@
-<ng-container *ngIf="tickets | async as tickets">
+<ng-container *ngIf="{
+  ticketsObs: tickets$ | async,
+  tickets: tickets | async
+} as ticketList">
   <h3 class="cx-ticketing-list-title">
     <span class="cx-ticketing-list-title-text">
       {{ 'customerTicketingList.requestTitle' | cxTranslate }}
     </span>
     <span class="cx-ticketing-list-title-count">
-      ({{ tickets.length }})
+      ({{ ticketList.tickets.length }})
     </span>
   </h3>
-  <div class="cx-ticketing-list-subtitle">
-    {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
+
+  <div class="cx-ticketing-list-sort top">
+    <label class="cx-ticketing-list-form-group form-group">
+      <span>
+        {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
+      </span>
+      <cx-sorting
+        [sortOptions]="ticketList.ticketsObs.sorts"
+        [sortLabels]="getSortLabels() | async"
+        (sortListEvent)="changeSortCode($event)"
+        [selectedOption]="ticketList.ticketsObs.pagination.sort"
+        placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
+        [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
+        ariaControls="ticketing-list-table"
+      ></cx-sorting>
+    </label>
+    <div
+      *ngIf="ticketList.ticketsObs.pagination.totalPages > 1"
+      class="cx-ticketing-list-pagination"
+    >
+      <cx-pagination
+        [pagination]="ticketList.ticketsObs.pagination"
+        (viewPageEvent)="pageChange($event)"
+      ></cx-pagination>
+    </div>
   </div>
-  <select
-    class="cx-ticketing-list-select"
-    [ngModel]="selected"
-    (ngModelChange)="selected = $event"
-  > 
-    <option *ngFor="let heading of tableHeaders" [ngValue]="heading">
-      {{ heading.label }}
-    </option>
-  </select>
 
   <ng-container *ngIf="customerTicketsFlag">
-    <div class="cx-ticketing-list-mobile" *ngFor="let ticket of tickets">
+    <div class="cx-ticketing-list-mobile" *ngFor="let ticket of ticketList.tickets">
       <div>
         <div class="cx-ticketing-list-ticket-item-mobile-description">
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
@@ -73,7 +90,7 @@
         </div>
       </div>
     </div>
-    <table class="table cx-table">
+    <table id="ticketing-list-table" class="table cx-ticketing-list-table">
       <thead>
         <tr>
           <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
@@ -85,7 +102,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ticket of tickets">
+        <tr *ngFor="let ticket of ticketList.tickets">
           <td>
             <a [routerLink]="['/my-account/customer-ticketing', ticket.id]">{{ ticket.id }}</a>
           </td>
@@ -97,6 +114,17 @@
         </tr>
       </tbody>
     </table>
+    <div class="cx-ticketing-list-sort bottom">
+      <div
+        *ngIf="ticketList.ticketsObs.pagination.totalPages > 1"
+        class="cx-ticketing-list-pagination"
+      >
+        <cx-pagination
+          [pagination]="ticketList.ticketsObs.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
+      </div>
+    </div>
   </ng-container>
   <ng-container *ngIf="!customerTicketsFlag">
     <div class="text-center">

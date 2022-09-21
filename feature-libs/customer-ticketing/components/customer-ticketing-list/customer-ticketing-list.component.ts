@@ -1,34 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { of, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslationService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
 })
 export class CustomerTicketingListComponent implements OnInit {
+  constructor(protected translation: TranslationService) {}
+  sortType: string = 'byId';
   iconTypes = ICON_TYPE;
   customerTicketsFlag: boolean = true;
-  tableHeaders = [
-    { key: 'ticketId', label: 'ID' },
-    { key: 'changedOn', label: 'Changed On' },
-  ];
 
   tickets$ = of({
     pagination: {
       currentPage: 0,
-      pageSize: 0,
-      sort: 'string',
-      totalPages: 0,
-      totalResults: 0,
+      pageSize: 5,
+      sort: 'byId',
+      totalPages: 2,
+      totalResults: 10,
     },
     sorts: [
-      {
-        code: 'string',
-        name: 'string',
-        selected: true,
-      },
+      { code: 'byId', selected: true },
+      { code: 'byChangedDate', selected: false },
     ],
     tickets: [
       {
@@ -126,11 +122,41 @@ export class CustomerTicketingListComponent implements OnInit {
     })
   );
 
-  constructor() {}
-
   ngOnInit(): void {
     this.tickets$.subscribe((tickets) => {
       this.customerTicketsFlag = tickets && tickets.tickets?.length > 0;
     });
+  }
+
+  getSortLabels(): Observable<{ byId: string; byChangedDate: string }> {
+    return combineLatest([
+      this.translation.translate('customerTicketing.ticketId'),
+      this.translation.translate('customerTicketing.changedOn'),
+    ]).pipe(
+      map(([textById, textByChangedDate]) => {
+        return {
+          byId: textById,
+          byChangedDate: textByChangedDate,
+        };
+      })
+    );
+  }
+
+  changeSortCode(sortCode: string): void {
+    // const event: { sortCode: string; currentPage: number } = {
+    //   sortCode,
+    //   currentPage: 0,
+    // };
+    this.sortType = sortCode;
+    // this.fetchOrders(event);
+  }
+
+  pageChange(page: number): void {
+    // const event: { sortCode: string; currentPage: number } = {
+    //   sortCode: this.sortType,
+    //   currentPage: page,
+    // };
+    console.log('pageChange', page);
+    // this.fetchOrders(event);
   }
 }
