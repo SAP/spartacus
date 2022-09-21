@@ -1,5 +1,5 @@
 %cx-customer-ticketing-list {
-  .cx-table {
+  .cx-ticketing-list-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
     border-width: 1px 0 1px 0;
@@ -50,6 +50,53 @@
     }
   }
 
+  .cx-ticketing-list-sort {
+    &.top {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        padding-top: 0;
+      }
+    }
+
+    &.bottom {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .cx-ticketing-list-form-group {
+    padding: 0;
+    margin-bottom: 0;
+    align-items: center;
+    display: flex;
+    width: 40%;
+
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+
+    cx-sorting {
+      width: 100%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem;
+      width: 100%;
+    }
+  }
+
   .cx-ticketing-list-mobile {
     @include media-breakpoint-down(lg) {
       border-top: 1px solid var(--cx-color-light);
@@ -90,8 +137,10 @@
     }
   }
 
-  .cx-ticketing-list-subtitle {
-    display: inline-flex;
+  .cx-ticketing-list-pagination {
+    @include media-breakpoint-down(sm) {
+      margin: 0 auto;
+    }
   }
 
   .cx-ticketing-list-select {
