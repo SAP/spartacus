@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -7,12 +7,9 @@ import { ICON_TYPE } from '@spartacus/storefront';
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
 })
-export class CustomerTicketingListComponent {
+export class CustomerTicketingListComponent implements OnInit {
   iconTypes = ICON_TYPE;
-
-  constructor() {}
-
-  // Create table Headers
+  customerTicketsFlag: boolean = true;
   tableHeaders = [
     { key: 'ticketId', label: 'ID' },
     { key: 'changedOn', label: 'Changed On' },
@@ -128,4 +125,12 @@ export class CustomerTicketingListComponent {
       });
     })
   );
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.tickets$.subscribe((tickets) => {
+      this.customerTicketsFlag = tickets && tickets.tickets?.length > 0;
+    });
+  }
 }
