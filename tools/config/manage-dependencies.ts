@@ -22,6 +22,7 @@ import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
+import * as path from 'path';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import ts from 'typescript';
@@ -160,7 +161,7 @@ export function manageDependencies(
         const sourceFile = ts.createSourceFile(
           fileName,
           readFileSync(fileName).toString(),
-          ts.ScriptTarget.ES2015,
+          ts.ScriptTarget.ES2020,
           true
         );
 
@@ -291,11 +292,37 @@ function filterLocalRelativeImports(
         return acc;
       }, {} as LibraryWithDependencies['tsImports']);
     lib.scssImports = Object.values(lib.scssImports)
-      .filter(
-        (imp) =>
-          imp.importPath.startsWith('node_modules/') ||
-          imp.importPath.startsWith('~')
-      )
+      .filter((imp) => {
+        if (
+          imp.importPath.startsWith('.') ||
+          imp.importPath.startsWith('url(')
+        ) {
+          return false;
+        }
+        if (imp.importPath.startsWith('@')) {
+          return true;
+        }
+        // whether imports can be resolved from relative path
+        let folder = path.dirname([...imp.files][0]);
+        let file;
+        if (imp.importPath.includes('/')) {
+          const parts = imp.importPath.split('/');
+          file = parts.pop();
+          folder = folder + '/' + parts.join('/');
+        } else {
+          file = imp.importPath;
+        }
+        if (fs.existsSync(folder)) {
+          const fileList = fs.readdirSync(folder);
+          if (
+            fileList.includes(file + '.scss') ||
+            fileList.includes('_' + file + '.scss')
+          ) {
+            return false;
+          }
+        }
+        return true;
+      })
       .reduce((acc, curr) => {
         acc[curr.importPath] = curr;
         return acc;
@@ -565,12 +592,7 @@ function extractExternalDependenciesFromImports(
     });
     Object.values(lib.scssImports).forEach((imp) => {
       let dependency: string;
-      let dep;
-      if (imp.importPath.startsWith('~')) {
-        dep = imp.importPath.substring(1);
-      } else {
-        dep = imp.importPath.substring('node_modules/'.length);
-      }
+      let dep = imp.importPath;
       if (dep.startsWith('@')) {
         const [scope, name] = dep.split('/');
         dependency = `${scope}/${name}`;
