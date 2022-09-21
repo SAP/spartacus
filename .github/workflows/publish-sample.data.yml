@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - test-show-sample-workflow-works
   workflow_dispatch:
     inputs:
       current_sample_branch:
