@@ -9,9 +9,17 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import { ListNavigationModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, CardModule, IconModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    CardModule,
+    IconModule,
+    ListNavigationModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
