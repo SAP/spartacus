@@ -24,8 +24,8 @@ jobs:
           persist-credentials: false
       - name: create release with sample data assets
         env: 
-          SAMPLE_DATA_NEW: "test"
-          SAMPLE_DATA_OLD: "test"
+          SAMPLE_DATA_NEW: "release/2105/next"
+          SAMPLE_DATA_OLD: "release/2105/4dot4"
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
