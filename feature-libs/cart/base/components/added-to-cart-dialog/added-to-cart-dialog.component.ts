@@ -9,6 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartOutlets,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -30,6 +31,7 @@ import {
 })
 export class AddedToCartDialogComponent {
   iconTypes = ICON_TYPE;
+  CartOutlets = CartOutlets;
 
   entry$: Observable<OrderEntry | undefined>;
   cart$: Observable<Cart> = this.activeCartFacade.getActive();

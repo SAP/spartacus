@@ -13,9 +13,11 @@ import {
   IconModule,
   ItemCounterModule,
   ModalModule,
+  OutletModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { CartItemContextDirectiveModule } from '../cart-shared/cart-item/model/cart-item-context-directive/cart-item-context.directive.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
@@ -33,6 +35,8 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
     I18nModule,
     ItemCounterModule,
     ModalModule,
+    CartItemContextDirectiveModule,
+    OutletModule,
   ],
   declarations: [AddedToCartDialogComponent],
   exports: [AddedToCartDialogComponent],
