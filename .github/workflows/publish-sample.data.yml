@@ -24,8 +24,8 @@ jobs:
           persist-credentials: false
       - name: create release with sample data assets
         env: 
-          SAMPLE_DATA_NEW: ${{ github.event.inputs.current_sample_branch }}
-          SAMPLE_DATA_OLD: ${{ github.event.inputs.previous_sample_branch }}
+          SAMPLE_DATA_NEW: "test"
+          SAMPLE_DATA_OLD: "test"
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
