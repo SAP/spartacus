@@ -4,6 +4,7 @@ import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { LocationDisplayMode } from './store-finder-list.model';
 
 @Component({
   selector: 'cx-store-finder-list',
@@ -22,6 +23,8 @@ export class StoreFinderListComponent {
   isDetailsModeVisible: boolean;
   storeDetails: PointOfService;
   iconTypes = ICON_TYPE;
+  displayModes = LocationDisplayMode;
+  activeDisplayMode = LocationDisplayMode.LIST_VIEW;
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -59,5 +62,13 @@ export class StoreFinderListComponent {
     this.selectedStoreIndex = undefined;
     this.selectedStore = undefined;
     this.storeMap.renderMap();
+  }
+
+  setDisplayMode(mode: LocationDisplayMode): void {
+    this.activeDisplayMode = mode;
+  }
+
+  isDisplayModeActive(mode: LocationDisplayMode): boolean {
+    return this.activeDisplayMode === mode;
   }
 }

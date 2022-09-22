@@ -145,6 +145,8 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
+export const ADDED_TO_CART_DIALOG_EVENT_LISTENER =
+  'AddedToCartDialogEventListener';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -252,6 +254,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
+export const SUGGESTED_ADDRESS_DIALOG_COMPONENT = `SuggestedAddressDialogComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
@@ -550,6 +553,9 @@ export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
 export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
 export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
 export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
 
 /***** Classes end *****/
 
