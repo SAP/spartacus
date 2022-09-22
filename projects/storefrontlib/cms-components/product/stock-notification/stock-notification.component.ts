@@ -1,8 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -21,7 +24,10 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../current-product.service';
-import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+// import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
+import { take } from 'rxjs/operators';
+// import { ModalRef } from '../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-stock-notification',
@@ -40,6 +46,8 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscribeSuccess$: Observable<boolean>;
   private subscriptions = new Subscription();
 
+  @ViewChild('element') element: ElementRef;
+
   constructor(
     private currentProductService: CurrentProductService,
     private globalMessageService: GlobalMessageService,
@@ -47,7 +55,9 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private interestsService: UserInterestsService,
     private modalService: ModalService,
     private notificationPrefService: UserNotificationPreferenceService,
-    private userIdService: UserIdService
+    private userIdService: UserIdService,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit() {
@@ -153,15 +163,33 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   }
 
   private openDialog() {
-    const modalInstance = this.modalService.open(
-      StockNotificationDialogComponent,
-      {
-        centered: true,
-        size: 'lg',
-      }
-    ).componentInstance;
-    modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
-    modalInstance.enabledPrefs = this.enabledPrefs;
+
+    let modalInstanceData = {
+      subscribeSuccess$: this.subscribeSuccess$,
+      enabledPrefs: this.enabledPrefs,
+    };
+
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.STOCK_NOTIFICATION,
+      this.element,
+      this.vcr,
+      modalInstanceData
+    );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
+
+    // const modalInstance = this.modalService.open(
+    //   StockNotificationDialogComponent,
+    //   {
+    //     centered: true,
+    //     size: 'lg',
+    //   }
+    // ).componentInstance;
+
+    // modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
+    // modalInstance.enabledPrefs = this.enabledPrefs;
   }
 
   ngOnDestroy(): void {
