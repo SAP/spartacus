@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { NotificationPreference, UserInterestsService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -32,7 +39,7 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
   constructor(
     private interestsService: UserInterestsService,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
+    protected el: ElementRef
   ) {}
 
   close(reason?: any) {
@@ -47,7 +54,10 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
     );
   }
 
-  init(subscribeSuccess$: Observable<boolean>, enabledPrefs: NotificationPreference[]) {
+  init(
+    subscribeSuccess$: Observable<boolean>,
+    enabledPrefs: NotificationPreference[]
+  ) {
     this.subscribeSuccess$ = subscribeSuccess$;
     this.enabledPrefs = enabledPrefs;
   }

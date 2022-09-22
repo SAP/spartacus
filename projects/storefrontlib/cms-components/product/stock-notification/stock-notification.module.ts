@@ -16,7 +16,14 @@ import { defaultStockNotificationLayoutConfig } from './stock-notification-dialo
 
 @NgModule({
   declarations: [StockNotificationComponent, StockNotificationDialogComponent],
-  imports: [CommonModule, RouterModule, I18nModule, SpinnerModule, UrlModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    SpinnerModule,
+    UrlModule,
+    KeyboardFocusModule,
+  ],
   providers: [
     provideConfig(defaultStockNotificationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{

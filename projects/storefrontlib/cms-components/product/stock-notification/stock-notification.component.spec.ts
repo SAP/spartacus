@@ -1,4 +1,10 @@
-import { DebugElement, ElementRef, Pipe, PipeTransform, ViewContainerRef } from '@angular/core';
+import {
+  DebugElement,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+  ViewContainerRef,
+} from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,8 +29,8 @@ import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
 
-import { LaunchDialogService } from "../../../layout/launch-dialog/services/index";
-import { LAUNCH_CALLER } from "../../../layout/launch-dialog/config/index";
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(

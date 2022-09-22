@@ -13,7 +13,7 @@ import { DebugElement } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { LaunchDialogService } from "../../../../layout/launch-dialog/services/index";
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
@@ -108,7 +108,9 @@ describe('StockNotificationDialogComponent', () => {
 
     fixture.detectChanges();
     el.query(By.css('.close')).nativeElement.click();
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Button clicked');
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Button clicked'
+    );
   });
 
   it('should be able to close dialog by OK button', () => {
@@ -116,7 +118,9 @@ describe('StockNotificationDialogComponent', () => {
 
     fixture.detectChanges();
     el.query(By.css('.btn-ok')).nativeElement.click();
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Button clicked');
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Button clicked'
+    );
   });
 
   it('should be able to reset the adding state in destory()', () => {
