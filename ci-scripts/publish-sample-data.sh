@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-SAMPLE_DATA_NEW=release/2105/next
-
-SAMPLE_DATA_OLD=release/2105/4dot4
-
 TAG_NAME=sampledata
 SAMPLE_DATA_ASSETS_FOLDER=sample-data-assets
 IS_SAMPLE_DATA_BRANCH=
