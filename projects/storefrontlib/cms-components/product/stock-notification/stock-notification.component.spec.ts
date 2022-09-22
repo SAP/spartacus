@@ -1,4 +1,4 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement, ElementRef, Pipe, PipeTransform, ViewContainerRef } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,12 +16,26 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ModalService } from '../../../shared/components/modal/modal.service';
+import { BehaviorSubject, of } from 'rxjs';
+// import { ModalService } from '../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
+
+import { LaunchDialogService } from "../../../layout/launch-dialog/services/index";
+import { LAUNCH_CALLER } from "../../../layout/launch-dialog/config/index";
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+  closeDialog(_reason: string): void {}
+}
 
 describe('StockNotificationComponent', () => {
   let component: StockNotificationComponent;
@@ -31,10 +45,10 @@ describe('StockNotificationComponent', () => {
   const translationService = jasmine.createSpyObj('TranslationService', [
     'translate',
   ]);
-  const modalService = jasmine.createSpyObj('ModalService', [
-    'open',
-    'dismissActiveModal',
-  ]);
+  // const modalService = jasmine.createSpyObj('ModalService', [
+  //   'open',
+  //   'dismissActiveModal',
+  // ]);
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
@@ -89,14 +103,15 @@ describe('StockNotificationComponent', () => {
       stockLevelStatus: 'outOfStock',
     },
   };
-  const modalInstance: {
-    componentInstance?: {
-      subscribeSuccess$?: Observable<boolean>;
-      enabledPrefs?: NotificationPreference[];
-    };
-  } = {
-    componentInstance: {},
-  };
+  // const modalInstance: {
+  //   componentInstance?: {
+  //     subscribeSuccess$?: Observable<boolean>;
+  //     enabledPrefs?: NotificationPreference[];
+  //   };
+  // } = {
+  //   componentInstance: {},
+  // };
+
   const removeSuccess = new BehaviorSubject<boolean>(false);
   const addFail = new BehaviorSubject<boolean>(false);
 
@@ -106,6 +121,8 @@ describe('StockNotificationComponent', () => {
   class MockUrlPipe implements PipeTransform {
     transform(): any {}
   }
+
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -121,7 +138,7 @@ describe('StockNotificationComponent', () => {
           { provide: CurrentProductService, useValue: currentProductService },
           { provide: GlobalMessageService, useValue: globalMessageService },
           { provide: TranslationService, useValue: translationService },
-          { provide: ModalService, useValue: modalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: UserNotificationPreferenceService,
             useValue: notificationPrefService,
@@ -156,10 +173,11 @@ describe('StockNotificationComponent', () => {
     interestsService.clearProductInterests.and.stub();
     interestsService.resetRemoveInterestState.and.stub();
     interestsService.loadProductInterests.and.stub();
-    modalService.open.and.returnValue(modalInstance);
+    // modalService.open.and.returnValue(modalInstance);
     translationService.translate.and.returnValue(of(''));
 
     fixture = TestBed.createComponent(StockNotificationComponent);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     el = fixture.debugElement;
     component = fixture.componentInstance;
   });
@@ -213,6 +231,8 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to show dialog for create stock notification for active user with channel set', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
+
     interestsService.getProductInterests.and.returnValue(of({}));
     fixture.detectChanges();
 
@@ -222,7 +242,7 @@ describe('StockNotificationComponent', () => {
     const button = el.query(By.css('.btn-notify')).nativeElement;
     button.click();
 
-    expect(modalService.open).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalled();
     expect(interestsService.addProductInterest).toHaveBeenCalledWith(
       product.code,
       NotificationType.BACK_IN_STOCK
@@ -243,6 +263,8 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to close dialog when adding interest fail', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
+
     interestsService.getProductInterests.and.returnValue(of({}));
     fixture.detectChanges();
     expect(
@@ -252,12 +274,11 @@ describe('StockNotificationComponent', () => {
     button.click();
     addFail.next(true);
 
-    expect(modalService.open).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalled();
     expect(interestsService.addProductInterest).toHaveBeenCalledWith(
       product.code,
       NotificationType.BACK_IN_STOCK
     );
-    expect(modalService.dismissActiveModal).toHaveBeenCalled();
     expect(interestsService.resetAddInterestState).toHaveBeenCalled();
   });
 
