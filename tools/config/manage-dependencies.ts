@@ -306,20 +306,16 @@ function filterLocalRelativeImports(
         let folder = path.dirname([...imp.files][0]);
         let file;
         if (imp.importPath.includes('/')) {
-          const parts = imp.importPath.split('/');
-          file = parts.pop();
-          folder = folder + '/' + parts.join('/');
+          file = path.basename(imp.importPath);
+          folder = folder + '/' + path.dirname(imp.importPath);
         } else {
           file = imp.importPath;
         }
-        if (fs.existsSync(folder)) {
-          const fileList = fs.readdirSync(folder);
-          if (
-            fileList.includes(file + '.scss') ||
-            fileList.includes('_' + file + '.scss')
-          ) {
-            return false;
-          }
+        if (
+          fs.existsSync(`${folder}/${file}.scss`) ||
+          fs.existsSync(`${folder}/_${file}.scss`)
+        ) {
+          return false;
         }
         return true;
       })
