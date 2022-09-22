@@ -11,4 +11,5 @@ This file contains additional typescript breaking change doc for changes made af
 - generic type `T` in `class AssignCellComponent<T>` has been changed to `T extends BaseItem`
 
 ### function createFrom (in `@spartacus/core`)
+
 - generic type `T` in `function createFrom<T>(type: Type<T>, data: T): T` has been changed to `T extends object`
