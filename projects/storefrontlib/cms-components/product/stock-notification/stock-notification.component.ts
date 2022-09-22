@@ -24,10 +24,8 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../current-product.service';
-// import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { take } from 'rxjs/operators';
-// import { ModalRef } from '../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-stock-notification',
@@ -178,17 +176,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     if (dialog) {
       dialog.pipe(take(1)).subscribe();
     }
-
-    // const modalInstance = this.modalService.open(
-    //   StockNotificationDialogComponent,
-    //   {
-    //     centered: true,
-    //     size: 'lg',
-    //   }
-    // ).componentInstance;
-
-    // modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
-    // modalInstance.enabledPrefs = this.enabledPrefs;
   }
 
   ngOnDestroy(): void {

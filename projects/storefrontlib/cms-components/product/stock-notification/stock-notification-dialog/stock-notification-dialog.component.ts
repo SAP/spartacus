@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { NotificationPreference, UserInterestsService } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '../../../../layout/index';
 import { Observable, Subscription } from 'rxjs';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 

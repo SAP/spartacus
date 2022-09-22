@@ -6,7 +6,6 @@ import {
   I18nTestingModule,
   NotificationPreference,
 } from '@spartacus/core';
-// import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
@@ -20,14 +19,6 @@ describe('StockNotificationDialogComponent', () => {
   let fixture: ComponentFixture<StockNotificationDialogComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
-  // const modalService = jasmine.createSpyObj('ModalService', [
-  //   'dismissActiveModal',
-  // ]);
-
-  // const launchDialogService = jasmine.createSpyObj('LaunchDialogService', [
-  //   'openDialog',
-  //   'closeDialog',
-  // ]);
 
   class MockLaunchDialogService implements Partial<LaunchDialogService> {
     get data$(): Observable<any> {
@@ -77,7 +68,6 @@ describe('StockNotificationDialogComponent', () => {
 
     component.subscribeSuccess$ = of(true);
     component.enabledPrefs = preferences;
-    // launchDialogService.closeDialog.and.stub();
     interestsService.resetAddInterestState.and.stub();
   });
 

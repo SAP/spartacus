@@ -23,7 +23,6 @@ import {
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-// import { ModalService } from '../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
@@ -51,10 +50,6 @@ describe('StockNotificationComponent', () => {
   const translationService = jasmine.createSpyObj('TranslationService', [
     'translate',
   ]);
-  // const modalService = jasmine.createSpyObj('ModalService', [
-  //   'open',
-  //   'dismissActiveModal',
-  // ]);
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
@@ -109,14 +104,6 @@ describe('StockNotificationComponent', () => {
       stockLevelStatus: 'outOfStock',
     },
   };
-  // const modalInstance: {
-  //   componentInstance?: {
-  //     subscribeSuccess$?: Observable<boolean>;
-  //     enabledPrefs?: NotificationPreference[];
-  //   };
-  // } = {
-  //   componentInstance: {},
-  // };
 
   const removeSuccess = new BehaviorSubject<boolean>(false);
   const addFail = new BehaviorSubject<boolean>(false);
@@ -179,7 +166,6 @@ describe('StockNotificationComponent', () => {
     interestsService.clearProductInterests.and.stub();
     interestsService.resetRemoveInterestState.and.stub();
     interestsService.loadProductInterests.and.stub();
-    // modalService.open.and.returnValue(modalInstance);
     translationService.translate.and.returnValue(of(''));
 
     fixture = TestBed.createComponent(StockNotificationComponent);
