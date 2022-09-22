@@ -1,6 +1,7 @@
 on:
-  pull_request:
-    types: [synchronize]
+  push:
+    branches:
+      - feature/CXSPA-852
     schedule:
     - cron:  '0 0 * * 1,4'
   workflow_dispatch:
