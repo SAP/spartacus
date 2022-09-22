@@ -1,4 +1,6 @@
 on:
+  pull_request:
+    types: [synchronize]
     schedule:
     - cron:  '0 0 * * 1,4'
   workflow_dispatch:
@@ -26,4 +28,3 @@ jobs:
           git config --global user.name ${{ secrets.GHT_USER }}
           git commit -m "include remaining pipeline files"
           git push origin develop
-            
