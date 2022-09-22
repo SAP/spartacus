@@ -1,33 +1,32 @@
-%cx-close-account-modal {
-  .cx-close-account-modal {
+%cx-suggested-addresses-dialog {
+  .cx-suggested-addresses-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
+    @extend .modal-lg;
 
-    .cx-close-account-modal-container {
+    .cx-suggested-addresses-container {
       @extend .modal-content;
+      padding: 1rem;
 
-      .cx-close-account-modal-header {
+      .cx-suggested-addresses-header {
         display: flex;
         justify-content: space-between;
-        .cx-close-account-modal-title {
+        .cx-suggested-addresses-title {
           @include type('3');
         }
       }
 
-      .cx-close-account-modal-body {
+      .cx-suggested-addresses-body {
         @extend .modal-body;
+        padding: 1rem 0;
       }
 
-      .cx-close-account-modal-footer {
+      .cx-suggested-addresses-footer {
         display: flex;
+        justify-content: flex-end;
 
-        button {
+        .cx-dialog-buttons {
           flex: 0 0 calc(50% - 0.5rem);
-          text-transform: lowercase;
-
-          &:first-line {
-            text-transform: capitalize;
-          }
 
           &:first-child {
             margin-inline-end: 0.5rem;
