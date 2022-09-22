@@ -25,6 +25,7 @@ export class BundleProductListComponent {
   @Output() readonly edit = new EventEmitter<string>();
 
   toggleSelection(selectionState: ProductSelectionState): void {
+    console.log('toggleSel');
     this.toggleProduct.next(selectionState);
   }
 

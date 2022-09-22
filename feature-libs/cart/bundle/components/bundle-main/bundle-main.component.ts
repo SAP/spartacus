@@ -91,6 +91,7 @@ export class BundleMainComponent implements OnInit, OnDestroy {
   }
 
   toggleProductSelection(state: ProductSelectionState, sectionId: number) {
+    console.log(state, sectionId);
     if (!state.isSelected) {
       this.activeCartService.addToEntryGroup(
         sectionId ? sectionId : (this.activeStep.key as number),
