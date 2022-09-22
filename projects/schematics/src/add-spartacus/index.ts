@@ -252,9 +252,11 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
-function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
+export function createStylePreprocessorOptions(
+  options?: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    if (options.debug) {
+    if (options?.debug) {
       context.logger.info(`⌛️ Updating style preprocessor...`);
     }
 
@@ -305,7 +307,7 @@ function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
     };
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
-    if (options.debug) {
+    if (options?.debug) {
       context.logger.info(`✅ Style preprocessor update complete.`);
     }
     return tree;
