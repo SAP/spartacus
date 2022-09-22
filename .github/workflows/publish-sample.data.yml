@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - develop-fake-test-sample
   workflow_dispatch:
     inputs:
       current_sample_branch:
