@@ -45,6 +45,7 @@
       "@spartacus/assets",
       "@spartacus/organization",
       "@spartacus/product",
+      "@spartacus/product-configurator",
       "@spartacus/storefinder",
       "@spartacus/checkout",
       "@spartacus/asm",
