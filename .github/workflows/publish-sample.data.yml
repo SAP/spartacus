@@ -12,6 +12,9 @@ on:
         description: Publish previous version spartacus sample data to standard Spartacus ccv2 repository
         default: release/2105/4dot4
         required: true
+        
+permissions:
+  contents: write
 
 name: Publish Spartacus Sample Data to Spartacus CCv2 repository
 jobs:
