@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './converters';
 export * from './merchandising-strategy.adapter';
 export * from './merchandising-strategy.connector';
