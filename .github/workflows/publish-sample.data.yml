@@ -25,7 +25,7 @@ jobs:
       - name: create release with sample data assets
         env: 
           SAMPLE_DATA_NEW: "hello"
-          SAMPLE_DATA_OLD: ${{ github.event.inputs.previous_sample_branch }}
+          SAMPLE_DATA_OLD: "hello3"
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
