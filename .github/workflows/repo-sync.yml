@@ -20,10 +20,10 @@ jobs:
           fetch-depth: 0
       - name: Push a branch to the private repository
         run: | 
-          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git origin/${{ github.event.inputs.branch_to_sync }} -f
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git HEAD:${{ github.event.inputs.branch_to_sync }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
-          git clone -b origin/${{ github.event.inputs.branch_to_sync }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git
+          git clone -b ${{ github.event.inputs.branch_to_sync }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git
           cd ${{ secrets.GHT_SPARTACUS_REPO }}
           git pull
           git checkout origin/sap-pipeline-files -- .
