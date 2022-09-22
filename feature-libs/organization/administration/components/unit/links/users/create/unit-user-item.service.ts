@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { B2BUser } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import { Observable } from 'rxjs';
 import { UserItemService } from '../../../../user/services/user-item.service';
 
 @Injectable({
@@ -28,7 +34,7 @@ export class UnitUserItemService extends UserItemService {
   }
 
   protected buildRouteParams(item: B2BUser) {
-    return { uid: item.orgUnit.uid };
+    return { uid: item.orgUnit?.uid };
   }
 
   // @override to default method

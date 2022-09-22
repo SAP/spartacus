@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
 import { ConfiguratorFormModule } from './form/configurator-form.module';
@@ -13,6 +19,7 @@ import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module'
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
+import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
 
 @NgModule({
   imports: [
@@ -30,6 +37,7 @@ import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-bu
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
+    ConfiguratorVariantCarouselModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
@@ -17,7 +23,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
-  product$: Observable<Product> = this.configRouterExtractorService
+  product$: Observable<Product | undefined> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>

@@ -119,7 +119,7 @@ describe('PermissionFormComponent', () => {
   });
 
   it('should not render any form controls if the form is falsy', () => {
-    component.form = undefined;
+    component.form = null;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBe(0);
@@ -155,6 +155,12 @@ describe('PermissionFormComponent', () => {
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+
+    it('should not auto-select unit if there is no unit', () => {
+      activeUnitList$.next(undefined);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });

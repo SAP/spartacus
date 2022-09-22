@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const configurator = {
   configurator: {
     header: {
@@ -200,6 +206,9 @@ export const configurator = {
       additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
+    },
+    variantCarousel: {
+      title: 'Pre-configured Versions',
     },
   },
 };

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -23,7 +29,9 @@ export class MultiCartEventListener implements OnDestroy {
   protected onCartBaseAction(): void {
     this.subscriptions.add(
       this.eventService.get(LoadCartEvent).subscribe(({ userId, cartId }) => {
-        this.multiCartFacade.loadCart({ userId, cartId });
+        if (userId && cartId) {
+          this.multiCartFacade.loadCart({ userId, cartId });
+        }
       })
     );
 

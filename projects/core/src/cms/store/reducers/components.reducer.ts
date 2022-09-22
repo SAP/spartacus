@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
@@ -11,7 +17,7 @@ export const initialState: ComponentsContext = {
 function componentExistsReducer<T>(
   state: boolean | undefined,
   action: CmsActions.CmsComponentAction<T>
-): boolean {
+): boolean | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT_FAIL:
       return false;
@@ -29,7 +35,7 @@ export function reducer<T>(
 ): ComponentsContext {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -43,7 +49,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.LOAD_CMS_COMPONENT_FAIL: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -57,7 +63,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );
@@ -72,7 +78,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.CMS_GET_COMPONENT_FROM_PAGE: {
-      const pageContextReducer = loaderReducer<boolean>(
+      const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
         componentExistsReducer
       );

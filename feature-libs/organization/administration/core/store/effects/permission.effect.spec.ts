@@ -16,7 +16,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { Permission } from '../../model/permission.model';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
@@ -73,6 +72,15 @@ describe('Permission Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -81,7 +89,7 @@ describe('Permission Effects', () => {
       ],
       providers: [
         { provide: PermissionConnector, useClass: MockPermissionConnector },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.PermissionEffects,
         provideMockActions(() => actions$),
       ],

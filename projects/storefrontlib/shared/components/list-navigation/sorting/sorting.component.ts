@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +24,7 @@ export class SortingComponent {
   @Input()
   ariaControls: string;
   @Input()
-  ariaLabel: string;
+  ariaLabel: string | undefined;
   @Input()
   selectedOption: string | undefined;
   @Input()

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export namespace OccConfigurator {
   /**
    *
@@ -151,6 +157,7 @@ export namespace OccConfigurator {
     characteristicId?: string;
     value: string;
     valueId?: string;
+    price?: PriceDetails;
   }
   export interface Image {
     imageType: ImageType;

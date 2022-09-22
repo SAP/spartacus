@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as fs from 'fs';
 import * as glob from 'glob';
 import { unEscapePackageName } from './common';
@@ -130,7 +136,7 @@ function parseElement(
 function parseMembers(rawElement: any) {
   const parsedMembers: any[] = [];
   rawElement.members.forEach((rawMember: any) => {
-    if (rawMember?.name?.startsWith('ɵ')) return;
+    if (rawMember?.name?.startsWith('ɵ')) {return;}
     const parsedMember: any = {};
     parsedMember.kind = rawMember.kind;
     parsedMember.name = rawMember.name;
@@ -169,6 +175,9 @@ function parseMembers(rawElement: any) {
     }
     parsedMembers.push(parsedMember);
   });
+  if (rawElement.kind === 'Class') {
+    handleDefaultConstructor(parsedMembers);
+  }
   return parsedMembers;
 }
 
@@ -315,4 +324,19 @@ export function lookupImportPath(
   } else {
     return '';
   }
+}
+
+function handleDefaultConstructor(members: any): void {
+  if (!members.some((member) => member.kind === 'Constructor')) {
+    members.push(createDefaultConstructor());
+  }
+}
+
+function createDefaultConstructor(): any {
+  return {
+    name: 'constructor',
+    kind: 'Constructor',
+    overloadIndex: 1,
+    parameters: [],
+  };
 }

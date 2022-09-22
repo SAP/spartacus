@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const UTF_8 = 'utf-8';
 
 /***** Imports start *****/
@@ -176,6 +182,7 @@ export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
+export const LOGIN_GUARD = 'LoginGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -508,6 +515,8 @@ export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
+export const CMS_PAGE_GUARD = 'CmsPageGuard';
+
 export const REFRESH_IN_PROGRESS = 'refreshInProgress';
 export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
 
@@ -522,6 +531,26 @@ export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 
 export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
 export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
+
+export const FACET_SERVICE = 'FacetService';
+export const PROFILE_TAG_EVENT_SERVICE = 'ProfileTagEventService';
+export const PROFILE_TAG_LIFECYCLE_SERVICE = 'ProfileTagLifecycleService';
+
+export const CDS_MERCHANDISING_PRODUCT_SERVICE =
+  'CdsMerchandisingProductService';
+export const MERCHANDISING_STRATEGY_CONNECTOR =
+  'MerchandisingStrategyConnector';
+export const CDS_MERCHANDISING_USER_CONTEXT_SERVICE =
+  'CdsMerchandisingUserContextService';
+export const CDS_MERCHANDISING_SITE_CONTEXT_SERVICE =
+  'CdsMerchandisingSiteContextService';
+export const CDS_MERCHANDISING_SEARCH_CONTEXT_SERVICE =
+  'CdsMerchandisingSearchContextService';
+export const CDS_MERCHANDISING_FACET_NORMALIZER =
+  'MerchandisingFacetNormalizer';
+export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
+  'MerchandisingFacetToQueryparamNormalizer';
+export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
 
 /***** Classes end *****/
 
@@ -1052,6 +1081,10 @@ export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
   'getConflictMessageKey';
 export const CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE = 'convertAttributeType';
 export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
+
+export const REPORT_AUTH_GUARD = 'reportAuthGuard';
+export const SAVE_CURRENT_NAVIGATION_URL = 'saveCurrentNavigationUrl';
+export const REPORT_NOT_AUTH_GUARD = 'reportNotAuthGuard';
 
 /***** APIs end *****/
 
