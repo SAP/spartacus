@@ -1,6 +1,7 @@
 on:
-  schedule:
-  - cron:  '0 0 * * 1,4'
+    schedule:
+    - cron:  '0 0 * * 1,4'
+  workflow_dispatch:
 
 name: Sync develop branch to private PWA repo
 
@@ -12,6 +13,17 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: push develop branch to the private repository
+      - name: Push develop branch to the private repository
         run: | 
-          git push -u ${{secrets.PWA_CX_COMMERCE}} develop -f
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git develop -f
+      - name: Include remaining pipeline files to the private remote's branch
+        run: |
+          git clone -b develop https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git
+          cd ${{ secrets.GHT_SPARTACUS_REPO }}
+          git pull
+          git checkout origin/sap-pipeline-files -- .
+          git config --global user.email ${{ secrets.GHT_EMAIL }}
+          git config --global user.name ${{ secrets.GHT_USER }}
+          git commit -m "include remaining pipeline files"
+          git push origin develop
+            
