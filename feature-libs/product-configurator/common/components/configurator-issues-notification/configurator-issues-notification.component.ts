@@ -6,72 +6,39 @@
 
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
-  CartItemComponentOptions,
   CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-
-interface ItemListContext {
-  readonly: boolean;
-  options: CartItemComponentOptions;
-  item: OrderEntry;
-  quantityControl: FormControl;
-  promotionLocation: PromotionLocation;
-}
 
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
   host: { role: 'row' },
-  providers: [
-    CartItemContextSource,
-    { provide: CartItemContext, useExisting: CartItemContextSource },
-  ],
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() public outletContext?: OutletContextData<ItemListContext>
+    @Optional() protected cartItemContext: CartItemContext
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        console.log(context);
-        return context.item;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.item$ ?? EMPTY;
 
   readonly quantityControl$: Observable<FormControl> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        console.log(context);
-        return context.quantityControl;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        console.log(context);
-        return context.readonly;
-      })
-    ) ?? EMPTY;
-    readonly location?: Observable<PromotionLocation> =
-      this.outletContext?.context$.pipe(
-        map((context: ItemListContext) => {
-          return context.promotionLocation;
-        })
-      ) ?? EMPTY;
+    this.cartItemContext?.readonly$ ?? EMPTY;
+
+  readonly location?: Observable<PromotionLocation> =
+    this.cartItemContext?.location$ ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =

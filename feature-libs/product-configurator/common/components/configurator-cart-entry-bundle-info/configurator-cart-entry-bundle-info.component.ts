@@ -6,23 +6,18 @@
 
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemComponentOptions, OrderEntry, PromotionLocation } from '@spartacus/cart/base/root';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { OutletContextData } from '@spartacus/storefront';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
-
-interface ItemListContext {
-  readonly: boolean;
-  options: CartItemComponentOptions;
-  item: OrderEntry;
-  quantityControl: FormControl;
-  promotionLocation: PromotionLocation;
-}
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,
@@ -38,33 +33,20 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
     protected translation: TranslationService,
-    @Optional() public outletContext?: OutletContextData<ItemListContext>
-  ) { }
+    @Optional() protected cartItemContext?: CartItemContext
+  ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        return context.item;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.item$ ?? EMPTY;
+
   readonly quantityControl$: Observable<FormControl> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        return context.quantityControl;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
+
   readonly readonly$: Observable<boolean> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        return context.readonly;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.readonly$ ?? EMPTY;
+
   readonly location?: Observable<PromotionLocation> =
-    this.outletContext?.context$.pipe(
-      map((context: ItemListContext) => {
-        return context.promotionLocation;
-      })
-    ) ?? EMPTY;
+    this.cartItemContext?.location$ ?? EMPTY;
 
   hideItems = true;
 
@@ -95,8 +77,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     const configInfos = entry.configurationInfos;
     return configInfos
       ? this.commonConfigUtilsService.isBundleBasedConfigurator(
-        configInfos[0]?.configuratorType
-      )
+          configInfos[0]?.configuratorType
+        )
       : false;
   }
 
