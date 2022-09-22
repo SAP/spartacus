@@ -25,6 +25,6 @@ jobs:
           SAMPLE_DATA_OLD: ${{ github.event.inputs.previous_sample_branch }}
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
           ci-scripts/publish-sample-data.sh
