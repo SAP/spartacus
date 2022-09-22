@@ -45,7 +45,7 @@ function prepare_install {
 
     npm i -g verdaccio@5
     npm i -g npm-cli-login
-    npm i -g serve
+    npm i -g serve@13.0.4
     npm i -g pm2
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
