@@ -12,11 +12,8 @@ on:
         description: Publish previous version spartacus sample data to standard Spartacus ccv2 repository
         default: release/2105/4dot4
         required: true
-        
-permissions:
-  contents: write
 
-name: Publish Spartacus Sample Data to Spartacus CCv2 repository
+name: abc Publish Spartacus Sample Data to Spartacus CCv2 repository
 jobs:
   publish_sample_data: 
     name: Publishing Spartacus Sample Data
@@ -31,6 +28,6 @@ jobs:
           SAMPLE_DATA_OLD: ${{ github.event.inputs.previous_sample_branch }}
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
           ci-scripts/publish-sample-data.sh
