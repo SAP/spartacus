@@ -12,4 +12,3 @@ src/migrations/test/**/*
 .eslintrc.json
 sub-folder/
 .pipeline/
-vault*
