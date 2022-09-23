@@ -18,6 +18,7 @@ const MockFontIconConfig: IconConfig = {
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
       HAPPY: '😊',
+      HTML_IMG: '<img scr="./assets/sprite.svg">',
     },
     resources: [
       {
@@ -45,7 +46,7 @@ const MockFontIconConfig: IconConfig = {
       },
       {
         type: IconResourceType.TEXT,
-        types: ['HAPPY'],
+        types: ['HAPPY', 'HTML_IMG'],
       },
     ],
     flipDirection: {
@@ -135,6 +136,12 @@ describe('IconLoaderService', () => {
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml('HAPPY');
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
+    });
+
+    it(`should have converted HTML tag into text for text icon`, () => {
+      expect((service.getHtml('HTML_IMG') as any).toString()).toContain(
+        '&lt;img'
+      );
     });
 
     it('should have bypassed HTML sanitizing for sprited SVG', () => {
