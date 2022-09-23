@@ -186,7 +186,7 @@ export function getSignatureDoc(
 ): string {
   const lineEnding = getLineEnding(multiLine);
   const parameterDoc = getParameterDoc(functonElement, multiLine);
-  let doc = `${lineEnding}${functonElement.name}(${parameterDoc})${
+  const doc = `${lineEnding}${functonElement.name}(${parameterDoc})${
     functonElement.returnType ? ': ' + functonElement.returnType : ''
   }${lineEnding}`;
 
