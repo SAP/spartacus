@@ -159,4 +159,17 @@ export class CustomerTicketingListComponent implements OnInit {
     console.log('pageChange', page);
     // this.fetchOrders(event);
   }
+
+  getStatusClass = (status: string): string => {
+    switch (status) {
+      case 'OPEN':
+        return 'cx-text-green';
+      case 'REOPENED':
+        return 'cx-text-green';
+      case 'CLOSED':
+        return 'cx-text-red';
+      default:
+        return '';
+    }
+  };
 }
