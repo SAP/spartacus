@@ -114,7 +114,7 @@ export class CustomerTicketingListComponent implements OnInit {
           id: ticket.id,
           subject: ticket.subject,
           ticketCategory: ticket.ticketCategory.name,
-          status: ticket.status.name,
+          status: ticket.status,
           createdAt: ticket.createdAt,
           modifiedAt: ticket.modifiedAt,
         };
@@ -163,8 +163,6 @@ export class CustomerTicketingListComponent implements OnInit {
   getStatusClass = (status: string): string => {
     switch (status) {
       case 'OPEN':
-        return 'cx-text-green';
-      case 'REOPENED':
         return 'cx-text-green';
       case 'CLOSED':
         return 'cx-text-red';

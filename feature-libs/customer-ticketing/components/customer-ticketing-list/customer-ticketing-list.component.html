@@ -84,8 +84,8 @@
           <span class="col-4 cx-ticketing-list-ticket-item-mobile">
           {{ 'customerTicketing.status' | cxTranslate }}
           </span>
-          <span class="col-8">
-          {{ ticket.status }}
+          <span class="col-8" [ngClass]="getStatusClass(ticket.status.id)">
+          {{ ticket.status.name }}
           </span>
         </div>
       </div>
@@ -110,7 +110,7 @@
           <td>{{ ticket.ticketCategory }}</td>
           <td>{{ ticket.createdAt | cxDate }}</td>
           <td>{{ ticket.modifiedAt | cxDate }}</td>
-          <td>{{ ticket.status }}</td>
+          <td [ngClass]="getStatusClass(ticket.status.id)">{{ ticket.status.name }}</td>
         </tr>
       </tbody>
     </table>
