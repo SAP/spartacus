@@ -48,8 +48,6 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify sonar.branch.name has been updated with the synched branch name"
 
-          cat $SONAR_PATH
-
           if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync }}" $SONAR_PATH
           then
               echo "Branch name has successfully been added to the sonar.branch.name"
