@@ -41,6 +41,10 @@
       @include media-breakpoint-up(md) {
         text-align: start;
 
+        &:first-child {
+          padding-inline-start: 20px;
+        }
+
         &:last-child {
           text-align: end;
           line-height: var(--cx-line-height);
