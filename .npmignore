@@ -1,8 +1,4 @@
 .*
-staging_output_deprecated.json
-stage-config.json
-errorDetails.json
 sonar-project.properties
 sub-folder/
 .pipeline/
-vault* 
