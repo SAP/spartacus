@@ -22,7 +22,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
-import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../current-product.service';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { take } from 'rxjs/operators';
@@ -51,7 +50,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
-    private modalService: ModalService,
     private notificationPrefService: UserNotificationPreferenceService,
     private userIdService: UserIdService,
     protected launchDialogService: LaunchDialogService,
@@ -156,7 +154,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   }
 
   private onInterestAddingError() {
-    this.modalService.dismissActiveModal();
+    this.launchDialogService.closeDialog('Interests error');
     this.interestsService.resetAddInterestState();
   }
 

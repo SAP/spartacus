@@ -557,6 +557,10 @@ export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
 export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
 export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
 
+export const STOCK_NOTIFICATION_MODULE = 'StockNotificationtModule';
+export const STOCK_NOTIFICATION_DIALOG_COMPONENT =
+  'StockNotificationDialogComponent';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
