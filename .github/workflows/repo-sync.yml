@@ -10,6 +10,9 @@ on:
 
 name: Sync a branch to private PWA repo
 
+env:
+  DEFAULT_BRANCH_TO_SYNC: 'develop'
+
 jobs:
   sync_public_repo_to_private:
     name: Force sync a branch to the private repository with current git history
@@ -17,11 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.branch_to_sync }}
+          ref: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
           fetch-depth: 0
       - name: Push a branch to the private repository
         run: | 
-          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git ${{ github.event.inputs.branch_to_sync }} -f
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
           SONAR_PATH="./sonar-project.properties"
@@ -29,7 +32,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
 
-          git clone -b ${{ github.event.inputs.branch_to_sync }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
+          git clone -b ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
           cd ${{ secrets.GHT_SPARTACUS_REPO }}
 
           git config --global user.email ${{ secrets.GHT_EMAIL }}
@@ -43,12 +46,12 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure sonar"
 
-          sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync }}%gi" $SONAR_PATH
+          sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $SONAR_PATH
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify sonar.branch.name has been updated with the synched branch name"
 
-          if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync }}" $SONAR_PATH
+          if grep -Fq "sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $SONAR_PATH
           then
               echo "Branch name has successfully been added to the sonar.branch.name"
           else
@@ -61,4 +64,4 @@ jobs:
 
           git add .
           git commit -m "include remaining pipeline files"
-          git push origin ${{ github.event.inputs.branch_to_sync }}
+          git push origin ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
