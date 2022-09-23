@@ -2165,13 +2165,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@ng-bootstrap/ng-bootstrap@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-11.0.0.tgz#16855620bff7ab7b965d4f49907c44b0f5bd5020"
-  integrity sha512-qDnB0+jbpQ4wjXpM4NPRAtwmgTDUCjGavoeRDZHOvFfYvx/MBf1RTjZEqTJ1Yqq1pKP4BWpzxCgVTunfnpmsjA==
-  dependencies:
-    tslib "^2.3.0"
-
 "@ng-select/ng-select@^8.0.0":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-8.1.1.tgz#1697d554970b99fc238255709655fb4dd45d1ab1"

@@ -27,7 +27,6 @@ import {
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
-  ModalRef,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -40,7 +39,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 

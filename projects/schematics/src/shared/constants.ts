@@ -895,6 +895,13 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 
 export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
 
+export const MODAL_OPTIONS = 'ModalOptions';
+export const MODAL_REF = 'ModalRef';
+export const MODAL_DIRECTIVE_OPTIONS = 'ModalDirectiveOptions';
+export const MODAL_DIRECTIVE_SERVICE = 'ModalDirectiveService';
+export const MODAL_DIRECTIVE = 'ModalDirective';
+export const MODAL_MODULE = 'ModalModule';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
