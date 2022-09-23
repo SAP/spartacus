@@ -104,9 +104,17 @@
       <tbody>
         <tr *ngFor="let ticket of ticketList.tickets">
           <td>
-            <a [routerLink]="['/my-account/customer-ticketing', ticket.id]">{{ ticket.id }}</a>
+            <a 
+              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl">
+              {{ ticket.id }}
+            </a>
           </td>
-          <td>{{ ticket.subject }}</td>
+          <td>
+            <a 
+              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl">
+              {{ ticket.subject }}
+            </a>
+          </td>
           <td>{{ ticket.ticketCategory }}</td>
           <td>{{ ticket.createdAt | cxDate }}</td>
           <td>{{ ticket.modifiedAt | cxDate }}</td>

@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule, IconModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  IconModule,
+  ListNavigationModule,
+} from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,7 +14,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
-import { ListNavigationModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -19,6 +23,7 @@ import { ListNavigationModule } from '@spartacus/storefront';
     CardModule,
     IconModule,
     ListNavigationModule,
+    RouterModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
