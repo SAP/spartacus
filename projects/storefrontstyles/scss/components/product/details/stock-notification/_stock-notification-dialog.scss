@@ -1,4 +1,12 @@
 %cx-stock-notification-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-stock-notification-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+  }
+
   .cx-dialog-title {
     @include type('3');
   }
@@ -9,7 +17,11 @@
     }
   }
 
-  .container p a {
+  .cx-stock-notification-container {
+    @extend .modal-content;
+  }
+
+  p a {
     @include type('6');
     color: var(--cx-color-dark);
     &:hover {
