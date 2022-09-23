@@ -8,7 +8,7 @@ on:
         default: develop
         required: true
 
-name: Sync a branch to private PWA repo
+name: Sync a branch to private repo
 
 env:
   DEFAULT_BRANCH_TO_SYNC: 'develop'
@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
       - name: Push a branch to the private repository
         run: | 
-          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO}}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
+          git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
           SONAR_PATH="./sonar-project.properties"
