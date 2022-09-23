@@ -36,7 +36,7 @@ jobs:
           git config --global user.name ${{ secrets.GHT_USER }}
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
-          echo "Get files other branch"
+          echo "Get files from other branch"
 
           git checkout origin/sap-pipeline-files -- .
 
