@@ -14,6 +14,8 @@ import { CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/clos
 import { CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/close-account.component.migration';
 import { COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-card.component.migration';
 import { COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-dialog.component.migration';
+import { STOCK_NOTIFICATION_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/stock-notification-dialog.component.migration';
+import { STOCK_NOTIFICATION_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/stock-notification.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
@@ -29,6 +31,8 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION,
   COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION,
   COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
+  STOCK_NOTIFICATION_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
+  STOCK_NOTIFICATION_COMPONENT_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {

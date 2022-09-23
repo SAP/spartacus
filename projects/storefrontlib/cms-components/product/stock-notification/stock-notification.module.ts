@@ -4,17 +4,28 @@ import { StockNotificationComponent } from './stock-notification.component';
 import {
   CmsConfig,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { RouterModule } from '@angular/router';
+import { defaultStockNotificationLayoutConfig } from './stock-notification-dialog/default-stock-notification-layout.config';
 
 @NgModule({
   declarations: [StockNotificationComponent, StockNotificationDialogComponent],
-  imports: [CommonModule, RouterModule, I18nModule, SpinnerModule, UrlModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    SpinnerModule,
+    UrlModule,
+    KeyboardFocusModule,
+  ],
   providers: [
+    provideConfig(defaultStockNotificationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         StockNotificationComponent: {
