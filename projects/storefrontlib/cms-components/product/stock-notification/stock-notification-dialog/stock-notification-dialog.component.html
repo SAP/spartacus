@@ -4,7 +4,7 @@
   (esc)="close('Escape clicked')"
 >
   <div class="cx-stock-notification-container">
-    <div class="cx-dialog-header modal-header">
+    <div class="cx-dialog-header cx-modal-header">
       <div class="cx-dialog-title modal-title">
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </div>
@@ -26,7 +26,7 @@
       ></div>
       <div class="cx-dialog-body modal-body">
         <div class="cx-stock-notification-content">
-          <p>
+          <p class="cx-stock-notification-text">
             {{
               'stockNotification.subscriptionDialog.notifiedPrefix'
                 | cxTranslate
@@ -36,13 +36,13 @@
             <span>{{ preference.channel }}</span
             ><span *ngIf="preference.value">{{ ': ' + preference.value }}</span>
           </p>
-          <p>
+          <p class="cx-stock-notification-text">
             {{
               'stockNotification.subscriptionDialog.notifiedSuffix'
                 | cxTranslate
             }}
           </p>
-          <p>
+          <p class="cx-stock-notification-text">
             {{
               'stockNotification.subscriptionDialog.manageChannelsPrefix'
                 | cxTranslate
@@ -50,7 +50,7 @@
             <a
               (click)="close('Link clicked')"
               [routerLink]="{ cxRoute: 'notificationPreference' } | cxUrl"
-              class="link-prefs"
+              class="cx-stock-notification-link link-prefs"
             >
               {{
                 'stockNotification.subscriptionDialog.manageChannelsLink'
@@ -63,7 +63,7 @@
             }}
           </p>
 
-          <p>
+          <p class="cx-stock-notification-text">
             {{
               'stockNotification.subscriptionDialog.manageSubscriptionsPrefix'
                 | cxTranslate
@@ -71,7 +71,7 @@
             <a
               (click)="close('Link clicked')"
               [routerLink]="{ cxRoute: 'myInterests' } | cxUrl"
-              class="link-interests"
+              class="cx-stock-notification-link link-interests"
             >
               {{
                 'stockNotification.subscriptionDialog.manageSubscriptionsLink'
@@ -83,16 +83,18 @@
                 | cxTranslate
             }}
           </p>
-          <div class="row">
-            <div class="cx-dialog-actions col-sm-12 col-md-3 offset-md-9">
-              <button
-                class="btn btn-primary btn-block btn-ok"
-                type="button"
-                (click)="close('Button clicked')"
-              >
-                {{ 'stockNotification.subscriptionDialog.okBtn' | cxTranslate }}
-              </button>
-            </div>
+        </div>
+      </div> 
+      <div class="cx-modal-footer">
+        <div class="row">
+          <div class="cx-dialog-actions col-sm-12 col-md-3 offset-md-9">
+            <button
+              class="btn btn-primary btn-block btn-ok"
+              type="button"
+              (click)="close('Button clicked')"
+            >
+              {{ 'stockNotification.subscriptionDialog.okBtn' | cxTranslate }}
+            </button>
           </div>
         </div>
       </div>
