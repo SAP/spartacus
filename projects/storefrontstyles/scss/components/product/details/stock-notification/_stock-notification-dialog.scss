@@ -1,5 +1,4 @@
 %cx-stock-notification-dialog {
-  background-color: rgba(0, 0, 0, 0.5);
 
   .cx-stock-notification-dialog {
     @extend .modal-dialog;
@@ -21,7 +20,12 @@
     @extend .modal-content;
   }
 
-  p a {
+  .cx-stock-notification-text {
+    margin: 0;
+  }
+
+  .cx-stock-notification-link {
+    display: inline;
     @include type('6');
     color: var(--cx-color-dark);
     &:hover {
