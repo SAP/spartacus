@@ -7,6 +7,21 @@ CURRENT_RELEASE_SPARTACUS_VERSION_NAME="storefront-toolset-sampledata-version-4-
 PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME="storefront-toolset-sampledata-version-3-x"
 IS_SAMPLE_DATA_BRANCH_OR_TAGS=
 
+function verify_branch_or_tag_exists {
+    IS_SAMPLE_DATA_BRANCH_OR_TAGS=`git ls-remote --heads --tags https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $1`
+
+    if [ -z "$IS_SAMPLE_DATA_BRANCH_OR_TAGS" ]; then
+        echo "Error downloading $1 zip/tar. Verify branch/tag name exist on the spartacus sample data repository"
+        exit 1
+    fi
+}
+
+function download_sample_data {
+    curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.zip" -o "$2.zip"
+    curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.tar.gz" -o "$2.tar.gz"
+}
+
+
 
 echo "-----"
 echo "Verify UNRELEASED sample data branch or tag exists"
@@ -54,17 +69,3 @@ gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_
 5-x: unreleased 
 4-x: current release
 3-x: previous release"
-
-function verify_branch_or_tag_exists {
-    IS_SAMPLE_DATA_BRANCH_OR_TAGS=`git ls-remote --heads --tags https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $1`
-
-    if [ -z "$IS_SAMPLE_DATA_BRANCH_OR_TAGS" ]; then
-        echo "Error downloading $1 zip/tar. Verify branch/tag name exist on the spartacus sample data repository"
-        exit 1
-    fi
-}
-
-function download_sample_data {
-    curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.zip" -o "$2.zip"
-    curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.tar.gz" -o "$2.tar.gz"
-}
