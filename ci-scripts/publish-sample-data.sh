@@ -65,7 +65,7 @@ git push "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.g
 echo "-----"
 echo "Create a release with created tag"
 
-gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Headless Storefront Toolset sample data releases: 
+gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Headless Storefront Toolset Sample Data"  --notes "Headless Storefront Toolset sample data releases: 
 5-x: unreleased 
 4-x: current release
 3-x: previous release"
