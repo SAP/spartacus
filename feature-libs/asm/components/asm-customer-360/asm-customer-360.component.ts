@@ -3,12 +3,19 @@ import {
   Component,
   Injector,
   Input,
-  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { AsmDialogActionEvent, AsmDialogActionType } from '@spartacus/asm/root';
+import {
+  AsmCustomer360Data,
+  AsmCustomer360Query,
+  AsmDialogActionEvent,
+  AsmDialogActionType,
+  AsmFacade,
+} from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ModalService } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 import { AsmConfig } from 'feature-libs/asm/core';
 import { AsmCustomer360TabConfig } from 'feature-libs/asm/core/models/customer-360-config';
 import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
@@ -16,6 +23,7 @@ import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-
 import { getAsmDialogActionEvent } from '../../core/utils/utils';
 import { Customer360SectionContextSource } from './sections/customer-360-section-context-source.model';
 import { Customer360SectionContext } from './sections/customer-360-section-context.model';
+import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +37,7 @@ import { Customer360SectionContext } from './sections/customer-360-section-conte
     },
   ],
 })
-export class AsmCustomer360Component implements OnDestroy {
+export class AsmCustomer360Component implements OnInit {
   iconTypes = ICON_TYPE;
   loading = false;
   tabs: Array<AsmCustomer360TabConfig>;
@@ -39,19 +47,65 @@ export class AsmCustomer360Component implements OnDestroy {
 
   constructor(
     asmConfig: AsmConfig,
+    protected asmService: AsmFacade,
     protected injector: Injector,
     protected modalService: ModalService
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
+    /*
     this.injectors = this.tabs.map((tab) => {
       return tab.components.map((component) =>
         this.createInjector(component.config)
       );
     });
+    */
   }
 
   @Input() customer: User;
+
+  ngOnInit(): void {
+    const { customerId } = this.customer;
+
+    if (customerId) {
+      const customerTypeCustomerDataMap: {
+        [type: string]: AsmCustomer360Data;
+      } = {};
+
+      const queries = this.tabs.reduce(
+        (reducedQueries: Array<AsmCustomer360Query>, tab) => {
+          return reducedQueries.concat(
+            tab.components.map((component) => {
+              return { customer360Type: component.customer360Type };
+            })
+          );
+        },
+        []
+      );
+
+      this.asmService.fetchCustomer360Data(queries, {
+        userId: this.customer.customerId ?? '',
+      });
+
+      this.asmService
+        .getCustomer360Data()
+        .pipe(take(1))
+        .subscribe((data) => {
+          data.value.forEach((customer360Data) => {
+            customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
+
+            this.injectors = this.tabs.map((tab) => {
+              return tab.components.map((component) =>
+                this.createInjector(
+                  component.config,
+                  customerTypeCustomerDataMap[component.customer360Type]
+                )
+              );
+            });
+          });
+        });
+    }
+  }
 
   selectTab(selectedTab: any): void {
     this.activeTab = selectedTab;
@@ -80,12 +134,16 @@ export class AsmCustomer360Component implements OnDestroy {
     this.modalService.closeActiveModal(reason);
   }
 
-  createInjector(config: any): Injector {
+  createInjector(config: unknown, sectionData: unknown): Injector {
     return Injector.create({
-      providers: [{ provide: Customer360SectionConfig, useValue: config }],
+      providers: [
+        { provide: Customer360SectionConfig, useValue: config },
+        {
+          provide: Customer360SectionData,
+          useValue: new Customer360SectionData(sectionData),
+        },
+      ],
       parent: this.injector,
     });
   }
-
-  ngOnDestroy(): void {}
 }

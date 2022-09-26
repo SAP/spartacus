@@ -3,6 +3,11 @@ import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
 import {
+  AsmCustomer360Params,
+  AsmCustomer360Query,
+  AsmCustomer360Response,
+} from '../model';
+import {
   AsmUi,
   BindCartParams,
   CustomerSearchOptions,
@@ -23,6 +28,8 @@ import {
         'getCustomerSearchResultsLoading',
         'updateAsmUiState',
         'getAsmUiState',
+        'fetchCustomer360Data',
+        'getCustomer360Data',
       ],
     }),
 })
@@ -63,4 +70,11 @@ export abstract class AsmFacade {
    * Get the state of the ASM UI
    */
   abstract getAsmUiState(): Observable<AsmUi>;
+
+  abstract fetchCustomer360Data(
+    queries: Array<AsmCustomer360Query>,
+    options: AsmCustomer360Params
+  ): void;
+
+  abstract getCustomer360Data(): Observable<AsmCustomer360Response>;
 }

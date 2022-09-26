@@ -24,22 +24,8 @@ export interface BindCartParams {
   customerId: string;
 }
 
-export interface Customer360Section {
-  sectionTitle: CUSTOMER_360_SECTION_TITLE;
-  sectionContent: string;
-}
-
 export interface AsmDialogActionEvent {
   selectedUser: User;
   actionType: AsmDialogActionType;
   route?: UrlCommand;
-}
-
-export enum CUSTOMER_360_SECTION_TITLE {
-  OVERVIEW = 'OVERVIEW',
-  PROFILE = 'PROFILE',
-  ACTIVITY = 'ACTIVITY',
-  FEEDBACK = 'FEEDBACK',
-  PROMOTIONS = 'PROMOTIONS',
-  MAPS = 'MAPS',
 }

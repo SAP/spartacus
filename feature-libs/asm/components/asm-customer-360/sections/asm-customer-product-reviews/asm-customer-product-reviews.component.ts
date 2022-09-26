@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/core';
+import { AsmCustomer360ReviewList } from '@spartacus/asm/root';
+import { SemanticPathService } from '@spartacus/core';
+import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 import { combineStrings, formatEpochTime } from '../../asm-customer-360.utils';
 import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
@@ -17,92 +20,25 @@ export class AsmCustomerProductReviewsComponent {
     { property: 'reviewText', text: 'review' },
   ];
 
-  reviewEntries = [
-    {
-      productName: 'DC Car Battery Adapter',
-      SKUNumber: '107701',
-      rating: 0.5,
-      reviewStatus: 'pending',
-      reviewText: 'Adapter? More like Badapter!!!',
-      productUrl: 'https://www.example.com/107701',
-      created: Number(new Date('2022-05-15T18:25:43.511Z')),
-    },
-    {
-      productName: 'VCT-D580RM Remote Control Tripod',
-      SKUNumber: '2992',
-      rating: 4.5,
-      reviewStatus: 'pending',
-      reviewText: 'Flimsy stand!',
-      productUrl: 'https://www.example.com/2992',
-      created: Number(new Date('2022-06-22T18:25:43.511Z')),
-    },
-    {
-      productName: 'Mini T-Cam',
-      SKUNumber: '458542',
-      rating: 1,
-      reviewStatus: 'pending',
-      reviewText: 'Webcam bad',
-      productUrl: 'https://www.example.com/458542',
-      created: Number(new Date('2022-07-02T18:25:43.511Z')),
-    },
-    {
-      productName: 'HDR-CX105E Red',
-      SKUNumber: '1934406',
-      rating: 1.5,
-      reviewStatus: 'pending',
-      reviewText: 'First review',
-      productUrl: 'https://www.example.com/1934406',
-      created: Number(new Date('2022-07-03T18:25:43.511Z')),
-    },
-    {
-      productName: 'DC Car Battery Adapter',
-      SKUNumber: '10770',
-      rating: 2.5,
-      reviewStatus: 'pending',
-      reviewText: 'Adapter? More like Badapter!!!',
-      productUrl: 'https://www.example.com/10770',
-      created: Number(new Date('2022-05-15T18:25:43.511Z')),
-    },
-    {
-      productName: 'VCT-D580RM Remote Control Tripod',
-      SKUNumber: '29925',
-      rating: 3.5,
-      reviewStatus: 'pending',
-      reviewText: 'Flimsy stand!',
-      productUrl: 'https://www.example.com/29925',
-      created: Number(new Date('2022-06-22T18:25:43.511Z')),
-    },
-    {
-      productName: 'Mini T-Cam',
-      SKUNumber: '4585',
-      rating: 4,
-      reviewStatus: 'pending',
-      reviewText: 'Webcam bad',
-      productUrl: 'https://www.example.com/4585',
-      created: Number(new Date('2022-07-02T18:25:43.511Z')),
-    },
-    {
-      productName: 'HDR-CX105E Red',
-      SKUNumber: '19406',
-      rating: 3,
-      reviewStatus: 'pending',
-      reviewText: 'First review',
-      productUrl: 'https://www.example.com/19406',
-      created: Number(new Date('2022-07-03T18:25:43.511Z')),
-    },
-  ];
+  reviewEntries: Array<any>;
 
-  transformedReviewEntries: Array<any>;
-
-  constructor(public config: Customer360SectionConfig) {
-    this.transformedReviewEntries = this.reviewEntries.map((entry) => ({
+  constructor(
+    public config: Customer360SectionConfig,
+    protected sectionData: Customer360SectionData<AsmCustomer360ReviewList>,
+    /** TODO: Importing this seems questionable. */
+    protected semanticPathService: SemanticPathService
+  ) {
+    this.reviewEntries = sectionData.data.reviews.map((entry) => ({
       ...entry,
-      item: combineStrings(entry.productName, entry.SKUNumber, ', SKU: '),
+      item: combineStrings(entry.productName, entry.productCode, ', SKU: '),
       dateAndStatus: combineStrings(
-        entry.created ? formatEpochTime(entry.created) : undefined,
+        entry.createdAt
+          ? formatEpochTime(Number(new Date(entry.createdAt)))
+          : undefined,
         entry.reviewStatus,
         ' / '
       ),
+      // productUrl: this.semanticPathService.transform({ cxRoute: 'product', params: { code: entry.productCode, slug: entry.productName } }),
     }));
   }
 }

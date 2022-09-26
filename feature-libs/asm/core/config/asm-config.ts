@@ -17,23 +17,6 @@ export abstract class AsmConfig extends OccConfig {
     };
     customer360?: {
       tabs?: Array<AsmCustomer360TabConfig>;
-      activityTab?: {
-        pageSize?: number;
-      };
-      feedbackTab?: {
-        supportTickets?: {
-          pageSize?: number;
-        };
-        productReviews?: {
-          pageSize?: number;
-        };
-      };
-      mapsTab?: {
-        googleMaps?: {
-          apiKey?: string;
-        };
-        pageSize?: number;
-      };
     };
   };
 }

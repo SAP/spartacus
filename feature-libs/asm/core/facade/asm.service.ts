@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  AsmCustomer360Params,
+  AsmCustomer360Query,
+  AsmCustomer360Response,
   AsmFacade,
   AsmUi,
   BindCartParams,
@@ -74,5 +77,16 @@ export class AsmService implements AsmFacade {
 
   bindCart(options: BindCartParams): Observable<unknown> {
     return this.bindCartCommand$.execute(options);
+  }
+
+  fetchCustomer360Data(
+    queries: Array<AsmCustomer360Query>,
+    options: AsmCustomer360Params
+  ): void {
+    this.store.dispatch(new AsmActions.Customer360Get([queries, options]));
+  }
+
+  getCustomer360Data(): Observable<AsmCustomer360Response> {
+    return this.store.pipe(select(AsmSelectors.getCustomer360Data));
   }
 }
