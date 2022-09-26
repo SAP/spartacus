@@ -17,6 +17,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
@@ -46,6 +47,7 @@ interface ItemListContext {
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected userId: string;
+  readonly CartOutlets = CartOutlets;
 
   @Input() readonly: boolean = false;
 

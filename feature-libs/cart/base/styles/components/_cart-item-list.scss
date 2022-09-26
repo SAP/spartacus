@@ -1,7 +1,17 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+
+  tbody {
+    tr {
+      border-bottom: 0px;
+    }
+
+    border-bottom: 1px solid var(--cx-color-light);
+  }
+
   td.cx-actions {
+
     cx-add-to-cart,
     button {
       white-space: nowrap;
@@ -84,6 +94,7 @@
       &:nth-of-type(1) {
         padding-inline-start: 0;
       }
+
       &:not(:nth-of-type(1)) {
         font-size: var(--cx-font-size, 0.875rem);
         margin-inline-start: 5.7rem;

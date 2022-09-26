@@ -1,23 +1,27 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="hasIssues(orderEntry) && !(readonly$ | async)">
-    <cx-icon [type]="iconTypes.ERROR"></cx-icon>
-    <div id="{{ getErrorMessageId(orderEntry) }}">
-      {{
-        'configurator.notificationBanner.numberOfIssues'
-          | cxTranslate: { count: getNumberOfIssues(orderEntry) }
-      }}
-      <cx-configure-cart-entry
-        class="cx-error-msg-action"
-        *ngIf="
-          (shouldShowButton$ | async) &&
-            orderEntry?.product?.configurable &&
-            quantityControl$ | async as quantityControl
-        "
-        [cartEntry]="orderEntry"
-        [readOnly]="readonly$ | async"
-        [msgBanner]="true"
-        [disabled]="quantityControl.disabled"
-      ></cx-configure-cart-entry>
-    </div>
+    <td colspan="4">
+      <div class="issue-notification-container">
+        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+        <div id="{{ getErrorMessageId(orderEntry) }}">
+          {{
+            'configurator.notificationBanner.numberOfIssues'
+              | cxTranslate: { count: getNumberOfIssues(orderEntry) }
+          }}
+          <cx-configure-cart-entry
+            class="cx-error-msg-action"
+            *ngIf="
+              (shouldShowButton$ | async) &&
+                orderEntry?.product?.configurable &&
+                quantityControl$ | async as quantityControl
+            "
+            [cartEntry]="orderEntry"
+            [readOnly]="readonly$ | async"
+            [msgBanner]="true"
+            [disabled]="quantityControl.disabled"
+          ></cx-configure-cart-entry>
+        </div>
+      </div>
+    </td>
   </ng-container>
 </ng-container>
