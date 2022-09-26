@@ -38,60 +38,8 @@
   </div>
 
   <ng-container *ngIf="customerTicketsFlag">
-    <div class="cx-ticketing-list-mobile" *ngFor="let ticket of ticketList.tickets">
-      <div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
-          </span>
-          <span class="col-8">
-          {{ ticket.id }}
-          </span>
-        </div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketingList.subject' | cxTranslate }}
-          </span>
-          <span class="col-8">
-          {{ ticket.subject }}
-          </span>
-        </div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
-          </span>
-          <span class="col-8">
-          {{ ticket.ticketCategory }}
-          </span>
-        </div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketing.createdOn' | cxTranslate }}
-          </span>
-          <span class="col-8">
-          {{ ticket.createdAt | cxDate }}
-          </span>
-        </div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketing.changedOn' | cxTranslate }}
-          </span>
-          <span class="col-8">
-          {{ ticket.modifiedAt | cxDate }}
-          </span>
-        </div>
-        <div class="cx-ticketing-list-ticket-item-mobile-description">
-          <span class="col-4 cx-ticketing-list-ticket-item-mobile">
-          {{ 'customerTicketing.status' | cxTranslate }}
-          </span>
-          <span class="col-8" [ngClass]="getStatusClass(ticket.status.id)">
-          {{ ticket.status.name }}
-          </span>
-        </div>
-      </div>
-    </div>
     <table id="ticketing-list-table" class="table cx-ticketing-list-table">
-      <thead>
+      <thead class="cx-ticketing-list-thead-mobile">
         <tr>
           <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
           <th scope="col">{{ 'customerTicketingList.subject' | cxTranslate }}</th>
@@ -103,22 +51,58 @@
       </thead>
       <tbody>
         <tr *ngFor="let ticket of ticketList.tickets">
-          <td>
+          <td class="cx-ticketing-list-data">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
+            </div>
             <a 
-              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl">
+              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl"
+              class="cx-ticketing-list-value">
               {{ ticket.id }}
             </a>
           </td>
-          <td>
+          <td class="cx-ticketing-list-data">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketingList.subject' | cxTranslate }}
+            </div>
             <a 
-              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl">
+              [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl"
+              class="cx-ticketing-list-value">
               {{ ticket.subject }}
             </a>
           </td>
-          <td>{{ ticket.ticketCategory }}</td>
-          <td>{{ ticket.createdAt | cxDate }}</td>
-          <td>{{ ticket.modifiedAt | cxDate }}</td>
-          <td [ngClass]="getStatusClass(ticket.status.id)">{{ ticket.status.name }}</td>
+          <td class="cx-ticketing-list-data">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
+            </div>
+            <span class="cx-ticketing-list-value">
+              {{ ticket.ticketCategory }}
+            </span>
+          </td>
+          <td class="cx-ticketing-list-data">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketing.createdOn' | cxTranslate }}
+            </div>
+            <span class="cx-ticketing-list-value">
+              {{ ticket.createdAt | cxDate }}
+            </span>
+          </td>
+          <td class="cx-ticketing-list-data">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketing.changedOn' | cxTranslate }}
+            </div>
+            <span class="cx-ticketing-list-value">
+              {{ ticket.modifiedAt | cxDate }}
+            </span>
+          </td>
+          <td [ngClass]="getStatusClass(ticket.status.id) + ' cx-ticketing-list-data'">
+            <div class="cx-ticketing-list-label">
+              {{ 'customerTicketing.status' | cxTranslate }}
+            </div>
+            <span class="cx-ticketing-list-value">
+              {{ ticket.status.name }}
+            </span>
+          </td>
         </tr>
       </tbody>
     </table>
