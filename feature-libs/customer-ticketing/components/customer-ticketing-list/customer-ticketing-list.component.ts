@@ -148,7 +148,7 @@ export class CustomerTicketingListComponent implements OnInit {
     //   currentPage: 0,
     // };
     this.sortType = sortCode;
-    // this.fetchOrders(event);
+    // this.fetchTicketList(event);
   }
 
   pageChange(page: number): void {
@@ -157,7 +157,7 @@ export class CustomerTicketingListComponent implements OnInit {
     //   currentPage: page,
     // };
     console.log('pageChange', page);
-    // this.fetchOrders(event);
+    // this.fetchTicketList(event);
   }
 
   getStatusClass = (status: string): string => {
