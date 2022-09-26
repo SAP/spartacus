@@ -323,13 +323,11 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
-- `sonar-project.properties` - list your library to this file
-
 - `projects/schematics/package.json` - add the library to the package group
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
-- `ci-scripts/unit-tests-sonar.sh`
+- `ci-scripts/unit-tests.sh`
 
 Add the library unit tests with code coverage
 
