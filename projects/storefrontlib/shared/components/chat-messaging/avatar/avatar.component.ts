@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { MessageEvent } from '../messaging';
-
-export const FROM_CUSTOMER = 'C';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { MessageEvent } from '../messaging/index';
 
 @Component({
   selector: 'cx-avatar',
@@ -16,10 +14,8 @@ export class AvatarComponent {
 
   getInitials(author: string) {
     return author
-      ? author
-          .split(' ')
-          .map((author) => author[0])
-          .join('')
-      : FROM_CUSTOMER;
+      .split(' ')
+      .map((author) => author[0])
+      .join('');
   }
 }

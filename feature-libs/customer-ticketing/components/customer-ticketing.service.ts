@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CustomerTicketingConfig, TicketDetails } from '../root';
+import { TicketDetails } from '../root';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerTicketingService {
-  constructor(protected customerTicketingConfig: CustomerTicketingConfig) {}
-
   ticketDetails$: Observable<TicketDetails> = of({
     associatedTo: {
       code: '00000001',
@@ -80,26 +77,4 @@ export class CustomerTicketingService {
   getTicketStatus(): Observable<string | undefined> {
     return this.ticketDetails$.pipe(map((details) => details?.status?.id));
   }
-
-  prepareMessageEvents(): Observable<Array<MessageEvent> | undefined> {
-    return this.ticketDetails$.pipe(
-      map((ticket) =>
-        ticket.ticketEvents?.map(
-          (event): MessageEvent => ({
-            ...event,
-            text: event.message,
-            rightAlign: event.addedByAgent,
-          })
-        )
-      )
-    );
-  }
-
-  prepareMessagingConfigs = (): MessagingConfigs => ({
-    attachmentRestrictions:
-      this.customerTicketingConfig.customerTicketing?.attachmentRestrictions,
-    charactersLimit:
-      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
-    enableFileUploadOption: true,
-  });
 }

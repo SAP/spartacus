@@ -1,23 +1,16 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
-import { ICON_TYPE } from 'projects/storefrontlib/cms-components';
-import { FilesFormValidators } from 'projects/storefrontlib/shared/services';
 import { Observable } from 'rxjs';
 import { MessageEvent, MessagingConfigs } from './messaging.model';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { FilesFormValidators } from '../../../services/file/files-form-validators';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
-export class MessagingComponent implements OnInit, AfterViewInit {
+export class MessagingComponent implements OnInit {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
   @Input() messagingConfigs?: MessagingConfigs;
@@ -60,21 +53,6 @@ export class MessagingComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.buildForm();
-  }
-
-  ngAfterViewInit(): void {
-    if (this.scrollToInput) {
-      const element = this.windowRef.document.getElementById('cx-messages');
-      element?.scroll({
-        top: element?.scrollHeight,
-        behavior: 'auto',
-      });
-      setTimeout(() => {
-        this.windowRef.document
-          .getElementById('cx-message-footer')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 500);
-    }
   }
 
   onSend() {
@@ -125,6 +103,10 @@ export class MessagingComponent implements OnInit, AfterViewInit {
   }
 
   focusPreviousChild(event: UIEvent): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+
     event.preventDefault();
 
     const [results, focusedIndex] = [
@@ -143,7 +125,7 @@ export class MessagingComponent implements OnInit, AfterViewInit {
 
   private getResultElements(): HTMLElement[] {
     return Array.from(
-      this.windowRef.document.querySelectorAll('.cx-message-card > div > div')
+      this.windowRef.document.querySelectorAll('[role="listitem"]')
     );
   }
 

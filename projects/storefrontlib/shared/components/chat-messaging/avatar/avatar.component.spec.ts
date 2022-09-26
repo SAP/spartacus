@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconModule } from 'projects/storefrontlib/cms-components';
 import { MessageEvent } from '../messaging';
 import { AvatarComponent } from './avatar.component';
+import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 
 const mockEvent: MessageEvent = {
   author: 'Mark Rivers',
@@ -53,6 +53,16 @@ describe('AvatarComponent', () => {
     fixture.detectChanges();
     const element = fixture.debugElement.query(By.css('cx-icon')).nativeElement;
 
-    expect(element.tagName).toEqual('CX-ICON');
+    expect(element.getAttribute('ng-reflect-type')).toEqual('HEADSET');
+  });
+
+  it('should display user icon if author is missing', () => {
+    mockEvent.author = '';
+    mockEvent.rightAlign = false;
+    component.message = mockEvent;
+    fixture.detectChanges();
+    const element = fixture.debugElement.query(By.css('cx-icon')).nativeElement;
+
+    expect(element.getAttribute('ng-reflect-type')).toEqual('USER');
   });
 });
