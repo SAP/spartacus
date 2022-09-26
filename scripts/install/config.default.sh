@@ -16,28 +16,29 @@ OCC_PREFIX="/occ/v2/"
 
 URL_PARAMETERS="baseSite,language,currency"
 
+SPARTACUS_PUBLISH_PACKAGES_MAX_PARALLEL="6"
 SPARTACUS_PROJECTS=(
-        "projects/core"
-        "projects/assets"
-        "projects/storefrontlib"
-        "projects/storefrontstyles"
-        "projects/schematics"
-        "integration-libs/cds"
-        "integration-libs/cdc"
-        "integration-libs/epd-visualization"
-        "core-libs/setup"
-        "feature-libs/asm"
-        "feature-libs/organization"
-        "feature-libs/storefinder"
-        "feature-libs/checkout"
-        "feature-libs/smartedit"
-        "feature-libs/product"
-        "feature-libs/product-configurator"
-        "feature-libs/qualtrics"
-        "feature-libs/cart"
-        "feature-libs/order"
-        "feature-libs/user"
-        "feature-libs/tracking"
+        "dist/core:projects/core"
+        "dist/storefrontlib:projects/storefrontlib"
+        "dist/assets:projects/assets"
+        "dist/checkout:feature-libs/checkout"
+        "dist/product:feature-libs/product"
+        "dist/setup:core-libs/setup"
+        "dist/cart:feature-libs/cart"
+        "dist/order:feature-libs/order"
+        "dist/asm:feature-libs/asm"
+        "dist/user:feature-libs/user"
+        "dist/organization:feature-libs/organization"
+        "dist/storefinder:feature-libs/storefinder"
+        "dist/tracking:feature-libs/tracking"
+        "dist/qualtrics:feature-libs/qualtrics"
+        "dist/smartedit:feature-libs/smartedit"
+        "dist/cds:integration-libs/cds"
+        "dist/cdc:integration-libs/cdc"
+        "dist/epd-visualization:integration-libs/epd-visualization"
+        "dist/product-configurator:feature-libs/product-configurator"
+        "projects/storefrontstyles:projects/storefrontstyles"
+        "projects/schematics:projects/schematics"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
@@ -71,3 +72,6 @@ ADD_EPD_VISUALIZATION=false
 
 # The base URL (origin) of the SAP EPD Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
+
+# Patch App Module, to redirect "/product/<code>" to "/product/<code>/<name>". B2B Tests are not passing otherwise.
+PATCH_APP_MODULE=false

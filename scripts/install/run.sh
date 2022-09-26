@@ -46,17 +46,30 @@ fi
 
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
+CHECK_AFTER_START=false
+CHECK_B2B_AFTER_START=false
+FORCE_E2E=false
+SKIP_SANITY=false
+SKIP_DEP_WARNINGS=false
+SKIP_E2E=false
+TEST_OUT=""
+CLEAN=false
+PACKAGE_MANAGER="yarn"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
     case "${current_command}" in
         'install' )
+            parseInstallArgs $@
             install_from_sources;;
         'install_npm' )
+            parseInstallArgs $@
             install_from_npm;;
         'start' )
+            parseStartArgs $@
             start_apps;;
         'stop' )
+            parseStopArgs $@
             stop_apps;;
         'help' )
             cmd_help;;
