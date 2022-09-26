@@ -12,7 +12,10 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
+import { CONFIG_INITIALIZER } from '../config';
+import { RoutingConfig } from './configurable-routes';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
+import { SecurePortalConfigInitializer } from './configurable-routes/secure-portal-config/secure-portal-config-initializer';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -26,6 +29,16 @@ export function initConfigurableRoutes(
 ): () => void {
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
+}
+
+export function initRoutingConfig(
+  configInitializer: SecurePortalConfigInitializer,
+  routingConfig: RoutingConfig
+): SecurePortalConfigInitializer | null {
+  if (!routingConfig.routing?.protected) {
+    return configInitializer;
+  }
+  return null;
 }
 
 @NgModule({
@@ -52,6 +65,12 @@ export class RoutingModule {
           provide: APP_INITIALIZER,
           useFactory: initConfigurableRoutes,
           deps: [ConfigurableRoutesService],
+          multi: true,
+        },
+        {
+          provide: CONFIG_INITIALIZER,
+          useFactory: initRoutingConfig,
+          deps: [SecurePortalConfigInitializer, RoutingConfig],
           multi: true,
         },
       ],

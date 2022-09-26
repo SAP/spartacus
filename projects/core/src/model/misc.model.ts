@@ -121,4 +121,5 @@ export interface BaseSite {
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
+  requiresAuthentication?: boolean;
 }
