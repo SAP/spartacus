@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Address, TranslationService } from '@spartacus/core';
+import { Address, LanguageService, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-header',
@@ -14,12 +14,14 @@ import { map, take } from 'rxjs/operators';
 })
 export class AccountSummaryHeaderComponent {
   notApplicable: string;
-  headerDetails$: Observable<AccountSummaryDetails> =
-    this.accountSummaryFacade.getAccountSummary();
+  headerDetails$: Observable<AccountSummaryDetails> = this.languageService
+    .getActive()
+    .pipe(switchMap(() => this.accountSummaryFacade.getAccountSummary()));
 
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    private languageService: LanguageService
   ) {
     this.translation
       .translate('orgAccountSummary.details.notApplicable')

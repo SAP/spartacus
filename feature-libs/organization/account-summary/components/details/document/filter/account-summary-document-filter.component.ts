@@ -3,16 +3,18 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { LanguageService, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 
 import {
   AbstractControl,
@@ -21,6 +23,7 @@ import {
   FormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import { take } from 'rxjs/operators';
 
 interface ItemType {
   code: string;
@@ -38,7 +41,9 @@ interface GroupValidator {
   templateUrl: './account-summary-document-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountSummaryDocumentFilterComponent {
+export class AccountSummaryDocumentFilterComponent
+  implements OnInit, OnDestroy
+{
   @Input()
   documentTypeOptions: Array<AccountSummaryDocumentType>;
   @Input()
@@ -54,14 +59,29 @@ export class AccountSummaryDocumentFilterComponent {
 
   filterForm: FormGroup;
 
+  private subscription = new Subscription();
   private _statusOptions: Array<ItemType>;
   private _filterByOptions: Array<ItemType>;
 
   constructor(
     protected translation: TranslationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private languageService: LanguageService
   ) {
     this.filterListEvent = new EventEmitter<DocumentQueryParams>();
+  }
+
+  ngOnInit() {
+    this.subscription.add(
+      this.languageService.getActive().subscribe(() => {
+        this.translateStatusOptions();
+        this.translateFilterByOptions();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   formSearch(): void {
@@ -147,40 +167,52 @@ export class AccountSummaryDocumentFilterComponent {
 
   get statusOptions(): Array<ItemType> {
     if (!this._statusOptions) {
-      this._statusOptions = (
-        Object.values(DocumentStatus) as Array<string>
-      ).map((code) => ({ code }));
-      const translations = this._statusOptions.map((status) =>
-        this.translation.translate(`orgAccountSummary.statuses.${status.code}`)
-      );
-
-      combineLatest(translations).subscribe((translationText) =>
-        translationText.forEach(
-          (text, index) => (this._statusOptions[index].name = text)
-        )
-      );
+      this.translateStatusOptions();
     }
     return this._statusOptions;
   }
 
   get filterByOptions(): Array<ItemType> {
     if (!this._filterByOptions) {
-      this._filterByOptions = (
-        Object.values(FilterByOptions) as Array<string>
-      ).map((code) => ({ code }));
-      const translations = this._filterByOptions.map((status) =>
-        this.translation.translate(
-          `orgAccountSummary.filterByOptions.${status.code}`
+      this.translateFilterByOptions();
+    }
+    return this._filterByOptions;
+  }
+
+  private translateStatusOptions(): void {
+    this._statusOptions = (Object.values(DocumentStatus) as Array<string>).map(
+      (code) => ({ code })
+    );
+    const translations = this._statusOptions.map((status) =>
+      this.translation.translate(`orgAccountSummary.statuses.${status.code}`)
+    );
+
+    combineLatest(translations)
+      .pipe(take(1))
+      .subscribe((translationText) =>
+        translationText.forEach(
+          (text, index) => (this._statusOptions[index].name = text)
         )
       );
+  }
 
-      combineLatest(translations).subscribe((translationText) =>
+  private translateFilterByOptions(): void {
+    this._filterByOptions = (
+      Object.values(FilterByOptions) as Array<string>
+    ).map((code) => ({ code }));
+    const translations = this._filterByOptions.map((status) =>
+      this.translation.translate(
+        `orgAccountSummary.filterByOptions.${status.code}`
+      )
+    );
+
+    combineLatest(translations)
+      .pipe(take(1))
+      .subscribe((translationText) =>
         translationText.forEach(
           (text, index) => (this._filterByOptions[index].name = text)
         )
       );
-    }
-    return this._filterByOptions;
   }
 
   private initializeForm({
@@ -280,9 +312,11 @@ export class AccountSummaryDocumentFilterComponent {
         groupValidator: validRange('number'),
       }),
     });
-    this.filterForm
-      .get('filterBy')
-      ?.valueChanges.subscribe(() => this.filterByChanged());
+    this.subscription.add(
+      this.filterForm
+        .get('filterBy')
+        ?.valueChanges.subscribe(() => this.filterByChanged())
+    );
   }
 
   private filterByChanged() {

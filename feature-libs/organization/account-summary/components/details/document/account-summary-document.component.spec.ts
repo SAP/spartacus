@@ -321,7 +321,7 @@ describe('AccountSummaryDocumentComponent', () => {
       );
 
       expect(tableCells[6].nativeElement.innerText).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.status
+        `orgAccountSummary.statuses.${mockAccountSummaryList.orgDocuments?.[rowNumber]?.status}`
       );
 
       expect(!!tableCells[7].query(By.css('cx-icon'))).toEqual(

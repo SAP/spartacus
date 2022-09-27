@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   LanguageService,
   SortModel,
@@ -14,14 +14,14 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
 })
-export class AccountSummaryDocumentComponent {
+export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
@@ -43,26 +43,39 @@ export class AccountSummaryDocumentComponent {
   accountSummary$: Observable<AccountSummaryList> = this.queryParams$.pipe(
     switchMap((param) => this.accountSummaryFacade.getDocumentList(param)),
     tap((accountSummaryList: AccountSummaryList) => {
-      if (!this.documentTypeOptions && accountSummaryList.orgDocumentTypes) {
+      if (accountSummaryList.orgDocumentTypes) {
         this.documentTypeOptions = accountSummaryList.orgDocumentTypes;
       }
 
-      if (!this.sortOptions && accountSummaryList.sorts) {
+      if (accountSummaryList.sorts) {
         this.addNamesToSortModel(accountSummaryList.sorts);
       }
     })
   );
+
+  private subscription = new Subscription();
 
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
     private downloadService: FileDownloadService,
     private languageService: LanguageService
-  ) {
-    this.languageService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((activeLanguage) => (this.selectedLanguage = activeLanguage));
+  ) {}
+
+  ngOnInit() {
+    this.subscription.add(
+      this.languageService.getActive().subscribe((activeLanguage) => {
+        const reFetchData = !!this.selectedLanguage;
+        this.selectedLanguage = activeLanguage;
+        if (reFetchData) {
+          this.updateQueryParams({ fields: DocumentFields.FULL });
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   pageChange(page: number): void {
@@ -101,8 +114,10 @@ export class AccountSummaryDocumentComponent {
     Object.entries(partialParams).forEach(
       (param) => ((this._queryParams as any)[param[0]] = param[1])
     );
-    // Every request (after the initial) should ask for DEFAULT fields
-    this._queryParams.fields = DocumentFields.DEFAULT;
+    // Every request that doesn't specify fields should be set to DEFAULT
+    if (!partialParams.fields) {
+      this._queryParams.fields = DocumentFields.DEFAULT;
+    }
 
     this.queryParams$.next(this._queryParams);
   }

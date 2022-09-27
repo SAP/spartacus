@@ -193,7 +193,10 @@
                       'status-closed': document.status === 'closed'
                     }"
                   >
-                    {{ document?.status }}
+                    {{
+                      'orgAccountSummary.statuses.' + document?.status
+                        | cxTranslate
+                    }}
                   </span>
                 </div>
               </td>

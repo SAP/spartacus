@@ -4,7 +4,11 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  LanguageService,
+  TranslationService,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import {
   DocumentQueryParams,
@@ -15,6 +19,7 @@ import {
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
+import { Observable, of } from 'rxjs';
 
 const mockQueryParams: DocumentQueryParams = {
   status: DocumentStatus.ALL,
@@ -29,6 +34,12 @@ class MockDatePickerComponent {
   @Input() control: any;
   @Input() min: any;
   @Input() max: any;
+}
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
 }
 
 describe('AccountSummaryDocumentFilterComponent', () => {
@@ -49,6 +60,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
         MockDatePickerComponent,
       ],
       providers: [
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();

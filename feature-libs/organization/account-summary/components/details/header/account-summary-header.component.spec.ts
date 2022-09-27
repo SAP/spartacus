@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import {
   Address,
   I18nTestingModule,
+  LanguageService,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -38,6 +39,12 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
   }
 }
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('AccountSummaryHeaderComponent', () => {
   let component: AccountSummaryHeaderComponent;
   let fixture: ComponentFixture<AccountSummaryHeaderComponent>;
@@ -49,6 +56,7 @@ describe('AccountSummaryHeaderComponent', () => {
       declarations: [AccountSummaryHeaderComponent, MockCardComponent],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
