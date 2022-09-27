@@ -8,16 +8,16 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideConfig } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-
-import { OCC_USER_ID_CURRENT } from '../../../../projects/core/src/occ/utils/occ-constants';
-import { UserIdService } from '../../../../projects/core/src/auth/user-auth/facade';
 import {
   OCC_HTTP_TOKEN,
   OCC_USER_ID_CONSTANTS,
-} from '../../../../projects/core/src/occ/utils';
+  OCC_USER_ID_CURRENT,
+  UserIdService,
+  provideConfig,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { UserIdHttpHeaderInterceptor } from './user-id-http-header.interceptor';
 
 describe('UserIdHttpHeaderInterceptor', () => {
