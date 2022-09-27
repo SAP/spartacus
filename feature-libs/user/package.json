@@ -25,11 +25,11 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^14.1.3",
-    "@angular/common": "^14.1.3",
-    "@angular/core": "^14.1.3",
-    "@angular/forms": "^14.1.3",
-    "@angular/router": "^14.1.3",
+    "@angular-devkit/schematics": "^14.2.3",
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
+    "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
