@@ -3,7 +3,7 @@ on:
     inputs:
       ccv2_branch:
         description: Branch on ccv2 to update
-        default: spa_p4_it_works
+        default: spa_p4
         required: true
       source_branch_to_deploy:
         description: source branch to deploy on ccv2

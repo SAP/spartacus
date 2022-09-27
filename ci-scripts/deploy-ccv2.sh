@@ -181,7 +181,7 @@ echo "Push to remote repository"
 
 cd $GHT_REPO
 
-git config --global user.email louis.pierrestiger@sap.com
+git config --global user.email brian.gamboc-javiniar@sap.com
 git config --global user.name team-griffin-serviceuser
 
 git add .
