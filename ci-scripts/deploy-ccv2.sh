@@ -5,6 +5,10 @@ B2C_STORE="spartacusstore"
 B2B_STORE="b2bspastore"
 CCV2_B2C_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2C_STORE"
 CCV2_B2B_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2B_STORE"
+APP_MODULE_PATH="projects/storefrontapp/src/app/app.module.ts"
+B2C_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts"
+B2B_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts"
+SERVER_CONFIG_PATH="projects/storefrontapp/server.ts"
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify source branch exist"
@@ -29,14 +33,14 @@ fi
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Comment out occBaseUrl from configration to allow index.html meta tag to set the occBaseUrl"
 
-sed -i 's/baseUrl: environment.occBaseUrl/\/\/ baseUrl: environment.occBaseUrl/gi' projects/storefrontapp/src/app/app.module.ts
+sed -i 's/baseUrl: environment.occBaseUrl/\/\/ baseUrl: environment.occBaseUrl/gi' $APP_MODULE_PATH
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify app.module.ts has occBaseUrl commented"
 
-cat projects/storefrontapp/src/app/app.module.ts
+cat $APP_MODULE_PATH
 
-if grep -Fq "// baseUrl: environment.occBaseUrl" projects/storefrontapp/src/app/app.module.ts
+if grep -Fq "// baseUrl: environment.occBaseUrl" $APP_MODULE_PATH
 then
     echo "Base url has been successfully commented out from app.module.ts"
 else
@@ -47,37 +51,37 @@ fi
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Remove pwa config for b2c storefront"
 
-sed -i '' '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+sed -i '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' $B2C_CONFIG_PATH
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify pwa config has been updated for b2c dist"
 
-cat projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+cat $B2C_CONFIG_PATH
 
-if grep -Fq "addToHomeScreen: true" projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+if grep -Fq "addToHomeScreen: true" $B2C_CONFIG_PATH
 then
     echo "PWA config has NOT been removed"
+    exit 1
 else
     echo "PWA config has SUCCESSFULLY been removed"
-    exit 1
 fi
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Remove pwa config for b2b storefront"
 
-sed -i '' '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+sed -i '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' $B2B_CONFIG_PATH
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify pwa config has been updated for b2b dist"
 
-cat projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+cat $B2B_CONFIG_PATH
 
-if grep -Fq "addToHomeScreen: true" projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+if grep -Fq "addToHomeScreen: true" $B2B_CONFIG_PATH
 then
     echo "PWA config has NOT been removed"
+    exit 1
 else
     echo "PWA config has SUCCESSFULLY been removed"
-    exit 1
 fi
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
@@ -140,14 +144,14 @@ cp -a dist/storefrontapp-server/. $CCV2_B2C_STOREFRONT_PATH/dist/$B2C_STORE/serv
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "update server.ts for b2b storefront"
 
-sed -i "s%dist/$B2C_STORE/browser%dist/$B2B_STORE/browser%gi" projects/storefrontapp/server.ts
+sed -i "s%dist/$B2C_STORE/browser%dist/$B2B_STORE/browser%gi" $SERVER_CONFIG_PATH
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify server.ts has been updated for b2b dist"
 
-cat projects/storefrontapp/server.ts
+cat $SERVER_CONFIG_PATH
 
-if grep -Fq "const distFolder = join(process.cwd(), 'dist/$B2B_STORE/browser');" projects/storefrontapp/server.ts
+if grep -Fq "const distFolder = join(process.cwd(), 'dist/$B2B_STORE/browser');" $SERVER_CONFIG_PATH
 then
     echo "Dist folder has been updated"
 else
