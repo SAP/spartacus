@@ -413,7 +413,7 @@ describe('add-spartacus', () => {
     const stylesFile = tree.readContent(
       '/projects/schematics-test/src/styles.scss'
     );
-    expect(stylesFile.includes(`@import '~@spartacus/styles/index';`)).toBe(
+    expect(stylesFile.includes(`@import '@spartacus/styles/index';`)).toBe(
       true
     );
   });
@@ -430,7 +430,7 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/styles.scss'
     );
     expect(
-      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
+      stylesFile.includes(`@import '@spartacus/styles/scss/theme/santorini';`)
     ).toBe(true);
   });
 

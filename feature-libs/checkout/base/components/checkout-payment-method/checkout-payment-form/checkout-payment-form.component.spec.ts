@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
@@ -174,8 +174,8 @@ describe('CheckoutPaymentFormComponent', () => {
   let userAddressService: UserAddressService;
 
   let controls: {
-    payment: FormGroup['controls'];
-    billingAddress: FormGroup['controls'];
+    payment: UntypedFormGroup['controls'];
+    billingAddress: UntypedFormGroup['controls'];
   };
 
   beforeEach(
