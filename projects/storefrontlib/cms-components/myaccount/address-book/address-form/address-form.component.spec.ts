@@ -94,6 +94,7 @@ const mockAddress: Address = {
   postalCode: 'zip',
   country: { isocode: 'JP' },
   phone: '123123123',
+  cellphone:'12763552',
   defaultAddress: false,
 };
 

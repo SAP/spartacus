@@ -28,6 +28,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { getAddressNumbers } from '../../core/utils/utils';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -95,19 +96,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
 
-    let numbers = '';
-    if (address.cellphone && address.phone) {
-      numbers =
-      `P: ${address.phone}
-      M: ${address.cellphone}`;
-      if(address.cellphone === address.phone) {
-        numbers = 'M: ' + address.cellphone;
-      }
-    } else if (address.cellphone && !address.phone) {
-      numbers = 'M: ' + address.cellphone;
-    } else if (!address.cellphone && address.phone) {
-      numbers =  'P: ' + address.phone;
-    }
+    const numbers = getAddressNumbers(address);
 
     return {
       role: 'region',

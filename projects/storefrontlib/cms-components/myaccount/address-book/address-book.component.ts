@@ -11,6 +11,7 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
+import { getAddressNumbers } from 'feature-libs/checkout/base/core/utils/utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -102,19 +103,8 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
-          let numbers = '';
-          if (address.cellphone && address.phone) {
-            numbers =
-            `P: ${address.phone}
-            M: ${address.cellphone}`;
-            if(address.cellphone === address.phone) {
-              numbers = 'M: ' + address.cellphone;
-            }
-          } else if (address.cellphone && !address.phone) {
-            numbers = 'M: ' + address.cellphone;
-          } else if (!address.cellphone && address.phone) {
-            numbers =  'P: ' + address.phone;
-          }
+          const numbers = getAddressNumbers(address);
+
 
           return {
             role: 'region',
