@@ -26,16 +26,5 @@ export interface FeatureToggles {
      *    lazy loaded modules, it will have to use ConfigurationService.unifiedConfig$
      */
     disableConfigUpdates?: boolean;
-
-    /**
-     * To fix certain features when a customer agent is emulating a user, we must send a header called
-     * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the
-     * agent. However, the header will break instances of Commerce Cloud who do not allow requests with
-     * this header. (For example, the configuration "corsfilter.commercewebservices.allowedHeaders" will
-     * need to allow it.)
-     *
-     * Enabling this feature will send the emulated user's IDs on requests that need it as context.
-     */
-    enableCommerceCloudUserIdHeader?: boolean;
   };
 }

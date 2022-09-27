@@ -13,7 +13,6 @@ import {
 import { Inject, Injectable } from '@angular/core';
 import {
   Config,
-  isFeatureEnabled,
   OCC_HTTP_TOKEN,
   OCC_USER_ID_CONSTANTS,
   UserIdService,
@@ -44,7 +43,8 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (!isFeatureEnabled(this.config, 'enableCommerceCloudUserIdHeader')) {
+    // Casting as <any> to avoid circular dependencies with @spartacus/asm/core.
+    if (!(<any>this.config).asm?.userIdHttpHeaderInterceptor?.enable) {
       return next.handle(httpRequest);
     }
 

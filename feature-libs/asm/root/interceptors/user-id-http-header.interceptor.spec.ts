@@ -43,8 +43,10 @@ describe('UserIdHttpHeaderInterceptor', () => {
           multi: true,
         },
         provideConfig({
-          features: {
-            enableCommerceCloudUserIdHeader: true,
+          asm: {
+            userIdHttpHeaderInterceptor: {
+              enable: true,
+            },
           },
         }),
       ],
@@ -193,8 +195,10 @@ describe('UserIdHttpHeaderInterceptor', () => {
           multi: true,
         },
         provideConfig({
-          features: {
-            enableCommerceCloudUserIdHeader: true,
+          asm: {
+            userIdHttpHeaderInterceptor: {
+              enable: false,
+            },
           },
         }),
       ],
@@ -219,7 +223,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
         ({ url, method, headers }) =>
           url === '/products/search' &&
           method === 'GET' &&
-          headers.get('sap-commerce-cloud-user-id') === 'user001'
+          headers.get('sap-commerce-cloud-user-id') !== 'user001'
       )
       .flush('bar');
   });
