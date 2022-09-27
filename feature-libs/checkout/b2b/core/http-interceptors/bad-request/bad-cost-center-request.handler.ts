@@ -3,16 +3,26 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import {
   ErrorModel,
   GlobalMessageType,
+  GlobalMessageService,
   HttpErrorHandler,
   HttpResponseStatus,
   Priority,
+  TranslationService,
 } from '@spartacus/core';
+import { ResponseError } from './bad-cost-center-request.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BadCostCenterRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
+
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected translationService: TranslationService
+  ) {
+    super(globalMessageService);
+  }
 
   getPriority(): Priority {
     return Priority.NORMAL;
@@ -28,20 +38,24 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
-      this.globalMessageService.add(
-        { key: 'httpHandlers.invalidCostCenter' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+      this.translationService
+        .translate('checkoutB2B.invalidCostCenter')
+        .subscribe((result: string) => {
+          this.globalMessageService.add(
+            result,
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
     }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error: any) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: any) => error.type !== ResponseError.NO_LONGER_VALID
     );
   }
 
-  private isCostCenterRequest(errorResponse: HttpErrorResponse): boolean {
+  protected isCostCenterRequest(errorResponse: HttpErrorResponse): boolean {
     if (errorResponse?.url) {
       const url = new URL(errorResponse.url);
       return (
@@ -53,7 +67,7 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
     return false;
   }
 
-  private isEntityValidationError(error: ErrorModel): boolean {
-    return error.type === 'EntityValidationError';
+  protected isEntityValidationError(error: ErrorModel): boolean {
+    return error.type === ResponseError.INVALID_ENTITY;
   }
 }

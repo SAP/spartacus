@@ -4,6 +4,10 @@ import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 
 context('B2B - ASM Account Checkout', () => {
+  const user_email = 'william.hunter@pronto-hw.com';
+  const invalid_cost_center = 'Rustic_Global';
+  const valid_cost_center = 'Pronto_Services';
+
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -30,11 +34,8 @@ context('B2B - ASM Account Checkout', () => {
     cy.get('cx-customer-selection form').within(() => {
       cy.get('[formcontrolname="searchTerm"]')
         .should('not.be.disabled')
-        .type('william.hunter@pronto-hw.com');
-      cy.get('[formcontrolname="searchTerm"]').should(
-        'have.value',
-        'william.hunter@pronto-hw.com'
-      );
+        .type(user_email);
+      cy.get('[formcontrolname="searchTerm"]').should('have.value', user_email);
     });
     cy.get('cx-customer-selection div.asm-results button').click();
     cy.get('button[type="submit"]').click();
@@ -49,7 +50,7 @@ context('B2B - ASM Account Checkout', () => {
     cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
 
     cy.get('cx-cost-center').within(() => {
-      cy.get('select').select('Rustic_Global');
+      cy.get('select').select(invalid_cost_center);
     });
 
     cy.wait('@costCenterReq').its('response.statusCode').should('eq', 400);
@@ -64,7 +65,7 @@ context('B2B - ASM Account Checkout', () => {
     });
     cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
     cy.get('cx-cost-center').within(() => {
-      cy.get('select').select('Pronto_Services');
+      cy.get('select').select(valid_cost_center);
     });
     cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
