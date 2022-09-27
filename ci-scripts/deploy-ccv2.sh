@@ -110,14 +110,14 @@ yarn build:libs
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "update server.ts for b2c storefront"
 
-sed -i "s%dist/storefrontapp%dist/$B2C_STORE/browser%gi" projects/storefrontapp/server.ts
+sed -i "s%dist/storefrontapp%dist/$B2C_STORE/browser%gi" $SERVER_CONFIG_PATH
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Verify server.ts has been updated for b2c dist"
 
-cat projects/storefrontapp/server.ts
+cat $SERVER_CONFIG_PATH
 
-if grep -Fq "const distFolder = join(process.cwd(), 'dist/$B2C_STORE/browser');" projects/storefrontapp/server.ts
+if grep -Fq "const distFolder = join(process.cwd(), 'dist/$B2C_STORE/browser');" $SERVER_CONFIG_PATH
 then
     echo "Dist folder has been updated"
 else
