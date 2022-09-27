@@ -45,6 +45,42 @@ else
 fi
 
 echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "Remove pwa config for b2c storefront"
+
+sed -i '' '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+
+echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "Verify pwa config has been updated for b2c dist"
+
+cat projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+
+if grep -Fq "addToHomeScreen: true" projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+then
+    echo "PWA config has NOT been removed"
+else
+    echo "PWA config has SUCCESSFULLY been removed"
+    exit 1
+fi
+
+echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "Remove pwa config for b2b storefront"
+
+sed -i '' '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+
+echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "Verify pwa config has been updated for b2b dist"
+
+cat projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+
+if grep -Fq "addToHomeScreen: true" projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts
+then
+    echo "PWA config has NOT been removed"
+else
+    echo "PWA config has SUCCESSFULLY been removed"
+    exit 1
+fi
+
+echo "---------------------------------------------------------------------------------------------------------------------------"
 echo "Clone ccv2 repository"
 
 git clone -b $CCV2_BRANCH https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/$GHT_REPO.git
