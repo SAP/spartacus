@@ -10,7 +10,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -31,7 +35,7 @@ import { first, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
-  quickOrderForm: FormGroup;
+  quickOrderForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean> = this.activeCartService
     .isStable()
     .pipe(map((loaded) => !loaded));
@@ -45,7 +49,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
-    protected formBuilder: FormBuilder,
+    protected formBuilder: UntypedFormBuilder,
     protected globalMessageService: GlobalMessageService
   ) {}
 

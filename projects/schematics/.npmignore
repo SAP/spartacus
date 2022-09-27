@@ -10,3 +10,5 @@ jest.schematics.config.js
 tsconfig.schematics.json
 src/migrations/test/**/*
 .eslintrc.json
+sub-folder/
+.pipeline/
