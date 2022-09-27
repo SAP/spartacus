@@ -79,7 +79,6 @@ describe('dependency-util', () => {
         CDC_FEATURE_NAME,
       ]);
 
-      // TODO: Double-check this.
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,

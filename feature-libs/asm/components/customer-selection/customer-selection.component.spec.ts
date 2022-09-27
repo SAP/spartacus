@@ -88,7 +88,7 @@ describe('CustomerSelectionComponent', () => {
           ReactiveFormsModule,
           I18nTestingModule,
           FormErrorsModule,
-          FeaturesConfigModule,
+          FeaturesConfigModule.forRoot(),
         ],
         declarations: [CustomerSelectionComponent],
         providers: [

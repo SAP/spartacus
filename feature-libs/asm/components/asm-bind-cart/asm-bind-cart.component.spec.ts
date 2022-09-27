@@ -8,7 +8,6 @@ import {
   GlobalMessageType,
   OCC_CART_ID_CURRENT,
   Translatable,
-  User,
 } from '@spartacus/core';
 import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
@@ -34,8 +33,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove(_: GlobalMessageType, __?: number): void {}
 }
 
-class MockMultiCartFacade {
-  loadCart(_cartId: string, _userId: string): void {}
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  reloadCart(_: string, __?: { active: boolean } | undefined): void {}
 }
 
 class MockAsmBindCartFacade {
@@ -54,8 +53,6 @@ describe('AsmBindCartComponent', () => {
 
   const prevActiveCartId = '00001122';
   const testCartId = '00001234';
-
-  const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -79,7 +76,7 @@ describe('AsmBindCartComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(asmBindCartFacade, 'bindCart').and.returnValue(of(undefined));
-    spyOn(multiCartFacade, 'loadCart').and.stub();
+    spyOn(multiCartFacade, 'reloadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
@@ -110,19 +107,15 @@ describe('AsmBindCartComponent', () => {
     it('should bind cart for assigned cart id', () => {
       component.bindCartToCustomer();
 
-      expect(asmBindCartFacade.bindCart).toHaveBeenCalledWith({
-        cartId: testCartId,
-        customerId: testUser.uid,
-      });
+      expect(asmBindCartFacade.bindCart).toHaveBeenCalledWith(testCartId);
     });
 
     it('should retrieve newly bound cart as "current"', () => {
       component.bindCartToCustomer();
 
-      expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
-        cartId: OCC_CART_ID_CURRENT,
-        userId: testUser.uid,
-      });
+      expect(multiCartFacade.reloadCart).toHaveBeenCalledWith(
+        OCC_CART_ID_CURRENT
+      );
     });
 
     it('should alert that the cart sucessfully bound', () => {
@@ -147,7 +140,6 @@ describe('AsmBindCartComponent', () => {
       (asmBindCartFacade.bindCart as jasmine.Spy).and.returnValue(
         throwError({ details: [{ message: expectedErrorMessage }] })
       );
-      spyOn(globalMessageService, 'add').and.stub();
 
       component.bindCartToCustomer();
 

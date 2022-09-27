@@ -28,7 +28,7 @@ import { concatMap, filter, finalize, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
-  cartId: FormControl = new FormControl('', [
+  cartId: FormControl<string | null> = new FormControl('', [
     Validators.required,
     Validators.minLength(1),
   ]);
@@ -60,7 +60,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .pipe(
         filter((loading) => !loading && this.cartId.valid),
         tap(() => this.loading$.next(true)),
-        concatMap(() => this.asmBindCartFacade.bindCart(this.cartId.value)),
+        concatMap(() =>
+          this.asmBindCartFacade.bindCart(this.cartId.value as string)
+        ),
         tap(() => {
           this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
         }),

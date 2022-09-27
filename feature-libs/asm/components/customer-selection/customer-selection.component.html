@@ -12,10 +12,14 @@
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>
-  <button *cxFeatureLevel="!5.1" type="submit">
+  <button *cxFeatureLevel="'!5.1'" type="submit">
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
-  <button *cxFeatureLevel="5.1" type="submit" [class.active]="selectedCustomer">
+  <button
+    *cxFeatureLevel="'5.1'"
+    type="submit"
+    [class.active]="selectedCustomer"
+  >
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>
