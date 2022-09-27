@@ -2,9 +2,10 @@
 
 TAG_NAME="sampledata"
 SAMPLE_DATA_ASSETS_FOLDER="sample-data-assets"
-UNRELEASED_SPARTACUS_VERSION_NAME="storefront-toolset-sampledata-version-5-x"
-CURRENT_RELEASE_SPARTACUS_VERSION_NAME="storefront-toolset-sampledata-version-4-x"
-PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME="storefront-toolset-sampledata-version-3-x"
+STOREFRONT_FILE_NAME="spartacussampledata"
+UNRELEASED_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-5-x"
+CURRENT_RELEASE_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-4-x"
+PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-3-x"
 IS_SAMPLE_DATA_BRANCH_OR_TAGS=
 
 function verify_branch_or_tag_exists {
@@ -55,7 +56,7 @@ download_sample_data $SAMPLE_DATA_PREVIOUS $PREVIOUS_RELEASE_SPARTACUS_VERSION_N
 echo "-----"
 echo "Move assets to single folder"
 rm -rf $SAMPLE_DATA_ASSETS_FOLDER
-mkdir $SAMPLE_DATA_ASSETS_FOLDER && mv storefront-toolset-sampledata-* $SAMPLE_DATA_ASSETS_FOLDER
+mkdir $SAMPLE_DATA_ASSETS_FOLDER && mv $STOREFRONT_FILE_NAME* $SAMPLE_DATA_ASSETS_FOLDER
 
 echo "-----"
 echo "Deleting tag on the remote repository to remove any tied releases"
@@ -65,7 +66,7 @@ git push "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.g
 echo "-----"
 echo "Create a release with created tag"
 
-gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Headless Storefront Toolset Sample Data"  --notes "Headless Storefront Toolset sample data releases: 
+gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Spartacus sample data releases: 
 5-x: unreleased 
 4-x: current release
 3-x: previous release"
