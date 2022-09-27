@@ -14,17 +14,13 @@ import { FormControl, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  Command,
-  CommandService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  isNotUndefined,
   OCC_CART_ID_CURRENT,
 } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
+import { concatMap, filter, finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -37,41 +33,15 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.minLength(1),
   ]);
 
-  loading$: Subject<boolean> = new BehaviorSubject<boolean>(false);
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   protected subscription = new Subscription();
-
-  protected bindCartToCurrentUser$: Command<string, unknown> =
-    this.commandService.create((cartId) =>
-      this.userAccountFacade.get().pipe(
-        take(1),
-        map((customer) => customer?.uid),
-        filter(isNotUndefined),
-        concatMap((customerId) =>
-          this.asmBindCartFacade
-            .bindCart({
-              cartId,
-              customerId,
-            })
-            .pipe(
-              tap(() =>
-                this.multiCartFacade.loadCart({
-                  cartId: OCC_CART_ID_CURRENT,
-                  userId: customerId,
-                })
-              )
-            )
-        )
-      )
-    );
 
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userAccountFacade: UserAccountFacade,
-    protected asmBindCartFacade: AsmBindCartFacade,
-    protected commandService: CommandService
+    protected asmBindCartFacade: AsmBindCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -86,13 +56,14 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    const subscription = this.loading$
-      .asObservable()
+    const subscription = of(this.loading$.getValue())
       .pipe(
-        take(1),
         filter((loading) => !loading && this.cartId.valid),
         tap(() => this.loading$.next(true)),
-        concatMap(() => this.bindCartToCurrentUser$.execute(this.cartId.value)),
+        concatMap(() => this.asmBindCartFacade.bindCart(this.cartId.value)),
+        tap(() => {
+          this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
+        }),
         finalize(() => this.loading$.next(false))
       )
       .subscribe(

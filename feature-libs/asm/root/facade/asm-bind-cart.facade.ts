@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
-import { BindCartParams } from '../model/index';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +20,8 @@ import { BindCartParams } from '../model/index';
 })
 export abstract class AsmBindCartFacade {
   /**
-   * Bind an anonymous cart to customer
-   * @param options
+   * Bind an anonymous cart to a registered user
+   * @param userId The user to associate a cart with.  Defaults to the current user if not provided.
    */
-  abstract bindCart(options: BindCartParams): Observable<unknown>;
+  abstract bindCart(cartId: string, userId?: string): Observable<unknown>;
 }

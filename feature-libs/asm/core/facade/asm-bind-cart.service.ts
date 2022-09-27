@@ -5,24 +5,45 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AsmBindCartFacade, BindCartParams } from '@spartacus/asm/root';
-import { Command, CommandService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { AsmBindCartFacade } from '@spartacus/asm/root';
+import {
+  Command,
+  CommandService,
+  isNotUndefined,
+  UserIdService,
+} from '@spartacus/core';
+import { iif, Observable, of } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import { AsmConnector } from '../connectors';
 
 @Injectable()
 export class AsmBindCartService implements AsmBindCartFacade {
   constructor(
     protected commandService: CommandService,
-    protected asmConnector: AsmConnector
+    protected asmConnector: AsmConnector,
+    protected userIdService: UserIdService
   ) {}
 
-  protected bindCartCommand$: Command<BindCartParams> =
-    this.commandService.create((options: BindCartParams) =>
-      this.asmConnector.bindCart(options)
-    );
+  protected bindCartCommand$: Command<
+    { cartId: string; userId?: string },
+    unknown
+  > = this.commandService.create(
+    ({ cartId, userId }: { cartId: string; userId?: string }) =>
+      iif(
+        () => isNotUndefined(userId),
+        of(userId as string),
+        this.userIdService.takeUserId(true)
+      ).pipe(
+        concatMap((customerId) =>
+          this.asmConnector.bindCart({
+            cartId,
+            customerId,
+          })
+        )
+      )
+  );
 
-  bindCart(options: BindCartParams): Observable<unknown> {
-    return this.bindCartCommand$.execute(options);
+  bindCart(cartId: string, userId?: string): Observable<unknown> {
+    return this.bindCartCommand$.execute({ cartId, userId });
   }
 }

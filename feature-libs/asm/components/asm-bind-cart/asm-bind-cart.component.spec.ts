@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  BaseSiteService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -11,19 +10,12 @@ import {
   Translatable,
   User,
 } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
 class MockActiveCartService {
   getActiveCartId(): Observable<string> {
     return EMPTY;
-  }
-}
-
-class MockBaseSiteService {
-  getActive(): Observable<string> {
-    return of('test-site');
   }
 }
 
@@ -42,12 +34,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove(_: GlobalMessageType, __?: number): void {}
 }
 
-class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get(): Observable<User> {
-    return of({});
-  }
-}
-
 class MockMultiCartFacade {
   loadCart(_cartId: string, _userId: string): void {}
 }
@@ -64,7 +50,6 @@ describe('AsmBindCartComponent', () => {
   let asmBindCartFacade: AsmBindCartFacade;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
-  let userService: UserAccountFacade;
   let globalMessageService: GlobalMessageService;
 
   const prevActiveCartId = '00001122';
@@ -78,9 +63,7 @@ describe('AsmBindCartComponent', () => {
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: AsmBindCartFacade, useClass: MockAsmBindCartFacade },
-        { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
-        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -93,23 +76,14 @@ describe('AsmBindCartComponent', () => {
     asmBindCartFacade = TestBed.inject(AsmBindCartFacade);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
-    userService = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(userService, 'get').and.returnValue(of(testUser));
-
-    spyOn(asmBindCartFacade, 'bindCart').and.returnValue(
-      of(() => {
-        expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
-          cartId: testCartId,
-          userId: testUser.uid,
-        });
-      })
-    );
+    spyOn(asmBindCartFacade, 'bindCart').and.returnValue(of(undefined));
     spyOn(multiCartFacade, 'loadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
+    spyOn(globalMessageService, 'add').and.callThrough();
   });
 
   it('should fill the cart field with the current active cart for the customer', () => {
@@ -151,6 +125,15 @@ describe('AsmBindCartComponent', () => {
       });
     });
 
+    it('should alert that the cart sucessfully bound', () => {
+      component.bindCartToCustomer();
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'asm.bindCart.success' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
     it('should not bind cart for empty value', () => {
       component.cartId.setValue('');
 
@@ -172,6 +155,15 @@ describe('AsmBindCartComponent', () => {
         expectedErrorMessage,
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+
+    it('should not bind cart while loading a previous request', () => {
+      (asmBindCartFacade.bindCart as jasmine.Spy).and.returnValue(NEVER);
+
+      component.bindCartToCustomer();
+      component.bindCartToCustomer();
+
+      expect(asmBindCartFacade.bindCart).toHaveBeenCalledTimes(1);
     });
   });
 });
