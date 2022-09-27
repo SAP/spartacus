@@ -10,9 +10,6 @@
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
- *
- * To do:
- * - sonar cloud configuration
  */
 
 import chalk from 'chalk';

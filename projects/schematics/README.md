@@ -51,7 +51,7 @@ Here are some terms you might hear or find in the code:
 - Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
-- Create new angular project `ng new schematics-test --style=scss`
+- Create new angular project `ng new schematics-test --style scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally).
 
 ### Publishing to verdaccio
@@ -67,7 +67,7 @@ Here are some terms you might hear or find in the code:
 
 ### Workflow for testing migrations
 
-- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
+- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
 - commit the changes, if any.
 - run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
 - try until everything is perfect
