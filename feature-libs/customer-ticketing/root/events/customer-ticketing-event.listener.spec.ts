@@ -3,6 +3,7 @@ import {
   CurrencySetEvent,
   CxEvent,
   EventService,
+  GlobalMessageService,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -22,6 +23,10 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
+}
+
 describe('CustomerTicketingEventListener', () => {
   let eventService: EventService;
 
@@ -30,6 +35,7 @@ describe('CustomerTicketingEventListener', () => {
       providers: [
         CustomerTicketingEventListener,
         { provide: EventService, useClass: MockEventService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 

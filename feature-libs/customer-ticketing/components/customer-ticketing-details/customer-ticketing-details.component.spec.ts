@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { STATUS, TicketDetails } from '@spartacus/customer-ticketing/root';
+import {
+  CustomerTicketingFacade,
+  STATUS,
+  TicketDetails,
+} from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
-import createSpy = jasmine.createSpy;
 
 const mockTicketId = '1';
 const mockTicketDetails: TicketDetails = {
@@ -21,10 +23,10 @@ class MockTranslationService {
   }
 }
 
-class MockCustomerTicketingDetailsService
-  implements Partial<CustomerTicketingDetailsService>
-{
-  getTicketDetails = createSpy().and.returnValue(of(mockTicketDetails));
+class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
+  getTicket(): Observable<TicketDetails | undefined> {
+    return of(mockTicketDetails);
+  }
 }
 
 describe('CustomerTicketingDetailsComponent', () => {
@@ -38,8 +40,8 @@ describe('CustomerTicketingDetailsComponent', () => {
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: CustomerTicketingDetailsService,
-          useClass: MockCustomerTicketingDetailsService,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
       ],
     }).compileComponents();

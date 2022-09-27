@@ -2,14 +2,14 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  CustomerTicketingFacade,
   STATUS,
-  Status,
   STATUS_NAME,
+  TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
 
@@ -28,14 +28,27 @@ describe('CustomerTicketingReopenComponent', () => {
     }
   }
 
-  const mockTicketStatus$ = new BehaviorSubject<string>(STATUS.OPEN);
+  const mockTicketDetails$ = new BehaviorSubject<TicketDetails>({});
 
-  const mockAvailableStatus$ = new BehaviorSubject<Status[]>([]);
-  class MockCustomerTicketingDetailsService
-    implements Partial<CustomerTicketingDetailsService>
+  let mockTicket: TicketDetails = {
+    status: {
+      id: STATUS.OPEN,
+      name: STATUS_NAME.OPEN,
+    },
+    availableStatusTransitions: [
+      {
+        id: STATUS.CLOSE,
+        name: STATUS_NAME.CLOSE,
+      },
+    ],
+  };
+
+  class MockCustomerTicketingFacade
+    implements Partial<CustomerTicketingFacade>
   {
-    getTicketStatus = () => mockTicketStatus$.asObservable();
-    getAvailableTransitionStatus = () => mockAvailableStatus$.asObservable();
+    getTicket(): Observable<TicketDetails | undefined> {
+      return mockTicketDetails$;
+    }
   }
 
   beforeEach(async () => {
@@ -45,15 +58,13 @@ describe('CustomerTicketingReopenComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CustomerTicketingDetailsService,
-          useClass: MockCustomerTicketingDetailsService,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
       ],
     }).compileComponents();
 
-    mockAvailableStatus$.next([
-      { id: STATUS.INPROCESS, name: STATUS_NAME.INPROCESS },
-    ]);
+    mockTicketDetails$.next(mockTicket);
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
@@ -80,7 +91,8 @@ describe('CustomerTicketingReopenComponent', () => {
 
   describe('enableReopenButton', () => {
     it('should be false if the status is not closed', (done) => {
-      mockTicketStatus$.next(STATUS.OPEN);
+      mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
+      mockTicketDetails$.next(mockTicket);
 
       component.enableReopenButton$.pipe(take(1)).subscribe((data) => {
         expect(data).toEqual(false);
@@ -89,10 +101,12 @@ describe('CustomerTicketingReopenComponent', () => {
     });
 
     it('should be false if available status is not open or in process', (done) => {
-      mockTicketStatus$.next(STATUS.CLOSE);
-      mockAvailableStatus$.next([
+      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicket.availableStatusTransitions = [
         { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE },
-      ]);
+      ];
+      mockTicketDetails$.next(mockTicket);
+
       fixture.detectChanges();
 
       component.enableReopenButton$.pipe(take(1)).subscribe((data) => {
@@ -102,10 +116,12 @@ describe('CustomerTicketingReopenComponent', () => {
     });
 
     it('should be true if status is close and available status is open or in process', (done) => {
-      mockTicketStatus$.next(STATUS.CLOSE);
-      mockAvailableStatus$.next([
-        { id: STATUS.INPROCESS, name: STATUS_NAME.INPROCESS },
-      ]);
+      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicket.availableStatusTransitions = [
+        { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
+      ];
+      mockTicketDetails$.next(mockTicket);
+
       fixture.detectChanges();
 
       component.enableReopenButton$.pipe(take(1)).subscribe((data) => {

@@ -56,7 +56,10 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
         }
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+      );
   }
 
   protected getCreateTicketEventEndpoint(

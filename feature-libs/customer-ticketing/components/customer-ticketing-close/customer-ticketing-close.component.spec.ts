@@ -2,14 +2,14 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  CustomerTicketingFacade,
   STATUS,
-  Status,
   STATUS_NAME,
+  TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomerTicketingDetailsService } from '../customer-ticketing-details.service';
 
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
@@ -23,15 +23,25 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
-const mockTicketStatus$ = new BehaviorSubject<string>(STATUS.OPEN);
+const mockTicketDetails$ = new BehaviorSubject<TicketDetails>({});
 
-const mockAvailableStatus$ = new BehaviorSubject<Status[]>([]);
+let mockTicket: TicketDetails = {
+  status: {
+    id: STATUS.OPEN,
+    name: STATUS_NAME.OPEN,
+  },
+  availableStatusTransitions: [
+    {
+      id: STATUS.CLOSE,
+      name: STATUS_NAME.CLOSE,
+    },
+  ],
+};
 
-class MockCustomerTicketingDetailsService
-  implements Partial<CustomerTicketingDetailsService>
-{
-  getTicketStatus = () => mockTicketStatus$.asObservable();
-  getAvailableTransitionStatus = () => mockAvailableStatus$.asObservable();
+class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
+  getTicket(): Observable<TicketDetails | undefined> {
+    return mockTicketDetails$;
+  }
 }
 
 describe('CustomerTicketingCloseComponent', () => {
@@ -46,13 +56,13 @@ describe('CustomerTicketingCloseComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CustomerTicketingDetailsService,
-          useClass: MockCustomerTicketingDetailsService,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
       ],
     }).compileComponents();
 
-    mockAvailableStatus$.next([{ id: STATUS.CLOSE, name: STATUS_NAME.CLOSE }]);
+    mockTicketDetails$.next(mockTicket);
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
@@ -79,7 +89,8 @@ describe('CustomerTicketingCloseComponent', () => {
 
   describe('enableCloseButton', () => {
     it('should be false if the status is not open or in process', (done) => {
-      mockTicketStatus$.next(STATUS.CLOSE);
+      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicketDetails$.next(mockTicket);
 
       component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
         expect(data).toEqual(false);
@@ -88,8 +99,12 @@ describe('CustomerTicketingCloseComponent', () => {
     });
 
     it('should be false if available status is not closed', (done) => {
-      mockTicketStatus$.next(STATUS.OPEN);
-      mockAvailableStatus$.next([]);
+      mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
+      mockTicket.availableStatusTransitions = [
+        { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
+      ];
+      mockTicketDetails$.next(mockTicket);
+
       fixture.detectChanges();
 
       component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
@@ -99,10 +114,12 @@ describe('CustomerTicketingCloseComponent', () => {
     });
 
     it('should be true if status is open and available status is close', (done) => {
-      mockTicketStatus$.next(STATUS.OPEN);
-      mockAvailableStatus$.next([
+      mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
+      mockTicket.availableStatusTransitions = [
         { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE },
-      ]);
+      ];
+      mockTicketDetails$.next(mockTicket);
+
       fixture.detectChanges();
 
       component.enableCloseButton$.pipe(take(1)).subscribe((data) => {

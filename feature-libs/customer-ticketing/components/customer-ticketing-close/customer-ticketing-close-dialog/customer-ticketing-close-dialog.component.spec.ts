@@ -1,24 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { STATUS, STATUS_NAME } from '@spartacus/customer-ticketing/root';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CustomerTicketingFacade,
+  STATUS,
+  STATUS_NAME,
+} from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { CustomerTicketingDetailsService } from '../../customer-ticketing-details.service';
+import { of } from 'rxjs';
 import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
+import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockCustomerTicketingDetailsService
-  implements Partial<CustomerTicketingDetailsService>
-{
-  createTicketEvent(): void {}
+class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
+  createTicketEvent = createSpy().and.returnValue(of());
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 describe('CustomerTicketingCloseDialogComponent', () => {
   let component: CustomerTicketingCloseDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingCloseDialogComponent>;
-  let customerTicketingDetailsService: CustomerTicketingDetailsService;
+  let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,15 +34,14 @@ describe('CustomerTicketingCloseDialogComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CustomerTicketingDetailsService,
-          useClass: MockCustomerTicketingDetailsService,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
-    customerTicketingDetailsService = TestBed.inject(
-      CustomerTicketingDetailsService
-    );
+    customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });
 
   beforeEach(() => {
@@ -55,14 +61,10 @@ describe('CustomerTicketingCloseDialogComponent', () => {
 
   describe('closeRequest', () => {
     it('should not call createTicketEvent if the form is invalid', () => {
-      spyOn(customerTicketingDetailsService, 'createTicketEvent');
-
       component.form.get('message')?.setValue('');
       component.closeRequest();
 
-      expect(
-        customerTicketingDetailsService.createTicketEvent
-      ).not.toHaveBeenCalled();
+      expect(customerTicketingFacade.createTicketEvent).not.toHaveBeenCalled();
     });
 
     it('should call createTicketEvent if the form is valid', () => {
@@ -73,14 +75,13 @@ describe('CustomerTicketingCloseDialogComponent', () => {
           name: STATUS_NAME.CLOSE,
         },
       };
-      spyOn(customerTicketingDetailsService, 'createTicketEvent');
 
       component.form.get('message')?.setValue('mockMessage');
       component.closeRequest();
 
-      expect(
-        customerTicketingDetailsService.createTicketEvent
-      ).toHaveBeenCalledWith(mockEvent);
+      expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
+        mockEvent
+      );
     });
   });
 });
