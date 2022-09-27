@@ -182,7 +182,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -210,14 +210,14 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020"
   }
 }
@@ -323,20 +323,18 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
-- `sonar-project.properties` - list your library to this file
-
 - `projects/schematics/package.json` - add the library to the package group
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
-- `ci-scripts/unit-tests-sonar.sh`
+- `ci-scripts/unit-tests.sh`
 
 Add the library unit tests with code coverage
 
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
-output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -401,8 +399,8 @@ There are couple of required changes to make sure schematics will work properly
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
-- Create new angular project `ng new schematics-test --style=scss`
+- Create new angular project `ng new schematics-test --style scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
 - Build all libs (if it is first time, if not just build your new lib)
 - Publish
-- Add spartacus to new angular project `ng add @spartacus/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa
+- Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa
