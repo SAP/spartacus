@@ -4,7 +4,7 @@ import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
-} from 'feature-libs/pickup-in-store/root';
+} from 'feature-libs/pickup-in-store/root/public_api';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   BrowserLocationActions,

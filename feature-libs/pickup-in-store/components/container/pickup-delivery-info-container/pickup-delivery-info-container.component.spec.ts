@@ -5,7 +5,7 @@ import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
-} from 'feature-libs/pickup-in-store/root';
+} from 'feature-libs/pickup-in-store/root/public_api';
 import { Observable, of } from 'rxjs';
 import { PickupDeliveryInfoStubComponent } from '../../presentational/pickup-delivery-info/pickup-delivery-info.component.spec';
 

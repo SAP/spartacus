@@ -4,7 +4,7 @@ import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupOption,
-} from 'feature-libs/pickup-in-store/root';
+} from 'feature-libs/pickup-in-store/root/public_api';
 import { Observable, of } from 'rxjs';
 import { PickupLocationActions } from '../store';
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
