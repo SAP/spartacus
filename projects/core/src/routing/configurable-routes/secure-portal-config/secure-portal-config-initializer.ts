@@ -35,7 +35,6 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<RoutingConfig> {
-    console.log("Resolve config called");
     return this.baseSiteService.getAll().pipe(
       map((baseSites) =>
         baseSites?.find((site) => this.isCurrentBaseSite(site))
