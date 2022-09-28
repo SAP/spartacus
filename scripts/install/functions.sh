@@ -41,7 +41,7 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    npm config set @spartacus:registry https://registry.npmjs.org/
+    # npm config set @spartacus:registry https://int.repositories.cloud.sap/artifactory/api/npm/proxy-deploy-releases-hyperspace-npm/
 
     npm i -g verdaccio@5
     npm i -g npm-cli-login
@@ -119,6 +119,9 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
+   if [ "$2" = true] ; then
+        create_npmrc
+   fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
@@ -129,11 +132,18 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+     if [ "$2" = true] ; then
+        remove_npmrc
+    fi
     )
 }
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
+   if [ "$2" = true] ; then
+        create_npmrc
+   fi
+    
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
@@ -144,11 +154,18 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
+    if [ "$2" = true] ; then
+        remove_npmrc
+    fi
     )
 }
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ "$2" = true] ; then
+        create_npmrc
+    fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
@@ -159,6 +176,9 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    if [ "$2" = true] ; then
+        remove_npmrc
+    fi
     )
 }
 
@@ -168,21 +188,21 @@ function create_apps {
     else
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
-        add_spartacus_csr ${CSR_APP_NAME}
+        add_spartacus_csr ${CSR_APP_NAME} ${1}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
-        add_spartacus_ssr ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME} ${1}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
-        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${1}
     fi
 }
 
@@ -285,10 +305,12 @@ function install_from_sources {
 
 function install_from_npm {
     printh "Installing Spartacus from npm libraries"
-
+   
     prepare_install
 
-    create_apps
+    create_apps true
+
+    remove_npm_token
 }
 
 function build_csr {
@@ -381,4 +403,25 @@ function cmd_help {
     echo " start"
     echo " stop"
     echo " help"
+}
+
+function create_npmrc {
+    local npm_content="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=https://${NPM_URL}\n//${NPM_URL}:_auth=${NPM_TOKEN}\nemail=${NPM_USER}\n"
+    printf $npm_content > .npmrc
+    npm config ls -l
+}
+
+function remove_npmrc {
+    if [ -f "./.npmrc" ]; then
+        echo 'remove .npmrc file'
+        rm -rf .npmrc
+    fi
+}
+
+function remove_npm_token {
+    if [[ -f "./config.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'remove NPM_TOKEN value from config.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.sh    
+        
+    fi
 }
