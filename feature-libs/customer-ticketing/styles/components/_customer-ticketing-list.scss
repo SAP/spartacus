@@ -15,7 +15,6 @@
     }
 
     td {
-      width: 25%;
       padding: 1.625rem 0;
 
       a {
@@ -55,10 +54,10 @@
   }
 
   .cx-ticketing-list-label {
-    padding-right: 15px;
     color: var(--cx-color-secondary);
 
     @include media-breakpoint-up(md) {
+      padding-right: 15px;
       display: none;
     }
 
@@ -70,9 +69,8 @@
   }
 
   .cx-ticketing-list-value {
-    padding-left: 15px;
-
     @include media-breakpoint-down(sm) {
+      padding-left: 15px;
       font-size: var(--cx-font-size, 1rem);
       font-weight: $font-weight-normal;
     }
