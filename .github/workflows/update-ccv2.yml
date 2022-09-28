@@ -10,10 +10,10 @@ on:
         default: develop
         required: true
 
-name: Deploy unreleased Spartacus to ccv2 environment
+name: Update ccv2 repo with unreleased Spartacus
 jobs:
   deploy_to_ccv2: 
-    name: Deploying to a ccv2 environment
+    name: Updating storefront of a ccv2 environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
         run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Deploy to ccv2 environment
+      - name: Update ccv2 environment with source
         env: 
           CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch }}
           SOURCE_BRANCH_TO_DEPLOY: ${{ github.event.inputs.source_branch_to_deploy }}
@@ -37,4 +37,4 @@ jobs:
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GHT_REPO: ${{ secrets.GHT_REPO }}
         run: |
-          ci-scripts/deploy-ccv2.sh
+          ci-scripts/update-ccv2.sh
