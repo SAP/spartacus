@@ -5,38 +5,54 @@ B2C_STORE="spartacusstore"
 B2B_STORE="b2bspastore"
 CCV2_B2C_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2C_STORE"
 CCV2_B2B_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2B_STORE"
+GH_BASE_URL="https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/$GHT_REPO.git"
 APP_MODULE_PATH="projects/storefrontapp/src/app/app.module.ts"
 B2C_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts"
 B2B_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts"
 SERVER_CONFIG_PATH="projects/storefrontapp/server.ts"
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
+function verify_branch_exist {
+    IS_BRANCH=`git ls-remote --heads $1 $2`
+
+    if [ -z "$IS_BRANCH" ]; then
+        echo "Error. Can't finding the branch $2. Verify the branch name exist"
+        exit 1
+    fi
+}
+
+function remove_pwa_config {
+    sed -i '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' $1
+
+    cat $1
+
+    if grep -Fq "addToHomeScreen: true" $1
+    then
+        echo "PWA config has NOT been removed"
+        exit 1
+    else
+        echo "PWA config has SUCCESSFULLY been removed"
+    fi
+}
+
+function copy_browser_and_server_files {
+    cp -a dist/storefrontapp/. ../$1/dist/$2/browser/
+    cp -a dist/storefrontapp-server/. ../$1/dist/$2/server/
+}
+
+echo "------------------------------------------------------------------"
 echo "Verify source branch exist"
 
-IS_BRANCH=`git ls-remote --heads origin $SOURCE_BRANCH_TO_DEPLOY`
+verify_branch_exist "origin" $SOURCE_BRANCH_TO_DEPLOY
 
-if [ -z "$IS_BRANCH" ]; then
-    echo "Error finding the branch $SOURCE_BRANCH_TO_DEPLOY. Verify the branch name exist on the public Spartacus repository"
-    exit 1
-fi
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Verify CCv2 branch exist"
 
-IS_BRANCH=`git ls-remote --heads https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/ccv2-ec-dev-project-for-tests.git $CCV2_BRANCH`
+verify_branch_exist $GH_BASE_URL $CCV2_BRANCH
 
-if [ -z "$IS_BRANCH" ]; then
-    echo "Error finding the branch $CCV2_BRANCH. Verify the branch name exist on the ccv2 repository"
-    exit 1
-fi
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Comment out occBaseUrl from configration to allow index.html meta tag to set the occBaseUrl"
 
 sed -i 's/baseUrl: environment.occBaseUrl/\/\/ baseUrl: environment.occBaseUrl/gi' $APP_MODULE_PATH
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Verify app.module.ts has occBaseUrl commented"
 
 cat $APP_MODULE_PATH
 
@@ -48,48 +64,22 @@ else
     exit 1
 fi
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Remove pwa config for b2c storefront"
+echo "------------------------------------------------------------------"
+echo "Remove pwa config for B2C storefront"
 
-sed -i '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' $B2C_CONFIG_PATH
+remove_pwa_config $B2C_CONFIG_PATH
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Verify pwa config has been updated for b2c dist"
+echo "------------------------------------------------------------------"
+echo "Remove pwa config for B2B storefront"
 
-cat $B2C_CONFIG_PATH
+remove_pwa_config $B2B_CONFIG_PATH
 
-if grep -Fq "addToHomeScreen: true" $B2C_CONFIG_PATH
-then
-    echo "PWA config has NOT been removed"
-    exit 1
-else
-    echo "PWA config has SUCCESSFULLY been removed"
-fi
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Remove pwa config for b2b storefront"
-
-sed -i '/pwa:[[:blank:]]*{/,/^[[:space:]]*}/d' $B2B_CONFIG_PATH
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Verify pwa config has been updated for b2b dist"
-
-cat $B2B_CONFIG_PATH
-
-if grep -Fq "addToHomeScreen: true" $B2B_CONFIG_PATH
-then
-    echo "PWA config has NOT been removed"
-    exit 1
-else
-    echo "PWA config has SUCCESSFULLY been removed"
-fi
-
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Clone ccv2 repository"
 
-git clone -b $CCV2_BRANCH https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/$GHT_REPO.git
+git clone -b $CCV2_BRANCH $GH_BASE_URL
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Update ccv2 repo's js-storefront folder to adhere to the ccv2 dist strucutre"
 
 rm -rf $CCV2_B2C_STOREFRONT_PATH
@@ -103,17 +93,17 @@ mkdir -p $CCV2_B2C_STOREFRONT_PATH/dist/$B2C_STORE/server
 mkdir -p $CCV2_B2B_STOREFRONT_PATH/dist/$B2B_STORE/browser
 mkdir -p $CCV2_B2B_STOREFRONT_PATH/dist/$B2B_STORE/server
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Build Spartacus libraries"
 yarn build:libs
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "update server.ts for b2c storefront"
+echo "------------------------------------------------------------------"
+echo "update server.ts for B2C storefront"
 
 sed -i "s%dist/storefrontapp%dist/$B2C_STORE/browser%gi" $SERVER_CONFIG_PATH
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Verify server.ts has been updated for b2c dist"
+echo "------------------------------------------------------------------"
+echo "Verify server.ts has been updated for B2C dist"
 
 cat $SERVER_CONFIG_PATH
 
@@ -125,29 +115,28 @@ else
     exit 1
 fi
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Build SSR for b2c storefront"
+echo "------------------------------------------------------------------"
+echo "Build SSR for B2C storefront"
 
 yarn build:ssr:ci
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Build CSR for b2c storefront"
+echo "------------------------------------------------------------------"
+echo "Build CSR for B2C storefront"
 
 yarn build
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for b2c storefront"
+echo "------------------------------------------------------------------"
+echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for B2C storefront"
 
-cp -a dist/storefrontapp/. $CCV2_B2C_STOREFRONT_PATH/dist/$B2C_STORE/browser/
-cp -a dist/storefrontapp-server/. $CCV2_B2C_STOREFRONT_PATH/dist/$B2C_STORE/server/
+copy_browser_and_server_files $CCV2_B2C_STOREFRONT_PATH $B2C_STORE
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "update server.ts for b2b storefront"
+echo "------------------------------------------------------------------"
+echo "update server.ts for B2B storefront"
 
 sed -i "s%dist/$B2C_STORE/browser%dist/$B2B_STORE/browser%gi" $SERVER_CONFIG_PATH
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Verify server.ts has been updated for b2b dist"
+echo "------------------------------------------------------------------"
+echo "Verify server.ts has been updated for B2B dist"
 
 cat $SERVER_CONFIG_PATH
 
@@ -159,30 +148,29 @@ else
     exit 1
 fi
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Build SSR for b2b storefront"
+echo "------------------------------------------------------------------"
+echo "Build SSR for B2B storefront"
 
 export SPA_ENV='b2b'
 yarn build:ssr:ci
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Build CSR for b2b storefront"
+echo "------------------------------------------------------------------"
+echo "Build CSR for B2B storefront"
 
 yarn build
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
-echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for b2b storefront"
+echo "------------------------------------------------------------------"
+echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for B2B storefront"
 
-cp -a dist/storefrontapp/. $CCV2_B2B_STOREFRONT_PATH/dist/$B2B_STORE/browser/
-cp -a dist/storefrontapp-server/. $CCV2_B2B_STOREFRONT_PATH/dist/$B2B_STORE/server/
+copy_browser_and_server_files $CCV2_B2B_STOREFRONT_PATH $B2B_STORE
 
-echo "---------------------------------------------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------"
 echo "Push to remote repository"
 
 cd $GHT_REPO
 
-git config --global user.email brian.gamboc-javiniar@sap.com
-git config --global user.name team-griffin-serviceuser
+git config --global user.email dl_61c08cf5a3cac30261c7e88c@global.corp.sap
+git config --global user.name cx-cc-automation-serviceuser
 
 git add .
 git commit -m "update from source"
