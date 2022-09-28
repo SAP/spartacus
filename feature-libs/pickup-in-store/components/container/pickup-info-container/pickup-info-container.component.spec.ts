@@ -1,15 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
-import {
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-} from 'feature-libs/pickup-in-store/root/public_api';
+import { PickupLocationsSearchFacade } from 'feature-libs/pickup-in-store/root/public_api';
 import { Observable, of } from 'rxjs';
-import { PickupDeliveryInfoStubComponent } from '../../presentational/pickup-delivery-info/pickup-delivery-info.component.spec';
+import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
+import { PickupInfoContainerComponent } from './pickup-info-container.component';
 
-import { PickupDeliveryInfoContainerComponent } from './pickup-delivery-info-container.component';
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     const entries: OrderEntry[] = [
@@ -19,6 +15,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
     return of({ entries });
   }
 }
+
 class MockPickupLocationsSearchFacade
   implements Partial<PickupLocationsSearchFacade>
 {
@@ -29,25 +26,19 @@ class MockPickupLocationsSearchFacade
   loadStoreDetails(_name: string): void {}
 }
 
-describe('PickupDeliveryInfoContainerComponent', () => {
-  let component: PickupDeliveryInfoContainerComponent;
-  let fixture: ComponentFixture<PickupDeliveryInfoContainerComponent>;
+describe('PickupInfoContainerComponent', () => {
+  let component: PickupInfoContainerComponent;
+  let fixture: ComponentFixture<PickupInfoContainerComponent>;
   let activeCartService: ActiveCartFacade;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        PickupDeliveryInfoContainerComponent,
-        PickupDeliveryInfoStubComponent,
-      ],
+      declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
       providers: [
         {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
-        },
-        {
-          provide: IntendedPickupLocationFacade,
-          useClass: MockIntendedPickupLocationService,
         },
         {
           provide: PickupLocationsSearchFacade,
@@ -58,7 +49,7 @@ describe('PickupDeliveryInfoContainerComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PickupDeliveryInfoContainerComponent);
+    fixture = TestBed.createComponent(PickupInfoContainerComponent);
     component = fixture.componentInstance;
     activeCartService = TestBed.inject(ActiveCartFacade);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
@@ -68,6 +59,7 @@ describe('PickupDeliveryInfoContainerComponent', () => {
   it('should create', () => {
     expect(component).toBeDefined();
   });
+
   it('should call on init', () => {
     const result: Partial<PointOfService>[] = [
       { address: undefined, displayName: undefined, openingHours: undefined },

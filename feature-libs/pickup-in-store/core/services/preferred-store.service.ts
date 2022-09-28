@@ -31,10 +31,10 @@ export type PointOfServiceNames = PickRequiredDeep<
 @Injectable()
 export class PreferredStoreService {
   constructor(
-    protected readonly consentService: ConsentService,
-    protected readonly config: PickupInStoreConfig,
-    protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected readonly winRef: WindowRef
+    protected config: PickupInStoreConfig,
+    protected consentService: ConsentService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected winRef: WindowRef
   ) {
     // Intentional empty constructor
   }

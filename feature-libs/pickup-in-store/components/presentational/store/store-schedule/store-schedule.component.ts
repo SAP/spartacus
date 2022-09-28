@@ -13,13 +13,16 @@ type OpeningTime = {
   closed?: boolean;
 };
 
+/**
+ * A presentational component for a store's opening hours
+ */
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
 })
 export class StoreScheduleComponent implements OnInit {
-  @Input()
-  storeDetails: PointOfService = {};
+  /** The details of the store */
+  @Input() storeDetails: PointOfService = {};
 
   openingTimes: OpeningTime[] = [];
 

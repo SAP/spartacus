@@ -40,6 +40,7 @@ export type SetPickupOptionProps = {
   productCode: string;
   pickupOption: PickupOption;
 };
+
 /**
  * Add a proposed pickup location for a product code.
  */

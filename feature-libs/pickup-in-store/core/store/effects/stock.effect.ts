@@ -15,8 +15,8 @@ import { StockLevelActions } from '../actions/index';
 @Injectable()
 export class StockEffect {
   constructor(
-    private readonly actions$: Actions,
-    private readonly stockConnector: StockConnector
+    private actions$: Actions,
+    private stockConnector: StockConnector
   ) {
     // Intentional empty constructor
   }

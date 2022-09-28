@@ -2,6 +2,7 @@
 
 - [ ] `yarn install`
 - [ ] `./ci-scripts/prepend-license.sh`
+- [ ] `yarn config:check`
 - [ ] `yarn prettier:fix`
 - [ ] `yarn lint:styles`
 - [ ] `yarn i18n-lint`

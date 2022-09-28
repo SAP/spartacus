@@ -5,13 +5,13 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
+import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
 
 export const defaultPickupOptionsDialogLayoutConfig: LayoutConfig = {
   launch: {
     PICKUP_IN_STORE: {
       inline: true,
-      component: PickupDeliveryOptionDialogComponent,
+      component: PickupOptionDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

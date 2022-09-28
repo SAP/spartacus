@@ -13,8 +13,8 @@ import { pickupOptionReducer } from './pickup-option.reducer';
 
 export function getPickupReducers(): ActionReducerMap<PickupOptionState> {
   return {
-    pickupOption: pickupOptionReducer,
     pageContext: pageContextReducer,
+    pickupOption: pickupOptionReducer,
   };
 }
 

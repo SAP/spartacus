@@ -32,7 +32,7 @@ export class PickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
   constructor(
-    protected readonly store: Store<StateWithStock & StateWithPickupLocations>
+    protected store: Store<StateWithStock & StateWithPickupLocations>
   ) {
     // Intentional empty constructor
   }

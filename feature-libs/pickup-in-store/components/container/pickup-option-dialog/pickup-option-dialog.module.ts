@@ -10,7 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { IconModule, SpinnerModule } from '@spartacus/storefront';
 import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/index';
-import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
+import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
 
 @NgModule({
   imports: [
@@ -21,8 +21,8 @@ import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-di
     StoreSearchModule,
     SpinnerModule,
   ],
-  entryComponents: [PickupDeliveryOptionDialogComponent],
-  declarations: [PickupDeliveryOptionDialogComponent],
-  exports: [PickupDeliveryOptionDialogComponent],
+  entryComponents: [PickupOptionDialogComponent],
+  declarations: [PickupOptionDialogComponent],
+  exports: [PickupOptionDialogComponent],
 })
-export class PickupDeliveryOptionDialogModule {}
+export class PickupOptionDialogModule {}

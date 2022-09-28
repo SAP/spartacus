@@ -13,29 +13,28 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
+/**
+ * The list of stores with their stock level and distance from a searched location.
+ * Used in the PickupOptionDialog component for selecting a pickup location.
+ */
 @Component({
   selector: 'cx-store-list',
   templateUrl: 'store-list.component.html',
 })
 export class StoreListComponent implements OnInit {
-  @Input()
-  productCode: string;
-  @Input()
-  entryNumber: number;
-  @Input()
-  quantity: number;
-
-  @Output()
-  storeSelected: EventEmitter<null> = new EventEmitter<null>();
+  /** The product code for the stock levels at each location */
+  @Input() productCode: string;
+  /** Event emitter triggered when a store is selected for pickup */
+  @Output() storeSelected: EventEmitter<null> = new EventEmitter<null>();
 
   stores$: Observable<PointOfServiceStock[]>;
   hasSearchStarted$: Observable<boolean>;
   isSearchRunning$: Observable<boolean>;
 
   constructor(
-    private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
-    private readonly preferredStoreService: PreferredStoreService,
-    private readonly intendedPickupLocationService: IntendedPickupLocationFacade
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected preferredStoreService: PreferredStoreService
   ) {
     // Intentional empty constructor
   }
@@ -50,6 +49,12 @@ export class StoreListComponent implements OnInit {
     this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
   }
 
+  /**
+   * Select the store to pickup from. This also sets the user's preferred store
+   * the selected point of service.
+   *
+   * @param store Store to pickup from
+   */
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
     const { name = '', displayName = '' } = pointOfService;

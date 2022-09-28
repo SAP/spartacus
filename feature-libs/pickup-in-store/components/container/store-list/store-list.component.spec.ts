@@ -105,6 +105,4 @@ describe('StoreListComponent', () => {
 })
 export class StoreListStubComponent {
   @Input() productCode: string;
-  @Input() entryNumber: number;
-  @Input() quantity: number;
 }

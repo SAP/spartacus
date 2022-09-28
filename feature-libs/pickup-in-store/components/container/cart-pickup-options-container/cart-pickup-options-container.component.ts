@@ -37,10 +37,18 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+type OrderEntryRequiredFields =
+  | 'entryNumber'
+  | 'quantity'
+  | 'product.code'
+  | 'product.availableForPickup';
+
+/** An order entry with all the fields needed for using pickup in store */
 type OrderEntryWithRequiredFields = RequiredDeepPath<
   OrderEntry,
-  'entryNumber' | 'quantity' | 'product.code' | 'product.availableForPickup'
+  OrderEntryRequiredFields
 >;
+/** Custom type guard to ensure we have an order entry with all the required fields */
 export function orderEntryWithRequiredFields(
   orderEntry: OrderEntry | undefined
 ): orderEntry is OrderEntryWithRequiredFields {
@@ -54,7 +62,9 @@ export function orderEntryWithRequiredFields(
   );
 }
 
+/** A cart with the required ids */
 type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid' | 'code'>;
+/** Custom type guard to ensure we have a cart with the required ids */
 export function cartWithIdAndUserId(
   cart: Cart | undefined
 ): cart is CartWithIdAndUserId {
@@ -67,6 +77,9 @@ export function cartWithIdAndUserId(
   );
 }
 
+/**
+ * A container component of the pair of the pickup options radio buttons for cart entry.
+ */
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
@@ -86,13 +99,13 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   private displayNameIsSet = false;
 
   constructor(
-    @Optional() protected outlet: OutletContextData<OrderEntry>,
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
-    protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected vcr: ViewContainerRef
+    protected preferredStoreService: PreferredStoreService,
+    protected vcr: ViewContainerRef,
+    @Optional() protected outlet: OutletContextData<OrderEntry>
   ) {
     // Intentional empty constructor
   }

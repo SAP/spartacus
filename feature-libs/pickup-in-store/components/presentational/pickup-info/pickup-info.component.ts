@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-pickup-delivery-info',
-  templateUrl: './pickup-delivery-info.component.html',
+  selector: 'cx-pickup-info',
+  templateUrl: './pickup-info.component.html',
 })
-export class PickupDeliveryInfoComponent {
+export class PickupInfoComponent {
   @Input() storeDetails: PointOfService;
 }

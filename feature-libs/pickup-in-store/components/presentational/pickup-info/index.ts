@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './pickup-delivery-info.component';
-export * from './pickup-delivery-info.module';
+export * from './pickup-info.component';
+export * from './pickup-info.module';

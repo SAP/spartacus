@@ -21,13 +21,13 @@ import { stockAtStoreReducer, stockReducer } from './stock-level.reducer';
 
 function getReducers(): ActionReducerMap<StockState> {
   return {
+    browserLocation: browserLocationReducer,
+    hideOutOfStock: hideOutOfStockReducer,
     stockLevel: StateUtils.loaderReducer<StockLevelState, any>(
       STOCK_DATA,
       stockReducer
     ),
     stockLevelAtStore: stockAtStoreReducer,
-    hideOutOfStock: hideOutOfStockReducer,
-    browserLocation: browserLocationReducer,
   };
 }
 

@@ -18,6 +18,7 @@ import {
   IntendedPickupLocationFacade,
   PickupOption,
   PickupOptionFacade,
+  RequiredDeepPath,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -27,12 +28,16 @@ import {
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
+/** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(
   product: Product | null
-): product is Required<Pick<Product, 'code'>> & Product {
+): product is RequiredDeepPath<Product, 'code'> {
   return !!product?.code;
 }
 
+/**
+ * A container component of the pair of the pickup options radio buttons for cart entry.
+ */
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
@@ -49,12 +54,12 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   private displayNameIsSet = false;
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected pickupOptionFacade: PickupOptionFacade,
     protected preferredStoreService: PreferredStoreService,
-    protected pickupOptionFacade: PickupOptionFacade
+    protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
   }
