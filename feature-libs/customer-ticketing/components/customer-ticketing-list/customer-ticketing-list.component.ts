@@ -28,20 +28,14 @@ export class CustomerTicketingListComponent implements OnInit {
     ],
     tickets: [
       {
-        associatedTo: {
-          code: '00001000',
-          modifiedAt: '2021-01-13T10:06:57+0000',
-          type: 'Cart',
-        },
         availableStatusTransitions: [
           {
             id: 'CLOSED',
             name: 'Closed',
           },
         ],
-        createdAt: '2021-01-13T10:06:57+0000',
-        customerId: 1000001,
         id: '0000001',
+        createdAt: '2021-01-13T10:06:57+0000',
         modifiedAt: '2021-01-13T10:06:57+0000',
         status: {
           id: 'CLOSED',
@@ -54,7 +48,6 @@ export class CustomerTicketingListComponent implements OnInit {
         },
         ticketEvents: [
           {
-            addedByAgent: false,
             author: 'Mark Rivers',
             createdAt: '2021-01-13T10:06:57+0000',
             message:
@@ -67,20 +60,14 @@ export class CustomerTicketingListComponent implements OnInit {
         ],
       },
       {
-        associatedTo: {
-          code: '00002000',
-          modifiedAt: '2021-01-14T10:06:57+0000',
-          type: 'Cart',
-        },
         availableStatusTransitions: [
           {
             id: 'CLOSED',
             name: 'Closed',
           },
         ],
-        createdAt: '2021-01-14T10:06:57+0000',
-        customerId: 1000001,
         id: '0000002',
+        createdAt: '2021-01-14T10:06:57+0000',
         modifiedAt: '2021-01-14T10:06:57+0000',
         status: {
           id: 'OPEN',
@@ -93,7 +80,6 @@ export class CustomerTicketingListComponent implements OnInit {
         },
         ticketEvents: [
           {
-            addedByAgent: false,
             author: 'Bob',
             createdAt: '2021-01-14T10:06:57+0000',
             message: 'Door received broken',
