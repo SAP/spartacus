@@ -71,3 +71,9 @@ ADD_EPD_VISUALIZATION=false
 
 # The base URL (origin) of the SAP EPD Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
+
+#NPM connection info
+NPM_TOKEN=
+NPM_USER=
+NPM_URL=https://common.repositories.cloud.sap/artifactory/api/npm/deploy-releases-hyperspace-npm/
+NPM_ALWAYS_AUTH=true
