@@ -38,7 +38,9 @@
   </div>
 
   <ng-container *ngIf="customerTicketsFlag">
-    <table id="ticketing-list-table" class="table cx-ticketing-list-table">
+    <table id="ticketing-list-table" class="table cx-ticketing-list-table"
+    aria-describedby="Table with customer support tickets"
+    >
       <thead class="cx-ticketing-list-thead-mobile">
         <tr>
           <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
