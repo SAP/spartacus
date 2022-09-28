@@ -172,6 +172,6 @@ cd $GHT_REPO
 git config --global user.email dl_61c08cf5a3cac30261c7e88c@global.corp.sap
 git config --global user.name cx-cc-automation-serviceuser
 
-git commit --allow-empty -m "Update with $BRANCH_NAME branch from source of Spartacus" 
+git commit --allow-empty -m "Update with $CCV2_BRANCH branch from source of Spartacus" 
 
 git push
