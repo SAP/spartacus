@@ -237,8 +237,7 @@ export class CartEffects {
         ofType(
           CartActions.CART_ADD_ENTRY_SUCCESS,
           CartActions.CART_REMOVE_ENTRY_SUCCESS,
-          CartActions.CART_UPDATE_ENTRY_SUCCESS,
-          CartActions.CART_REMOVE_VOUCHER_SUCCESS
+          CartActions.CART_UPDATE_ENTRY_SUCCESS
         ),
         map(
           (
@@ -246,9 +245,55 @@ export class CartEffects {
               | CartActions.CartAddEntrySuccess
               | CartActions.CartUpdateEntrySuccess
               | CartActions.CartRemoveEntrySuccess
-              | CartActions.CartRemoveVoucherSuccess
-          ) => action.payload
-        ),
+          ) => {
+            /**
+             * TODO:#object-extensibility-deprecation - replace the whole rxjs' map block with:
+             * ```ts
+             * const ({ userId, cartId } = action.payload.options);
+             * return new CartActions.LoadCart({
+             *   userId,
+             *   cartId,
+             * });
+             * ```
+             */
+            let userId = '';
+            let cartId = '';
+
+            if (action instanceof CartActions.CartAddEntrySuccess) {
+              if (CartActions.isCartAddEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            } else if (action instanceof CartActions.CartUpdateEntrySuccess) {
+              if (CartActions.isCartUpdateEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            } else if (action instanceof CartActions.CartRemoveEntrySuccess) {
+              if (CartActions.isCartRemoveEntrySuccessOption(action.payload)) {
+                ({ userId, cartId } = action.payload.options);
+              } else {
+                ({ userId, cartId } = action.payload);
+              }
+            }
+
+            return new CartActions.LoadCart({
+              userId,
+              cartId,
+            });
+          }
+        )
+      )
+  );
+
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
+  refreshVouchersWithoutProcesses$: Observable<CartActions.LoadCart> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(CartActions.CART_REMOVE_VOUCHER_SUCCESS),
+        map((action: CartActions.CartRemoveVoucherSuccess) => action.payload),
         map(
           (payload) =>
             new CartActions.LoadCart({
@@ -257,7 +302,7 @@ export class CartEffects {
             })
         )
       )
-  );
+    );
 
   resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
     createEffect(() =>

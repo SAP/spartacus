@@ -91,7 +91,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
-  addEntry(_productCode: string, _quantity: number): void {}
+  addEntry(_options: unknown): void {}
 }
 
 describe('CartQuickOrderFormComponent', () => {
@@ -153,7 +153,10 @@ describe('CartQuickOrderFormComponent', () => {
     component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
 
-    expect(activeCartService.addEntry).toHaveBeenCalledWith('test', 1);
+    expect(activeCartService.addEntry).toHaveBeenCalledWith({
+      productCode: 'test',
+      quantity: 1,
+    });
   });
 
   it('should set quantity value to min when it is smaller than min value', () => {

@@ -76,7 +76,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     this.watchAddEntryFailEvent();
 
     if (productCode && quantity) {
-      this.activeCartService.addEntry(productCode, quantity);
+      this.activeCartService.addEntry({ productCode, quantity });
     }
   }
 

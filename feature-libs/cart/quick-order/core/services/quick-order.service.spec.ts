@@ -2,6 +2,7 @@ import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
+  AddEntriesActiveCartFacadeOptions,
   CartAddEntrySuccessEvent,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -87,7 +88,13 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
-  addEntries(_cartEntries: OrderEntry[]): void {}
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(cartEntries: OrderEntry[]): void;
+  // TODO:#object-extensibility-deprecation - remove eslint rule
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  addEntries(options: AddEntriesActiveCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(_options: unknown): void {}
 }
 
 class MockEventService implements Partial<EventService> {

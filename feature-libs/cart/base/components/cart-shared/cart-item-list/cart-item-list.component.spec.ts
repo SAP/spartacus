@@ -9,7 +9,9 @@ import {
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
+  RemoveEntryMultiCartFacadeOptions,
   SelectiveCartFacade,
+  UpdateEntryMultiCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
@@ -33,14 +35,31 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockMultiCartService implements Partial<MultiCartFacade> {
+  // TODO:#object-extensibility-deprecation - remove
   updateEntry(
-    _userId: string,
-    _cartId: string,
-    _entryNumber: number,
-    _quantity: number
+    userId: string,
+    cartId: string,
+    entryNumber: number,
+    quantity: number
+  ): void;
+  updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(
+    _userId: unknown,
+    _cartId?: unknown,
+    _entryNumber?: unknown,
+    _quantity?: unknown
   ): void {}
 
-  removeEntry(_userId: string, _cartId: string, _entryNumber: number): void {}
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(userId: string, cartId: string, entryNumber: number): void;
+  removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(
+    _userId: unknown,
+    _cartId?: unknown,
+    _entryNumber?: unknown
+  ): void {}
 }
 
 const mockItem0 = {
@@ -241,10 +260,10 @@ describe('CartItemListComponent', () => {
         .getControl(item)
         .subscribe((control) => {
           control.get('quantity').setValue(2);
-          expect(activeCartService.updateEntry).toHaveBeenCalledWith(
-            item.entryNumber as any,
-            2
-          );
+          expect(activeCartService.updateEntry).toHaveBeenCalledWith({
+            entryNumber: item.entryNumber,
+            quantity: 2,
+          });
         })
         .unsubscribe();
     });
@@ -255,10 +274,10 @@ describe('CartItemListComponent', () => {
         .getControl(item)
         .subscribe((control) => {
           control.get('quantity').setValue(0);
-          expect(activeCartService.updateEntry).toHaveBeenCalledWith(
-            item.entryNumber as any,
-            0
-          );
+          expect(activeCartService.updateEntry).toHaveBeenCalledWith({
+            entryNumber: item.entryNumber,
+            quantity: 0,
+          });
         })
         .unsubscribe();
     });
@@ -336,7 +355,9 @@ describe('CartItemListComponent', () => {
       const item = mockItems[0];
       expect(component.form.controls[item.entryNumber]).toBeDefined();
       component.removeEntry(item);
-      expect(activeCartService.removeEntry).toHaveBeenCalledWith(item);
+      expect(activeCartService.removeEntry).toHaveBeenCalledWith({
+        entryNumber: item.entryNumber,
+      });
       expect(component.form.controls[item.entryNumber]).toBeUndefined();
     });
 
@@ -354,23 +375,23 @@ describe('CartItemListComponent', () => {
 
       it('should remove entry of multiCartService when cart input exist', () => {
         component.removeEntry(mockItems[0]);
-        expect(multiCartService.removeEntry).toHaveBeenCalledWith(
-          mockUserId,
-          mockCartId,
-          mockItems[0].entryNumber
-        );
+        expect(multiCartService.removeEntry).toHaveBeenCalledWith({
+          userId: mockUserId,
+          cartId: mockCartId,
+          entryNumber: mockItems[0].entryNumber,
+        });
       });
       it('should update entry of multiCartService when cart input exist', () => {
         component
           .getControl(mockItems[0])
           .subscribe((control) => {
             control.get('quantity').setValue(8);
-            expect(multiCartService.updateEntry).toHaveBeenCalledWith(
-              mockUserId,
-              mockCartId,
-              mockItems[0].entryNumber,
-              8
-            );
+            expect(multiCartService.updateEntry).toHaveBeenCalledWith({
+              userId: mockUserId,
+              cartId: mockCartId,
+              entryNumber: mockItems[0].entryNumber,
+              quantity: 8,
+            });
           })
           .unsubscribe();
       });

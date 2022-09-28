@@ -54,16 +54,9 @@ export class ConfiguratorCartEffects {
                 }),
 
                 new CartActions.CartAddEntrySuccess({
+                  options: payload,
+                  result: entry,
                   ...entry,
-                  userId: payload.userId,
-                  cartId: payload.cartId,
-                  productCode: payload.productCode,
-                  quantity: payload.quantity,
-                  deliveryModeChanged: entry.deliveryModeChanged,
-                  entry: entry.entry,
-                  quantityAdded: entry.quantityAdded,
-                  statusCode: entry.statusCode,
-                  statusMessage: entry.statusMessage,
                 }),
               ];
             }
@@ -71,10 +64,7 @@ export class ConfiguratorCartEffects {
           catchError((error) =>
             of(
               new CartActions.CartAddEntryFail({
-                userId: payload.userId,
-                cartId: payload.cartId,
-                productCode: payload.productCode,
-                quantity: payload.quantity,
+                options: payload,
                 error:
                   error instanceof HttpErrorResponse
                     ? normalizeHttpError(error)
@@ -101,19 +91,21 @@ export class ConfiguratorCartEffects {
               switchMap((cartModification: CartModification) => {
                 return [
                   new CartActions.CartUpdateEntrySuccess({
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                    entryNumber: payload.cartEntryNumber,
-                    quantity: cartModification.quantity,
+                    options: {
+                      ...payload,
+                      entryNumber: Number(payload.cartEntryNumber),
+                      quantity: cartModification.quantity,
+                    },
                   }),
                 ];
               }),
               catchError((error) =>
                 of(
                   new CartActions.CartUpdateEntryFail({
-                    userId: payload.userId,
-                    cartId: payload.cartId,
-                    entryNumber: payload.cartEntryNumber,
+                    options: {
+                      ...payload,
+                      entryNumber: Number(payload.cartEntryNumber),
+                    },
                     error: normalizeHttpError(error),
                   })
                 )

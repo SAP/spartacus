@@ -392,20 +392,81 @@ describe('MultiCartService', () => {
 
   describe('addEntry', () => {
     it('should dispatch addEntry action', () => {
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const productCode = 'productCode';
+      const quantity = 2;
+      service.addEntry({ userId, cartId, productCode, quantity });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          options: {
+            cartId: 'cartId',
+            userId: 'userId',
+            productCode: 'productCode',
+            quantity: 2,
+          },
+        })
+      );
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD addEntry', () => {
+    it('should dispatch addEntry action', () => {
       service.addEntry('userId', 'cartId', 'productCode', 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          productCode: 'productCode',
-          quantity: 2,
+          options: {
+            cartId: 'cartId',
+            userId: 'userId',
+            productCode: 'productCode',
+            quantity: 2,
+          },
         })
       );
     });
   });
 
   describe('addEntries', () => {
+    it('should dispatch addEntry action for each product', () => {
+      const userId = 'userId';
+      const cartId = 'cartId';
+
+      service.addEntries({
+        userId,
+        cartId,
+        entries: [
+          { productCode: 'productCode', quantity: 2 },
+          { productCode: 'productCode2', quantity: 3 },
+        ],
+      });
+      // @ts-ignore
+      expect(store.dispatch.calls.argsFor(0)[0]).toEqual(
+        new CartActions.CartAddEntry({
+          options: {
+            cartId,
+            userId,
+            productCode: 'productCode',
+            quantity: 2,
+          },
+        })
+      );
+      // @ts-ignore
+      expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
+        new CartActions.CartAddEntry({
+          options: {
+            cartId,
+            userId,
+            productCode: 'productCode2',
+            quantity: 3,
+          },
+        })
+      );
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD addEntries', () => {
     it('should dispatch addEntry action for each product', () => {
       service.addEntries('userId', 'cartId', [
         { productCode: 'productCode', quantity: 2 },
@@ -434,12 +495,33 @@ describe('MultiCartService', () => {
 
   describe('removeEntry', () => {
     it('should dispatch RemoveEntry action', () => {
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+
+      service.removeEntry({ userId, cartId, entryNumber });
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartRemoveEntry({
+          options: {
+            userId,
+            cartId,
+            entryNumber,
+          },
+        })
+      );
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('removeEntry', () => {
+    it('should dispatch RemoveEntry action', () => {
       service.removeEntry('userId', 'cartId', 0);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartRemoveEntry({
-          cartId: 'cartId',
-          userId: 'userId',
-          entryNumber: '0',
+          options: {
+            cartId: 'cartId',
+            userId: 'userId',
+            entryNumber: 0,
+          },
         })
       );
     });
@@ -447,14 +529,21 @@ describe('MultiCartService', () => {
 
   describe('updateEntry', () => {
     it('should dispatch UpdateEntry action for quantity > 0', () => {
-      service.updateEntry('userId', 'cartId', 0, 2);
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+      const quantity = 2;
+
+      service.updateEntry({ userId, cartId, entryNumber, quantity });
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartUpdateEntry({
-          userId: 'userId',
-          cartId: 'cartId',
-          entryNumber: '0',
-          quantity: 2,
+          options: {
+            userId,
+            cartId,
+            entryNumber,
+            quantity,
+          },
         })
       );
     });
@@ -462,9 +551,19 @@ describe('MultiCartService', () => {
     it('should dispatch RemoveEntry action for quantity = 0', () => {
       spyOn(service, 'removeEntry').and.callThrough();
 
-      service.updateEntry('userId', 'cartId', 0, 0);
+      const userId = 'userId';
+      const cartId = 'cartId';
+      const entryNumber = 0;
+      const quantity = 0;
 
-      expect(service.removeEntry).toHaveBeenCalledWith('userId', 'cartId', 0);
+      service.updateEntry({ userId, cartId, entryNumber, quantity });
+
+      expect(service.removeEntry).toHaveBeenCalledWith({
+        userId,
+        cartId,
+        entryNumber,
+        quantity,
+      } as any);
     });
   });
 

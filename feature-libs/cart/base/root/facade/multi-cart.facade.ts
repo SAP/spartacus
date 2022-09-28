@@ -8,7 +8,15 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, CartType, OrderEntry } from '../models/cart.model';
+import {
+  AddEntriesMultiCartFacadeOptions,
+  AddEntryMultiCartFacadeOptions,
+  Cart,
+  CartType,
+  OrderEntry,
+  RemoveEntryMultiCartFacadeOptions,
+  UpdateEntryMultiCartFacadeOptions,
+} from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -143,43 +151,69 @@ export abstract class MultiCartFacade {
   /**
    * Add entry to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntry(options: AddEntryMultiCartFacadeOptions)`.
+   *
    * @param userId
    * @param cartId
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(
     userId: string,
     cartId: string,
     productCode: string,
     quantity: number
   ): void;
+  /**
+   * Add entry to active cart
+   */
+  abstract addEntry(options: AddEntryMultiCartFacadeOptions): void;
 
   /**
    * Add multiple entries to cart
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(options: AddEntriesMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
    * @param products Array with items (productCode and quantity)
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntries(
     userId: string,
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void;
+  /**
+   * Add multiple entries to cart
+   */
+  abstract addEntries(options: AddEntriesMultiCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove the eslint on the next line
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
 
   /**
    * Remove entry from cart
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: RemoveEntryMultiCartFacadeOptions)`.
    *
    * @param userId
    * @param cartId
    * @param entryNumber
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract removeEntry(
     userId: string,
     cartId: string,
     entryNumber: number
   ): void;
+  /**
+   * Remove entry from cart
+   */
+  abstract removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
 
   /**
    * Update entry in cart. For quantity = 0 it removes entry
@@ -188,13 +222,21 @@ export abstract class MultiCartFacade {
    * @param cartId
    * @param entryNumber
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `updateEntry(options: UpdateEntryMultiCartFacadeOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(
     userId: string,
     cartId: string,
     entryNumber: number,
     quantity: number
   ): void;
+  /**
+   * Update entry in cart. For quantity = 0 it removes entry
+   */
+  abstract updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
 
   /**
    * Get first entry from cart matching the specified product code

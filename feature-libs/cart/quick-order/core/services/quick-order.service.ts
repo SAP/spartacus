@@ -7,6 +7,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
+  AddEntryActiveCartFacadeOptions,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   OrderEntry,
@@ -195,7 +196,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       first(),
       switchMap((elements) => {
         entries = elements;
-        this.activeCartService.addEntries(elements);
+        const entriesOptions = elements.map<AddEntryActiveCartFacadeOptions>(
+          (element) => ({
+            productCode: element.product?.code ?? '',
+            quantity: element.quantity,
+          })
+        );
+        this.activeCartService.addEntries({ entries: entriesOptions });
         this.clearList();
 
         return this.activeCartService.isStable();

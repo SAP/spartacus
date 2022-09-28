@@ -76,17 +76,22 @@ export class WishListService implements WishListFacade {
 
   addEntry(productCode: string): void {
     this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
-      this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
+      this.multiCartFacade.addEntry({
+        userId,
+        cartId: wishListId,
+        productCode,
+        quantity: 1,
+      })
     );
   }
 
   removeEntry(entry: OrderEntry): void {
     this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
-      this.multiCartFacade.removeEntry(
+      this.multiCartFacade.removeEntry({
         userId,
-        wishListId,
-        entry.entryNumber as number
-      )
+        cartId: wishListId,
+        entryNumber: entry.entryNumber as number,
+      })
     );
   }
 

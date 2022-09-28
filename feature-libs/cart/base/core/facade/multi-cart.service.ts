@@ -7,10 +7,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  AddEntriesMultiCartFacadeOptions,
+  AddEntryMultiCartFacadeOptions,
   Cart,
   CartType,
   MultiCartFacade,
   OrderEntry,
+  RemoveEntryMultiCartFacadeOptions,
+  UpdateEntryMultiCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
@@ -216,29 +220,64 @@ export class MultiCartService implements MultiCartFacade {
   /**
    * Add entry to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntry(options: AddEntryMultiCartFacadeOptions)`.
+   *
    * @param userId
    * @param cartId
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   addEntry(
     userId: string,
     cartId: string,
     productCode: string,
     quantity: number
+  ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntry(options: AddEntryMultiCartFacadeOptions): void;
+  addEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | AddEntryMultiCartFacadeOptions
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    productCode?: string,
+    quantity?: number
   ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      const userId = optionsOrUserId;
+      this.store.dispatch(
+        new CartActions.CartAddEntry({
+          options: {
+            userId,
+            cartId: cartId ?? '',
+            productCode: productCode ?? '',
+            quantity,
+          },
+        })
+      );
+
+      return;
+    }
+
     this.store.dispatch(
       new CartActions.CartAddEntry({
-        userId,
-        cartId,
-        productCode,
-        quantity,
+        options: optionsOrUserId,
       })
     );
   }
 
+  // TODO:#object-extensibility-deprecation - remove
   /**
    * Add multiple entries to cart
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(userId: string,cartId: string,options: AddEntryOptions[])`.
    *
    * @param userId
    * @param cartId
@@ -248,14 +287,44 @@ export class MultiCartService implements MultiCartFacade {
     userId: string,
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
+  ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntries(options: AddEntriesMultiCartFacadeOptions): void;
+  /**
+   * Add multiple entries to cart
+   */
+  addEntries(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | AddEntriesMultiCartFacadeOptions
+      // TODO:#object-extensibility-deprecation - remove
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    products?: Array<{ productCode: string; quantity: number }>
   ): void {
-    products.forEach((product) => {
+    if (typeof optionsOrUserId === 'string') {
+      (products ?? []).forEach((product) => {
+        this.store.dispatch(
+          new CartActions.CartAddEntry({
+            userId: optionsOrUserId,
+            cartId: cartId ?? '',
+            productCode: product.productCode,
+            quantity: product.quantity,
+          })
+        );
+      });
+      return;
+    }
+
+    optionsOrUserId.entries.forEach((entry) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
-          userId,
-          cartId,
-          productCode: product.productCode,
-          quantity: product.quantity,
+          options: {
+            userId: optionsOrUserId.userId,
+            cartId: optionsOrUserId.cartId,
+            ...entry,
+          },
         })
       );
     });
@@ -264,16 +333,45 @@ export class MultiCartService implements MultiCartFacade {
   /**
    * Remove entry from cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: RemoveEntryMultiCartFacadeOptions)`.
+   *
    * @param userId
    * @param cartId
    * @param entryNumber
    */
-  removeEntry(userId: string, cartId: string, entryNumber: number): void {
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(userId: string, cartId: string, entryNumber: number): void;
+  // TODO:#object-extensibility-deprecation - remove
+  removeEntry(options: RemoveEntryMultiCartFacadeOptions): void;
+  removeEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | RemoveEntryMultiCartFacadeOptions
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    // TODO:#object-extensibility-deprecation - remove the rest of params
+    cartId?: string,
+    entryNumber?: number
+  ): void {
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      this.store.dispatch(
+        new CartActions.CartRemoveEntry({
+          options: {
+            userId: optionsOrUserId,
+            cartId: cartId ?? '',
+            entryNumber: entryNumber || 0,
+          },
+        })
+      );
+
+      return;
+    }
+
     this.store.dispatch(
       new CartActions.CartRemoveEntry({
-        userId,
-        cartId,
-        entryNumber: `${entryNumber}`,
+        options: optionsOrUserId,
       })
     );
   }
@@ -281,28 +379,63 @@ export class MultiCartService implements MultiCartFacade {
   /**
    * Update entry in cart. For quantity = 0 it removes entry
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `updateEntry(options: UpdateEntryMultiCartFacadeOptions)`.
+   *
    * @param userId
    * @param cartId
    * @param entryNumber
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   updateEntry(
     userId: string,
     cartId: string,
     entryNumber: number,
     quantity: number
+  ): void;
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(options: UpdateEntryMultiCartFacadeOptions): void;
+  updateEntry(
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
+      | UpdateEntryMultiCartFacadeOptions
+      // TODO:#object-extensibility-deprecation - remove the `| string`
+      | string,
+    cartId?: string,
+    entryNumber?: number,
+    quantity?: number
   ): void {
-    if (quantity > 0) {
+    // TODO:#object-extensibility-deprecation - remove the whole 'if' statement
+    if (typeof optionsOrUserId === 'string') {
+      quantity = quantity || 1;
+      const userId = optionsOrUserId;
+      if (quantity > 0) {
+        this.store.dispatch(
+          new CartActions.CartUpdateEntry({
+            options: {
+              userId,
+              cartId: cartId ?? '',
+              entryNumber: entryNumber || 1,
+              quantity,
+            },
+          })
+        );
+      } else {
+        this.removeEntry(userId, cartId ?? '', entryNumber ?? 1);
+      }
+
+      return;
+    }
+
+    if (optionsOrUserId.quantity || 0 > 0) {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
-          userId,
-          cartId,
-          entryNumber: `${entryNumber}`,
-          quantity: quantity,
+          options: optionsOrUserId,
         })
       );
     } else {
-      this.removeEntry(userId, cartId, entryNumber);
+      this.removeEntry(optionsOrUserId);
     }
   }
 

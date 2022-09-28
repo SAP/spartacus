@@ -432,16 +432,22 @@ describe('ConfiguratorCartEffect', () => {
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
+        options: {
+          ...payloadInput,
+          userId,
+          cartId,
+          productCode: payloadInput.productCode,
+          quantity: 1,
+        },
+        result: {
+          ...cartModification,
+          deliveryModeChanged: true,
+          entry,
+          quantityAdded: 1,
+          statusCode: emptyStatus,
+          statusMessage: emptyStatus,
+        },
         ...cartModification,
-        userId: userId,
-        cartId: cartId,
-        productCode: payloadInput.productCode,
-        quantity: 1,
-        deliveryModeChanged: true,
-        entry: entry,
-        quantityAdded: 1,
-        statusCode: emptyStatus,
-        statusMessage: emptyStatus,
       });
 
       const addNextOwner = new ConfiguratorActions.AddNextOwner({
@@ -470,10 +476,13 @@ describe('ConfiguratorCartEffect', () => {
 
       actions$ = cold('-a', { a: action });
       const cartAddEntryFail = new CartActions.CartAddEntryFail({
-        userId,
-        cartId,
-        productCode,
-        quantity,
+        options: {
+          ...payloadInput,
+          userId,
+          cartId,
+          productCode,
+          quantity,
+        },
         error: Error(fromEffects.ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND),
       });
 
@@ -496,10 +505,13 @@ describe('ConfiguratorCartEffect', () => {
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntryFail = new CartActions.CartAddEntryFail({
-        userId,
-        cartId,
-        productCode,
-        quantity,
+        options: {
+          ...payloadInput,
+          userId,
+          cartId,
+          productCode,
+          quantity,
+        },
         error: normalizeHttpError(errorResponse),
       });
 
@@ -518,10 +530,13 @@ describe('ConfiguratorCartEffect', () => {
         payloadInputUpdateConfiguration
       );
       const cartUpdateEntrySuccess = new CartActions.CartUpdateEntrySuccess({
-        userId: userId,
-        cartId: cartId,
-        entryNumber: entryNumber.toString(),
-        quantity: 1,
+        options: {
+          ...payloadInputUpdateConfiguration,
+          userId,
+          cartId,
+          entryNumber,
+          quantity: 1,
+        },
       });
 
       actions$ = cold('-a', { a: action });
@@ -538,9 +553,12 @@ describe('ConfiguratorCartEffect', () => {
         payloadInputUpdateConfiguration
       );
       const cartAddEntryFail = new CartActions.CartUpdateEntryFail({
-        userId,
-        cartId,
-        entryNumber: entryNumber.toString(),
+        options: {
+          ...payloadInputUpdateConfiguration,
+          userId,
+          cartId,
+          entryNumber,
+        },
         error: normalizeHttpError(errorResponse),
       });
 

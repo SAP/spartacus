@@ -65,7 +65,9 @@ export class CartDetailsComponent implements OnInit {
 
   saveForLater(item: OrderEntry) {
     if (this.loggedIn) {
-      this.activeCartService.removeEntry(item);
+      this.activeCartService.removeEntry({
+        entryNumber: item.entryNumber as number,
+      });
       this.selectiveCartService.addEntry(
         item.product?.code ?? '',
         item.quantity ?? 0

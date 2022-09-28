@@ -21,30 +21,34 @@ class UserIdServiceStub implements Partial<UserIdService> {
   }
 }
 
-class MultiCartFacadStub {
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
   loadCart() {}
   deleteCart() {}
   initAddEntryProcess() {}
   getCartEntity() {
-    return of();
+    return of<any>();
   }
   assignEmail() {}
   getEntry() {
-    return of();
+    return of<any>();
   }
   getLastEntry() {
-    return of();
+    return of<any>();
   }
   updateEntry() {}
   removeEntry() {}
   getEntries() {
     return of([]);
   }
-  createCart() {}
+  createCart() {
+    return of<any>();
+  }
   mergeToCurrentCart() {}
   addEntry() {}
-  addEntries() {}
-  isStable() {}
+  addEntries(): void {}
+  isStable() {
+    return of<any>();
+  }
   getCartIdByType(): Observable<string> {
     return of('');
   }
@@ -64,7 +68,7 @@ describe('ActiveCartService', () => {
     TestBed.configureTestingModule({
       providers: [
         ActiveCartService,
-        { provide: MultiCartFacade, useClass: MultiCartFacadStub },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
@@ -409,9 +413,28 @@ describe('ActiveCartService', () => {
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
+      service.addEntry({ productCode: 'productCode', quantity: 2 });
+
+      expect(multiCartFacade.addEntry).toHaveBeenCalledWith({
+        userId: OCC_USER_ID_ANONYMOUS,
+        cartId: 'guid',
+        productCode: 'productCode',
+        quantity: 2,
+      });
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD addEntry', () => {
+    it('should just add entry after cart is provided', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'addEntry').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
       service.addEntry('productCode', 2);
 
-      expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
+      expect((multiCartFacade as any)['addEntry']).toHaveBeenCalledWith(
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
@@ -429,7 +452,25 @@ describe('ActiveCartService', () => {
       service.removeEntry({
         entryNumber: 3,
       });
-      expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
+      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        entryNumber: 3,
+      });
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD removeEntry', () => {
+    it('should call multiCartFacade remove entry method with active cart', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+
+      service.removeEntry({
+        entryNumber: 3,
+        product: {},
+      });
+      expect((multiCartFacade as any)['removeEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         3
@@ -443,8 +484,27 @@ describe('ActiveCartService', () => {
       service['activeCartId$'] = of('cartId');
       spyOn(multiCartFacade, 'updateEntry').and.callThrough();
 
+      const entryNumber = 1;
+      const quantity = 2;
+
+      service.updateEntry({ entryNumber, quantity });
+      expect(multiCartFacade.updateEntry).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        entryNumber,
+        quantity,
+      });
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD updateEntry', () => {
+    it('should call multiCartFacade update entry method with active cart', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+
       service.updateEntry(1, 2);
-      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
+      expect((multiCartFacade as any)['updateEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         1,
@@ -592,8 +652,45 @@ describe('ActiveCartService', () => {
       );
       userId$.next('someUserId');
 
+      service.addEntries({
+        entries: [
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+        ],
+      });
+      expect(multiCartFacade['addEntries']).toHaveBeenCalledWith({
+        userId: 'someUserId',
+        cartId: 'someCode',
+        entries: [
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+        ],
+      });
+    });
+  });
+  // TODO:#object-extensibility-deprecation - remove
+  describe('OLD addEntries', () => {
+    it('should add multiple entries at once', () => {
+      spyOn(multiCartFacade, 'addEntries').and.callThrough();
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'someCode', guid: 'guid' })
+      );
+      userId$.next('someUserId');
+
       service.addEntries([mockCartEntry, mockCartEntry]);
-      expect(multiCartFacade['addEntries']).toHaveBeenCalledWith(
+      expect((multiCartFacade as any).addEntries).toHaveBeenCalledWith(
         'someUserId',
         'someCode',
         [

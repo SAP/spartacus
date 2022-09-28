@@ -6,6 +6,7 @@
 
 import {
   Address,
+  CommonOptions,
   CostCenter,
   Currency,
   PointOfService,
@@ -199,3 +200,104 @@ export enum CartValidationStatusCode {
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }
+
+// TODO:#xxx - js docs
+// TODO:#xxx - expose?
+// maybe expose for augmenting, maybe not?
+interface AddEntryDefaultOptions {
+  userId: string;
+  cartId: string;
+}
+
+/**
+ * Common options for adding an entry.
+ * Intended for extending / augmenting.
+ */
+export interface AddEntryCommonOptions extends CommonOptions {
+  productCode: string;
+  quantity?: number;
+}
+
+export interface AddEntryActiveCartFacadeOptions
+  extends AddEntryCommonOptions {}
+export interface AddEntriesActiveCartFacadeOptions {
+  // TODO:#xxx - items? products?
+  entries: AddEntryActiveCartFacadeOptions[];
+}
+
+export interface AddEntryMultiCartFacadeOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryMultiCartFacadeEntry extends AddEntryCommonOptions {}
+export interface AddEntriesMultiCartFacadeOptions
+  extends AddEntryDefaultOptions {
+  // TODO:#xxx - items? products?
+  entries: AddEntryMultiCartFacadeEntry[];
+}
+
+export interface AddEntryActionOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryConnectorOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+export interface AddEntryAdapterOptions
+  extends AddEntryCommonOptions,
+    AddEntryDefaultOptions {}
+
+interface UpdateEntryDefaultOptions {
+  userId: string;
+  cartId: string;
+}
+export interface UpdateEntryCommonOptions {
+  entryNumber: number;
+  quantity?: number;
+}
+
+export interface UpdateEntryActiveCartFacadeOptions
+  extends UpdateEntryCommonOptions {}
+
+export interface UpdateEntryMultiCartFacadeOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryActionOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryConnectorOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+export interface UpdateEntryAdapterOptions
+  extends UpdateEntryCommonOptions,
+    UpdateEntryDefaultOptions {}
+
+interface RemoveEntryDefaultOptions {
+  userId: string;
+  cartId: string;
+}
+export interface RemoveEntryCommonOptions {
+  entryNumber: number;
+}
+export interface RemoveEntryActiveCartFacadeOptions
+  extends RemoveEntryCommonOptions {}
+
+export interface RemoveEntryMultiCartFacadeOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryActionOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryConnectorOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}
+
+export interface RemoveEntryAdapterOptions
+  extends RemoveEntryCommonOptions,
+    RemoveEntryDefaultOptions {}

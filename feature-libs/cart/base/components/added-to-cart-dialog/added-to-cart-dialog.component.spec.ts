@@ -19,6 +19,7 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
+  UpdateEntryActiveCartFacadeOptions,
 } from '@spartacus/cart/base/root';
 import {
   FeaturesConfig,
@@ -30,6 +31,7 @@ import {
 import {
   ICON_TYPE,
   ModalDirective,
+  ModalDirectiveOptions,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -42,11 +44,15 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
   selector: '[cxModal]',
 })
 class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal;
+  @Input() cxModal: ModalDirectiveOptions['type'];
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  updateEntry(_entryNumber: number, _quantity: number): void {}
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(entryNumber: number, quantity: number): void;
+  updateEntry(options: UpdateEntryActiveCartFacadeOptions): void;
+  // TODO:#object-extensibility-deprecation - remove
+  updateEntry(_entryNumber: unknown, _quantity?: unknown): void {}
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);

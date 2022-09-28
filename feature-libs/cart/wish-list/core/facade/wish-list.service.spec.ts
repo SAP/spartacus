@@ -199,12 +199,12 @@ describe('WishListService', () => {
       );
       service.addEntry(productCode);
 
-      expect(multiCartFacade.addEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.addEntry).toHaveBeenCalledWith({
         userId,
-        cartCode,
+        cartId: cartCode,
         productCode,
-        1
-      );
+        quantity: 1,
+      });
     });
 
     it('should call load wish list if not loaded', () => {
@@ -230,11 +230,11 @@ describe('WishListService', () => {
         })
       );
       service.removeEntry(mockCartEntry);
-      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith({
         userId,
-        cartCode,
-        mockCartEntry.entryNumber
-      );
+        cartId: cartCode,
+        entryNumber: mockCartEntry.entryNumber,
+      });
     });
 
     it('should call load wish list if not loaded', () => {

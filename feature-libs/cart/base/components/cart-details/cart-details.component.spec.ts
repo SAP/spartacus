@@ -134,11 +134,12 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should move to save for later for login user', () => {
-    const mockItem = {
+    const mockItem: OrderEntry = {
       quantity: 5,
       product: {
         code: 'PR0000',
       },
+      entryNumber: 1,
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartFacade.addEntry.and.callThrough();
@@ -147,9 +148,11 @@ describe('CartDetailsComponent', () => {
     spyOn(activeCartService, 'isStable').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
-    expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
+    expect(activeCartService.removeEntry).toHaveBeenCalledWith({
+      entryNumber: 1,
+    });
     expect(mockSelectiveCartFacade.addEntry).toHaveBeenCalledWith(
-      mockItem.product.code,
+      mockItem.product?.code,
       mockItem.quantity
     );
   });

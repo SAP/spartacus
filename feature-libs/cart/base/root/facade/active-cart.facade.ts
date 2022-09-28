@@ -8,7 +8,14 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import {
+  AddEntriesActiveCartFacadeOptions,
+  AddEntryActiveCartFacadeOptions,
+  Cart,
+  OrderEntry,
+  RemoveEntryActiveCartFacadeOptions,
+  UpdateEntryActiveCartFacadeOptions,
+} from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -91,23 +98,47 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntry(options: AddEntryActiveCartFacadeOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(productCode: string, quantity: number): void;
+  /**
+   * Add entry to active cart
+   */
+  abstract addEntry(options: AddEntryActiveCartFacadeOptions): void;
 
   /**
    * Remove entry
    *
-   * @param entry
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `removeEntry(options: RemoveEntryActiveCartFacadeOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract removeEntry(entry: OrderEntry): void;
+  /**
+   * Remove entry
+   */
+  // TODO:#object-extensibility-deprecation - remove the eslint on the next line
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  abstract removeEntry(options: RemoveEntryActiveCartFacadeOptions): void;
 
   /**
    * Update entry
    *
    * @param entryNumber
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `update(options: UpdateEntryActiveCartFacadeOptions)`.
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract updateEntry(entryNumber: number, quantity: number): void;
+  /**
+   * Update entry
+   */
+  abstract updateEntry(options: UpdateEntryActiveCartFacadeOptions): void;
 
   /**
    * Returns cart entry
@@ -136,9 +167,16 @@ export abstract class ActiveCartFacade {
   /**
    * Add multiple entries to a cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `addEntries(options: AddEntriesActiveCartFacadeOptions)`.
+   *
    * @param cartEntries : list of entries to add (OrderEntry[])
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntries(cartEntries: OrderEntry[]): void;
+  // TODO:#object-extensibility-deprecation - remove the lint rule
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  abstract addEntries(options: AddEntriesActiveCartFacadeOptions): void;
 
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 

@@ -70,8 +70,8 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-class MockActiveCartService {
-  addEntry(_productCode: string, _quantity: number): void {}
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  addEntry(_options: unknown): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
@@ -260,7 +260,10 @@ describe('AddToCartComponent', () => {
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
-      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(productCode, 1);
+      expect(activeCartFacade.addEntry).toHaveBeenCalledWith({
+        productCode,
+        quantity: 1,
+      });
     });
 
     describe('addToCart ', () => {
@@ -277,10 +280,10 @@ describe('AddToCartComponent', () => {
         addToCartComponent.productCode = mockProductCode;
         spyOn(activeCartFacade, 'addEntry').and.stub();
         addToCartComponent.addToCart();
-        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
-          mockProductCode,
-          1
-        );
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith({
+          productCode: mockProductCode,
+          quantity: 1,
+        });
       });
       it('should dispatch the add to cart UI event', () => {
         spyOn(activeCartFacade, 'getEntries').and.returnValue(
