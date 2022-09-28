@@ -162,10 +162,10 @@ export class CustomerTicketingListComponent implements OnInit {
 
   getStatusClass = (status: string): string => {
     switch (status) {
-      case 'OPEN':
+      case 'OPEN' || 'INPROCESS':
         return 'cx-text-green';
       case 'CLOSED':
-        return 'cx-text-red';
+        return 'cx-text-grey';
       default:
         return '';
     }
