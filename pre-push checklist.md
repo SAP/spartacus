@@ -21,3 +21,10 @@
 ## Unit Tests
 
 If we have changed other feature libraries we should run the unit tests for those in a similar fashion. i.e. `ng test <library>` etc.
+
+## Other useful commands
+
+- `yarn generate:deps`
+- `yarn config:update`
+- `yarn config:update --bump-version`
+- `yarn --cwd feature-libs/pickup-in-store run test:schematics --coverage=true` (schematics unit tests)

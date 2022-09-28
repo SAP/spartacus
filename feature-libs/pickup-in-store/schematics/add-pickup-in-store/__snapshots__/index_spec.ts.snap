@@ -17,9 +17,6 @@ exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -127,7 +124,6 @@ exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature 
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
