@@ -32,7 +32,8 @@ export class ConfiguratorFormComponent implements OnInit {
       ),
       switchMap((routerData) => {
         return this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
+          routerData.owner,
+          routerData.configIdTemplate
         );
       })
     );
