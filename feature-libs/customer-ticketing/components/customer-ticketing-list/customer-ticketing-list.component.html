@@ -38,9 +38,7 @@
   </div>
 
   <ng-container *ngIf="customerTicketsFlag">
-    <table id="ticketing-list-table" class="table cx-ticketing-list-table"
-    aria-describedby="Table with customer support tickets"
-    >
+    <table id="ticketing-list-table" class="table cx-ticketing-list-table">
       <thead class="cx-ticketing-list-thead-mobile">
         <tr>
           <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
@@ -60,7 +58,7 @@
             <a 
               [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl"
               class="cx-ticketing-list-value">
-              {{ ticket.id }}
+              <span tabindex="0">{{ ticket.id }}</span>
             </a>
           </td>
           <td class="cx-ticketing-list-data">
@@ -69,23 +67,23 @@
             </div>
             <a 
               [routerLink]="{cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl"
-              class="cx-ticketing-list-value">
-              {{ ticket.subject }}
+              class="cx-ticketing-list-value" tabindex="0">
+              <span tabindex="0">{{ ticket.subject }}</span>
             </a>
           </td>
           <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value">
+            <span class="cx-ticketing-list-value" tabindex="0">
               {{ ticket.ticketCategory }}
             </span>
           </td>
-          <td class="cx-ticketing-list-data">
+          <td class="cx-ticketing-list-data" >
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.createdOn' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value">
+            <span class="cx-ticketing-list-value" tabindex="0">
               {{ ticket.createdAt | cxDate }}
             </span>
           </td>
@@ -93,7 +91,7 @@
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.changedOn' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value">
+            <span class="cx-ticketing-list-value" tabindex="0">
               {{ ticket.modifiedAt | cxDate }}
             </span>
           </td>
@@ -101,7 +99,7 @@
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.status' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value">
+            <span class="cx-ticketing-list-value" tabindex="0">
               {{ ticket.status.name }}
             </span>
           </td>
