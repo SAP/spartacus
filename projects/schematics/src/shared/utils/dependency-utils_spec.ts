@@ -111,7 +111,6 @@ describe('dependency-util', () => {
         SPARTACUS_CDC,
       ]);
 
-      // TODO: Double-check this.
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,
