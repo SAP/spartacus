@@ -35,8 +35,8 @@ function remove_pwa_config {
 }
 
 function copy_browser_and_server_files {
-    cp -a dist/storefrontapp/. ../$1/dist/$2/browser/
-    cp -a dist/storefrontapp-server/. ../$1/dist/$2/server/
+    cp -a dist/storefrontapp/. $1/dist/$2/browser/
+    cp -a dist/storefrontapp-server/. $1/dist/$2/server/
 }
 
 echo "------------------------------------------------------------------"
