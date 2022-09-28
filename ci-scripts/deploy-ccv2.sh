@@ -173,5 +173,5 @@ git config --global user.email dl_61c08cf5a3cac30261c7e88c@global.corp.sap
 git config --global user.name cx-cc-automation-serviceuser
 
 git add .
-git commit -m "update from source"
+git commit -m "Update with $BRANCH_NAME branch from source of Spartacus"
 git push
