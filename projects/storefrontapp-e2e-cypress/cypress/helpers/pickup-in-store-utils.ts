@@ -57,7 +57,7 @@ export const LOCATORS = {
   ADD_TO_CART: 'span[aria-label="Add to cart"]',
   VIEW_CART: 'a[cxmodalreason="View Cart click"]',
   BOPIS_TAG,
-  PICKUP_IN_STORE_MODAL: 'cx-delivery-pickup-options-dialog',
+  PICKUP_IN_STORE_MODAL: 'cx-pickup-option-dialog',
   HIDE_OUT_OF_STOCK_CHECK_BOX: '#chkHideOutOfStock',
   SEARCH_LOCATION_TEXTBOX: '#txtFindAStore',
   FIND_STORES_BUTTON: '#btnFindStores',
