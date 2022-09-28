@@ -36,7 +36,7 @@ export class PickupOptionsComponent implements OnChanges {
   deliveryId = `delivery-id:${Math.random().toString(16)}`;
 
   pickupOptionsForm = new FormGroup({
-    pickupOption: new FormControl(),
+    pickupOption: new FormControl<PickupOption | null>(null),
   });
 
   ngOnChanges(): void {
