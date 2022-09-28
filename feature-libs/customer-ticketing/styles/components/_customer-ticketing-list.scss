@@ -57,7 +57,7 @@
     color: var(--cx-color-secondary);
 
     @include media-breakpoint-up(md) {
-      padding-right: 15px;
+      padding: 0 15px 0 0;
       display: none;
     }
 
@@ -70,7 +70,7 @@
 
   .cx-ticketing-list-value {
     @include media-breakpoint-down(sm) {
-      padding-left: 15px;
+      padding: 0 0 0 15px;
       font-size: var(--cx-font-size, 1rem);
       font-weight: $font-weight-normal;
     }
