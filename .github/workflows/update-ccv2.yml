@@ -11,12 +11,19 @@ on:
         required: true
 
 name: Update ccv2 repo with unreleased Spartacus
+
+env:
+  DEFAULT_BRANCH_TO_DEPLOY: 'develop'
+
 jobs:
   deploy_to_ccv2: 
     name: Updating storefront of a ccv2 environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }}
+          fetch-depth: 0
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
