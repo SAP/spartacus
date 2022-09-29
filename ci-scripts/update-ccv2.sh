@@ -128,7 +128,7 @@ yarn build
 echo "------------------------------------------------------------------"
 echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for B2C storefront"
 
-copy_browser_and_server_files "$CCV2_B2C_STOREFRONT_PATH $B2C_STORE"
+copy_browser_and_server_files "$CCV2_B2C_STOREFRONT_PATH" "$B2C_STORE"
 
 echo "------------------------------------------------------------------"
 echo "update server.ts for B2B storefront"
