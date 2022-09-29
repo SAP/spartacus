@@ -18,7 +18,6 @@ import { CustomerCoupon } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ModalRef } from '../../../../shared/components/modal/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 
 @Component({
@@ -29,7 +28,6 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;
   @Input() couponSubscriptionLoading$: Observable<boolean>;
-  modalRef: ModalRef;
 
   @Output()
   notificationChanged = new EventEmitter<{
