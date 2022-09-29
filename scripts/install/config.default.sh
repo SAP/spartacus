@@ -75,6 +75,6 @@ EPD_VISUALIZATION_BASE_URL=
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
 NPM_TOKEN=
-NPM_USER=
+NPM_EMAIL=
 NPM_URL= 
 NPM_ALWAYS_AUTH=true

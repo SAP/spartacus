@@ -415,12 +415,12 @@ function cmd_help {
 }
 
 function create_npmrc {   
-    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\nemail=${NPM_USER}\n"
+    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\nemail=${NPM_EMAIL}\n"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
-    if [ -z "$NPM_USER" ] ; then
-        echo "NPM_USER is empty"
+    if [ -z "$NPM_EMAIL" ] ; then
+        echo "NPM_EMAIL is empty"
     fi    
     echo "creating .npmrc file in ${1} folder"    
     printf $NPMRC_CONTENT > .npmrc
