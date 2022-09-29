@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './index';
+export * from './cdc-core.module';
+export * from './models/cms.model';

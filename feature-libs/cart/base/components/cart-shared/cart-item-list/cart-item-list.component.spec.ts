@@ -1,10 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  TestBedStatic,
-} from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
@@ -133,7 +129,7 @@ describe('CartItemListComponent', () => {
     ['removeEntry', 'updateEntry']
   );
 
-  function configureTestingModule(): TestBedStatic {
+  function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -197,7 +193,7 @@ describe('CartItemListComponent', () => {
 
     it('should return enabled form group', () => {
       const item = mockItems[0];
-      let result: FormGroup;
+      let result: UntypedFormGroup;
       component
         .getControl(item)
         .subscribe((control) => {
@@ -212,7 +208,7 @@ describe('CartItemListComponent', () => {
       component.items = [nonUpdatableItem, mockItem1];
       fixture.detectChanges();
 
-      let result: FormGroup;
+      let result: UntypedFormGroup;
       component
         .getControl(nonUpdatableItem)
         .subscribe((control) => {
@@ -228,7 +224,7 @@ describe('CartItemListComponent', () => {
       component.items = [mockItem0, mockItem1];
       fixture.detectChanges();
       const item = mockItems[0];
-      let result: FormGroup;
+      let result: UntypedFormGroup;
       component
         .getControl(item)
         .subscribe((control) => {
