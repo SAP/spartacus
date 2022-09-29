@@ -119,7 +119,7 @@ function add_spartacus_csr {
     local IS_NPM_INSTALL="$2"   
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
-            create_npmrc "csr"
+            create_npmrc ${CSR_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
@@ -141,7 +141,7 @@ function add_spartacus_ssr {
     local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
-            create_npmrc "ssr"
+            create_npmrc ${SSR_APP_NAME}
     fi
     
     if [ "$BASE_SITE" = "" ] ; then
@@ -155,7 +155,7 @@ function add_spartacus_ssr {
     add_epd_visualization
     add_product_configurator
     remove_npmrc
-   if [ ! -z "$IS_NPM_INSTALL" ] ; then
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
         remove_npmrc
     fi
     )
@@ -165,7 +165,7 @@ function add_spartacus_ssr_pwa {
     local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
-        create_npmrc "ssr pwa"
+        create_npmrc ${SSR_PWA_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
@@ -205,7 +205,7 @@ function create_apps {
     else
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
-        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} {}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
     fi
 }
 
@@ -416,14 +416,15 @@ function cmd_help {
 
 function create_npmrc {   
     local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\nemail=${NPM_USER}\n"
-    printf $NPMRC_CONTENT > .npmrc    
-    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
     if [ -z "$NPM_USER" ] ; then
         echo "NPM_USER is empty"
-    fi
+    fi    
+    echo "creating .npmrc file in ${1} folder"    
+    printf $NPMRC_CONTENT > .npmrc
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
 }
 
 function remove_npmrc {   
