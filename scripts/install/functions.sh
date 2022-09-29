@@ -434,7 +434,6 @@ function remove_npmrc {
     fi
 }
 
-
 function remove_npm_token {
     if [[ -f "./config.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
         echo 'removing NPM_TOKEN value from config.sh'
