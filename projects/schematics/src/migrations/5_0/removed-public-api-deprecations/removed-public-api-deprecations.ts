@@ -2,8 +2,18 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   CDS_MERCHANDISING_FACET_NORMALIZER,
   CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
+  MODAL_DIRECTIVE,
+  MODAL_DIRECTIVE_OPTIONS,
+  MODAL_DIRECTIVE_SERVICE,
+  MODAL_MODULE,
+  MODAL_OPTIONS,
+  MODAL_REF,
+  MODAL_SERVICE,
 } from '../../../shared/constants';
-import { SPARTACUS_CDS } from '../../../shared/libs-constants';
+import {
+  SPARTACUS_CDS,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../shared/libs-constants';
 
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -1479,5 +1489,48 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
     importPath: SPARTACUS_CDS,
     comment: `'${CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER} has been removed and is no longer part of the public API.`,
+  },
+
+  // projects/storefrontlib/shared/components/modal/modal-options.ts
+  {
+    node: MODAL_OPTIONS,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_OPTIONS} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal-ref.ts
+  {
+    node: MODAL_REF,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_REF} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal.directive.ts
+  {
+    node: MODAL_DIRECTIVE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_DIRECTIVE} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal.directive.ts
+  {
+    node: MODAL_DIRECTIVE_OPTIONS,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_DIRECTIVE_OPTIONS} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal.directive.ts
+  {
+    node: MODAL_DIRECTIVE_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_DIRECTIVE_SERVICE} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal.module.ts
+  {
+    node: MODAL_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_MODULE} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/shared/components/modal/modal.service.ts
+  {
+    node: MODAL_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${MODAL_SERVICE} has been removed and is no longer part of the public API.`,
   },
 ];

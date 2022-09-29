@@ -7,7 +7,6 @@ import {
   IconModule,
   ItemCounterModule,
   KeyboardFocusModule,
-  ModalModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -28,7 +27,6 @@ import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.c
     IconModule,
     I18nModule,
     ItemCounterModule,
-    ModalModule,
     KeyboardFocusModule,
   ],
   providers: [provideConfig(defaultAddedToCartLayoutConfig)],
