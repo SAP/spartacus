@@ -77,7 +77,7 @@ remove_pwa_config "$B2B_CONFIG_PATH"
 echo "------------------------------------------------------------------"
 echo "Clone ccv2 repository"
 
-git clone -b "$CCV2_BRANCH $GH_BASE_URL"
+git clone -b "$CCV2_BRANCH" "$GH_BASE_URL"
 
 echo "------------------------------------------------------------------"
 echo "Update ccv2 repo's js-storefront folder to adhere to the ccv2 dist strucutre"
