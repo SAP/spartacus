@@ -10,16 +10,18 @@
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
+ * - manage publishing versions in libraries
  */
 
 import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { Command } from 'commander';
-import { readFileSync } from 'fs';
 import glob from 'glob';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
+import { updatePackageJsonFiles } from './manage-packages';
 import { manageTsConfigs } from './tsconfig-paths';
+import fs, { readFileSync } from 'fs';
 
 // ------------ Utilities ------------
 
@@ -106,6 +108,16 @@ export function warning(
 }
 
 /**
+ * Stringify and safe json file content
+ *
+ * @param path json file path
+ * @param content content to save
+ */
+ export function saveJsonFile(path: string, content: any): void {
+  fs.writeFileSync(path, JSON.stringify(content, undefined, 2));
+}
+
+/**
  * Read content of json file
  *
  * @param path file path
@@ -129,7 +141,8 @@ const program = new Command();
 program
   .description('Check configuration in repository for inconsistencies')
   .option('--fix', 'Apply automatic fixes when possible')
-  .option('--bump-versions', 'Bump deps versions to match root package.json');
+  .option('--bump-versions', 'Bump deps versions to match root package.json')
+  .option('--bump-publish-versions <version>', 'Bump publishing versions of packages');
 
 program.parse(process.argv);
 
@@ -147,7 +160,11 @@ export type ProgramOptions = {
   /**
    * Sets if versions should be bumped. Use for majors only.
    */
-  bumpVersions: boolean | undefined;
+  bumpDependencyVersions: boolean | undefined;
+  /**
+   * Defines if the package versions should be bumped for publishing
+   */
+  bumpPublishVersions: string | undefined;
 };
 
 const options: ProgramOptions = program.opts() as any;
@@ -273,17 +290,22 @@ const repository = librariesPaths
     return acc;
   }, {});
 
-manageDependencies(repository, options);
-// Keep it after dependencies, because fixes from deps might might result in different tsconfig files
-manageTsConfigs(repository, options);
-
-// collect and generate dependencies.json file.
-execSync(`yarn generate:deps --compare=true`);
+  if (options.bumpPublishVersions) {
+    updatePackageJsonFiles(repository, options.bumpPublishVersions);
+  } else {
+    manageDependencies(repository, options);
+    
+    // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
+    manageTsConfigs(repository, options);
+    
+    // collect and generate dependencies.json file.
+    execSync(`yarn generate:deps --compare=true`);
+  }
 
 /**
  * Format all files.
  */
-if (options.fix) {
+if (options.fix || options.bumpPublishVersions) {
   console.log('\nFormatting files (might take some time)...\n');
   execSync('yarn prettier:fix');
   console.log(`✨ ${chalk.green('Update completed')}`);

@@ -41,6 +41,7 @@ import {
   ProgramOptions,
   reportProgress,
   Repository,
+  saveJsonFile,
   success,
 } from './index';
 
@@ -55,16 +56,6 @@ import {
  */
 function readJsonFile(path: string): any {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
-}
-
-/**
- * Stringify and safe json file content
- *
- * @param path json file path
- * @param content content to save
- */
-function saveJsonFile(path: string, content: any): void {
-  fs.writeFileSync(path, JSON.stringify(content, undefined, 2));
 }
 
 /**
