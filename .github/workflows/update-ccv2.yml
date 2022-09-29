@@ -17,7 +17,7 @@ name: Update ccv2 repo with unreleased Spartacus
 
 # use this env to simulate a workflow_dispatch since it's not available to trigger manual workers unless they're inside the default branch
 env:
-  DEFAULT_BRANCH_TO_DEPLOY: 'develop'
+  DEFAULT_BRANCH_TO_DEPLOY: 'develop-test-ccv2-update'
   DEFAULT_CCV2_BRANCH: 'spa_p4_test'
 
 jobs:
