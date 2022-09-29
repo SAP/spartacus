@@ -34,9 +34,9 @@ interface NumberOfDayRange {
 }
 
 export enum DocumentStatus {
+  ALL = 'all',
   OPEN = 'open',
   CLOSED = 'closed',
-  ALL = 'all',
 }
 
 export enum DocumentFields {

@@ -31,7 +31,7 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
 
   // Contains the initial query parameters and will be updated with current state of filters
   _queryParams: DocumentQueryParams = {
-    status: DocumentStatus.ALL,
+    status: DocumentStatus.OPEN,
     filterByKey: FilterByOptions.DOCUMENT_NUMBER,
     page: 0,
     pageSize: 10,
