@@ -84,9 +84,9 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     const statusOptions = component.statusOptions;
     expect(translationService.translate).toHaveBeenCalledTimes(3);
     expect(statusOptions?.length).toEqual(3);
-    expect(statusOptions[0]).toEqual({ code: DocumentStatus.OPEN });
-    expect(statusOptions[1]).toEqual({ code: DocumentStatus.CLOSED });
-    expect(statusOptions[2]).toEqual({ code: DocumentStatus.ALL });
+    expect(statusOptions[0]).toEqual({ code: DocumentStatus.ALL });
+    expect(statusOptions[1]).toEqual({ code: DocumentStatus.OPEN });
+    expect(statusOptions[2]).toEqual({ code: DocumentStatus.CLOSED });
   });
 
   it('should encode and decode date', () => {
