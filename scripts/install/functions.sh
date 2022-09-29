@@ -41,8 +41,6 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    # npm config set @spartacus:registry https://int.repositories.cloud.sap/artifactory/api/npm/proxy-deploy-releases-hyperspace-npm/
-
     npm i -g verdaccio@5
     npm i -g npm-cli-login
     npm i -g serve@13.0.4
@@ -419,12 +417,12 @@ function cmd_help {
 function create_npmrc {   
     local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\nemail=${NPM_USER}\n"
     printf $NPMRC_CONTENT > .npmrc    
-    echo "Spartacus registry URL for ${1} app: $(npm config get '@spartacus:registry')"
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"
     if [ -z "$NPM_TOKEN" ] ; then
-        echo "NPM token is empty"
+        echo "NPM_TOKEN is empty"
     fi
     if [ -z "$NPM_USER" ] ; then
-        echo "NPM user is empty"
+        echo "NPM_USER is empty"
     fi
 }
 
