@@ -47,7 +47,7 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Update ccv2 environment with source
         env: 
-          CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch || DEFAULT_CCV2_BRANCH }}
+          CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch || env.DEFAULT_CCV2_BRANCH }}
           SOURCE_BRANCH_TO_DEPLOY: ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }}
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
