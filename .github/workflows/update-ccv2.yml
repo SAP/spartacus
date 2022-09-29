@@ -24,14 +24,18 @@ jobs:
         with:
           ref: ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }}
           fetch-depth: 0
+      - name: Get commit hash of the branch to deploy
+        id: branch-to-deploy-commit-id
+        run: |
+          echo "::set-output name=commit_hash::$(git rev-parse ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }})"
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
           path: | 
             node_modules
-          key: nodemodules-${{ github.event.pull_request.base.sha || github.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha || github.sha }}
+          key: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
+          restore-keys: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v13-lts
       - name: Package installation
