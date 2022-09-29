@@ -119,7 +119,7 @@ function add_spartacus_csr {
     local IS_NPM_INSTALL="$2"   
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
-            create_npmrc ${CSR_APP_NAME}
+        create_npmrc ${CSR_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
@@ -141,7 +141,7 @@ function add_spartacus_ssr {
     local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
-            create_npmrc ${SSR_APP_NAME}
+        create_npmrc ${SSR_APP_NAME}
     fi
     
     if [ "$BASE_SITE" = "" ] ; then
