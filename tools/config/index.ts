@@ -162,7 +162,7 @@ export type ProgramOptions = {
    */
   bumpDependencyVersions: boolean | undefined;
   /**
-   * Defines if the package versions should be bumped for publishing
+   * Defines value to bump the publishing versions of packages to
    */
   bumpPublishVersions: string | undefined;
 };

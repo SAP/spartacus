@@ -12,8 +12,8 @@ import {
 /**
  * Update publishing version of libraries to specific version
  * 
- * @param libraries libraries to update
- * @param version version to updatae libraries to
+ * @param libraries to update
+ * @param version  to update libraries to
  */
 export function updatePackageJsonFiles(
     libraries: Repository,
