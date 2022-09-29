@@ -51,6 +51,6 @@ jobs:
           SOURCE_BRANCH_TO_DEPLOY: ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }}
           GHT_USER: ${{ secrets.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GHT_REPO: ${{ secrets.GHT_REPO }}
+          GHT_REPO: ${{ secrets.GHT_CCV2_REPO }}
         run: |
           ci-scripts/update-ccv2.sh
