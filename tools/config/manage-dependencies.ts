@@ -222,6 +222,7 @@ export function manageDependencies(
       return acc;
     }, {});
 
+    // If publishing version is defined, update the publishing versions of packages
     if (PUBLISHING_VERSION) {
       updatePublishingVersions(libraries, PUBLISHING_VERSION);
     }
@@ -1073,6 +1074,7 @@ function updateDependenciesVersions(
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
+    // If publishing version is defined, update the publishing versions of packages
     packageJson.version = PUBLISHING_VERSION ? PUBLISHING_VERSION : packageJson.version;
     const types = [
       'dependencies',
