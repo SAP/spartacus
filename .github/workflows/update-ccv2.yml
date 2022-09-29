@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop-test-ccv2-update
+  workflow_dispatch:
     inputs:
       ccv2_branch:
         description: Branch on ccv2 to update
