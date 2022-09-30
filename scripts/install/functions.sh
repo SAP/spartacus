@@ -101,48 +101,49 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --package-manager yarn --style=scss --routing=false)
+    ( cd ${INSTALLATION_DIR} && ng new ${1} --style scss --no-routing)
 }
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
-        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
+        ng add @spartacus/organization@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+        ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
     fi
 }
 
 function add_cdc {
   if [ "$ADD_CDC" = true ] ; then
-        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+        ng add @spartacus/cdc@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     fi
 }
 
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+        ng add @spartacus/epd-visualization --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
     fi
 }
 
 function add_product_configurator {
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
+    ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
+        ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "CPQ-Configurator"
     fi
 }
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
-  ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
-  ng add --skip-confirmation @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
+  ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
+  ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --no-interactive
     fi
     add_feature_libs
     add_b2b
@@ -155,9 +156,9 @@ function add_spartacus_csr {
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
@@ -170,9 +171,9 @@ function add_spartacus_ssr {
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --urlParameters ${URL_PARAMETERS} --ssr --pwa --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
