@@ -79,7 +79,7 @@ describe('StockNotificationDialogComponent', () => {
   it('should show notification dialog', () => {
     fixture.detectChanges();
 
-    expect(el.query(By.css('.modal-header'))).toBeTruthy();
+    expect(el.query(By.css('.cx-modal-header'))).toBeTruthy();
     expect(el.query(By.css('.close'))).toBeTruthy();
     expect(el.queryAll(By.css('.channels'))).toBeTruthy();
     expect(el.query(By.css('.link-prefs'))).toBeTruthy();
