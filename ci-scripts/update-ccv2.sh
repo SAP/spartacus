@@ -169,8 +169,8 @@ echo "Push to remote repository"
 
 cd "$GHT_REPO"
 
-git config --global user.email dl_61c08cf5a3cac30261c7e88c@global.corp.sap
-git config --global user.name cx-cc-automation-serviceuser
+git config --global user.email "$GHT_CCV2_EMAIL"
+git config --global user.name "$GHT_CCV2_USERNAME"
 
 git add .
 git commit --allow-empty -m "Update with $SOURCE_BRANCH_TO_DEPLOY branch from source of Spartacus" 
