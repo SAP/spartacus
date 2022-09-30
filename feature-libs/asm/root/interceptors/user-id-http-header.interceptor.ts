@@ -20,6 +20,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 
+import { AsmConfig } from '../config/asm-config';
+
 /**
  * Looks for a specific key in the HttpRequest's context (OCC_ASM_TOKEN) to decide when to
  * configure a request with 'sap-commerce-cloud-user-id' header.
@@ -44,7 +46,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // Casting as <any> to avoid circular dependencies with @spartacus/asm/core.
-    if (!(<any>this.config).asm?.userIdHttpHeaderInterceptor?.enable) {
+    if (!(<AsmConfig>this.config).asm?.userIdHttpHeaderInterceptor?.enable) {
       return next.handle(httpRequest);
     }
 

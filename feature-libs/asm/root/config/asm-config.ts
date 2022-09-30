@@ -3,17 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { OccConfig } from '@spartacus/core';
 
-import { Injectable } from '@angular/core';
-import { Config, OccConfig } from '@spartacus/core';
-
-@Injectable({
-  providedIn: 'root',
-  useExisting: Config,
-})
-/**
- * @deprecated. Please use feature-libs/asm/root/asm-config.ts
- */
 export abstract class AsmConfig extends OccConfig {
   asm?: {
     agentSessionTimer?: {

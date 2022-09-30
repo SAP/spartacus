@@ -6,9 +6,6 @@
 
 import { AsmConfig } from './asm-config';
 
-/**
- * @deprecated. Please use feature-libs/asm/root/default-asm-config.ts
- */
 export const defaultAsmConfig: AsmConfig = {
   asm: {
     agentSessionTimer: {
