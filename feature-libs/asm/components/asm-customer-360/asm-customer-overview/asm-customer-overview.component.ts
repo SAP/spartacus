@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 
@@ -9,15 +16,17 @@ import {
   UrlCommand,
   User,
 } from '@spartacus/core';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 import { Observable, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AsmInterestEntry } from './asm-customer-overview.model';
 
 @Component({
   selector: 'cx-asm-customer-overview',
   templateUrl: './asm-customer-overview.component.html',
 })
-export class AsmCustomerOverviewComponent implements OnInit {
+export class AsmCustomerOverviewComponent implements OnInit, OnDestroy {
   @Input() customer: User;
 
   @Output()
@@ -29,9 +38,28 @@ export class AsmCustomerOverviewComponent implements OnInit {
 
   interests$: Observable<AsmInterestEntry>;
 
+  numberofColumns$: Observable<number>;
+
+  numberofColumns: number;
+
+  showMoreActiveCart = false;
+
+  showMoreSaveCart = false;
+
+  showMoreInterests = false;
+
   protected subscription = new Subscription();
 
-  constructor(protected asmConfig: AsmConfig) {}
+  constructor(
+    protected asmConfig: AsmConfig,
+    protected breakpointService: BreakpointService
+  ) {
+    this.subscription.add(
+      this.getNumberofColumns().subscribe((count) => {
+        this.numberofColumns = count;
+      })
+    );
+  }
 
   ngOnInit(): void {
     if (this.customer?.uid) {
@@ -52,7 +80,35 @@ export class AsmCustomerOverviewComponent implements OnInit {
     this.navigate.emit({ cxRoute: 'myInterests' });
   }
 
-  private getMockInterestData(): AsmInterestEntry {
+  showMoreBySectionIndex(index: number): void {
+    if (index === 0) {
+      this.showMoreActiveCart = !this.showMoreActiveCart;
+    } else if (index === 1) {
+      this.showMoreSaveCart = !this.showMoreSaveCart;
+    } else {
+      this.showMoreInterests = !this.showMoreInterests;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  private getNumberofColumns(): Observable<number> {
+    return this.breakpointService.breakpoint$.pipe(
+      map((breakpoint) => {
+        if (breakpoint === BREAKPOINT.xl) {
+          return 3;
+        } else if (breakpoint === BREAKPOINT.lg) {
+          return 2;
+        } else {
+          return 1;
+        }
+      })
+    );
+  }
+
+  getMockInterestData(): AsmInterestEntry {
     const product: Product = {
       availableForPickup: true,
       baseOptions: [],
@@ -106,10 +162,20 @@ export class AsmCustomerOverviewComponent implements OnInit {
       },
       url: '/Open-Catalogue/Components/Power-Supplies/Power-Adapters-%26-Inverters/ACK-E2/p/514518',
     };
-    return { products: [product] };
+    return {
+      products: [
+        product,
+        product,
+        product,
+        product,
+        product,
+        product,
+        product,
+      ],
+    };
   }
 
-  private getMockCartData(): Cart {
+  getMockCartData(): Cart {
     const cart: Cart = {
       appliedOrderPromotions: [
         {
@@ -194,6 +260,148 @@ export class AsmCustomerOverviewComponent implements OnInit {
             currencyIso: 'USD',
             formattedValue: '$315.52',
             value: 315.52,
+          },
+          updateable: true,
+        },
+        {
+          basePrice: {
+            formattedValue: '$204.75',
+            value: 204.75,
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          entryNumber: 1,
+          product: {
+            availableForPickup: true,
+            baseOptions: [],
+            categories: [
+              {
+                code: '814',
+                name: 'Rechargeable Batteries',
+              },
+              {
+                code: 'brand_5',
+                name: 'Sony',
+              },
+            ],
+            code: '3965240',
+            configurable: false,
+            images: {
+              PRIMARY: {
+                zoom: {
+                  altText: 'NP-FV 70',
+                  format: 'zoom',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyMjg4MXxpbWFnZS9qcGVnfGltYWdlcy9oOTMvaDM1Lzg3OTcyMTYxNzgyMDYuanBnfGQ2OWI3NzI3MzNiODg0ZWZlMjc0NzQ0MzFjZjk4ZGU1ZDkzMmZjODU3MThkYTZiYTg2N2E0NTYyOTE2NGQyZjA',
+                },
+                product: {
+                  altText: 'INP-FV 70',
+                  format: 'product',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3w5MTQxfGltYWdlL2pwZWd8aW1hZ2VzL2hhOC9oYzgvODc5NzI0MjQ1ODE0Mi5qcGd8ZDAyOTdjOTJlNjU3NmJiNDE4ZjFiN2EzYmFjNTUwMDk2OTE4M2VlNjMwNzBmZmUzZjliZGY0NDdiYWU5N2VlYw',
+                },
+                thumbnail: {
+                  altText: 'INP-FV 70',
+                  format: 'thumbnail',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyMjI2fGltYWdlL2pwZWd8aW1hZ2VzL2gwYi9oNGUvODc5NzI2ODgwMzYxNC5qcGd8ZjM4MzcyYmYyZjc0NDBmYWVhYTMzZjVmYjZjYzc3ZTlkMWE4MDk2NmY2YzA3YTVjNTkyYjE2MTM2M2EyYjM2Yw',
+                },
+                cartIcon: {
+                  altText: 'INP-FV 70l',
+                  format: 'cartIcon',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNTY5fGltYWdlL2pwZWd8aW1hZ2VzL2hjMC9oMjQvODc5NzI5NTE0OTA4Ni5qcGd8ZWUxNjg5NTIxMzM5MjBkMTFhNjQ3ODMyODRiMjRjNGI1ODg0OWM1ZTRlZjMzZWE2ZDcyNDExZmZlN2U4MTlhMg',
+                },
+              },
+            },
+            manufacturer: 'Sony',
+            name: 'NP-FV 70',
+            purchasable: true,
+            stock: {
+              isValueRounded: false,
+              stockLevel: 300,
+              stockLevelStatus: 'inStock',
+            },
+            url: '/Open-Catalogue/Components/Power-Supplies/Rechargeable-Batteries/NP-FV-70/p/3965240',
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+            currencyIso: 'USD',
+            formattedValue: '$204.75',
+            value: 204.75,
+          },
+          updateable: true,
+        },
+        {
+          basePrice: {
+            formattedValue: '$204.75',
+            value: 204.75,
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          entryNumber: 1,
+          product: {
+            availableForPickup: true,
+            baseOptions: [],
+            categories: [
+              {
+                code: '814',
+                name: 'Rechargeable Batteries',
+              },
+              {
+                code: 'brand_5',
+                name: 'Sony',
+              },
+            ],
+            code: '3965240',
+            configurable: false,
+            images: {
+              PRIMARY: {
+                zoom: {
+                  altText: 'NP-FV 70',
+                  format: 'zoom',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyMjg4MXxpbWFnZS9qcGVnfGltYWdlcy9oOTMvaDM1Lzg3OTcyMTYxNzgyMDYuanBnfGQ2OWI3NzI3MzNiODg0ZWZlMjc0NzQ0MzFjZjk4ZGU1ZDkzMmZjODU3MThkYTZiYTg2N2E0NTYyOTE2NGQyZjA',
+                },
+                product: {
+                  altText: 'INP-FV 70',
+                  format: 'product',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3w5MTQxfGltYWdlL2pwZWd8aW1hZ2VzL2hhOC9oYzgvODc5NzI0MjQ1ODE0Mi5qcGd8ZDAyOTdjOTJlNjU3NmJiNDE4ZjFiN2EzYmFjNTUwMDk2OTE4M2VlNjMwNzBmZmUzZjliZGY0NDdiYWU5N2VlYw',
+                },
+                thumbnail: {
+                  altText: 'INP-FV 70',
+                  format: 'thumbnail',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyMjI2fGltYWdlL2pwZWd8aW1hZ2VzL2gwYi9oNGUvODc5NzI2ODgwMzYxNC5qcGd8ZjM4MzcyYmYyZjc0NDBmYWVhYTMzZjVmYjZjYzc3ZTlkMWE4MDk2NmY2YzA3YTVjNTkyYjE2MTM2M2EyYjM2Yw',
+                },
+                cartIcon: {
+                  altText: 'INP-FV 70l',
+                  format: 'cartIcon',
+                  imageType: ImageType.PRIMARY,
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNTY5fGltYWdlL2pwZWd8aW1hZ2VzL2hjMC9oMjQvODc5NzI5NTE0OTA4Ni5qcGd8ZWUxNjg5NTIxMzM5MjBkMTFhNjQ3ODMyODRiMjRjNGI1ODg0OWM1ZTRlZjMzZWE2ZDcyNDExZmZlN2U4MTlhMg',
+                },
+              },
+            },
+            manufacturer: 'Sony',
+            name: 'NP-FV 70',
+            purchasable: true,
+            stock: {
+              isValueRounded: false,
+              stockLevel: 300,
+              stockLevelStatus: 'inStock',
+            },
+            url: '/Open-Catalogue/Components/Power-Supplies/Rechargeable-Batteries/NP-FV-70/p/3965240',
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+            currencyIso: 'USD',
+            formattedValue: '$204.75',
+            value: 204.75,
           },
           updateable: true,
         },

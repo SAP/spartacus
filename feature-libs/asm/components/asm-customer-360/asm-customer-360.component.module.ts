@@ -8,6 +8,7 @@ import { AsmCustomerOverviewModule } from './asm-customer-overview/asm-customer-
 import { AsmCustomerProfileModule } from './asm-customer-profile/asm-customer-profile.module';
 import { AsmCustomerFeedbackModule } from './asm-customer-feedback/asm-customer-feedback.module';
 import { AsmCustomerPromotionsModule } from './asm-customer-promotions/asm-customer-promotions.module';
+import { IconModule, ModalModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -19,6 +20,8 @@ import { AsmCustomerPromotionsModule } from './asm-customer-promotions/asm-custo
     AsmCustomerFeedbackModule,
     AsmCustomerPromotionsModule,
     AsmCustomerMapComponentModule,
+    IconModule,
+    ModalModule,
   ],
   declarations: [AsmCustomer360Component],
   exports: [AsmCustomer360Component],

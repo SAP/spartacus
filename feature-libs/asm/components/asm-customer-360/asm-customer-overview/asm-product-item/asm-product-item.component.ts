@@ -16,6 +16,7 @@ import { Price, Product } from '@spartacus/core';
 export class AsmProductItemComponent {
   @Input() item: OrderEntry;
   @Input() product: Product;
+  @Input() quantity: number;
   @Input() price: Price;
   @Input() isOrderEntry = true;
   @Output() selectProduct = new EventEmitter<Product>();

@@ -10,19 +10,29 @@
     [alt]="product?.name ?? ''"
   ></cx-media>
 </a>
-<div class="asm-product-item-content">
+<div class="cx-asm-product-item-content">
   <a
     tabindex="0"
     [attr.aria-label]="product?.name"
     role="link"
     (click)="selectProduct.emit(product)"
-    class="cx-overview-product-name"
+    class="cx-asm-product-item-name"
     ><span title="{{ product?.name }}">{{ product?.name }}</span></a
   >
-  <div *ngIf="isOrderEntry">{{ product?.code }}</div>
-  <div *ngIf="isOrderEntry">{{ price?.formattedValue }}</div>
+  <div *ngIf="isOrderEntry">
+    {{ product?.code }}
+  </div>
+  <div *ngIf="isOrderEntry">
+    {{ 'asm.customerOverview.quantity' | cxTranslate: { count: quantity } }}
+  </div>
+  <div *ngIf="isOrderEntry">
+    {{
+      'asm.customerOverview.itemPrice'
+        | cxTranslate: { price: price?.formattedValue }
+    }}
+  </div>
   <div
-    class="cx-overview-out-of-stock"
+    class="cx-asm-overview-out-of-stock"
     *ngIf="!isOrderEntry && product.stock?.stockLevelStatus === 'outOfStock'"
   >
     {{ 'asm.customerOverview.outOfStock' | cxTranslate }}
