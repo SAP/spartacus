@@ -127,7 +127,7 @@ export class CommonConfiguratorTestUtilsService {
     tagClass?: string,
     tagIndex?: number
   ): Element | undefined {
-    let foundElement: Element[] = [];
+    const foundElement: Element[] = [];
     const elements = htmlElements.getElementsByTagName(tag);
     if (!tagClass) {
       return !tagIndex ? elements[0] : elements[tagIndex];
