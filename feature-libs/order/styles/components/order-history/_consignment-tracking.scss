@@ -5,8 +5,6 @@
 }
 
 %cx-tracking-events {
-  background-color: rgba(0, 0, 0, 0.5);
-
   .cx-consignment-tracking-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
@@ -15,7 +13,7 @@
     .cx-consignment-tracking-container {
       @extend .modal-content;
 
-      .title {
+      .cx-consignment-tracking-title {
         @include type('3');
       }
 

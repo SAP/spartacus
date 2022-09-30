@@ -17,7 +17,7 @@ $modal-min-width-sm: 100% !important;
     padding: $modal-header-padding;
   }
   &-body {
-    padding: 27px 30px;
+    padding: 16px 30px 30px;
   }
   &-content {
     border-radius: $modal-content-border-radius;
@@ -69,10 +69,12 @@ $modal-min-width-sm: 100% !important;
 }
 
 .cx-modal-header {
+  display: flex;
+  justify-content: space-between;
   padding-top: 2rem;
-  padding-inline-end: 1.75rem;
-  padding-bottom: 0.85rem;
-  padding-inline-start: 1.75rem;
+  padding-inline-end: 1.875rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.875rem;
 }
 
 .cx-modal-content {
