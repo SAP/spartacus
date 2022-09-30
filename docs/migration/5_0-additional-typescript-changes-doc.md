@@ -41,7 +41,7 @@ It is not used anymore.
 
 
 # Class TrackingEventsComponent
-## @spartacus/asm/components
+## @spartacus/order/components
 
 
 ### Constructor changed.
