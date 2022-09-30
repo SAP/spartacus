@@ -6,9 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AsmCustomer360StoreLocation } from '@spartacus/asm/root';
+import { PointOfService } from '@spartacus/core';
+import { StoreFinderSearchPage, StoreFinderService } from '@spartacus/storefinder/core';
 import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
-
-import { MapData, StoreData } from './map-types';
+import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,68 +19,7 @@ import { MapData, StoreData } from './map-types';
   styleUrls: ['./asm-customer-map.component.scss'],
 })
 export class AsmCustomerMapComponent implements OnInit {
-  storeData: MapData = {
-    total: 3,
-    data: [
-      {
-        id: '1',
-        name: 'Boston',
-        displayName: 'Boston',
-        line1: '53 State St, Boston, MA 02109',
-        line2: 'Floor 16',
-        town: 'Boston',
-        formattedDistance: '2 miles',
-        latitude: 42.358856201171875,
-        longitude: -71.05696868896484,
-        image:
-          'https://s36700.pcdn.co/wp-content/uploads/2015/05/dachshund-puppies-03.jpg.optimal.jpg',
-        productcode: 'productcode 1',
-        openings: {
-          'Mon - Sat': '09:00 - 20:00',
-          Sun: '09:00 - 17:00',
-        },
-        features: ['Wheelchair accessible'],
-      },
-      {
-        id: '2',
-        name: 'Burlington',
-        displayName: 'Burlington',
-        line1: '15 Wayside Rd, Burlington, MA 01803',
-        line2: '',
-        town: 'Burlington',
-        formattedDistance: '5 miles',
-        latitude: 42.485267639160156,
-        longitude: -71.19204711914062,
-        image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWApY7vpCoiyrYKL1FUsfNDwYUSNPTG5TZlQ&usqp=CAU',
-        productcode: 'productcode 2',
-        openings: {
-          'Mon - Sat': '09:00 - 20:00',
-          Sun: '09:00 - 17:00',
-        },
-        features: ['Wheelchair accessible'],
-      },
-      {
-        id: '3',
-        name: 'Palo Alto',
-        displayName: 'Palo Alto',
-        line1: '3410 Hillview Avenue, Palo Alto, CA 94304, USA',
-        line2: '',
-        town: 'Palo Alto',
-        formattedDistance: '200 miles',
-        latitude: 37.4443293,
-        longitude: -122.1598465,
-        image:
-          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retreiver-puppy-appears-on-nbc-news-today-show-on-news-photo-164288748-1551895571.jpg?crop=0.85948xw:1xh;center,top&resize=480:*',
-        productcode: 'productcode 3',
-        openings: {
-          'Mon - Sat': '09:00 - 20:00',
-          Sun: '09:00 - 17:00',
-        },
-        features: ['Wheelchair accessible', 'Taco Tuesday'],
-      },
-    ],
-  };
+  storeData: StoreFinderSearchPage;
 
   readonly apiKey: string | undefined;
 
@@ -86,30 +27,34 @@ export class AsmCustomerMapComponent implements OnInit {
 
   googleMapsUrl: SafeResourceUrl;
 
-  selectedStore: StoreData;
+  selectedStore: PointOfService;
 
   constructor(
     public config: Customer360SectionConfig,
+    protected data: Customer360SectionData<AsmCustomer360StoreLocation>,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    /** TODO: This belongs in the 'storefinder' module. Should ask if we need to move these to core or some feature design. */
+    protected storeFinderService: StoreFinderService
   ) {
     this.apiKey = config.googleMapsApiKey;
-    this.selectedStore = this.storeData.data[0];
   }
 
   ngOnInit(): void {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.currentLocation = `${position.coords.latitude},${position.coords.longitude}`;
+    this.storeFinderService.findStoresAction(this.data.data.address);
 
-      this.updateGoogleMapsUrl();
-
-      this.changeDetectorRef.detectChanges();
+    this.storeFinderService.getFindStoresEntities().subscribe((data: any) => {
+      if (data) {
+        this.storeData = data;
+        this.selectedStore = data.stores?.[0];
+        this.changeDetectorRef.detectChanges();
+      }
     });
   }
 
   updateGoogleMapsUrl(): void {
-    if (this.apiKey && this.currentLocation) {
-      const coordinates = `${this.selectedStore.latitude},${this.selectedStore.longitude}`;
+    if (this.apiKey && this.currentLocation && this.selectedStore.geoPoint) {
+      const coordinates = `${this.selectedStore.geoPoint.latitude},${this.selectedStore.geoPoint.longitude}`;
 
       const params = new HttpParams()
         .append('key', this.apiKey)
@@ -122,7 +67,7 @@ export class AsmCustomerMapComponent implements OnInit {
     }
   }
 
-  selectStore(store: StoreData): void {
+  selectStore(store: PointOfService): void {
     this.selectedStore = store;
 
     this.updateGoogleMapsUrl();

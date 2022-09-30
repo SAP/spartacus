@@ -52,6 +52,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  margin-bottom: 8px;
   position: relative;
 
   &.selected {
@@ -96,10 +97,10 @@
     border-left: 1px solid #dce1e8;
     box-sizing: border-box;
     display: flex;
+    flex: 0 0 100px;
     justify-content: center;
     padding: 0 4px;
     margin-left: auto;
-    width: 100px;
   }
 
   &-text {

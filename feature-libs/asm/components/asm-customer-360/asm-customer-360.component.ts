@@ -53,13 +53,6 @@ export class AsmCustomer360Component implements OnInit {
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
-    /*
-    this.injectors = this.tabs.map((tab) => {
-      return tab.components.map((component) =>
-        this.createInjector(component.config)
-      );
-    });
-    */
   }
 
   @Input() customer: User;

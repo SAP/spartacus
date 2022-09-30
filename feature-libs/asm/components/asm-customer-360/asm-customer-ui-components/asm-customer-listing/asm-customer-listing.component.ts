@@ -12,9 +12,6 @@ import {
   ListingItem,
 } from './asm-customer-listing.model';
 
-/**
- * TODO
- */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-listing',

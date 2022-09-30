@@ -3,10 +3,8 @@ export interface AsmCustomer360Params {
 }
 
 export enum AsmCustomer360Type {
-  CUSTOMER_HEADING = 'customerHeading',
-  //
-  REVIEW_LIST = 'reviewList',
-  STORE_LOCATION = 'storeLocation',
+  REVIEW_LIST = 'C360ReviewList',
+  STORE_LOCATION = 'C360StoreLocation',
 }
 
 export interface AdditionalRequestParameters {
