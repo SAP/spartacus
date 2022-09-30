@@ -12,7 +12,6 @@ import {
 } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import {
-  Config,
   OCC_HTTP_TOKEN,
   OCC_USER_ID_CONSTANTS,
   UserIdService,
@@ -33,7 +32,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
   protected readonly uniqueUserIdConstants: Set<string>;
 
   constructor(
-    protected config: Config,
+    protected config: AsmConfig,
     protected userIdService: UserIdService,
     @Inject(OCC_USER_ID_CONSTANTS)
     protected userIdConstants: { [identifier: string]: string }
@@ -46,7 +45,7 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // Casting as <any> to avoid circular dependencies with @spartacus/asm/core.
-    if (!(<AsmConfig>this.config).asm?.userIdHttpHeaderInterceptor?.enable) {
+    if (!this.config.asm?.userIdHttpHeaderInterceptor?.enable) {
       return next.handle(httpRequest);
     }
 

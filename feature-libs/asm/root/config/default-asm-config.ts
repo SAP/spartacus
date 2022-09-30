@@ -14,5 +14,8 @@ export const defaultAsmConfig: AsmConfig = {
     customerSearch: {
       maxResults: 20,
     },
+    userIdHttpHeaderInterceptor: {
+      enable: true,
+    },
   },
 };
