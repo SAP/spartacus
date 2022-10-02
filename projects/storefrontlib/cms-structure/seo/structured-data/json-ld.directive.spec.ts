@@ -14,7 +14,7 @@ function createTestComponent(
   }).createComponent(TestComponent);
 }
 
-fdescribe('JsonLdDirective', () => {
+describe('JsonLdDirective', () => {
   let fixture: ComponentFixture<any>;
 
   afterEach(() => {
