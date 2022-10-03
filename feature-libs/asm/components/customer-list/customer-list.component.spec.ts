@@ -14,10 +14,11 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/core';
 import {
+  AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
 } from '@spartacus/asm/root';
-import { I18nTestingModule, QueryState, User } from '@spartacus/core';
+import { I18nTestingModule, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -145,14 +146,6 @@ class MockCxIconComponent {
 }
 
 class MockAsmService implements Partial<AsmService> {
-  getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
-    return of({
-      loading: false,
-      error: false,
-      data: mockCustomerListPage,
-    });
-  }
-
   customerListCustomersSearchReset(): void {}
 
   customerListCustomersSearch(): void {}
@@ -176,6 +169,12 @@ class MockModalService {
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
+  }
+}
+
+class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
+  getCustomerLists(): Observable<CustomerListsPage | undefined> {
+    return of(mockCustomerListPage);
   }
 }
 
@@ -214,6 +213,10 @@ describe('CustomerListComponent', () => {
             useClass: MockBreakpointService,
           },
           { provide: AsmConfig, useClass: MockAsmConfig },
+          {
+            provide: AsmCustomerListFacade,
+            useClass: MockAsmCustomerListFacade,
+          },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       }).compileComponents();

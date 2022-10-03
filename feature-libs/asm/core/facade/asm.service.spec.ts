@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AsmCustomerListFacade, CustomerListsPage } from '@spartacus/asm/root';
-import { QueryState, User } from '@spartacus/core';
-import { NEVER, of } from 'rxjs';
+import { User } from '@spartacus/core';
 import {
   AsmUi,
   CustomerSearchOptions,
@@ -26,19 +24,9 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 };
 
-class MockAsmFacade implements Partial<AsmCustomerListFacade> {
-  getCustomerLists() {
-    return NEVER;
-  }
-  getCustomers() {
-    return NEVER;
-  }
-}
-
 describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
-  let asmFacade: AsmCustomerListFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,15 +34,11 @@ describe('AsmService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [
-        AsmService,
-        { provide: AsmCustomerListFacade, useClass: MockAsmFacade },
-      ],
+      providers: [AsmService],
     });
 
     service = TestBed.inject(AsmService);
     store = TestBed.inject(Store);
-    asmFacade = TestBed.inject(AsmCustomerListFacade);
   });
 
   it('should be created', () => {
@@ -119,21 +103,6 @@ describe('AsmService', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
-  });
-
-  it('should get the customer lists', () => {
-    let actual: QueryState<CustomerListsPage> | undefined;
-    const expected: QueryState<CustomerListsPage> = {
-      data: { userGroups: [] },
-      error: false,
-      loading: false,
-    };
-    spyOn(asmFacade, 'getCustomerLists').and.returnValue(of(expected));
-
-    service.getCustomerLists().subscribe((result) => (actual = result));
-
-    expect(actual).toEqual(expected);
-    expect(asmFacade.getCustomerLists).toHaveBeenCalled();
   });
 
   it('should dispatch proper action for customer list customers search', () => {

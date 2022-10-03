@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AsmCustomerListFacade, CustomerListsPage } from '@spartacus/asm/root';
-import { QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   AsmUi,
@@ -22,24 +20,7 @@ import { AsmSelectors } from '../store/index';
   providedIn: 'root',
 })
 export class AsmService {
-  // TODO(#206): make asmFacade required
-  constructor(
-    store: Store<StateWithAsm>,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmFacade: AsmCustomerListFacade
-  );
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(store: Store<StateWithAsm>);
-  constructor(
-    protected store: Store<StateWithAsm>,
-    @Optional() protected asmFacade?: AsmCustomerListFacade
-  ) {}
-
-  getCustomerLists(): Observable<QueryState<CustomerListsPage>> | undefined {
-    return this.asmFacade?.getCustomerLists();
-  }
+  constructor(protected store: Store<StateWithAsm>) {}
 
   /**
    * Search for customers

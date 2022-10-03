@@ -1,23 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { CustomerListsPage } from '@spartacus/asm/root';
-import { QueryService, QueryState, User } from '@spartacus/core';
+import { QueryService, QueryState } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmConnector } from '../connectors';
-import { CustomerSearchPage } from '../models/asm.models';
 import { AsmCustomerListService } from './asm-customer-list.service';
-
-const mockUser: User = {
-  displayUid: 'Display Uid',
-  firstName: 'First',
-  lastName: 'Last',
-  name: 'First Last',
-  uid: 'user@test.com',
-  customerId: '123456',
-};
-
-const mockCustomerSearchPage: CustomerSearchPage = {
-  entries: [mockUser],
-};
 
 const mockCustomerListsPage: CustomerListsPage = {
   currentPage: 0,
@@ -28,10 +14,6 @@ const mockCustomerListsPage: CustomerListsPage = {
 };
 
 class MockAsmConnector implements Partial<AsmConnector> {
-  customerSearch(): Observable<CustomerSearchPage> {
-    return of(mockCustomerSearchPage);
-  }
-
   customerLists(): Observable<CustomerListsPage> {
     return of(mockCustomerListsPage);
   }
@@ -52,7 +34,6 @@ describe('AsmCustomerListService', () => {
 
     asmConnector = TestBed.inject(AsmConnector);
     spyOn(asmConnector, 'customerLists').and.callThrough();
-    spyOn(asmConnector, 'customerSearch').and.callThrough();
 
     service = TestBed.inject(AsmCustomerListService);
   });
@@ -63,12 +44,9 @@ describe('AsmCustomerListService', () => {
 
   describe('getCustomerLists()', () => {
     it('should emit response data from connector', () => {
-      let actual: QueryState<CustomerListsPage> | undefined;
-      const expected: QueryState<CustomerListsPage> = {
-        loading: false,
-        data: mockCustomerListsPage,
-        error: false,
-      };
+      let actual: CustomerListsPage | undefined;
+      const expected = mockCustomerListsPage;
+
       service.getCustomerLists().subscribe((response) => (actual = response));
 
       expect(actual).toEqual(expected);
@@ -79,6 +57,22 @@ describe('AsmCustomerListService', () => {
       service.getCustomerLists().subscribe();
 
       expect(asmConnector.customerLists).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getCustomerListsState()', () => {
+    it('should emit a query state with the response data from connector', () => {
+      let actual: QueryState<CustomerListsPage> | undefined;
+      const expected: QueryState<CustomerListsPage> = {
+        loading: false,
+        data: mockCustomerListsPage,
+        error: false,
+      };
+      service
+        .getCustomerListsState()
+        .subscribe((response) => (actual = response));
+
+      expect(actual).toEqual(expected);
     });
   });
 });

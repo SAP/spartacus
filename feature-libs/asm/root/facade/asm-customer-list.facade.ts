@@ -16,9 +16,10 @@ import { CustomerListsPage } from '../model/customer-list.model';
     facadeFactory({
       facade: AsmCustomerListFacade,
       feature: ASM_FEATURE,
-      methods: ['getCustomerLists'],
+      methods: ['getCustomerLists', 'getCustomerListsState'],
     }),
 })
 export abstract class AsmCustomerListFacade {
-  abstract getCustomerLists(): Observable<QueryState<CustomerListsPage>>;
+  abstract getCustomerLists(): Observable<CustomerListsPage | undefined>;
+  abstract getCustomerListsState(): Observable<QueryState<CustomerListsPage>>;
 }

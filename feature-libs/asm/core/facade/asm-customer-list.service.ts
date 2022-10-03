@@ -23,7 +23,11 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
     protected asmConnector: AsmConnector
   ) {}
 
-  getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
+  getCustomerLists(): Observable<CustomerListsPage | undefined> {
+    return this.customerListQuery$.get();
+  }
+
+  getCustomerListsState(): Observable<QueryState<CustomerListsPage>> {
     return this.customerListQuery$.getState();
   }
 }

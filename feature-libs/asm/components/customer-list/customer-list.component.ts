@@ -12,6 +12,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/core';
 import {
+  AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
 } from '@spartacus/asm/root';
@@ -24,7 +25,7 @@ import {
   ModalService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
 @Component({
@@ -78,7 +79,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected asmCustomerListFacade: AsmCustomerListFacade
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -89,9 +91,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerListConfig = this.asmConfig?.asm?.customerList;
 
     this.customerListsPage$ =
-      this.asmService.getCustomerLists()?.pipe(
-        filter((queryState) => queryState.loading === false),
-        map((queryState) => queryState.data),
+      this.asmCustomerListFacade.getCustomerLists()?.pipe(
         tap((result) => {
           // set the first value of this.customerListsPage$ to be selected
           if (!this.selectedUserGroupId) {
