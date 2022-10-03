@@ -131,7 +131,6 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     const pressSearch = () => {
       eventSpy.calls.reset();
       const searchButton = fixture.debugElement.query(By.css('.btn-primary'));
-      // searchButton?.triggerEventHandler('click', null);
       searchButton?.nativeElement.click();
       fixture.detectChanges();
     };
@@ -421,7 +420,7 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     endRange = undefined;
 
     expect(eventSpy).toHaveBeenCalledWith({
-      status: DocumentStatus.ALL,
+      status: DocumentStatus.OPEN,
       filterByKey: FilterByOptions.DOCUMENT_NUMBER,
       filterByValue,
       startRange,
