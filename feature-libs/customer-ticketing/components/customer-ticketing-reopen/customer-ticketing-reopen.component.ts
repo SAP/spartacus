@@ -22,7 +22,7 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   isStatusClose$: Observable<boolean> = this.customerTicketingService
     .getTicketStatus()
-    .pipe(map((status) => status === STATUS.CLOSE));
+    .pipe(map((status) => status === STATUS.CLOSED));
 
   constructor(
     protected customerTicketingService: CustomerTicketingService,

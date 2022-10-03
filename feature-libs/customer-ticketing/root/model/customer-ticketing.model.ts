@@ -1,13 +1,14 @@
 import { SortModel, PaginationModel } from '@spartacus/core';
 
-export const enum CUSTOM_CLASS {
-  CLOSE = 'cx-text-gray',
-  OPEN = 'cx-text-green',
+export const enum TEXT_COLOR_CLASS {
+  GREY = 'cx-text-grey',
+  GREEN = 'cx-text-green',
 }
 
 export const enum STATUS {
   OPEN = 'OPEN',
-  CLOSE = 'CLOSE',
+  CLOSED = 'CLOSED',
+  INPROCESS = 'INPROCESS',
 }
 
 export interface TicketDetails {

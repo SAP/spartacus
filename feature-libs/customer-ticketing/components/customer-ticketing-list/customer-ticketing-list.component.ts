@@ -3,6 +3,7 @@ import { of, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { TranslationService } from '@spartacus/core';
+import { STATUS, TEXT_COLOR_CLASS } from '@spartacus/customer-ticketing/root';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
@@ -148,10 +149,11 @@ export class CustomerTicketingListComponent implements OnInit {
 
   getStatusClass = (status: string): string => {
     switch (status) {
-      case 'OPEN' || 'INPROCESS':
-        return 'cx-text-green';
-      case 'CLOSED':
-        return 'cx-text-grey';
+      case STATUS.OPEN:
+      case STATUS.INPROCESS:
+        return TEXT_COLOR_CLASS.GREEN;
+      case STATUS.CLOSED:
+        return TEXT_COLOR_CLASS.GREY;
       default:
         return '';
     }
