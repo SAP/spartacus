@@ -19,10 +19,12 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
@@ -64,9 +66,10 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http
-      .get<CustomerListsPage>(url, { headers, params })
-      .pipe(this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER));
+    return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
+      this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER),
+      catchError((error) => throwError(normalizeHttpError(error)))
+    );
   }
 
   customerSearch(
