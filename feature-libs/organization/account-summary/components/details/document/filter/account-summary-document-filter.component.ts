@@ -52,7 +52,7 @@ export class AccountSummaryDocumentFilterComponent
   }
 
   @Output()
-  filterListEvent: EventEmitter<DocumentQueryParams>;
+  filterListEvent = new EventEmitter<DocumentQueryParams>();
 
   /* For Enum use in HTML */
   FilterByOptions = FilterByOptions;
@@ -67,9 +67,7 @@ export class AccountSummaryDocumentFilterComponent
     protected translation: TranslationService,
     private fb: FormBuilder,
     private languageService: LanguageService
-  ) {
-    this.filterListEvent = new EventEmitter<DocumentQueryParams>();
-  }
+  ) {}
 
   ngOnInit() {
     this.subscription.add(
@@ -155,7 +153,7 @@ export class AccountSummaryDocumentFilterComponent
       // if set, clear all fields and perform search
       this.filterForm.patchValue({
         ...defaults,
-        status: DocumentStatus.ALL,
+        status: DocumentStatus.OPEN,
         filterBy: FilterByOptions.DOCUMENT_NUMBER,
       });
       this.formSearch();
@@ -286,7 +284,7 @@ export class AccountSummaryDocumentFilterComponent
     };
 
     this.filterForm = this.fb.group({
-      status: status || DocumentStatus.ALL,
+      status: status || DocumentStatus.OPEN,
       filterBy: filterByKey || FilterByOptions.DOCUMENT_NUMBER,
       documentType:
         filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue

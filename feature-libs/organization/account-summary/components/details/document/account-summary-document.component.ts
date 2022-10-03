@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   LanguageService,
   SortModel,
@@ -20,6 +25,7 @@ import { switchMap, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

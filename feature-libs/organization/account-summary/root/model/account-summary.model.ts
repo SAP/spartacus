@@ -85,10 +85,6 @@ export interface AccountSummaryDocumentType {
   name?: string;
 }
 
-export interface AccountSummary {
-  accountSummaryList: AccountSummaryList;
-}
-
 export interface AccountSummaryList {
   orgDocumentTypes?: AccountSummaryDocumentType[];
   orgDocuments?: AccountSummaryDocument[];

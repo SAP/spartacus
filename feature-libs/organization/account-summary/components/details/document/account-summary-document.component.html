@@ -18,9 +18,7 @@
 
       <ng-container
         *ngIf="
-          accountSummary.pagination &&
-            accountSummary.pagination.totalResults &&
-            accountSummary.pagination.totalResults > 0;
+          accountSummary.pagination && accountSummary.pagination.totalResults;
           else noDocument
         "
       >
