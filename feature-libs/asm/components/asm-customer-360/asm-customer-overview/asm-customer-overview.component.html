@@ -17,11 +17,11 @@
 </div>
 <!-- active cart -->
 <div
-  class="container mt-5"
+  class="cx-asm-overview-section mt-3 pt-3"
   *ngIf="activeCart$ | async as activeCart; else emptyActiveCart"
 >
   <div class="section-header">
-    <h3>
+    <div class="header-title">
       {{ 'asm.customerOverview.activeCart' | cxTranslate }}
       <a
         tabindex="0"
@@ -35,39 +35,59 @@
       >
         {{ activeCart.code }}
       </a>
-    </h3>
-    <div class="cart-total-no-items">
-      {{
-        'asm.customerOverview.totalNoItems'
-          | cxTranslate: { count: activeCart.totalItems }
-      }}
     </div>
-    <div class="cart-divider"></div>
-    <div class="cart-total-price">
-      {{
-        'asm.customerOverview.totalPrice'
-          | cxTranslate: { price: activeCart.totalPrice.formattedValue }
-      }}
+    <div class="result-wrapper">
+      <div class="cart-total-no-items">
+        {{
+          'asm.customerOverview.totalNoItems'
+            | cxTranslate: { count: activeCart.totalItems }
+        }}
+      </div>
+      <div class="cart-divider"></div>
+      <div class="cart-total-price">
+        {{
+          'asm.customerOverview.totalPrice'
+            | cxTranslate: { price: activeCart.totalPrice.formattedValue }
+        }}
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col cx-asm-overview-items cx-asm-overview-order-items">
-      <cx-asm-product-item
-        *ngFor="let entry of activeCart.entries"
-        [product]="entry.product"
-        [price]="entry.basePrice"
-        (selectProduct)="onSelectProduct($event)"
-      ></cx-asm-product-item>
+    <div
+      class="col cx-asm-overview-items cx-asm-overview-order-items"
+      [class.show-more]="showMoreActiveCart"
+      [ngClass]="'column-' + numberofColumns"
+    >
+      <ng-container *ngFor="let entry of activeCart.entries; let i = index">
+        <cx-asm-product-item
+          *ngIf="i < numberofColumns || showMoreActiveCart"
+          [product]="entry.product"
+          [price]="entry.basePrice"
+          [quantity]="entry.quantity"
+          (selectProduct)="onSelectProduct($event)"
+        ></cx-asm-product-item>
+      </ng-container>
     </div>
   </div>
+  <ng-template
+    *ngTemplateOutlet="
+      showMoreButton;
+      context: {
+        itemLength: activeCart.entries.length,
+        columnNum: numberofColumns,
+        showMore: showMoreActiveCart,
+        sectionIndex: 0
+      }
+    "
+  ></ng-template>
 </div>
 <!-- saved cart -->
 <div
-  class="container mt-5"
+  class="cx-asm-overview-section mt-5"
   *ngIf="savedCart$ | async as savedCart; else emptySavedCart"
 >
   <div class="section-header">
-    <h3>
+    <div class="header-title">
       {{ 'asm.customerOverview.savedCart' | cxTranslate }}
       <a
         tabindex="0"
@@ -81,40 +101,60 @@
       >
         {{ savedCart.code }}
       </a>
-    </h3>
-    <div class="cart-total-no-items">
-      {{
-        'asm.customerOverview.totalNoItems'
-          | cxTranslate: { count: savedCart.totalItems }
-      }}
     </div>
-    <div class="cart-divider"></div>
-    <div class="cart-total-price">
-      {{
-        'asm.customerOverview.totalPrice'
-          | cxTranslate: { price: savedCart.totalPrice.formattedValue }
-      }}
+    <div class="result-wrapper">
+      <div class="cart-total-no-items">
+        {{
+          'asm.customerOverview.totalNoItems'
+            | cxTranslate: { count: savedCart.totalItems }
+        }}
+      </div>
+      <div class="cart-divider"></div>
+      <div class="cart-total-price">
+        {{
+          'asm.customerOverview.totalPrice'
+            | cxTranslate: { price: savedCart.totalPrice.formattedValue }
+        }}
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col cx-asm-overview-items cx-asm-overview-order-items">
-      <cx-asm-product-item
-        *ngFor="let entry of savedCart.entries"
-        [product]="entry.product"
-        [price]="entry.basePrice"
-        (selectProduct)="onSelectProduct($event)"
-      ></cx-asm-product-item>
+    <div
+      class="col cx-asm-overview-items cx-asm-overview-order-items"
+      [class.show-more]="showMoreSaveCart"
+      [ngClass]="'column-' + numberofColumns"
+    >
+      <ng-container *ngFor="let entry of savedCart.entries; let i = index">
+        <cx-asm-product-item
+          *ngIf="i < numberofColumns || showMoreSaveCart"
+          [product]="entry.product"
+          [price]="entry.basePrice"
+          [quantity]="entry.quantity"
+          (selectProduct)="onSelectProduct($event)"
+        ></cx-asm-product-item>
+      </ng-container>
     </div>
   </div>
+  <ng-template
+    *ngTemplateOutlet="
+      showMoreButton;
+      context: {
+        itemLength: savedCart.entries.length,
+        columnNum: numberofColumns,
+        showMore: showMoreSaveCart,
+        sectionIndex: 1
+      }
+    "
+  ></ng-template>
 </div>
 
 <!-- Interest -->
 <div
-  class="container mt-5"
+  class="cx-asm-overview-section mt-5"
   *ngIf="interests$ | async as interests; else emptyInterests"
 >
   <div class="section-header">
-    <h3>
+    <div class="header-title">
       <a
         tabindex="0"
         [attr.aria-label]="'asm.customerOverview.interests' | cxTranslate"
@@ -124,18 +164,34 @@
       >
         {{ 'asm.customerOverview.interests' | cxTranslate }}
       </a>
-    </h3>
-  </div>
-  <div class="row">
-    <div class="col cx-asm-overview-items cx-asm-overview-interests-items">
-      <cx-asm-product-item
-        *ngFor="let product of interests.products"
-        [product]="product"
-        [isOrderEntry]="false"
-        (selectProduct)="onSelectProduct($event)"
-      ></cx-asm-product-item>
     </div>
   </div>
+  <div class="row">
+    <div
+      class="col cx-asm-overview-items cx-asm-overview-interests-items"
+      [class.show-more]="showMoreInterests"
+    >
+      <ng-container *ngFor="let product of interests.products; let i = index">
+        <cx-asm-product-item
+          *ngIf="i < numberofColumns * 2 || showMoreInterests"
+          [product]="product"
+          [isOrderEntry]="false"
+          (selectProduct)="onSelectProduct($event)"
+        ></cx-asm-product-item>
+      </ng-container>
+    </div>
+  </div>
+  <ng-template
+    *ngTemplateOutlet="
+      showMoreButton;
+      context: {
+        itemLength: interests.products.length,
+        columnNum: numberofColumns * 2,
+        showMore: showMoreInterests,
+        sectionIndex: 2
+      }
+    "
+  ></ng-template>
 </div>
 
 <ng-template #emptySavedCart>
@@ -175,12 +231,36 @@
 </ng-template>
 
 <ng-template #emptyResult let-title="title" let-description="description">
-  <div class="container cx-overview-empty mb-4">
-    <div class="cx-overview-empty-title mt-4 mb-2">
+  <div class="cx-asm-overview-empty mb-4">
+    <div class="cx-asm-overview-empty-title mt-4 mb-2">
       {{ title }}
     </div>
-    <div class="cx-overview-empty-desc">
+    <div class="cx-asm-overview-empty-desc">
       {{ description }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #showMoreButton
+  let-itemLength="itemLength"
+  let-columnNum="columnNum"
+  let-showMore="showMore"
+  let-sectionIndex="sectionIndex"
+>
+  <div class="row" *ngIf="itemLength > columnNum">
+    <div class="show-hide-container mt-4">
+      <button
+        class="link cx-action-link show-hide-btn"
+        (click)="showMoreBySectionIndex(sectionIndex)"
+      >
+        <span *ngIf="!showMore">{{
+          'asm.customerOverview.showMore' | cxTranslate
+        }}</span>
+        <span *ngIf="showMore">{{
+          'asm.customerOverview.showLess' | cxTranslate
+        }}</span>
+      </button>
     </div>
   </div>
 </ng-template>

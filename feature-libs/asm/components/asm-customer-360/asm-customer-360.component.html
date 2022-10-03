@@ -2,22 +2,36 @@
   <!-- Modal Header -->
   <ng-container>
     <div class="cx-dialog-header modal-header">
-      <div class="cx-avatar">
-        {{ getAvatar() }}
-      </div>
-      <div class="cx-customer-info">
-        <h2 id="asm-customer-360-title" class="cx-title modal-title">
-          {{ customer.firstName }} Customer 360&#176; View
-        </h2>
-        <h6 class="cx-customer-email">
-          {{ customer.uid }}
-        </h6>
+      <div class="header-title">
+        <h3 id="asm-customer-360-title" class="modal-title">
+          {{ 'asm.customer360.title' | cxTranslate }}
+        </h3>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
-          Customer 360&#176; View
+          {{ 'asm.customer360.title' | cxTranslate }}
+        </div>
+        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+      </div>
+      <div class="header-content">
+        <div class="header-content-container">
+          <div class="cx-customer-info-container">
+            <div class="cx-avatar">
+              {{ getAvatar() }}
+            </div>
+            <div class="cx-customer-info ml-3">
+              <div class="cx-customer-name">
+                {{
+                  'asm.customer360.subTitle'
+                    | cxTranslate: { name: customer.firstName }
+                }}
+              </div>
+              <div class="cx-customer-email">
+                {{ customer.uid }}
+              </div>
+            </div>
+          </div>
+          <div class="login-info">Signed up 35 minutes ago 06-04-2007</div>
         </div>
       </div>
-
-      <ng-template *ngTemplateOutlet="closeButton"></ng-template>
     </div>
 
     <!-- Modal Body -->
@@ -31,7 +45,7 @@
               (click)="selectTab(i)"
               [class.active]="activeTab === i"
             >
-              {{ tab.sectionTitle }}
+              {{ getTabTitle(tab.sectionTitle) | async }}
             </a>
           </div>
         </div>

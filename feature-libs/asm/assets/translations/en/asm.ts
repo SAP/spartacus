@@ -39,6 +39,16 @@ export const asm = {
       phone2: 'Phone2',
       paymentMethodHeader: 'Saved Payment Methods',
     },
+    customer360: {
+      title: 'Customer Profile',
+      subTitle: '{{name}} Customer 360\xB0 View',
+      overview: 'Overview',
+      profile: 'Profile',
+      activity: 'Activity',
+      feedback: 'Feedback',
+      promotions: 'Promotions',
+      maps: 'Maps',
+    },
     customerOverview: {
       activeCart: 'Active Cart',
       activeCartCode: 'Active Cart {{code}}',
@@ -53,6 +63,10 @@ export const asm = {
       inStock: 'In Stock',
       lowStock: 'Low Stock',
       outOfStock: 'Out of Stock',
+      quantity: 'Qty: {{count}}',
+      itemPrice: 'Item Price: {{price}}',
+      showMore: 'Show More',
+      showLess: 'Show Less'
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
