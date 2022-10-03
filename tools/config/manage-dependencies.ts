@@ -28,6 +28,7 @@ import semver from 'semver';
 import ts from 'typescript';
 import {
   PACKAGE_JSON,
+  PUBLISHING_VERSION,
   SAPUI5_TYPES,
   SAP_SCOPE,
   SPARTACUS_SCHEMATICS,
@@ -220,6 +221,11 @@ export function manageDependencies(
       acc[curr.name] = curr;
       return acc;
     }, {});
+
+  // If publishing version is defined, update the publishing versions of packages
+  if (PUBLISHING_VERSION) {
+    updatePublishingVersions(libraries, PUBLISHING_VERSION);
+  }
 
   // Check where imports are used (spec, lib, schematics, schematics spec)
   categorizeUsageOfDependencies(libraries);
@@ -476,6 +482,18 @@ function filterLocalAbsolutePathFiles(
       success();
     }
   }
+}
+
+/**
+ * Update the publishing versions for packages
+ */
+ function updatePublishingVersions(
+  libraries: Record<string, LibraryWithDependencies>,
+  version: string
+): void{
+  Object.values(libraries).map((library) => {
+    library.version = version;
+  });
 }
 
 /**
@@ -1056,6 +1074,8 @@ function updateDependenciesVersions(
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
+    // If publishing version is defined, update the publishing versions of packages
+    packageJson.version = PUBLISHING_VERSION ? PUBLISHING_VERSION : packageJson.version;
     const types = [
       'dependencies',
       'peerDependencies',
