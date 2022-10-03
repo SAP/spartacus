@@ -222,10 +222,10 @@ export function manageDependencies(
       return acc;
     }, {});
 
-    // If publishing version is defined, update the publishing versions of packages
-    if (PUBLISHING_VERSION) {
-      updatePublishingVersions(libraries, PUBLISHING_VERSION);
-    }
+  // If publishing version is defined, update the publishing versions of packages
+  if (PUBLISHING_VERSION) {
+    updatePublishingVersions(libraries, PUBLISHING_VERSION);
+  }
 
   // Check where imports are used (spec, lib, schematics, schematics spec)
   categorizeUsageOfDependencies(libraries);
