@@ -1,19 +1,9 @@
 %cx-asm-customer-profile {
   display: block;
-  padding: 0 28px;
+  padding: 0 48px;
 
-  .table {
-    thead {
-      th {
-        text-transform: none;
-      }
-    }
-    td {
-      vertical-align: top;
-    }
-    tr {
-      border: 0;
-    }
+  h4 {
+    font-weight: var( --cx-font-weight-semi);
   }
 
   .cx-asm-profile-address-cell {
@@ -29,10 +19,14 @@
       }
     }
   }
-  .cx-asm-profile-header {
+  .cx-asm-profile-subheader {
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: var(--cx-font-weight-bold);
     padding: 15px 0;
+    color: $asmMainTextColor;
+  }
+  .cx-asm-profile-container {
+    color: var(--cx-color-secondary);
   }
   .cx-asm-profile-cards {
     display: flex;
