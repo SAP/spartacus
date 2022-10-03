@@ -9,6 +9,7 @@ import {
   ActiveCartFacade,
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -179,6 +180,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entry groups
+   */
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntryGroups(cartId)),
       distinctUntilChanged()
     );
   }
@@ -506,6 +517,45 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
             entriesToAdd
           );
         }
+      });
+  }
+
+  /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  removeEntryGroup(entryGroupNumber: number) {
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.removeEntryGroup(cartId, userId, entryGroupNumber);
+      });
+  }
+
+  /**
+   * Add Product to bundle
+   *
+   * @param entryGroupNumber
+   * @param entry
+   * @param quantity
+   */
+  addToEntryGroup(
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number = 1
+  ) {
+    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.multiCartFacade.addToEntryGroup(
+          getCartIdByUserId(cart, userId),
+          userId,
+          entryGroupNumber,
+          entry,
+          quantity
+        );
       });
   }
 

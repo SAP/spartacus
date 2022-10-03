@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, CartType, OrderEntry } from '../models/cart.model';
+import { Cart, CartType, EntryGroup, OrderEntry } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +25,13 @@ import { Cart, CartType, OrderEntry } from '../models/cart.model';
         'mergeToCurrentCart',
         'loadCart',
         'getEntries',
+        'getEntryGroups',
         'getLastEntry',
         'addEntry',
         'addEntries',
+        'addToEntryGroup',
         'removeEntry',
+        'removeEntryGroup',
         'updateEntry',
         'getEntry',
         'assignEmail',
@@ -128,6 +131,12 @@ export abstract class MultiCartFacade {
   abstract getEntries(cartId: string): Observable<OrderEntry[]>;
 
   /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  abstract getEntryGroups(cartId: string): Observable<EntryGroup[]>;
+
+  /**
    * Get last entry for specific product code from cart.
    * Needed to cover processes where multiple entries can share the same product code
    * (e.g. promotions or configurable products)
@@ -169,6 +178,23 @@ export abstract class MultiCartFacade {
   ): void;
 
   /**
+   * Add entry to entry group in cart
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   * @param product
+   * @param quantity
+   */
+  abstract addToEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number
+  ): void;
+
+  /**
    * Remove entry from cart
    *
    * @param userId
@@ -179,6 +205,19 @@ export abstract class MultiCartFacade {
     userId: string,
     cartId: string,
     entryNumber: number
+  ): void;
+
+  /**
+   * Remove entry group from cart
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  abstract removeEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number
   ): void;
 
   /**
