@@ -1,4 +1,8 @@
 export const customer360 = {
+  header: {
+    title: 'Customer Profile',
+    subTitle: '{{name}} Customer 360\xB0 View',
+  },
   overview: {
     tabName: 'Overview',
     activeCart: 'Active Cart',
@@ -15,21 +19,11 @@ export const customer360 = {
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
   },
-  profile: {
-    tabName: 'Profile',
-  },
-  activity: {
-    tabName: 'Activity',
-  },
-  feedback: {
-    tabName: 'Feedback',
-  },
-  promotions: {
-    tabName: 'Promotion',
-  },
-  maps: {
-    tabName: 'Maps',
-  },
+  profileTab: 'Profile',
+  activityTab: 'Activity',
+  feedbackTab: 'Feedback',
+  promotionsTab: 'Promotion',
+  mapsTab: 'Maps',
 };
 
 export const asm = {
@@ -88,6 +82,10 @@ export const asm = {
       inStock: 'In Stock',
       lowStock: 'Low Stock',
       outOfStock: 'Out of Stock',
+      quantity: 'Qty: {{count}}',
+      itemPrice: 'Item Price: {{price}}',
+      showMore: 'Show More',
+      showLess: 'Show Less'
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',

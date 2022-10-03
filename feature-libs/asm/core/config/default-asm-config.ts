@@ -16,7 +16,7 @@ export const defaultAsmConfig: AsmConfig = {
     customer360: {
       tabs: [
         {
-          i18nNameKey: 'asm.customer360.feedback.tabName',
+          i18nNameKey: 'asm.customer360.feedbackTab',
           components: [
             {
               component: AsmCustomerProductReviewsComponent,
@@ -26,7 +26,7 @@ export const defaultAsmConfig: AsmConfig = {
           ],
         },
         {
-          i18nNameKey: 'asm.customer360.maps.tabName',
+          i18nNameKey: 'asm.customer360.mapsTab',
           components: [
             {
               component: AsmCustomerMapComponent,
