@@ -1,0 +1,53 @@
+on:
+  workflow_dispatch:
+    inputs:
+      ccv2_branch:
+        description: Branch on ccv2 to update
+        default: spa_p4
+        required: true
+      source_branch_to_deploy:
+        description: source branch to deploy on ccv2
+        default: develop
+        required: true
+
+name: Update ccv2 repo with unreleased Spartacus
+
+env:
+  DEFAULT_BRANCH_TO_DEPLOY: 'develop'
+
+jobs:
+  deploy_to_ccv2: 
+    name: Updating storefront of a ccv2 environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }}
+          fetch-depth: 0
+      - name: Get commit hash of the branch to deploy
+        id: branch-to-deploy-commit-id
+        run: |
+          echo "::set-output name=commit_hash::$(git rev-parse ${{ github.event.inputs.source_branch_to_deploy || env.DEFAULT_BRANCH_TO_DEPLOY }})"
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+          key: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
+          restore-keys: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Update ccv2 environment with source
+        env: 
+          CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch }}
+          SOURCE_BRANCH_TO_DEPLOY: ${{ github.event.inputs.source_branch_to_deploy }}
+          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GHT_REPO: ${{ secrets.GHT_CCV2_REPO }}
+          GHT_CCV2_EMAIL: ${{ secrets.GHT_CCV2_EMAIL }}
+          GHT_CCV2_USERNAME: ${{ secrets.GHT_CCV2_USERNAME }}
+        run: |
+          ci-scripts/update-ccv2.sh
