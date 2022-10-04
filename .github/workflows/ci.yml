@@ -2,9 +2,7 @@ on:
   push:
     branches:
       - develop
-      - epic/**
-      - release/**
-      - integration-libs/**
+
   pull_request:
     types: [opened, synchronize]
 env:
