@@ -13,13 +13,14 @@ import {
 import { SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { LocationDisplayMode } from './store-finder-list.model';
 
 const location: PointOfService = {
   displayName: 'Test Store',
 };
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
+const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
@@ -56,7 +57,6 @@ describe('StoreFinderDisplayListComponent', () => {
           HttpClientTestingModule,
           SpinnerModule,
           I18nTestingModule,
-          NgbNavModule,
         ],
         schemas: [NO_ERRORS_SCHEMA],
         declarations: [StoreFinderListComponent, StoreFinderMapComponent],
@@ -136,5 +136,18 @@ describe('StoreFinderDisplayListComponent', () => {
 
     component.hideStoreDetails();
     expect(component.isDetailsModeVisible).toBe(false);
+  });
+
+  it('should "setDisplayMode" switch active display mode', () => {
+    expect(component.activeDisplayMode).toBe(displayModes.LIST_VIEW);
+    component.setDisplayMode(displayModes.MAP_VIEW);
+    expect(component.activeDisplayMode).toBe(displayModes.MAP_VIEW);
+  });
+
+  it('should "isDisplayModeActive" return valid boolean flag', () => {
+    component.setDisplayMode(displayModes.MAP_VIEW);
+
+    expect(component.isDisplayModeActive(displayModes.MAP_VIEW)).toBeTruthy();
+    expect(component.isDisplayModeActive(displayModes.LIST_VIEW)).toBeFalsy();
   });
 });
