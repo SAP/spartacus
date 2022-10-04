@@ -1,34 +1,39 @@
-<div class="cx-dialog-header modal-header">
-  <div class="cx-dialog-title modal-title">
-    {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
-  </div>
-  <button
-    type="button"
-    class="close"
-    [attr.aria-label]="'common.close' | cxTranslate"
-    (click)="closeModal()"
-  >
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-    </span>
-  </button>
-</div>
-<div class="cx-dialog-body modal-body" ngForm>
-  <div class="container">
-    <div class="row">
-      <div class="cx-dialog-info col-md-12">
+<div
+  class="cx-suggested-addresses-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
+  <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
+    <div class="cx-suggested-addresses-header cx-modal-header">
+      <div class="cx-suggested-addresses-title">
+        {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="closeModal('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <div class="cx-suggested-addresses-body" ngForm>
+      <div class="cx-dialog-info">
         <p>
           {{ 'addressSuggestion.ensureAccuracySuggestChange' | cxTranslate }}
           {{ 'addressSuggestion.chooseAddressToUse' | cxTranslate }}
         </p>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="cx-dialog-options col-md-12">
+      <div class="cx-dialog-options">
         <div
           class="form-check"
-          *ngFor="let suggestedAddress of suggestedAddresses; let i = index"
+          *ngFor="
+            let suggestedAddress of data.suggestedAddresses;
+            let i = index
+          "
         >
           <input
             class="form-check-input"
@@ -43,17 +48,24 @@
             [for]="'suggested-addresses--suggested-' + i"
           >
             {{ 'addressSuggestion.suggestedAddress' | cxTranslate }}
-            {{ suggestedAddresses.length > 1 ? i + 1 : null }}
+            {{ data.suggestedAddresses.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
-            {{ suggestedAddress?.firstName }} {{ suggestedAddress?.lastName
-            }}<br />
-            {{ suggestedAddress?.line1 }}<br />
-            <span>{{ suggestedAddress?.line2 }}</span
-            ><br />
-            {{ suggestedAddress?.town }} {{ suggestedAddress?.region?.isocode
-            }}<br />
-            {{ suggestedAddress?.postalCode }}
+            <div class="cx-card-container">
+              <div class="cx-card-label">{{ suggestedAddress?.firstName }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.lastName }}</div>
+              <div class="cx-card-label">{{ suggestedAddress?.line1 }}</div>
+              <div class="cx-card-label">
+                <span>{{ suggestedAddress?.line2 }}</span>
+              </div>
+              <div class="cx-card-label">{{ suggestedAddress?.town }}</div>
+              <div class="cx-card-label">
+                {{ suggestedAddress?.region?.isocode }}
+              </div>
+              <div class="cx-card-label">
+                {{ suggestedAddress?.postalCode }}
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-check">
@@ -62,7 +74,7 @@
             type="radio"
             name="selectedAddress"
             [(ngModel)]="selectedAddress"
-            [value]="enteredAddress"
+            [value]="data.enteredAddress"
             id="suggested-addresses--entered"
           />
           <label
@@ -72,32 +84,44 @@
             {{ 'addressSuggestion.enteredAddress' | cxTranslate }}
           </label>
           <div class="cx-dialog-entered">
-            {{ enteredAddress?.firstName }} {{ enteredAddress?.lastName }}<br />
-            {{ enteredAddress?.line1 }}<br />
-            <span>{{ enteredAddress?.line2 }}</span
-            ><br />
-            {{ enteredAddress?.town }} {{ enteredAddress?.region?.isocode
-            }}<br />
-            {{ enteredAddress?.postalCode }}
+            <div class="cx-card-container">
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.firstName }}
+                {{ data.enteredAddress?.lastName }}
+              </div>
+              <div class="cx-card-label">{{ data.enteredAddress?.line1 }}</div>
+              <div class="cx-card-label">
+                <span>{{ data.enteredAddress?.line2 }}</span>
+              </div>
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.town }}
+                {{ data.enteredAddress?.region?.isocode }}
+              </div>
+              <div class="cx-card-label">
+                {{ data.enteredAddress?.postalCode }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="cx-dialog-actions col-sm-12 col-md-6 offset-md-6">
-        <button
-          class="btn btn-secondary btn-block cx-dialog-buttons"
-          (click)="closeModal()"
-        >
-          {{ 'addressSuggestion.editAddress' | cxTranslate }}
-        </button>
-        <button
-          cxAutoFocus
-          class="btn btn-primary btn-block cx-dialog-buttons"
-          (click)="closeModal(selectedAddress)"
-        >
-          {{ 'addressSuggestion.saveAddress' | cxTranslate }}
-        </button>
+    <div class="cx-suggested-addresses-footer cx-modal-footer">
+      <div class="row">
+        <div class="cx-dialog-actions col-sm-12 col-md-12 col-lg-6 offset-lg-6">
+          <button
+            class="btn btn-secondary cx-dialog-buttons"
+            (click)="closeModal('Edit address')"
+          >
+            {{ 'addressSuggestion.editAddress' | cxTranslate }}
+          </button>
+          <button
+            cxAutoFocus
+            class="btn btn-primary cx-dialog-buttons"
+            (click)="closeModal(selectedAddress)"
+          >
+            {{ 'addressSuggestion.saveAddress' | cxTranslate }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -85,6 +85,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
+export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
