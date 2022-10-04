@@ -8,16 +8,11 @@ export class AccountSummaryItemService {
   constructor(protected routingService: RoutingService) {}
 
   launchDetails(item: B2BUnit): void {
-    const detailsPageRoute = this.getDetailsRoute();
-    if (detailsPageRoute && item && Object.keys(item).length > 0) {
+    if (item && Object.keys(item).length > 0) {
       this.routingService.go({
-        cxRoute: detailsPageRoute,
+        cxRoute: 'orgAccountSummaryDetails',
         params: item,
       });
     }
-  }
-
-  protected getDetailsRoute(): string {
-    return 'orgAccountSummaryDetails';
   }
 }
