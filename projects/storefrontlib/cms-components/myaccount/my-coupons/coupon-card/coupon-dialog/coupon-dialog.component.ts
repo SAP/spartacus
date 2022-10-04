@@ -1,14 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ChangeDetectionStrategy,
   HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { CustomerCoupon } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 
 @Component({

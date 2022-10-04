@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
@@ -16,7 +22,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 })
 export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';
-  attributeInputForm = new FormControl('');
+  attributeInputForm = new UntypedFormControl('');
 
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
   @Output()

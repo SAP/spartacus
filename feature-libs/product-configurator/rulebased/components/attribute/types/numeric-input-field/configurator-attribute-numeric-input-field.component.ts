@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -7,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -88,7 +94,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       }
     }
 
-    this.attributeInputForm = new FormControl('', [
+    this.attributeInputForm = new UntypedFormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
         numDecimalPlaces,

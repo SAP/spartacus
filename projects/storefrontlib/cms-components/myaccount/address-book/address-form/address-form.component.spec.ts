@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -111,7 +111,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
-  let controls: FormGroup['controls'];
+  let controls: UntypedFormGroup['controls'];
 
   let userAddressService: UserAddressService;
   let userService: UserService;

@@ -1,12 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Set of tools for managing configuration in this repository
  *
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
- *
- * To do:
- * - sonar cloud configuration
  */
 
 import chalk from 'chalk';

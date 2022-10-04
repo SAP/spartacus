@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Purpose of this script is to check/set correctly all required paths in `compilerOptions.paths` property in all our `tsconfig` files.
  * Use after adding new library or new entry point, or moving libraries in file system.
@@ -64,9 +70,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(
-          lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
+        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
+          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
+        ),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {

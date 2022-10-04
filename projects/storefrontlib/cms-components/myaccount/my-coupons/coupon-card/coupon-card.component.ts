@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,9 +15,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CustomerCoupon } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 
 @Component({

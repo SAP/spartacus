@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,9 +13,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { NotificationPreference, UserInterestsService } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../layout/index';
 import { Observable, Subscription } from 'rxjs';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { LaunchDialogService } from '../../../../layout/index';
 
 @Component({
   selector: 'cx-stock-notification-dialog',

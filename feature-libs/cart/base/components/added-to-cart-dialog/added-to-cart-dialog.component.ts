@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -44,7 +50,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
   quantity = 0;
 
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -53,7 +59,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
-  protected quantityControl$: Observable<FormControl>;
+  protected quantityControl$: Observable<UntypedFormControl>;
 
   protected subscription = new Subscription();
 
@@ -81,7 +87,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
    * but also updates the entry in case of a changed value.
    * The quantity can be set to zero in order to remove the entry.
    */
-  getQuantityControl(): Observable<FormControl> {
+  getQuantityControl(): Observable<UntypedFormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
@@ -105,7 +111,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity')),
+        map(() => <UntypedFormControl>this.form.get('quantity')),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -140,19 +146,21 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry?: OrderEntry): FormControl {
+  protected getQuantityFormControl(entry?: OrderEntry): UntypedFormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
+      const quantity = new UntypedFormControl(entry?.quantity, {
+        updateOn: 'blur',
+      });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new FormControl(entry?.entryNumber);
+      const entryNumber = new UntypedFormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     } else {
       // set the real quantity added to cart
       this.form.get('quantity')?.setValue(entry?.quantity);
     }
 
-    return <FormControl>this.form.get('quantity');
+    return <UntypedFormControl>this.form.get('quantity');
   }
 
   dismissModal(reason?: any): void {

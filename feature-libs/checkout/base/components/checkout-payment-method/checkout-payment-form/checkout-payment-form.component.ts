@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +12,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -71,7 +81,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
-  paymentForm: FormGroup = this.fb.group({
+  paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
     }),
@@ -83,7 +93,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     defaultPayment: [false],
   });
 
-  billingAddressForm: FormGroup = this.fb.group({
+  billingAddressForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -103,7 +113,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService
   ) {}
