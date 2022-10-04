@@ -68,9 +68,6 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -178,7 +175,6 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
