@@ -343,7 +343,7 @@ describe('CdcJsService', () => {
   });
 
   describe('onInitRegistrationHandler', () => {
-    it('should register the user', (done) => {
+    it('should register the user', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'register').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
@@ -372,7 +372,6 @@ describe('CdcJsService', () => {
           finalizeRegistration: true,
           callback: jasmine.any(Function),
         });
-        done();
       });
     });
 
