@@ -23,6 +23,10 @@ export enum B2BUserRole {
   UNIT_LEVEL_ORDERS_VIEWER = 'unitorderviewergroup',
 }
 
+export enum B2BUserRight {
+  UNITORDERVIEWER = 'unitorderviewergroup',
+}
+
 export interface B2BUnit {
   active?: boolean;
   addresses?: Address[];
