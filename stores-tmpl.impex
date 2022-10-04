@@ -1,0 +1,68 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# The files in this addon are licensed under the Apache Software License, v. 2
+# except as noted otherwise in the LICENSE file.
+# -----------------------------------------------------------------------
+#
+
+# SPA Storefinder locations
+$storeUid=apparel-uk
+$productCatalog=apparelProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$storeImage=storeImage(qualifier, $catalogVersion)
+
+# Remove old PointOfServices (temporarily keep old stores because of e2e failing #4705)
+REMOVE PointOfService[batchmode=true];basestore(uid)[unique=true]
+;$storeUid
+
+$standardHours=sap-office-standard-hours
+$weekendHours=sap-office-weekend-hours
+
+INSERT_UPDATE OpeningSchedule;code[unique=true];
+;$standardHours;
+;$weekendHours;
+
+INSERT_UPDATE WeekdayOpeningDay;openingSchedule(code)[unique=true];dayOfWeek(code)[unique=true];openingTime[dateformat=hh:mm];closingTime[dateformat=hh:mm];
+;$standardHours;MONDAY   ; 09:00; 20:00
+;$standardHours;TUESDAY  ; 09:00; 20:00
+;$standardHours;WEDNESDAY; 09:00; 20:00
+;$standardHours;THURSDAY ; 09:00; 20:00
+;$standardHours;FRIDAY   ; 09:00; 20:00
+;$standardHours;SATURDAY ; 10:00; 20:00
+
+;$weekendHours;MONDAY   ; 09:00; 20:00
+;$weekendHours;TUESDAY  ; 09:00; 20:00
+;$weekendHours;WEDNESDAY; 09:00; 20:00
+;$weekendHours;THURSDAY ; 09:00; 20:00
+;$weekendHours;FRIDAY   ; 09:00; 20:00
+;$weekendHours;SATURDAY ; 10:00; 20:00
+;$weekendHours;SUNDAY   ; 10:00; 16:00
+
+INSERT_UPDATE SpecialOpeningDay;openingSchedule(code)[unique=true];date[unique=true,dateformat=dd.MM.yyyy];closed;openingTime[dateformat=hh:mm];closingTime[dateformat=hh:mm]
+;$standardHours; 01.01.2014 ;true
+;$standardHours; 29.03.2014 ;true
+;$standardHours; 01.04.2014 ;true
+;$standardHours; 01.05.2014 ;true
+;$standardHours; 09.05.2014 ;true
+;$standardHours; 20.05.2014 ;true
+;$standardHours; 03.10.2014 ;true
+;$standardHours; 25.12.2014 ;true
+;$standardHours; 26.12.2014 ;true
+
+;$weekendHours; 01.01.2014 ;true
+;$weekendHours; 29.03.2014 ;true
+;$weekendHours; 01.04.2014 ;true
+;$weekendHours; 01.05.2014 ;true
+;$weekendHours; 09.05.2014 ;true
+;$weekendHours; 20.05.2014 ;true
+;$weekendHours; 03.10.2014 ;true
+;$weekendHours; 25.12.2014 ;true
+;$weekendHours; 26.12.2014 ;true
+
+INSERT_UPDATE PointOfService;name[unique=true];displayName;type(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd.MM.yyyy];$storeImage;features(code);basestore(uid)[default=$storeUid];openingSchedule(code)
+$$PointsOfService$$
+
+INSERT_UPDATE Address;&addrID;streetname;streetnumber;postalcode;town;country(isocode);phone1;owner(PointOfService.name)[unique=true];
+$$Addresses$$
