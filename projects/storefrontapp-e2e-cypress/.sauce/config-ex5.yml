@@ -11,8 +11,8 @@ sauce:
       - default
     build: "config-ex1 $CURRENT_TIME"
 cypress:
-  version: 9.7.0
-  configFile: "cypress.json" # We determine related files based on the location of the config file.
+  version: 10.7.0
+  configFile: "cypress.config.ts" # We determine related files based on the location of the config file.
 # Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
 rootDir: ./
 suites:
