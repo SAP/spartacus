@@ -20,9 +20,9 @@ import { viewportContext } from '../../../helpers/viewport-context';
 - From the cart, the user can change the location they wish to pick up the product from.
 - The user also add another item only for delivery.(Multiple items in cart)
 - The user decides to login so the order will show in the user's account.
-- The logged in user checks out.
+TODO:- The logged in user checks out.
 TODO:- During checkout, the user can change the pickup location. (WIP)
-- During the order review, the user can change the pickup location.
+TODO:- During the order review, the user can change the pickup location.
 TODO:- The user completes checkout and sees the order details. On here they can see their pickup location for the picket item and the delivery for the delivered item. (WIP)
 */
 
