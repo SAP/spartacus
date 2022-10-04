@@ -39,6 +39,19 @@
       "@spartacus/cart/base/root": [
         "../../feature-libs/cart/base/root/public_api"
       ],
+      "@spartacus/cart/bundle/components": [
+        "../../feature-libs/cart/bundle/components/public_api"
+      ],
+      "@spartacus/cart/bundle/core": [
+        "../../feature-libs/cart/bundle/core/public_api"
+      ],
+      "@spartacus/cart/bundle": ["../../feature-libs/cart/bundle/public_api"],
+      "@spartacus/cart/bundle/occ": [
+        "../../feature-libs/cart/bundle/occ/public_api"
+      ],
+      "@spartacus/cart/bundle/root": [
+        "../../feature-libs/cart/bundle/root/public_api"
+      ],
       "@spartacus/cart/import-export/assets": [
         "../../feature-libs/cart/import-export/assets/public_api"
       ],
@@ -355,14 +368,11 @@
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
       ],
-      "@spartacus/epd-visualization/components": [
-        "../../integration-libs/epd-visualization/components/public_api"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../integration-libs/epd-visualization/assets/public_api"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../integration-libs/epd-visualization/root/public_api"
+      "@spartacus/epd-visualization/components": [
+        "../../integration-libs/epd-visualization/components/public_api"
       ],
       "@spartacus/epd-visualization/core": [
         "../../integration-libs/epd-visualization/core/public_api"
@@ -372,6 +382,9 @@
       ],
       "@spartacus/epd-visualization": [
         "../../integration-libs/epd-visualization/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "../../integration-libs/epd-visualization/root/public_api"
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],

@@ -30,6 +30,9 @@ class MockActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
+  getEntryGroups(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
   isStable(): Observable<boolean> {
     return of(true);
   }

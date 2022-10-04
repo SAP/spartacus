@@ -22,6 +22,11 @@
       "@spartacus/cart/base": ["dist/cart/base"],
       "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
       "@spartacus/cart/base/root": ["dist/cart/base/root"],
+      "@spartacus/cart/bundle/components": ["dist/cart/bundle/components"],
+      "@spartacus/cart/bundle/core": ["dist/cart/bundle/core"],
+      "@spartacus/cart/bundle": ["dist/cart/bundle"],
+      "@spartacus/cart/bundle/occ": ["dist/cart/bundle/occ"],
+      "@spartacus/cart/bundle/root": ["dist/cart/bundle/root"],
       "@spartacus/cart/import-export/assets": [
         "dist/cart/import-export/assets"
       ],
@@ -212,16 +217,16 @@
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
+      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
       "@spartacus/epd-visualization/components": [
         "dist/epd-visualization/components"
       ],
-      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
-      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/epd-visualization/core": ["dist/epd-visualization/core"],
       "@spartacus/epd-visualization/epd-visualization-api": [
         "dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

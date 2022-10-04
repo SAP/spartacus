@@ -27,6 +27,7 @@ import { CartItemValidationWarningModule } from '../validation/cart-item-warning
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CartBundleListRowComponent } from './cart-bundle-list-row';
 import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
 
 @NgModule({
@@ -64,12 +65,14 @@ import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
     OrderSummaryComponent,
     CartItemListComponent,
     CartItemListRowComponent,
+    CartBundleListRowComponent,
   ],
   exports: [
     CartItemComponent,
     CartItemListRowComponent,
     CartItemListComponent,
     OrderSummaryComponent,
+    CartBundleListRowComponent,
   ],
 })
 export class CartSharedModule {}

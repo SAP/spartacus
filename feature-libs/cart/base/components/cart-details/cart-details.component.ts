@@ -5,10 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
+  EntryGroup,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
@@ -25,25 +27,90 @@ import { filter, map, tap } from 'rxjs/operators';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
+  entryGroups$: Observable<EntryGroup[]>;
+  bundles$: Observable<EntryGroup[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
+
+  // TODO: Remove, for testing only
+  editingBundle$ = this.routeService.queryParams.pipe(
+    map((params) => {
+      return !!params.edit;
+    })
+  );
 
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
+    protected cartConfig: CartConfigService,
+    // TODO: Remove, for testing only
+    protected routeService: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
 
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
+    this.entryGroups$ = this.activeCartService
+      .getEntryGroups()
+      .pipe(filter((groups) => groups.length > 0));
+
+    this.bundles$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => Boolean(group.entryGroups?.length))
+          .map((entryGroup) => ({
+            ...entryGroup,
+            entries: entryGroup.entryGroups?.reduce<OrderEntry[]>(
+              (acc, curr) => [...acc, ...(curr.entries ?? [])],
+              []
+            ),
+          }))
+      )
+    );
+
+    this.entries$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => !group.entryGroups?.length)
+          .reduce<OrderEntry[]>(
+            (acc, curr) => [...acc, ...(curr.entries ?? [])],
+            []
+          )
+      )
+    );
+
+    this.entryGroups$ = this.activeCartService
+      .getEntryGroups()
+      .pipe(filter((groups) => groups.length > 0));
+
+    this.bundles$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => Boolean(group.entryGroups?.length))
+          .map((entryGroup) => ({
+            ...entryGroup,
+            entries: entryGroup.entryGroups?.reduce<OrderEntry[]>(
+              (acc, curr) => [...acc, ...(curr.entries ?? [])],
+              []
+            ),
+          }))
+      )
+    );
+
+    this.entries$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => !group.entryGroups?.length)
+          .reduce<OrderEntry[]>(
+            (acc, curr) => [...acc, ...(curr.entries ?? [])],
+            []
+          )
+      )
+    );
 
     this.selectiveCartEnabled = this.cartConfig.isSelectiveCartEnabled();
 
