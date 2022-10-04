@@ -61,6 +61,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
+  protected _bundles: EntryGroup[] = [];
 
   @Input('items')
   set items(items: OrderEntry[]) {
@@ -213,6 +214,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[this.getControlName(item)];
+  }
+
+  getBundleControl(bundle: EntryGroup): Observable<FormGroup> | undefined {
+    return of(<FormGroup>this.form.get(this.getBundleControlName(bundle)));
   }
 
   getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {
