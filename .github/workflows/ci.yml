@@ -2,7 +2,8 @@ on:
   push:
     branches:
       - develop
-
+      - release/**
+      - integration-libs/**
   pull_request:
     types: [opened, synchronize]
 env:
