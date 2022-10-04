@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Address, LanguageService, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
@@ -11,6 +11,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 @Component({
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountSummaryHeaderComponent {
   notApplicable: string;

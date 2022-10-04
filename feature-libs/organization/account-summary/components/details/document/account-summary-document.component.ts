@@ -64,8 +64,8 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService,
-    private downloadService: FileDownloadService,
-    private languageService: LanguageService
+    protected downloadService: FileDownloadService,
+    protected languageService: LanguageService
   ) {}
 
   ngOnInit() {
