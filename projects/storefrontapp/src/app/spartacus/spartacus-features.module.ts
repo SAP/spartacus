@@ -60,7 +60,6 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
-import { BundleFeatureModule } from './features/bundle-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
@@ -202,7 +201,7 @@ if (environment.epdVisualization) {
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
-    BundleFeatureModule,
+
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
 

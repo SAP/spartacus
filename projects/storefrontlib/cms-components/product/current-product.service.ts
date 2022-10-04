@@ -53,12 +53,6 @@ export class CurrentProductService {
   protected getCode(): Observable<string> {
     return this.routingService
       .getRouterState()
-      .pipe(
-        map(
-          (state) =>
-            state.state.params['productCode'] ||
-            state.state.queryParams['productCode']
-        )
-      );
+      .pipe(map((state) => state.state.params['productCode']));
   }
 }

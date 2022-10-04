@@ -19,7 +19,6 @@ import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
-import { BundleMainModule } from 'feature-libs/cart/bundle/components/bundle-main';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { BundleMainModule } from 'feature-libs/cart/bundle/components/bundle-mai
     FeaturesConfigModule,
     I18nModule,
     CartValidationWarningsModule,
-    BundleMainModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

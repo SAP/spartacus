@@ -7,8 +7,6 @@
 import { Injectable } from '@angular/core';
 import {
   Cart,
-  OrderEntry,
-  EntryGroup,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import {
@@ -23,15 +21,6 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.Cart, target?: Cart): Cart {
-    const mapEntry = (entry: Occ.OrderEntry): OrderEntry => ({
-      ...entry,
-      product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-      promotions: this.converter.convert(
-        { item: entry, promotions: target?.appliedProductPromotions },
-        ORDER_ENTRY_PROMOTIONS_NORMALIZER
-      ),
-    });
-
     if (target === undefined) {
       target = { ...(source as any) } as Cart;
     }
@@ -39,22 +28,14 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     this.removeDuplicatePromotions(source, target);
 
     if (source.entries) {
-      target.entries = source.entries.map(mapEntry);
-    }
-
-    if (source.entryGroups) {
-      const mapEntryGroups = (groups: Occ.EntryGroup[]): EntryGroup[] =>
-        groups.map(
-          (group) =>
-            ({
-              ...group,
-              entries: group.entries?.map(mapEntry),
-              ...(group.entryGroups?.length && {
-                entryGroups: mapEntryGroups(group.entryGroups),
-              }),
-            } as EntryGroup)
-        );
-      target.entryGroups = mapEntryGroups(source.entryGroups);
+      target.entries = source.entries.map((entry) => ({
+        ...entry,
+        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        promotions: this.converter.convert(
+          { item: entry, promotions: target?.appliedProductPromotions },
+          ORDER_ENTRY_PROMOTIONS_NORMALIZER
+        ),
+      }));
     }
 
     return target;
