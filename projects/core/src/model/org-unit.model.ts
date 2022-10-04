@@ -16,6 +16,10 @@ export enum B2BUserRole {
   APPROVER = 'b2bapprovergroup',
 }
 
+export enum B2BUserRight {
+  UNITORDERVIEWER = 'unitorderviewergroup',
+}
+
 export interface B2BUnit {
   active?: boolean;
   addresses?: Address[];
