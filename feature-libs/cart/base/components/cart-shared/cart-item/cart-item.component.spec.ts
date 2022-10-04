@@ -11,7 +11,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  FormControl,
+  UntypedFormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -144,7 +144,7 @@ describe('CartItemComponent', () => {
       product: mockProduct,
       updateable: true,
     };
-    cartItemComponent.quantityControl = new FormControl('1');
+    cartItemComponent.quantityControl = new UntypedFormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
     spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
@@ -207,7 +207,7 @@ describe('CartItemComponent', () => {
 
     it('should push change of input "quantityControl" to context', () => {
       spyOn(cartItemContextSource.quantityControl$, 'next');
-      cartItemComponent.quantityControl = new FormControl(2);
+      cartItemComponent.quantityControl = new UntypedFormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
           currentValue: cartItemComponent.quantityControl,
