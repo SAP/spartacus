@@ -18,7 +18,6 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -66,8 +65,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected routingService: RoutingService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -81,12 +79,6 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
           );
         }
       )
-    );
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .pipe(filter((state) => !!state.nextState))
-        .subscribe(() => this.dismissModal('dismiss'))
     );
   }
 
