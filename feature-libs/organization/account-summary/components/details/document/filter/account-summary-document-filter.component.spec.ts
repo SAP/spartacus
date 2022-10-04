@@ -1,14 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import {
-  I18nTestingModule,
-  LanguageService,
-  TranslationService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import {
   DocumentQueryParams,
@@ -16,10 +12,7 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
-import { Observable, of } from 'rxjs';
 
 const mockQueryParams: DocumentQueryParams = {
   status: DocumentStatus.ALL,
@@ -36,16 +29,9 @@ class MockDatePickerComponent {
   @Input() max: any;
 }
 
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of('en-US');
-  }
-}
-
 describe('AccountSummaryDocumentFilterComponent', () => {
   let component: AccountSummaryDocumentFilterComponent;
   let fixture: ComponentFixture<AccountSummaryDocumentFilterComponent>;
-  let translationService: TranslationService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -59,12 +45,9 @@ describe('AccountSummaryDocumentFilterComponent', () => {
         AccountSummaryDocumentFilterComponent,
         MockDatePickerComponent,
       ],
-      providers: [
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [],
     }).compileComponents();
-    translationService = TestBed.inject(TranslationService);
   });
 
   beforeEach(() => {
@@ -79,14 +62,20 @@ describe('AccountSummaryDocumentFilterComponent', () => {
   });
 
   it('should get status options', () => {
-    spyOn(translationService, 'translate');
-    component['_statusOptions'] = undefined as any;
     const statusOptions = component.statusOptions;
-    expect(translationService.translate).toHaveBeenCalledTimes(3);
     expect(statusOptions?.length).toEqual(3);
-    expect(statusOptions[0]).toEqual({ code: DocumentStatus.ALL });
-    expect(statusOptions[1]).toEqual({ code: DocumentStatus.OPEN });
-    expect(statusOptions[2]).toEqual({ code: DocumentStatus.CLOSED });
+    expect(statusOptions[0]).toEqual({
+      code: DocumentStatus.ALL,
+      name: 'orgAccountSummary.statuses.all',
+    });
+    expect(statusOptions[1]).toEqual({
+      code: DocumentStatus.OPEN,
+      name: 'orgAccountSummary.statuses.open',
+    });
+    expect(statusOptions[2]).toEqual({
+      code: DocumentStatus.CLOSED,
+      name: 'orgAccountSummary.statuses.closed',
+    });
   });
 
   it('should encode and decode date', () => {
@@ -98,25 +87,35 @@ describe('AccountSummaryDocumentFilterComponent', () => {
   });
 
   it('should get filter by options', () => {
-    spyOn(translationService, 'translate');
-    component['_filterByOptions'] = undefined as any;
     const filterByOptions = component.filterByOptions;
-    expect(translationService.translate).toHaveBeenCalledTimes(7);
     expect(filterByOptions?.length).toEqual(7);
     expect(filterByOptions[0]).toEqual({
       code: FilterByOptions.DOCUMENT_NUMBER,
+      name: 'orgAccountSummary.filterByOptions.orgDocumentId',
     });
     expect(filterByOptions[1]).toEqual({
       code: FilterByOptions.DOCUMENT_NUMBER_RANGE,
+      name: 'orgAccountSummary.filterByOptions.orgDocumentIdRange',
     });
-    expect(filterByOptions[2]).toEqual({ code: FilterByOptions.DOCUMENT_TYPE });
-    expect(filterByOptions[3]).toEqual({ code: FilterByOptions.DATE_RANGE });
+    expect(filterByOptions[2]).toEqual({
+      code: FilterByOptions.DOCUMENT_TYPE,
+      name: 'orgAccountSummary.filterByOptions.orgDocumentType',
+    });
+    expect(filterByOptions[3]).toEqual({
+      code: FilterByOptions.DATE_RANGE,
+      name: 'orgAccountSummary.filterByOptions.createdAtDateRange',
+    });
     expect(filterByOptions[4]).toEqual({
       code: FilterByOptions.DUE_DATE_RANGE,
+      name: 'orgAccountSummary.filterByOptions.dueAtDateRange',
     });
-    expect(filterByOptions[5]).toEqual({ code: FilterByOptions.AMOUNT_RANGE });
+    expect(filterByOptions[5]).toEqual({
+      code: FilterByOptions.AMOUNT_RANGE,
+      name: 'orgAccountSummary.filterByOptions.amountRange',
+    });
     expect(filterByOptions[6]).toEqual({
       code: FilterByOptions.OPEN_AMOUNT_RANGE,
+      name: 'orgAccountSummary.filterByOptions.openAmountRange',
     });
   });
 

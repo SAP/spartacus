@@ -7,14 +7,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { LanguageService, TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { combineLatest, Subscription } from 'rxjs';
+import { Subscription, zip } from 'rxjs';
 
 import {
   AbstractControl,
@@ -23,7 +23,8 @@ import {
   FormGroup,
   ValidationErrors,
 } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface ItemType {
   code: string;
@@ -46,6 +47,7 @@ export class AccountSummaryDocumentFilterComponent
 {
   @Input()
   documentTypeOptions: Array<AccountSummaryDocumentType>;
+
   @Input()
   set initialFilters(initialFilters: DocumentQueryParams) {
     this.initializeForm(initialFilters);
@@ -60,21 +62,26 @@ export class AccountSummaryDocumentFilterComponent
   filterForm: FormGroup;
 
   private subscription = new Subscription();
-  private _statusOptions: Array<ItemType>;
-  private _filterByOptions: Array<ItemType>;
+
+  statusOptions: ItemType[];
+  filterByOptions: ItemType[];
 
   constructor(
     protected translation: TranslationService,
-    private fb: FormBuilder,
-    private languageService: LanguageService
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.subscription.add(
-      this.languageService.getActive().subscribe(() => {
-        this.translateStatusOptions();
-        this.translateFilterByOptions();
-      })
+      this.getStatusOptions().subscribe(
+        (statusOptions) => (this.statusOptions = [...statusOptions])
+      )
+    );
+
+    this.subscription.add(
+      this.getFilterByOptions().subscribe(
+        (filterOptions) => (this.filterByOptions = [...filterOptions])
+      )
     );
   }
 
@@ -163,54 +170,40 @@ export class AccountSummaryDocumentFilterComponent
     }
   }
 
-  get statusOptions(): Array<ItemType> {
-    if (!this._statusOptions) {
-      this.translateStatusOptions();
-    }
-    return this._statusOptions;
-  }
+  protected getStatusOptions(): Observable<ItemType[]> {
+    const statusOptions: ItemType[] = (
+      Object.values(DocumentStatus) as Array<string>
+    ).map((code) => ({ code }));
 
-  get filterByOptions(): Array<ItemType> {
-    if (!this._filterByOptions) {
-      this.translateFilterByOptions();
-    }
-    return this._filterByOptions;
-  }
-
-  private translateStatusOptions(): void {
-    this._statusOptions = (Object.values(DocumentStatus) as Array<string>).map(
-      (code) => ({ code })
-    );
-    const translations = this._statusOptions.map((status) =>
+    const translations = statusOptions.map((status) =>
       this.translation.translate(`orgAccountSummary.statuses.${status.code}`)
     );
 
-    combineLatest(translations)
-      .pipe(take(1))
-      .subscribe((translationText) =>
-        translationText.forEach(
-          (text, index) => (this._statusOptions[index].name = text)
-        )
-      );
+    return zip(...translations).pipe(
+      map((texts) => {
+        texts.forEach((text, index) => (statusOptions[index].name = text));
+        return statusOptions;
+      })
+    );
   }
 
-  private translateFilterByOptions(): void {
-    this._filterByOptions = (
+  protected getFilterByOptions(): Observable<ItemType[]> {
+    const filterByOptions: ItemType[] = (
       Object.values(FilterByOptions) as Array<string>
     ).map((code) => ({ code }));
-    const translations = this._filterByOptions.map((status) =>
+
+    const translations = filterByOptions.map((status) =>
       this.translation.translate(
         `orgAccountSummary.filterByOptions.${status.code}`
       )
     );
 
-    combineLatest(translations)
-      .pipe(take(1))
-      .subscribe((translationText) =>
-        translationText.forEach(
-          (text, index) => (this._filterByOptions[index].name = text)
-        )
-      );
+    return zip(...translations).pipe(
+      map((texts) => {
+        texts.forEach((text, index) => (filterByOptions[index].name = text));
+        return filterByOptions;
+      })
+    );
   }
 
   private initializeForm({
