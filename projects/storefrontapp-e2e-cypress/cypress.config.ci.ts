@@ -8,8 +8,9 @@ export default defineConfig({
   numTestsKeptInMemory: 1,
   chromeWebSecurity: false,
   video: true,
+  videoCompression: 3,
   retries: {
-    runMode: 2,
+    runMode: 1,
   },
   videoUploadOnPasses: false,
   env: {
