@@ -525,11 +525,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param entryGroupNumber
    */
-  deleteEntryGroup(entryGroupNumber: number) {
+  removeEntryGroup(entryGroupNumber: number) {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.deleteEntryGroup(cartId, userId, entryGroupNumber);
+        this.multiCartFacade.removeEntryGroup(cartId, userId, entryGroupNumber);
       });
   }
 

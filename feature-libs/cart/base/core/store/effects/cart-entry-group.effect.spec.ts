@@ -42,7 +42,7 @@ describe('Cart effect', () => {
 
     const mockCartEntryGroupConnector: Partial<CartEntryGroupConnector> = {
       addToEntryGroup: createSpy().and.returnValue(of(mockCartModification)),
-      deleteEntryGroup: createSpy().and.returnValue(of({})),
+      removeEntryGroup: createSpy().and.returnValue(of({})),
     };
 
     TestBed.configureTestingModule({
@@ -84,14 +84,14 @@ describe('Cart effect', () => {
     });
   });
 
-  describe('deleteEntryGroup$', () => {
+  describe('removeEntryGroup$', () => {
     it('should remove an entry', () => {
-      const action = new CartActions.DeleteEntryGroup({
+      const action = new CartActions.RemoveEntryGroup({
         userId: userId,
         cartId: cartId,
         entryGroupNumber,
       });
-      const completion = new CartActions.DeleteEntryGroupSuccess({
+      const completion = new CartActions.RemoveEntryGroupSuccess({
         userId,
         cartId,
         entryGroupNumber,
@@ -100,7 +100,7 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(entryEffects.deleteEntryGroup$).toBeObservable(expected);
+      expect(entryEffects.removeEntryGroup$).toBeObservable(expected);
     });
   });
 });

@@ -612,11 +612,11 @@ describe('MultiCartService', () => {
     });
   });
 
-  describe('deleteEntryGroup', () => {
-    it('should dispatch DeleteEntryGroup action', () => {
-      service.deleteEntryGroup('cartId', 'userId', 0);
+  describe('removeEntryGroup', () => {
+    it('should dispatch RemoveEntryGroup action', () => {
+      service.removeEntryGroup('cartId', 'userId', 0);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.DeleteEntryGroup({
+        new CartActions.RemoveEntryGroup({
           cartId: 'cartId',
           userId: 'userId',
           entryGroupNumber: 0,

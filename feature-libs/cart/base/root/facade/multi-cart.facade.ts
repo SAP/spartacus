@@ -29,8 +29,9 @@ import { Cart, CartType, EntryGroup, OrderEntry } from '../models/cart.model';
         'getLastEntry',
         'addEntry',
         'addEntries',
-        'addEntriesToEntryGroups',
+        'addToEntryGroup',
         'removeEntry',
+        'removeEntryGroup',
         'updateEntry',
         'getEntry',
         'assignEmail',
@@ -148,20 +149,6 @@ export abstract class MultiCartFacade {
     productCode: string
   ): Observable<OrderEntry | undefined>;
 
-  // /**
-  //  * Add multiple entries to cart
-  //  *
-  //  * @param userId
-  //  * @param cartId
-  //  * @param products Array with items (productCode and quantity)
-  //  */
-  // abstract addEntryGroup(
-  //   cartId: string,
-  //   userId: string,
-  //   entryGroupNumber: number,
-  //   entry: OrderEntry
-  // ): void;
-
   /**
    * Add entry to cart
    *
@@ -191,7 +178,7 @@ export abstract class MultiCartFacade {
   ): void;
 
   /**
-   * Add product to bundle
+   * Add entry to entry group in cart
    *
    * @param cartId
    * @param userId
@@ -208,22 +195,6 @@ export abstract class MultiCartFacade {
   ): void;
 
   /**
-   * Add products to bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param entries
-   */
-  abstract addEntriesToEntryGroups(
-    cartId: string,
-    userId: string,
-    entries: {
-      entryGroupNumber: number;
-      entry: OrderEntry;
-    }[]
-  ): void;
-
-  /**
    * Remove entry from cart
    *
    * @param userId
@@ -237,13 +208,13 @@ export abstract class MultiCartFacade {
   ): void;
 
   /**
-   * Remove bundle
+   * Remove entry group from cart
    *
    * @param cartId
    * @param userId
    * @param entryGroupNumber
    */
-  abstract deleteEntryGroup(
+  abstract removeEntryGroup(
     cartId: string,
     userId: string,
     entryGroupNumber: number

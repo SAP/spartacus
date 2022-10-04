@@ -56,7 +56,7 @@ class MultiCartFacadStub {
   getEntryGroups() {
     return of([]);
   }
-  deleteEntryGroup() {}
+  removeEntryGroup() {}
   addToEntryGroup() {}
 }
 
@@ -832,14 +832,14 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('deleteEntryGroup', () => {
+  describe('removeEntryGroup', () => {
     it('should call multiCartFacade delete entry group method with active cart', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartFacade, 'deleteEntryGroup').and.callThrough();
+      spyOn(multiCartFacade, 'removeEntryGroup').and.callThrough();
 
-      service.deleteEntryGroup(1);
-      expect(multiCartFacade['deleteEntryGroup']).toHaveBeenCalledWith(
+      service.removeEntryGroup(1);
+      expect(multiCartFacade['removeEntryGroup']).toHaveBeenCalledWith(
         'cartId',
         'userId',
         1

@@ -12,10 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/cart/base/assets": [
         "dist/cart/base/assets"

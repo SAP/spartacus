@@ -57,30 +57,30 @@ export class CartEntryGroupEffects {
     )
   );
 
-  deleteEntryGroup$: Observable<
-    | CartActions.DeleteEntryGroupSuccess
-    | CartActions.DeleteEntryGroupFail
+  removeEntryGroup$: Observable<
+    | CartActions.RemoveEntryGroupSuccess
+    | CartActions.RemoveEntryGroupFail
     | CartActions.LoadCart
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.DELETE_ENTRY_GROUP),
-      map((action: CartActions.DeleteEntryGroup) => action.payload),
+      map((action: CartActions.RemoveEntryGroup) => action.payload),
       concatMap((payload) =>
         this.cartEntryGroupConnector
-          .deleteEntryGroup(
+          .removeEntryGroup(
             payload.userId,
             payload.cartId,
             payload.entryGroupNumber
           )
           .pipe(
             map(() => {
-              return new CartActions.DeleteEntryGroupSuccess({
+              return new CartActions.RemoveEntryGroupSuccess({
                 ...payload,
               });
             }),
             catchError((error) =>
               from([
-                new CartActions.DeleteEntryGroupFail({
+                new CartActions.RemoveEntryGroupFail({
                   ...payload,
                   error: error,
                 }),
@@ -108,7 +108,7 @@ export class CartEntryGroupEffects {
           (
             action:
               | CartActions.AddToEntryGroupSuccess
-              | CartActions.DeleteEntryGroupSuccess
+              | CartActions.RemoveEntryGroupSuccess
           ) => action.payload
         ),
         map((payload) => {

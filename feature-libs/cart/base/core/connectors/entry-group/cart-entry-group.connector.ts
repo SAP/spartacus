@@ -50,11 +50,11 @@ export class CartEntryGroupConnector {
    * @param entryGroupNumber
    * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    */
-  public deleteEntryGroup(
+  public removeEntryGroup(
     userId: string,
     cartId: string,
     entryGroupNumber: number
   ): Observable<CartModification> {
-    return this.adapter.deleteEntryGroup(userId, cartId, entryGroupNumber);
+    return this.adapter.removeEntryGroup(userId, cartId, entryGroupNumber);
   }
 }

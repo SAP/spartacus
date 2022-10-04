@@ -7,7 +7,7 @@ import createSpy = jasmine.createSpy;
 describe('CartEntryGroupConnector', () => {
   class MockCartEntryGroupAdapter implements CartEntryGroupAdapter {
     addToEntryGroup = createSpy().and.returnValue(of({}));
-    deleteEntryGroup = createSpy().and.returnValue(of({}));
+    removeEntryGroup = createSpy().and.returnValue(of({}));
   }
 
   let service: CartEntryGroupConnector;
@@ -34,9 +34,9 @@ describe('CartEntryGroupConnector', () => {
     });
   });
 
-  it('deleteEntryGroup should call adapter', () => {
+  it('removeEntryGroup should call adapter', () => {
     const adapter = TestBed.inject(CartEntryGroupAdapter);
-    service.deleteEntryGroup('1', '2', 3).subscribe();
-    expect(adapter.deleteEntryGroup).toHaveBeenCalledWith('1', '2', 3);
+    service.removeEntryGroup('1', '2', 3).subscribe();
+    expect(adapter.removeEntryGroup).toHaveBeenCalledWith('1', '2', 3);
   });
 });

@@ -63,7 +63,7 @@ class MultiCartFacadeStub {
   }
   getEntryGroups() {}
   addToEntryGroup() {}
-  deleteEntryGroup() {}
+  removeEntryGroup() {}
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -307,10 +307,10 @@ describe('Selective Cart Service', () => {
   });
 
   it('should call multiCartFacade delete entry group method with selective cart', () => {
-    spyOn(multiCartFacade, 'deleteEntryGroup').and.callThrough();
+    spyOn(multiCartFacade, 'removeEntryGroup').and.callThrough();
 
-    service.deleteEntryGroup(3);
-    expect(multiCartFacade['deleteEntryGroup']).toHaveBeenCalledWith(
+    service.removeEntryGroup(3);
+    expect(multiCartFacade['removeEntryGroup']).toHaveBeenCalledWith(
       'current',
       'selectivecartelectronics-spa-test-customer-id',
       3

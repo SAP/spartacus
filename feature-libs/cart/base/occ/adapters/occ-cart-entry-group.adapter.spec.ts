@@ -117,16 +117,16 @@ describe('OccCartEntryGroupAdapter', () => {
     it('should remove entry group from cart for given user id, cart id and entry group number', () => {
       let result;
       occCartEntryGroupAdapter
-        .deleteEntryGroup(userId, cartId, entryGroupNumber)
+        .removeEntryGroup(userId, cartId, entryGroupNumber)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',
-        url: 'deleteEntryGroup',
+        url: 'removeEntryGroup',
       });
 
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-        'deleteEntryGroup',
+        'removeEntryGroup',
         {
           urlParams: {
             userId,

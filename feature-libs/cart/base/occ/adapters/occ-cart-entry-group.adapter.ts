@@ -18,7 +18,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
   ) {}
 
   /**
-   * Adds a product to a cart entry group.
+   * Adds an entry to a cart entry group.
    *
    * @param userId
    * User identifier or one of the literals : ‘current’ for currently authenticated user, ‘anonymous’ for anonymous user.
@@ -71,7 +71,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
    * @param entryGroupNumber
    * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    */
-  public deleteEntryGroup(
+  public removeEntryGroup(
     userId: string,
     cartId: string,
     entryGroupNumber: number
@@ -80,7 +80,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.buildUrl('deleteEntryGroup', {
+    const url = this.occEndpointsService.buildUrl('removeEntryGroup', {
       urlParams: {
         userId,
         cartId,

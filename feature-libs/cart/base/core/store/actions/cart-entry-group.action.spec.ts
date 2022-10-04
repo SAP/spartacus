@@ -88,13 +88,13 @@ describe('Cart-entry Actions', () => {
     });
   });
 
-  describe('DeleteEntryGroup Actions', () => {
-    describe('DeleteEntryGroup', () => {
+  describe('RemoveEntryGroup Actions', () => {
+    describe('RemoveEntryGroup', () => {
       it('should create the action', () => {
         const payload = { userId, cartId, entryGroupNumber };
-        const action = new CartActions.DeleteEntryGroup(payload);
+        const action = new CartActions.RemoveEntryGroup(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.DELETE_ENTRY_GROUP,
+          type: CartActions.REMOVE_ENTRY_GROUP,
           payload: payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
@@ -104,13 +104,13 @@ describe('Cart-entry Actions', () => {
       });
     });
 
-    describe('DeleteEntryGroupFail', () => {
+    describe('RemoveEntryGroupFail', () => {
       it('should create the action', () => {
         const error = 'anError';
         const payload = { error, cartId, userId, entryGroupNumber };
-        const action = new CartActions.DeleteEntryGroupFail(payload);
+        const action = new CartActions.RemoveEntryGroupFail(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.DELETE_ENTRY_GROUP_FAIL,
+          type: CartActions.REMOVE_ENTRY_GROUP_FAIL,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
@@ -120,16 +120,16 @@ describe('Cart-entry Actions', () => {
       });
     });
 
-    describe('DeleteEntryGroupSuccess', () => {
+    describe('RemoveEntryGroupSuccess', () => {
       it('should create the action', () => {
         const payload = {
           userId: 'userId',
           cartId: 'cartId',
           entryGroupNumber,
         };
-        const action = new CartActions.DeleteEntryGroupSuccess(payload);
+        const action = new CartActions.RemoveEntryGroupSuccess(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.DELETE_ENTRY_GROUP_SUCCESS,
+          type: CartActions.REMOVE_ENTRY_GROUP_SUCCESS,
           payload,
           meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,

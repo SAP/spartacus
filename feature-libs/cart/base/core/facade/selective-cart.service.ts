@@ -125,9 +125,9 @@ export class SelectiveCartService implements SelectiveCartFacade {
     });
   }
 
-  deleteEntryGroup(entryGroupNumber: number): void {
+  removeEntryGroup(entryGroupNumber: number): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartFacade.deleteEntryGroup(
+      this.multiCartFacade.removeEntryGroup(
         userId,
         selectiveId,
         entryGroupNumber

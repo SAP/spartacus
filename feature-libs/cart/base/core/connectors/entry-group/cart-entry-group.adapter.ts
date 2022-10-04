@@ -36,7 +36,7 @@ export abstract class CartEntryGroupAdapter {
    * @param entryGroupNumber
    * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    */
-  abstract deleteEntryGroup(
+  abstract removeEntryGroup(
     userId: string,
     cartId: string,
     entryGroupNumber: number

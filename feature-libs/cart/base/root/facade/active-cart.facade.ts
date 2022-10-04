@@ -27,7 +27,9 @@ import { Cart, EntryGroup, OrderEntry } from '../models/cart.model';
         'getLoading',
         'isStable',
         'addEntry',
+        'addToEntryGroup',
         'removeEntry',
+        'removeEntryGroup',
         'updateEntry',
         'getEntry',
         'addEmail',
@@ -108,7 +110,7 @@ export abstract class ActiveCartFacade {
   abstract removeEntry(entry: OrderEntry): void;
 
   /**
-   * Add Product to bundle
+   * Add entry to entry group in cart
    *
    * @param entryGroupNumber
    * @param entry
@@ -116,11 +118,11 @@ export abstract class ActiveCartFacade {
   abstract addToEntryGroup(entryGroupNumber: number, entry: OrderEntry): void;
 
   /**
-   * Remove bundle
+   * Remove entry group from cart
    *
    * @param entryGroupNumber
    */
-  abstract deleteEntryGroup(entryGroupNumber: number): void;
+  abstract removeEntryGroup(entryGroupNumber: number): void;
 
   /**
    * Update entry

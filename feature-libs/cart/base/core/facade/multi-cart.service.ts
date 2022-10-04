@@ -377,9 +377,9 @@ export class MultiCartService implements MultiCartFacade {
    * @param userId
    * @param entryGroupNumber
    */
-  deleteEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
+  removeEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
     this.store.dispatch(
-      new CartActions.DeleteEntryGroup({
+      new CartActions.RemoveEntryGroup({
         cartId,
         userId,
         entryGroupNumber,
@@ -410,30 +410,6 @@ export class MultiCartService implements MultiCartFacade {
         entryGroupNumber,
         entry,
         quantity,
-      })
-    );
-  }
-
-  /**
-   * Add products to bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param entries Array of objects with entry and entryGroupNumber
-   */
-  addEntriesToEntryGroups(
-    cartId: string,
-    userId: string,
-    entries: {
-      entryGroupNumber: number;
-      entry: OrderEntry;
-    }[]
-  ) {
-    this.store.dispatch(
-      new CartActions.AddEntriesToEntryGroups({
-        cartId,
-        userId,
-        entries,
       })
     );
   }

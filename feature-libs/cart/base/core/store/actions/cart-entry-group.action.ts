@@ -10,9 +10,9 @@ export const ADD_ENTRIES_TO_ENTRY_GROUPS_SUCCESS =
   '[Cart] Add Entries To Entry Groups Success';
 export const ADD_ENTRIES_TO_ENTRY_GROUPS_FAIL =
   '[Cart] Add Entries To Entry Groups Fail';
-export const DELETE_ENTRY_GROUP = '[Cart] Delete Entry Group';
-export const DELETE_ENTRY_GROUP_SUCCESS = '[Cart] Delete Entry Group Success';
-export const DELETE_ENTRY_GROUP_FAIL = '[Cart] Delete Entry Group Fail';
+export const REMOVE_ENTRY_GROUP = '[Cart] Remove Entry Group';
+export const REMOVE_ENTRY_GROUP_SUCCESS = '[Cart] Remove Entry Group Success';
+export const REMOVE_ENTRY_GROUP_FAIL = '[Cart] Remove Entry Group Fail';
 
 export class AddToEntryGroup extends StateUtils.EntityProcessesIncrementAction {
   readonly type = ADD_TO_ENTRY_GROUP;
@@ -116,8 +116,8 @@ export class AddEntriesToEntryGroupsFail extends StateUtils.EntityProcessesDecre
   }
 }
 
-export class DeleteEntryGroup extends StateUtils.EntityProcessesIncrementAction {
-  readonly type = DELETE_ENTRY_GROUP;
+export class RemoveEntryGroup extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = REMOVE_ENTRY_GROUP;
   constructor(
     public payload: { cartId: string; userId: string; entryGroupNumber: number }
   ) {
@@ -125,8 +125,8 @@ export class DeleteEntryGroup extends StateUtils.EntityProcessesIncrementAction 
   }
 }
 
-export class DeleteEntryGroupSuccess extends StateUtils.EntityProcessesDecrementAction {
-  readonly type = DELETE_ENTRY_GROUP_SUCCESS;
+export class RemoveEntryGroupSuccess extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = REMOVE_ENTRY_GROUP_SUCCESS;
   constructor(
     public payload: { userId: string; cartId: string; entryGroupNumber: number }
   ) {
@@ -134,8 +134,8 @@ export class DeleteEntryGroupSuccess extends StateUtils.EntityProcessesDecrement
   }
 }
 
-export class DeleteEntryGroupFail extends StateUtils.EntityProcessesDecrementAction {
-  readonly type = DELETE_ENTRY_GROUP_FAIL;
+export class RemoveEntryGroupFail extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = REMOVE_ENTRY_GROUP_FAIL;
   constructor(
     public payload: {
       error: any;
@@ -152,6 +152,6 @@ export type CartEntryGroupAction =
   | AddToEntryGroup
   | AddToEntryGroupSuccess
   | AddToEntryGroupFail
-  | DeleteEntryGroup
-  | DeleteEntryGroupSuccess
-  | DeleteEntryGroupFail;
+  | RemoveEntryGroup
+  | RemoveEntryGroupSuccess
+  | RemoveEntryGroupFail;

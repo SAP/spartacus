@@ -27,7 +27,7 @@ export const defaultOccCartConfig: OccConfig = {
         validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
         addToEntryGroup:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
-        deleteEntryGroup:
+        removeEntryGroup:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
         /* eslint-enable */
       },
