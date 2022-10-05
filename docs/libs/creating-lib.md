@@ -264,47 +264,6 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 
-Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
-
-- `.release-it.json`
-
-```json
-{
-  "git": {
-    "requireCleanWorkingDir": true,
-    "requireUpstream": false,
-    "tagName": "TODO:-${version}",
-    "commitMessage": "Bumping TODO: version to ${version}",
-    "tagAnnotation": "Bumping TODO: version to ${version}"
-  },
-  "npm": {
-    "publishPath": "./../../dist/TODO:"
-  },
-  "hooks": {
-    "after:version:bump": "cd ../.. && ng build TODO: --configuration production"
-  },
-  "github": {
-    "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/TODO:@${version}",
-    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib TODO: --to TODO:-${version}"
-  },
-  "plugins": {
-    "../../scripts/release-it/bumper.js": {
-      "out": [
-        {
-          "file": "package.json",
-          "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
 Replace `TODO:` with the appropriate name.
 Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
