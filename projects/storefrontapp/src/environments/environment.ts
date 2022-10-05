@@ -25,7 +25,7 @@ export const environment: Environment = {
     'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
-  b2b: false,
+  b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,

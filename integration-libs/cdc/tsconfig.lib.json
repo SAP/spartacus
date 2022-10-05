@@ -21,8 +21,6 @@
       "@spartacus/asm": ["dist/asm"],
       "@spartacus/asm/occ": ["dist/asm/occ"],
       "@spartacus/asm/root": ["dist/asm/root"],
-      "@spartacus/multisite-isolation": ["dist/multisite-isolation"],
-      "@spartacus/multisite-isolation/root": ["dist/multisite-isolation/root"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],

@@ -17,8 +17,12 @@
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
-      "@spartacus/multisite-isolation": ["../../feature-libs/multisite-isolation/public_api"],
-      "@spartacus/multisite-isolation/root": ["../../feature-libs/multisite-isolation/root/public_api"],
+      "@spartacus/multisite-isolation": [
+        "../../feature-libs/multisite-isolation/public_api"
+      ],
+      "@spartacus/multisite-isolation/root": [
+        "../../feature-libs/multisite-isolation/root/public_api"
+      ],
       "@spartacus/cart/base/assets": [
         "../../feature-libs/cart/base/assets/public_api"
       ],
