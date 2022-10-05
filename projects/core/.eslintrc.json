@@ -1,0 +1,19 @@
+{
+  "overrides": [
+    {
+      "files": [
+        "*.module.ts"
+      ],
+      "excludedFiles": "./src/config/config.module.ts",
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.name=provideConfig]",
+            "message": "[Spartacus] provideConfig() is reserved for library consumers. For providing default configs inside Spartacus libraries please use provideDefaultConfig() instead."
+          }
+        ]
+      }
+    }
+  ]
+}
