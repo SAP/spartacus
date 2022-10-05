@@ -1,9 +1,7 @@
 {
   "overrides": [
     {
-      "files": [
-        "*.module.ts"
-      ],
+      "files": ["*.module.ts"],
       "rules": {
         "no-restricted-syntax": [
           "error",
