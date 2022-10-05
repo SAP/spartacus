@@ -222,6 +222,8 @@
         "dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
+      "@spartacus/multisite-isolation": ["dist/multisite-isolation"],
+      "@spartacus/multisite-isolation/root": ["dist/multisite-isolation/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

@@ -12,6 +12,8 @@
       "@spartacus/asm/occ": ["../../dist/asm/occ"],
       "@spartacus/asm/root": ["../../dist/asm/root"],
       "@spartacus/cart/base/assets": ["../../dist/cart/base/assets"],
+      "@spartacus/multisite-isolation": ["../../dist/multisite-isolation"],
+      "@spartacus/multisite-isolation/root": ["../../dist/multisite-isolation/root"],
       "@spartacus/cart/base/components/add-to-cart": [
         "../../dist/cart/base/components/add-to-cart"
       ],

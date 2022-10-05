@@ -69,6 +69,7 @@ import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { MultisiteIsolationFeatureModule } from './features/multisite-isolation/multisite-isolation-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
@@ -204,6 +205,8 @@ if (environment.epdVisualization) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
+
+    MultisiteIsolationFeatureModule,
 
     ...featureModules,
   ],

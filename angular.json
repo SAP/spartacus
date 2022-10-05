@@ -976,6 +976,43 @@
           }
         }
       }
+    },
+    "multisite-isolation": {
+      "projectType": "library",
+      "root": "feature-libs/multisite-isolation",
+      "sourceRoot": "feature-libs/multisite-isolation",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/multisite-isolation/tsconfig.lib.json",
+            "project": "feature-libs/multisite-isolation/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/multisite-isolation/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/multisite-isolation/test.ts",
+            "tsConfig": "feature-libs/multisite-isolation/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/multisite-isolation/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/cart/**/*.ts",
+              "feature-libs/cart/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"
