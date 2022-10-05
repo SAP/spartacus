@@ -31,3 +31,62 @@
     margin: 0;
   }
 }
+
+%cx-banner.headline-text-red {
+  p {
+    color: #ff0000;
+  }
+}
+%cx-banner.headline-text-black {
+  p {
+    color: #000000;
+  }
+}
+%cx-banner.headline-text-blue {
+  p {
+    color: #0000ff;
+  }
+}
+
+%cx-banner.headline-position-center {
+  a {
+    position: relative;
+  }
+}
+%cx-banner.headline-position-right {
+  a {
+    position: relative;
+  }
+  p {
+    text-align: right;
+  }
+}
+%cx-banner.headline-position-left {
+  a {
+    position: relative;
+  }
+  p {
+    text-align: left;
+  }
+}
+%cx-banner.headline-position-middle {
+  a {
+    position: relative;
+  }
+  p {
+    top: 0;
+    bottom: 0;
+    height: 50%;
+    margin: auto;;
+  }
+}
+%cx-banner.headline-position-bottom {
+  a {
+    position: relative;
+  }
+  p {
+    bottom: 0;
+  }
+}
+
+
