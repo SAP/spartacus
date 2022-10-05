@@ -42,19 +42,6 @@ describe('AsmBindCartService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should bind the cart using the connector', () => {
-    const inputCartId = '0123456789';
-    const inputCustomerId = 'mock-customer-id';
-    const expected: BindCartParams = {
-      cartId: inputCartId,
-      customerId: inputCustomerId,
-    };
-
-    service.bindCart(inputCartId, inputCustomerId).subscribe();
-
-    expect(asmConnector.bindCart).toHaveBeenCalledWith(expected);
-  });
-
   it('should bind the cart with the current user', () => {
     const inputCartId = '0123456789';
     const expected: BindCartParams = {

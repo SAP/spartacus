@@ -23,5 +23,5 @@ export abstract class AsmBindCartFacade {
    * Bind an anonymous cart to a registered user
    * @param userId The user to associate a cart with.  Defaults to the current user if not provided.
    */
-  abstract bindCart(cartId: string, userId?: string): Observable<unknown>;
+  abstract bindCart(cartId: string): Observable<unknown>;
 }
