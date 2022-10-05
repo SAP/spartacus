@@ -2,6 +2,7 @@ import { AuthGuard, CmsConfig } from '@spartacus/core';
 import {
   ItemService,
   ListService,
+  OrganizationTableType,
   ToggleLinkCellComponent,
 } from '@spartacus/organization/administration/components';
 import { AdminGuard } from '@spartacus/organization/administration/core';
@@ -11,7 +12,6 @@ import { AccountSummaryListComponent } from './account-summary-list.component';
 import { AccountSummaryItemService } from '../services/account-summary-item.service';
 import { AccountSummaryUnitListService } from '../services/account-summary-unit-list.service';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
-import { OrganizationTableType } from '../services/organization.table.type';
 
 export function accountSummaryUnitsTableConfigFactory(): TableConfig {
   return accountSummaryUnitsTableConfig;
