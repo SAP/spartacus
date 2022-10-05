@@ -11,8 +11,6 @@ sauce:
       - cypress
       - default
     build: "config-ex5 $CURRENT_TIME"
-#  tunnel:
-#    name: "tunnel_name"
 cypress:
   version: 10.7.0
   configFile: "cypress.config.ts" # We determine related files based on the location of the config file.
@@ -27,8 +25,47 @@ suites:
       #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
       #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
       #testFiles: ["regression/perf_baseline/*.ts"]
-      #testFiles: ["cypress/e2e/regression/homepage/homepage.core-e2e.cy.ts"]
-      specPattern: ["cypress/e2e/regression/homepage/*.*"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
+  - name: "Cypress Chrome"
+    browser: "chrome"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
+  - name: "Cypress Chrome Mac"
+    browser: "chrome"
+    platformName: "macOS 12"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
+  - name: "Cypress Edge Mac"
+    browser: "microsoftedge"
+    platformName: "macOS 12"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
+  - name: "Cypress Firefox"
+    browser: "firefox"
+    browserVersion: "latest-4"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
+  - name: "Cypress Edge W10"
+    browser: "microsoftedge"
+    browserVersion: "latest"
+    platformName: "Windows 10"
+    screenResolution: "1400x1050"
+    config:
+      #testFiles: ["regression/perf_baseline/homepage.core-e2e-spec.ts"]
+      #testFiles: ["regression/perf_baseline/checkout-flow.core-e2e-spec.ts"]
+      testFiles: ["regression/homepage/homepage.core-e2e.cy.ts"]
 npm:
   dependencies:
     - "@cypress/webpack-preprocessor"
