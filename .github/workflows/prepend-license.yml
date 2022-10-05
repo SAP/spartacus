@@ -2,9 +2,6 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-concurrency: 
-  group: ci-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
 
 name: Prepend licences to files
 jobs:
