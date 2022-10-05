@@ -48,7 +48,9 @@ describe(`SecurePortalConfigInitializer`, () => {
         {
           provide: JavaRegExpConverter,
           useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake((x: any) => new RegExp(x)),
+            toJsRegExp: jasmine
+              .createSpy()
+              .and.callFake((x: any) => new RegExp(x)),
           },
         },
       ],
