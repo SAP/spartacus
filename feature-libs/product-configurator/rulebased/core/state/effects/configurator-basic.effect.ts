@@ -328,6 +328,7 @@ export class ConfiguratorBasicEffects {
     | ConfiguratorActions.SetMenuParentGroup
     | ConfiguratorActions.ReadConfigurationFail
     | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.CHANGE_GROUP),
@@ -361,6 +362,12 @@ export class ConfiguratorBasicEffects {
                     new ConfiguratorActions.ReadConfigurationSuccess(
                       configuration
                     ),
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...configuration,
+                      interactionState: {
+                        currentGroup: action.payload.groupId,
+                      },
+                    }),
                   ];
                 }),
                 catchError((error) => [
