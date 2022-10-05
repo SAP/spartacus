@@ -63,13 +63,12 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         concatMap(() =>
           this.asmBindCartFacade.bindCart(this.cartId.value as string)
         ),
-        tap(() => {
-          this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
-        }),
         finalize(() => this.loading$.next(false))
       )
       .subscribe(
         () => {
+          this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
+
           this.globalMessageService.add(
             { key: 'asm.bindCart.success' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
