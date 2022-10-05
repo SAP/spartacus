@@ -67,8 +67,8 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
-      this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER),
-      catchError((error) => throwError(normalizeHttpError(error)))
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
   }
 
