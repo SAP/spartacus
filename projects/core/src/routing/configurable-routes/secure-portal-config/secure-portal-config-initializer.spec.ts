@@ -94,7 +94,7 @@ describe(`SecurePortalConfigInitializer`, () => {
       expect(message).toBeTruthy();
     });
 
-    fit(`should return routing config based on BaseSite.requiresAuthentication value`, async () => {
+    it(`should return routing config based on BaseSite.requiresAuthentication value`, async () => {
       initializer['isCurrentBaseSite'] = () => true;
       spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
 
