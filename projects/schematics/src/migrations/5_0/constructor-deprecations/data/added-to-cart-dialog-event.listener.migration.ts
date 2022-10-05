@@ -5,17 +5,17 @@ import {
   MODAL_SERVICE,
 } from '../../../../shared/constants';
 import {
+  SPARTACUS_CART_BASE_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
-import { SPARTACUS_CART_BASE } from '../../../../shared/libs-constants';
 
 export const ADDED_TO_CART_DIALOG_EVENT_LISTENER_CONSTRUCTOR_MIGRATION: ConstructorDeprecation =
   {
     // feature-libs/cart/base/components/added-to-cart-dialog/added-to-cart-dialog-event.listener.ts
     class: ADDED_TO_CART_DIALOG_EVENT_LISTENER,
-    importPath: SPARTACUS_CART_BASE,
+    importPath: SPARTACUS_CART_BASE_COMPONENTS,
     deprecatedParams: [
       { className: EVENT_SERVICE, importPath: SPARTACUS_CORE },
       { className: MODAL_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
