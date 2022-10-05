@@ -33,6 +33,7 @@ export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
 export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
 export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
