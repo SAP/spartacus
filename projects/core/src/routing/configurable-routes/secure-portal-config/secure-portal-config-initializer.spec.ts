@@ -48,7 +48,7 @@ describe(`SecurePortalConfigInitializer`, () => {
         {
           provide: JavaRegExpConverter,
           useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
+            toJsRegExp: jasmine.createSpy().and.callFake((x: any) => new RegExp(x)),
           },
         },
       ],
@@ -103,8 +103,8 @@ describe(`SecurePortalConfigInitializer`, () => {
       expect(baseSiteService.getAll).toHaveBeenCalled();
       expect(result).toEqual({
         routing: {
-          protected: true
-        }
+          protected: true,
+        },
       });
     });
   });

@@ -55,8 +55,8 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
   protected getRoutingConfig(source: BaseSite): RoutingConfig {
     const result = {
       routing: {
-        protected: source.requiresAuthentication === true
-      }
+        protected: source.requiresAuthentication === true,
+      },
     };
     return result;
   }
