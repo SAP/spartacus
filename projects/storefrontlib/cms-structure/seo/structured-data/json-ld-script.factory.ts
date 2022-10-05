@@ -20,12 +20,17 @@ import { SeoConfig } from '../config';
   providedIn: 'root',
 })
 export class JsonLdScriptFactory {
+
+  protected renderer: Renderer2;
+
   constructor(
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SeoConfig
-  ) {}
+  ) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   build(schema: {}[]): void {
     if (schema && this.isJsonLdRequired()) {
@@ -61,14 +66,10 @@ export class JsonLdScriptFactory {
     );
 
     if (!scriptElement) {
-      const renderer: Renderer2 = this.rendererFactory.createRenderer(
-        null,
-        null
-      );
-      const script: HTMLScriptElement = renderer.createElement('script');
+      const script: HTMLScriptElement = this.renderer.createElement('script');
       script.id = id;
       script.type = 'application/ld+json';
-      renderer.appendChild(this.winRef.document.body, script);
+      this.renderer.appendChild(this.winRef.document.body, script);
       scriptElement = script;
     }
     return scriptElement;
@@ -81,8 +82,7 @@ export class JsonLdScriptFactory {
    * into the json-ld script.
    */
   escapeHtml(schema: {}): string {
-    const renderer: Renderer2 = this.rendererFactory.createRenderer(null, null);
-    const div: HTMLScriptElement = renderer.createElement('div');
+    const div: HTMLScriptElement = this.renderer.createElement('div');
     div.textContent = JSON.stringify(schema);
     return div.innerHTML;
   }
