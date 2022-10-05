@@ -14,7 +14,7 @@ context('B2B - Secure Portal', () => {
           securePortal.getStubbedBasesites();
         });
 
-        it('should redirect to the login page when accessing home', () => {
+        it('should redirect to the login page when accessing faq', () => {
             cy.visit('/faq');
             cy.url().should('contain', '/login');
         });
