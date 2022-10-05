@@ -24,8 +24,9 @@ import {
 export abstract class AccountSummaryFacade {
   /**
    * Returns the account summary header details for a orgUnit and current logged in user
+   * If orgUnit is provided, it will be used, otherwise it will use orgUnit from router state.
    */
-  abstract getAccountSummary(): Observable<AccountSummaryDetails>;
+  abstract getAccountSummary(orgUnit?: string): Observable<AccountSummaryDetails>;
 
   /**
    * Returns the result of account summary documents search
