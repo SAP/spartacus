@@ -6,7 +6,7 @@
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ConfigFactory } from './config-factory';
-import { provideConfig, provideConfigFactory } from './config-providers';
+import { provideDefaultConfig, provideConfigFactory } from './config-providers';
 import { Config } from './config-tokens';
 import { ConfigurationService } from './services/configuration.service';
 
@@ -28,7 +28,7 @@ export class ConfigModule {
   static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      providers: [provideConfig(config)],
+      providers: [provideDefaultConfig(config)],
     };
   }
 
@@ -58,7 +58,7 @@ export class ConfigModule {
   static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      providers: [provideConfig(config)],
+      providers: [provideDefaultConfig(config)],
     };
   }
 }
