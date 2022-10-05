@@ -1,9 +1,7 @@
 {
   "overrides": [
     {
-      "files": [
-        "*.module.ts"
-      ],
+      "files": ["*.module.ts"],
       "excludedFiles": "./src/config/config.module.ts",
       "rules": {
         "no-restricted-syntax": [
