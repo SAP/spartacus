@@ -12,7 +12,7 @@ import { Config, OccConfig } from '@spartacus/core';
   useExisting: Config,
 })
 /**
- * @deprecated. Please use feature-libs/asm/root/asm-config.ts
+ * @deprecated. Please use ../../root/asm-config.ts
  */
 export abstract class AsmConfig extends OccConfig {
   asm?: {
