@@ -134,8 +134,9 @@ export function clickAddToCart() {
  * Adds product from PDP directly
  * @param productCode
  */
-export function addProductFromPdp(productCode: string = products[0].code) {
-  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}`;
+export function addProductFromPdp(productCode: string = products[0].code, 
+  productName: string = products[0].name) {
+  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}/${productName}`;
 
   registerCartRefreshRoute();
   registerCartPageRoute();
@@ -164,7 +165,7 @@ export function checkBasicCart() {
 
   validateEmptyCart();
 
-  addProductFromPdp(products[0].code);
+  addProductFromPdp(products[0].code, products[0].name);
 
   cy.log(`Adding second product to cart via search page`);
 
@@ -351,7 +352,7 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProducts() {
   const prods = products.slice(0, 3);
   prods.forEach((product, index) => {
-    cy.visit(`/product/${product.code}`);
+    cy.visit(`/product/${product.code}/${product.name}`);
     clickAddToCart();
     checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
@@ -472,7 +473,7 @@ export function manipulateCartQuantity() {
   registerCartRefreshRoute();
   registerCartPageRoute();
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(`/product/${product.code}/${product.name}`);
 
   clickAddToCart();
 
@@ -504,7 +505,7 @@ export function manipulateCartQuantity() {
 export function outOfStock() {
   const product = products[3];
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(`/product/${product.code}/${product.name}`);
 
   cy.get('cx-add-to-cart .quantity').should('contain', 'Out of stock');
   cy.get('cx-add-to-cart cx-add-to-cart button').should('not.exist');
@@ -548,7 +549,7 @@ export function saveCartId() {
 }
 
 export function verifyCartIdAfterClearCart() {
-  cy.visit(`/product/${products[0].code}`);
+  cy.visit(`/product/${products[0].code}/${products[0].name}`);
   clickAddToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
