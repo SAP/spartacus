@@ -36874,7 +36874,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CartModule has been removed and is no longer part of the public API.",
-    "migrationComment": "While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
+    "migrationComment": "The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -36895,7 +36895,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class CartOccModule has been removed and is no longer part of the public API.",
-    "migrationComment": "While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
+    "migrationComment": "The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -92873,7 +92873,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class CartComponentModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  ",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
