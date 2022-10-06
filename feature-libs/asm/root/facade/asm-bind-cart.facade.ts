@@ -20,8 +20,7 @@ import { ASM_FEATURE } from '../feature-name';
 })
 export abstract class AsmBindCartFacade {
   /**
-   * Bind an anonymous cart to a registered user
-   * @param userId The user to associate a cart with.  Defaults to the current user if not provided.
+   * Bind an anonymous cart to the current registered user
    */
   abstract bindCart(cartId: string): Observable<unknown>;
 }
