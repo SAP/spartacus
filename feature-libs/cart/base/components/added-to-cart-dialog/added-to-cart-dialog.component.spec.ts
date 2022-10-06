@@ -25,6 +25,7 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  ActivatedRouterStateSnapshot,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -95,8 +96,11 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+const routerState = new BehaviorSubject<RouterState>({
+  nextState: undefined,
+} as RouterState);
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = () => of({ nextState: undefined } as RouterState);
+  getRouterState = () => routerState;
 }
 
 @Component({
@@ -202,6 +206,16 @@ describe('AddedToCartDialogComponent', () => {
       expect(component.entry$).toBeObservable(
         cold('r', { r: mockOrderEntries[0] })
       );
+    });
+
+    it('should subscribe to routerState and close dialog when route changed', () => {
+      spyOn(component, 'dismissModal');
+      routerState.next({
+        nextState: { url: 'test' } as ActivatedRouterStateSnapshot,
+      } as RouterState);
+      component.ngOnInit();
+
+      expect(component.dismissModal).toHaveBeenCalledWith('dismiss');
     });
   });
 
