@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CdcJsService } from '@spartacus/cdc/root';
+import { CdcJsService, CdcLoginFailEvent } from '@spartacus/cdc/root';
 import {
+  AuthService,
   Command,
   CommandService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
-  isNotUndefined,
 } from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable, throwError } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { merge, Observable, throwError } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
@@ -22,9 +23,13 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
-  protected loggedInUser$: Observable<User> = this.userAccountFacade
-    .get()
-    .pipe(filter(isNotUndefined));
+  protected isLoggedIn$: Observable<boolean> = this.authService
+    .isUserLoggedIn()
+    .pipe(filter((loggedIn) => loggedIn));
+
+  protected tokenFailure$: Observable<boolean> = this.eventService
+    .get(CdcLoginFailEvent)
+    .pipe(map((x) => !x));
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
@@ -32,7 +37,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected store: Store,
     protected cdcJSService: CdcJsService,
     protected globalMessageService: GlobalMessageService,
-    protected userAccountFacade: UserAccountFacade
+    protected authService: AuthService,
+    protected eventService: EventService
   ) {
     super(userRegisterFacade);
   }
@@ -46,6 +52,14 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(`The provided user is not valid: ${user}`);
     }
+
+    const loginOrFail$ = merge(this.isLoggedIn$, this.tokenFailure$).pipe(
+      tap((success) => {
+        if (!success) {
+          throw new Error(`token failed to load`);
+        }
+      })
+    );
 
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
@@ -63,7 +77,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
       ),
-      switchMap(() => this.loggedInUser$)
+      switchMap((user) => loginOrFail$.pipe(map(() => user)))
     );
   }
 }

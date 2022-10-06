@@ -6,8 +6,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
+  AuthService,
   CmsConfig,
   CommandService,
+  EventService,
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
@@ -18,7 +20,6 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 import {
   RegisterComponent,
   RegisterComponentService,
@@ -53,7 +54,8 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
                 Store,
                 CdcJsService,
                 GlobalMessageService,
-                UserAccountFacade,
+                AuthService,
+                EventService,
               ],
             },
           ],
