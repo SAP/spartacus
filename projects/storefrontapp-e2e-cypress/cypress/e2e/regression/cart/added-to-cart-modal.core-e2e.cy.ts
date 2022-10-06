@@ -1,17 +1,23 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 const productId = '266685';
+const productName = 'Battery Video Light';
 
 describe('Added to cart modal - Anonymous user', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
   viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });
-      cy.visit(`/product/${productId}`);
+      cy.visit(`/product/${productId}/${productName}`);
     });
 
     it('Should add products to cart', () => {
-      cy.visit(`/product/${productId}`);
+      cy.visit(`/product/${productId}/${productName}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
       cy.get('cx-added-to-cart-dialog').within(() => {

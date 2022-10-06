@@ -3,16 +3,22 @@ import { interceptGet, interceptPost } from '../../../support/utils/intercept';
 import { removeCartItem } from '../../../helpers/cart';
 
 const productId = '266685';
+const productName = 'Battery Video Light';
 const productId2 = '2006139';
 const productName2 = 'M340';
 
 describe('Added to cart modal - Anonymous user', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });
-      cy.visit(`/product/${productId}`);
+      cy.visit(`/product/${productId}/${productName}`);
     });
 
     it('should test item counter on PDP', () => {
@@ -41,7 +47,7 @@ describe('Added to cart modal - Anonymous user', () => {
     });
 
     it('Should add products to cart', () => {
-      cy.visit(`/product/${productId}`);
+      cy.visit(`/product/${productId}/${productName}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
       cy.get('cx-added-to-cart-dialog').within(() => {
@@ -74,7 +80,7 @@ describe('Added to cart modal - Anonymous user', () => {
 
       cy.get('cx-added-to-cart-dialog').should('not.exist');
 
-      cy.visit(`/product/${productId2}`);
+      cy.visit(`/product/${productId2}/${productName2}`);
       cy.get('cx-breadcrumb h1').contains(productName2);
 
       interceptPost('addCartEntry', '/users/anonymous/carts/*/entries?*');
@@ -128,7 +134,7 @@ describe('Added to cart modal - Anonymous user', () => {
     });
 
     it('Should not show cart modal when page is refreshed', () => {
-      cy.visit(`/product/${productId}`);
+      cy.visit(`/product/${productId}/${productName}`);
 
       cy.get('cx-add-to-cart button[type=submit]').click();
 
