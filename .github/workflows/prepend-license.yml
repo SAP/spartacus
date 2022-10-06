@@ -3,6 +3,7 @@ on:
     branches:
       - develop
       - 'release/**'
+      - 'pie'
       - 'fake-develop-radhep'
 
 name: Prepend licences to files
