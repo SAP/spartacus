@@ -3,6 +3,7 @@ on:
     branches:
       - develop
       - 'release/**'
+      - 'test/**'
 
 name: Prepend licences to files
 jobs:
