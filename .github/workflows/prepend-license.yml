@@ -30,6 +30,7 @@ jobs:
           then
               echo "No files to commit"
           else
-              git commit -am "Prepend licence to files"
+              git add .
+              git commit -m "Prepend licence to files"
               git push
           fi
