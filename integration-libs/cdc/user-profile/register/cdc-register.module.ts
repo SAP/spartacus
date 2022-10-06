@@ -20,12 +20,10 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  RegisterComponent,
-  RegisterComponentService,
-} from '@spartacus/user/profile/components';
+import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
+import { CdcRegisterComponent } from './cdc-register.component';
 
 @NgModule({
   imports: [
@@ -43,7 +41,7 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
-          component: RegisterComponent,
+          component: CdcRegisterComponent,
           providers: [
             {
               provide: RegisterComponentService,
