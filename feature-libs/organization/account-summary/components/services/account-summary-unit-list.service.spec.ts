@@ -12,6 +12,7 @@ import {
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryUnitListService } from './account-summary-unit-list.service';
+import * as _augmented from '../model/augmented.model';
 
 import createSpy = jasmine.createSpy;
 
