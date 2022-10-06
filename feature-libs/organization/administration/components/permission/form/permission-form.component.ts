@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
   Currency,
   CurrencyService,
@@ -42,7 +42,7 @@ import { PermissionItemService } from '../services/permission-item.service';
   ],
 })
 export class PermissionFormComponent implements OnInit {
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
     .getActiveUnitList()

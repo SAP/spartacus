@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Public API Surface for @spartacus/epd-visualization/components
- */
-export * from './index';
+export * from './epd-visualization-components.module';
+export * from './visual-picking/index';
+export * from './visual-viewer/index';
