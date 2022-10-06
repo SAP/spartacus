@@ -14,7 +14,7 @@ import {
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
@@ -117,5 +117,30 @@ export class OccAsmAdapter implements AsmAdapter {
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
+  }
+
+  bindCart({ cartId, customerId }: BindCartParams): Observable<unknown> {
+    const headers = InterceptorUtil.createHeader(
+      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+      true,
+      new HttpHeaders()
+    );
+    let params: HttpParams = new HttpParams()
+      .set('baseSite', this.activeBaseSite)
+      .set('cartId', cartId)
+      .set('customerId', customerId);
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmBindCart',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http
+      .post<void>(url, {}, { headers, params })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

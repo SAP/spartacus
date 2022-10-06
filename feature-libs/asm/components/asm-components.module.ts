@@ -23,6 +23,7 @@ import {
   SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -32,6 +33,8 @@ import { CustomerEmulationComponent } from './customer-emulation/customer-emulat
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
+import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -58,6 +61,8 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    AsmBindCartComponent,
+    DotSpinnerComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -68,6 +73,8 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    AsmBindCartComponent,
+    DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })

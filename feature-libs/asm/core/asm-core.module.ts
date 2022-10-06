@@ -32,6 +32,7 @@ export function asmStatePersistenceFactory(
       deps: [AsmStatePersistenceService],
       multi: true,
     },
+    ...facadeProviders,
   ],
 })
 export class AsmCoreModule {}

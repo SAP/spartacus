@@ -62,6 +62,14 @@ export const asm = {
       noCustomers: 'There are currently no customers in this customer list.',
     },
 
+    bindCart: {
+      cartNumber: 'Cart Number',
+      bindCartToCustomer: 'Assign Cart to Customer',
+      success: 'Cart has been successfully assigned',
+      assignCartId: 'Assign a cart id to customer',
+      enterCartId: 'Enter cart id',
+      resetCartId: 'Reset',
+    },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
     agentSessionTimer: {
