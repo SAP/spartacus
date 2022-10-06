@@ -34,8 +34,13 @@ export class StoreSearchComponent {
 
   useMyLocation(): void {
     this.showSpinner.emit(true);
+    const t1 = new Date();
     this.currentLocationService.getCurrentLocation(
       ({ coords: { latitude, longitude } }) => {
+        console.log(
+          'geolocation acquisition time',
+          (new Date().getTime() - t1.getTime()) / 1000
+        );
         this.findStores.emit({ latitude, longitude });
         this.showSpinner.emit(false);
       }
