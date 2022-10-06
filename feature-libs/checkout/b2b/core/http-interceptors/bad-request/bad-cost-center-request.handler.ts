@@ -7,7 +7,6 @@ import {
   HttpErrorHandler,
   HttpResponseStatus,
   Priority,
-  TranslationService,
 } from '@spartacus/core';
 import { ResponseError } from './bad-cost-center-request.model';
 
@@ -17,10 +16,7 @@ import { ResponseError } from './bad-cost-center-request.model';
 export class BadCostCenterRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
-  ) {
+  constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
   }
 
@@ -38,14 +34,10 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
-      this.translationService
-        .translate('checkoutB2B.invalidCostCenter')
-        .subscribe((result: string) => {
-          this.globalMessageService.add(
-            result,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        });
+      this.globalMessageService.add(
+        { key: 'checkoutB2B.invalidCostCenter' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 

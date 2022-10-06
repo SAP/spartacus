@@ -5,10 +5,8 @@ import {
   GlobalMessageType,
   HttpErrorHandler,
   HttpResponseStatus,
-  TranslationService,
 } from '@spartacus/core';
 import { BadCostCenterRequestHandler } from './bad-cost-center-request.handler';
-import { of } from 'rxjs';
 
 const MockRequest = {} as HttpRequest<any>;
 
@@ -31,16 +29,9 @@ class MockGlobalMessageService {
   remove() {}
 }
 
-class MockTranslationService {
-  translate() {}
-}
-
-const errorMsg = 'Invalid cost center.';
-
 describe('BadCostCenterRequestHandler', () => {
   let handler: BadCostCenterRequestHandler;
   let globalMessageService: GlobalMessageService;
-  let translationService: TranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,19 +41,13 @@ describe('BadCostCenterRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: TranslationService,
-          useClass: MockTranslationService,
-        },
       ],
     });
     handler = TestBed.inject(BadCostCenterRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    translationService = TestBed.inject(TranslationService);
 
     spyOn(globalMessageService, 'add');
     spyOn(globalMessageService, 'remove');
-    spyOn(translationService, 'translate').and.returnValue(of(errorMsg));
   });
 
   it('should be created', () => {
@@ -91,7 +76,7 @@ describe('BadCostCenterRequestHandler', () => {
   it('should handle invalid cost center error', () => {
     handler.handleError(MockRequest, MockCostCenterErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      errorMsg,
+      { key: 'checkoutB2B.invalidCostCenter' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
