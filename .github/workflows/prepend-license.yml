@@ -1,7 +1,8 @@
 on:
-  pull_request:
-    types: [opened, synchronize]
-
+  push:
+    branches:
+      - develop
+      - 'release/**'
 
 name: Prepend licences to files
 jobs:
@@ -11,8 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_ADMIN }}
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
