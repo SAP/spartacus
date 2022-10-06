@@ -31,6 +31,11 @@
     "parse5": "^6.0.1",
     "typescript": "^4.7.2"
   },
+  "peerDependenciesMeta": {
+    "canvas": {
+      "optional": true
+    }
+  },
   "ng-add": {
     "save": "devDependencies"
   },
@@ -40,24 +45,25 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
-      "@spartacus/user",
-      "@spartacus/cds",
       "@spartacus/assets",
+      "@spartacus/setup",
+      "@spartacus/asm",
+      "@spartacus/cart",
+      "@spartacus/checkout",
+      "@spartacus/order",
       "@spartacus/organization",
       "@spartacus/product",
-      "@spartacus/storefinder",
-      "@spartacus/checkout",
-      "@spartacus/asm",
-      "@spartacus/smartedit",
+      "@spartacus/product-configurator",
       "@spartacus/qualtrics",
-      "@spartacus/cdc",
+      "@spartacus/smartedit",
+      "@spartacus/storefinder",
       "@spartacus/tracking",
-      "@spartacus/cart",
-      "@spartacus/order",
       "@spartacus/pickup-in-store",
+      "@spartacus/user",
+      "@spartacus/cdc",
+      "@spartacus/cds",
       "@spartacus/digital-payments",
-      "@spartacus/epd-visualization",
-      "@spartacus/setup"
+      "@spartacus/epd-visualization"
     ]
   },
   "schematics": "./src/collection.json"
