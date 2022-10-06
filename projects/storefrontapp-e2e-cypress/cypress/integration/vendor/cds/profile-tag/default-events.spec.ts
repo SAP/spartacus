@@ -251,7 +251,9 @@ describe('Profile-tag events', () => {
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
     checkoutFlowPersistentUser.addPaymentMethod();
-    checkoutFlowPersistentUser.addShippingAddress();
+    cy.wait(0).then(() => {
+      checkoutFlowPersistentUser.addShippingAddress();
+    });
     checkoutFlowPersistentUser.selectShippingAddress();
     checkoutFlowPersistentUser.selectDeliveryMethod();
     checkoutFlowPersistentUser.selectPaymentMethod();
