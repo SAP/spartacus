@@ -18,6 +18,7 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import {
   RegisterComponent,
   RegisterComponentService,
@@ -52,6 +53,7 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
                 Store,
                 CdcJsService,
                 GlobalMessageService,
+                UserAccountFacade,
               ],
             },
           ],

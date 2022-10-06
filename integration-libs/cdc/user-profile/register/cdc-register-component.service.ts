@@ -6,12 +6,13 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  isNotUndefined,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
@@ -21,12 +22,17 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
+  protected loggedInUser$: Observable<User> = this.userAccountFacade
+    .get()
+    .pipe(filter(isNotUndefined));
+
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected command: CommandService,
     protected store: Store,
     protected cdcJSService: CdcJsService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected userAccountFacade: UserAccountFacade
   ) {
     super(userRegisterFacade);
   }
@@ -56,7 +62,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       switchMap(() =>
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
-      )
+      ),
+      switchMap(() => this.loggedInUser$)
     );
   }
 }
