@@ -13,6 +13,10 @@ import { AsmConfig as AsmConfigRoot } from '@spartacus/asm/root';
   useExisting: Config,
 })
 /**
- * @deprecated. To extend, please use ../../root/asm-config.ts
+ * In an upcoming major version, this will be moved officially to @spartacus/asm/root. (CXSPA-1449)
  */
 export abstract class AsmConfig extends AsmConfigRoot {}
+
+declare module '@spartacus/core' {
+  interface Config extends AsmConfig {}
+}

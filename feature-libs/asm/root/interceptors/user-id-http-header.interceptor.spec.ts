@@ -44,7 +44,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
         },
         provideConfig({
           asm: {
-            userIdHttpHeaderInterceptor: {
+            userIdHttpHeader: {
               enable: true,
             },
           },
@@ -196,7 +196,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
         },
         provideConfig({
           asm: {
-            userIdHttpHeaderInterceptor: {
+            userIdHttpHeader: {
               enable: false,
             },
           },

@@ -45,8 +45,8 @@ export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // Casting as <any> to avoid circular dependencies with @spartacus/asm/core.
-    if (!(<AsmConfig>this.config).asm?.userIdHttpHeaderInterceptor?.enable) {
+    // Casting as <AsmConfig> to avoid circular dependencies with @spartacus/asm/core.
+    if (!(<AsmConfig>this.config).asm?.userIdHttpHeader?.enable) {
       return next.handle(httpRequest);
     }
 

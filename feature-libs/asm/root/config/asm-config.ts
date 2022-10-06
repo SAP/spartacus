@@ -13,7 +13,7 @@ export abstract class AsmConfig extends OccConfig {
     customerSearch?: {
       maxResults?: number;
     };
-    userIdHttpHeaderInterceptor?: {
+    userIdHttpHeader?: {
       /**
        * To fix certain features when a customer agent is emulating a user, we must send a header called
        * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the
