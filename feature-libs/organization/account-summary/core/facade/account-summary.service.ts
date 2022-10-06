@@ -8,7 +8,7 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
-import { AccountSummaryConnector } from '../connectors';
+import { AccountSummaryConnector } from '../connectors/account-summary.connector';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,9 +33,9 @@ export class AccountSummaryService implements AccountSummaryFacade {
       .subscribe((params) => (this.orgUnit = params.orgUnit));
   }
 
-  getAccountSummary(): Observable<AccountSummaryDetails> {
+  getAccountSummary(orgUnit?: string): Observable<AccountSummaryDetails> {
     return this.accountSummaryConnector
-      .getAccountSummary(this.userId, this.orgUnit)
+      .getAccountSummary(this.userId, orgUnit ?? this.orgUnit)
       .pipe(shareReplay(1));
   }
 

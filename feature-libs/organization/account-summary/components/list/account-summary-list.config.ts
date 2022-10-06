@@ -1,4 +1,5 @@
 import { AuthGuard, CmsConfig } from '@spartacus/core';
+import { ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY } from '@spartacus/organization/account-summary/core';
 import {
   ItemService,
   ListService,
@@ -13,28 +14,29 @@ import { AccountSummaryItemService } from '../services/account-summary-item.serv
 import { AccountSummaryUnitListService } from '../services/account-summary-unit-list.service';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 
-export function accountSummaryUnitsTableConfigFactory(): TableConfig {
-  return accountSummaryUnitsTableConfig;
-}
+export const ACCOUNT_SUMMARY_DETAILS_TRANSLATION_KEY =
+  'orgAccountSummaryList.breadcrumbs.details';
 
-export const accountSummaryUnitsTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.ACCOUNT_SUMMARY_UNIT]: {
-      cells: ['name'],
-      options: {
-        layout: TableLayout.VERTICAL,
-        cells: {
-          name: {
-            dataComponent: ToggleLinkCellComponent,
+export function accountSummaryUnitsTableConfigFactory(): TableConfig {
+  return {
+    table: {
+      [OrganizationTableType.ACCOUNT_SUMMARY_UNIT]: {
+        cells: ['name'],
+        options: {
+          layout: TableLayout.VERTICAL,
+          cells: {
+            name: {
+              dataComponent: ToggleLinkCellComponent,
+            },
           },
         },
-      },
-      [BREAKPOINT.lg]: {
-        cells: ['name'],
+        [BREAKPOINT.lg]: {
+          cells: ['name'],
+        },
       },
     },
-  },
-};
+  };
+}
 
 export const accountSummaryListCmsConfig: CmsConfig = {
   cmsComponents: {
@@ -54,7 +56,7 @@ export const accountSummaryListCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'orgAccountSummaryList.breadcrumbs.list',
+              breadcrumb: ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY,
             },
           },
         },
@@ -64,7 +66,7 @@ export const accountSummaryListCmsConfig: CmsConfig = {
             component: AccountSummaryDocumentComponent,
             data: {
               cxPageMeta: {
-                breadcrumb: 'orgAccountSummaryList.breadcrumbs.details',
+                breadcrumb: ACCOUNT_SUMMARY_DETAILS_TRANSLATION_KEY,
               },
             },
           },

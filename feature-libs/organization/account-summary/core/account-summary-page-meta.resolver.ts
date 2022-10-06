@@ -16,6 +16,9 @@ import {
   switchMap,
 } from 'rxjs/operators';
 
+export const ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY =
+  'orgAccountSummaryList.breadcrumbs.list';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,20 +32,21 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
     super(contentPageMetaResolver, translation, semanticPath, routingService);
   }
 
-  route = 'orgAccountSummary';
-  label = 'Account Summaries';
-  path = '/organization/account-summary';
+  protected readonly ACCOUNT_SUMMARY_SEMANTIC_ROUTE = 'orgAccountSummary';
+  protected readonly ACCOUNT_SUMMARY_LIST_LABEL = 'Account Summaries';
+  protected readonly ACCOUNT_SUMMARY_LIST_PATH =
+    '/organization/account-summary';
 
   /**
    * Breadcrumbs of the Account Summary page.
    */
-  protected accountSummaryPageBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(
+  protected orgAccountSummaryBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(
     () => this.routingService.getRouterState()
   ).pipe(
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) => {
-      return semanticRoute === this.route
+      return semanticRoute === this.ACCOUNT_SUMMARY_SEMANTIC_ROUTE
         ? this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY).pipe(
             map((label) => [
               {
@@ -53,9 +57,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
           )
         : combineLatest([
             this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY),
-            this.translation.translate(
-              'orgAccountSummaryList.breadcrumbs.list'
-            ),
+            this.translation.translate(ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY),
           ]).pipe(
             map(([orgLabel, _label]) => [
               {
@@ -63,8 +65,10 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
                 link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
               },
               {
-                label: this.label,
-                link: this.semanticPath.get(this.route),
+                label: this.ACCOUNT_SUMMARY_LIST_LABEL,
+                link: this.semanticPath.get(
+                  this.ACCOUNT_SUMMARY_SEMANTIC_ROUTE
+                ),
               },
             ])
           );
@@ -75,17 +79,20 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
    * Breadcrumbs returned in the method #resolveBreadcrumbs.
    */
   protected breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
-    this.accountSummaryPageBreadcrumb$,
+    this.orgAccountSummaryBreadcrumb$,
     defer(() => this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(([accountSummaryPageBreadcrumb, breadcrumbs = []]) => {
+    map(([orgAccountSummaryBreadcrumb, breadcrumbs = []]) => {
       const [home, ...restBreadcrumbs] = breadcrumbs;
-      return [home, ...accountSummaryPageBreadcrumb, ...restBreadcrumbs];
+      return [home, ...orgAccountSummaryBreadcrumb, ...restBreadcrumbs];
     }),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
   getScore(page: Page): number {
-    return super.getScore(page) + (page.label?.startsWith(this.path) ? 1 : -1);
+    return (
+      super.getScore(page) +
+      (page.label?.startsWith(this.ACCOUNT_SUMMARY_LIST_PATH) ? 1 : -1)
+    );
   }
 }
