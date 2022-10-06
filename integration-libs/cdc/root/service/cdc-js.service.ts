@@ -223,6 +223,7 @@ export class CdcJsService implements OnDestroy {
           callback: (response: any) => {
             this.zone.run(() => {
               if (response?.status === 'OK') {
+                isRegistered.next(response);
                 isRegistered.complete();
               } else {
                 this.handleRegisterError(response);
