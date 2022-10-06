@@ -131,9 +131,7 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
-    if [ ! -z "$IS_NPM_INSTALL" ] ; then
-        remove_npmrc
-    fi
+    remove_npmrc
     )
 }
 
@@ -155,9 +153,6 @@ function add_spartacus_ssr {
     add_epd_visualization
     add_product_configurator
     remove_npmrc
-    if [ ! -z "$IS_NPM_INSTALL" ] ; then
-        remove_npmrc
-    fi
     )
 }
 
@@ -177,9 +172,7 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
-    if [ ! -z "$IS_NPM_INSTALL" ] ; then
-        remove_npmrc
-    fi
+    remove_npmrc
     )
 }
 
@@ -415,13 +408,10 @@ function cmd_help {
 }
 
 function create_npmrc {   
-    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\nemail=${NPM_EMAIL}\n"
+    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
-    if [ -z "$NPM_EMAIL" ] ; then
-        echo "NPM_EMAIL is empty"
-    fi    
     echo "creating .npmrc file in ${1} folder"    
     printf $NPMRC_CONTENT > .npmrc
     echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
@@ -438,5 +428,9 @@ function remove_npm_token {
     if [[ -f "./config.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
         echo 'removing NPM_TOKEN value from config.sh'
         sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.sh
+    fi
+    if [[ -f "./config.default.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'removing NPM_TOKEN value from config.default.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.default.sh
     fi
 }
