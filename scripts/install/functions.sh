@@ -382,3 +382,14 @@ function cmd_help {
     echo " stop"
     echo " help"
 }
+
+function verify_installation {
+    url="http://localhost:4200"
+    content="$(curl -sLI "$url" | grep HTTP/1.1 | tail -1 | awk {'print $2'})"
+    if [ ! -z $content ] && [ $content -eq 200 ]
+    then
+        echo "Installation succesful"
+    else
+        echo "Installation unsuccesful"
+    fi
+}
