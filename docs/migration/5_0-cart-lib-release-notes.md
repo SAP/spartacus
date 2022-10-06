@@ -13,7 +13,7 @@ Base cart related UI code is moved here. This includes components, guards and ui
 The base cart facade API implementations are moved here, as well as connectors, event builder, event listener, models, other services, and state management.
 
 @spartacus/cart/base/occ
-The base cart related OCC code is moved here. This includes the checkout related adapters and converters.
+The base cart related OCC code is moved here. This includes adapters and converters.
 
 @spartacus/cart/base/root
 The root entry point is, by convention, meant to always be eager loaded.  It contains the config, events, facades, http interceptors and models.
