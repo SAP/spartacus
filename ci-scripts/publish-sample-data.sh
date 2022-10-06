@@ -12,7 +12,7 @@ function verify_branch_or_tag_exists {
     IS_SAMPLE_DATA_BRANCH_OR_TAGS=`git ls-remote --heads --tags https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $1`
 
     if [ -z "$IS_SAMPLE_DATA_BRANCH_OR_TAGS" ]; then
-        echo "Error downloading $1 zip/tar. Verify branch/tag name exist on the spartacus sample data repository"
+        echo "Error. Branch/Tag: $1 does not exist. Verify branch/tag name exist on the spartacus sample data repository"
         exit 1
     fi
 }
