@@ -24,8 +24,9 @@ a {
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
+  color: var(--cx-color-primary);
   &:hover {
-    color: var(--cx-color-primary);
+    color: var(--cx-color-primary-accent);
     text-decoration: none;
   }
 }

@@ -30,11 +30,13 @@ $caretSize: 7px;
     margin-inline-start: -10px;
     z-index: 1;
     pointer-events: none;
+    color: var(--cx-color-text);
   }
 
   select {
     color: inherit;
     background-color: var(--cx-color-light);
+    color: var(--cx-color-text);
     border: 0;
 
     -webkit-appearance: none;
@@ -48,7 +50,7 @@ $caretSize: 7px;
 
     position: relative;
     @include media-breakpoint-up(lg) {
-      background-color: var(--cx-color-dark);
+      background-color: var(--cx-color-light);
     }
   }
 }

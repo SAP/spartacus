@@ -1,9 +1,16 @@
 $space: 0.5rem;
 
 %header {
-  background-color: var(--cx-color-dark);
+  background-color: var(--cx-color-light);
   color: var(--cx-color-inverse);
-  display: block;
+
+    @include media-breakpoint-up(lg) {
+      background: linear-gradient(
+        to top,
+        var(--cx-color-text) $header-height,
+        var(--cx-color-light) 0
+      );
+    }
 
   .header {
     max-width: var(--cx-page-width-max);
@@ -20,6 +27,10 @@ $space: 0.5rem;
       align-self: center;
       display: block;
       flex: none;
+    }
+
+    .SiteLinks {
+      font-weight: var(--cx-font-weight-semi);
     }
   }
 
@@ -57,7 +68,7 @@ $space: 0.5rem;
   .SiteContext,
   .SiteLinks {
     font-size: 0.75rem;
-    color: var(--cx-color-light);
+    color: var(--cx-color-medium);
     > * {
       flex: none;
     }
@@ -170,10 +181,17 @@ $space: 0.5rem;
 
     .SiteLinks {
       justify-content: flex-end;
+      color: var(--cx-color-primary);
     }
 
     .SiteLogin {
       padding: $space $space * 2;
     }
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    background-color: var(--cx-color-primary);
   }
 }
