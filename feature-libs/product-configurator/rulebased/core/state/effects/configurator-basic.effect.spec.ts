@@ -513,7 +513,7 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect groupChange', () => {
-    it('should emit ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
+    it('should emit UpdatePriceSummary, ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
@@ -533,13 +533,18 @@ describe('ConfiguratorEffect', () => {
         entityKey: productConfiguration.owner.key,
         menuParentGroup: undefined,
       });
+      const updatePriceSummary = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: setCurrentGroup,
         c: setMenuParentGroup,
         d: readConfigurationSuccess,
+        e: updatePriceSummary,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
     });

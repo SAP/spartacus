@@ -82,7 +82,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { S4OMFeatureModule } from './features/s4om-feature.module';
+import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 
 const featureModules = [];
 
