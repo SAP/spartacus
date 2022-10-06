@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
+}
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 describe('CustomerTicketingCreateDialogComponent', () => {
@@ -18,6 +20,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       declarations: [CustomerTicketingCreateDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   });

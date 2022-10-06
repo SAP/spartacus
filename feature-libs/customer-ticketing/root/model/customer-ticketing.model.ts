@@ -5,7 +5,14 @@ export const enum CUSTOM_CLASS {
 
 export const enum STATUS {
   OPEN = 'OPEN',
-  CLOSE = 'CLOSE',
+  CLOSE = 'CLOSED',
+  INPROCESS = 'INPROCESS',
+}
+
+export const enum STATUS_NAME {
+  OPEN = 'Open',
+  CLOSE = 'Closed',
+  INPROCESS = 'In Process',
 }
 
 export interface TicketDetails {
@@ -16,7 +23,7 @@ export interface TicketDetails {
   status?: Status;
   subject?: string;
   ticketCategory?: Category;
-  ticketEvents?: Array<Event>;
+  ticketEvents?: Array<TicketEvent>;
 }
 
 export interface Status {
@@ -29,10 +36,17 @@ export interface Category {
   name: string;
 }
 
-export interface Event {
+export interface TicketEvent {
   author?: string;
   createdAt?: string;
   message?: string;
   toStatus?: Status;
+  code?: string;
   addedByAgent?: boolean;
+  attachments?: Array<Attachment>;
+}
+
+export interface Attachment {
+  id?: string;
+  filename?: string;
 }

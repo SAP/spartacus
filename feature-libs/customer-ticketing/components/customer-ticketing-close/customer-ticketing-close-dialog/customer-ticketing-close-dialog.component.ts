@@ -9,10 +9,10 @@ import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
-  selector: 'cx-customer-ticketing-reopen-dialog',
-  templateUrl: './customer-ticketing-reopen-dialog.component.html',
+  selector: 'cx-customer-ticketing-close-dialog',
+  templateUrl: './customer-ticketing-close-dialog.component.html',
 })
-export class CustomerTicketingReopenDialogComponent
+export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent
   implements OnInit, OnDestroy
 {
@@ -22,7 +22,7 @@ export class CustomerTicketingReopenDialogComponent
     this.buildForm();
   }
 
-  reopenRequest(): void {
+  closeRequest(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
@@ -33,10 +33,11 @@ export class CustomerTicketingReopenDialogComponent
         .subscribe({
           complete: () => {
             this.isDataLoading$.next(false);
-            this.close('Ticket reopened successfully');
+            this.close('Ticket closed successfully');
+            this.routingService.go({ cxRoute: 'supportTickets' });
           },
           error: () => {
-            this.close('Something went wrong while reopening ticket');
+            this.close('Something went wrong while closing the ticket');
           },
         });
     }
@@ -46,8 +47,8 @@ export class CustomerTicketingReopenDialogComponent
     return {
       message: this.form?.get('message')?.value,
       toStatus: {
-        id: STATUS.INPROCESS,
-        name: STATUS_NAME.INPROCESS,
+        id: STATUS.CLOSE,
+        name: STATUS_NAME.CLOSE,
       },
     };
   }

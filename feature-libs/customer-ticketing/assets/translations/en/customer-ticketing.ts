@@ -21,5 +21,8 @@ export const customerTicketing = {
     category: 'Category',
     associateTo: 'Associate To',
     attachments: 'Attachments',
+    requestReopened: 'Request Reopened.',
+    requestClosed: 'Request closed, you may reopen if needed.',
+    errorMessage: 'Something went wrong.',
   },
 };
