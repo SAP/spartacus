@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CustomerListsPage } from '@spartacus/asm/root';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -12,10 +12,10 @@ class MockAsmAdapter {
   customerSearch(
     _options: CustomerSearchOptions
   ): Observable<CustomerSearchPage> {
-    return of();
+    return EMPTY;
   }
   customerLists(): Observable<CustomerListsPage> {
-    return of();
+    return EMPTY;
   }
 }
 

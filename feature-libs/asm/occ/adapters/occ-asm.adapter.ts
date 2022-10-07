@@ -39,7 +39,7 @@ export class OccAsmAdapter implements AsmAdapter {
   ) {
     this.baseSiteService
       .getActive()
-      .subscribe((value) => (this.activeBaseSite = value)); // TODO: Concurrency issue?
+      .subscribe((value) => (this.activeBaseSite = value));
   }
 
   protected getHeaders(): HttpHeaders {
