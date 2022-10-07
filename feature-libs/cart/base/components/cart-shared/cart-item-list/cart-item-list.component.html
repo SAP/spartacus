@@ -40,7 +40,10 @@
         [options]="options"
       >
         <tbody>
-          <ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+          <ng-template
+            [cxOutlet]="CartOutlets.LIST_ITEM"
+            [cxOutletHtmlTag]="'tr'"
+          >
             <tr
               cx-cart-item-list-row
               role="row"
