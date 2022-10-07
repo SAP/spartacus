@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -17,8 +17,12 @@ class MockAsmAdapter {
   customerLists(): Observable<CustomerListsPage> {
     return EMPTY;
   }
+  bindCart(_options: BindCartParams): Observable<unknown> {
+    return EMPTY;
+  }
 }
-
+const MOCK_ID = '00000123';
+const MOCK_USER_ID = 'userId';
 const testSearchOptions: CustomerSearchOptions = { query: 'abcde' };
 const testSearchResults: CustomerSearchPage = {
   entries: [
@@ -45,6 +49,8 @@ const testSearchResults: CustomerSearchPage = {
   },
 } as CustomerSearchPage;
 
+const mockBindCartResponse = {};
+
 const mockCustomerListPage: CustomerListsPage = {
   userGroups: [
     {
@@ -60,6 +66,11 @@ const mockCustomerListPage: CustomerListsPage = {
       uid: 'myRecentCustomerSessions',
     },
   ],
+};
+
+const mockBindCartParams = {
+  cartId: MOCK_ID,
+  customerId: MOCK_USER_ID,
 };
 
 describe('AsmConnector', () => {
@@ -105,6 +116,23 @@ describe('AsmConnector', () => {
     );
     asmConnector.customerLists().subscribe((results) => {
       expect(results).toEqual(mockCustomerListPage);
+      done();
+    });
+  });
+
+  it('should call adapter for bind cart', () => {
+    spyOn(asmAdapter, 'bindCart').and.callThrough();
+
+    asmConnector.bindCart(mockBindCartParams);
+
+    expect(asmAdapter.bindCart).toHaveBeenCalledWith(mockBindCartParams);
+  });
+
+  it('should pass the adapter bind cart response through to calling context ', (done) => {
+    spyOn(asmAdapter, 'bindCart').and.returnValue(of(mockBindCartResponse));
+
+    asmConnector.bindCart(mockBindCartParams).subscribe((results) => {
+      expect(results).toEqual(mockBindCartResponse);
       done();
     });
   });
