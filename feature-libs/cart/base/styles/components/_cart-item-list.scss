@@ -1,6 +1,15 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+  tr {
+    border-bottom: none;
+    padding: 0;
+  }
+  thead,
+  tbody {
+    border-bottom: 1px solid var(--cx-color-light);
+  }
+
   td.cx-actions {
     cx-add-to-cart,
     button {
