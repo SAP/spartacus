@@ -7,6 +7,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -60,6 +62,13 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.dismissModal('Cross click');
+    }
+  }
+
   protected quantityControl$: Observable<UntypedFormControl>;
 
   protected subscription = new Subscription();
@@ -67,7 +76,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected el: ElementRef
   ) {}
 
   ngOnInit(): void {
