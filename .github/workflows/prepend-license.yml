@@ -1,8 +1,10 @@
 on:
-  push:
-    branches:
-      - develop
-      - 'release/**'
+  pull_request:
+    types: [opened, synchronize]
+
+concurrency: 
+  group: ci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 name: Prepend licences to files
 jobs:
@@ -12,7 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_ADMIN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GH_PR_TOKEN }}
       - uses: actions/setup-python@v4
         with:
           python-version: '3.9'
@@ -26,6 +29,8 @@ jobs:
         run: ci-scripts/prepend-license.sh
       - name: push a commit to current pull request
         run: |
+          git pull origin ${{ github.event.pull_request.head.ref }} 
+
           if [ -z $(git status --porcelain) ];
           then
               echo "No files to commit"
