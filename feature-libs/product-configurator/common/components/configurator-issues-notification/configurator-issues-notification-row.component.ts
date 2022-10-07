@@ -14,6 +14,5 @@ import { Component } from '@angular/core';
       <cx-configurator-issues-notification></cx-configurator-issues-notification>
     </td>
   `,
-  host: { role: 'row' },
 })
 export class ConfiguratorIssuesNotificationRowComponent {}
