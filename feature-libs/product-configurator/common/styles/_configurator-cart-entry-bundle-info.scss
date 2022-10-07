@@ -14,6 +14,8 @@ cx-configurator-cart-entry-bundle-info-row {
 }
 
 %cx-configurator-cart-entry-bundle-info {
+  display: block;
+
   button {
     border: none;
     background-color: transparent;
@@ -111,6 +113,14 @@ cx-configurator-cart-entry-bundle-info-row {
           width: 26%;
         }
       }
+    }
+  }
+
+  cx-cart-item & {
+    padding-inline-start: 65px;
+
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 17.3333333%;
     }
   }
 }
