@@ -29,6 +29,7 @@
             cxCartItemContext
             [item]="entry"
             [compact]="true"
+            [quantityControl]="getQuantityControl() | async"
             [promotionLocation]="promotionLocation"
           >
             <ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
