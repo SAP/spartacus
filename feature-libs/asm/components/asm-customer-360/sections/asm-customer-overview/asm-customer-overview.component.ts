@@ -8,12 +8,7 @@ import {
 import { AsmConfig } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 
-import {
-  ImageType,
-  PriceType,
-  Product,
-  UrlCommand,
-} from '@spartacus/core';
+import { ImageType, PriceType, Product, UrlCommand } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 import { Observable, of, Subscription } from 'rxjs';
@@ -157,15 +152,7 @@ export class AsmCustomerOverviewComponent implements OnInit, OnDestroy {
       url: '/Open-Catalogue/Components/Power-Supplies/Power-Adapters-%26-Inverters/ACK-E2/p/514518',
     };
     return {
-      products: [
-        product,
-        product,
-        product,
-        product,
-        product,
-        product,
-        product,
-      ],
+      products: [product, product, product, product, product, product, product],
     };
   }
 

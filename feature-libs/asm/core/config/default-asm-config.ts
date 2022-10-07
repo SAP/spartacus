@@ -1,6 +1,7 @@
 import { AsmCustomer360Type } from '@spartacus/asm/root';
 import {
   AsmCustomerMapComponent,
+  AsmCustomerOverviewComponent,
   AsmCustomerProductReviewsComponent,
 } from '../../components/asm-customer-360/sections/components';
 import { AsmConfig } from './asm-config';
@@ -16,11 +17,21 @@ export const defaultAsmConfig: AsmConfig = {
     customer360: {
       tabs: [
         {
-          i18nNameKey: 'asm.customer360.feedbackTab',
+          i18nNameKey: 'asm.customer360.overviewTab',
+          components: [
+            {
+              component: AsmCustomerOverviewComponent,
+            },
+          ],
+        },
+        {
+          i18nNameKey: 'asm.customer360.overviewTab',
           components: [
             {
               component: AsmCustomerProductReviewsComponent,
-              customer360Type: AsmCustomer360Type.REVIEW_LIST,
+              requestData: {
+                customer360Type: AsmCustomer360Type.REVIEW_LIST,
+              },
               config: { pageSize: 5 },
             },
           ],
@@ -30,7 +41,9 @@ export const defaultAsmConfig: AsmConfig = {
           components: [
             {
               component: AsmCustomerMapComponent,
-              customer360Type: AsmCustomer360Type.STORE_LOCATION,
+              requestData: {
+                customer360Type: AsmCustomer360Type.STORE_LOCATION,
+              },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
                 pageSize: 10,

@@ -18,6 +18,11 @@ export abstract class AsmAdapter {
 
   abstract bindCart(options: BindCartParams): Observable<unknown>;
 
+  /**
+   * Fetches data needed for certain ASM components.
+   * @param queries that contain information on the specific UI component.
+   * @param options with the emulated user's ID.
+   */
   abstract getCustomer360Data(
     queries: Array<AsmCustomer360Query>,
     options: AsmCustomer360Params

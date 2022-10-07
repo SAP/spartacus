@@ -4,6 +4,7 @@ import {
   Injector,
   Input,
   OnInit,
+  StaticProvider,
 } from '@angular/core';
 import {
   AsmCustomer360Data,
@@ -17,7 +18,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { ModalService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { AsmConfig } from 'feature-libs/asm/core';
-import { AsmCustomer360TabConfig } from 'feature-libs/asm/core/models/customer-360-config';
+import { AsmCustomer360TabConfig } from 'feature-libs/asm/core/models/customer-360-tab-config';
 import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
 
 import { getAsmDialogActionEvent } from '../../core/utils/utils';
@@ -65,15 +66,14 @@ export class AsmCustomer360Component implements OnInit {
         [type: string]: AsmCustomer360Data;
       } = {};
 
-      const queries = this.tabs.reduce(
-        (reducedQueries: Array<AsmCustomer360Query>, tab) => {
-          return reducedQueries.concat(
-            tab.components.map((component) => {
-              return { customer360Type: component.customer360Type };
-            })
-          );
-        },
-        []
+      const queries: Array<AsmCustomer360Query> = [];
+
+      this.tabs.forEach((tab) =>
+        tab.components.forEach((component) => {
+          if (component.requestData) {
+            queries.push(component.requestData);
+          }
+        })
       );
 
       this.asmService.fetchCustomer360Data(queries, {
@@ -86,15 +86,17 @@ export class AsmCustomer360Component implements OnInit {
         .subscribe((data) => {
           data.value.forEach((customer360Data) => {
             customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
-
-            this.injectors = this.tabs.map((tab) => {
-              return tab.components.map((component) =>
-                this.createInjector(
-                  component.config,
-                  customerTypeCustomerDataMap[component.customer360Type]
-                )
-              );
-            });
+          });
+          this.injectors = this.tabs.map((tab) => {
+            return tab.components.map((component) =>
+              this.createInjector(
+                component.config,
+                component.requestData &&
+                  customerTypeCustomerDataMap[
+                    component.requestData.customer360Type
+                  ]
+              )
+            );
           });
         });
     }
@@ -127,15 +129,20 @@ export class AsmCustomer360Component implements OnInit {
     this.modalService.closeActiveModal(reason);
   }
 
-  createInjector(config: unknown, sectionData: unknown): Injector {
+  createInjector(config: unknown, sectionData?: unknown): Injector {
+    const providers: Array<StaticProvider> = [
+      { provide: Customer360SectionConfig, useValue: config },
+    ];
+
+    if (sectionData) {
+      providers.push({
+        provide: Customer360SectionData,
+        useValue: new Customer360SectionData(sectionData),
+      });
+    }
+
     return Injector.create({
-      providers: [
-        { provide: Customer360SectionConfig, useValue: config },
-        {
-          provide: Customer360SectionData,
-          useValue: new Customer360SectionData(sectionData),
-        },
-      ],
+      providers,
       parent: this.injector,
     });
   }

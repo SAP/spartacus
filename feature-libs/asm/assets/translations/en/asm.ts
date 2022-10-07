@@ -4,7 +4,6 @@ export const customer360 = {
     subTitle: '{{name}} Customer 360\xB0 View',
   },
   overview: {
-    tabName: 'Overview',
     activeCart: 'Active Cart',
     activeCartCode: 'Active Cart {{code}}',
     totalNoItems: 'Total No. Items {{count}}',
@@ -19,6 +18,7 @@ export const customer360 = {
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
   },
+  overviewTab: 'Overview',
   profileTab: 'Profile',
   activityTab: 'Activity',
   feedbackTab: 'Feedback',
@@ -85,7 +85,7 @@ export const asm = {
       quantity: 'Qty: {{count}}',
       itemPrice: 'Item Price: {{price}}',
       showMore: 'Show More',
-      showLess: 'Show Less'
+      showLess: 'Show Less',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
