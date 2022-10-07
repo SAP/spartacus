@@ -26,6 +26,7 @@ import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-ta
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
 import { INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION } from './data/inner-components-host.directive.migration';
+import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 import { LOGIN_GUARD_CONSTRUCTOR_MIGRATION } from './data/login.guard.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
@@ -71,6 +72,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   BANNER_COMPONENT_MIGRATION,
   CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION,
   CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION,
+  JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION
 ];
 
 export function migrate(): Rule {
