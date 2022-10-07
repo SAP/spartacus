@@ -40,7 +40,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected authService: AuthService,
     protected eventService: EventService
   ) {
-    super(userRegisterFacade);
+    super(userRegisterFacade, globalMessageService);
   }
 
   /**
@@ -79,5 +79,9 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       ),
       switchMap((user) => loginOrFail$.pipe(map(() => user)))
     );
+  }
+
+  postRegisterMessage(): void {
+    // don't show the message
   }
 }
