@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CdcJsService, CdcLoginFailEvent } from '@spartacus/cdc/root';
+import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import {
   AuthService,
   Command,
@@ -12,8 +12,8 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable, throwError } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { merge, Observable, throwError } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
@@ -24,15 +24,19 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     );
 
   protected loadUserTokenFailed$: Observable<boolean> = this.eventService
-    .get(CdcLoginFailEvent)
+    .get(CdcLoadUserTokenFailEvent)
     .pipe(
-      map((event) => !event),
+      map((event) => !!event),
       tap((failed) => {
         if (failed) {
-          throw new Error(`Token failed to load`);
+          throw new Error(`User token failed to load.`);
         }
       })
     );
+
+  protected isLoggedIn$: Observable<boolean> = this.authService
+    .isUserLoggedIn()
+    .pipe(filter((loggedIn) => loggedIn));
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
@@ -68,10 +72,12 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           throw new Error(`CDC script didn't load.`);
         }
       }),
-      withLatestFrom(this.loadUserTokenFailed$),
       switchMap(() =>
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
+      ),
+      switchMap((user) =>
+        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(map(() => user))
       )
     );
   }
