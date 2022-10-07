@@ -12,8 +12,8 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { merge, Observable, throwError } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
@@ -23,13 +23,16 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
-  protected isLoggedIn$: Observable<boolean> = this.authService
-    .isUserLoggedIn()
-    .pipe(filter((loggedIn) => loggedIn));
-
-  protected tokenFailure$: Observable<boolean> = this.eventService
+  protected loadUserTokenFailed$: Observable<boolean> = this.eventService
     .get(CdcLoginFailEvent)
-    .pipe(map((x) => !x));
+    .pipe(
+      map((event) => !event),
+      tap((failed) => {
+        if (failed) {
+          throw new Error(`Token failed to load`);
+        }
+      })
+    );
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
@@ -53,14 +56,6 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       return throwError(`The provided user is not valid: ${user}`);
     }
 
-    const loginOrFail$ = merge(this.isLoggedIn$, this.tokenFailure$).pipe(
-      tap((success) => {
-        if (!success) {
-          throw new Error(`token failed to load`);
-        }
-      })
-    );
-
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
         if (!cdcLoaded) {
@@ -73,14 +68,15 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           throw new Error(`CDC script didn't load.`);
         }
       }),
+      withLatestFrom(this.loadUserTokenFailed$),
       switchMap(() =>
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
-      ),
-      switchMap((user) => loginOrFail$.pipe(map(() => user)))
+      )
     );
   }
 
+  // @override
   postRegisterMessage(): void {
     // don't show the message
   }
