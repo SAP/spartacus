@@ -1,21 +1,17 @@
 %cx-asm-customer-listing {
   display: block;
-  padding: 0 28px;
 
   .listing {
     &-header {
-      font-size: 22px;
-      font-family: Dosis, sans-serif;
-      font-weight: 500;
+      font-size: var(--cx-font-size, 1.125rem);
+      font-weight: var( --cx-font-weight-semi);
       width: 100%;
-      padding-top: 50px;
-      padding-bottom: 14px;
-      text-align: center;
+      padding: 32px 0 32px 48px;
     }
 
     &-separator {
       border: none;
-      border-bottom: 1px solid #d4d7dc;
+      border-bottom: 1px solid $asmBorderColor;
       margin: 0;
     }
 
@@ -26,14 +22,14 @@
 
     &-item {
       &-text {
-        padding: 26px 0 26px 30px;
+        padding: 22px 30px;
       }
 
       &-title {
-        margin-bottom: 3px;
-        font-weight: bold;
-        font-size: 17px;
-        color: #313440;
+        font-size: var(--cx-font-size, 0.875rem);
+        font-weight: var(--cx-font-weight-bold);
+        line-height: var(--cx-line-height, 1.6);
+        color: $asmMainTextColor;
       }
 
       &-subtitle {
@@ -41,8 +37,10 @@
       }
 
       &-description {
-        font-size: 15px;
-        color: #313440;
+        color: --cx-color-secondary;
+        font-size: var(--cx-font-size, 0.875rem);
+        font-weight: var(--cx-font-weight-normal);
+        line-height: var(--cx-line-height, 1.6);
         width: 100%;
       }
 

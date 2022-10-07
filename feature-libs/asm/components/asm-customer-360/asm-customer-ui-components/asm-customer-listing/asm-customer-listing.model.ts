@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs';
 import { Class, Fragment } from '../../asm-customer-360.model';
 
 export abstract class ListingFragment implements Fragment {
   abstract type: string;
-  abstract text: string;
+  abstract text: Observable<string>;
   items: Array<ListingItem>;
   emptyText?: string;
   buttonAction?(item: ListingItem): void;

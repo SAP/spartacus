@@ -1,5 +1,5 @@
 <div class="listing-header" *ngIf="fragment.text">
-  {{ fragment.text }}
+  {{ fragment.text | async }}
 </div>
 <hr class="listing-separator" />
 <ng-container *ngIf="fragment.tabs; else listingContainer">

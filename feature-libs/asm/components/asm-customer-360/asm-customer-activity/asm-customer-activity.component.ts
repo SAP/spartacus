@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
+// import { TranslationService } from '@spartacus/core';
 import { GeneralFragment } from './asm-customer-activity.model';
 
 @Component({
@@ -105,6 +107,10 @@ export class AsmCustomerActivityComponent {
       },
     ],
   };
+  constructor(protected translation: TranslationService) {}
 
-  uiFragment = new GeneralFragment(this.rawGeneralFragment.entries);
+  uiFragment = new GeneralFragment(
+    this.translation,
+    this.rawGeneralFragment.entries
+  );
 }

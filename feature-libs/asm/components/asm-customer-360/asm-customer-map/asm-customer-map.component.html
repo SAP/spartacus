@@ -1,4 +1,9 @@
-<div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
+<div class="store-count">
+  {{
+    'asm.customer360.mapDisplayCount'
+      | cxTranslate: { start: '1', end: '10', count: storeData.total }
+  }}
+</div>
 
 <div class="pagination">
   <button class="pagination-arrow"><<</button>
@@ -13,13 +18,13 @@
     (click)="selectStore(store)"
   >
     <div class="store-listing-item-details">
-      <div class="store-listing-item-text bold">{{ store.displayName }}</div>
-      <div class="store-listing-item-text bold">
+      <div class="store-listing-item-text">{{ store.displayName }}</div>
+      <div class="store-listing-item-text">
         {{ store.line1 }}, {{ store.line2 }}
       </div>
       <div class="store-listing-item-text">{{ store.town }}</div>
     </div>
-    <div class="store-listing-item-distance store-listing-item-text bold">
+    <div class="store-listing-item-distance store-listing-item-text">
       {{ store.formattedDistance }}
     </div>
   </div>

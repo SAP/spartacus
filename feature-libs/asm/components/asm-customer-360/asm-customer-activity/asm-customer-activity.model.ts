@@ -7,6 +7,7 @@ import {
   TableEntry,
   TableEntryCell,
 } from '../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
+import { TranslationService } from '@spartacus/core';
 
 export interface RawGeneralEntry extends RawTableEntry {
   type?: string;
@@ -68,10 +69,12 @@ export class GeneralEntry extends TableEntry {
 
 export class GeneralFragment extends TableFragment {
   type = 'general';
-  text = 'General';
-  emptyText = 'There is currently no recorded customer activity';
-
-  constructor(entries: Array<RawGeneralEntry>) {
-    super(entries, 'updated', GeneralEntry, 10);
+  text = this.translation.translate('asm.customer360.generalTabTitle');
+  emptyText = this.translation.translate('asm.customer360.generalTabEmptyText');
+  constructor(
+    protected translation: TranslationService,
+    entries: Array<RawGeneralEntry>
+  ) {
+    super(translation, entries, 'updated', GeneralEntry, 10);
   }
 }

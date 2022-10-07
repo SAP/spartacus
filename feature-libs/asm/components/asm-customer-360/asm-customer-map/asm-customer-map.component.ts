@@ -14,7 +14,6 @@ import { MapData, StoreData } from './map-types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-map',
   templateUrl: './asm-customer-map.component.html',
-  styleUrls: ['./asm-customer-map.component.scss'],
 })
 export class AsmCustomerMapComponent implements OnInit {
   storeData: MapData = {

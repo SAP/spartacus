@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   Customer360Section,
   CUSTOMER_360_SECTION_TITLE,
@@ -32,7 +33,7 @@ export const Customer360Sections: Customer360Section[] = [
 
 export interface Fragment {
   type: string;
-  text: string;
+  text: Observable<string>;
 }
 
 export interface keyValuePair {

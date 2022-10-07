@@ -1,23 +1,23 @@
 %cx-asm-customer-table {
   display: block;
-  padding: 0 28px;
+  padding: 0 18px;
 
   .table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    margin-top: 14px;
+    margin-top: 5px;
 
     &-heading {
       width: 100%;
       font-size: 16px;
       justify-content: space-between;
       display: flex;
-      color: #19212b;
 
       &-text {
-        padding-top: 30px;
-        padding-bottom: 7px;
+        font-size: 1.125rem;
+        font-weight: var( --cx-font-weight-semi);
+        padding: 28px 0 32px 30px;
       }
 
       &-pages {
@@ -27,14 +27,14 @@
       }
 
       &-page {
-        color: #0486e0;
+        color: $asmLinkColor;
         cursor: pointer;
         padding-left: 14px;
         padding-right: 14px;
         font-weight: bold;
 
         &.active {
-          color: #7f90a4;
+          color: $asmLinkColor;
           cursor: default;
         }
       }
@@ -42,7 +42,7 @@
 
     &-separator {
       border: none;
-      border-bottom: 1px solid #d4d7dc;
+      border-bottom: 1px solid $asmBorderColor;
       margin: 0;
     }
 
@@ -52,47 +52,51 @@
 
     &-row {
       border: none;
-      border-top: 1px solid #e5e5e5;
+      border-top: 1px solid $asmBorderColor;
 
       &-header {
         border: none;
       }
 
       &:nth-child(2n + 2) {
-        background: #eef3f7;
+        background: $asmTableBackgroundAltColor;
       }
     }
-
     th,
     td {
       text-align: left;
       vertical-align: top;
-      padding: 10px;
+      padding: 19px 10px;
+    }
+    th:first-child,
+    td:first-child {
+      padding-left: 24px;
     }
 
     td {
-      color: #313440;
+      color: $asmMainTextColor;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 15px;
-
+      font-size: 1rem;
+      font-weight: var( --cx-font-weight-normal);
       a {
         font-weight: bold;
-        color: #0486e0;
+        color: $asmLinkColor;
         text-decoration: none;
       }
     }
 
     th {
-      font-size: 13px;
-      color: #7f90a4;
+      font-size: 1rem;
+      font-weight: var( --cx-font-weight-semi);
+      color: $asmMainTextColor;
       cursor: pointer;
       user-select: none;
 
       &:hover,
       &.active {
-        color: #454a5d;
+        color: $asmLinkColor;
       }
 
       &.active {
@@ -106,12 +110,12 @@
         }
 
         &.desc::after {
-          border-bottom: 5px solid #7f90a4;
+          border-bottom: 5px solid $asmLinkColor;
           bottom: 11px;
         }
 
         &.asc::after {
-          border-top: 5px solid #7f90a4;
+          border-top: 5px solid $asmLinkColor;
           top: 13px;
         }
       }

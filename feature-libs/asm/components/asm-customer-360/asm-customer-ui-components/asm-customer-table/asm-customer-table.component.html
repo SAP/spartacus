@@ -1,6 +1,6 @@
-<div class="table-heading" *ngIf="fragment.text">
+<div class="table-heading" *ngIf="fragment.text | async">
   <div class="table-heading-text">
-    {{ fragment.text }}
+    {{ fragment.text | async }}
   </div>
   <div class="table-heading-pages" *ngIf="fragment.entryPages">
     <ng-container
@@ -30,7 +30,7 @@
             : ''
         "
       >
-        {{ column.text }}
+        {{ column.text | async }}
       </th>
     </tr>
     <tr

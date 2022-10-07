@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import { TicketFragment, ReviewFragment } from './asm-customer-feedback.model';
 
 @Component({
@@ -139,8 +140,10 @@ export class AsmCustomerFeedbackComponent {
     ],
   };
 
+  constructor(protected translation: TranslationService) {}
+
   uiFragments = [
-    new TicketFragment(this.rawTicketFragment.entries),
-    new ReviewFragment(this.rawReviewFragment.entries),
+    new TicketFragment(this.translation, this.rawTicketFragment.entries),
+    new ReviewFragment(this.translation, this.rawReviewFragment.entries),
   ];
 }

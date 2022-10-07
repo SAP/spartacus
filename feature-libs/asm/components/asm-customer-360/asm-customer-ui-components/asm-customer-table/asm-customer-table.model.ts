@@ -1,10 +1,12 @@
+import { TranslationService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { Fragment, Class } from '../../asm-customer-360.model';
 import { keyValuePair } from '../../asm-customer-360.model';
 
 export abstract class TableFragment implements Fragment {
   entries: Array<TableEntry>;
   columns: Array<{
-    text: string;
+    text: Observable<string>;
     property: string;
     sortOrder?: 'asc' | 'desc';
   }>;
@@ -16,9 +18,9 @@ export abstract class TableFragment implements Fragment {
   currentPage: number;
   pageSize: number;
 
-  abstract emptyText: string;
+  abstract emptyText: string | Observable<string>;
   abstract type: string;
-  abstract text: string;
+  abstract text: Observable<string>;
 
   public setPageNumber(pageNumber: number): void {
     this.currentPage = pageNumber;
@@ -78,6 +80,7 @@ export abstract class TableFragment implements Fragment {
   }
 
   constructor(
+    protected translation: TranslationService,
     rawEntries: Array<RawTableEntry>,
     sortProperty: string,
     entryClass: Class<TableEntry, RawTableEntry>,
@@ -95,14 +98,19 @@ export abstract class TableFragment implements Fragment {
     this.columns = Object.getOwnPropertyNames(new entryClass({})).map((key) => {
       let column: {
         property: string;
-        text: string;
+        text: Observable<string>;
         sortOrder?: 'asc' | 'desc';
-      } = { property: key, text: key.toUpperCase() };
+      } = { property: key, text: this.getTranslatedColumnText(key) };
       if (key === this.currentSort.property) {
         column.sortOrder = this.currentSort.sortOrder;
       }
       return column;
     });
+  }
+  private getTranslatedColumnText(columnKey: string): Observable<string> {
+    return this.translation.translate(
+      'asm.customer360.tableHeader.' + columnKey
+    );
   }
 }
 

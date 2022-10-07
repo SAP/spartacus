@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { TranslationService } from '@spartacus/core';
 import { keyValuePair } from '../asm-customer-360.model';
 import { replaceTokens, combineStrings } from '../asm-customer-360.utils';
 import {
@@ -119,25 +120,32 @@ export class ReviewEntry extends TableEntry {
 
 export class TicketFragment extends TableFragment {
   type = 'tickets';
-  text = 'Support Tickets';
-  emptyText = 'There are currently no Support Ticket items';
+  text = this.translation.translate('asm.customer360.feedBackTabSupportTitle');
+  emptyText = this.translation.translate(
+    'asm.customer360.feedBackTabSupportEmptyText'
+  );
 
-  constructor(entries: Array<RawTableEntry>) {
-    super(entries, 'updated', TicketEntry);
+  constructor(
+    protected translation: TranslationService,
+    entries: Array<RawTableEntry>
+  ) {
+    super(translation, entries, 'updated', TicketEntry);
   }
 }
 
 export class ReviewFragment extends TableFragment {
   type = 'reviews';
-  text = 'Product Reviews';
-  emptyText = 'There are currently no Product Review items';
+  text = this.translation.translate(
+    'asm.customer360.feedBackTabProductReviewsTitle'
+  );
+  emptyText = this.translation.translate(
+    'asm.customer360.feedBackTabProductReviewsEmptyText'
+  );
 
-  constructor(entries: Array<RawTableEntry>) {
-    super(entries, 'dateAndStatus', ReviewEntry);
-    this.columns.forEach((column) => {
-      if (column.property === 'dateAndStatus') {
-        column.text = 'DATE / STATUS';
-      }
-    });
+  constructor(
+    protected translation: TranslationService,
+    entries: Array<RawTableEntry>
+  ) {
+    super(translation, entries, 'dateAndStatus', ReviewEntry);
   }
 }

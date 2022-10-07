@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   CouponFragment,
   PromotionFragment,
@@ -80,9 +81,14 @@ export class AsmCustomerPromotionsComponent {
     ],
   };
 
+  constructor(protected translation: TranslationService) {}
+
   uiFragments = [
-    new CouponFragment(this.rawCouponFragment.items),
-    new PromotionFragment(this.rawPromotionFragment.items),
-    new CustomerCouponFragment(this.rawCustomerCouponFragment.items),
+    new CouponFragment(this.translation, this.rawCouponFragment.items),
+    new PromotionFragment(this.translation, this.rawPromotionFragment.items),
+    new CustomerCouponFragment(
+      this.translation,
+      this.rawCustomerCouponFragment.items
+    ),
   ];
 }

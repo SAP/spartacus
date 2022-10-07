@@ -1,3 +1,4 @@
+import { TranslationService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
@@ -78,7 +79,7 @@ export class CustomerCouponListingItem extends ListingItem {
 
 export class CouponFragment extends ListingFragment {
   type = 'coupons';
-  text = 'COUPONS';
+  text = this.translation.translate('asm.customer360.coupons');
   emptyText = 'There are currently no CSA Coupons available.';
   items: Array<CouponListingItem>;
 
@@ -93,18 +94,24 @@ export class CouponFragment extends ListingFragment {
       .subscribe();
   }
 
-  constructor(rawItems: Array<RawPromotionItem>) {
+  constructor(
+    protected translation: TranslationService,
+    rawItems: Array<RawPromotionItem>
+  ) {
     super(rawItems, CouponListingItem);
   }
 }
 
 export class PromotionFragment extends ListingFragment {
   type = 'promotions';
-  text = 'PROMOTIONS';
+  text = this.translation.translate('asm.customer360.promotions');
   emptyText = 'There are currently no CSA Promotions available.';
   items: Array<PromotionListingItem>;
 
-  constructor(rawItems: Array<RawPromotionItem>) {
+  constructor(
+    protected translation: TranslationService,
+    rawItems: Array<RawPromotionItem>
+  ) {
     super(rawItems, PromotionListingItem);
   }
 }
@@ -114,7 +121,7 @@ export class CustomerCouponFragment
   implements Tabulated, Searchable
 {
   type = 'customerCoupons';
-  text = 'CUSTOMER COUPONS';
+  text = this.translation.translate('asm.customer360.customerCoupons');
   items: Array<CustomerCouponListingItem>;
   searchable: Searchable;
   tabs: Tabulated['tabs'];
@@ -163,7 +170,10 @@ export class CustomerCouponFragment
     return tabs;
   }
 
-  constructor(rawItems: Array<RawListingItem>) {
+  constructor(
+    protected translation: TranslationService,
+    rawItems: Array<RawListingItem>
+  ) {
     super(rawItems, CustomerCouponListingItem);
     this.tabs = [
       {
