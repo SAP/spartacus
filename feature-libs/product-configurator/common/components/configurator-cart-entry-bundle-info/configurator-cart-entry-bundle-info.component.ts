@@ -82,6 +82,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       : false;
   }
 
+  // SPIKE TODO: REMOVE:
   /**
    * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
    *
