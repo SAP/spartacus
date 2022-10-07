@@ -30,6 +30,13 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
       position: OutletPosition.AFTER,
       component: ConfiguratorCartEntryBundleInfoRowComponent,
     }),
+
+    // SPIKE TODO: reuse the same component and outlet in added-to-cart.modal
+    provideOutlet({
+      id: CartOutlets.ITEM,
+      position: OutletPosition.AFTER,
+      component: ConfiguratorCartEntryBundleInfoComponent,
+    }),
   ],
 })
 export class ConfiguratorCartEntryBundleInfoModule {}

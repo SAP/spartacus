@@ -35,6 +35,13 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
       position: OutletPosition.BEFORE,
       component: ConfiguratorIssuesNotificationRowComponent,
     }),
+
+    // SPIKE TODO: reuse the same component and outlet in added-to-cart.modal
+    provideOutlet({
+      id: CartOutlets.ITEM,
+      position: OutletPosition.BEFORE,
+      component: ConfiguratorIssuesNotificationComponent,
+    }),
   ],
   exports: [ConfiguratorIssuesNotificationComponent],
 })

@@ -32,14 +32,12 @@
             [quantityControl]="getQuantityControl() | async"
             [promotionLocation]="promotionLocation"
           >
-            <ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
-              <cx-cart-item
-                [item]="entry"
-                [compact]="true"
-                [quantityControl]="getQuantityControl() | async"
-                [promotionLocation]="promotionLocation"
-              ></cx-cart-item>
-            </ng-template>
+            <cx-cart-item
+              [item]="entry"
+              [compact]="true"
+              [quantityControl]="getQuantityControl() | async"
+              [promotionLocation]="promotionLocation"
+            ></cx-cart-item>
           </ng-container>
         </div>
         <!-- Separator -->
