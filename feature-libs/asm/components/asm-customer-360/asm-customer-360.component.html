@@ -4,10 +4,10 @@
     <div class="cx-dialog-header modal-header">
       <div class="header-title">
         <h3 id="asm-customer-360-title" class="modal-title">
-          {{ 'asm.customer360.title' | cxTranslate }}
+          {{ 'asm.customer360.header.title' | cxTranslate }}
         </h3>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
-          {{ 'asm.customer360.title' | cxTranslate }}
+          {{ 'asm.customer360.header.title' | cxTranslate }}
         </div>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
@@ -20,7 +20,7 @@
             <div class="cx-customer-info ml-3">
               <div class="cx-customer-name">
                 {{
-                  'asm.customer360.subTitle'
+                  'asm.customer360.header.subTitle'
                     | cxTranslate: { name: customer.firstName }
                 }}
               </div>
@@ -45,35 +45,21 @@
               (click)="selectTab(i)"
               [class.active]="activeTab === i"
             >
-              {{ getTabTitle(tab.sectionTitle) | async }}
+              {{ tab.i18nNameKey | cxTranslate }}
             </a>
           </div>
         </div>
       </div>
       <div class="cx-tab-content modal-body">
-        <ng-container [ngSwitch]="activeTab">
-          <cx-asm-customer-overview
-            *ngSwitchCase="0"
-            [customer]="customer"
-            (navigate)="navigateTo($event)"
-          ></cx-asm-customer-overview>
-          <cx-asm-customer-profile
-            *ngSwitchCase="1"
-            [customer]="customer"
-          ></cx-asm-customer-profile>
-          <cx-asm-customer-activity
-            *ngSwitchCase="2"
-          ></cx-asm-customer-activity>
-          <cx-asm-customer-feedback
-            *ngSwitchCase="3"
-          ></cx-asm-customer-feedback>
-          <cx-asm-customer-promotions
-            *ngSwitchCase="4"
-          ></cx-asm-customer-promotions>
-          <cx-asm-customer-map *ngSwitchCase="5"></cx-asm-customer-map>
-          <span *ngSwitchDefault>
-            {{ getActiveTabContent() }}
-          </span>
+        <ng-container
+          *ngFor="let config of currentTab.components; let i = index"
+        >
+          <ng-container
+            *ngComponentOutlet="
+              config.component;
+              injector: injectors[activeTab][i]
+            "
+          ></ng-container>
         </ng-container>
       </div>
     </div>

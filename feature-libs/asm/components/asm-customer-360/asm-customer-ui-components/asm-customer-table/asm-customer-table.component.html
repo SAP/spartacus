@@ -1,16 +1,14 @@
-<div class="table-heading" *ngIf="fragment.text">
+<div class="table-heading" *ngIf="headerText">
   <div class="table-heading-text">
-    {{ fragment.text }}
+    {{ headerText }}
   </div>
-  <div class="table-heading-pages" *ngIf="fragment.entryPages">
-    <ng-container
-      *ngFor="let page of fragment.entryPages; let pageNumber = index"
-    >
+  <div class="table-heading-pages" *ngIf="entryPages">
+    <ng-container *ngFor="let page of entryPages; let pageNumber = index">
       <div
-        *ngIf="fragment.entryPages.length > 1"
-        (click)="fragment.setPageNumber(pageNumber)"
+        *ngIf="entryPages.length > 1"
+        (click)="setPageNumber(pageNumber)"
         class="table-heading-page"
-        [class.active]="fragment.currentPage === pageNumber"
+        [class.active]="currentPage === pageNumber"
       >
         {{ pageNumber + 1 }}
       </div>
@@ -18,48 +16,45 @@
   </div>
 </div>
 <hr class="table-separator" />
-<ng-container *ngIf="fragment.entryPages?.length && fragment.columns?.length">
+<ng-container *ngIf="entryPages?.length && columns?.length">
   <table class="table">
     <tr class="table-row-header">
       <th
-        *ngFor="let column of fragment.columns"
-        (click)="fragment.sortEntriesAndUpdatePages(column.property)"
-        [class]="
-          fragment.currentSort?.property === column.property
-            ? 'active ' + fragment.currentSort?.sortOrder
-            : ''
-        "
+        *ngFor="let column of columns"
+        (click)="sortEntriesAndUpdatePages(column.property)"
+        [class.active]="sortProperty === column.property"
+        [class.asc]="reverseSort"
+        [class.desc]="!reverseSort"
       >
         {{ column.text }}
       </th>
     </tr>
-    <tr
-      class="table-row"
-      *ngFor="let entry of fragment.entryPages?.[fragment.currentPage]"
-    >
-      <td *ngFor="let column of fragment.columns">
-        <a
-          *ngIf="entry[column.property]?.details?.url; else starRating"
-          [href]="entry[column.property].details.url"
-          >{{
-            entry[column.property].text || entry[column.property].value || '---'
-          }}</a
-        >
+    <tr class="table-row" *ngFor="let entry of entryPages?.[currentPage]">
+      <td *ngFor="let column of columns">
+        <ng-container
+          *ngIf="column.urlProperty; then linkTemplate; else starRating"
+        ></ng-container>
+
+        <ng-template #linkTemplate>
+          <a [href]="entry[column.urlProperty]">{{
+            entry[column.property].text || '---'
+          }}</a>
+        </ng-template>
+
         <ng-template #starRating>
           <cx-star-rating
-            *ngIf="entry[column.property]?.details?.starRating; else tableCell"
-            [rating]="entry[column.property].value"
+            *ngIf="column.renderAsStarRating; else tableCell"
+            [rating]="entry[column.property]"
           ></cx-star-rating>
         </ng-template>
+
         <ng-template #tableCell>
-          <ng-container>{{
-            entry[column.property].text || entry[column.property].value || '---'
-          }}</ng-container>
+          <ng-container>{{ entry[column.property] || '---' }}</ng-container>
         </ng-template>
       </td>
     </tr>
   </table>
 </ng-container>
-<div class="table-empty" *ngIf="!fragment.entryPages?.length">
-  {{ fragment.emptyText }}
+<div class="table-empty" *ngIf="!entryPages?.length">
+  {{ emptyStateText }}
 </div>

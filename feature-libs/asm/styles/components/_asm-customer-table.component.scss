@@ -18,6 +18,7 @@
       &-text {
         padding-top: 30px;
         padding-bottom: 7px;
+        text-transform: uppercase;
       }
 
       &-pages {
@@ -88,6 +89,7 @@
       font-size: 13px;
       color: #7f90a4;
       cursor: pointer;
+      text-transform: uppercase;
       user-select: none;
 
       &:hover,
@@ -105,12 +107,12 @@
           position: relative;
         }
 
-        &.desc::after {
+        &.asc::after {
           border-bottom: 5px solid #7f90a4;
           bottom: 11px;
         }
 
-        &.asc::after {
+        &.desc::after {
           border-top: 5px solid #7f90a4;
           top: 13px;
         }

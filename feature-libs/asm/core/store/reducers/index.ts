@@ -5,16 +5,25 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
-import { CustomerSearchPage } from '@spartacus/asm/root';
+import {
+  AsmCustomer360Response,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
 import { AsmActions } from '../actions';
-import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
+import {
+  AsmState,
+  CUSTOMER_360_DATA,
+  CUSTOMER_SEARCH_DATA,
+} from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
     customerSearchResult:
       StateUtils.loaderReducer<CustomerSearchPage>(CUSTOMER_SEARCH_DATA),
+    customer360Response:
+      StateUtils.loaderReducer<AsmCustomer360Response>(CUSTOMER_360_DATA),
     asmUi: fromAsmUiReducer.reducer,
   };
 }

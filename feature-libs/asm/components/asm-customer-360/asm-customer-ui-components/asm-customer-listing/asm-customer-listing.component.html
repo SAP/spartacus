@@ -1,45 +1,44 @@
-<div class="listing-header" *ngIf="fragment.text">
-  {{ fragment.text }}
+<div class="listing-header" *ngIf="headerText">
+  {{ headerText }}
 </div>
 <hr class="listing-separator" />
-<ng-container *ngIf="fragment.tabs; else listingContainer">
-  <ng-container
-    *ngTemplateOutlet="tabs; context: { fragment: this.fragment }"
-  ></ng-container>
-</ng-container>
+<ng-container
+  *ngIf="tabs; then tabsTemplate; else listingContainer"
+></ng-container>
+
 <ng-template #listingContainer>
   <ng-container
     *ngTemplateOutlet="
       listing;
       context: {
-        fragment: this.fragment,
-        items: fragment.items,
-        emptyText: fragment.emptyText
+        buttonConfig: buttonConfig,
+        items: items,
+        emptyText: emptyStateText
       }
     "
   >
   </ng-container>
 </ng-template>
 
-<ng-template #tabs let-fragment="fragment">
+<ng-template #tabsTemplate>
   <div class="listing-tab-container">
-    <ng-container *ngFor="let tab of fragment.tabs; let tabNumber = index">
+    <ng-container *ngFor="let tab of tabs; let tabNumber = index">
       <div
         class="listing-tab-item"
-        (click)="fragment.setCurrentTab(tabNumber)"
-        [class.active]="fragment.currentTab === tabNumber"
+        (click)="clickTab.emit(tab)"
+        [class.active]="currentTab === tabNumber"
       >
         {{ tab.tabName }}
       </div>
     </ng-container>
   </div>
-  <ng-container *ngFor="let tab of fragment.tabs; let tabNumber = index">
-    <ng-container *ngIf="fragment.currentTab === tabNumber">
+  <ng-container *ngFor="let tab of tabs; let tabNumber = index">
+    <ng-container *ngIf="currentTab === tabNumber">
       <ng-container
         *ngTemplateOutlet="
           listing;
           context: {
-            fragment: this.fragment,
+            buttonConfig: tab.buttonConfig,
             items: tab.items,
             emptyText: tab.emptyText
           }
@@ -52,56 +51,53 @@
 
 <ng-template
   #listing
-  let-fragment="fragment"
+  let-buttonConfig="buttonConfig"
   let-items="items"
   let-emptyText="emptyText"
 >
-  <ng-container *ngIf="fragment.searchAction">
-    <form
-      class="listing-input-group"
-      (ngSubmit)="fragment.searchAction(fragment.searchTerm)"
-    >
-      <input
-        name="searchTerm"
-        [(ngModel)]="fragment.searchTerm"
-        (blur)="fragment.searchAction(fragment.searchTerm)"
-      />
-      <button type="submit">
-        <cx-icon [type]="'SEARCH'"></cx-icon>
-      </button>
-    </form>
-  </ng-container>
+  <form class="listing-input-group" (ngSubmit)="search.emit(searchTerm)">
+    <input
+      name="searchTerm"
+      [(ngModel)]="searchTerm"
+      (blur)="search.emit(searchTerm)"
+    />
+    <button type="submit">
+      <cx-icon type="SEARCH"></cx-icon>
+    </button>
+  </form>
+
   <ng-container *ngFor="let item of items">
     <div class="listing-item-text">
       <div class="listing-item-title">{{ item.title }}</div>
       <div class="listing-item-subtitle">
         <div class="listing-item-description">{{ item.description }}</div>
-        <div class="listing-item-status">
-          <button
-            *ngIf="item.buttonText && !item.textButton"
-            (click)="fragment.buttonAction(item)"
-          >
-            {{ item.buttonText }}
-          </button>
-          <div
-            class="listing-item-applied"
-            *ngIf="item.appliedText || item.textButton"
-          >
-            <cx-icon [type]="'SUCCESS'"></cx-icon>
-            <div class="listing-item-applied-text" *ngIf="item.appliedText">
-              {{ item.appliedText }}
-            </div>
-            <ng-container *ngIf="item.buttonText && item.textButton">
-              <div *ngIf="item.appliedText" class="listing-item-applied-pipe">
-                |
+        <div class="listing-item-status" *ngIf="buttonConfig">
+          <ng-container
+            *ngIf="buttonConfig.isApplied?.(item) then appliedButtonTemplate else applyButtonTemplate"
+          ></ng-container>
+
+          <ng-template #applyButtonTemplate>
+            <button *ngIf="buttonConfig.applyText" (click)="actOn.emit(item)">
+              {{ buttonConfig.applyText }}
+            </button>
+          </ng-template>
+
+          <ng-template #appliedButtonTemplate>
+            <div class="listing-item-applied">
+              <cx-icon type="SUCCESS"></cx-icon>
+              <div class="listing-item-applied-text">
+                {{ buttonConfig.appliedText }}
               </div>
-              <a
-                class="listing-item-applied-text-button"
-                (click)="fragment.buttonAction(item)"
-                >{{ item.buttonText }}</a
-              >
-            </ng-container>
-          </div>
+              <ng-container *ngIf="buttonConfig?.removeText">
+                <div class="listing-item-applied-pipe">|</div>
+                <a
+                  class="listing-item-applied-text-button"
+                  (click)="actOn.emit(item)"
+                  >{{ buttonConfig.removeText }}</a
+                >
+              </ng-container>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
-import { keyValuePair } from './asm-customer-360.model';
+import { formatDate } from '@angular/common';
+
+import { KeyValuePair } from './asm-customer-360.model';
 
 export function replaceTokens(
   text?: string,
-  tokens?: Array<keyValuePair>
+  tokens?: Array<KeyValuePair>
 ): string | undefined {
   return tokens?.length
     ? tokens.reduce((currentText, currentTokenValue) => {
@@ -12,6 +14,10 @@ export function replaceTokens(
         );
       }, text)
     : text;
+}
+
+export function formatEpochTime(time: number): string {
+  return formatDate(time, 'dd-MM-yy hh:mm a', 'en-US');
 }
 
 export function combineStrings(

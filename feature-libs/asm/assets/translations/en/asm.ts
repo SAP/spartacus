@@ -1,3 +1,31 @@
+export const customer360 = {
+  header: {
+    title: 'Customer Profile',
+    subTitle: '{{name}} Customer 360\xB0 View',
+  },
+  overview: {
+    activeCart: 'Active Cart',
+    activeCartCode: 'Active Cart {{code}}',
+    totalNoItems: 'Total No. Items {{count}}',
+    totalPrice: 'Total Price {{price}}',
+    noActiveCart: 'There are currently no Active Cart Items',
+    savedCartCode: 'Last Saved Cart {{code}}',
+    savedCart: 'Last Saved Cart',
+    noSavedCart: 'There are currently no Saved Cart items',
+    interests: 'Interests',
+    noInterests: 'There are currently no Interest items',
+    inStock: 'In Stock',
+    lowStock: 'Low Stock',
+    outOfStock: 'Out of Stock',
+  },
+  overviewTab: 'Overview',
+  profileTab: 'Profile',
+  activityTab: 'Activity',
+  feedbackTab: 'Feedback',
+  promotionsTab: 'Promotion',
+  mapsTab: 'Maps',
+};
+
 export const asm = {
   asm: {
     mainLogoLabel: 'SAP',
@@ -39,16 +67,7 @@ export const asm = {
       phone2: 'Phone2',
       paymentMethodHeader: 'Saved Payment Methods',
     },
-    customer360: {
-      title: 'Customer Profile',
-      subTitle: '{{name}} Customer 360\xB0 View',
-      overview: 'Overview',
-      profile: 'Profile',
-      activity: 'Activity',
-      feedback: 'Feedback',
-      promotions: 'Promotions',
-      maps: 'Maps',
-    },
+    customer360,
     customerOverview: {
       activeCart: 'Active Cart',
       activeCartCode: 'Active Cart {{code}}',
@@ -66,7 +85,7 @@ export const asm = {
       quantity: 'Qty: {{count}}',
       itemPrice: 'Item Price: {{price}}',
       showMore: 'Show More',
-      showLess: 'Show Less'
+      showLess: 'Show Less',
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',

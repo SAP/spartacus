@@ -1,0 +1,24 @@
+<cx-asm-customer-listing
+  emptyStateText="There are currently no CSA Coupons available."
+  headerText="Coupons"
+  [buttonConfig]="couponButtonConfig"
+  [items]="transformedCouponItems"
+  (actOn)="applyCoupon($event)"
+></cx-asm-customer-listing>
+
+<cx-asm-customer-listing
+  emptyStateText="There are currently no CSA Promotions available."
+  headerText="Promotions"
+  [buttonConfig]="{
+    appliedText: 'Promotion Applied'
+  }"
+  [items]="transformedPromotionItems"
+></cx-asm-customer-listing>
+
+<cx-asm-customer-listing
+  headerText="Customer Coupons"
+  [currentTab]="currentCustomerCouponTabIndex"
+  [tabs]="customerCouponTabs"
+  (actOn)="applyCustomerCoupon($event)"
+  (clickTab)="onCustomerCouponTabClick($event)"
+></cx-asm-customer-listing>

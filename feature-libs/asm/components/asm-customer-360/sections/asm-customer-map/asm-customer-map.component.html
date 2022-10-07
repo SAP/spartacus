@@ -1,0 +1,74 @@
+<ng-container *ngIf="storeData">
+  <div class="store-count">
+    1 - {{ storeData.pagination?.pageSize }} from
+    {{ storeData.pagination?.totalResults }} stores found
+  </div>
+
+  <div class="pagination">
+    <button class="pagination-arrow"><<</button>
+    <button class="pagination-arrow pagination-arrow-right">>></button>
+  </div>
+
+  <div>
+    <div
+      class="store-listing-item"
+      [class.selected]="selectedStore.id === store.id"
+      *ngFor="let store of storeData.stores"
+      (click)="selectStore(store)"
+    >
+      <div class="store-listing-item-details">
+        <div class="store-listing-item-text bold">{{ store.displayName }}</div>
+        <div class="store-listing-item-text bold">
+          {{ store.address.line1 }}, {{ store.address.line2 }}
+        </div>
+        <div class="store-listing-item-text">{{ store.address.town }}</div>
+      </div>
+      <div class="store-listing-item-distance store-listing-item-text bold">
+        {{ store.formattedDistance }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedStore">
+    <div class="store-details">
+      <img
+        *ngIf="selectedStore.storeImages"
+        [src]="selectedStore.storeImages[0].url"
+        width="110px"
+        height="110px"
+      />
+      <div class="store-details-info">
+        <div class="bold">{{ selectedStore.displayName }}</div>
+        <div>{{ selectedStore.address?.line1 }}</div>
+        <div>{{ selectedStore.address?.line2 }}</div>
+        <div>{{ selectedStore.address?.town }}</div>
+      </div>
+    </div>
+    <iframe
+      *ngIf="!!apiKey"
+      class="store-map"
+      height="400"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+      [src]="googleMapsUrl"
+    >
+    </iframe>
+    <div class="store-openings">
+      <div class="store-openings-dates">
+        <div
+          class="store-openings-date"
+          *ngFor="let opening of selectedStore.openingHours | keyvalue"
+        >
+          <span class="store-openings-day bold">{{ opening.key }}</span
+          >{{ opening.value }}
+        </div>
+      </div>
+      <div class="store-openings-features">
+        <div *ngFor="let feature of selectedStore.features.entry">
+          {{ feature }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

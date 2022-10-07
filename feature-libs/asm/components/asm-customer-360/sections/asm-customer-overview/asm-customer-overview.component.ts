@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -9,13 +8,7 @@ import {
 import { AsmConfig } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 
-import {
-  ImageType,
-  PriceType,
-  Product,
-  UrlCommand,
-  User,
-} from '@spartacus/core';
+import { ImageType, PriceType, Product, UrlCommand } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 import { Observable, of, Subscription } from 'rxjs';
@@ -27,8 +20,6 @@ import { AsmInterestEntry } from './asm-customer-overview.model';
   templateUrl: './asm-customer-overview.component.html',
 })
 export class AsmCustomerOverviewComponent implements OnInit, OnDestroy {
-  @Input() customer: User;
-
   @Output()
   navigate: EventEmitter<UrlCommand> = new EventEmitter();
 
@@ -62,11 +53,9 @@ export class AsmCustomerOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.customer?.uid) {
-      this.activeCart$ = of(this.getMockCartData());
-      this.savedCart$ = of(this.getMockCartData());
-      this.interests$ = of(this.getMockInterestData());
-    }
+    this.activeCart$ = of(this.getMockCartData());
+    this.savedCart$ = of(this.getMockCartData());
+    this.interests$ = of(this.getMockInterestData());
   }
 
   onSelectProduct(selectedProduct: Product): void {
@@ -163,15 +152,7 @@ export class AsmCustomerOverviewComponent implements OnInit, OnDestroy {
       url: '/Open-Catalogue/Components/Power-Supplies/Power-Adapters-%26-Inverters/ACK-E2/p/514518',
     };
     return {
-      products: [
-        product,
-        product,
-        product,
-        product,
-        product,
-        product,
-        product,
-      ],
+      products: [product, product, product, product, product, product, product],
     };
   }
 

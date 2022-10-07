@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Config, OccConfig } from '@spartacus/core';
 
+import { AsmCustomer360TabsConfig } from '../models/customer-360-tabs-config';
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -13,25 +15,7 @@ export abstract class AsmConfig extends OccConfig {
     customerSearch?: {
       maxResults?: number;
     };
-    customer360?: {
-      activityTab?: {
-        pageSize?: number;
-      };
-      feedbackTab?: {
-        supportTickets?: {
-          pageSize?: number;
-        };
-        productReviews?: {
-          pageSize?: number;
-        };
-      };
-      mapsTab?: {
-        googleMaps?: {
-          apiKey?: string;
-        };
-        pageSize?: number;
-      };
-    };
+    customer360?: AsmCustomer360TabsConfig;
   };
 }
 
