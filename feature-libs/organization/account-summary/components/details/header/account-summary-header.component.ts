@@ -1,33 +1,47 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Address, LanguageService, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
 import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountSummaryHeaderComponent {
+export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   notApplicable: string;
   headerDetails$: Observable<AccountSummaryDetails> = this.languageService
     .getActive()
     .pipe(switchMap(() => this.accountSummaryFacade.getAccountSummary()));
 
+  protected subscriptions = new Subscription();
+
   constructor(
     protected accountSummaryFacade: AccountSummaryFacade,
-    protected translation: TranslationService,
-    private languageService: LanguageService
-  ) {
-    this.translation
-      .translate('orgAccountSummary.details.notApplicable')
-      .pipe(take(1))
-      .subscribe((text) => (this.notApplicable = text));
+    protected languageService: LanguageService,
+    protected translation: TranslationService
+  ) {}
+
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.translation
+        .translate('orgAccountSummary.details.notApplicable')
+        .subscribe((text) => (this.notApplicable = text))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   getIdCardContent(id?: string): Observable<Card> {

@@ -5,7 +5,6 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { ORGANIZATION_ADMINISTRATION_FEATURE } from '@spartacus/organization/administration/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultAccountSummaryRoutingConfig } from './config';
 import { ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from './feature-name';
@@ -20,7 +19,6 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
           'AccountSummaryHeaderComponent',
           'AccountSummaryDocumentComponent',
         ],
-        dependencies: [ORGANIZATION_ADMINISTRATION_FEATURE],
       },
     },
   };

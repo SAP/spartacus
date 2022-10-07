@@ -132,23 +132,7 @@
                   }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <span
-                    *ngIf="document.formattedAmount; else noFormattedAmount"
-                  >
-                    {{ document.formattedAmount }}
-                  </span>
-                  <ng-template #noFormattedAmount>
-                    <span *ngIf="document.amount && document.currency?.isocode">
-                      {{
-                        document.amount
-                          | currency
-                            : document.currency?.isocode
-                            : 'symbol-narrow'
-                            : undefined
-                            : selectedLanguage
-                      }}
-                    </span>
-                  </ng-template>
+                  {{ document.formattedAmount }}
                 </div>
               </td>
               <td class="cx-account-summary-document-monetary">
@@ -156,28 +140,7 @@
                   {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <span
-                    *ngIf="
-                      document.formattedOpenAmount;
-                      else noFormattedOpenAmount
-                    "
-                  >
-                    {{ document.formattedOpenAmount }}
-                  </span>
-                  <ng-template #noFormattedOpenAmount>
-                    <span
-                      *ngIf="document.openAmount && document.currency?.isocode"
-                    >
-                      {{
-                        document.openAmount
-                          | currency
-                            : document.currency?.isocode
-                            : 'symbol-narrow'
-                            : undefined
-                            : selectedLanguage
-                      }}
-                    </span>
-                  </ng-template>
+                  {{ document.formattedOpenAmount }}
                 </div>
               </td>
               <td class="cx-account-summary-document-status">

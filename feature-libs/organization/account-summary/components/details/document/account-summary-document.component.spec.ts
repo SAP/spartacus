@@ -274,11 +274,6 @@ describe('AccountSummaryDocumentComponent', () => {
   });
 
   it('Should have populated table data', () => {
-    const convertCurrency = (formattedCurrency: string): number =>
-      formattedCurrency
-        ? Number(formattedCurrency.replace(/[^0-9.-]+/g, ''))
-        : 0;
-
     const isDate = (formattedDate: string): boolean =>
       /[a-zA-Z]+ \d{1,2}, \d{4}/gm.test(formattedDate);
 
@@ -312,12 +307,12 @@ describe('AccountSummaryDocumentComponent', () => {
         !!mockAccountSummaryList.orgDocuments?.[rowNumber]?.dueAtDate
       );
 
-      expect(convertCurrency(tableCells[4].nativeElement.innerText)).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.amount
+      expect(tableCells[4].nativeElement.innerText).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedAmount
       );
 
-      expect(convertCurrency(tableCells[5].nativeElement.innerText)).toEqual(
-        mockAccountSummaryList.orgDocuments?.[rowNumber]?.openAmount
+      expect(tableCells[5].nativeElement.innerText).toEqual(
+        mockAccountSummaryList.orgDocuments?.[rowNumber]?.formattedOpenAmount
       );
 
       expect(tableCells[6].nativeElement.innerText).toEqual(

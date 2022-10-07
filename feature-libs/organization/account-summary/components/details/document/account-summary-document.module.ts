@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
+import { AdminGuard } from '@spartacus/organization/administration/core';
 import {
   IconModule,
   PaginationModule,
@@ -13,6 +19,7 @@ export const accountSummaryDocumentCmsConfig: CmsConfig = {
   cmsComponents: {
     AccountSummaryDocumentComponent: {
       component: AccountSummaryDocumentComponent,
+      guards: [AuthGuard, AdminGuard],
     },
   },
 };

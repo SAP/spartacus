@@ -20,7 +20,7 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { skip, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-document',
@@ -33,7 +33,6 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
 
   documentTypeOptions: AccountSummaryDocumentType[];
   sortOptions: SortModel[];
-  selectedLanguage: string;
 
   // Contains the initial query parameters and will be updated with current state of filters
   _queryParams: DocumentQueryParams = {
@@ -70,13 +69,12 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.languageService.getActive().subscribe((activeLanguage) => {
-        const reFetchData = !!this.selectedLanguage;
-        this.selectedLanguage = activeLanguage;
-        if (reFetchData) {
-          this.updateQueryParams({ fields: DocumentFields.FULL });
-        }
-      })
+      this.languageService
+        .getActive()
+        .pipe(skip(1))
+        .subscribe(() =>
+          this.updateQueryParams({ fields: DocumentFields.FULL })
+        )
     );
   }
 

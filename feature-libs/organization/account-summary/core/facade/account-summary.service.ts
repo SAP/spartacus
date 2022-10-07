@@ -14,7 +14,7 @@ import { AccountSummaryConnector } from '../connectors/account-summary.connector
 })
 export class AccountSummaryService implements AccountSummaryFacade {
   userId: string;
-  orgUnit: string;
+  orgUnitId: string;
 
   constructor(
     private routingService: RoutingService,
@@ -24,38 +24,44 @@ export class AccountSummaryService implements AccountSummaryFacade {
     this.userIdService.takeUserId().subscribe((userId) => {
       this.userId = userId;
     });
-    this.routingService
-      .getRouterState()
-      .pipe(
-        map((routingData) => routingData.state.params),
-        distinctUntilChanged()
-      )
-      .subscribe((params) => (this.orgUnit = params.orgUnit));
+    this.getOrgUnitId().subscribe((orgUnitId) => (this.orgUnitId = orgUnitId));
   }
 
-  getAccountSummary(orgUnit?: string): Observable<AccountSummaryDetails> {
+  getAccountSummary(orgUnitId?: string): Observable<AccountSummaryDetails> {
     return this.accountSummaryConnector
-      .getAccountSummary(this.userId, orgUnit ?? this.orgUnit)
+      .getAccountSummary(this.userId, orgUnitId ?? this.orgUnitId)
       .pipe(shareReplay(1));
   }
 
-  getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
+  getDocumentList(
+    params: DocumentQueryParams,
+    orgUnitId?: string
+  ): Observable<AccountSummaryList> {
     return this.accountSummaryConnector
-      .getDocumentList(this.userId, this.orgUnit, params)
+      .getDocumentList(this.userId, orgUnitId || this.orgUnitId, params)
       .pipe(shareReplay(1));
   }
 
   getDocumentAttachment(
     orgDocumentId: string,
-    orgDocumentAttachmentId: string
+    orgDocumentAttachmentId: string,
+    orgUnitId?: string
   ): Observable<Blob> {
     return this.accountSummaryConnector
       .getDocumentAttachment(
         this.userId,
-        this.orgUnit,
+        orgUnitId || this.orgUnitId,
         orgDocumentId,
         orgDocumentAttachmentId
       )
       .pipe(shareReplay(1));
+  }
+
+  protected getOrgUnitId(): Observable<string> {
+    return this.routingService.getRouterState().pipe(
+      map((routingData) => routingData.state.params),
+      distinctUntilChanged(),
+      map((params) => params.orgUnit)
+    );
   }
 }
