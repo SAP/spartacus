@@ -135,12 +135,18 @@ export class CustomerTicketingListComponent implements OnInit {
   }
 
   pageChange(page: number): void {
-    // const event: { sortCode: string; currentPage: number } = {
-    //   sortCode: this.sortType,
-    //   currentPage: page,
-    // };
-    console.log('pageChange', page);
+    this.createTicketListEvent(this.sortType, page);
     // this.fetchTicketList(event);
+  }
+
+  createTicketListEvent(
+    sortCode: string,
+    currentPage: number
+  ): { sortCode: string; currentPage: number } {
+    return {
+      sortCode: sortCode,
+      currentPage: currentPage,
+    };
   }
 
   getStatusClass = (status: string): string => {
