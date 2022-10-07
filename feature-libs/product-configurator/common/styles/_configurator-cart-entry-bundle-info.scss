@@ -1,6 +1,10 @@
 // SPIKE NEW:
 cx-configurator-cart-entry-bundle-info-row {
-  display: contents;
+  display: table-row;
+
+  @include media-breakpoint-down(md) {
+    display: block;
+  }
 
   tr > td:nth-of-type(1) {
     padding: 0;
