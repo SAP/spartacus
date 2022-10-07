@@ -45,11 +45,11 @@ export const fontawesomeIconConfig: IconConfig = {
       SORT_DOWN: 'fas fa-sort-down',
       SORT: 'fas fa-sort',
       EXPAND_ARROWS: 'fas fa-expand',
-      FILE: 'fas fa-file',
       PDF_FILE: 'fas fa-file-pdf',
-      DOWNLOAD: 'fas fa-download',
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
+      DOWNLOAD: 'fas fa-download',
+      FILE: 'fas fa-file',
     },
     resources: [
       {

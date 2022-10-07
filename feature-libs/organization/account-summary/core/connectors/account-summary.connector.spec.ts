@@ -12,7 +12,7 @@ import { AccountSummaryConnector } from './account-summary.connector';
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
-const orgUnit = 'orgUnit';
+const orgUnitId = 'orgUnit';
 const orgDocumentId = 'document-test-id';
 const orgDocumentAttachmentId = 'attachment-test-id';
 
@@ -96,15 +96,15 @@ describe('AccountSummaryConnector', () => {
   });
 
   it('it should load account summary', () => {
-    service.getAccountSummary(userId, orgUnit);
-    expect(adapter.getAccountSummary).toHaveBeenCalledWith(userId, orgUnit);
+    service.getAccountSummary(userId, orgUnitId);
+    expect(adapter.getAccountSummary).toHaveBeenCalledWith(userId, orgUnitId);
   });
 
   it('it should load account summary documents', () => {
-    service.getDocumentList(userId, orgUnit, queryParams);
+    service.getDocumentList(userId, orgUnitId, queryParams);
     expect(adapter.getDocumentList).toHaveBeenCalledWith(
       userId,
-      orgUnit,
+      orgUnitId,
       queryParams
     );
   });
@@ -112,13 +112,13 @@ describe('AccountSummaryConnector', () => {
   it('it should load account summary document attachments', () => {
     service.getDocumentAttachment(
       userId,
-      orgUnit,
+      orgUnitId,
       orgDocumentId,
       orgDocumentAttachmentId
     );
     expect(adapter.getDocumentAttachment).toHaveBeenCalledWith(
       userId,
-      orgUnit,
+      orgUnitId,
       orgDocumentId,
       orgDocumentAttachmentId
     );

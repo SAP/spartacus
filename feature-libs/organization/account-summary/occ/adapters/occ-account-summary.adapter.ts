@@ -28,10 +28,12 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
 
   getAccountSummary(
     userId: string,
-    orgUnit: string
+    orgUnitId: string
   ): Observable<AccountSummaryDetails> {
     return this.http
-      .get<AccountSummaryDetails>(this.buildAccountSummaryUrl(userId, orgUnit))
+      .get<AccountSummaryDetails>(
+        this.buildAccountSummaryUrl(userId, orgUnitId)
+      )
       .pipe(
         catchError((error: HttpErrorResponse) =>
           throwError(normalizeHttpError(error))
@@ -42,12 +44,12 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
 
   getDocumentList(
     userId: string,
-    orgUnit: string,
+    orgUnitId: string,
     params: DocumentQueryParams
   ): Observable<AccountSummaryList> {
     return this.http
       .get<AccountSummaryList>(
-        this.buildDocumentListUrl(userId, orgUnit, params)
+        this.buildDocumentListUrl(userId, orgUnitId, params)
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
