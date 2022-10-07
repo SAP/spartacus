@@ -1,7 +1,19 @@
+// SPIKE NEW:
+cx-configurator-cart-entry-bundle-info-row {
+  display: contents;
+
+  tr > td:nth-of-type(1) {
+    padding: 0;
+    padding-inline-start: 6.5rem;
+    padding-block-end: 1rem;
+
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 6rem;
+    }
+  }
+}
+
 %cx-configurator-cart-entry-bundle-info {
-  
-  display: table-row;
-  
   button {
     border: none;
     background-color: transparent;
