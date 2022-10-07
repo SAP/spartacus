@@ -158,4 +158,19 @@ describe('ConfigUIKeyGeneratorService', () => {
       );
     });
   });
+
+  describe('getLabel', () => {
+    it('should return label without technical name', () => {
+      const label = 'label';
+      const techName = 'techName';
+      expect(classUnderTest.getLabel(false, label, techName)).toEqual(label);
+    });
+
+    it('should return label with technical name because expert mode is set to true', () => {
+      const label = 'label';
+      const techName = 'techName';
+      const techLabel = label + ' / [' + techName + ']';
+      expect(classUnderTest.getLabel(true, label, techName)).toEqual(techLabel);
+    });
+  });
 });
