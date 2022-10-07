@@ -160,9 +160,7 @@ describe('ConfigUIKeyGeneratorService', () => {
   });
 
   describe('getLabel', () => {
-    it('should return empty string', () => {
-      expect(classUnderTest.getLabel(false, undefined, undefined)).toEqual('');
-    });
+ 
 
     it('should return label without technical name', () => {
       const label = 'label';
@@ -170,11 +168,7 @@ describe('ConfigUIKeyGeneratorService', () => {
       expect(classUnderTest.getLabel(false, label, techName)).toEqual(label);
     });
 
-    it('should return label without technical name despite expert mode is set to true', () => {
-      const label = 'label';
-      const techName = undefined;
-      expect(classUnderTest.getLabel(true, label, techName)).toEqual(label);
-    });
+ 
 
     it('should return label with technical name because expert mode is set to true', () => {
       const label = 'label';
