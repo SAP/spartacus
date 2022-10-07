@@ -50,23 +50,43 @@ export const defaultAsmConfig: AsmConfig = {
       ],
     },
     customer360: {
-      activityTab: {
-        pageSize: 10,
-      },
-      feedbackTab: {
-        supportTickets: {
-          pageSize: 5,
+      tabs: [
+        {
+          i18nNameKey: 'asm.customer360.overviewTab',
+          components: [
+            {
+              component: AsmCustomerOverviewComponent,
+            },
+          ],
         },
-        productReviews: {
-          pageSize: 5,
+        {
+          i18nNameKey: 'asm.customer360.overviewTab',
+          components: [
+            {
+              component: AsmCustomerProductReviewsComponent,
+              requestData: {
+                customer360Type: AsmCustomer360Type.REVIEW_LIST,
+              },
+              config: { pageSize: 5 },
+            },
+          ],
         },
-      },
-      mapsTab: {
-        googleMaps: {
-          apiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+        {
+          i18nNameKey: 'asm.customer360.mapsTab',
+          components: [
+            {
+              component: AsmCustomerMapComponent,
+              requestData: {
+                customer360Type: AsmCustomer360Type.STORE_LOCATION,
+              },
+              config: {
+                googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                pageSize: 10,
+              },
+            },
+          ],
         },
-        pageSize: 10,
-      },
+      ],
     },
   },
 };

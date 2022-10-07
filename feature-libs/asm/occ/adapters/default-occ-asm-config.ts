@@ -13,6 +13,8 @@ export const defaultOccAsmConfig: OccConfig = {
         asmCustomerSearch: '/assistedservicewebservices/customers/search',
         asmCustomerLists: '/assistedservicewebservices/customerlists',
         asmBindCart: '/assistedservicewebservices/bind-cart',
+        asmCustomer360:
+          '/assistedservicewebservices/${baseSiteId}/users/${userId}/customer360',
       },
     },
   },

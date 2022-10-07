@@ -85,6 +85,7 @@
       font-weight: var(--cx-font-weight-semi);
       border-bottom: 1px solid white;
       padding: 0 1rem 1rem;
+      text-transform: uppercase;
       cursor: pointer;
       &.active {
         cursor: default;

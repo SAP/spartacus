@@ -1,12 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 
-import {
-  Address,
-  PaymentDetails,
-  TranslationService,
-  User,
-} from '@spartacus/core';
+import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -25,8 +20,6 @@ import { CustomerProfileData } from './asm-customer-profile.model';
   templateUrl: './asm-customer-profile.component.html',
 })
 export class AsmCustomerProfileComponent implements OnInit {
-  @Input() customer: User;
-
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -58,28 +51,26 @@ export class AsmCustomerProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getSamplePaymentMethods();
 
-    if (this.customer?.uid) {
-      this.customerProfileData$ = forkJoin([
-        of(this.getSamplePaymentMethods()),
-        of(this.getAddresses()),
-      ]).pipe(
-        map(([paymentDetails, addresses]) => {
-          const defaultPaymentDetail = paymentDetails.find(
-            (paymentDetail) => paymentDetail.defaultPayment
-          );
-          const deliveryAddress = addresses.find(
-            (address) => address.defaultAddress
-          );
-          return {
-            billingAddress: defaultPaymentDetail?.billingAddress,
-            deliveryAddress: deliveryAddress,
-            phone1: deliveryAddress?.phone,
-            phone2: deliveryAddress?.cellphone,
-            paymentInfoList: paymentDetails,
-          };
-        })
-      );
-    }
+    this.customerProfileData$ = forkJoin([
+      of(this.getSamplePaymentMethods()),
+      of(this.getAddresses()),
+    ]).pipe(
+      map(([paymentDetails, addresses]) => {
+        const defaultPaymentDetail = paymentDetails.find(
+          (paymentDetail) => paymentDetail.defaultPayment
+        );
+        const deliveryAddress = addresses.find(
+          (address) => address.defaultAddress
+        );
+        return {
+          billingAddress: defaultPaymentDetail?.billingAddress,
+          deliveryAddress: deliveryAddress,
+          phone1: deliveryAddress?.phone,
+          phone2: deliveryAddress?.cellphone,
+          paymentInfoList: paymentDetails,
+        };
+      })
+    );
   }
 
   getCardContent({

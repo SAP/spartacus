@@ -5,11 +5,15 @@
  */
 
 import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
-import { Observable } from 'rxjs';
 import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../models/asm.models';
+  AsmCustomer360Params,
+  AsmCustomer360Response,
+} from '@spartacus/asm/root';
+import { AsmCustomer360Query } from '@spartacus/asm/root';
+import { Observable } from 'rxjs';
+
+import { CustomerSearchOptions, CustomerSearchPage } from '../models/asm.models';
+
 export abstract class AsmAdapter {
   /**
    * Abstract function used to search for customers.
@@ -27,4 +31,14 @@ export abstract class AsmAdapter {
    * Used to bind an anonymous cart to a registered user.
    */
   abstract bindCart(options: BindCartParams): Observable<unknown>;
+
+  /**
+   * Fetches data needed for certain ASM components.
+   * @param queries that contain information on the specific UI component.
+   * @param options with the emulated user's ID.
+   */
+  abstract getCustomer360Data(
+    queries: Array<AsmCustomer360Query>,
+    options: AsmCustomer360Params
+  ): Observable<AsmCustomer360Response>;
 }
