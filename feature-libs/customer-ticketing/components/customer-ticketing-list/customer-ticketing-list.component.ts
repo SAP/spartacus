@@ -95,8 +95,8 @@ export class CustomerTicketingListComponent implements OnInit {
   });
 
   tickets = this.tickets$.pipe(
-    map((tickets) => {
-      return tickets.tickets.map((ticket) => {
+    map((ticketsList) => {
+      return ticketsList.tickets.map((ticket) => {
         return {
           id: ticket.id,
           subject: ticket.subject,
@@ -130,12 +130,8 @@ export class CustomerTicketingListComponent implements OnInit {
   }
 
   changeSortCode(sortCode: string): void {
-    // const event: { sortCode: string; currentPage: number } = {
-    //   sortCode,
-    //   currentPage: 0,
-    // };
     this.sortType = sortCode;
-    // this.fetchTicketList(event);
+    this.pageChange(0);
   }
 
   pageChange(page: number): void {
