@@ -8,6 +8,7 @@ import {
   ComponentFactory,
   ComponentRef,
   Directive,
+  ElementRef,
   EmbeddedViewRef,
   EventEmitter,
   Injector,
@@ -15,6 +16,7 @@ import {
   OnChanges,
   OnDestroy,
   Output,
+  Renderer2,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
@@ -47,6 +49,9 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   @Input() cxOutletContext: T;
 
+  // SPIKE NEW
+  @Input() cxOutletHtmlTag: string;
+
   /**
    * Observable with current outlet context
    */
@@ -66,8 +71,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     private templateRef: TemplateRef<any>,
     private outletService: OutletService,
     private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
-  ) {}
+    private outletRendererService: OutletRendererService,
+    public elementRef: ElementRef,
+    public renderer: Renderer2
+  ) {
+    console.log({ debug: 'OutletDirective', elementRef });
+  }
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`
@@ -162,11 +171,27 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     this.renderedTemplate.push(tmplOrFactory);
 
     if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(
-        tmplOrFactory,
+      // SPIKE NEW:
+      const componentHostElement = this.cxOutletHtmlTag
+        ? this.renderer.createElement(this.cxOutletHtmlTag)
+        : undefined;
+
+      const injector = this.getComponentInjector(position);
+
+      const component = tmplOrFactory.create(
+        injector,
         undefined,
-        this.getComponentInjector(position)
+        componentHostElement
       );
+      this.vcr.insert(component.hostView);
+
+      // SPIKE OLD:
+      // const component = this.vcr.createComponent(
+      //   tmplOrFactory,
+      //   undefined,
+      //   this.getComponentInjector(position)
+      // );
+
       return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
