@@ -49,6 +49,7 @@ export const orgUser = {
     approvers: 'Approvers',
     userGroup: 'User groups',
     permission: 'Purchase limits',
+    rolesAndRights: 'Roles and Rights',
   },
 
   messages: {

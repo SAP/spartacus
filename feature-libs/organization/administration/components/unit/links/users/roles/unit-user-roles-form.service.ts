@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
+import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { FormService } from '../../../../shared/form/form.service';
 
@@ -15,6 +15,7 @@ import { FormService } from '../../../../shared/form/form.service';
 })
 export class UnitUserRolesFormService extends FormService<B2BUser> {
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
+  availableRights: B2BUserRight[] = this.userService.getAllRights();
 
   constructor(protected userService: B2BUserService) {
     super();
@@ -31,6 +32,9 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
     const form = new UntypedFormGroup({});
     this.availableRoles.forEach((role) =>
       form.addControl(role, new UntypedFormControl())
+    );
+    this.availableRights.forEach((right: B2BUserRight) =>
+      form.addControl(right, new FormControl())
     );
     this.form = form;
   }
