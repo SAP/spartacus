@@ -1,8 +1,12 @@
 // SPIKE NEW:
 cx-configurator-issues-notification-row {
-  display: contents;
+  display: table-row;
 
-  tr > td:nth-of-type(1) {
+  @include media-breakpoint-down(md) {
+    display: block;
+  }
+
+  & > td:nth-of-type(1) {
     padding: 0;
   }
 }

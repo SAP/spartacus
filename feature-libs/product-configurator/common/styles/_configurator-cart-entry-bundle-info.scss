@@ -1,6 +1,10 @@
 // SPIKE NEW:
 cx-configurator-cart-entry-bundle-info-row {
-  display: contents;
+  display: table-row;
+
+  @include media-breakpoint-down(md) {
+    display: block;
+  }
 
   tr > td:nth-of-type(1) {
     padding: 0;
@@ -58,17 +62,7 @@ cx-configurator-cart-entry-bundle-info-row {
       .cx-item-name {
         overflow-wrap: break-word;
 
-        @include media-breakpoint-down(sm) {
-          width: 100%;
-        }
-
-        @include media-breakpoint-up(md) {
-          width: 24%;
-        }
-
-        @include media-breakpoint-only(xl) {
-          width: 41.6%;
-        }
+        width: 100%;
       }
 
       .cx-item-price,
@@ -80,42 +74,17 @@ cx-configurator-cart-entry-bundle-info-row {
         }
 
         .cx-item {
-          @include media-breakpoint-only(xs) {
-            width: 55%;
-          }
-
-          @include media-breakpoint-only(sm) {
-            width: 85%;
-          }
+          // width: 100%
         }
 
-        @include media-breakpoint-down(sm) {
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-        }
-
-        @include media-breakpoint-up(md) {
-          width: 26%;
-          text-align: center;
-        }
-      }
-
-      .cx-item-price {
-        @include media-breakpoint-only(xl) {
-          width: 17%;
-          text-align: center;
-        }
-      }
-
-      .cx-item-quantity {
-        @include media-breakpoint-only(xl) {
-          width: 26%;
-        }
+        display: flex;
+        flex-direction: row;
+        width: 100%;
       }
     }
   }
 
+  // SPIKE NEW:
   cx-cart-item & {
     padding-inline-start: 65px;
 

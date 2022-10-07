@@ -10,11 +10,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'cx-configurator-issues-notification-row',
   template: `
-    <tr>
-      <td colspan="4">
-        <cx-configurator-issues-notification></cx-configurator-issues-notification>
-      </td>
-    </tr>
+    <td colspan="4">
+      <cx-configurator-issues-notification></cx-configurator-issues-notification>
+    </td>
   `,
+  host: { role: 'row' },
 })
 export class ConfiguratorIssuesNotificationRowComponent {}
