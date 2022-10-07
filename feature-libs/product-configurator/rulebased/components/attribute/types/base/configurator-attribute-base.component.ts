@@ -147,11 +147,7 @@ export class ConfiguratorAttributeBaseComponent {
    * @param label - value label
    * @param techName - value technical name
    */
-  getLabel(
-    expMode: boolean,
-    label: string ,
-    techName: string 
-  ): string {
+  getLabel(expMode: boolean, label: string, techName: string): string {
     let title = label;
     if (expMode) {
       title += ' / [' + techName + ']';
