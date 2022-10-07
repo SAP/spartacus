@@ -11,6 +11,8 @@ import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.
 import { BANNER_COMPONENT_MIGRATION } from './data/banner.component.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
 import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
+import { CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-product.service.migration';
+import { CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-user-context.service.migration';
 import { COMPONENT_WRAPPER_DIRECTIVE_MIGRATION } from './data/component-wrapper.directive.migration';
 import { CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION } from './data/configurator-add-to-cart-button.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
@@ -26,6 +28,7 @@ import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-ta
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
 import { INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION } from './data/inner-components-host.directive.migration';
+import { JSON_LD_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/json-ld.directive.migration';
 import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 import { LOGIN_GUARD_CONSTRUCTOR_MIGRATION } from './data/login.guard.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
@@ -37,8 +40,6 @@ import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.co
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
-import { CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-product.service.migration';
-import { CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-user-context.service.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CART_TOTALS_COMPONENT_MIGRATION,
@@ -72,7 +73,8 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   BANNER_COMPONENT_MIGRATION,
   CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION,
   CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION,
-  JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION
+  JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
+  JSON_LD_DIRECTIVE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
