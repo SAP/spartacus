@@ -23,7 +23,7 @@
 
     td {
       width: 16.6%;
-      padding: 1.625rem 0;
+      padding: 1rem 0;
 
       @include media-breakpoint-up(md) {
         text-align: start;
@@ -46,6 +46,11 @@
         &:last-child {
           padding-bottom: 1.25rem;
         }
+      }
+
+      span {
+        color: #A1AABF;
+        display: table;
       }
     }
   }
