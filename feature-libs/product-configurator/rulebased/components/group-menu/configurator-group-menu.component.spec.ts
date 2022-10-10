@@ -1523,7 +1523,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   describe('getGroupMenuTitle', () => {
-    it('should return only group description as title when expert mode if off', () => {
+    it('should return only group description as title when expert mode is off', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(false)
       );
