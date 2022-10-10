@@ -431,20 +431,6 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should call setExpMode method once', () => {
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { expMode: 'true' },
-        },
-      });
-      createComponent().ngOnInit();
-      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
-        1
-      );
-    });
-
     it('should not call setExpMode method', () => {
       routerStateObservable = of({
         ...mockRouterState,

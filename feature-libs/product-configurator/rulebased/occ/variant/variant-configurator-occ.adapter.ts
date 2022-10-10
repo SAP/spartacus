@@ -120,9 +120,7 @@ export class VariantConfiguratorOccAdapter
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
-          resultConfiguration.kbKey
-            ? this.setExpModeActive(true)
-            : this.setExpModeActive(false);
+          this.setExpModeActive(resultConfiguration.kbKey !== undefined);
         }),
         map((resultConfiguration) => {
           return {
