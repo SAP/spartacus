@@ -43,7 +43,12 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!(addresses$ | async)?.length || showAddAddressForm">
+  <ng-container
+    *ngIf="
+      (!(addresses$ | async)?.length || showAddAddressForm) &&
+      !showEditAddressForm
+    "
+  >
     <section>
       <p class="cx-section-msg">
         {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
