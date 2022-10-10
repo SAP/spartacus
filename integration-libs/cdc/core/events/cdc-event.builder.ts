@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CdcLoginFailEvent } from '@spartacus/cdc/root';
+import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService, StateEventService } from '@spartacus/core';
 import { CdcAuthActions } from '../auth/store/actions/index';
 
@@ -24,16 +24,16 @@ export class CdcEventBuilder {
    * Registers CDC events
    */
   protected register(): void {
-    this.registerLoginFailEvent();
+    this.registerLoadUserTokenFail();
   }
 
   /**
-   * Register the login fail event
+   * Register the load user token fail event.
    */
-  protected registerLoginFailEvent(): void {
+  protected registerLoadUserTokenFail(): void {
     this.stateEventService.register({
       action: CdcAuthActions.LOAD_CDC_USER_TOKEN_FAIL,
-      event: CdcLoginFailEvent,
+      event: CdcLoadUserTokenFailEvent,
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CdcJsService, CdcLoginFailEvent } from '@spartacus/cdc/root';
+import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import {
   AuthService,
   Command,
@@ -23,13 +23,20 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       this.cdcJSService.registerUserWithoutScreenSet(user)
     );
 
+  protected loadUserTokenFailed$: Observable<boolean> = this.eventService
+    .get(CdcLoadUserTokenFailEvent)
+    .pipe(
+      map((event) => !!event),
+      tap((failed) => {
+        if (failed) {
+          throw new Error(`User token failed to load.`);
+        }
+      })
+    );
+
   protected isLoggedIn$: Observable<boolean> = this.authService
     .isUserLoggedIn()
     .pipe(filter((loggedIn) => loggedIn));
-
-  protected tokenFailure$: Observable<boolean> = this.eventService
-    .get(CdcLoginFailEvent)
-    .pipe(map((x) => !x));
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
@@ -40,7 +47,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected authService: AuthService,
     protected eventService: EventService
   ) {
-    super(userRegisterFacade);
+    super(userRegisterFacade, globalMessageService);
   }
 
   /**
@@ -52,14 +59,6 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(`The provided user is not valid: ${user}`);
     }
-
-    const loginOrFail$ = merge(this.isLoggedIn$, this.tokenFailure$).pipe(
-      tap((success) => {
-        if (!success) {
-          throw new Error(`token failed to load`);
-        }
-      })
-    );
 
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
@@ -77,7 +76,14 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
       ),
-      switchMap((user) => loginOrFail$.pipe(map(() => user)))
+      switchMap((user) =>
+        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(map(() => user))
+      )
     );
+  }
+
+  // @override
+  postRegisterMessage(): void {
+    // don't show the message
   }
 }

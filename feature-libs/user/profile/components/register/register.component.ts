@@ -197,10 +197,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     ) {
       this.router.go('login');
     }
-    this.globalMessageService.add(
-      { key: 'register.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    this.registerComponentService.postRegisterMessage();
   }
 
   toggleAnonymousConsent(): void {
