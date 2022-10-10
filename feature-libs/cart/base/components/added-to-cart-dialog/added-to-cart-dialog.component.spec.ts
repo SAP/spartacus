@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,12 +20,12 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
+  ActivatedRouterStateSnapshot,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RouterState,
   RoutingService,
-  ActivatedRouterStateSnapshot,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -48,12 +48,15 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return of({});
   }
+
   getLastEntry(_productCode: string): Observable<OrderEntry | undefined> {
     return of({});
   }
+
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   getEntry(_productCode: string): Observable<OrderEntry | undefined> {
     return of({});
   }
@@ -99,6 +102,7 @@ class MockCxIconComponent {
 const routerState = new BehaviorSubject<RouterState>({
   nextState: undefined,
 } as RouterState);
+
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState;
 }
@@ -366,5 +370,13 @@ describe('AddedToCartDialogComponent', () => {
         expect(launchDialogService.closeDialog).toHaveBeenCalled();
         done();
       });
+  });
+
+  it('should closeModal when user click outside', () => {
+    const el = fixture.debugElement.nativeElement;
+    spyOn(component, 'dismissModal');
+
+    el.click();
+    expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
   });
 });
