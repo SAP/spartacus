@@ -179,19 +179,26 @@ export function selectPaymentMethod() {
 }
 
 export function verifyAndPlaceOrder() {
+  verifyAndPlaceOrderUsing('Delivery');
+}
+
+export function verifyAndPlaceOrderWithShipping() {
+  verifyAndPlaceOrderUsing('Shipping');
+}
+
+function verifyAndPlaceOrderUsing(deliveryName) {
   cy.get('.cx-review-title').should('contain', 'Review');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', `${deliveryName} Method`)
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'not.be.empty'
   );
-
   cy.get('.form-check-input').check();
   cy.get('button.btn-primary').click();
 }

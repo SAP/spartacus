@@ -3,6 +3,7 @@ import { goToCart } from '../../../../helpers/cart';
 import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import * as loginHelper from '../../../../helpers/login';
+import { loginUsingUserWithOrder } from '../../../../helpers/consignment-tracking';
 import { navigation } from '../../../../helpers/navigation';
 import * as productSearch from '../../../../helpers/product-search';
 import {
@@ -247,33 +248,40 @@ describe('Profile-tag events', () => {
   });
 
   it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
-    loginHelper.loginAsDefaultUser();
+    loginUsingUserWithOrder();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
-    checkoutFlowPersistentUser.addPaymentMethod();
-    cy.wait(0).then(() => {
-      checkoutFlowPersistentUser.addShippingAddress();
-    });
-    checkoutFlowPersistentUser.selectShippingAddress();
-    checkoutFlowPersistentUser.selectDeliveryMethod();
-    checkoutFlowPersistentUser.selectPaymentMethod();
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      `checkout/review-order`
-    );
-    checkoutFlowPersistentUser.verifyAndPlaceOrder();
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      `order-confirmation`
-    );
-    cy.window().should((win) => {
-      expect(
-        profileTagHelper.eventCount(
-          win,
-          profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
-        )
-      ).to.equal(1);
-    });
+    cy.findByText(/proceed to checkout/i).click();
+    cy.findByText(/Continue/i).click()
+      .then(() => {
+        cy.location('pathname').should('contain', 'checkout/delivery-mode');
+        cy.findByText(/Continue/i).click()
+        .then(() => {
+          cy.location('pathname').should('contain', 'checkout/payment-details');
+          cy.findByText(/Continue/i).click().then(() => {
+            cy.location('pathname', { timeout: 10000 }).should(
+              'include',
+              `checkout/review-order`
+            );
+            checkoutFlowPersistentUser.verifyAndPlaceOrderWithShipping();
+            cy.location('pathname', { timeout: 10000 }).should(
+              'include',
+              `order-confirmation`
+            );
+            cy.window().should((win) => {
+              expect(
+                profileTagHelper.eventCount(
+                  win,
+                  profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
+                )
+              ).to.equal(1);
+            });
+          });
+        });
+      });
   });
 
   it('should send a Category View event when a Category View occurs', () => {
