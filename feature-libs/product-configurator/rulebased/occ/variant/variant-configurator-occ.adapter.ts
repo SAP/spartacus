@@ -74,7 +74,7 @@ export class VariantConfiguratorOccAdapter
     return expMode;
   }
 
-  protected setEpxModeActive(expMode: boolean) {
+  protected setExpModeActive(expMode: boolean) {
     this.configExpertModeService?.setExpModeActive(expMode);
   }
 
