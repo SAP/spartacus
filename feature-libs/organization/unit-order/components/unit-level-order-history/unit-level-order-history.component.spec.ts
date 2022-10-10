@@ -256,18 +256,6 @@ describe('UnitLevelOrderHistoryComponent', () => {
     expect(unitOrderFacade.clearOrderList).toHaveBeenCalledWith();
   });
 
-  it('should display unit level orders history title', () => {
-    fixture.detectChanges();
-
-    const element = fixture.debugElement.query(
-      By.css('.cx-unit-level-order-history-header')
-    );
-
-    expect(element.nativeElement.textContent).toContain(
-      'unitLevelOrderHistory.orderHistory'
-    );
-  });
-
   it('should display no orders found page if no orders are found', () => {
     mockUnitLevelOrdersFacade.mockOrderHistoryListSubject.next(
       mockEmptyOrderList
