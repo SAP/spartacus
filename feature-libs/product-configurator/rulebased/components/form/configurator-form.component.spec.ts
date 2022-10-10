@@ -107,12 +107,15 @@ class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
+
   removeConfiguration(): void {}
+
   updateConfiguration(): void {}
 
   isConfigurationLoading(): Observable<boolean> {
     return isConfigurationLoadingObservable;
   }
+
   hasConflicts(): Observable<boolean> {
     return hasConfigurationConflictsObservable;
   }
@@ -122,26 +125,37 @@ class MockConfiguratorGroupsService {
   getCurrentGroup(): Observable<string> {
     return currentGroupObservable;
   }
+
   getNextGroup(): Observable<string> {
     return of('');
   }
+
   getPreviousGroup(): Observable<string> {
     return of('');
   }
+
   isGroupVisited(): Observable<boolean> {
     return of(true);
   }
+
   subscribeToUpdateConfiguration() {}
+
   setGroupStatusVisited(): void {}
+
   navigateToConflictSolver(): void {}
+
   navigateToFirstIncompleteGroup(): void {}
+
   isConflictGroupType() {}
 }
 
 class MockConfiguratorExpertModeService {
   setExpModeRequested(): void {}
+
   getExpModeRequested() {}
+
   setExpModeActive(): void {}
+
   getExpModeActive() {}
 }
 
@@ -164,6 +178,7 @@ function checkConfigurationObs(
     cold(expectedMarbels, { x: configRead, y: configRead2 })
   );
 }
+
 function checkCurrentGroupObs(
   routerMarbels: string,
   groupMarbels: string,
@@ -541,11 +556,13 @@ describe('ConfigurationFormComponent', () => {
         of(true)
       );
 
-      component.expMode
-        .subscribe((expMode) => {
-          expect(expMode).toBe(true);
-        })
-        .unsubscribe();
+      if (component.expMode) {
+        component.expMode
+          .subscribe((expMode) => {
+            expect(expMode).toBe(true);
+          })
+          .unsubscribe();
+      }
     });
 
     it("should check whether expert mode status is set to 'false'", () => {
@@ -554,11 +571,13 @@ describe('ConfigurationFormComponent', () => {
         of(false)
       );
 
-      component.expMode
-        .subscribe((expMode) => {
-          expect(expMode).toBe(false);
-        })
-        .unsubscribe();
+      if (component.expMode) {
+        component.expMode
+          .subscribe((expMode) => {
+            expect(expMode).toBe(false);
+          })
+          .unsubscribe();
+      }
     });
   });
 });
