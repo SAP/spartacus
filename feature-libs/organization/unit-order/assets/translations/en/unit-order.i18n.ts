@@ -18,4 +18,12 @@ export const unitOrder = {
     nextOrderDate: 'Next Order Date',
     notFound: 'No Orders Found',
   },
+  unitLevelOrderHistorySorting: {
+    date: 'Date',
+    orderNumber: 'Order Number',
+    buyer: 'Buyer (Ascending)',
+    buyerDesc: 'Buyer (Descending)',
+    orgUnit: 'Unit (Ascending)',
+    orgUnitDesc: 'Unit (Descending)',
+  },
 };
