@@ -40,7 +40,15 @@
         [options]="options"
       >
         <tbody>
-          <ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+          <ng-template #listItemOutletWrapper>
+            <tr>
+              <td colspan="100" cx-outlet-destination></td>
+            </tr>
+          </ng-template>
+          <ng-template
+            [cxOutlet]="CartOutlets.LIST_ITEM"
+            [cxOutletWrapperTemplate]="listItemOutletWrapper"
+          >
             <tr
               cx-cart-item-list-row
               role="row"

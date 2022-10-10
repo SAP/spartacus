@@ -57,6 +57,8 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   @Input() cxOutletDefer: IntersectionOptions;
 
+  @Input() cxOutletWrapperTemplate: TemplateRef<any>;
+
   @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
 
   subscription = new Subscription();
@@ -167,6 +169,21 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
         undefined,
         this.getComponentInjector(position)
       );
+
+      // SPIKE NEW
+      if (this.cxOutletWrapperTemplate) {
+        const wrapperEmbeddedView = this.vcr.createEmbeddedView(
+          this.cxOutletWrapperTemplate
+        );
+        const destination = wrapperEmbeddedView.rootNodes[0].querySelector(
+          '[cx-outlet-destination]'
+        );
+
+        // WATCH OUT: using native DOM operations is not "the Angular way" of doing things.
+        // Several things might break, when moving/adding other elements inside the same VCR.
+        destination?.appendChild(component.location.nativeElement);
+      }
+
       return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
