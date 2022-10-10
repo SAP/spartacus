@@ -521,7 +521,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
-   * Remove bundle
+   * Remove an entry group from the cart
    *
    * @param entryGroupNumber
    */
@@ -534,7 +534,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
-   * Add Product to bundle
+   * Add an entry to an entry group in the cart
    *
    * @param entryGroupNumber
    * @param entry
@@ -545,7 +545,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     entry: OrderEntry,
     quantity: number = 1
   ) {
-    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
