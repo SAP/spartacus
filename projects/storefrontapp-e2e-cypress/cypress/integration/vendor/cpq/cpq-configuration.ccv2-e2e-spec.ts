@@ -2,8 +2,6 @@ import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCpq from '../../../helpers/product-configurator-cpq';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
-import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
@@ -98,7 +96,7 @@ context('CPQ Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      configurationCpq.searchForProduct(PROD_CODE_CAM);
+      configuration.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
