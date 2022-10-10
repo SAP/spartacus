@@ -34,7 +34,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
       form.addControl(role, new UntypedFormControl())
     );
     this.availableRights.forEach((right: B2BUserRight) =>
-      form.addControl(right, new FormControl())
+      form.addControl(right, new UntypedFormControl())
     );
     this.form = form;
   }

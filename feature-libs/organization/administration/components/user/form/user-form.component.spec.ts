@@ -60,7 +60,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
     ];
   }
   getAllRights() {
-    return [B2BUserRight.UNITLEVELORDERSVIEWER];
+    return [B2BUserRight.UNITORDERVIEWER];
   }
 }
 
