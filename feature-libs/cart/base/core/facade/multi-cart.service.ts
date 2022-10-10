@@ -371,7 +371,7 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
-   * Remove bundle
+   * Remove an entry group from the cart
    *
    * @param cartId
    * @param userId
@@ -388,12 +388,12 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
-   * Add product to bundle
+   * Add an entry to an entry group in the cart
    *
    * @param cartId
    * @param userId
    * @param entryGroupNumber
-   * @param product
+   * @param entry
    * @param quantity
    */
   addToEntryGroup(

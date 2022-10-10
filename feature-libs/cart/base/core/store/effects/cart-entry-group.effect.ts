@@ -63,7 +63,7 @@ export class CartEntryGroupEffects {
     | CartActions.LoadCart
   > = createEffect(() =>
     this.actions$.pipe(
-      ofType(CartActions.DELETE_ENTRY_GROUP),
+      ofType(CartActions.REMOVE_ENTRY_GROUP),
       map((action: CartActions.RemoveEntryGroup) => action.payload),
       concatMap((payload) =>
         this.cartEntryGroupConnector
@@ -102,7 +102,7 @@ export class CartEntryGroupEffects {
       this.actions$.pipe(
         ofType(
           CartActions.ADD_TO_ENTRY_GROUP_SUCCESS,
-          CartActions.DELETE_ENTRY_GROUP_SUCCESS
+          CartActions.REMOVE_ENTRY_GROUP_SUCCESS
         ),
         map(
           (
