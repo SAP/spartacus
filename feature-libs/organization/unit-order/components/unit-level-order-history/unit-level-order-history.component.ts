@@ -65,13 +65,30 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     return combineLatest([
       this.translation.translate('sorting.date'),
       this.translation.translate('sorting.orderNumber'),
+      this.translation.translate('unitLevelOrderHistorySorting.orgUnit'),
+      this.translation.translate('unitLevelOrderHistorySorting.buyer'),
+      this.translation.translate('unitLevelOrderHistorySorting.orgUnitDesc'),
+      this.translation.translate('unitLevelOrderHistorySorting.buyerDesc'),
     ]).pipe(
-      map(([textByDate, textByOrderNumber]) => {
-        return {
-          byDate: textByDate,
-          byOrderNumber: textByOrderNumber,
-        };
-      })
+      map(
+        ([
+          textByDate,
+          textByOrderNumber,
+          textByOrgUnit,
+          textByBuyer,
+          textByOrgUnitDesc,
+          textByBuyerDesc,
+        ]) => {
+          return {
+            byDate: textByDate,
+            byOrderNumber: textByOrderNumber,
+            byOrgUnit: textByOrgUnit,
+            byBuyer: textByBuyer,
+            byOrgUnitDesc: textByOrgUnitDesc,
+            byBuyerDesc: textByBuyerDesc,
+          };
+        }
+      )
     );
   }
 
