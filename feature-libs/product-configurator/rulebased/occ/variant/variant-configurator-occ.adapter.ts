@@ -94,8 +94,8 @@ export class VariantConfiguratorOccAdapter
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
           resultConfiguration.kbKey
-            ? this.setEpxModeActive(true)
-            : this.setEpxModeActive(false);
+            ? this.setExpModeActive(true)
+            : this.setExpModeActive(false);
         }),
         map((resultConfiguration) => {
           return {
@@ -123,8 +123,8 @@ export class VariantConfiguratorOccAdapter
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
           resultConfiguration.kbKey
-            ? this.setEpxModeActive(true)
-            : this.setEpxModeActive(false);
+            ? this.setExpModeActive(true)
+            : this.setExpModeActive(false);
         }),
         map((resultConfiguration) => {
           return {
@@ -158,8 +158,8 @@ export class VariantConfiguratorOccAdapter
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
           resultConfiguration.kbKey
-            ? this.setEpxModeActive(true)
-            : this.setEpxModeActive(false);
+            ? this.setExpModeActive(true)
+            : this.setExpModeActive(false);
         }),
         map((resultConfiguration) => {
           return {
