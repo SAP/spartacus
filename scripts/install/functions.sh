@@ -3,6 +3,10 @@
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
 
+TIME_MEASUREMENT_CURR_TITLE="Start"
+TIME_MEASUREMENT_TITLES=()
+TIME_MEASUREMENT_TIMES=($(date +%s))
+
 # Prints header
 function printh {
     local input="$1"
@@ -14,13 +18,21 @@ function printh {
     printf -- "-%.0s" $(seq 1 $len)
     printf "+\n\n"
     printf "\033[0m" # end green color
+    add_time_measurement "$input"
 }
 
 function delete_dir {
     local dir="${1}"
+    local temp_dir="${1}.delete"
+
+    echo "deleting directory ${dir} in background"
+    if [ -d ${temp_dir} ]; then
+        rm -rf ${temp_dir}
+    fi
+
     if [ -d ${dir} ]; then
-        echo "deleting directory ./${dir}"
-        rm -rf ${dir}
+        mv ${dir} ${temp_dir}
+        rm -rf ${temp_dir} &
     fi
 }
 
@@ -186,12 +198,6 @@ function create_apps {
         create_shell_app ${SSR_PWA_APP_NAME}
         add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
     fi
-}
-
-function publish_dist_package {
-    local PKG_NAME=${1};
-    printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 }
 
 function publish_package {
@@ -538,6 +544,8 @@ function run_sanity_check {
     fi
 }
 
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
 function ng_sanity_check {
     if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
         local CLEAN_VERSION=$(echo "$ANGULAR_CLI_VERSION" | sed 's/[^0-9\.]//g')
@@ -644,4 +652,47 @@ function parseStartArgs {
                 ;;
         esac
     done
+}
+
+function add_time_measurement {
+    local TITLE=${1};
+    local START_TIME=${TIME_MEASUREMENT_TIMES[${#TIME_MEASUREMENT_TIMES[@]}-1]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    TIME_MEASUREMENT_TIMES+=("$END_TIME")
+
+    if [ $ELAPSED -gt 30 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    elif [ $ELAPSED -gt 10 ]; then 
+        TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    else
+        TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
+    fi
+
+    TIME_MEASUREMENT_CURR_TITLE="$TITLE"
+}
+
+function print_times {
+    add_time_measurement ""
+    echo ""
+    echo "Elapsed Time"
+
+    for MEASURMENT in "${TIME_MEASUREMENT_TITLES[@]}"
+    do
+        printf " ┕ $MEASURMENT\n"
+    done
+}
+
+function print_summary {
+    local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
+    local END_TIME=$(date +%s)
+    local ELAPSED=$(($END_TIME - $START_TIME))
+    printf "\nOS: ${EXECUTING_OS}\n"
+    printf "BRANCH: ${BRANCH}\n"
+    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
+        printf "Mode: 🚀 [USING GNU PARALLEL]\n"
+    else
+        printf "Mode: 🐢 [NO GNU PARALLEL]\n"
+    fi 
+    printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
 }

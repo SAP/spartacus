@@ -978,5 +978,8 @@
       }
     }
   },
-  "defaultProject": "storefrontapp"
+  "defaultProject": "storefrontapp",
+  "cli": {
+    "analytics": false
+  }
 }
