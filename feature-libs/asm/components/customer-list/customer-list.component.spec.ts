@@ -24,10 +24,12 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  ModalService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
+import { CustomerListAction } from './customer-list.model';
+import createSpy = jasmine.createSpy;
 
 class MockAsmConfig implements AsmConfig {
   asm = {
@@ -137,6 +139,17 @@ const mockCustomerListPage: CustomerListsPage = {
   ],
 };
 
+const mockReturnData: CustomerListAction = {
+  selectedUser: mockCustomer,
+  actionType: CustomerListColumnActionType.ORDER_HISTORY,
+};
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  closeDialog = createSpy();
+
+  data$ = of(mockReturnData);
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -156,13 +169,6 @@ class MockAsmService implements Partial<AsmService> {
 
   getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
     return of(false);
-  }
-}
-
-class MockModalService {
-  closeActiveModal(reason?: any): void {
-    if (reason) {
-    }
   }
 }
 
@@ -188,7 +194,7 @@ export class MockKeyboadFocusDirective {
 describe('CustomerListComponent', () => {
   let component: CustomerListComponent;
   let fixture: ComponentFixture<CustomerListComponent>;
-  let mockModalService: MockModalService;
+  let launchDialogService: LaunchDialogService;
   let asmService: AsmService;
   let breakpointService: BreakpointService;
   let config: AsmConfig;
@@ -204,10 +210,7 @@ describe('CustomerListComponent', () => {
         ],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
-          {
-            provide: ModalService,
-            useClass: MockModalService,
-          },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: BreakpointService,
             useClass: MockBreakpointService,
@@ -221,11 +224,10 @@ describe('CustomerListComponent', () => {
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       }).compileComponents();
       asmService = TestBed.inject(AsmService);
-      mockModalService = TestBed.inject(ModalService);
+      launchDialogService = TestBed.inject(LaunchDialogService);
       config = TestBed.inject(AsmConfig);
       breakpointService = TestBed.inject(BreakpointService);
 
-      spyOn(mockModalService, 'closeActiveModal').and.callThrough();
       spyOn(
         asmService,
         'getCustomerListCustomersSearchResultsLoading'
@@ -321,10 +323,14 @@ describe('CustomerListComponent', () => {
       mockCustomer,
       CustomerListColumnActionType.START_SESSION
     );
-    expect(mockModalService.closeActiveModal).toHaveBeenCalledWith({
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith({
       selectedUser: mockCustomer,
       actionType: 'START_SESSION',
     });
+    // expect(mockModalService.closeActiveModal).toHaveBeenCalledWith({
+    //   selectedUser: mockCustomer,
+    //   actionType: 'START_SESSION',
+    // });
   });
 
   describe('pagination', () => {

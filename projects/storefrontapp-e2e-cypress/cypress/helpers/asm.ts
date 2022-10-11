@@ -174,9 +174,7 @@ export function asmCustomerLists(): void {
       cy.get('cx-customer-list').should('not.exist');
     });
   cy.wait(userDetailsRequestAlias);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
-    .should('not.be.empty');
+
   cy.get('cx-customer-emulation').should('exist');
 
   cy.log('--> start emulation by click order');

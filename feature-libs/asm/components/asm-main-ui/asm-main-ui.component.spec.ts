@@ -5,13 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import {
@@ -25,10 +19,9 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
-import { CustomerListComponent } from '../customer-list/customer-list.component';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -69,12 +62,13 @@ export class MockNgbModalRef {
   result: Promise<any> = new Promise(() => {});
 }
 
-class MockModalService {
-  open() {
-    return new MockNgbModalRef();
+const dialogClose$ = new BehaviorSubject<any>('');
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return of();
   }
-  getActiveModal() {
-    return new MockNgbModalRef();
+  get dialogClose() {
+    return dialogClose$.asObservable();
   }
 }
 
@@ -152,7 +146,7 @@ describe('AsmMainUiComponent', () => {
   let routingService: RoutingService;
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
-  let modalService: ModalService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -174,7 +168,7 @@ describe('AsmMainUiComponent', () => {
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: AsmService, useClass: MockAsmService },
-          { provide: ModalService, useClass: MockModalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
     })
@@ -189,7 +183,7 @@ describe('AsmMainUiComponent', () => {
     routingService = TestBed.inject(RoutingService);
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
-    modalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -421,44 +415,21 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should be able to open dialog', () => {
-    spyOn(modalService, 'open').and.callThrough();
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
     component.showCustomList();
-    expect(modalService.open).toHaveBeenCalledWith(
-      CustomerListComponent,
-      Object({
-        centered: true,
-        size: 'mf',
-        windowClass: 'fiori-like',
-        ariaLabelledBy: 'asm-customer-list-title',
-        ariaDescribedBy: 'asm-customer-list-desc',
-      })
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_LIST,
+      component.element
     );
   });
 
-  it('should take no action when the modal is dismissed', fakeAsync(() => {
-    spyOn(component, 'startCustomerEmulationSession').and.callThrough();
-    const mockModelRef = new MockNgbModalRef();
-    mockModelRef.result = Promise.reject();
-    spyOn(modalService, 'open').and.returnValue(mockModelRef as ModalRef);
-
+  it('should be able to navigate to Order history', () => {
+    spyOn(routingService, 'go').and.callThrough();
     component.showCustomList();
-    tick();
-
-    expect(component.startCustomerEmulationSession).not.toHaveBeenCalled();
-  }));
-
-  it('should be able to navigate to Order history', fakeAsync(() => {
-    const mockModelRef = new MockNgbModalRef();
-    mockModelRef.result = Promise.resolve({
+    dialogClose$.next({
       selectedUser: {},
       actionType: CustomerListColumnActionType.ORDER_HISTORY,
     });
-
-    spyOn(modalService, 'open').and.returnValue(mockModelRef as ModalRef);
-    spyOn(routingService, 'go').and.callThrough();
-
-    component.showCustomList();
-    tick();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
-  }));
+  });
 });

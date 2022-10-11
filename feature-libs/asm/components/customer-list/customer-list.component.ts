@@ -22,7 +22,7 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  ModalService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -75,7 +75,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   protected teardown: Subscription = new Subscription();
 
   constructor(
-    protected modalService: ModalService,
+    protected launchDialogService: LaunchDialogService,
     protected asmService: AsmService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
@@ -159,14 +159,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ): string {
     return (
       customerListsPage?.userGroups?.find((userGroup) => userGroup.uid === id)
-        ?.name || ''
+        ?.name ?? ''
     );
   }
 
   getBadgeText(customerEntry: User): string {
     return (
-      (customerEntry.firstName?.charAt(0) || '') +
-      (customerEntry.lastName?.charAt(0) || '')
+      (customerEntry.firstName?.charAt(0) ?? '') +
+      (customerEntry.lastName?.charAt(0) ?? '')
     );
   }
 
@@ -210,7 +210,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 
   getSortLabels(): Observable<{

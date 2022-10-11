@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, HostBinding, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import {
   CsAgentAuthService,
@@ -17,24 +25,28 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
-import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
   take,
   tap,
 } from 'rxjs/operators';
-import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
 })
-export class AsmMainUiComponent implements OnInit {
+export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User | undefined>;
@@ -45,9 +57,11 @@ export class AsmMainUiComponent implements OnInit {
 
   protected startingCustomerSession = false;
 
-  protected modalRef: ModalRef | undefined;
+  subscription: Subscription = new Subscription();
 
-  // TODO(#206): make modalService are required dependency
+  @ViewChild('customerListLink') element: ElementRef;
+
+  // TODO(#206): make LaunchDialogService are required dependency
   constructor(
     authService: AuthService,
     csAgentAuthService: CsAgentAuthService,
@@ -57,7 +71,7 @@ export class AsmMainUiComponent implements OnInit {
     asmService: AsmService,
     userAccountFacade: UserAccountFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    modalService: ModalService
+    launchDialogService: LaunchDialogService
   );
   /**
    * @deprecated since 5.1
@@ -79,7 +93,7 @@ export class AsmMainUiComponent implements OnInit {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    @Optional() protected modalService?: ModalService
+    @Optional() protected launchDialogService?: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -160,32 +174,32 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   showCustomList(): void {
-    this.modalRef = this.modalService?.open(CustomerListComponent, {
-      centered: true,
-      size: 'mf',
-      windowClass: 'fiori-like',
-      ariaLabelledBy: 'asm-customer-list-title',
-      ariaDescribedBy: 'asm-customer-list-desc',
-    });
-    this.modalRef?.result
-      .then(({ selectedUser, actionType }: CustomerListAction) => {
-        if (selectedUser) {
-          this.startCustomerEmulationSession(selectedUser);
-          if (actionType === CustomerListColumnActionType.ORDER_HISTORY) {
-            this.routingService.go({ cxRoute: 'orders' });
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CUSTOMER_LIST,
+      this.element
+    );
+
+    this.subscription.add(
+      this.launchDialogService?.dialogClose
+        .pipe(filter((result) => Boolean(result)))
+        .subscribe((result: CustomerListAction) => {
+          if (result.selectedUser) {
+            this.startCustomerEmulationSession(result.selectedUser);
+            if (
+              result.actionType === CustomerListColumnActionType.ORDER_HISTORY
+            ) {
+              this.routingService.go({ cxRoute: 'orders' });
+            }
           }
-        }
-        this.modalRef = undefined;
-      })
-      .catch(() => {
-        // this  callback is called when modal is closed with Esc key or clicking backdrop
-        this.modalRef = undefined;
-      });
+        })
+    );
   }
 
   closeModal(): void {
-    if (this.modalService?.getActiveModal() === this.modalRef) {
-      this.modalService?.closeActiveModal();
-    }
+    this.launchDialogService?.closeDialog('logout');
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

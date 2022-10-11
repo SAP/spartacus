@@ -17,7 +17,6 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
-  ModalModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
   SortingModule,
@@ -31,6 +30,7 @@ import { AsmToggleUiComponent } from './asm-toggle-ui/asm-toggle-ui.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
+import { defaultCustomerListLayoutConfig } from './customer-list/default-customer-list-layout.config';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
@@ -42,7 +42,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     I18nModule,
     FormErrorsModule,
     IconModule,
-    ModalModule,
     NgSelectModule,
     FormsModule,
     SpinnerModule,
@@ -76,6 +75,9 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmBindCartComponent,
     DotSpinnerComponent,
   ],
-  providers: [provideConfig(defaultAsmLayoutConfig)],
+  providers: [
+    provideConfig(defaultAsmLayoutConfig),
+    provideConfig(defaultCustomerListLayoutConfig),
+  ],
 })
 export class AsmComponentsModule {}

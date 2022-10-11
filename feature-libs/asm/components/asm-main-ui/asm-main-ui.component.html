@@ -19,7 +19,10 @@
         *ngIf="customerSupportAgentLoggedIn$ | async"
       >
         <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
-        <a class="cx-asm-customer-list-link" (click)="showCustomList()"
+        <a
+          #customerListLink
+          class="cx-asm-customer-list-link"
+          (click)="showCustomList()"
           ><span>{{ 'asm.customers' | cxTranslate }}</span></a
         >
       </div>
