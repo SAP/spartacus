@@ -53,6 +53,8 @@ export enum ICON_TYPE {
   EYE = 'EYE',
   EYE_SLASH = 'EYE_SLASH',
   ORDER = 'ORDER',
+  DOWNLOAD = 'DOWNLOAD',
+  FILE = 'FILE',
 }
 
 @Injectable({

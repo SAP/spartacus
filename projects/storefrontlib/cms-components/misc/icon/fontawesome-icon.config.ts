@@ -54,6 +54,8 @@ export const fontawesomeIconConfig: IconConfig = {
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
       ORDER: 'fas fa-clipboard-list',
+      DOWNLOAD: 'fas fa-download',
+      FILE: 'fas fa-file',
     },
     resources: [
       {
