@@ -55,7 +55,7 @@ export const LOCATORS = {
   USE_MY_LOCATION: '#lnkUseMyLocation',
   PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER: `[data-pickup-in-store-button="Nottingham Ice Center"]`,
   ADD_TO_CART: 'span[aria-label="Add to cart"]',
-  VIEW_CART: 'a[cxmodalreason="View Cart click"]',
+  VIEW_CART: `a:contains('view cart')`,
   BOPIS_TAG,
   PICKUP_IN_STORE_MODAL: 'cx-pickup-option-dialog',
   HIDE_OUT_OF_STOCK_CHECK_BOX: '#chkHideOutOfStock',
