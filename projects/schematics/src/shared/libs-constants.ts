@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /***** Scopes start *****/
 export const SPARTACUS_SCOPE = `@spartacus/`;
 
@@ -27,6 +33,7 @@ export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
 export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
 export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
@@ -79,6 +86,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
+export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;

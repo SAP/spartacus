@@ -1,0 +1,117 @@
+%cx-asm-bind-cart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex: 1;
+  width: 100%;
+
+  @media (max-width: 575px) {
+    > * {
+      margin-bottom: 12px;
+    }
+  }
+
+  button {
+    @media (min-width: 575px) {
+      margin-inline-start: 8px;
+    }
+
+    &.cx-asm-bindCartToCustomer {
+      background-color: #0070f2;
+      border: 1px solid #0070f2;
+      color: #ffffff;
+      opacity: 0.4;
+      transition: opacity 0.3s;
+      position: relative;
+
+      &.cx-asm-active {
+        opacity: 1;
+      }
+
+      cx-dot-spinner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: none;
+      }
+
+      &.cx-bind-loading {
+        span {
+          opacity: 0;
+        }
+        cx-dot-spinner {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    min-width: auto;
+    margin: 0;
+    flex: 1;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+
+  label {
+    color: #556b82;
+  }
+
+  input {
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      box-shadow: none;
+      outline-style: none;
+    }
+  }
+
+  .cx-asm-assignCart {
+    border: none;
+    border-radius: 4px;
+    background-color: #eff1f2;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    margin-inline-start: 6px;
+    margin-inline-end: 15px;
+    max-width: 20rem;
+    display: flex;
+    align-items: center;
+    padding-inline-end: 15px;
+
+    @media (max-width: 575px) {
+      margin-inline-end: 0;
+      margin-inline-start: 0;
+      min-width: 100%;
+      max-width: 100%;
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active,
+    &.active {
+      background-color: #ffffff;
+      outline-style: solid;
+      outline-color: var(--cx-color-visual-focus);
+      outline-width: var(--cx-visual-focus-width, 2px);
+      outline-offset: 4px;
+    }
+
+    .cx-asm-reset {
+      visibility: hidden;
+      background-color: transparent;
+      border: none;
+      color: inherit;
+    }
+  }
+}

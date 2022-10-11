@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -254,5 +260,14 @@ export class ConfiguratorCommonsService {
     configuration: Configurator.Configuration
   ): boolean {
     return configuration.overview !== undefined;
+  }
+
+  /**
+   * Removes product bound configurations that is linked to state
+   */
+  removeProductBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveProductBoundConfigurations()
+    );
   }
 }

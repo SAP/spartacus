@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -7,14 +13,17 @@ import {
   CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
+import { BindCartParams } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
@@ -64,5 +73,30 @@ export class OccAsmAdapter implements AsmAdapter {
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
+  }
+
+  bindCart({ cartId, customerId }: BindCartParams): Observable<unknown> {
+    const headers = InterceptorUtil.createHeader(
+      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+      true,
+      new HttpHeaders()
+    );
+    let params: HttpParams = new HttpParams()
+      .set('baseSite', this.activeBaseSite)
+      .set('cartId', cartId)
+      .set('customerId', customerId);
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmBindCart',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http
+      .post<void>(url, {}, { headers, params })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

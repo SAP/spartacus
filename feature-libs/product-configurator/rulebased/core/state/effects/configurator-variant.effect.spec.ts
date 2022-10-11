@@ -59,6 +59,7 @@ describe('ConfiguratorVariantEffect', () => {
     configuratorCoreConfig = {
       productConfigurator: { enableVariantSearch: true },
     };
+    productConfiguration.owner.configuratorType = ConfiguratorType.VARIANT;
 
     class MockConnector {
       searchVariants = searchVariantsMock;
@@ -116,6 +117,16 @@ describe('ConfiguratorVariantEffect', () => {
     if (configuratorCoreConfig.productConfigurator) {
       configuratorCoreConfig.productConfigurator.enableVariantSearch = false;
     }
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-');
+
+    expect(configEffects.searchVariants$).toBeObservable(expected);
+  });
+
+  it('should not emit anything for wrong configurator type', () => {
+    const action = new ConfiguratorActions.SearchVariants(productConfiguration);
+    productConfiguration.owner.configuratorType = ConfiguratorType.CPQ;
 
     actions$ = hot('-a', { a: action });
     const expected = cold('-');
