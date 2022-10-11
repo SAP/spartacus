@@ -5,11 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AuthService } from '@spartacus/core';
+import { AuthService, provideDefaultConfig } from '@spartacus/core';
 import { MultisiteIsolationAuthService } from './services';
+import { defaultMultisiteIsolationConfig } from './config/default-multisite-isolation-config';
 
 @NgModule({
   providers: [
+    provideDefaultConfig(defaultMultisiteIsolationConfig),
     {
       provide: AuthService,
       useExisting: MultisiteIsolationAuthService,
