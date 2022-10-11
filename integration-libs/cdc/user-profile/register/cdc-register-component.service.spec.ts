@@ -3,6 +3,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import {
   AuthService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
@@ -44,6 +45,11 @@ class MockUserProfileConnector implements Partial<UserProfileConnector> {
 
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
+  isUserLoggedIn = createSpy().and.returnValue(of(true));
+}
+
+class MockEventService implements Partial<EventService> {
+  get = createSpy().and.callFake(() => of(false)); //no failures
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
@@ -60,6 +66,8 @@ describe('CdcRegisterComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
   let userRegisterFacde: UserRegisterFacade;
+  let authService: AuthService;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,6 +82,7 @@ describe('CdcRegisterComponentService', () => {
         { provide: UserProfileService, useClass: MockUserProfileService },
         { provide: CdcJsService, useClass: MockCDCJsService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+        { provide: EventService, useClass: MockEventService },
         CDCRegisterComponentService,
       ],
     });
@@ -83,6 +92,8 @@ describe('CdcRegisterComponentService', () => {
     connector = TestBed.inject(UserProfileConnector);
     cdcJsService = TestBed.inject(CdcJsService);
     userRegisterFacde = TestBed.inject(UserRegisterFacade);
+    authService = TestBed.inject(AuthService);
+    eventService = TestBed.inject(EventService);
 
     TestBed.compileComponents();
   });
@@ -141,6 +152,63 @@ describe('CdcRegisterComponentService', () => {
           done();
         },
       });
+    });
+
+    it('should not do anything when CDC registration fails', (done) => {
+      cdcJsService.registerUserWithoutScreenSet =
+        createSpy().and.throwError('ERROR');
+
+      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
+        expect(connector.register).not.toHaveBeenCalled();
+        expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
+          titleCode: 'Mr.',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          uid: 'uid',
+          password: 'password',
+        });
+      });
+      expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
+    });
+
+    it('should throw error when CDC user token fails', (done) => {
+      eventService.get = createSpy().and.returnValue(of(true));
+
+      cdcUserRegisterService.register(userRegisterFormData).subscribe({
+        error: () => {
+          expect(connector.register).not.toHaveBeenCalled();
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).toHaveBeenCalledWith({
+            titleCode: 'Mr.',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            uid: 'uid',
+            password: 'password',
+          });
+          done();
+        },
+      });
+      expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
+    });
+
+    it('should not do anything when user is not logged in', (done) => {
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
+
+      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
+        expect(connector.register).not.toHaveBeenCalled();
+        expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
+          titleCode: 'Mr.',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          uid: 'uid',
+          password: 'password',
+        });
+      });
+      expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
     });
   });
 });

@@ -61,5 +61,6 @@ import { CdcRegisterComponent } from './cdc-register.component';
       },
     }),
   ],
+  declarations: [CdcRegisterComponent],
 })
 export class CDCRegisterModule {}
