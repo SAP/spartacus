@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as configuration from './product-configurator';
 
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
@@ -14,10 +20,11 @@ const conflictHeaderGroupSelector =
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(shopName: string, productId: string) {
-  registerConfigurationRoute();
+  //TODO: remove registerConfigurationRoute
+  //registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  cy.wait('@configure_product');
+  //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
 }
 

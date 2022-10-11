@@ -15,125 +15,317 @@
     padding-inline-end: 20px;
   }
 
-  .cx-group {
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
-    padding-block-start: 25px;
-    padding-block-end: 25px;
+  @include forVersion(3, 5) {
+    .cx-group {
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 25px;
+      padding-block-end: 25px;
 
-    margin-inline-start: -20px;
-    margin-inline-end: -25px;
-
-    @include media-breakpoint-up(md) {
-      padding-block-start: 20px;
-      padding-block-end: 20px;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding-block-start: 20px;
-      padding-block-end: 20px;
       margin-inline-start: -20px;
-      margin-inline-end: -20px;
-    }
+      margin-inline-end: -25px;
 
-    &.topLevel {
-      h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        border-bottom: solid 1px var(--cx-color-light);
-        border-top: solid 1px var(--cx-color-light);
-        border-left-style: none;
-        border-right-style: none;
-        background: none;
-        text-transform: none;
+      @include media-breakpoint-up(md) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
       }
-    }
-
-    &.subgroupTopLevel {
-      margin-bottom: -60px;
-    }
-
-    h2 {
-      padding-inline-start: 32px;
-      padding-inline-end: 32px;
-      padding-block-start: 16px;
-      padding-block-end: 16px;
 
       @include media-breakpoint-down(sm) {
-        padding-inline-start: 16px;
-        padding-inline-end: 16px;
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: -20px;
+        margin-inline-end: -20px;
+      }
+
+      &.topLevel {
+        h2 {
+          font-size: 1.25rem;
+          font-weight: 700;
+          border-bottom: solid 1px var(--cx-color-light);
+          border-top: solid 1px var(--cx-color-light);
+          border-left-style: none;
+          border-right-style: none;
+          background: none;
+          text-transform: none;
+        }
+      }
+
+      &.subgroupTopLevel {
+        margin-bottom: -60px;
+      }
+
+      h2 {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
         padding-block-start: 16px;
         padding-block-end: 16px;
-      }
-
-      border: solid 1px var(--cx-color-light);
-      background-color: var(--cx-color-background);
-      font-size: 1rem;
-      text-transform: uppercase;
-
-      span {
-        @include cx-configurator-truncate-content();
-      }
-    }
-
-    .cx-attribute-value-pair {
-      padding-inline-start: 32px;
-      padding-inline-end: 32px;
-
-      @include media-breakpoint-down(sm) {
-        padding-inline-start: 16px;
-        padding-inline-end: 16px;
-      }
-
-      &.general {
-        @include media-breakpoint-up(md) {
-          &:not(:first-of-type) {
-            .cx-attribute-label {
-              visibility: hidden;
-            }
-          }
-        }
 
         @include media-breakpoint-down(sm) {
-          .cx-attribute-label {
-            display: none;
-          }
-
-          &.last-value-pair {
-            .cx-attribute-label {
-              display: inline;
-            }
-          }
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
         }
-      }
 
-      &.bundle {
+        border: solid 1px var(--cx-color-light);
         background-color: var(--cx-color-background);
+        font-size: 1rem;
+        text-transform: uppercase;
 
-        @include media-breakpoint-up(md) {
-          &:not(:first-of-type) {
-            .cx-attribute-label {
-              visibility: hidden;
-            }
-          }
+        span {
+          @include cx-configurator-truncate-content();
         }
       }
 
-      &.margin {
-        margin-block-start: 15px;
+      .cx-attribute-value-pair {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+        }
+
+        &.general {
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
+          }
+
+          @include media-breakpoint-down(sm) {
+            .cx-attribute-label {
+              display: none;
+            }
+
+            &.last-value-pair {
+              .cx-attribute-label {
+                display: inline;
+              }
+            }
+          }
+        }
 
         &.bundle {
-          .cx-attribute-label {
-            visibility: visible;
+          background-color: var(--cx-color-background);
+
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
           }
         }
 
-        @include media-breakpoint-up(md) {
-          &.general {
+        &.margin {
+          margin-block-start: 15px;
+
+          &.bundle {
             .cx-attribute-label {
               visibility: visible;
+            }
+          }
+
+          @include media-breakpoint-up(md) {
+            &.general {
+              .cx-attribute-label {
+                visibility: visible;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include forVersion(5.1) {
+    $subgroupLevel2Top: 60px;
+    $subgroupLevel3Top: 112px;
+    $subgroupLevel4Top: 164px;
+    $subgroupLevel5Top: 216px;
+
+    .cx-group {
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 25px;
+      padding-block-end: 25px;
+
+      margin-inline-start: -20px;
+      margin-inline-end: -25px;
+
+      @include media-breakpoint-up(md) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: -20px;
+        margin-inline-end: -20px;
+      }
+
+      &.topLevel {
+        h2 {
+          padding-inline-start: 32px;
+          padding-inline-end: 32px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+
+          @include media-breakpoint-down(sm) {
+            padding-inline-start: 16px;
+            padding-inline-end: 16px;
+            padding-block-start: 16px;
+            padding-block-end: 16px;
+          }
+
+          font-size: 1.25rem;
+          font-weight: 700;
+          border-bottom: solid 1px var(--cx-color-light);
+          border-top: solid 1px var(--cx-color-light);
+          border-left-style: none;
+          border-right-style: none;
+          background-color: var(--cx-color-inverse);
+          text-transform: none;
+          position: sticky;
+          top: 2px;
+          z-index: -1;
+          span {
+            @include cx-configurator-truncate-content();
+          }
+        }
+      }
+
+      &.subgroupTopLevel {
+        margin-bottom: -20px;
+      }
+
+      &.subgroup {
+        @include media-breakpoint-down(sm) {
+          padding-block-start: 20px;
+          padding-block-end: 20px;
+          margin-inline-start: 0px;
+          margin-inline-end: 0px;
+        }
+
+        h2 {
+          padding-inline-start: 32px;
+          padding-inline-end: 32px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+
+          @include media-breakpoint-down(sm) {
+            padding-inline-start: 16px;
+            padding-inline-end: 16px;
+            padding-block-start: 16px;
+            padding-block-end: 16px;
+          }
+
+          border: solid 1px var(--cx-color-light);
+          background-color: var(--cx-color-background);
+          font-size: 1rem;
+          font-weight: normal;
+          text-transform: uppercase;
+          position: sticky;
+
+          span {
+            @include cx-configurator-truncate-content();
+          }
+        }
+      }
+
+      &.subgroupLevel2 {
+        h2 {
+          top: $subgroupLevel2Top;
+          z-index: -2;
+        }
+      }
+
+      &.subgroupLevel3 {
+        h2 {
+          top: $subgroupLevel3Top;
+          z-index: -3;
+        }
+      }
+
+      &.subgroupLevel4 {
+        h2 {
+          top: $subgroupLevel4Top;
+          z-index: -4;
+        }
+      }
+
+      &.subgroupLevel5 {
+        h2 {
+          top: $subgroupLevel5Top;
+          z-index: -5;
+        }
+      }
+
+      .cx-attribute-value-pair {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+        }
+
+        &.general {
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
+          }
+
+          @include media-breakpoint-down(sm) {
+            .cx-attribute-label {
+              display: none;
+            }
+
+            &.last-value-pair {
+              .cx-attribute-label {
+                display: inline;
+              }
+            }
+          }
+        }
+
+        &.bundle {
+          background-color: var(--cx-color-background);
+
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
+          }
+        }
+
+        &.margin {
+          margin-block-start: 15px;
+
+          &.bundle {
+            .cx-attribute-label {
+              visibility: visible;
+            }
+          }
+
+          @include media-breakpoint-up(md) {
+            &.general {
+              .cx-attribute-label {
+                visibility: visible;
+              }
             }
           }
         }
