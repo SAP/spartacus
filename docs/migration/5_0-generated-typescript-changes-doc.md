@@ -7083,7 +7083,7 @@ moved to @spartacus/cart/base/root
 
 
 Class CartModule has been removed and is no longer part of the public API.
-While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.
+The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.
 
 
 
@@ -7092,7 +7092,7 @@ While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/car
 
 
 Class CartOccModule has been removed and is no longer part of the public API.
-While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.
+The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.
 
 
 
@@ -20417,7 +20417,7 @@ title: string | undefined | null
 
 
 Class CartComponentModule has been removed and is no longer part of the public API.
-
+The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  
 
 
 
