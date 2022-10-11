@@ -140,7 +140,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         cy.log('order review');
         cy.get(L.CHANGE_STORE_LINK).first().click();
         cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
-        cy.get(L.USE_MY_LOCATION).click();
+        cy.get(L.USE_MY_LOCATION).click({ force: true });
 
         cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click();
 
