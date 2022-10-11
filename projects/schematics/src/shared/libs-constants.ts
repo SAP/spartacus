@@ -37,6 +37,7 @@ export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
 
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
 export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
 export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
@@ -89,6 +90,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
+export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
