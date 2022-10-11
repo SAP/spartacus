@@ -276,6 +276,28 @@ export class ConfiguratorCartEffects {
     )
   );
 
+  //TODO(CXSPA-1014): make ConfiguratorBasicEffectService a required dependency
+  constructor(
+    actions$: Actions,
+    configuratorCommonsConnector: RulebasedConfiguratorConnector,
+    commonConfigUtilsService: CommonConfiguratorUtilsService,
+    configuratorGroupUtilsService: ConfiguratorUtilsService,
+    store: Store<StateWithConfigurator>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorBasicEffectService: ConfiguratorBasicEffectService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    actions$: Actions,
+    configuratorCommonsConnector: RulebasedConfiguratorConnector,
+    commonConfigUtilsService: CommonConfiguratorUtilsService,
+    configuratorGroupUtilsService: ConfiguratorUtilsService,
+    store: Store<StateWithConfigurator>
+  );
+
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
