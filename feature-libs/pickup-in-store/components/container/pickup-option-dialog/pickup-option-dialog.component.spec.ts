@@ -14,6 +14,7 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   IconTestingModule,
+  KeyboardFocusModule,
   LaunchDialogService,
   LAUNCH_CALLER,
   SpinnerModule,
@@ -89,6 +90,7 @@ describe('PickupOptionDialogComponent', () => {
         HttpClientTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        KeyboardFocusModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
@@ -198,6 +200,28 @@ describe('PickupOptionDialogComponent', () => {
     component.close(mockCloseReason);
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
+    );
+  });
+
+  it('should close the dialog when user clicks outside', () => {
+    const element = fixture.debugElement.nativeElement;
+    spyOn(component, 'close');
+
+    element.click();
+    expect(component.close).toHaveBeenCalledWith(
+      component.CLOSE_WITHOUT_SELECTION
+    );
+  });
+
+  it('should close the dialog when user presses escape key', () => {
+    const element = (
+      fixture.debugElement.nativeElement as HTMLElement
+    ).querySelector('.cx-pickup-option-dialog');
+    spyOn(component, 'close');
+
+    element?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(component.close).toHaveBeenCalledWith(
+      component.CLOSE_WITHOUT_SELECTION
     );
   });
 });
