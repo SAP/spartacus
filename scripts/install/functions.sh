@@ -303,6 +303,9 @@ function install_from_sources {
     restore_clone ${project_sources[@]}
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
+
+    print_times
+    print_summary
 }
 
 function install_from_npm {
@@ -714,11 +717,6 @@ function print_summary {
     local ELAPSED=$(($END_TIME - $START_TIME))
     printf "\nOS: ${EXECUTING_OS}\n"
     printf "BRANCH: ${BRANCH}\n"
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        printf "Mode: 🚀 [USING GNU PARALLEL]\n"
-    else
-        printf "Mode: 🐢 [NO GNU PARALLEL]\n"
-    fi 
     printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
 }
 

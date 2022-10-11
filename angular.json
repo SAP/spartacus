@@ -977,12 +977,5 @@
         }
       }
     }
-<<<<<<< HEAD
-  },
-  "defaultProject": "storefrontapp",
-  "cli": {
-    "analytics": false
-=======
->>>>>>> develop
   }
 }
