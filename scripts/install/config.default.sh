@@ -51,7 +51,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^13.3.0'
+ANGULAR_CLI_VERSION='^14.2.3'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
@@ -71,3 +71,9 @@ ADD_EPD_VISUALIZATION=false
 
 # The base URL (origin) of the SAP EPD Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
+
+#NPM connection info
+#NPM_URL must start by 'https://' and end with '/' char
+NPM_TOKEN=
+NPM_URL= 
+NPM_ALWAYS_AUTH=true

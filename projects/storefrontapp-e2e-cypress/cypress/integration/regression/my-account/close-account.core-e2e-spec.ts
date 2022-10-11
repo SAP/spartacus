@@ -59,7 +59,7 @@ describe('My Account - Close Account', () => {
         cy.get('cx-close-account button').click({ force: true });
 
         cy.get(
-          'cx-close-account-modal .cx-btn-group button:first-of-type'
+          'cx-close-account-modal .cx-close-account-modal-container .cx-close-account-modal-footer button:first-of-type'
         ).click();
 
         cy.wait('@deleteQuery');

@@ -28,7 +28,7 @@ console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
 
 const files = glob.sync(`${spartacusHomeDir}/temp/*.api.json`);
 console.log(`Found ${files.length} api.json files.`);
-let publicApiData: any[] = [];
+const publicApiData: any[] = [];
 files.forEach((file) => {
   publicApiData.push(...parseFile(file));
 });
@@ -136,7 +136,7 @@ function parseElement(
 function parseMembers(rawElement: any) {
   const parsedMembers: any[] = [];
   rawElement.members.forEach((rawMember: any) => {
-    if (rawMember?.name?.startsWith('ɵ')) return;
+    if (rawMember?.name?.startsWith('ɵ')) {return;}
     const parsedMember: any = {};
     parsedMember.kind = rawMember.kind;
     parsedMember.name = rawMember.name;
@@ -175,6 +175,9 @@ function parseMembers(rawElement: any) {
     }
     parsedMembers.push(parsedMember);
   });
+  if (rawElement.kind === 'Class') {
+    handleDefaultConstructor(parsedMembers);
+  }
   return parsedMembers;
 }
 
@@ -321,4 +324,19 @@ export function lookupImportPath(
   } else {
     return '';
   }
+}
+
+function handleDefaultConstructor(members: any): void {
+  if (!members.some((member) => member.kind === 'Constructor')) {
+    members.push(createDefaultConstructor());
+  }
+}
+
+function createDefaultConstructor(): any {
+  return {
+    name: 'constructor',
+    kind: 'Constructor',
+    overloadIndex: 1,
+    parameters: [],
+  };
 }

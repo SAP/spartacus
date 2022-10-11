@@ -105,7 +105,9 @@ export class AddNextOwner implements Action {
 
 export class RemoveCartBoundConfigurations implements Action {
   readonly type = REMOVE_CART_BOUND_CONFIGURATIONS;
-  constructor() {}
+  constructor() {
+    // Intentional Empty Constructor
+  }
 }
 
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {

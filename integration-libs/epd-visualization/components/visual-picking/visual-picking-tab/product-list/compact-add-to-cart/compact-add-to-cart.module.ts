@@ -12,7 +12,6 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   ItemCounterModule,
-  ModalModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -30,7 +29,6 @@ import { CompactAddToCartComponent } from './compact-add-to-cart.component';
     IconModule,
     I18nModule,
     ItemCounterModule,
-    ModalModule,
   ],
   declarations: [CompactAddToCartComponent],
   exports: [CompactAddToCartComponent],

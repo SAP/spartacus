@@ -762,13 +762,14 @@ export function removeInjectImports(
 
   const importRemovalChange: Change[] = [];
 
-  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR)) {
     importRemovalChange.push(
       removeImport(source, {
         className: INJECT_DECORATOR,
         importPath: ANGULAR_CORE,
       })
     );
+  }
 
   /**
    * This is for the case when an injection token is the same as the import's type.
@@ -1032,11 +1033,17 @@ export function injectService(
   config.propertyType =
     config.propertyType ?? strings.classify(config.serviceName);
 
-  if (config.injectionToken) toInsert += `@Inject(${config.injectionToken}) `;
-  if (config.modifier !== 'no-modifier') toInsert += `${config.modifier} `;
+  if (config.injectionToken) {
+    toInsert += `@Inject(${config.injectionToken}) `;
+  }
+  if (config.modifier !== 'no-modifier') {
+    toInsert += `${config.modifier} `;
+  }
   toInsert += `${config.propertyName}: ${config.propertyType}`;
 
-  if (config.isArray) toInsert += '[]';
+  if (config.isArray) {
+    toInsert += '[]';
+  }
 
   return new InsertChange(config.path, position, toInsert);
 }

@@ -37,7 +37,9 @@ export class LoadRegionsSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearRegions implements Action {
   readonly type = CLEAR_REGIONS;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export type RegionsAction =
