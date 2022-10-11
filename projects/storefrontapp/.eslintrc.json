@@ -2,9 +2,12 @@
   "extends": "../../.eslintrc.json",
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "rules": {
-        "@angular-eslint/component-selector": "off"
+        "@angular-eslint/component-selector": "off",
+        "no-restricted-syntax": "off"
       }
     }
   ]

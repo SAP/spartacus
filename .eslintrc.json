@@ -97,7 +97,6 @@
         "*.module.ts"
       ],
       "excludedFiles": [
-        "./projects/storefrontapp/**",
         "./projects/core/src/config/config.module.ts"
       ],
       "rules": {
