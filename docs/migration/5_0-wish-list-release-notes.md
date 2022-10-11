@@ -1,6 +1,6 @@
 # Wish List Feature Moved to the Wish List Library
 
-Spartacus 5.0 introduces the extraction of the Wish List feature to the cart library.  The Wish List feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The series of entry point that contain the Wish List feature start with `@spartacus/cart/wish-list/*`.  These entry points are:
+Starting from Spartacus 5.0, the Wish List feature is extraced to the cart library.  The Wish List feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The Wish List feature is placed inside de `wish-list` sub feature in the cart lib. The series of entry point that contain the Wish List feature start with `@spartacus/cart/wish-list/*`.  These entry points are:
 
 
 ## @spartacus/cart/wish-list/assets 
@@ -26,7 +26,7 @@ The Wish List related scss styles are moved here.
 
 The Wish List Feature is now lazy loadable.  To that end, the Wish List feature needs to be imported in your storefront application via a feature module that properly applies standard imports and dynamic imports for the correct entry points.  Your application then needs to import that feature module.
 
-If you use the Spartacus schematics to install the Wish List feature, the feature module is automatically generated.  If you upgrade an existing application to Spartacus 5, you need to add the feature module yourself.  To get the source code for the `WishListFeatureModule`, you can create a vanilla Spartacus application and retrieve the `WishListFeatureModule` source from there.  Otherwise, here is a template source code for `WishListFeatureModule` that should closely ressemble what is generated from the Spartacus schematics installer:
+If you use the Spartacus schematics to install the Wish List feature, the feature module is automatically generated.  If you upgrade an existing application to Spartacus 5, you need to add the feature module manually.  To get the source code for the `WishListFeatureModule`, you can create a vanilla Spartacus application and retrieve the `WishListFeatureModule` source from there.  Otherwise, here is a template source code for `WishListFeatureModule` that you can use and should closely ressemble what is generated from the Spartacus schematics installer:
 
 ```
 import { NgModule } from '@angular/core';
