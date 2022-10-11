@@ -255,32 +255,39 @@ describe('Profile-tag events', () => {
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
     cy.findByText(/proceed to checkout/i).click();
-    cy.findByText(/Continue/i).click()
+    cy.findByText(/Continue/i)
+      .click()
       .then(() => {
         cy.location('pathname').should('contain', 'checkout/delivery-mode');
-        cy.findByText(/Continue/i).click()
-        .then(() => {
-          cy.location('pathname').should('contain', 'checkout/payment-details');
-          cy.findByText(/Continue/i).click().then(() => {
-            cy.location('pathname', { timeout: 10000 }).should(
-              'include',
-              `checkout/review-order`
+        cy.findByText(/Continue/i)
+          .click()
+          .then(() => {
+            cy.location('pathname').should(
+              'contain',
+              'checkout/payment-details'
             );
-            checkoutFlowPersistentUser.verifyAndPlaceOrderWithShipping();
-            cy.location('pathname', { timeout: 10000 }).should(
-              'include',
-              `order-confirmation`
-            );
-            cy.window().should((win) => {
-              expect(
-                profileTagHelper.eventCount(
-                  win,
-                  profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
-                )
-              ).to.equal(1);
-            });
+            cy.findByText(/Continue/i)
+              .click()
+              .then(() => {
+                cy.location('pathname', { timeout: 10000 }).should(
+                  'include',
+                  `checkout/review-order`
+                );
+                checkoutFlowPersistentUser.verifyAndPlaceOrderWithShipping();
+                cy.location('pathname', { timeout: 10000 }).should(
+                  'include',
+                  `order-confirmation`
+                );
+                cy.window().should((win) => {
+                  expect(
+                    profileTagHelper.eventCount(
+                      win,
+                      profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
+                    )
+                  ).to.equal(1);
+                });
+              });
           });
-        });
       });
   });
 
