@@ -1,14 +1,20 @@
-import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalService } from '../../../../shared/components/modal/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
-import createSpy = jasmine.createSpy;
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -59,23 +65,21 @@ class MyCouponsComponent {
     });
 }
 
-class MockModalRef {
-  get componentInstance() {
-    return {
-      coupon: null,
-    };
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
   }
-}
-
-class MockModalService {
-  open = createSpy('open').and.returnValue(new MockModalRef());
 }
 
 describe('CouponCardComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
-  let modalService: ModalService;
+  let launchDialogService: LaunchDialogService;
   const couponComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
     ['launchSearchPage']
@@ -86,7 +90,7 @@ describe('CouponCardComponent', () => {
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
         imports: [I18nTestingModule, RouterTestingModule],
         providers: [
-          { provide: ModalService, useClass: MockModalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: MyCouponsComponentService,
             useValue: couponComponentService,
@@ -101,7 +105,7 @@ describe('CouponCardComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.coupon.notificationOn = false;
-    modalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     unsubLoading$.next(false);
     subLoading$.next(false);
   });
@@ -149,10 +153,11 @@ describe('CouponCardComponent', () => {
   });
 
   it('should be able to open coupon detail dialog', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
     fixture.detectChanges();
     const readMoreLink = el.query(By.css('a'));
     readMoreLink.nativeElement.click();
-    expect(modalService.open).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalled();
   });
 
   it('should be able to show correct status when subscribe notification', () => {
