@@ -33,6 +33,7 @@ export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
 export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
 export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
@@ -85,6 +86,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
+export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
@@ -95,6 +97,13 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ASSETS = `@spartacus/organiza
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/order-approval`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
+
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_CORE = `@spartacus/organization/account-summary/core`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_COMPONENTS = `@spartacus/organization/account-summary/components`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ASSETS = `@spartacus/organization/account-summary/assets`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_OCC = `@spartacus/organization/account-summary/occ`;
 
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
@@ -190,6 +199,7 @@ export const ORDER_FEATURE_NAME = 'Order';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
+export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
