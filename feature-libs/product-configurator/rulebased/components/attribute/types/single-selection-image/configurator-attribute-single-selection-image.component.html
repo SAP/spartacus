@@ -63,7 +63,7 @@
           alt="{{ value.images[0].altText }}"
         />
         <div *ngIf="!value.images[0]" class="cx-img-dummy"></div>
-        {{ value.valueDisplay }}
+        {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"
         ></cx-configurator-price>

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { IconConfig, IconResourceType } from './icon.model';
 
 export const fontawesomeIconConfig: IconConfig = {
@@ -42,6 +48,8 @@ export const fontawesomeIconConfig: IconConfig = {
       PDF_FILE: 'fas fa-file-pdf',
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
+      DOWNLOAD: 'fas fa-download',
+      FILE: 'fas fa-file',
     },
     resources: [
       {

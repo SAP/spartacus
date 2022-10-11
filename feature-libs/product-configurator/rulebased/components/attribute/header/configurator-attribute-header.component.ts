@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,6 +37,7 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
+  @Input() expMode: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -175,7 +182,9 @@ export class ConfiguratorAttributeHeaderComponent
           this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
-          this.logWarning('Attribute was not found in any conflict group');
+          this.logError(
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+          );
         }
       });
   }
@@ -208,9 +217,9 @@ export class ConfiguratorAttributeHeaderComponent
       })?.id;
   }
 
-  protected logWarning(text: string): void {
+  protected logError(text: string): void {
     if (isDevMode()) {
-      console.warn(text);
+      console.error(text);
     }
   }
 

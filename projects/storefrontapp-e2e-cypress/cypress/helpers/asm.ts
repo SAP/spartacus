@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as addressBook from '../helpers/address-book';
 import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
@@ -33,6 +39,14 @@ export function listenForCustomerSearchRequest(): string {
 
 export function listenForUserDetailsRequest(): string {
   return interceptGet('userDetails', '/users/*');
+}
+
+export function listenForCartBindingRequest(): string {
+  return interceptPost(
+    'cartBinding',
+    '/assistedservicewebservices/bind-cart?*',
+    false
+  );
 }
 
 export function listenForListOfAddressesRequest(): string {
@@ -80,12 +94,13 @@ export function startCustomerEmulation(customer): void {
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('button[type="submit"]').click();
+  cy.get('cx-customer-selection button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
-    .should('contain', customer.fullName);
+  cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
+    'contain',
+    customer.fullName
+  );
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-customer-emulation').should('be.visible');
@@ -174,7 +189,9 @@ export function testCustomerEmulation() {
     consent.giveConsent();
 
     cy.log('--> Stop customer emulation');
-    cy.get('cx-customer-emulation button').click();
+    cy.get('cx-customer-emulation')
+      .findByText(/End Session/i)
+      .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -195,7 +212,9 @@ export function testCustomerEmulation() {
     cy.log(
       '--> Stop customer emulation using the end session button in the ASM UI'
     );
-    cy.get('cx-customer-emulation button').click();
+    cy.get('cx-customer-emulation')
+      .findByText(/End Session/i)
+      .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -255,4 +274,12 @@ export function testCustomerEmulation() {
 
     checkout.signOutUser();
   });
+}
+
+export function bindCart() {
+  const bindingRequest = listenForCartBindingRequest();
+  //click button
+  cy.findByText(/Assign Cart to Customer/i).click();
+  //make call
+  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }

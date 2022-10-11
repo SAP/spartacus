@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
 import {
@@ -513,7 +514,7 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect groupChange', () => {
-    it('should emit ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
+    it('should emit UpdatePriceSummary, ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
@@ -533,13 +534,18 @@ describe('ConfiguratorEffect', () => {
         entityKey: productConfiguration.owner.key,
         menuParentGroup: undefined,
       });
+      const updatePriceSummary = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: setCurrentGroup,
         c: setMenuParentGroup,
         d: readConfigurationSuccess,
+        e: updatePriceSummary,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
     });
@@ -567,6 +573,46 @@ describe('ConfiguratorEffect', () => {
         b: readConfigurationFail,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect removeProductBoundConfigurations', () => {
+    let entitiesInConfigurationState: {
+      [id: string]: any;
+    } = {};
+    let configurationState: any;
+
+    beforeEach(() => {
+      entitiesInConfigurationState = {};
+      configurationState = {
+        configurations: { entities: entitiesInConfigurationState },
+      };
+    });
+
+    it('should emit remove configuration action for configurations that are purely product bound', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(configurationState)
+      );
+
+      entitiesInConfigurationState[productConfiguration.owner.key] =
+        productConfiguration.owner.key;
+
+      const removeProductBoundConfigurationsAction =
+        new ConfiguratorActions.RemoveProductBoundConfigurations();
+
+      const removeConfigurationAction =
+        new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: [productConfiguration.owner.key],
+        });
+
+      actions$ = cold('-a', { a: removeProductBoundConfigurationsAction });
+      const expected = cold('-(b)', {
+        b: removeConfigurationAction,
+      });
+
+      expect(configEffects.removeProductBoundConfigurations$).toBeObservable(
+        expected
+      );
     });
   });
 });

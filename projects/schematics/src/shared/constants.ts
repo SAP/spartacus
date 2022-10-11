@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const UTF_8 = 'utf-8';
 
 /***** Imports start *****/
@@ -126,6 +132,7 @@ export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const ACTIVE_CART_FACADE = 'ActiveCartFacade';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
@@ -145,6 +152,8 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
+export const ADDED_TO_CART_DIALOG_EVENT_LISTENER =
+  'AddedToCartDialogEventListener';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -252,6 +261,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
+export const SUGGESTED_ADDRESS_DIALOG_COMPONENT = `SuggestedAddressDialogComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
@@ -525,6 +535,38 @@ export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 
 export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
 export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
+
+export const FACET_SERVICE = 'FacetService';
+export const PROFILE_TAG_EVENT_SERVICE = 'ProfileTagEventService';
+export const PROFILE_TAG_LIFECYCLE_SERVICE = 'ProfileTagLifecycleService';
+
+export const CDS_MERCHANDISING_PRODUCT_SERVICE =
+  'CdsMerchandisingProductService';
+export const MERCHANDISING_STRATEGY_CONNECTOR =
+  'MerchandisingStrategyConnector';
+export const CDS_MERCHANDISING_USER_CONTEXT_SERVICE =
+  'CdsMerchandisingUserContextService';
+export const CDS_MERCHANDISING_SITE_CONTEXT_SERVICE =
+  'CdsMerchandisingSiteContextService';
+export const CDS_MERCHANDISING_SEARCH_CONTEXT_SERVICE =
+  'CdsMerchandisingSearchContextService';
+export const CDS_MERCHANDISING_FACET_NORMALIZER =
+  'MerchandisingFacetNormalizer';
+export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
+  'MerchandisingFacetToQueryparamNormalizer';
+export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
+
+export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
+export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
+export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
+export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
+
+export const STOCK_NOTIFICATION_MODULE = 'StockNotificationtModule';
+export const STOCK_NOTIFICATION_DIALOG_COMPONENT =
+  'StockNotificationDialogComponent';
 
 /***** Classes end *****/
 
@@ -859,6 +901,13 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 // export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
+
+export const MODAL_OPTIONS = 'ModalOptions';
+export const MODAL_REF = 'ModalRef';
+export const MODAL_DIRECTIVE_OPTIONS = 'ModalDirectiveOptions';
+export const MODAL_DIRECTIVE_SERVICE = 'ModalDirectiveService';
+export const MODAL_DIRECTIVE = 'ModalDirective';
+export const MODAL_MODULE = 'ModalModule';
 
 /***** Removed public api end *****/
 

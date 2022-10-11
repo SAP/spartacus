@@ -41,11 +41,9 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    npm config set @spartacus:registry https://registry.npmjs.org/
-
     npm i -g verdaccio@5
     npm i -g npm-cli-login
-    npm i -g serve
+    npm i -g serve@13.0.4
     npm i -g pm2
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
@@ -80,121 +78,140 @@ function update_projects_versions {
 }
 
 function create_shell_app {
-    ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
+    ( cd ${INSTALLATION_DIR} && ng new ${1} --style scss --no-routing)
 }
 
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
-        ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
+        ng add @spartacus/organization@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+        ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
     fi
 }
 
 function add_cdc {
   if [ "$ADD_CDC" = true ] ; then
-        ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+        ng add @spartacus/cdc@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     fi
 }
 
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+        ng add @spartacus/epd-visualization --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
     fi
 }
 
 function add_product_configurator {
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
+    ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
+        ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "CPQ-Configurator"
     fi
 }
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
-  ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
-  ng add --skip-confirmation @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
+  ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
+  ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
+    local IS_NPM_INSTALL="$2"   
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${CSR_APP_NAME}
+    fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --no-interactive
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function add_spartacus_ssr {
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${SSR_APP_NAME}
+    fi
+    
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function add_spartacus_ssr_pwa {
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${SSR_PWA_APP_NAME}
+    fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
-      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --pwa --interactive false
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function create_apps {
+    local IS_NPM_INSTALL="${1}"
+    echo "create_apps is_npm_install: ${IS_NPM_INSTALL}"
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
-        add_spartacus_csr ${CSR_APP_NAME}
+        add_spartacus_csr ${CSR_APP_NAME} ${IS_NPM_INSTALL}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
-        add_spartacus_ssr ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME} ${IS_NPM_INSTALL}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
-        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
     fi
 }
 
 function publish_dist_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    ( cd ${CLONE_DIR}/dist/${PKG_NAME} && yarn publish --new-version ${SPARTACUS_VERSION} --registry http://localhost:4873/ --no-git-tag-version )
 }
 
 function publish_package {
     local PKG_NAME=${1};
     printh "Creating ${PKG_NAME} npm package"
-    ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+    ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version ${SPARTACUS_VERSION} --registry http://localhost:4873/ --no-git-tag-version )
 }
 
 function restore_clone {
@@ -284,10 +301,18 @@ function install_from_sources {
 
 function install_from_npm {
     printh "Installing Spartacus from npm libraries"
+  
+    if [ -z "${NPM_URL}" ]; then
+        echo "Please fill NPM_URL"
+    else
+        prepare_install
 
-    prepare_install
+        #flag true to specify install is from npm
+        create_apps true
 
-    create_apps
+        remove_npm_token
+    fi
+    
 }
 
 function build_csr {
@@ -380,4 +405,32 @@ function cmd_help {
     echo " start"
     echo " stop"
     echo " help"
+}
+
+function create_npmrc {   
+    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
+    if [ -z "$NPM_TOKEN" ] ; then
+        echo "NPM_TOKEN is empty"
+    fi
+    echo "creating .npmrc file in ${1} folder"    
+    printf $NPMRC_CONTENT > .npmrc
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
+}
+
+function remove_npmrc {   
+    if [ -f "./.npmrc" ]; then
+        echo 'removing .npmrc file'
+        rm -rf .npmrc
+    fi
+}
+
+function remove_npm_token {
+    if [[ -f "./config.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'removing NPM_TOKEN value from config.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.sh
+    fi
+    if [[ -f "./config.default.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'removing NPM_TOKEN value from config.default.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.default.sh
+    fi
 }

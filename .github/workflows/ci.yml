@@ -62,7 +62,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -89,7 +89,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -116,7 +116,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -151,6 +151,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -179,6 +180,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -210,6 +212,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
