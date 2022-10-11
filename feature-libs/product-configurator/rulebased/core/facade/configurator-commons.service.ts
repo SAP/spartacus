@@ -261,4 +261,13 @@ export class ConfiguratorCommonsService {
   ): boolean {
     return configuration.overview !== undefined;
   }
+
+  /**
+   * Removes product bound configurations that is linked to state
+   */
+  removeProductBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveProductBoundConfigurations()
+    );
+  }
 }

@@ -24,12 +24,12 @@
   >
     <option
       *ngFor="let item of attribute.values"
-      [label]="item.valueDisplay"
+      [label]="getLabel(expMode, item.valueDisplay, item.valueCode)"
       [selected]="item.selected"
       [attr.aria-label]="getAriaLabel(item, attribute)"
       [value]="item.valueCode"
     >
-      {{ item.valueDisplay }}
+      {{ getLabel(expMode, item.valueDisplay, item.valueCode) }}
     </option>
   </select>
   <div

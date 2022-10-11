@@ -20,7 +20,6 @@ import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -30,13 +29,6 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
-}
-
-@Directive({
-  selector: '[cxModal]',
-})
-class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal;
 }
 @Directive({
   selector: '[cxOutlet]',
@@ -123,7 +115,6 @@ describe('CartItemComponent', () => {
           MockPromotionsComponent,
           MockUrlPipe,
           MockFeatureLevelDirective,
-          MockModalDirective,
           MockOutletDirective,
         ],
         providers: [

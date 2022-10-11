@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
@@ -12,7 +18,11 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -24,17 +34,31 @@ import { first } from 'rxjs/operators';
 })
 export class CloseAccountModalComponent implements OnInit {
   iconTypes = ICON_TYPE;
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
   isLoggedIn$: Observable<boolean>;
   protected loading$ = new BehaviorSubject(false);
 
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.dismissModal('Cross click');
+    }
+  }
+
   constructor(
-    protected modalService: ModalService,
     protected authService: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected userProfile: UserProfileFacade
+    protected userProfile: UserProfileFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
   ) {}
 
   get isLoading$(): Observable<boolean> {
@@ -46,7 +70,7 @@ export class CloseAccountModalComponent implements OnInit {
   }
 
   onSuccess(): void {
-    this.dismissModal();
+    this.dismissModal('Success');
     this.translationService
       .translate('closeAccount.accountClosedSuccessfully')
       .pipe(first())
@@ -60,7 +84,7 @@ export class CloseAccountModalComponent implements OnInit {
   }
 
   onError(): void {
-    this.dismissModal();
+    this.dismissModal('Error');
     this.translationService
       .translate('closeAccount.accountClosedFailure')
       .pipe(first())
@@ -70,7 +94,7 @@ export class CloseAccountModalComponent implements OnInit {
   }
 
   dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 
   closeAccount() {

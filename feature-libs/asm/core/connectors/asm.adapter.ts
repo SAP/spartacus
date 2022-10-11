@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BindCartParams } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -17,4 +18,9 @@ export abstract class AsmAdapter {
   abstract customerSearch(
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
+
+  /**
+   * Used to bind an anonymous cart to a registered user.
+   */
+  abstract bindCart(options: BindCartParams): Observable<unknown>;
 }
