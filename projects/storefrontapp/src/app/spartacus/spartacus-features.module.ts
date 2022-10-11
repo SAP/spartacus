@@ -82,12 +82,14 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
+    AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule
   );
