@@ -7,7 +7,7 @@
           "error",
           {
             "selector": "CallExpression[callee.name=provideConfig]",
-            "message": "[Spartacus] provideConfig() is reserved for library consumers. For providing default configs inside Spartacus libraries please use provideDefaultConfig() instead."
+            "message": "[Spartacus] provideConfig() is intended for library consumers. To allow for better extensibility, please provide default configs inside Spartacus libraries using provideDefaultConfig()"
           }
         ]
       }
