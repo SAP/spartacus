@@ -7,8 +7,6 @@ import {
   StaticProvider,
 } from '@angular/core';
 import {
-  AsmCustomer360Data,
-  AsmCustomer360Query,
   AsmDialogActionEvent,
   AsmDialogActionType,
   AsmFacade,
@@ -17,14 +15,18 @@ import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ModalService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { AsmConfig } from 'feature-libs/asm/core';
-import { AsmCustomer360TabConfig } from 'feature-libs/asm/core/models/customer-360-tab-config';
-import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
+import {
+  Customer360SectionData,
+  Asm360Service,
+  AsmConfig,
+  AsmCustomer360TabConfig,
+  Customer360SectionConfig,
+  getAsmDialogActionEvent,
+} from '@spartacus/asm/core';
+import { Observable } from 'rxjs';
 
-import { getAsmDialogActionEvent } from '../../core/utils/utils';
 import { Customer360SectionContextSource } from './sections/customer-360-section-context-source.model';
 import { Customer360SectionContext } from './sections/customer-360-section-context.model';
-import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,16 +43,17 @@ import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-36
 export class AsmCustomer360Component implements OnInit {
   iconTypes = ICON_TYPE;
   loading = false;
-  tabs: Array<AsmCustomer360TabConfig>;
+  tabs: Array<AsmCustomer360TabConfig<unknown>>;
   activeTab = 0;
-  currentTab: AsmCustomer360TabConfig;
+  currentTab: AsmCustomer360TabConfig<unknown>;
   injectors: Array<Array<Injector>>;
 
   constructor(
     asmConfig: AsmConfig,
     protected asmService: AsmFacade,
     protected injector: Injector,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected asm360Service: Asm360Service<unknown, unknown, unknown>
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
@@ -62,11 +65,7 @@ export class AsmCustomer360Component implements OnInit {
     const { customerId } = this.customer;
 
     if (customerId) {
-      const customerTypeCustomerDataMap: {
-        [type: string]: AsmCustomer360Data;
-      } = {};
-
-      const queries: Array<AsmCustomer360Query> = [];
+      const queries: Array<unknown> = [];
 
       this.tabs.forEach((tab) =>
         tab.components.forEach((component) => {
@@ -76,25 +75,21 @@ export class AsmCustomer360Component implements OnInit {
         })
       );
 
-      this.asmService.fetchCustomer360Data(queries, {
+      const request = this.asm360Service.createRequestObject(queries, {
         userId: this.customer.customerId ?? '',
       });
+
+      this.asmService.fetchCustomer360Data(request);
 
       this.asmService
         .getCustomer360Data()
         .pipe(take(1))
         .subscribe((data) => {
-          data.value.forEach((customer360Data) => {
-            customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
-          });
           this.injectors = this.tabs.map((tab) => {
             return tab.components.map((component) =>
               this.createInjector(
                 component.config,
-                component.requestData &&
-                  customerTypeCustomerDataMap[
-                    component.requestData.customer360Type
-                  ]
+                this.asm360Service.getResponseData(component, data)
               )
             );
           });
@@ -129,7 +124,7 @@ export class AsmCustomer360Component implements OnInit {
     this.modalService.closeActiveModal(reason);
   }
 
-  createInjector(config: unknown, sectionData?: unknown): Injector {
+  createInjector(config: unknown, sectionData?: Observable<unknown>): Injector {
     const providers: Array<StaticProvider> = [
       { provide: Customer360SectionConfig, useValue: config },
     ];

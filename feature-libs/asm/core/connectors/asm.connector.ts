@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  AsmCustomer360Params,
-  AsmCustomer360Query,
-  AsmCustomer360Response,
   BindCartParams,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -14,7 +11,10 @@ import { AsmAdapter } from './asm.adapter';
 @Injectable({
   providedIn: 'root',
 })
-export class AsmConnector {
+export class AsmConnector<
+  AsmCustomer360Request = any,
+  AsmCustomer360Response = any
+> {
   constructor(protected asmAdapter: AsmAdapter) {}
 
   customerSearch(
@@ -28,9 +28,8 @@ export class AsmConnector {
   }
 
   getCustomer360Data(
-    queries: Array<AsmCustomer360Query>,
-    options: AsmCustomer360Params
+    request: AsmCustomer360Request
   ): Observable<AsmCustomer360Response> {
-    return this.asmAdapter.getCustomer360Data(queries, options);
+    return this.asmAdapter.getCustomer360Data(request);
   }
 }

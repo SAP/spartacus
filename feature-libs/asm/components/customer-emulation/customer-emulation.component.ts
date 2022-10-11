@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
@@ -20,7 +20,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected injector: Injector
   ) {}
 
   ngOnInit() {
@@ -43,6 +44,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
       windowClass: 'asm-customer-360',
       ariaLabelledBy: 'asm-customer-360-title',
       ariaDescribedBy: 'asm-customer-360-desc',
+      injector: this.injector,
     });
     this.modalRef.componentInstance.customer = this.customer;
     this.modalRef?.result

@@ -1,14 +1,15 @@
 import { Type } from '@angular/core';
-import { AsmCustomer360Query } from '@spartacus/asm/root';
 
 import { Customer360SectionConfig } from './customer-360-section-config';
 
-export abstract class AsmCustomer360TabConfig {
-  components: Array<{
-    component: Type<any>;
-    /** Data that can be associated to a component used to fetch information from a backend. */
-    requestData?: AsmCustomer360Query;
-    config?: Customer360SectionConfig;
-  }>;
+export interface AsmCustomer360TabComponent<AsmCustomer360RequestData> {
+  component: Type<any>;
+  /** Data that can be associated to a component used to fetch information from a backend. */
+  requestData?: AsmCustomer360RequestData;
+  config?: Customer360SectionConfig;
+}
+
+export abstract class AsmCustomer360TabConfig<AsmCustomer360RequestData> {
+  components: Array<AsmCustomer360TabComponent<AsmCustomer360RequestData>>;
   i18nNameKey: string;
 }

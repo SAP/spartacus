@@ -44,14 +44,16 @@ export class AsmCustomerMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.storeFinderService.findStoresAction(this.data.data.address);
+    this.data.data.subscribe((data) => {
+      this.storeFinderService.findStoresAction(data.address);
 
-    this.storeFinderService.getFindStoresEntities().subscribe((data: any) => {
-      if (data) {
-        this.storeData = data;
-        this.selectedStore = data.stores?.[0];
-        this.changeDetectorRef.detectChanges();
-      }
+      this.storeFinderService.getFindStoresEntities().subscribe((data: any) => {
+        if (data) {
+          this.storeData = data;
+          this.selectedStore = data.stores?.[0];
+          this.changeDetectorRef.detectChanges();
+        }
+      });
     });
   }
 

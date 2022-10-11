@@ -1,8 +1,4 @@
-import {
-  AsmCustomer360Response,
-  AsmUi,
-  CustomerSearchPage,
-} from '@spartacus/asm/root';
+import { AsmUi, CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
 
 export const ASM_FEATURE = 'asm';
@@ -15,6 +11,6 @@ export interface StateWithAsm {
 
 export interface AsmState {
   customerSearchResult: StateUtils.LoaderState<CustomerSearchPage>;
-  customer360Response: StateUtils.LoaderState<AsmCustomer360Response>;
+  customer360Response: StateUtils.LoaderState<unknown>;
   asmUi: AsmUi;
 }

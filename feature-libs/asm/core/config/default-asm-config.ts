@@ -1,4 +1,3 @@
-import { AsmCustomer360Type } from '@spartacus/asm/root';
 import {
   AsmCustomerMapComponent,
   AsmCustomerOverviewComponent,
@@ -30,7 +29,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: AsmCustomerProductReviewsComponent,
               requestData: {
-                customer360Type: AsmCustomer360Type.REVIEW_LIST,
+                customer360Type: 'C360ReviewList',
               },
               config: { pageSize: 5 },
             },
@@ -42,7 +41,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: AsmCustomerMapComponent,
               requestData: {
-                customer360Type: AsmCustomer360Type.STORE_LOCATION,
+                customer360Type: 'C360StoreLocation',
               },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',

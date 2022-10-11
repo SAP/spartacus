@@ -15,7 +15,7 @@ export abstract class AsmConfig extends OccConfig {
     customerSearch?: {
       maxResults?: number;
     };
-    customer360?: AsmCustomer360TabsConfig;
+    customer360?: AsmCustomer360TabsConfig<unknown>;
   };
 }
 

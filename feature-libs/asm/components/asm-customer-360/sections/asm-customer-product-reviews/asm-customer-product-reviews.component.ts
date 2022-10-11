@@ -28,17 +28,19 @@ export class AsmCustomerProductReviewsComponent {
     /** TODO: Importing this seems questionable. */
     protected semanticPathService: SemanticPathService
   ) {
-    this.reviewEntries = sectionData.data.reviews.map((entry) => ({
-      ...entry,
-      item: combineStrings(entry.productName, entry.productCode, ', SKU: '),
-      dateAndStatus: combineStrings(
-        entry.createdAt
-          ? formatEpochTime(Number(new Date(entry.createdAt)))
-          : undefined,
-        entry.reviewStatus,
-        ' / '
-      ),
-      // productUrl: this.semanticPathService.transform({ cxRoute: 'product', params: { code: entry.productCode, slug: entry.productName } }),
-    }));
+    sectionData.data.subscribe((data) => {
+      this.reviewEntries = data.reviews.map((entry) => ({
+        ...entry,
+        item: combineStrings(entry.productName, entry.productCode, ', SKU: '),
+        dateAndStatus: combineStrings(
+          entry.createdAt
+            ? formatEpochTime(Number(new Date(entry.createdAt)))
+            : undefined,
+          entry.reviewStatus,
+          ' / '
+        ),
+        // productUrl: this.semanticPathService.transform({ cxRoute: 'product', params: { code: entry.productCode, slug: entry.productName } }),
+      }));
+    });
   }
 }
