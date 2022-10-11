@@ -1,3 +1,9 @@
+<ng-container *cxFeatureLevel="'5.1'">
+  <div *ngIf="!attribute.visible" class="cx-hidden-msg">
+    <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+    {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
+  </div>
+</ng-container>
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -11,7 +17,7 @@
   ><span
     [class.cx-required-icon]="attribute.required"
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-    >{{ attribute.label }}</span
+    >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
   ></label
 >
 <div
@@ -35,7 +41,7 @@
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
     <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
       <a
-        class="cx-conflict-msg link cx-action-link"
+        class="link cx-action-link"
         (click)="navigateToGroup()"
         (keydown.enter)="navigateToGroup()"
         tabindex="0"
@@ -67,7 +73,7 @@
 
 <ng-template #conflictGroup>
   <a
-    class="cx-conflict-msg link cx-action-link"
+    class="link cx-action-link"
     (click)="navigateToGroup()"
     (keydown.enter)="navigateToGroup()"
     tabindex="0"
