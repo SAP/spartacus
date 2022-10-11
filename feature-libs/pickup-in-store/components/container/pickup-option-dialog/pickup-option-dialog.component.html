@@ -1,4 +1,8 @@
-<div class="cx-pickup-option-dialog">
+<div
+  class="cx-pickup-option-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="close(CLOSE_WITHOUT_SELECTION)"
+>
   <div class="cx-dialog-content">
     <!-- Modal Header -->
     <div class="modal-header cx-dialog-header">

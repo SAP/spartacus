@@ -49,7 +49,9 @@ export class PickupOptionsComponent implements OnChanges {
   }
 
   /** Emit to indicate a new store should be selected. */
-  onPickupLocationChange(): void {
+  onPickupLocationChange(): boolean {
     this.pickupLocationChange.emit();
+    // Return false to stop `onPickupOptionChange` being called after this
+    return false;
   }
 }

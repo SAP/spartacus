@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
@@ -13,7 +19,11 @@ import {
   PickupLocationsSearchFacade,
   PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -37,6 +47,13 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   cartId: string;
   userId: string;
 
+  readonly focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'input',
+    focusOnEscape: true,
+  };
+
   readonly ICON_TYPE = ICON_TYPE;
   /** The reason given closing the dialog window without selecting a location */
   readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
@@ -45,6 +62,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
+    protected elementRef: ElementRef,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
@@ -52,6 +70,15 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     protected preferredStoreService: PreferredStoreService
   ) {
     // Intentional empty constructor
+  }
+
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if (
+      (event.target as any).tagName === this.elementRef.nativeElement.tagName
+    ) {
+      this.close(this.CLOSE_WITHOUT_SELECTION);
+    }
   }
 
   ngOnInit() {
