@@ -20,7 +20,6 @@ import { SeoConfig } from '../config';
   providedIn: 'root',
 })
 export class JsonLdScriptFactory {
-
   protected renderer: Renderer2;
 
   constructor(

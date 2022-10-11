@@ -14,11 +14,11 @@ import {
   RENDERER_FACTORY_2,
   SEO_CONFIG,
   STRING_TYPE,
-  WINDOW_REF
+  WINDOW_REF,
 } from '../../../../shared/constants';
 import {
   SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB
+  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
