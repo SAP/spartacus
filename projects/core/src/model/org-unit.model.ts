@@ -32,6 +32,7 @@ export interface B2BUnit {
 
 export interface B2BUser extends User {
   active?: boolean;
+  email?: string;
 }
 
 export interface B2BApprovalProcess {
