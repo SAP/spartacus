@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
@@ -16,7 +15,6 @@ import {
   IconModule,
   ItemCounterModule,
   MediaModule,
-  ModalModule,
   OutletModule,
   PromotionsModule,
   provideOutlet,
@@ -41,8 +39,6 @@ import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
     IconModule,
     ItemCounterModule,
     MediaModule,
-    ModalModule,
-    NgbModule,
     OutletModule,
     PromotionsModule,
     ReactiveFormsModule,

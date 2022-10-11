@@ -63,59 +63,6 @@ export class AddToEntryGroupFail extends StateUtils.EntityProcessesDecrementActi
   }
 }
 
-export class AddEntriesToEntryGroups extends StateUtils.EntityProcessesIncrementAction {
-  readonly type = ADD_ENTRIES_TO_ENTRY_GROUPS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entries: {
-        entry: OrderEntry;
-        entryGroupNumber: number;
-      }[];
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class AddEntriesToEntryGroupsSuccess extends StateUtils.EntityProcessesDecrementAction {
-  readonly type = ADD_ENTRIES_TO_ENTRY_GROUPS_SUCCESS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      statuses: {
-        deliveryModeChanged: boolean;
-        entry: OrderEntry;
-        quantity: number;
-        quantityAdded: number;
-        statusCode: string;
-        statusMessage: string;
-      }[];
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class AddEntriesToEntryGroupsFail extends StateUtils.EntityProcessesDecrementAction {
-  readonly type = ADD_ENTRIES_TO_ENTRY_GROUPS_FAIL;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      error: any;
-      entries: {
-        entry: OrderEntry;
-        entryGroupNumber: number;
-      }[];
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
 export class RemoveEntryGroup extends StateUtils.EntityProcessesIncrementAction {
   readonly type = REMOVE_ENTRY_GROUP;
   constructor(
