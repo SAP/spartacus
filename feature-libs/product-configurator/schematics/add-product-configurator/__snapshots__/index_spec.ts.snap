@@ -49,10 +49,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -296,10 +293,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -529,10 +523,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
