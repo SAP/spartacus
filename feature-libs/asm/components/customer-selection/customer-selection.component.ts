@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -7,9 +13,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig } from '@spartacus/asm/core';
-import { AsmFacade, CustomerSearchPage } from '@spartacus/asm/root';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -22,7 +31,7 @@ import { debounceTime } from 'rxjs/operators';
   },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
-  customerSelectionForm: FormGroup;
+  customerSelectionForm: UntypedFormGroup;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -35,8 +44,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
-    protected fb: FormBuilder,
-    protected asmFacade: AsmFacade,
+    protected fb: UntypedFormBuilder,
+    protected asmService: AsmService,
     protected config: AsmConfig
   ) {}
 
@@ -44,10 +53,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.customerSelectionForm = this.fb.group({
       searchTerm: ['', Validators.required],
     });
-    this.asmFacade.customerSearchReset();
+    this.asmService.customerSearchReset();
     this.searchResultsLoading$ =
-      this.asmFacade.getCustomerSearchResultsLoading();
-    this.searchResults = this.asmFacade.getCustomerSearchResults();
+      this.asmService.getCustomerSearchResultsLoading();
+    this.searchResults = this.asmService.getCustomerSearchResults();
 
     this.subscription.add(
       this.customerSelectionForm.controls.searchTerm.valueChanges
@@ -68,9 +77,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (Boolean(this.selectedCustomer)) {
       return;
     }
-    this.asmFacade.customerSearchReset();
+    this.asmService.customerSearchReset();
     if (searchTermValue.trim().length >= 3) {
-      this.asmFacade.customerSearch({
+      this.asmService.customerSearch({
         query: searchTermValue,
         pageSize: this.config.asm?.customerSearch?.maxResults,
       });
@@ -82,7 +91,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.customerSelectionForm.controls.searchTerm.setValue(
       this.selectedCustomer.name
     );
-    this.asmFacade.customerSearchReset();
+    this.asmService.customerSearchReset();
   }
 
   onSubmit(): void {
@@ -101,17 +110,17 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       ) {
         return;
       } else {
-        this.asmFacade.customerSearchReset();
+        this.asmService.customerSearchReset();
       }
     }
   }
 
   closeResults() {
-    this.asmFacade.customerSearchReset();
+    this.asmService.customerSearchReset();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.asmFacade.customerSearchReset();
+    this.asmService.customerSearchReset();
   }
 }

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmFacade, AsmUi } from '@spartacus/asm/root';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,7 +16,7 @@ export class AsmToggleUiComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   isCollapsed: boolean;
 
-  constructor(protected asmFacade: AsmFacade) {}
+  constructor(protected asmFacade: AsmService) {}
 
   ngOnInit(): void {
     this.subscription.add(

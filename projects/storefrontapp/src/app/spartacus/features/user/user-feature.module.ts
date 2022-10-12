@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
@@ -18,7 +24,6 @@ import {
 } from '@spartacus/user/profile/root';
 
 @NgModule({
-  declarations: [],
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
     provideConfig(<CmsConfig>{

@@ -1,13 +1,17 @@
 import { DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from './item-counter.component';
 
-const form = new FormGroup({
-  quantity: new FormControl('1'),
+const form = new UntypedFormGroup({
+  quantity: new UntypedFormControl('1'),
 });
 
 describe('ItemCounterComponent', () => {
@@ -27,7 +31,7 @@ describe('ItemCounterComponent', () => {
     fixture = TestBed.createComponent(ItemCounterComponent);
     component = fixture.componentInstance;
 
-    component.control = <FormControl>form.get('quantity');
+    component.control = <UntypedFormControl>form.get('quantity');
 
     component.control.setValue(1);
     component.control.markAsPristine();

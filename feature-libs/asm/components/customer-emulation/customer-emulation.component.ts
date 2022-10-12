@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmDialogActionEvent } from '@spartacus/asm/root';
+// import { AsmDialogActionEvent } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, Subscription } from 'rxjs';
-import { AsmCustomer360Component } from '../asm-customer-360/asm-customer-360.component';
+// import { AsmCustomer360Component } from '../asm-customer-360/asm-customer-360.component';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -15,18 +21,19 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
   protected subscription = new Subscription();
-  protected modalRef: ModalRef | undefined;
 
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
-    protected modalService: ModalService
+    protected dialogService: LaunchDialogService
   ) {}
 
   ngOnInit() {
     this.subscription.add(
       this.userAccountFacade.get().subscribe((user) => {
-        if (user) this.customer = user;
+        if (user) {
+          this.customer = user;
+        }
       })
     );
     this.isCustomerEmulationSessionInProgress$ =
@@ -38,6 +45,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   }
 
   openCustomer360() {
+    // TODO
+    /*
     this.modalRef = this.modalService?.open(AsmCustomer360Component, {
       size: 'xl',
       windowClass: 'asm-customer-360',
@@ -54,6 +63,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
         // this  callback is called when modal is closed with Esc key or clicking backdrop
         this.modalRef = undefined;
       });
+    */
   }
 
   ngOnDestroy(): void {

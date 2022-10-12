@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { normalize, strings, virtualFs } from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import {
@@ -35,6 +41,8 @@ export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
+export const organizationAccountSummaryFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =

@@ -1,52 +1,53 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AsmFacade } from '@spartacus/asm/root';
+import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   OCC_CART_ID_CURRENT,
-  User,
 } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
-import { defer, Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
+import { concatMap, filter, finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-bind-cart',
   templateUrl: './asm-bind-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
-  @Input() customer: User;
-  cartId: FormControl = new FormControl('', [
+  cartId: FormControl<string | null> = new FormControl('', [
     Validators.required,
     Validators.minLength(1),
   ]);
 
-  loading = false;
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   protected subscription = new Subscription();
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected asmFacade: AsmFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userAccountFacade: UserAccountFacade
+    protected asmBindCartFacade: AsmBindCartFacade
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userAccountFacade.get().subscribe((user) => {
-        if (user) this.customer = user;
-      })
-    );
-
-    this.subscription.add(
-      this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
-        if (response) {
-          this.cartId.setValue(response);
-        }
+      this.activeCartFacade.getActiveCartId().subscribe((response) => {
+        this.cartId.setValue(response ?? '');
       })
     );
   }
@@ -55,40 +56,33 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    const customerId = this.customer.uid;
+    const subscription = of(this.loading$.getValue())
+      .pipe(
+        filter((loading) => !loading && this.cartId.valid),
+        tap(() => this.loading$.next(true)),
+        concatMap(() =>
+          this.asmBindCartFacade.bindCart(this.cartId.value as string)
+        ),
+        finalize(() => this.loading$.next(false))
+      )
+      .subscribe(
+        () => {
+          this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
 
-    if (customerId && this.cartId.valid && !this.loading) {
-      this.subscription.add(
-        defer(() => {
-          this.loading = true;
-
-          return this.asmFacade.bindCart({
-            cartId: this.cartId.value,
-            customerId,
-          });
-        })
-          .pipe(finalize(() => (this.loading = false)))
-          .subscribe(
-            () => {
-              this.globalMessageService.add(
-                { key: 'asm.bindCart.success' },
-                GlobalMessageType.MSG_TYPE_CONFIRMATION
-              );
-
-              this.multiCartFacade.loadCart({
-                cartId: OCC_CART_ID_CURRENT,
-                userId: customerId,
-              });
-            },
-            () => {
-              this.globalMessageService.add(
-                { key: 'asm.bindCart.error' },
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
-            }
-          )
+          this.globalMessageService.add(
+            { key: 'asm.bindCart.success' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        },
+        (error: HttpErrorModel) => {
+          this.globalMessageService.add(
+            error.details?.[0].message ?? '',
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
       );
-    }
+
+    this.subscription.add(subscription);
   }
 
   clearText() {

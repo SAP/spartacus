@@ -8,9 +8,13 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmConfig } from '@spartacus/asm/core';
-import { AsmFacade, CustomerSearchPage } from '@spartacus/asm/root';
-import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import {
+  FeaturesConfigModule,
+  GlobalMessageService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -72,7 +76,7 @@ const MockAsmConfig: AsmConfig = {
 describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
-  let asmFacade: AsmFacade;
+  let asmFacade: AsmService;
   let el: DebugElement;
 
   const validSearchTerm = 'cUstoMer@test.com';
@@ -80,10 +84,15 @@ describe('CustomerSelectionComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          FeaturesConfigModule.forRoot(),
+        ],
         declarations: [CustomerSelectionComponent],
         providers: [
-          { provide: AsmFacade, useClass: MockAsmService },
+          { provide: AsmService, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AsmConfig, useValue: MockAsmConfig },
         ],
@@ -95,7 +104,7 @@ describe('CustomerSelectionComponent', () => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    asmFacade = TestBed.inject(AsmFacade);
+    asmFacade = TestBed.inject(AsmService);
     el = fixture.debugElement;
     fixture.detectChanges();
   });
@@ -130,6 +139,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
+    // TODO: (CXSPA-1291) Change div.spinner to use cx-dot-spinner component
     expect(el.query(By.css('div.spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });

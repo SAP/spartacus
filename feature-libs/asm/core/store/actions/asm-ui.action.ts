@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
-import { AsmUi } from '@spartacus/asm/root';
+
+import { AsmUi } from '../../models/asm.models';
 
 export const ASM_UI_UPDATE = '[Asm] UI Update';
 

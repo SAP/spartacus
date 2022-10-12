@@ -2,7 +2,7 @@
   <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
     role="search"
-    aria-label="Assign a cart id to customer"
+    [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
     class="cx-asm-assignCart"
     [class.active]="cartId.valid"
     (click)="cartIdElement.focus()"
@@ -13,11 +13,11 @@
       formcontrolname="cartNumber"
       [formControl]="cartId"
       (keydown.enter)="bindCartToCustomer()"
-      aria-label="Enter cart id"
+      [attr.aria-label]="'asm.bindCart.enterCartId' | cxTranslate"
     />
     <button
       class="cx-asm-reset"
-      aria-label="Reset"
+      [attr.aria-label]="'asm.bindCart.resetCartId' | cxTranslate"
       [class.visible]="cartId.value?.length > 0"
       (click)="clearText()"
     >
@@ -30,13 +30,13 @@
     [disabled]="cartId.invalid"
     type="submit"
     [class.cx-asm-active]="cartId.valid"
-    [class.cx-bind-loading]="loading"
+    [class.cx-bind-loading]="loading$ | async"
   >
-    <span [attr.aria-hidden]="loading">
+    <span [attr.aria-hidden]="loading$ | async">
       {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
     </span>
     <cx-dot-spinner
-      [attr.aria-hidden]="!loading"
+      [attr.aria-hidden]="!(loading$ | async)"
       [attr.aria-label]="'common.loading' | cxTranslate"
     ></cx-dot-spinner>
   </button>

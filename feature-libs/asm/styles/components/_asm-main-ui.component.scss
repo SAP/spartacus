@@ -15,7 +15,12 @@
   }
 
   .close {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z'/%3E%3C/svg%3E");
+    @include forVersion(1, 5) {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z'/%3E%3C/svg%3E");
+    }
+    @include forVersion(5.1) {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z'/%3E%3C/svg%3E");
+    }
   }
 
   .logout {
@@ -108,6 +113,30 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      .cx-asm-customer-list {
+        cursor: pointer;
+        cx-icon {
+          padding-top: 0;
+          padding-inline-end: 7px;
+          padding-bottom: 0;
+          padding-inline-start: 0;
+          color: #1e3050;
+        }
+        .cx-asm-customer-list-link {
+          color: #0064d9;
+          text-decoration: none;
+        }
+        .cx-asm-customer-list-link:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    @include forVersion(5.1) {
+      color: inherit;
+      background-color: #ffffff;
+      box-shadow: 2px 2px rgba(85, 107, 130, 0.1),
+        inset 0px -1px 0px rgba(85, 107, 130, 0.2);
     }
 
     @include forVersion(5.1) {

@@ -6,14 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { AsmCustomer360StoreLocation } from '@spartacus/asm/root';
+import { AsmCustomer360StoreLocation, Customer360SectionConfig, Customer360SectionData } from '@spartacus/asm/root';
 import { PointOfService } from '@spartacus/core';
 import {
   StoreFinderSearchPage,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
-import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
-import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import { AsmUi } from '@spartacus/asm/root';
+import { AsmUi } from '../../models/asm.models';
 import { AsmActions } from '../actions';
 import * as fromReducer from './asm-ui.reducer';
 

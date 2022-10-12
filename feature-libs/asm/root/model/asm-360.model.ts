@@ -1,3 +1,5 @@
+import { UrlCommand, User } from "@spartacus/core";
+
 export interface AsmCustomer360Params {
   userId: string;
 }
@@ -42,4 +44,15 @@ export type AsmCustomer360Data =
 
 export interface AsmCustomer360Response {
   value: Array<AsmCustomer360Data>;
+}
+
+export enum AsmDialogActionType {
+  START_SESSION = 'START_SESSION',
+  NAVIGATE = 'NAVIGATE',
+}
+
+export interface AsmDialogActionEvent {
+  selectedUser: User;
+  actionType: AsmDialogActionType;
+  route?: UrlCommand;
 }

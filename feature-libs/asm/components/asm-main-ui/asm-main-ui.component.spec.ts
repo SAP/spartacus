@@ -7,7 +7,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
+import {
+  CsAgentAuthService,
+  CustomerListColumnActionType,
+} from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -15,8 +19,9 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -42,6 +47,28 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
+  }
+}
+
+export class MockNgbModalRef {
+  componentInstance = {
+    selectedUserGroupId: '',
+    customerSearchPage$: of({}),
+    customerListsPage$: of({}),
+    selectedCustomer: {},
+    fetchCustomers: () => {},
+    closeModal: (_reason?: any) => {},
+  };
+  result: Promise<any> = new Promise(() => {});
+}
+
+const dialogClose$ = new BehaviorSubject<any>('');
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return of();
+  }
+  get dialogClose() {
+    return dialogClose$.asObservable();
   }
 }
 
@@ -98,7 +125,7 @@ class MockAsmComponentService {
   }
 }
 
-class MockAsmService implements Partial<AsmFacade> {
+class MockAsmService implements Partial<AsmService> {
   getAsmUiState(): Observable<AsmUi> {
     return of(mockAsmUi);
   }
@@ -118,7 +145,8 @@ describe('AsmMainUiComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let asmComponentService: AsmComponentService;
-  let asmFacade: AsmFacade;
+  let asmService: AsmService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -139,7 +167,8 @@ describe('AsmMainUiComponent', () => {
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: AsmFacade, useClass: MockAsmService },
+          { provide: AsmService, useClass: MockAsmService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
     })
@@ -153,7 +182,8 @@ describe('AsmMainUiComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
     asmComponentService = TestBed.inject(AsmComponentService);
-    asmFacade = TestBed.inject(AsmFacade);
+    asmService = TestBed.inject(AsmService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -224,7 +254,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display the login form by default and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(false)
     );
@@ -253,7 +283,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
@@ -286,7 +316,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should not display customer emulation state when a customer is signed in and when the collapse state is true', () => {
-    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
@@ -382,5 +412,24 @@ describe('AsmMainUiComponent', () => {
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmComponentService.unload).toHaveBeenCalled();
+  });
+
+  it('should be able to open dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.showCustomList();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_LIST,
+      component.element
+    );
+  });
+
+  it('should be able to navigate to Order history', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    component.showCustomList();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: CustomerListColumnActionType.ORDER_HISTORY,
+    });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 });

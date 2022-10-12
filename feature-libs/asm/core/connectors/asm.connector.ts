@@ -1,14 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
+import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
 import {
   AsmCustomer360Params,
   AsmCustomer360Query,
   AsmCustomer360Response,
-  BindCartParams,
-  CustomerSearchOptions,
-  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 
+import { CustomerSearchOptions, CustomerSearchPage } from '../models/asm.models';
 import { AsmAdapter } from './asm.adapter';
 
 @Injectable({
@@ -32,5 +37,9 @@ export class AsmConnector {
     options: AsmCustomer360Params
   ): Observable<AsmCustomer360Response> {
     return this.asmAdapter.getCustomer360Data(queries, options);
+  }
+
+  customerLists(): Observable<CustomerListsPage> {
+    return this.asmAdapter.customerLists();
   }
 }

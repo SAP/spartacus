@@ -1,5 +1,6 @@
 const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
 const fs = require('fs');
+const { rmdir } = require('fs');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cypressTypeScriptPreprocessor);
@@ -10,6 +11,18 @@ module.exports = (on, config) => {
       }
 
       return null;
+    },
+
+    deleteFolder(folderName) {
+      return new Promise((resolve, reject) => {
+        rmdir(folderName, { maxRetries: 3, recursive: true }, (err) => {
+          if (err) {
+            console.error(err);
+            return reject(err);
+          }
+          resolve(null);
+        });
+      });
     },
   });
 

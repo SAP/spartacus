@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
@@ -77,8 +83,9 @@ if (!environment.production) {
       },
     }),
     provideConfig(<FeaturesConfig>{
+      // For the development environment and CI, feature level is always the highest.
       features: {
-        level: '5.1',
+        level: '*',
       },
     }),
   ],

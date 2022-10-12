@@ -1,8 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MODULE_INITIALIZER, provideDefaultConfig } from '@spartacus/core';
+import { MODULE_INITIALIZER } from '@spartacus/core';
 import { StoreFinderModule } from '@spartacus/storefinder';
-import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmConnector } from './connectors/asm.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
@@ -18,7 +23,6 @@ export function asmStatePersistenceFactory(
 @NgModule({
   imports: [CommonModule, AsmStoreModule, StoreFinderModule],
   providers: [
-    provideDefaultConfig(defaultAsmConfig),
     AsmConnector,
     {
       provide: MODULE_INITIALIZER,
