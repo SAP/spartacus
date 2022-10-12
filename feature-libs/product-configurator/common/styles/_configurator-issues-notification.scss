@@ -20,11 +20,7 @@ cx-configurator-issues-notification-row {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    background-image: linear-gradient(
-      to right,
-      rgba(245, 206, 206, 1),
-      transparent
-    );
+    background-color: rgba(245, 206, 206, 1);
 
     padding-inline-start: 5px;
     padding-inline-end: 5px;
@@ -34,8 +30,13 @@ cx-configurator-issues-notification-row {
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
 
-    @include media-breakpoint-down(md) {
-      background: rgba(245, 206, 206, 1);
+    @include media-breakpoint-up(md) {
+      background-color: transparent;
+      background-image: linear-gradient(
+        to right,
+        rgba(245, 206, 206, 1),
+        transparent
+      );
     }
 
     cx-icon {
