@@ -130,7 +130,7 @@ function createSiteContextConfig(options: SpartacusOptions): string {
   }
 
   if (options.language) {
-    const language = parseCSV(options.language).toUpperCase();
+    const language = parseCSV(options.language).toLowerCase();
     contextConfig += `\nlanguage: [${language}],`;
   }
 
