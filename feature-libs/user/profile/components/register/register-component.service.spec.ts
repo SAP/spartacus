@@ -1,57 +1,36 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
-import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
-import {
-  UserProfileConnector,
-  UserProfileService,
-} from '@spartacus/user/profile/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 
 import createSpy = jasmine.createSpy;
-
-class MockUserProfileService implements Partial<UserProfileService> {
-  get(): Observable<User> {
-    return of({ uid: OCC_USER_ID_CURRENT });
-  }
-  getTitles = createSpy().and.returnValue(of([]));
-}
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   getTitles = createSpy().and.returnValue(of([]));
   register = createSpy().and.callFake((user: any) => of(user));
 }
-
-class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  register = createSpy().and.callFake((user: any) => of(user));
-}
-
-class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 describe('RegisterComponentService', () => {
-  let regComponentService: RegisterComponentService;
-  let userRegFacade: UserRegisterFacade;
+  let service: RegisterComponentService;
+  let userRegisterFacade: UserRegisterFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         RegisterComponentService,
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: Store, useValue: { dispatch: () => {} } },
-        {
-          provide: UserProfileConnector,
-          useClass: MockUserProfileConnector,
-        },
-        { provide: UserProfileService, useClass: MockUserProfileService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 
-    userRegFacade = TestBed.inject(UserRegisterFacade);
-    regComponentService = TestBed.inject(RegisterComponentService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    userRegisterFacade = TestBed.inject(UserRegisterFacade);
+    service = TestBed.inject(RegisterComponentService);
   });
 
   it('should inject RegisterComponentService', inject(
@@ -69,8 +48,8 @@ describe('RegisterComponentService', () => {
       uid: 'uid',
       password: 'password',
     };
-    regComponentService.register(userRegisterFormData);
-    expect(userRegFacade.register).toHaveBeenCalledWith({
+    service.register(userRegisterFormData);
+    expect(userRegisterFacade.register).toHaveBeenCalledWith({
       titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
@@ -80,7 +59,17 @@ describe('RegisterComponentService', () => {
   });
 
   it('should get titles from UserRegisterService', () => {
-    regComponentService.getTitles().subscribe().unsubscribe();
-    expect(userRegFacade.getTitles).toHaveBeenCalled();
+    service.getTitles().subscribe().unsubscribe();
+    expect(userRegisterFacade.getTitles).toHaveBeenCalled();
+  });
+
+  describe('postRegisterMessage', () => {
+    it('should delegate to globalMessageService.add', () => {
+      service.postRegisterMessage();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'register.postRegisterMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
   });
 });
