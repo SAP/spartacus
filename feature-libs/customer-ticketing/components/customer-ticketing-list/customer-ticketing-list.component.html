@@ -8,7 +8,10 @@
     </span>
   </h3>
 
-  <div class="cx-ticketing-list-sort top">
+  <div
+    class="cx-ticketing-list-sort top"
+    *ngIf="ticketList.tickets?.length > 0"
+  >
     <label class="cx-ticketing-list-form-group form-group">
       <span>
         {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
