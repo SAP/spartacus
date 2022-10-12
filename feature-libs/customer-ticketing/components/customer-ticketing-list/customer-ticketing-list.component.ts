@@ -115,7 +115,7 @@ export class CustomerTicketingListComponent {
   goToTicketDetail(ticketId: string): void {
     this.routing.go({
       cxRoute: 'supportTicketDetails',
-      params: ticketId,
+      params: { ticketCode: ticketId },
     });
   }
 

@@ -60,7 +60,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value cx-text-red"
             >
@@ -73,7 +76,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value cx-text-red"
             >
@@ -86,7 +92,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value"
             >
@@ -99,7 +108,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value"
             >
@@ -112,7 +124,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value"
             >
@@ -125,7 +140,10 @@
             </div>
             <a
               [routerLink]="
-                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+                {
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: ticket.id }
+                } | cxUrl
               "
               class="cx-ticketing-list-value"
               [ngClass]="getStatusClass(ticket.status.id)"
