@@ -84,28 +84,39 @@
     }
   }
 
+  .cx-ticketing-list-data-extra {
+    text-align: center;
+
+    .cx-ticketing-list-value {
+      text-decoration: none;
+      color: var(--cx-color-text);
+    }
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
+  }
+
   .cx-ticketing-list-sort {
+    display: flex;
+    margin: 0;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
     &.top {
-      display: flex;
       justify-content: space-between;
       padding: 1rem 0;
-      margin: 0;
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
         padding-top: 0;
       }
     }
 
     &.bottom {
-      display: flex;
       justify-content: flex-end;
       padding: 1rem 0 1rem 0;
-      margin: 0;
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: column;
-      }
     }
   }
 
@@ -138,10 +149,12 @@
   }
 
   .cx-text-green {
+    text-decoration: none;
     color: var(--cx-color-success);
   }
 
   .cx-text-grey {
+    text-decoration: none;
     color: var(--cx-color-secondary);
   }
 }

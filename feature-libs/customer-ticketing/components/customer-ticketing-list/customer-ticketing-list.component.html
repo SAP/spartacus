@@ -1,45 +1,40 @@
-<ng-container
-  *ngIf="{
-    ticketsObs: tickets$ | async,
-    tickets: tickets | async
-  } as ticketList"
->
-  <h3 class="cx-ticketing-list-title">
-    <span class="cx-ticketing-list-title-text">
-      {{ 'customerTicketingList.requestTitle' | cxTranslate }}
-    </span>
-    <span class="cx-ticketing-list-title-count">
-      ({{ ticketList.tickets.length }})
-    </span>
-  </h3>
-
-  <div class="cx-ticketing-list-sort top">
-    <label class="cx-ticketing-list-form-group form-group">
-      <span>
-        {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
+<ng-container *ngIf="tickets$ | async as ticketList">
+  <ng-container *ngIf="ticketList.tickets?.length > 0; else noCustomerTickets">
+    <h3 class="cx-ticketing-list-title">
+      <span class="cx-ticketing-list-title-text">
+        {{ 'customerTicketingList.requestTitle' | cxTranslate }}
       </span>
-      <cx-sorting
-        [sortOptions]="ticketList.ticketsObs.sorts"
-        [sortLabels]="getSortLabels() | async"
-        (sortListEvent)="changeSortCode($event)"
-        [selectedOption]="ticketList.ticketsObs.pagination.sort"
-        placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
-        [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
-        ariaControls="ticketing-list-table"
-      ></cx-sorting>
-    </label>
-    <div
-      *ngIf="ticketList.ticketsObs.pagination.totalPages > 1"
-      class="cx-ticketing-list-pagination"
-    >
-      <cx-pagination
-        [pagination]="ticketList.ticketsObs.pagination"
-        (viewPageEvent)="pageChange($event)"
-      ></cx-pagination>
-    </div>
-  </div>
+      <span class="cx-ticketing-list-title-count">
+        ({{ ticketList.tickets.length }})
+      </span>
+    </h3>
 
-  <ng-container *ngIf="customerTicketsFlag">
+    <div class="cx-ticketing-list-sort top">
+      <label class="cx-ticketing-list-form-group form-group">
+        <span>
+          {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
+        </span>
+        <cx-sorting
+          [sortOptions]="ticketList.sorts"
+          [sortLabels]="getSortLabels() | async"
+          (sortListEvent)="changeSortCode($event)"
+          [selectedOption]="ticketList.pagination.sort"
+          placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
+          [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
+          ariaControls="ticketing-list-table"
+        ></cx-sorting>
+      </label>
+      <div
+        *ngIf="ticketList.pagination.totalPages > 1"
+        class="cx-ticketing-list-pagination"
+      >
+        <cx-pagination
+          [pagination]="ticketList.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
+      </div>
+    </div>
+
     <table id="ticketing-list-table" class="table cx-ticketing-list-table">
       <thead class="cx-ticketing-list-thead-mobile">
         <tr>
@@ -67,7 +62,7 @@
               "
               class="cx-ticketing-list-value"
             >
-              <span tabindex="0">{{ ticket.id }}</span>
+              {{ ticket.id }}
             </a>
           </td>
           <td class="cx-ticketing-list-data">
@@ -79,65 +74,84 @@
                 { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
               "
               class="cx-ticketing-list-value"
-              tabindex="0"
             >
-              <span tabindex="0">{{ ticket.subject }}</span>
+              {{ ticket.subject }}
             </a>
           </td>
-          <td class="cx-ticketing-list-data">
+          <td class="cx-ticketing-list-data-extra">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value" tabindex="0">
-              {{ ticket.ticketCategory }}
-            </span>
+            <a
+              [routerLink]="
+                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+              "
+              class="cx-ticketing-list-value"
+            >
+              {{ ticket.ticketCategory.name }}
+            </a>
           </td>
-          <td class="cx-ticketing-list-data">
+          <td class="cx-ticketing-list-data-extra">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.createdOn' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value" tabindex="0">
+            <a
+              [routerLink]="
+                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+              "
+              class="cx-ticketing-list-value"
+            >
               {{ ticket.createdAt | cxDate }}
-            </span>
+            </a>
           </td>
-          <td class="cx-ticketing-list-data">
+          <td class="cx-ticketing-list-data-extra">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.changedOn' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value" tabindex="0">
+            <a
+              [routerLink]="
+                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+              "
+              class="cx-ticketing-list-value"
+            >
               {{ ticket.modifiedAt | cxDate }}
-            </span>
+            </a>
           </td>
-          <td
-            [ngClass]="
-              getStatusClass(ticket.status.id) + ' cx-ticketing-list-data'
-            "
-          >
+          <td class="cx-ticketing-list-data-extra">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.status' | cxTranslate }}
             </div>
-            <span class="cx-ticketing-list-value" tabindex="0">
-              {{ ticket.status.name }}
-            </span>
+            <a
+              [routerLink]="
+                { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
+              "
+              class="cx-ticketing-list-value"
+            >
+              <span [ngClass]="getStatusClass(ticket.status.id)">
+                {{ ticket.status.name }}
+              </span>
+            </a>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="cx-ticketing-list-sort bottom">
       <div
-        *ngIf="ticketList.ticketsObs.pagination.totalPages > 1"
+        *ngIf="ticketList.pagination.totalPages > 1"
         class="cx-ticketing-list-pagination"
       >
         <cx-pagination
-          [pagination]="ticketList.ticketsObs.pagination"
+          [pagination]="ticketList.pagination"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination>
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="!customerTicketsFlag">
-    <div class="text-center">
-      <h3>{{ 'customerTicketingList.noTickets' | cxTranslate }}</h3>
-    </div>
-  </ng-container>
+  <ng-template #noCustomerTickets>
+    <ng-container>
+      <div class="text-center">
+        <h3>{{ 'customerTicketingList.noTickets' | cxTranslate }}</h3>
+      </div>
+    </ng-container>
+  </ng-template>
 </ng-container>

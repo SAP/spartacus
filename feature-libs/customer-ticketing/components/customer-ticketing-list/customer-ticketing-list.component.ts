@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { of, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -9,7 +9,7 @@ import { STATUS, TEXT_COLOR_CLASS } from '@spartacus/customer-ticketing/root';
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
 })
-export class CustomerTicketingListComponent implements OnInit {
+export class CustomerTicketingListComponent {
   constructor(protected translation: TranslationService) {}
   sortType: string = 'byId';
   iconTypes = ICON_TYPE;
@@ -108,12 +108,6 @@ export class CustomerTicketingListComponent implements OnInit {
       });
     })
   );
-
-  ngOnInit(): void {
-    this.tickets$.subscribe((tickets) => {
-      this.customerTicketsFlag = tickets && tickets.tickets?.length > 0;
-    });
-  }
 
   getSortLabels(): Observable<{ byId: string; byChangedDate: string }> {
     return combineLatest([
