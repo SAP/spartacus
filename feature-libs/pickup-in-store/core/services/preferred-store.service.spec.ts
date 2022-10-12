@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { ConsentService, WindowRef } from '@spartacus/core';
+import { ConsentService, UserIdService, WindowRef } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+import { User } from '@spartacus/user/account/root';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
@@ -44,6 +46,16 @@ const MockWindowRef = () => {
     },
   };
 };
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
+  update(_details: User): Observable<unknown> {
+    return of({});
+  }
+}
+class MockUserIdService implements Partial<UserIdService> {
+  public getUserId(): Observable<string> {
+    return of('');
+  }
+}
 
 describe('PreferredStoreService', () => {
   const preferredStore: PointOfServiceNames = {
@@ -54,6 +66,8 @@ describe('PreferredStoreService', () => {
   let consentService: ConsentService;
   let windowRef: WindowRef;
   let pickupLocationSearchService: PickupLocationsSearchFacade;
+  let userProfileService: UserProfileFacade;
+  let userIdService: UserIdService;
 
   const configureTestingModule = (withConfig = true, localStorage = true) => {
     TestBed.configureTestingModule({
@@ -69,6 +83,14 @@ describe('PreferredStoreService', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
         },
+        {
+          provide: UserProfileFacade,
+          useClass: MockUserProfileFacade,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
       ],
     });
 
@@ -76,6 +98,8 @@ describe('PreferredStoreService', () => {
     consentService = TestBed.inject(ConsentService);
     windowRef = TestBed.inject(WindowRef);
     pickupLocationSearchService = TestBed.inject(PickupLocationsSearchFacade);
+    userProfileService = TestBed.inject(UserProfileFacade);
+    userIdService = TestBed.inject(UserIdService);
   };
 
   describe('with pickup in store config', () => {
@@ -100,7 +124,29 @@ describe('PreferredStoreService', () => {
     });
 
     describe('setPreferredStore', () => {
-      it('should set the preferred store if consent is given', () => {
+      it('should set the preferred store in local storage if consent is given, additionally set in user profile if user logged in', () => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('testuser'));
+        spyOn(userProfileService, 'update').and.callThrough();
+        spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+          of(true)
+        );
+
+        preferredStoreService.setPreferredStore(preferredStore);
+        const result = JSON.parse(
+          windowRef.localStorage?.getItem('preferred_store') as string
+        );
+        expect(result.name).toEqual(preferredStore.name);
+        expect(result.displayName).toEqual(preferredStore.displayName);
+        expect(result).toEqual(preferredStore);
+        expect(userIdService.getUserId).toHaveBeenCalled();
+        expect(userProfileService.update).toHaveBeenCalledWith({
+          defaultPointOfServiceName: preferredStore.name,
+        });
+      });
+
+      it('should set the preferred store in local storage if consent is given and user not logged in', () => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOn(userProfileService, 'update').and.callThrough();
         spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
           of(true)
         );
@@ -111,14 +157,28 @@ describe('PreferredStoreService', () => {
         expect(result.name).toEqual(preferredStore.name);
         expect(result.displayName).toEqual(preferredStore.displayName);
         expect(result).toEqual(preferredStore);
+        expect(userProfileService.update).not.toHaveBeenCalled();
       });
 
-      it('should not set the preferred store if consent is not', () => {
+      it('should not set the preferred store if consent is not given and user is logged in', () => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('testuser'));
+        spyOn(userProfileService, 'update').and.callThrough();
         spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
           of(false)
         );
         preferredStoreService.setPreferredStore(preferredStore);
         expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
+        expect(userProfileService.update).not.toHaveBeenCalled();
+      });
+      it('should not set the preferred store if consent is not given and user is not logged in', () => {
+        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        spyOn(userProfileService, 'update').and.callThrough();
+        spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+          of(false)
+        );
+        preferredStoreService.setPreferredStore(preferredStore);
+        expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
+        expect(userProfileService.update).not.toHaveBeenCalled();
       });
     });
 

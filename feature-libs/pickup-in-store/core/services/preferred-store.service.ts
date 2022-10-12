@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import {
   ConsentService,
   PointOfServiceStock,
+  UserIdService,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -15,8 +16,9 @@ import {
   PickupLocationsSearchFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
 import { isInStock } from '../utils';
 
@@ -34,7 +36,9 @@ export class PreferredStoreService {
     protected config: PickupInStoreConfig,
     protected consentService: ConsentService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected userProfileService: UserProfileFacade,
+    protected userIdService: UserIdService
   ) {
     // Intentional empty constructor
   }
@@ -61,14 +65,22 @@ export class PreferredStoreService {
       )
       .pipe(
         take(1),
-        filter((consentGiven) => consentGiven)
+        filter((consentGiven) => consentGiven),
+        tap(() =>
+          this.winRef.localStorage?.setItem(
+            PREFERRED_STORE_LOCAL_STORAGE_KEY,
+            JSON.stringify(preferredStore)
+          )
+        ),
+        mergeMap(() => this.userIdService.getUserId()),
+        filter((userId) => userId !== 'anonymous'),
+        mergeMap(() =>
+          this.userProfileService.update({
+            defaultPointOfServiceName: preferredStore.name,
+          })
+        )
       )
-      .subscribe(() => {
-        this.winRef.localStorage?.setItem(
-          PREFERRED_STORE_LOCAL_STORAGE_KEY,
-          JSON.stringify(preferredStore)
-        );
-      });
+      .subscribe();
   }
 
   /**
