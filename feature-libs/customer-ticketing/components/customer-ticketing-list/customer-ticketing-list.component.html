@@ -1,40 +1,39 @@
 <ng-container *ngIf="tickets$ | async as ticketList">
-  <ng-container *ngIf="ticketList.tickets?.length > 0; else noCustomerTickets">
-    <h3 class="cx-ticketing-list-title">
-      <span class="cx-ticketing-list-title-text">
-        {{ 'customerTicketingList.requestTitle' | cxTranslate }}
-      </span>
-      <span class="cx-ticketing-list-title-count">
-        ({{ ticketList.tickets.length }})
-      </span>
-    </h3>
+  <h3 class="cx-ticketing-list-title">
+    <span class="cx-ticketing-list-title-text">
+      {{ 'customerTicketingList.requestTitle' | cxTranslate }}
+    </span>
+    <span class="cx-ticketing-list-title-count">
+      ({{ ticketList.tickets.length }})
+    </span>
+  </h3>
 
-    <div class="cx-ticketing-list-sort top">
-      <label class="cx-ticketing-list-form-group form-group">
-        <span>
-          {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
-        </span>
-        <cx-sorting
-          [sortOptions]="ticketList.sorts"
-          [sortLabels]="getSortLabels() | async"
-          (sortListEvent)="changeSortCode($event)"
-          [selectedOption]="ticketList.pagination.sort"
-          placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
-          [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
-          ariaControls="ticketing-list-table"
-        ></cx-sorting>
-      </label>
-      <div
-        *ngIf="ticketList.pagination.totalPages > 1"
-        class="cx-ticketing-list-pagination"
-      >
-        <cx-pagination
-          [pagination]="ticketList.pagination"
-          (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
-      </div>
+  <div class="cx-ticketing-list-sort top">
+    <label class="cx-ticketing-list-form-group form-group">
+      <span>
+        {{ 'customerTicketingList.sortSubtitle' | cxTranslate }}
+      </span>
+      <cx-sorting
+        [sortOptions]="ticketList.sorts"
+        [sortLabels]="getSortLabels() | async"
+        (sortListEvent)="changeSortCode($event)"
+        [selectedOption]="ticketList.pagination.sort"
+        placeholder="{{ 'customerTicketingList.sortSubtitle' | cxTranslate }}"
+        [ariaLabel]="'customerTicketingList.sortOrders' | cxTranslate"
+        ariaControls="ticketing-list-table"
+      ></cx-sorting>
+    </label>
+    <div
+      *ngIf="ticketList.pagination.totalPages > 1"
+      class="cx-ticketing-list-pagination"
+    >
+      <cx-pagination
+        [pagination]="ticketList.pagination"
+        (viewPageEvent)="pageChange($event)"
+      ></cx-pagination>
     </div>
-
+  </div>
+  <ng-container *ngIf="ticketList.tickets?.length > 0; else noCustomerTickets">
     <table id="ticketing-list-table" class="table cx-ticketing-list-table">
       <thead class="cx-ticketing-list-thead-mobile">
         <tr>
