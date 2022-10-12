@@ -37,8 +37,12 @@ export function listenForCustomerSearchRequest(): string {
   );
 }
 
-export function listenForUserDetailsRequest(): string {
-  return interceptGet('userDetails', '/users/*');
+export function listenForUserDetailsRequest(b2b = false): string {
+  if (b2b) {
+    return interceptGet('userDetails', '/orgUsers/*');
+  } else {
+    return interceptGet('userDetails', '/users/*');
+  }
 }
 
 export function listenForCartBindingRequest(): string {
@@ -74,9 +78,9 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
-export function startCustomerEmulation(customer): void {
+export function startCustomerEmulation(customer, b2b = false): void {
   const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest();
+  const userDetailsRequestAlias = listenForUserDetailsRequest(b2b);
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');

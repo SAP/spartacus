@@ -27,8 +27,9 @@ jobs:
           git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
-          SONAR_PATH="./sonar-project.properties"
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
+          AZURE_CONFIG_PATH="./azure-pipelines.yml"
+          SONAR_PATH="./sonar-project.properties"
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
@@ -57,6 +58,22 @@ jobs:
               echo "Branch name has successfully been added to the productiveBranch"
           else
               echo "Error. Branch name has NOT been added to the productiveBranch"
+              exit 1
+          fi
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Configure azure pipeline trigger"
+
+          sed -i "s%trigger:%trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $AZURE_CONFIG_PATH
+          
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Verify trigger has been updated with the synched branch name"
+
+          if grep -Pzo "trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}" $AZURE_CONFIG_PATH
+          then
+              echo "Branch name has successfully been added to the trigger"
+          else
+              echo "Error. Branch name has NOT been added to the trigger"
               exit 1
           fi
 
