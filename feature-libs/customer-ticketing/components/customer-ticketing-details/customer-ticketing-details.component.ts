@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   STATUS,
-  CUSTOM_CLASS,
+  TEXT_COLOR_CLASS,
   CustomerTicketingFacade,
   TicketDetails,
   DATE_FORMAT,
@@ -43,9 +43,9 @@ export class CustomerTicketingDetailsComponent {
 
   getStatusClass(id?: string): string {
     return id === STATUS.OPEN
-      ? CUSTOM_CLASS.OPEN
-      : id === STATUS.CLOSE
-      ? CUSTOM_CLASS.CLOSE
+      ? TEXT_COLOR_CLASS.GREEN
+      : id === STATUS.CLOSED
+      ? TEXT_COLOR_CLASS.GREY
       : '';
   }
 }
