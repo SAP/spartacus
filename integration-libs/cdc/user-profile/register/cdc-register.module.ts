@@ -23,7 +23,6 @@ import {
 import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
-import { CdcRegisterComponent } from './cdc-register.component';
 
 @NgModule({
   imports: [
@@ -41,7 +40,6 @@ import { CdcRegisterComponent } from './cdc-register.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
-          component: CdcRegisterComponent,
           providers: [
             {
               provide: RegisterComponentService,
@@ -61,6 +59,5 @@ import { CdcRegisterComponent } from './cdc-register.component';
       },
     }),
   ],
-  declarations: [CdcRegisterComponent],
 })
 export class CDCRegisterModule {}
