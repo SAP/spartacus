@@ -8,11 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-  IconModule,
-  OutletPosition,
-  provideOutlet,
-} from '@spartacus/storefront';
+import { IconModule, provideOutlet } from '@spartacus/storefront';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
 import { ConfiguratorIssuesNotificationRowComponent } from './configurator-issues-notification-row.component';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
@@ -31,15 +27,7 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   ],
   providers: [
     provideOutlet({
-      id: CartOutlets.LIST_ITEM,
-      position: OutletPosition.BEFORE,
-      component: ConfiguratorIssuesNotificationRowComponent,
-    }),
-
-    // SPIKE TODO: reuse the same component and outlet in added-to-cart.modal
-    provideOutlet({
-      id: CartOutlets.ITEM,
-      position: OutletPosition.BEFORE,
+      id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
       component: ConfiguratorIssuesNotificationComponent,
     }),
   ],
