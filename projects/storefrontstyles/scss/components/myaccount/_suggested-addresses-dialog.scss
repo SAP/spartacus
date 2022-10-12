@@ -1,0 +1,45 @@
+%cx-suggested-addresses-dialog {
+  .cx-suggested-addresses-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+
+    .cx-suggested-addresses-container {
+      @extend .modal-content;
+
+      .cx-suggested-addresses-header {
+        display: flex;
+        justify-content: space-between;
+
+        .cx-suggested-addresses-title {
+          @include type('3');
+        }
+      }
+
+      .cx-suggested-addresses-body {
+        @extend .modal-body;
+      }
+
+      .cx-suggested-addresses-footer {
+        .cx-dialog-buttons {
+          &:focus {
+            @include visible-focus();
+          }
+
+          @include media-breakpoint-up(md) {
+            flex: 0 0 calc(50% - 0.5rem);
+
+            &:last-child {
+              margin-inline-start: 1rem;
+            }
+          }
+
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+            margin-bottom: 0.625rem;
+          }
+        }
+      }
+    }
+  }
+}

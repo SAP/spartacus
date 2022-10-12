@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AuthConfigService,
   GlobalMessageService,
@@ -33,8 +37,8 @@ export class ForgotPasswordComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: FormGroup = new FormGroup({
-    userEmail: new FormControl('', [
+  form: UntypedFormGroup = new UntypedFormGroup({
+    userEmail: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
     ]),

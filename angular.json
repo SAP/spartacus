@@ -389,7 +389,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/organization/tsconfig.lib.json",
             "project": "feature-libs/organization/ng-package.json"
@@ -978,5 +978,7 @@
       }
     }
   },
-  "defaultProject": "storefrontapp"
+  "cli": {
+    "analytics": false
+  }
 }

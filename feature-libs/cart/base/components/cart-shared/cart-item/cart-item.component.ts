@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core'; 
+import { UntypedFormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   CartOutlets,
@@ -22,7 +22,7 @@ export class CartItemComponent {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
-  @Input() quantityControl: FormControl;
+  @Input() quantityControl: UntypedFormControl;
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
