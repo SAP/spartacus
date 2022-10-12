@@ -116,8 +116,9 @@ const mockOrder: Order = {
     },
   } as CostCenter,
   orgCustomer: {
-    uid: 'gi.sun@rustic-hw.com',
+    uid: 'gi.sun@rustic-hw.com|powertools-standalone',
     name: 'Gi Sun',
+    email: 'gi.sun@rustic-hw.com',
   } as B2BUser,
   orgUnit: {
     name: 'Rustic',
@@ -125,8 +126,9 @@ const mockOrder: Order = {
 };
 
 const mockUnitOrderViewer: B2BUser = {
-  uid: 'gi.sun@rustic-hw.com',
+  uid: 'gi.sun@rustic-hw.com|powertools-standalone',
   name: 'Gi Sun',
+  email: 'gi.sun@rustic-hw.com',
   roles: [B2BUserRole.CUSTOMER, B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER],
 };
 
@@ -538,7 +540,7 @@ describe('OrderOverviewComponent', () => {
           expect(data.title).toEqual('test');
           expect(data.text).toEqual([
             mockOrder.orgCustomer?.name,
-            '(' + mockOrder.orgCustomer?.uid + ')',
+            '(' + mockOrder.orgCustomer?.email + ')',
           ]);
         })
         .unsubscribe();
