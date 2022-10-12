@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CustomerListColumnActionType } from '@spartacus/asm/root';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 
 export const defaultAsmConfig: AsmConfig = {

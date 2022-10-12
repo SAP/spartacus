@@ -1,5 +1,4 @@
 import { Address, User } from '@spartacus/core';
-
 import { defaultAsmConfig } from './default-asm-config';
 
 type Renderer = (user: User) => string;

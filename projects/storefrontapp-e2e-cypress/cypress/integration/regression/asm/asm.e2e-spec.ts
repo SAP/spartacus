@@ -6,6 +6,9 @@ import { getErrorAlert } from '../../../helpers/global-message';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { navigateToCategory } from '../../../helpers/navigation';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 
 context('Assisted Service Module', () => {
   before(() => {
@@ -110,9 +113,18 @@ context('Assisted Service Module', () => {
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
-    it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const customer = getSampleUser();
+    let customer;
 
+    before(() => {
+      clearAllStorage();
+
+      cy.visit('/', { qs: { asm: true } });
+
+      customer = getSampleUser();
+      checkout.registerUser(false, customer);
+    });
+
+    it('Customer should not be able to login when there is an active CS agent session.', () => {
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
@@ -141,6 +153,43 @@ context('Assisted Service Module', () => {
       asm.agentLogin();
       asm.asmCustomerLists();
       asm.agentSignOut();
+    });
+  });
+
+  describe('Apparel Site', () => {
+    before(() => {
+      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+    });
+
+    after(() => {
+      Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    });
+
+    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
+    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
+      cy.cxConfig({
+        context: {
+          baseSite: ['apparel-uk-spa'],
+          currency: ['GBP'],
+        },
+      });
+
+      cy.visit('/', { qs: { asm: true } });
+
+      const customer = getSampleUser();
+      checkout.registerUser(false, customer);
+
+      asm.agentLogin();
+
+      asm.startCustomerEmulation(customer);
+
+      navigateToCategory('Brands', 'brands', true);
+
+      cy.get('cx-product-list').should('exist');
+
+      navigateToCategory('Snow', 'snow', true);
+
+      cy.get('cx-product-list').should('exist');
     });
   });
 });

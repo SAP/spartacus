@@ -6,8 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MODULE_INITIALIZER, provideDefaultConfig } from '@spartacus/core';
-import { defaultAsmConfig } from './config/default-asm-config';
+import { MODULE_INITIALIZER } from '@spartacus/core';
 import { AsmConnector } from './connectors/asm.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
@@ -23,8 +22,6 @@ export function asmStatePersistenceFactory(
 @NgModule({
   imports: [CommonModule, AsmStoreModule],
   providers: [
-    ...facadeProviders,
-    provideDefaultConfig(defaultAsmConfig),
     AsmConnector,
     {
       provide: MODULE_INITIALIZER,
@@ -32,6 +29,7 @@ export function asmStatePersistenceFactory(
       deps: [AsmStatePersistenceService],
       multi: true,
     },
+    ...facadeProviders,
   ],
 })
 export class AsmCoreModule {}

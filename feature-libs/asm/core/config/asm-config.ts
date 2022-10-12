@@ -5,37 +5,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CustomerListColumnActionType } from '@spartacus/asm/root';
-import { Config, OccConfig, User } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { Config } from '@spartacus/core';
+import { AsmConfig as AsmConfigRoot } from '@spartacus/asm/root';
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class AsmConfig extends OccConfig {
-  asm?: {
-    agentSessionTimer?: {
-      startingDelayInSeconds?: number;
-    };
-    customerSearch?: {
-      maxResults?: number;
-    };
-    customerList?: {
-      pageSize?: number;
-      showAvatar?: boolean;
-      columns?: {
-        headerLocalizationKey: string;
-        icon?: {
-          symbol?: ICON_TYPE;
-          captionLocalizationKey?: string;
-        };
-        renderer?: (customer: User) => string;
-        actionType?: CustomerListColumnActionType;
-      }[];
-    };
-  };
-}
+/**
+ * In an upcoming major version, this will be moved officially to @spartacus/asm/root. (CXSPA-1449)
+ */
+export abstract class AsmConfig extends AsmConfigRoot {}
 
 declare module '@spartacus/core' {
   interface Config extends AsmConfig {}
