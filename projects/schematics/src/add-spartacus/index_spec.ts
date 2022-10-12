@@ -232,7 +232,7 @@ describe('add-spartacus', () => {
     });
 
     describe('currency', () => {
-      it('should set the default currency when not provided', async () => {
+      it('should set no currency when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -246,7 +246,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`currency: ['USD']`)).toBe(true);
+        expect(appModule.includes(`currency: `)).toBe(false);
       });
       it('should set the single currency', async () => {
         const tree = await schematicRunner
@@ -284,7 +284,7 @@ describe('add-spartacus', () => {
       });
     });
     describe('language', () => {
-      it('should set the default language when not provided', async () => {
+      it('should set no language when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -298,7 +298,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['en']`)).toBe(true);
+        expect(appModule.includes(`language: `)).toBe(false);
       });
       it('should set the single language', async () => {
         const tree = await schematicRunner
