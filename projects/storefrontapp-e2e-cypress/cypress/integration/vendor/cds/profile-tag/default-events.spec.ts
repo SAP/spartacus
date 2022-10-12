@@ -249,11 +249,16 @@ describe('Profile-tag events', () => {
 
   it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
     loginUsingUserWithOrder();
+    cy.visit('/my-account/consents');
+    cy.location('pathname').should('contain', '/my-account/consents');
+    cy.findByText(/Select all/i).click();
     profileTagHelper.waitForCMSComponents();
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
+    cy.visit('/');
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
+    checkoutFlowPersistentUser.addPaymentMethod();
     cy.findByText(/proceed to checkout/i).click();
     cy.findByText(/Continue/i)
       .click()
@@ -636,7 +641,7 @@ function verifyCartSnapshotEventNumberOfEntries(
       win,
       profileTagHelper.EventNames.CART_SNAPSHOT
     )[0];
-    expect(cartSnapshotEvent.data.cart.entries.length).to.eq(
+    expect(cartSnapshotEvent.data.cart.entries.length).to.be.gte(
       expectedNumberOfEntries
     );
   });
