@@ -74,8 +74,8 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketAssociatedObjectsQuery: Query<AssociatedObject[]> =
     this.queryService.create(
       () =>
-        this.customerTicketingAssociatedObjectsPreConditions().pipe(
-          switchMap((customerId) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId]) =>
             this.customerTicketingConnector.getTicketAssociatedObjects(
               customerId
             )
@@ -123,7 +123,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     ]).pipe(
       take(1),
       map(([userId, ticketId]) => {
-        if (!userId || !ticketId) {
+        if (!userId) {
           throw new Error('Customer ticketing pre conditions not met');
         }
         return [userId, ticketId];

@@ -25,6 +25,8 @@ export class CustomerTicketingEventListener implements OnDestroy {
   constructor(protected eventService: EventService) {
     this.onGetTicketQueryReload();
     this.onGetTicketQueryReset();
+    this.onGetTicketAssociatedObjAndCatQueryReload();
+    this.onGetTicketAssociatedObjAndCatQueryReset();
   }
 
   protected onGetTicketQueryReload(): void {
@@ -49,51 +51,31 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketCatQueryReset(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketCatQueryResetEvent);
-      })
-    );
-  }
-
-  protected onGetTicketCatQueryReload(): void {
+  protected onGetTicketAssociatedObjAndCatQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketCatQueryReloadEvent);
-      })
-    );
-  }
-
-  protected onGetTicketAssociatedObjectsQueryReset(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
-      ).subscribe(() => {
         this.eventService.dispatch(
           {},
-          GetTicketAssociatedObjectsQueryResetEvent
+          GetTicketAssociatedObjectsQueryReloadEvent
         );
       })
     );
   }
 
-  protected onGetTicketAssociatedObjectsQueryReload(): void {
+  protected onGetTicketAssociatedObjAndCatQueryReset(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketCatQueryResetEvent);
         this.eventService.dispatch(
           {},
-          GetTicketAssociatedObjectsQueryReloadEvent
+          GetTicketAssociatedObjectsQueryResetEvent
         );
       })
     );
