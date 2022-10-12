@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  Cart,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/base/root';
+import { Cart, OrderEntry, PromotionLocation } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import {
   BREAKPOINT,

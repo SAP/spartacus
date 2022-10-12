@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core'; 
+import { Component, Optional } from '@angular/core';
 import {
   CartItemContext,
   OrderEntry,

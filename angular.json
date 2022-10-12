@@ -977,8 +977,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
-  }
+  } 
 }

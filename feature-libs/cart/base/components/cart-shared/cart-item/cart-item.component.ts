@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core'; 
+import { Component, Input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,

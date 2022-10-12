@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, provideConfig, UrlModule } from '@spartacus/core';
 import {
   IconModule,
-  ItemCounterModule, 
+  ItemCounterModule,
   OutletModule,
   KeyboardFocusModule,
   PromotionsModule,
@@ -34,7 +34,7 @@ import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.c
     UrlModule,
     IconModule,
     I18nModule,
-    ItemCounterModule,   
+    ItemCounterModule,
     CartItemContextDirectiveModule,
     OutletModule,
     KeyboardFocusModule,

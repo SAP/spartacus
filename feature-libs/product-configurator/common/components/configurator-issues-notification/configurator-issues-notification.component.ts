@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core'; 
+import { Component, Optional } from '@angular/core';
 import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { UntypedFormControl } from '@angular/forms'; 
+import { UntypedFormControl } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
