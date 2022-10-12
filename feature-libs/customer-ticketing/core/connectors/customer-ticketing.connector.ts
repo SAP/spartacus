@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  AssociatedObjects,
+  AssociatedObject,
   Category,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
@@ -23,7 +23,7 @@ export class CustomerTicketingConnector {
 
   public getTicketAssociatedObjects(
     customerId: string
-  ): Observable<AssociatedObjects[]> {
+  ): Observable<AssociatedObject[]> {
     return this.adapter.getTicketAssociatedObjects(customerId);
   }
 }

@@ -12,10 +12,10 @@ import {
   CUSTOMER_TICKETING_NORMALIZER,
 } from '@spartacus/customer-ticketing/core';
 import {
-  AssociatedObjects,
+  AssociatedObject,
   AssociatedObjectsList,
+  CategoriesList,
   Category,
-  CategoryList,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
@@ -30,7 +30,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   ) {}
   getTicketAssociatedObjects(
     customerId: string
-  ): Observable<AssociatedObjects[]> {
+  ): Observable<AssociatedObject[]> {
     return this.http
       .get<AssociatedObjectsList>(
         this.getTicketAssociatedObjectsEndpoint(customerId)
@@ -56,11 +56,13 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   }
 
   getTicketCategories(): Observable<Category[]> {
-    return this.http.get<CategoryList>(this.getTicketCategoriesEndpoint()).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
-      map((categoryList) => categoryList.ticketCategories ?? []),
-      this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER)
-    );
+    return this.http
+      .get<CategoriesList>(this.getTicketCategoriesEndpoint())
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        map((categoryList) => categoryList.ticketCategories ?? []),
+        this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER)
+      );
   }
 
   protected getTicketCategoriesEndpoint(): string {

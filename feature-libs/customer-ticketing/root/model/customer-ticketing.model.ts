@@ -29,18 +29,18 @@ export interface Category {
   name: string;
 }
 
-export interface CategoryList {
+export interface CategoriesList {
   ticketCategories?: Category[];
 }
 
-export interface AssociatedObjects {
+export interface AssociatedObject {
   code: string;
   modifiedAt: string;
   type: string;
 }
 
 export interface AssociatedObjectsList {
-  ticketAssociatedObjects: AssociatedObjects[];
+  ticketAssociatedObjects: AssociatedObject[];
 }
 
 export interface Event {

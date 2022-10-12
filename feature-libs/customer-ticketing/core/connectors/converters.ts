@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import {
-  AssociatedObjects,
+  AssociatedObject,
   Category,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
@@ -15,6 +15,6 @@ export const CUSTOMER_TICKETING_CATEGORY_NORMALIZER = new InjectionToken<
 >('CustomerTicketingCategoryNormalizer');
 
 export const CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER =
-  new InjectionToken<Converter<any, AssociatedObjects>>(
+  new InjectionToken<Converter<any, AssociatedObject>>(
     'CustomerTicketingAssociatedObjectsNormalizer'
   );

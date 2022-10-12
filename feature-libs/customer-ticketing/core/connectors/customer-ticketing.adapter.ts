@@ -1,5 +1,5 @@
 import {
-  AssociatedObjects,
+  AssociatedObject,
   Category,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
@@ -15,5 +15,5 @@ export abstract class CustomerTicketingAdapter {
 
   abstract getTicketAssociatedObjects(
     customerId: string
-  ): Observable<AssociatedObjects[]>;
+  ): Observable<AssociatedObject[]>;
 }

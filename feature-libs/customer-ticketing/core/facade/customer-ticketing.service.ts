@@ -8,7 +8,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  AssociatedObjects,
+  AssociatedObject,
   Category,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
@@ -25,16 +25,16 @@ import { CustomerTicketingConnector } from '../connectors';
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
-  getTicketCategoriesQueryReloadEvents(): QueryNotifier[] | undefined {
+  getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketCatQueryReloadEvent];
   }
-  getTicketCategoriesQueryResetEvents(): QueryNotifier[] | undefined {
+  getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
     return [GetTicketCatQueryResetEvent];
   }
-  getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] | undefined {
+  getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryReloadEvent];
   }
-  getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] | undefined {
+  getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryResetEvent];
   }
   /**
@@ -71,7 +71,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketCategoriesQueryResetEvents(),
       }
     );
-  protected getTicketAssociatedObjectsQuery: Query<AssociatedObjects[]> =
+  protected getTicketAssociatedObjectsQuery: Query<AssociatedObject[]> =
     this.queryService.create(
       () =>
         this.customerTicketingAssociatedObjectsPreConditions().pipe(
@@ -94,11 +94,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected routingService: RoutingService
   ) {}
   getTicketAssociatedObjectsState(): Observable<
-    QueryState<AssociatedObjects[] | undefined>
+    QueryState<AssociatedObject[]>
   > {
     return this.getTicketAssociatedObjectsQuery.getState();
   }
-  getTicketAssociatedObjects(): Observable<AssociatedObjects[]> {
+  getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
     return this.getTicketAssociatedObjectsState().pipe(
       map((state) => state.data ?? [])
     );
@@ -109,7 +109,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
   }
 
-  getTicketCategoriesState(): Observable<QueryState<Category[] | undefined>> {
+  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
     return this.getTicketCategoriesQuery.getState();
   }
 

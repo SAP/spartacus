@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AssociatedObjects,
-  Category,
-} from '@spartacus/customer-ticketing/root';
+import { AssociatedObject, Category } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 @Component({
@@ -14,16 +11,18 @@ export class CustomerTicketingCreateDialogComponent
   implements OnInit
 {
   ticketCategories: Array<Category>;
-  ticketAssociatedObjects: Array<AssociatedObjects>;
+  ticketAssociatedObjects: Array<AssociatedObject>;
 
   ngOnInit(): void {
-    this.customerTicketingFacade.getTicketCategories().subscribe((category) => {
-      this.ticketCategories = category;
-    });
+    this.customerTicketingFacade
+      .getTicketCategories()
+      .subscribe((categories) => {
+        this.ticketCategories = categories;
+      });
     this.customerTicketingFacade
       .getTicketAssociatedObjects()
-      .subscribe((associatedObject) => {
-        this.ticketAssociatedObjects = associatedObject;
+      .subscribe((associatedObjects) => {
+        this.ticketAssociatedObjects = associatedObjects;
       });
     this.buildForm();
   }
