@@ -240,7 +240,7 @@
 </ng-template>
 <ng-template #cellContent let-customerEntry="customerEntry" let-column="column">
   <span *ngIf="!column.icon">{{
-    column.renderer ? column.renderer(customerEntry) : ''
+    column.renderer?.(customerEntry) || ''
   }}</span>
   <cx-icon
     *ngIf="column.icon"

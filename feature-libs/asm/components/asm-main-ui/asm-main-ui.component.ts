@@ -127,6 +127,20 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
+    this.subscription.add(
+      this.launchDialogService?.dialogClose
+        .pipe(filter((result) => Boolean(result)))
+        .subscribe((result: CustomerListAction) => {
+          if (result.selectedUser) {
+            this.startCustomerEmulationSession(result.selectedUser);
+            if (
+              result.actionType === CustomerListColumnActionType.ORDER_HISTORY
+            ) {
+              this.routingService.go({ cxRoute: 'orders' });
+            }
+          }
+        })
+    );
   }
 
   protected handleCustomerSessionStartRedirection(): void {
@@ -177,21 +191,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
       this.element
-    );
-
-    this.subscription.add(
-      this.launchDialogService?.dialogClose
-        .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction) => {
-          if (result.selectedUser) {
-            this.startCustomerEmulationSession(result.selectedUser);
-            if (
-              result.actionType === CustomerListColumnActionType.ORDER_HISTORY
-            ) {
-              this.routingService.go({ cxRoute: 'orders' });
-            }
-          }
-        })
     );
   }
 
