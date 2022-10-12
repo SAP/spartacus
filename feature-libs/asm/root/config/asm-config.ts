@@ -3,15 +3,30 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { OccConfig } from '@spartacus/core';
+import { User } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { CustomerListColumnActionType } from '../model/customer-list.model';
 
-export abstract class AsmConfig extends OccConfig {
+export abstract class AsmConfig {
   asm?: {
     agentSessionTimer?: {
       startingDelayInSeconds?: number;
     };
     customerSearch?: {
       maxResults?: number;
+    };
+    customerList?: {
+      pageSize?: number;
+      showAvatar?: boolean;
+      columns?: {
+        headerLocalizationKey: string;
+        icon?: {
+          symbol?: ICON_TYPE;
+          captionLocalizationKey?: string;
+        };
+        renderer?: (customer: User) => string;
+        actionType?: CustomerListColumnActionType;
+      }[];
     };
     userIdHttpHeader?: {
       /**
