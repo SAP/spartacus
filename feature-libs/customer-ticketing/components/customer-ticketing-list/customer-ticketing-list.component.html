@@ -51,7 +51,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ticket of ticketList.tickets">
+        <tr
+          *ngFor="let ticket of ticketList.tickets"
+          (click)="goToTicketDetail(ticket.id)"
+        >
           <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { of, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { TranslationService } from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import { STATUS, TEXT_COLOR_CLASS } from '@spartacus/customer-ticketing/root';
 
 @Component({
@@ -10,7 +10,10 @@ import { STATUS, TEXT_COLOR_CLASS } from '@spartacus/customer-ticketing/root';
   templateUrl: './customer-ticketing-list.component.html',
 })
 export class CustomerTicketingListComponent {
-  constructor(protected translation: TranslationService) {}
+  constructor(
+    protected routing: RoutingService,
+    protected translation: TranslationService
+  ) {}
   sortType: string = 'byId';
   iconTypes = ICON_TYPE;
   customerTicketsFlag: boolean = true;
@@ -108,6 +111,13 @@ export class CustomerTicketingListComponent {
       });
     })
   );
+
+  goToTicketDetail(ticketId: string): void {
+    this.routing.go({
+      cxRoute: 'supportTicketDetails',
+      params: ticketId,
+    });
+  }
 
   getSortLabels(): Observable<{ byId: string; byChangedDate: string }> {
     return combineLatest([
