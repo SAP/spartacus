@@ -20,16 +20,17 @@ import { SeoConfig } from '../config';
   providedIn: 'root',
 })
 export class JsonLdScriptFactory {
-  protected renderer: Renderer2;
+  protected renderer: Renderer2 = this.rendererFactory.createRenderer(
+    null,
+    null
+  );
 
   constructor(
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SeoConfig
-  ) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-  }
+  ) {}
 
   build(schema: {}[]): void {
     if (schema && this.isJsonLdRequired()) {
