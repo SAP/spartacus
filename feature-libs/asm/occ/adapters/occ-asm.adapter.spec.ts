@@ -24,13 +24,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
 
-const MockAsmConfig: AsmConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-    },
-  },
-};
+const MockAsmConfig: AsmConfig = {};
 
 const mockUser: User = {
   displayUid: 'Display Uid',
