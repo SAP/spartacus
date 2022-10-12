@@ -108,7 +108,13 @@
             }}"
             aria-hidden="true"
             class="form-check-label"
-            >{{ attribute?.values[0].valueDisplay }}</label
+            >{{
+              getLabel(
+                expMode,
+                attribute?.values[0].valueDisplay,
+                attribute?.values[0].valueCode
+              )
+            }}</label
           >
         </div>
         <div class="cx-value-price">
