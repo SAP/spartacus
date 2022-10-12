@@ -57,7 +57,6 @@
     color: var(--cx-color-secondary);
 
     @include media-breakpoint-up(md) {
-      padding: 0 15px 0 0;
       display: none;
     }
 
@@ -69,6 +68,8 @@
   }
 
   .cx-ticketing-list-value {
+    color: var(--cx-color-text);
+
     @include media-breakpoint-down(sm) {
       padding: 0 0 0 15px;
       font-size: var(--cx-font-size, 1rem);
@@ -78,19 +79,6 @@
 
   .cx-ticketing-list-data {
     text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: start;
-    }
-  }
-
-  .cx-ticketing-list-data-extra {
-    text-align: center;
-
-    .cx-ticketing-list-value {
-      text-decoration: none;
-      color: var(--cx-color-text);
-    }
 
     @include media-breakpoint-down(sm) {
       text-align: start;
@@ -149,12 +137,14 @@
   }
 
   .cx-text-green {
-    text-decoration: none;
     color: var(--cx-color-success);
   }
 
   .cx-text-grey {
-    text-decoration: none;
     color: var(--cx-color-secondary);
+  }
+
+  .cx-text-red {
+    color: var(--cx-color-primary);
   }
 }

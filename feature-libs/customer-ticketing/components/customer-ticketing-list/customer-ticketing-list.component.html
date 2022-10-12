@@ -63,7 +63,7 @@
               [routerLink]="
                 { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
               "
-              class="cx-ticketing-list-value"
+              class="cx-ticketing-list-value cx-text-red"
             >
               {{ ticket.id }}
             </a>
@@ -76,12 +76,12 @@
               [routerLink]="
                 { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
               "
-              class="cx-ticketing-list-value"
+              class="cx-ticketing-list-value cx-text-red"
             >
               {{ ticket.subject }}
             </a>
           </td>
-          <td class="cx-ticketing-list-data-extra">
+          <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketingList.ticketCategory' | cxTranslate }}
             </div>
@@ -94,7 +94,7 @@
               {{ ticket.ticketCategory.name }}
             </a>
           </td>
-          <td class="cx-ticketing-list-data-extra">
+          <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.createdOn' | cxTranslate }}
             </div>
@@ -107,7 +107,7 @@
               {{ ticket.createdAt | cxDate }}
             </a>
           </td>
-          <td class="cx-ticketing-list-data-extra">
+          <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.changedOn' | cxTranslate }}
             </div>
@@ -120,7 +120,7 @@
               {{ ticket.modifiedAt | cxDate }}
             </a>
           </td>
-          <td class="cx-ticketing-list-data-extra">
+          <td class="cx-ticketing-list-data">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketing.status' | cxTranslate }}
             </div>
@@ -129,10 +129,9 @@
                 { cxRoute: 'supportTicketDetails', params: ticket.id } | cxUrl
               "
               class="cx-ticketing-list-value"
+              [ngClass]="getStatusClass(ticket.status.id)"
             >
-              <span [ngClass]="getStatusClass(ticket.status.id)">
-                {{ ticket.status.name }}
-              </span>
+              {{ ticket.status.name }}
             </a>
           </td>
         </tr>
