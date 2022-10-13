@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/// <reference types="cypress" />
-
 import { FULL_BASE_URL_EN_USD } from '../site-context-selector';
 import { loginAsMyCompanyAdmin } from './my-company/my-company.utils';
 import { standardUser } from '../../sample-data/shared-users';
@@ -22,18 +20,18 @@ export function loginAsNonAdmin() {
 }
 
 export function visitAccountSummaryDetailsPage(unitId: string) {
-  // cy.intercept({
-  //   method: 'GET',
-  //   path: `**/users/current/orgUnits/**/accountSummary**`,
-  // }).as('getSummary');
-  // cy.intercept({
-  //   method: 'GET',
-  //   path: `**/users/current/orgUnits/**/orgDocuments**`,
-  // }).as('getDocuments');
-  // cy.intercept({
-  //   method: 'GET',
-  //   path: `**/users/current/orgUnits/**/attachments**`,
-  // }).as('getAttachments');
+  cy.intercept({
+    method: 'GET',
+    path: `**/users/current/orgUnits/**/accountSummary/**`,
+  }).as('getSummary');
+  cy.intercept({
+    method: 'GET',
+    path: `**/users/current/orgUnits/**/orgDocuments/**`,
+  }).as('getDocuments');
+  cy.intercept({
+    method: 'GET',
+    path: `**/users/current/orgUnits/**/attachments/**`,
+  }).as('getAttachments');
   cy.visit(
     `${FULL_BASE_URL_EN_USD}/organization/account-summary/details/${unitId}`
   );
@@ -117,6 +115,11 @@ export function checkTableData(
       }
     });
   });
+}
+
+export function downloadFistAttachment() {
+  cy.get('.cx-account-summary-document-row button').first().click();
+  cy.wait('@getAttachments').its('response.statusCode').should('eq', 200);
 }
 
 function pressSearch() {

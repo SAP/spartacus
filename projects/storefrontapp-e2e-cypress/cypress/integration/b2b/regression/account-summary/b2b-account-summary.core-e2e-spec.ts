@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as b2bAccountSummary from '../../../../helpers/b2b/b2b-account-summary';
 import * as sampleData from '../../../../sample-data/b2b-account-summary';
 
@@ -61,6 +67,11 @@ describe(`My Company - Account Summary`, () => {
         // Check table again, this time expecting 5 results and POCR-0000005 having status 'Closed'
         b2bAccountSummary.checkTableData(sampleData.documentsFilteredAll);
       });
+
+      // X this test because there are no attachments for this admin user
+      xit('Should download attachment', () => {
+        b2bAccountSummary.downloadFistAttachment();
+      });
     });
 
     describe(`As Non Admin`, () => {
@@ -80,7 +91,7 @@ describe(`My Company - Account Summary`, () => {
       });
 
       it('Expect to not be authorized', () => {
-        cy.contains('No sufficient permissions to access this page');
+        cy.contains(sampleData.notAuthorizedText);
       });
     });
   });

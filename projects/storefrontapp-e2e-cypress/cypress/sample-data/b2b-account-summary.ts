@@ -7,6 +7,7 @@
 export const POWERTOOLS_BASESITE = 'powertools-spa';
 
 export const rusticUnitId = 'Custom Retail';
+export const prontoUnitId = 'Pronto Goods';
 export const documentNumberRangeStart = 'POCR-0000001';
 export const documentNumberRangeEnd = 'POCR-0000005';
 export const sortByDocumentNumberDescending = 'Document Number Descending';
