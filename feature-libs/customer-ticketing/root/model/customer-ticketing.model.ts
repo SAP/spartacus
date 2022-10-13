@@ -32,6 +32,20 @@ export interface Category {
   name: string;
 }
 
+export interface CategoriesList {
+  ticketCategories?: Category[];
+}
+
+export interface AssociatedObject {
+  code: string;
+  modifiedAt: string;
+  type: string;
+}
+
+export interface AssociatedObjectsList {
+  ticketAssociatedObjects: AssociatedObject[];
+}
+
 export interface Event {
   author?: string;
   createdAt?: string;

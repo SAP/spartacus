@@ -17,7 +17,20 @@ const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'MockTicket',
 };
+const mockCategories = [
+  {
+    id: 'ENQUIRY',
+    name: 'Enquiry',
+  },
+];
 
+const mockTicketAssociatedObjects = [
+  {
+    code: '00000626',
+    modifiedAt: '2022-06-30T16:16:44+0000',
+    type: 'Order',
+  },
+];
 class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(mockUserId));
 }
@@ -30,6 +43,10 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  getTicketAssociatedObjects = createSpy().and.returnValue(
+    of(mockTicketAssociatedObjects)
+  );
+  getTicketCategories = createSpy().and.returnValue(of(mockCategories));
 }
 
 describe('CustomerTicketingService', () => {
@@ -88,6 +105,64 @@ describe('CustomerTicketingService', () => {
             loading: false,
             error: false,
             data: mockTicketDetails,
+          });
+          done();
+        });
+    });
+  });
+  describe('getTicketCategories', () => {
+    it('should call customerTicketingConnector.getTicketCategories', (done) => {
+      service
+        .getTicketCategories()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketCategories);
+          expect(data).toEqual(mockCategories);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketCategoriesState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketCategories);
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockCategories,
+          });
+          done();
+        });
+    });
+  });
+  describe('getTicketAssociatedObjects', () => {
+    it('should call customerTicketingConnector.getTicketAssociatedObjects', (done) => {
+      service
+        .getTicketAssociatedObjects()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(data).toEqual(mockTicketAssociatedObjects);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketAssociatedObjectsState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockTicketAssociatedObjects,
           });
           done();
         });

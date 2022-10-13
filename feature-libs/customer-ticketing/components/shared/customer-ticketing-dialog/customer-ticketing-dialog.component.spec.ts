@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { CustomerTicketingDialogComponent } from './customer-ticketing-dialog.component';
 
 @Component({
@@ -13,6 +14,7 @@ describe('CustomerTicketingDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [CustomerTicketingDialogComponent],
     }).compileComponents();
   });
