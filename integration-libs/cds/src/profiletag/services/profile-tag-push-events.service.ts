@@ -5,6 +5,7 @@ import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
   Category,
   EventService,
 } from '@spartacus/core';
@@ -386,7 +387,8 @@ export class ProfileTagPushEventsService {
     return merge(
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartUpdateEntrySuccessEvent),
-      this.eventService.get(CartRemoveEntrySuccessEvent)
+      this.eventService.get(CartRemoveEntrySuccessEvent),
+      this.eventService.get(MergeCartSuccessEvent)
     ).pipe(
       switchMapTo(this.activeCartService.takeActive()),
       map(

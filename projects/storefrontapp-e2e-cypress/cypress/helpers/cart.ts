@@ -349,6 +349,12 @@ export function addProductAsAnonymous() {
   closeAddedToCartDialog();
 }
 
+export function goToCart() {
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
+}
 export function verifyCartNotEmpty() {
   cy.get('cx-mini-cart .count').contains('1');
 }
