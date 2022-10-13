@@ -1,3 +1,4 @@
+@use "sass:math";
 // The Spartacus team is cautious with introducing style changes in a minor release,
 // as it would conflict with the [semantic versioning](https://semver.org/)
 // model. To improve the style layer during minor releases, without breaking the
@@ -26,7 +27,7 @@ $_fullVersion: 5.1;
 
 // The _global_ major version. Any (left over) styles from previous stable versions
 // are processed to the final CSS.
-$_majorVersion: 5;
+$_majorVersion: math.floor($_fullVersion);;
 
 // The `$styleVersion` can be used by customers to explicitly opt-in to breaking style
 // changes till the given style version. It must contain a floating number, such as `2.1`.
