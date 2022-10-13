@@ -1,6 +1,6 @@
 # Base Cart Feature Moved to the Cart Library
 
-Starting from Spartacus 5.0, the Base Cart feature is extraced to the cart library.  The Base Cart feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The cart lib already existed prior to 5.0 and is already split in sub features.  The Base Cart feature is placed inside de `base` sub feature in the cart lib.  The series of entry point that contain the Base Cart feature start with `@spartacus/cart/base/*`.  These entry points are:
+Starting from Spartacus 5.0, the Base Cart feature is extracted to the cart library.  The Base Cart feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The cart lib already existed prior to 5.0 and is already split in sub features.  The Base Cart feature is placed inside de `base` sub feature in the cart lib.  The series of entry point that contain the Base Cart feature start with `@spartacus/cart/base/*`.  These entry points are:
 
 ## @spartacus/cart/base/assets 
 The Base Cart i18n keys are moved here.

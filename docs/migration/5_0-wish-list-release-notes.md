@@ -1,6 +1,6 @@
 # Wish List Feature Moved to the Wish List Library
 
-Starting from Spartacus 5.0, the Wish List feature is extraced to the cart library.  The Wish List feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The Wish List feature is placed inside de `wish-list` sub feature in the cart lib. The series of entry point that contain the Wish List feature start with `@spartacus/cart/wish-list/*`.  These entry points are:
+Starting from Spartacus 5.0, the Wish List feature is extracted to the cart library.  The Wish List feature related code is moved out of `@spartacus/core` and `@spartacus/storefrontlib` into one of the cart lib's entry points.  The Wish List feature is placed inside de `wish-list` sub feature in the cart lib. The series of entry point that contain the Wish List feature start with `@spartacus/cart/wish-list/*`.  These entry points are:
 
 
 ## @spartacus/cart/wish-list/assets 
