@@ -30,7 +30,7 @@ cx-configurator-issues-notification-row {
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       background-color: transparent;
       background-image: linear-gradient(
         var(--cx-direction-horizontal-gradient),
