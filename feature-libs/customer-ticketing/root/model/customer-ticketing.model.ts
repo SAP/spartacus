@@ -1,11 +1,14 @@
-export const enum CUSTOM_CLASS {
-  CLOSE = 'cx-text-gray',
-  OPEN = 'cx-text-green',
+import { SortModel, PaginationModel } from '@spartacus/core';
+
+export const enum TEXT_COLOR_CLASS {
+  GREY = 'cx-text-grey',
+  GREEN = 'cx-text-green',
 }
 
 export const enum STATUS {
   OPEN = 'OPEN',
-  CLOSE = 'CLOSE',
+  CLOSED = 'CLOSED',
+  INPROCESS = 'INPROCESS',
 }
 
 export interface TicketDetails {
@@ -35,24 +38,11 @@ export interface Event {
   message?: string;
   toStatus?: Status;
 }
+
 export interface TicketList {
-  pagination?: Pagination;
-  sorts?: Array<Sort>;
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
   tickets?: Array<TicketDetails>;
-}
-
-export interface Sort {
-  selected?: boolean;
-  name?: string;
-  code?: string;
-}
-
-export interface Pagination {
-  currentPage?: number;
-  pageSize?: number;
-  sort?: string;
-  totalPages?: number;
-  totalResults?: number;
 }
 
 export interface TicketSearchConfig {

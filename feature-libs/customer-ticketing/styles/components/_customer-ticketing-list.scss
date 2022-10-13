@@ -1,66 +1,138 @@
 %cx-customer-ticketing-list {
-  .cx-table {
-    @include media-breakpoint-down(md) {
-      display: none;
-    }
-  }
+  .cx-ticketing-list-table {
+    padding: 1.5rem 0 1.125rem 0;
+    margin-bottom: 0;
+    border-top: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-light);
 
-  .cx-ticketing-list-mobile {
-    @include media-breakpoint-down(lg) {
-      border-top: 1px solid var(--cx-color-light);
-      padding-bottom: 10px;
-      padding-top: 10px;
-      display: flex;
-    }
+    th {
+      padding: 1.5rem 0 1.125rem 0;
+      text-align: start;
 
-    @include media-breakpoint-up(lg) {
-      display: none;
-    }
-
-    .cx-tickting-list-ticket-mobile-icon {
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-
-    cx-icon {
-      color: #a0aabf;
-    }
-
-    .cx-ticketing-list-ticket-item-mobile {
-      margin-top: 3px;
-      margin-bottom: 3px;
-      display: block;
-
-      color: var(--cx-color-secondary);
-
-      @include media-breakpoint-down(md) {
-        font-size: var(--cx-font-size, 0.875rem);
-        font-weight: var(--cx-font-weight-bold);
-        min-width: 140px;
+      &:last-child {
+        text-align: end;
       }
     }
 
-    .cx-ticketing-list-ticket-item-mobile-description {
-      display: flex;
+    td {
+      padding: 1.625rem 0;
+
+      a {
+        min-height: 0px;
+        min-width: 0px;
+      }
+
+      @include media-breakpoint-up(md) {
+        text-align: start;
+
+        &:last-child {
+          text-align: end;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+        display: flex;
+        border-width: 0;
+        padding: 0 1.25rem;
+
+        &:first-child {
+          padding-top: 1.25rem;
+        }
+
+        &:last-child {
+          padding-bottom: 1.25rem;
+        }
+      }
     }
   }
 
-  .cx-ticketing-list-select {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 4px;
-    border: 1px solid var(--cx-color-light);
-    margin-bottom: 20px;
-    background-color: #fbfbfb;
+  .cx-ticketing-list-thead-mobile {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
 
-    @include media-breakpoint-down(lg) {
-      @include type(7, $font-weight-normal);
-      height: 36px;
+  .cx-ticketing-list-label {
+    color: var(--cx-color-secondary);
+
+    @include media-breakpoint-up(md) {
+      display: none;
     }
 
-    &:focus {
-      background-color: var(--cx-color-inverse);
+    @include media-breakpoint-down(sm) {
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-bold);
+      min-width: 140px;
+    }
+  }
+
+  .cx-ticketing-list-value {
+    color: var(--cx-color-text);
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 0 0 15px;
+      font-size: var(--cx-font-size, 1rem);
+      font-weight: $font-weight-normal;
+    }
+  }
+
+  .cx-ticketing-list-data {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
+  }
+
+  .cx-ticketing-list-sort {
+    display: flex;
+    margin: 0;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    &.top {
+      justify-content: space-between;
+      padding: 1rem 0;
+
+      @include media-breakpoint-down(sm) {
+        padding-top: 0;
+      }
+    }
+
+    &.bottom {
+      justify-content: flex-end;
+      padding: 1rem 0 1rem 0;
+    }
+  }
+
+  .cx-ticketing-list-form-group {
+    padding: 0;
+    margin-bottom: 0;
+    align-items: center;
+    display: flex;
+    width: 40%;
+
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+
+    cx-sorting {
+      width: 100%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem;
+      width: 100%;
+    }
+  }
+
+  .cx-ticketing-list-pagination {
+    @include media-breakpoint-down(sm) {
+      margin: 0 auto;
     }
   }
 
@@ -68,7 +140,11 @@
     color: var(--cx-color-success);
   }
 
+  .cx-text-grey {
+    color: var(--cx-color-secondary);
+  }
+
   .cx-text-red {
-    color: var(--cx-color-danger);
+    color: var(--cx-color-primary);
   }
 }
