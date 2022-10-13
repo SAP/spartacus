@@ -59,6 +59,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   notificationPreference: {
     paths: ['my-account/notification-preference'],
   },
+
+  // ASM routes
+  asmDeepLink: {
+    paths: ['assisted-service/emulate'],
+  }
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

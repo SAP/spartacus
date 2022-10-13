@@ -5,8 +5,9 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
+import { DeepLinkService } from 'feature-libs/asm/root/deep-link/deep-link.service';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take, mergeMap } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
@@ -35,8 +36,29 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService
-  ) {}
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected deepLinkService: DeepLinkService
+  ) {
+    this.subscription.add(
+      this.deepLinkService.paramData
+        .pipe(
+          filter((paramData) => !!paramData),
+          mergeMap((paramData) => {
+            return this.authStorageService.getToken().pipe(
+              map((token) => ({ paramData, token })),
+            );
+          }),
+          take(1)
+        )
+        .subscribe((objectThing) => {
+          const linkedCustomerId = objectThing.paramData?.customerId;
+          const accessToken = objectThing.token.access_token;
+          if (linkedCustomerId && accessToken) {
+            this.initSync({ userId: linkedCustomerId });
+          }
+        })
+    );
+  }
 
   /**
    * Identifier used for storage key.
@@ -46,12 +68,12 @@ export class AuthStatePersistenceService implements OnDestroy {
   /**
    * Initializes the synchronization between state and browser storage.
    */
-  public initSync() {
+  public initSync(stateOverrides: Partial<SyncedAuthState> = {}) {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
-        onRead: (state) => this.onRead(state),
+        onRead: (state) => this.onRead({ ...state, ...stateOverrides }),
       })
     );
   }
@@ -96,11 +118,13 @@ export class AuthStatePersistenceService implements OnDestroy {
     if (state?.redirectUrl) {
       this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
     }
+
     if (state?.userId) {
       this.userIdService.setUserId(state.userId);
-    } else {
-      this.userIdService.clearUserId();
+      return;
     }
+
+    this.userIdService.clearUserId();
   }
 
   /**

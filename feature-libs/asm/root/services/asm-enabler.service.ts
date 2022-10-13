@@ -6,9 +6,10 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FeatureModulesService, WindowRef } from '@spartacus/core';
+import { FeatureModulesService, SemanticPathService, WindowRef } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
+import { DeepLinkService } from '../deep-link/deep-link.service';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -23,7 +24,9 @@ export class AsmEnablerService {
     protected location: Location,
     protected winRef: WindowRef,
     protected launchDialogService: LaunchDialogService,
-    protected featureModules: FeatureModulesService
+    protected featureModules: FeatureModulesService,
+    protected semanticPathService: SemanticPathService,
+    protected deepLinkService: DeepLinkService
   ) {}
 
   /**
@@ -40,12 +43,12 @@ export class AsmEnablerService {
    * Indicates whether the ASM module is enabled.
    */
   isEnabled(): boolean {
-    if (this.isLaunched() && !this.isUsedBefore()) {
+    if ((this.isLaunched() || this.isDeepLink()) && !this.isUsedBefore()) {
       if (this.winRef.localStorage) {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return this.isLaunched() || this.isUsedBefore();
+    return this.isLaunched() || this.isDeepLink() || this.isUsedBefore();
   }
 
   /**
@@ -69,6 +72,10 @@ export class AsmEnablerService {
     } else {
       return false;
     }
+  }
+
+  protected isDeepLink(): boolean {
+    return this.deepLinkService.deepLinkActive;
   }
 
   /**

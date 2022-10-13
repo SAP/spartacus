@@ -19,6 +19,7 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DeepLinkService } from '../deep-link/deep-link.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
@@ -35,7 +36,8 @@ export class CsAgentAuthService {
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
+    protected deepLinkService: DeepLinkService
   ) {}
 
   /**
@@ -59,12 +61,21 @@ export class CsAgentAuthService {
         userId,
         password
       );
+
       // Start emulation for currently logged in user
       let customerId: string | undefined;
-      this.userProfileFacade
-        .get()
-        .subscribe((user) => (customerId = user?.customerId))
+      this.deepLinkService.paramData
+        .subscribe((paramData) => {
+          customerId = paramData?.customerId;
+        })
         .unsubscribe();
+
+      if (!customerId) {
+        this.userProfileFacade
+          .get()
+          .subscribe((user) => (customerId = user?.customerId))
+          .unsubscribe();
+      }
       this.store.dispatch(new AuthActions.Logout());
 
       if (customerId !== undefined && userToken !== undefined) {

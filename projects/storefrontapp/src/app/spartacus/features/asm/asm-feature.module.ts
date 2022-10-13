@@ -5,15 +5,28 @@
  */
 
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+// import { RouterModule } from '@angular/router';
 import {
   asmTranslationChunksConfig,
   asmTranslations,
 } from '@spartacus/asm/assets';
 import { AsmRootModule, ASM_FEATURE } from '@spartacus/asm/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { DeepLinkGuard } from 'feature-libs/asm/root/deep-link/deep-link.guard';
 
 @NgModule({
-  imports: [AsmRootModule],
+  imports: [
+    AsmRootModule,
+    RouterModule.forChild([
+      {
+        path: '**',
+        canActivate: [CmsPageGuard, DeepLinkGuard],
+        component: PageLayoutComponent,
+      },
+    ]),
+  ],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
