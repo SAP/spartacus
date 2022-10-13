@@ -568,6 +568,8 @@ export const STOCK_NOTIFICATION_MODULE = 'StockNotificationtModule';
 export const STOCK_NOTIFICATION_DIALOG_COMPONENT =
   'StockNotificationDialogComponent';
 
+export const SANITIZE_METHOD = 'sanitize';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/

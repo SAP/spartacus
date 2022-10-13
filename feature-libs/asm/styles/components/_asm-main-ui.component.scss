@@ -113,6 +113,23 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      .cx-asm-customer-list {
+        cursor: pointer;
+        cx-icon {
+          padding-top: 0;
+          padding-inline-end: 7px;
+          padding-bottom: 0;
+          padding-inline-start: 0;
+          color: #1e3050;
+        }
+        .cx-asm-customer-list-link {
+          color: #0064d9;
+          text-decoration: none;
+        }
+        .cx-asm-customer-list-link:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     @include forVersion(5.1) {

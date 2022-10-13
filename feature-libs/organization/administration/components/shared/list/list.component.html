@@ -51,6 +51,7 @@
           <ng-content select="[actions]"></ng-content>
 
           <a
+            *ngIf="!hideAddButton"
             class="button primary create"
             [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
             routerLinkActive="disabled"
