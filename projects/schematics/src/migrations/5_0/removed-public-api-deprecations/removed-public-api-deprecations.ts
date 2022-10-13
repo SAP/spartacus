@@ -1220,13 +1220,13 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CartModule',
     importPath: '@spartacus/core',
     comment:
-      "Class CartModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
+      "Class CartModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
   },
   {
     node: 'CartOccModule',
     importPath: '@spartacus/core',
     comment:
-      "Class CartOccModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
+      "Class CartOccModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
   },
   {
     node: 'getActiveCartId',
@@ -1448,7 +1448,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CartComponentModule',
     importPath: '@spartacus/storefront',
     comment:
-      'Class CartComponentModule has been removed and is no longer part of the public API. ',
+      'Class CartComponentModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  ',
   },
   {
     node: 'CartOrderEntriesContext',
