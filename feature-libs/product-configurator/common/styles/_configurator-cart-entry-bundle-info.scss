@@ -1,4 +1,25 @@
+// SPIKE NEW:
+cx-configurator-cart-entry-bundle-info-row {
+  display: table-row;
+
+  @include media-breakpoint-down(md) {
+    display: block;
+  }
+
+  tr > td:nth-of-type(1) {
+    padding: 0;
+    padding-inline-start: 6.5rem;
+    padding-block-end: 1rem;
+
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 6rem;
+    }
+  }
+}
+
 %cx-configurator-cart-entry-bundle-info {
+  display: block;
+
   button {
     border: none;
     background-color: transparent;
@@ -41,17 +62,7 @@
       .cx-item-name {
         overflow-wrap: break-word;
 
-        @include media-breakpoint-down(sm) {
-          width: 100%;
-        }
-
-        @include media-breakpoint-up(md) {
-          width: 24%;
-        }
-
-        @include media-breakpoint-only(xl) {
-          width: 41.6%;
-        }
+        width: 100%;
       }
 
       .cx-item-price,
@@ -63,39 +74,22 @@
         }
 
         .cx-item {
-          @include media-breakpoint-only(xs) {
-            width: 55%;
-          }
-
-          @include media-breakpoint-only(sm) {
-            width: 85%;
-          }
+          // width: 100%
         }
 
-        @include media-breakpoint-down(sm) {
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-        }
-
-        @include media-breakpoint-up(md) {
-          width: 26%;
-          text-align: center;
-        }
+        display: flex;
+        flex-direction: row;
+        width: 100%;
       }
+    }
+  }
 
-      .cx-item-price {
-        @include media-breakpoint-only(xl) {
-          width: 17%;
-          text-align: center;
-        }
-      }
+  // SPIKE NEW:
+  cx-cart-item & {
+    padding-inline-start: 65px;
 
-      .cx-item-quantity {
-        @include media-breakpoint-only(xl) {
-          width: 26%;
-        }
-      }
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 17.3333333%;
     }
   }
 }

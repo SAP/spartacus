@@ -5,8 +5,12 @@
  */
 
 import { Component, Optional } from '@angular/core';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { UntypedFormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
@@ -40,6 +44,9 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
+
+  readonly location?: Observable<PromotionLocation> =
+    this.cartItemContext?.location$ ?? EMPTY;
 
   hideItems = true;
 
@@ -75,6 +82,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       : false;
   }
 
+  // SPIKE TODO: REMOVE:
   /**
    * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
    *
@@ -86,7 +94,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(this.location);
 
   getButtonText(translatedText?: string): string {
     if (!translatedText) {

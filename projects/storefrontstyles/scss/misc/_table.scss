@@ -10,11 +10,11 @@
     padding: 1.25rem 0.1rem 1.25rem 0.5rem;
     vertical-align: middle;
     text-align: center;
-    &:nth-of-type(1) {
-      text-align: start;
-    }
     &:nth-last-of-type(1) {
       text-align: end;
+    }
+    &:nth-of-type(1) {
+      text-align: start;
     }
   }
 

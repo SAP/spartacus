@@ -26,25 +26,36 @@
       </ng-container>
     </tr>
   </thead>
-  <tbody class="cx-item-list-items">
-    <ng-container *ngFor="let item of items; let i = index">
+  <ng-container *ngFor="let item of items; let i = index">
+    <ng-container
+      *ngIf="getControl(item) | async as control"
+      [class.is-changed]="control.get('quantity').disabled"
+    >
       <ng-container
-        *ngIf="getControl(item) | async as control"
-        [class.is-changed]="control.get('quantity').disabled"
+        cxCartItemContext
+        [item]="item"
+        [quantityControl]="control.get('quantity')"
+        [readonly]="readonly"
+        [promotionLocation]="promotionLocation"
+        [options]="options"
       >
-        <tr
-          cx-cart-item-list-row
-          role="row"
-          class="cx-item-list-row"
-          [item]="item"
-          [quantityControl]="control.get('quantity')"
-          [readonly]="readonly"
-          [promotionLocation]="promotionLocation"
-          [options]="options"
-        ></tr>
+        <tbody>
+          <ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+            <tr
+              cx-cart-item-list-row
+              role="row"
+              class="cx-item-list-row"
+              [item]="item"
+              [quantityControl]="control.get('quantity')"
+              [readonly]="readonly"
+              [promotionLocation]="promotionLocation"
+              [options]="options"
+            ></tr
+          ></ng-template>
+        </tbody>
       </ng-container>
     </ng-container>
-  </tbody>
+  </ng-container>
 </table>
 
 <ng-template #totalHeader>

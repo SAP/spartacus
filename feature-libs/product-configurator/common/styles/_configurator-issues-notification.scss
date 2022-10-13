@@ -1,3 +1,16 @@
+// SPIKE NEW:
+cx-configurator-issues-notification-row {
+  display: table-row;
+
+  @include media-breakpoint-down(md) {
+    display: block;
+  }
+
+  & > td:nth-of-type(1) {
+    padding: 0;
+  }
+}
+
 %cx-configurator-issues-notification {
   display: none;
   width: 100%;
@@ -16,6 +29,15 @@
 
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
+
+    @include media-breakpoint-up(md) {
+      background-color: transparent;
+      background-image: linear-gradient(
+        to right,
+        rgba(245, 206, 206, 1),
+        transparent
+      );
+    }
 
     cx-icon {
       align-self: flex-start;

@@ -5,8 +5,12 @@
  */
 
 import { Component, Optional } from '@angular/core';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { UntypedFormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -32,9 +36,12 @@ export class ConfiguratorIssuesNotificationComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
+  readonly location?: Observable<PromotionLocation> =
+    this.cartItemContext?.location$ ?? EMPTY;
+
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(this.location);
 
   /**
    * Verifies whether the item has any issues.
