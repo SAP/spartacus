@@ -6,7 +6,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModification,
@@ -120,27 +119,5 @@ describe('CartItemValidationWarningComponent', () => {
     component.cartModification$.subscribe((value) => (result = value));
 
     expect(result.entry.product.code).toEqual(mockCode);
-  });
-
-  it('should close / hide warning when clicked icon', () => {
-    let button = el.query(By.css('.close')) as any;
-    expect(button).toBeNull();
-
-    (
-      cartValidationFacade.getValidationResults() as ReplaySubject<
-        CartModification[]
-      >
-    ).next(mockData);
-    fixture.detectChanges();
-
-    button = el.query(By.css('.close')).nativeElement;
-    expect(button).toBeDefined();
-    button.click();
-
-    fixture.detectChanges();
-
-    expect(component.isVisible).toEqual(false);
-    const alert = el.query(By.css('.alert'));
-    expect(alert).toBeNull();
   });
 });

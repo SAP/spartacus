@@ -19,7 +19,6 @@ export class CartItemValidationWarningComponent {
   code: string;
 
   iconTypes = ICON_TYPE;
-  isVisible = true;
 
   cartModification$ = this.cartValidationFacade
     .getValidationResults()
