@@ -30,12 +30,15 @@
       <div class="cx-dialog-body modal-body" *ngIf="entry$ | async as entry">
         <div class="cx-dialog-row">
           <div class="cx-dialog-item col-sm-12 col-md-6">
+            <ng-container cxCartItemContext [item]="entry" [compact]="true" [quantityControl]="getQuantityControl() | async"
+              [promotionLocation]="promotionLocation">
             <cx-cart-item
               [item]="entry"
               [compact]="true"
               [quantityControl]="getQuantityControl() | async"
               [promotionLocation]="promotionLocation"
             ></cx-cart-item>
+          </ng-container>
           </div>
           <!-- Separator -->
           <div
