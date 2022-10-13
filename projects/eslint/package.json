@@ -1,4 +1,5 @@
 {
   "name": "@spartacus/eslint-plugin-eslint",
-  "main": "index.js"
+  "main": "index.js",
+  "private": true
 }

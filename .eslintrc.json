@@ -97,9 +97,6 @@
       "files": [
         "*.module.ts"
       ],
-      "excludedFiles": [
-        "./projects/core/src/config/config.module.ts"
-      ],
       "rules": {
         "@spartacus-eslint/use-default-provide-config": "error"
       }
