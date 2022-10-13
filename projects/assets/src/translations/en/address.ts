@@ -65,6 +65,8 @@ export const address = {
     setAsDefault: 'Set as default',
     shipTo: 'Ship To',
     billTo: 'Bill To',
+    phoneNumber: 'P',
+    mobileNumber: 'M',
   },
   addressSuggestion: {
     verifyYourAddress: 'Verify your address',

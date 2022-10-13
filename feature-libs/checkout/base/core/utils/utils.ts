@@ -10,19 +10,19 @@ import { Address } from "@spartacus/core";
 /**
  * Get strings for phone and mobile numbers
  */
-export function getAddressNumbers(address: Address): string {
+export function getAddressNumbers(address: Address, textPhone: string, textMobile: string): string {
   let numbers= '';
   if (address.cellphone && address.phone) {
     numbers =
-    `P: ${address.phone}
-    M: ${address.cellphone}`;
+    `${textPhone}: ${address.phone}
+    ${textMobile}: ${address.cellphone}`;
     if(address.cellphone === address.phone) {
-      numbers = 'M: ' + address.cellphone;
+      numbers = textMobile + ': '  + address.cellphone;
     }
   } else if (address.cellphone) {
-    numbers = 'M: ' + address.cellphone;
+    numbers = textMobile + ': ' + address.cellphone;
   } else if (address.phone) {
-    numbers =  'P: ' + address.phone;
+    numbers =  textPhone + ': ' + address.phone;
   }
 
   return numbers;

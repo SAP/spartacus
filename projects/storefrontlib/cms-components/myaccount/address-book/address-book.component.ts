@@ -81,6 +81,8 @@ export class AddressBookComponent implements OnInit {
       this.translation.translate('common.delete'),
       this.translation.translate('common.edit'),
       this.translation.translate('addressBook.areYouSureToDeleteAddress'),
+      this.translation.translate('addressCard.phoneNumber'),
+      this.translation.translate('addressCard.mobileNumber'),
     ]).pipe(
       map(
         ([
@@ -89,6 +91,8 @@ export class AddressBookComponent implements OnInit {
           textDelete,
           textEdit,
           textVerifyDeleteMsg,
+          textPhone,
+          textMobile,
         ]) => {
           let region = '';
 
@@ -103,7 +107,7 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
-          const numbers = getAddressNumbers(address);
+          const numbers = getAddressNumbers(address, textPhone, textMobile);
 
 
           return {

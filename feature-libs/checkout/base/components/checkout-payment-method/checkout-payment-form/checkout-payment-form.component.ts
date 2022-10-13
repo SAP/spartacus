@@ -29,6 +29,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -109,6 +110,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -116,7 +118,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -175,6 +178,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         }
       })
     );
+
   }
 
   expMonthAndYear(): void {
@@ -202,13 +206,26 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
-  getAddressCardContent(address: Address): Card {
+  createCard(address: Address): void {
+    combineLatest([
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ]).pipe(
+      tap(([textPhone, textMobile]) => {
+        if (address) {
+          this.getAddressCardContent(address, textPhone, textMobile);
+        }
+      }
+    ));
+  }
+
+  getAddressCardContent(address: Address, textPhone: string, textMobile: string): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-
-    const numbers = getAddressNumbers(address);
+    let numbers: string;
+    numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {
       textBold: address.firstName + ' ' + address.lastName,
