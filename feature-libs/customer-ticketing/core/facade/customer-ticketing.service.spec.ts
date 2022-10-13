@@ -17,7 +17,20 @@ const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'MockTicket',
 };
+const mockCategories = [
+  {
+    id: 'ENQUIRY',
+    name: 'Enquiry',
+  },
+];
 
+const mockTicketAssociatedObjects = [
+  {
+    code: '00000626',
+    modifiedAt: '2022-06-30T16:16:44+0000',
+    type: 'Order',
+  },
+];
 class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(mockUserId));
 }
@@ -30,6 +43,10 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  getTicketAssociatedObjects = createSpy().and.returnValue(
+    of(mockTicketAssociatedObjects)
+  );
+  getTicketCategories = createSpy().and.returnValue(of(mockCategories));
 }
 
 describe('CustomerTicketingService', () => {
@@ -100,7 +117,7 @@ describe('CustomerTicketingService', () => {
         .pipe(take(1))
         .subscribe((data) => {
           expect(connector.getTicketCategories);
-          expect(data).toEqual([]);
+          expect(data).toEqual(mockCategories);
           done();
         });
     });
@@ -114,7 +131,7 @@ describe('CustomerTicketingService', () => {
           expect(state).toEqual({
             loading: false,
             error: false,
-            data: [],
+            data: mockCategories,
           });
           done();
         });
@@ -129,7 +146,7 @@ describe('CustomerTicketingService', () => {
           expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
             mockUserId
           );
-          expect(data).toEqual([]);
+          expect(data).toEqual(mockTicketAssociatedObjects);
           done();
         });
     });
@@ -145,7 +162,7 @@ describe('CustomerTicketingService', () => {
           expect(state).toEqual({
             loading: false,
             error: false,
-            data: [],
+            data: mockTicketAssociatedObjects,
           });
           done();
         });

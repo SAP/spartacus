@@ -13,8 +13,8 @@ import {
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
-  GetTicketCatQueryReloadEvent,
-  GetTicketCatQueryResetEvent,
+  GetTicketCategoryQueryReloadEvent,
+  GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
   TicketDetails,
@@ -26,10 +26,10 @@ import { CustomerTicketingConnector } from '../connectors';
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
   getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
-    return [GetTicketCatQueryReloadEvent];
+    return [GetTicketCategoryQueryReloadEvent];
   }
   getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
-    return [GetTicketCatQueryResetEvent];
+    return [GetTicketCategoryQueryResetEvent];
   }
   getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryReloadEvent];
@@ -103,14 +103,15 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       map((state) => state.data ?? [])
     );
   }
+
+  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
+    return this.getTicketCategoriesQuery.getState();
+  }
+
   getTicketCategories(): Observable<Category[]> {
     return this.getTicketCategoriesState().pipe(
       map((state) => state.data ?? [])
     );
-  }
-
-  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
-    return this.getTicketCategoriesQuery.getState();
   }
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
@@ -130,19 +131,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       })
     );
   }
-  protected customerTicketingAssociatedObjectsPreConditions(): Observable<string> {
-    return this.userIdService.getUserId().pipe(
-      take(1),
-      map((userId) => {
-        if (!userId) {
-          throw new Error(
-            'Customer ticketing associated objects pre conditions not met'
-          );
-        }
-        return userId;
-      })
-    );
-  }
+
   getTicketState(): Observable<QueryState<TicketDetails | undefined>> {
     return this.getTicketQuery$.getState();
   }

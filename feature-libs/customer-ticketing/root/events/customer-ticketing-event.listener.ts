@@ -8,10 +8,8 @@ import {
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
 import {
-  GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
-  GetTicketCatQueryReloadEvent,
-  GetTicketCatQueryResetEvent,
+  GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
 } from './customer-ticketing.events';
@@ -24,9 +22,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
 
   constructor(protected eventService: EventService) {
     this.onGetTicketQueryReload();
-    this.onGetTicketQueryReset();
-    this.onGetTicketAssociatedObjAndCatQueryReload();
-    this.onGetTicketAssociatedObjAndCatQueryReset();
+    this.onLoginAndLogoutEvent();
   }
 
   protected onGetTicketQueryReload(): void {
@@ -40,39 +36,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketQueryReset(): void {
+  protected onLoginAndLogoutEvent(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
-      })
-    );
-  }
-
-  protected onGetTicketAssociatedObjAndCatQueryReload(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketCatQueryReloadEvent);
-        this.eventService.dispatch(
-          {},
-          GetTicketAssociatedObjectsQueryReloadEvent
-        );
-      })
-    );
-  }
-
-  protected onGetTicketAssociatedObjAndCatQueryReset(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketCatQueryResetEvent);
+        this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
         this.eventService.dispatch(
           {},
           GetTicketAssociatedObjectsQueryResetEvent

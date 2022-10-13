@@ -8,12 +8,12 @@ export class GetTicketQueryReloadEvent extends CxEvent {
   static readonly type = 'GetTicketQueryReloadEvent';
 }
 
-export class GetTicketCatQueryResetEvent extends CxEvent {
-  static readonly type = 'GetTicketCatQueryResetEvent';
+export class GetTicketCategoryQueryResetEvent extends CxEvent {
+  static readonly type = 'GetTicketCategoryQueryResetEvent';
 }
 
-export class GetTicketCatQueryReloadEvent extends CxEvent {
-  static readonly type = 'GetTicketCatQueryReloadEvent';
+export class GetTicketCategoryQueryReloadEvent extends CxEvent {
+  static readonly type = 'GetTicketCategoryQueryReloadEvent';
 }
 
 export class GetTicketAssociatedObjectsQueryResetEvent extends CxEvent {
