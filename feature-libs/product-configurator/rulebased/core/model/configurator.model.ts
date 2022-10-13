@@ -36,6 +36,7 @@ export namespace Configurator {
     intervalInDomain?: boolean;
     key?: string;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -94,6 +95,7 @@ export namespace Configurator {
     errorMessages?: string[];
     warningMessages?: string[];
     variants?: Variant[];
+    kbKey?: KB;
   }
 
   export interface InteractionState {
@@ -178,6 +180,13 @@ export namespace Configurator {
 
   export interface Variant {
     productCode: string;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export enum GroupType {
