@@ -10,7 +10,6 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, provideOutlet } from '@spartacus/storefront';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
-import { ConfiguratorIssuesNotificationRowComponent } from './configurator-issues-notification-row.component';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @NgModule({
@@ -21,10 +20,7 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
     IconModule,
     ConfigureCartEntryModule,
   ],
-  declarations: [
-    ConfiguratorIssuesNotificationComponent,
-    ConfiguratorIssuesNotificationRowComponent,
-  ],
+  declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
