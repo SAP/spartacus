@@ -24,9 +24,8 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subject } from 'rxjs';
-import { RegisterComponentService } from '.';
+import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
@@ -105,9 +104,12 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   },
 };
 
-class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
+class MockRegisterComponentService
+  implements Partial<RegisterComponentService>
+{
   getTitles = createSpy().and.returnValue(of(mockTitlesList));
   register = createSpy().and.returnValue(of(undefined));
+  postRegisterMessage = createSpy();
 }
 
 describe('RegisterComponent', () => {
@@ -120,6 +122,7 @@ describe('RegisterComponent', () => {
   let mockRoutingService: RoutingService;
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
+  let registerComponentService: RegisterComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -137,7 +140,7 @@ describe('RegisterComponent', () => {
         providers: [
           {
             provide: RegisterComponentService,
-            useClass: MockUserRegisterFacade,
+            useClass: MockRegisterComponentService,
           },
           {
             provide: GlobalMessageService,
@@ -171,6 +174,7 @@ describe('RegisterComponent', () => {
     mockRoutingService = TestBed.inject(RoutingService);
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
+    registerComponentService = TestBed.inject(RegisterComponentService);
 
     component = fixture.componentInstance;
 
@@ -276,10 +280,7 @@ describe('RegisterComponent', () => {
       // registerUserIsSuccess.next(true);
 
       expect(mockRoutingService.go).toHaveBeenCalledWith('login');
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      expect(registerComponentService.postRegisterMessage).toHaveBeenCalled();
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
@@ -290,10 +291,7 @@ describe('RegisterComponent', () => {
       component.registerUser();
 
       expect(mockRoutingService.go).not.toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      expect(registerComponentService.postRegisterMessage).toHaveBeenCalled();
     });
   });
 
