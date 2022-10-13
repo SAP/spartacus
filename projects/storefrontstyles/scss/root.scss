@@ -15,6 +15,12 @@
 
   --cx-direction: #{$direction};
 
+  --cx-direction-horizontal-gradient: 90deg;
+
+  &[dir='rtl'] {
+    --cx-direction-horizontal-gradient: -90deg;
+  }
+
   --cx-transition-duration: 0.5s;
   --cx-animation-duration: 1s;
 

@@ -33,7 +33,7 @@ cx-configurator-issues-notification-row {
     @include media-breakpoint-up(md) {
       background-color: transparent;
       background-image: linear-gradient(
-        to right,
+        var(--cx-direction-horizontal-gradient),
         rgba(245, 206, 206, 1),
         transparent
       );
