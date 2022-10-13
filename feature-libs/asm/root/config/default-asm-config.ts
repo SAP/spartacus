@@ -5,6 +5,11 @@
  */
 
 import { ICON_TYPE } from '@spartacus/storefront';
+
+// TODO: Cannot import from components module. Need to refactor
+import { AsmCustomerMapComponent, AsmCustomerOverviewComponent, AsmCustomerProductReviewsComponent } from 'feature-libs/asm/components/asm-customer-360/sections/components';
+
+import { AsmCustomer360Type } from '../model';
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 

@@ -8,7 +8,6 @@ import {
   Card,
   FocusConfig,
   ICON_TYPE,
-  ModalService,
 } from '@spartacus/storefront';
 
 import { combineLatest, forkJoin, of, Observable, Subscription } from 'rxjs';
@@ -40,7 +39,6 @@ export class AsmCustomerProfileComponent implements OnInit {
   protected subscription = new Subscription();
 
   constructor(
-    protected modalService: ModalService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService

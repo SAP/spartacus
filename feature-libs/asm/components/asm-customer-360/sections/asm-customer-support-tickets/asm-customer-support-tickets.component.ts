@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Customer360SectionConfig } from '@spartacus/asm/core';
+import { Customer360SectionConfig } from '@spartacus/asm/root';
 
 import { formatEpochTime, replaceTokens } from '../../asm-customer-360.utils';
 import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';

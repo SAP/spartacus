@@ -28,9 +28,6 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomerOverviewComponent } from './asm-customer-360/asm-customer-overview/asm-customer-overview.component';
-import { AsmProductItemComponent } from './asm-customer-360/asm-customer-overview/asm-product-item/asm-product-item.component';
-import { AsmCustomerProfileComponent } from './asm-customer-360/asm-customer-profile/asm-customer-profile.component';
 import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -77,9 +74,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
-    AsmCustomerProfileComponent,
-    AsmCustomerOverviewComponent,
-    AsmProductItemComponent
   ],
   exports: [
     AsmMainUiComponent,

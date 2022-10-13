@@ -6,25 +6,24 @@ import {
   OnInit,
   StaticProvider,
 } from '@angular/core';
+import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmCustomer360Data,
   AsmCustomer360Query,
+  AsmCustomer360TabConfig,
   AsmDialogActionEvent,
   AsmDialogActionType,
-  AsmFacade,
+  Customer360SectionConfig,
+  Customer360SectionData,
 } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { ModalService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { AsmConfig } from 'feature-libs/asm/core';
-import { AsmCustomer360TabConfig } from 'feature-libs/asm/core/models/customer-360-tab-config';
-import { Customer360SectionConfig } from 'feature-libs/asm/core/models/customer-360-section-config';
 
 import { getAsmDialogActionEvent } from '../../core/utils/utils';
 import { Customer360SectionContextSource } from './sections/customer-360-section-context-source.model';
 import { Customer360SectionContext } from './sections/customer-360-section-context.model';
-import { Customer360SectionData } from 'feature-libs/asm/core/models/customer-360-section-data';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,9 +47,8 @@ export class AsmCustomer360Component implements OnInit {
 
   constructor(
     asmConfig: AsmConfig,
-    protected asmService: AsmFacade,
-    protected injector: Injector,
-    protected modalService: ModalService
+    protected asmService: AsmService,
+    protected injector: Injector
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
@@ -126,7 +124,8 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+    reason;
+    // this.modalService.closeActiveModal(reason);
   }
 
   createInjector(config: unknown, sectionData?: unknown): Injector {
