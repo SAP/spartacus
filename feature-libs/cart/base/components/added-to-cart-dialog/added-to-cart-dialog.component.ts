@@ -16,7 +16,6 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
-  CartOutlets,
   CartUiEventAddToCart,
   OrderEntry,
   PromotionLocation,
@@ -45,7 +44,6 @@ import {
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
-  CartOutlets = CartOutlets;
 
   entry$: Observable<OrderEntry | undefined>;
   cart$: Observable<Cart> = this.activeCartFacade.getActive();
