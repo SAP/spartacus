@@ -130,15 +130,15 @@ export class CustomerTicketingListComponent {
     });
   }
 
-  getSortLabels(): Observable<{ byId: string; byChangedDate: string }> {
+  getSortLabels(): Observable<{ byTicketId: string; byDate: string }> {
     return combineLatest([
       this.translation.translate('customerTicketing.ticketId'),
       this.translation.translate('customerTicketing.changedOn'),
     ]).pipe(
-      map(([textById, textByChangedDate]) => {
+      map(([textByTicketId, textByDate]) => {
         return {
-          byId: textById,
-          byChangedDate: textByChangedDate,
+          byTicketId: textByTicketId,
+          byDate: textByDate,
         };
       })
     );
