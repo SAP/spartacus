@@ -1,11 +1,11 @@
 import { CxEvent } from '@spartacus/core';
 
 /**
- * Indicates the failure during toke retrieval
+ * Indicates the failure during the loading of the user token.
  */
-export class CdcLoginFailEvent extends CxEvent {
+export class CdcLoadUserTokenFailEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CdcLoginFailEvent';
+  static readonly type = 'CdcLoadUserTokenFailEvent';
 }
