@@ -264,7 +264,7 @@ export class OrderOverviewComponent implements OnInit {
         (textTitle) =>
           ({
             title: textTitle,
-            text: [customer?.name, `(${customer?.uid})`],
+            text: [customer?.name, `(${customer?.email})`],
           } as Card)
       )
     );
