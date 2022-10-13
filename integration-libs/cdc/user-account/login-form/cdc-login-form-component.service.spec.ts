@@ -2,6 +2,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -10,7 +11,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
-import { CdcJsService } from 'integration-libs/cdc/root';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
 import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';

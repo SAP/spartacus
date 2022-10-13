@@ -6,8 +6,8 @@ import {
   LanguageService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CdcConfig } from '.';
 import { CdcRootModule } from './cdc-root.module';
+import { CdcConfig } from './config';
 
 const sampleCdcConfig: CdcConfig = {
   cdc: [

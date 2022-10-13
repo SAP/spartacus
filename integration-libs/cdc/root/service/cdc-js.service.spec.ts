@@ -343,7 +343,7 @@ describe('CdcJsService', () => {
   });
 
   describe('onInitRegistrationHandler', () => {
-    it('should register the user', () => {
+    it('should register the user', (done) => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'register').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
@@ -358,20 +358,23 @@ describe('CdcJsService', () => {
           lastName: 'lname',
         },
         { regToken: 'TOKEN' }
-      ).subscribe(() => {
-        expect(
-          winRef.nativeWindow['gigya'].accounts.register
-        ).toHaveBeenCalledWith({
-          email: 'uid',
-          password: 'password',
-          profile: {
-            firstName: 'fname',
-            lastName: 'lname',
-          },
-          regToken: 'TOKEN',
-          finalizeRegistration: true,
-          callback: jasmine.any(Function),
-        });
+      ).subscribe({
+        complete: () => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.register
+          ).toHaveBeenCalledWith({
+            email: 'uid',
+            password: 'password',
+            profile: {
+              firstName: 'fname',
+              lastName: 'lname',
+            },
+            regToken: 'TOKEN',
+            finalizeRegistration: true,
+            callback: jasmine.any(Function),
+          });
+          done();
+        },
       });
     });
 

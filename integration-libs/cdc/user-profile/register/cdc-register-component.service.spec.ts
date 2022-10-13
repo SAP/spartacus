@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
   EventService,
@@ -15,7 +16,6 @@ import {
   UserRegisterService,
 } from '@spartacus/user/profile/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { CdcJsService } from 'integration-libs/cdc/root';
 import { Observable, of } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
