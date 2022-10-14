@@ -36,5 +36,5 @@ export class AsmCustomerSectionComponent {
     this.source.data$ = data$;
   }
 
-  constructor(protected source: Customer360SectionContextSource<unknown>) { }
+  constructor(protected source: Customer360SectionContextSource<unknown>) {}
 }

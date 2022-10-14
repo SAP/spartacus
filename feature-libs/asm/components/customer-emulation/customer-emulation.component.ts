@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -49,7 +55,11 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
 
   openCustomer360() {
     const data = { customer: this.customer };
-    this.launchDialogService.openDialogAndSubscribe(LAUNCH_CALLER.ASM_CUSTOMER_360, this.customer360LauncherElement, data);
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      this.customer360LauncherElement,
+      data
+    );
 
     this.subscription.add(
       this.launchDialogService.dialogClose

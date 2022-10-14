@@ -8,14 +8,12 @@ export const getCustomer360DataLoaderState: MemoizedSelector<
   StateUtils.LoaderState<unknown>
 > = createSelector(getAsmState, (state: AsmState) => state.customer360Response);
 
-export const getCustomer360Data: MemoizedSelector<
-  StateWithAsm,
-  unknown
-> = createSelector(
-  getCustomer360DataLoaderState,
-  (state: StateUtils.LoaderState<unknown>) =>
-    StateUtils.loaderValueSelector(state)
-);
+export const getCustomer360Data: MemoizedSelector<StateWithAsm, unknown> =
+  createSelector(
+    getCustomer360DataLoaderState,
+    (state: StateUtils.LoaderState<unknown>) =>
+      StateUtils.loaderValueSelector(state)
+  );
 
 export const getCustomer360DataLoading: MemoizedSelector<
   StateWithAsm,

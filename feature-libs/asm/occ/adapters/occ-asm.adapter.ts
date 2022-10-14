@@ -27,7 +27,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 //
 import { of } from 'rxjs';
-import { OccAsmCustomer360Response, OccAsmCustomer360Type } from '../model/asm-360.model';
+import {
+  OccAsmCustomer360Response,
+  OccAsmCustomer360Type,
+} from '../model/asm-360.model';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {

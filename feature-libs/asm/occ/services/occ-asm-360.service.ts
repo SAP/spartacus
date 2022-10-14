@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Asm360Service, AsmCustomer360TabComponent, CreateRequestObjectOptions } from '@spartacus/asm/root';
+import {
+  Asm360Service,
+  AsmCustomer360TabComponent,
+  CreateRequestObjectOptions,
+} from '@spartacus/asm/root';
 import { Observable, of } from 'rxjs';
 
 import {

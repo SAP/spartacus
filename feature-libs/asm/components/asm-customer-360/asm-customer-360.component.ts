@@ -44,7 +44,7 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.launchDialogService.data$.subscribe(data => {
+    this.launchDialogService.data$.subscribe((data) => {
       const customer: User = data.customer;
 
       this.customer = customer;
@@ -72,7 +72,9 @@ export class AsmCustomer360Component implements OnInit {
           .pipe(take(1))
           .subscribe((data) => {
             this.data = this.tabs.map((tab) => {
-              return tab.components.map((component) => this.asm360Service.getResponseData(component, data));
+              return tab.components.map((component) =>
+                this.asm360Service.getResponseData(component, data)
+              );
             });
           });
       }

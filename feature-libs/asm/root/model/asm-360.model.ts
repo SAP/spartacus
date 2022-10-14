@@ -1,4 +1,4 @@
-import { UrlCommand, User } from "@spartacus/core";
+import { UrlCommand, User } from '@spartacus/core';
 
 export interface AsmCustomer360Review {
   productName: string;

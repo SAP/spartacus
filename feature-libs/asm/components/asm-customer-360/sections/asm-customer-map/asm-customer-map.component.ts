@@ -35,11 +35,10 @@ export class AsmCustomerMapComponent implements OnInit {
     protected sanitizer: DomSanitizer,
     /** TODO: This belongs in the 'storefinder' module. Should ask if we need to move these to core or some feature design. */
     protected storeFinderService: StoreFinderService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.source.data$.subscribe(data => {
+    this.source.data$.subscribe((data) => {
       this.storeFinderService.findStoresAction(data.address);
 
       this.storeFinderService.getFindStoresEntities().subscribe((data: any) => {
@@ -53,8 +52,12 @@ export class AsmCustomerMapComponent implements OnInit {
   }
 
   updateGoogleMapsUrl(): void {
-    this.source.config$.subscribe(config => {
-      if (config.googleMapsApiKey && this.currentLocation && this.selectedStore.geoPoint) {
+    this.source.config$.subscribe((config) => {
+      if (
+        config.googleMapsApiKey &&
+        this.currentLocation &&
+        this.selectedStore.geoPoint
+      ) {
         const coordinates = `${this.selectedStore.geoPoint.latitude},${this.selectedStore.geoPoint.longitude}`;
 
         const params = new HttpParams()

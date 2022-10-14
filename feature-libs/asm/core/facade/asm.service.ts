@@ -99,9 +99,7 @@ export class AsmService {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
 
-  fetchCustomer360Data(
-    request: unknown
-  ): void {
+  fetchCustomer360Data(request: unknown): void {
     this.store.dispatch(new AsmActions.Customer360Get(request));
   }
 

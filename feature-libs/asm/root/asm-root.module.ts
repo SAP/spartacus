@@ -34,7 +34,7 @@ import { AsmAuthService } from './services/asm-auth.service';
             'AsmCustomer360MapComponent',
           ],
         },
-      }
+      },
     }),
     {
       provide: AuthStorageService,

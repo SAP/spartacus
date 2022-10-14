@@ -9,7 +9,11 @@ import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-cu
 import { AsmCustomerPromotionsModule } from './sections/asm-customer-promotions/asm-customer-promotions.module';
 import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
 import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
-import { IconModule, KeyboardFocusModule, PageComponentModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  KeyboardFocusModule,
+  PageComponentModule,
+} from '@spartacus/storefront';
 import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
 
 @NgModule({

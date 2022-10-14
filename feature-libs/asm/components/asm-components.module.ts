@@ -29,7 +29,12 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomerMapComponent, AsmCustomerOverviewComponent, AsmCustomerProductReviewsComponent, AsmCustomerProfileComponent } from './asm-customer-360';
+import {
+  AsmCustomerMapComponent,
+  AsmCustomerOverviewComponent,
+  AsmCustomerProductReviewsComponent,
+  AsmCustomerProfileComponent,
+} from './asm-customer-360';
 import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 import { defaultCustomer360LayoutConfig } from './asm-customer-360/default-customer-360-layout.config';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';

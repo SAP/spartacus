@@ -26,7 +26,7 @@ export class AsmCustomerProductReviewsComponent {
     /** TODO: Importing this seems questionable. */
     protected semanticPathService: SemanticPathService
   ) {
-    context.data$.subscribe(data => {
+    context.data$.subscribe((data) => {
       this.reviewEntries = data.reviews.map((entry) => ({
         ...entry,
         item: combineStrings(entry.productName, entry.productCode, ', SKU: '),

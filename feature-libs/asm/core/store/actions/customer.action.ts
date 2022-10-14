@@ -92,9 +92,7 @@ export class CustomerListCustomersSearchReset extends StateUtils.LoaderResetActi
 
 export class Customer360Get extends StateUtils.LoaderLoadAction {
   readonly type = CUSTOMER_360_GET;
-  constructor(
-    public payload: unknown
-  ) {
+  constructor(public payload: unknown) {
     super(CUSTOMER_360_DATA);
   }
 }
