@@ -55,7 +55,24 @@ export const defaultAsmConfig: AsmConfig = {
       ],
     },
     customer360: {
-      tabs: [],
+      tabs: [
+        {
+          i18nNameKey: 'asm.customer360.overviewTab',
+          components: [
+            {
+              component: 'AsmCustomer360OverviewComponent',
+            },
+          ],
+        },
+        {
+          i18nNameKey: 'asm.customer360.profileTab',
+          components: [
+            {
+              component: 'AsmCustomer360ProfileComponent',
+            },
+          ],
+        },
+      ],
     },
     /*
     customer360: {
