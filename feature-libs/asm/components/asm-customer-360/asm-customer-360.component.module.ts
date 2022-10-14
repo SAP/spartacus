@@ -10,6 +10,7 @@ import { AsmCustomerPromotionsModule } from './sections/asm-customer-promotions/
 import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
 import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
 import { IconModule, KeyboardFocusModule, PageComponentModule } from '@spartacus/storefront';
+import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { IconModule, KeyboardFocusModule, PageComponentModule } from '@spartacus
     AsmCustomerSupportTicketsComponentModule,
     AsmCustomerProductReviewsComponentModule,
   ],
-  declarations: [AsmCustomer360Component],
+  declarations: [AsmCustomer360Component, AsmCustomerSectionComponent],
   exports: [AsmCustomer360Component],
 })
 export class AsmCustomer360ComponentModule {}

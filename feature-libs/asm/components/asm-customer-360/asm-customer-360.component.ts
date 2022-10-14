@@ -3,7 +3,6 @@ import {
   Component,
   Injector,
   OnInit,
-  StaticProvider,
 } from '@angular/core';
 import { AsmConfig, AsmService } from '@spartacus/asm/core';
 import {
@@ -12,28 +11,17 @@ import {
   AsmCustomer360TabConfig,
   AsmDialogActionEvent,
   AsmDialogActionType,
-  Customer360SectionConfig,
-  Customer360SectionData,
 } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 
 import { getAsmDialogActionEvent } from '../../core/utils/utils';
-import { Customer360SectionContextSource } from './sections/customer-360-section-context-source.model';
-import { Customer360SectionContext } from './sections/customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
-  providers: [
-    Customer360SectionContextSource,
-    {
-      provide: Customer360SectionContext,
-      useExisting: Customer360SectionContextSource,
-    },
-  ],
 })
 export class AsmCustomer360Component implements OnInit {
   iconTypes = ICON_TYPE;
@@ -41,7 +29,7 @@ export class AsmCustomer360Component implements OnInit {
   tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;
   currentTab: AsmCustomer360TabConfig;
-  injectors: Array<Array<Injector>>;
+  data: Array<Array<unknown>>;
 
   customer: User;
 
@@ -88,16 +76,8 @@ export class AsmCustomer360Component implements OnInit {
             data.value.forEach((customer360Data) => {
               customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
             });
-            this.injectors = this.tabs.map((tab) => {
-              return tab.components.map((component) =>
-                this.createInjector(
-                  component.config,
-                  component.requestData &&
-                    customerTypeCustomerDataMap[
-                      component.requestData.customer360Type
-                    ]
-                )
-              );
+            this.data = this.tabs.map((tab) => {
+              return tab.components.map((component) => component.requestData && customerTypeCustomerDataMap[component.requestData.customer360Type]);
             });
           });
       }
@@ -129,23 +109,5 @@ export class AsmCustomer360Component implements OnInit {
 
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
-  }
-
-  createInjector(config: unknown, sectionData?: unknown): Injector {
-    const providers: Array<StaticProvider> = [
-      { provide: Customer360SectionConfig, useValue: config },
-    ];
-
-    if (sectionData) {
-      providers.push({
-        provide: Customer360SectionData,
-        useValue: new Customer360SectionData(sectionData),
-      });
-    }
-
-    return Injector.create({
-      providers,
-      parent: this.injector,
-    });
   }
 }
