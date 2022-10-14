@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-// import { AsmDialogActionEvent } from '@spartacus/asm/root';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AsmDialogActionEvent } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -18,11 +20,15 @@ import { AsmComponentService } from '../services/asm-component.service';
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
+
+  @ViewChild('customer360Launcher') customer360LauncherElement: ElementRef;
+
   protected subscription = new Subscription();
 
   constructor(
     protected asmComponentService: AsmComponentService,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit() {
@@ -42,24 +48,16 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   }
 
   openCustomer360() {
-    /*
-    this.modalRef = this.modalService?.open(AsmCustomer360Component, {
-      size: 'xl',
-      windowClass: 'asm-customer-360',
-      ariaLabelledBy: 'asm-customer-360-title',
-      ariaDescribedBy: 'asm-customer-360-desc',
-    });
-    this.modalRef.componentInstance.customer = this.customer;
-    this.modalRef?.result
-      .then((event: AsmDialogActionEvent) => {
-        this.asmComponentService.handleAsmDialogAction(event);
-        this.modalRef = undefined;
-      })
-      .catch(() => {
-        // this  callback is called when modal is closed with Esc key or clicking backdrop
-        this.modalRef = undefined;
-      });
-      */
+    const data = { customer: this.customer };
+    this.launchDialogService.openDialogAndSubscribe(LAUNCH_CALLER.ASM_CUSTOMER_360, this.customer360LauncherElement, data);
+
+    this.subscription.add(
+      this.launchDialogService.dialogClose
+        .pipe(filter((result) => Boolean(result)))
+        .subscribe((event: AsmDialogActionEvent) => {
+          this.asmComponentService.handleAsmDialogAction(event);
+        })
+    );
   }
 
   ngOnDestroy(): void {

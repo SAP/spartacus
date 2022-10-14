@@ -2,13 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   Injector,
-  Input,
   OnInit,
   StaticProvider,
 } from '@angular/core';
-import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, AsmService } from '@spartacus/asm/core';
 import {
-  AsmConfig,
   AsmCustomer360Data,
   AsmCustomer360Query,
   AsmCustomer360TabConfig,
@@ -18,7 +16,7 @@ import {
   Customer360SectionData,
 } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 
 import { getAsmDialogActionEvent } from '../../core/utils/utils';
@@ -45,59 +43,65 @@ export class AsmCustomer360Component implements OnInit {
   currentTab: AsmCustomer360TabConfig;
   injectors: Array<Array<Injector>>;
 
+  customer: User;
+
   constructor(
-    asmConfig: AsmConfig,
+    protected asmConfig: AsmConfig,
     protected asmService: AsmService,
-    protected injector: Injector
+    protected injector: Injector,
+    protected launchDialogService: LaunchDialogService,
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
   }
 
-  @Input() customer: User;
-
   ngOnInit(): void {
-    const { customerId } = this.customer;
+    this.launchDialogService.data$.subscribe(data => {
+      const customer: User = data.customer;
 
-    if (customerId) {
-      const customerTypeCustomerDataMap: {
-        [type: string]: AsmCustomer360Data;
-      } = {};
+      this.customer = customer;
+      const { customerId } = customer;
 
-      const queries: Array<AsmCustomer360Query> = [];
+      if (customerId) {
+        const customerTypeCustomerDataMap: {
+          [type: string]: AsmCustomer360Data;
+        } = {};
 
-      this.tabs.forEach((tab) =>
-        tab.components.forEach((component) => {
-          if (component.requestData) {
-            queries.push(component.requestData);
-          }
-        })
-      );
+        const queries: Array<AsmCustomer360Query> = [];
 
-      this.asmService.fetchCustomer360Data(queries, {
-        userId: this.customer.customerId ?? '',
-      });
+        this.tabs.forEach((tab) =>
+          tab.components.forEach((component) => {
+            if (component.requestData) {
+              queries.push(component.requestData);
+            }
+          })
+        );
 
-      this.asmService
-        .getCustomer360Data()
-        .pipe(take(1))
-        .subscribe((data) => {
-          data.value.forEach((customer360Data) => {
-            customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
-          });
-          this.injectors = this.tabs.map((tab) => {
-            return tab.components.map((component) =>
-              this.createInjector(
-                component.config,
-                component.requestData &&
-                  customerTypeCustomerDataMap[
-                    component.requestData.customer360Type
-                  ]
-              )
-            );
-          });
+        this.asmService.fetchCustomer360Data(queries, {
+          userId: this.customer.customerId ?? '',
         });
-    }
+
+        this.asmService
+          .getCustomer360Data()
+          .pipe(take(1))
+          .subscribe((data) => {
+            data.value.forEach((customer360Data) => {
+              customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
+            });
+            this.injectors = this.tabs.map((tab) => {
+              return tab.components.map((component) =>
+                this.createInjector(
+                  component.config,
+                  component.requestData &&
+                    customerTypeCustomerDataMap[
+                      component.requestData.customer360Type
+                    ]
+                )
+              );
+            });
+          });
+      }
+    });
   }
 
   selectTab(selectedTab: any): void {

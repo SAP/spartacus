@@ -52,7 +52,7 @@
       </div>
       <div class="cx-tab-content modal-body">
         <ng-container
-          *ngFor="let config of currentTab.components; let i = index"
+          *ngFor="let config of currentTab?.components; let i = index"
         >
           <ng-container
             *ngComponentOutlet="

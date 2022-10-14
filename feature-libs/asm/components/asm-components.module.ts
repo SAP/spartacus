@@ -29,6 +29,7 @@ import {
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
+import { defaultCustomer360LayoutConfig } from './asm-customer-360/default-customer-360-layout.config';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -91,6 +92,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
   providers: [
     provideConfig(defaultAsmLayoutConfig),
     provideConfig(defaultCustomerListLayoutConfig),
+    provideConfig(defaultCustomer360LayoutConfig),
   ],
 })
 export class AsmComponentsModule {}
