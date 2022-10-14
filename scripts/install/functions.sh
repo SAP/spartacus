@@ -498,7 +498,7 @@ function check_ssr {
 
 function run_e2e {
     if [[ "$SKIP_E2E" = true ]] ; then
-        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        echo "⏩️ B2E E2E skipped (Option: --skip-e2e)."
         return 0
     fi
 
