@@ -1,0 +1,37 @@
+<!--
+Get rid of empty heart.
+
+See how to have a heart with the two colors (red and grey). However, you want be be using variables rather than
+hard coded colors. (See how this is done for exmaple with the red find button).
+
+Will need conditional logic that renders the active or inactive state.
+
+The component will need to find out the selected Store so it knows whether to render as red or not. (It will make use
+of the conditional logic in the previous step) You will defintely need help with this as we will need to figure out
+how to do this. It will involve a service which interacts with the store.--
+
+Will also need code that when the heart is clicked, sets this store to be the preferred store
+
+The existing Pick up from here button will need some functionality subtracted.It will now only set this store as the
+pickup location for this product. It will not be making this store the preferres store. (Either locally, or via API)
+
+
+
+-->
+
+<div class="setpreferredstore-container" (click)="setAsPreferred()">
+  <div
+    [ngClass]="{
+      'icon-selected': storeSelected,
+      'icon-not-selected': !storeSelected
+    }"
+  >
+    <cx-icon [type]="ICON_TYPE.HEART"></cx-icon>
+  </div>
+  <span class="set-preferred-heading">{{
+    (storeSelected
+      ? 'setPreferredStore.myStore'
+      : 'setPreferredStore.makeThisMyStore'
+    ) | cxTranslate
+  }}</span>
+</div>

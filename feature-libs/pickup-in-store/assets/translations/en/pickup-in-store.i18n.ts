@@ -54,6 +54,12 @@ export const storeSearch = {
   viewAllStores: 'View all stores',
 };
 
+/** Translation keys for the SetPreferredStoreComponent */
+export const setPreferredStore = {
+  makeThisMyStore: 'Make This My Store',
+  myStore: 'My Store',
+};
+
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInfo,
@@ -63,4 +69,5 @@ export const pickupInStore = {
   storeList,
   storeSchedule,
   storeSearch,
+  setPreferredStore,
 };

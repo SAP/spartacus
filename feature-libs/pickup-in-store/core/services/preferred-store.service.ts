@@ -55,6 +55,14 @@ export class PreferredStoreService {
   }
 
   /**
+   * Gets the user's preferred store for Pickup in Store.
+   * @returns the preferred store from local storage
+   */
+  getPreferredStore$(): Observable<PointOfServiceNames | undefined> {
+    return of(this.getPreferredStore());
+  }
+
+  /**
    * Sets the user's preferred store for Pickup in Store.
    * @param preferredStore the preferred store to set
    */
