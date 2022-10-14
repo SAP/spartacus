@@ -8,6 +8,8 @@ import {
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
 import {
+  GetTicketAssociatedObjectsQueryResetEvent,
+  GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
 } from './customer-ticketing.events';
@@ -20,7 +22,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
 
   constructor(protected eventService: EventService) {
     this.onGetTicketQueryReload();
-    this.onGetTicketQueryReset();
+    this.onLoginAndLogoutEvent();
   }
 
   protected onGetTicketQueryReload(): void {
@@ -34,13 +36,18 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketQueryReset(): void {
+  protected onLoginAndLogoutEvent(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
+        this.eventService.dispatch(
+          {},
+          GetTicketAssociatedObjectsQueryResetEvent
+        );
       })
     );
   }

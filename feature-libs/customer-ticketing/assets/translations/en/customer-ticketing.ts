@@ -22,4 +22,17 @@ export const customerTicketing = {
     associateTo: 'Associate To',
     attachments: 'Attachments',
   },
+
+  customerTicketingList: {
+    subject: 'Subject',
+    ticketCategory: 'Category',
+    sortSubtitle: 'Sort by',
+    sortOrders: 'Sort orders',
+    noTickets: `You don't have any request`,
+    requestTitle: 'All Requests',
+
+    mobile: {
+      ticketIdFull: 'Ticket ID',
+    },
+  },
 };

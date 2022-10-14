@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CustomerTicketingConfig,
+  CustomerTicketingFacade,
   MAX_ENTRIES_FOR_ATTACHMENT,
   MAX_INPUT_CHARACTERS,
   MAX_INPUT_CHARACTERS_FOR_SUBJECT,
@@ -77,7 +78,8 @@ export abstract class CustomerTicketingDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected customerTicketingConfig: CustomerTicketingConfig,
-    protected filesFormValidators: FilesFormValidators
+    protected filesFormValidators: FilesFormValidators,
+    protected customerTicketingFacade: CustomerTicketingFacade
   ) {}
 
   protected buildForm(): void {
