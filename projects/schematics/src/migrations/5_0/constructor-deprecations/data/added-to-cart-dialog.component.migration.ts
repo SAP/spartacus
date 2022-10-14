@@ -8,7 +8,6 @@ import {
   ROUTING_SERVICE,
 } from '../../../../shared/constants';
 import {
-  SPARTACUS_CART_BASE_COMPONENTS,
   SPARTACUS_CART_BASE_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -19,7 +18,7 @@ export const ADDED_TO_CART_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDe
   {
     // feature-libs/cart/base/components/added-to-cart-dialog/added-to-cart-dialog.component.ts
     class: ADDED_TO_CART_DIALOG_COMPONENT,
-    importPath: SPARTACUS_CART_BASE_COMPONENTS,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       { className: MODAL_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
       { className: ACTIVE_CART_FACADE, importPath: SPARTACUS_CART_BASE_ROOT },

@@ -21,12 +21,12 @@ export const TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDepreca
     importPath: SPARTACUS_ORDER_COMPONENTS,
     deprecatedParams: [
       {
-        className: ORDER_HISTORY_FACADE,
-        importPath: SPARTACUS_ORDER_ROOT,
-      },
-      {
         className: NGB_ACTIVE_MODAL,
         importPath: NG_BOOTSTRAP,
+      },
+      {
+        className: ORDER_HISTORY_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
       },
     ],
     removeParams: [
