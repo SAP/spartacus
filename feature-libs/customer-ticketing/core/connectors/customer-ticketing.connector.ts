@@ -14,7 +14,12 @@ export class CustomerTicketingConnector {
     return this.adapter.getTicket(customerId, ticketId);
   }
 
-  public getTickets(customerId: string): Observable<TicketList> {
-    return this.adapter.getTickets(customerId);
+  public getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList> {
+    return this.adapter.getTickets(customerId, pageSize, currentPage, sort);
   }
 }

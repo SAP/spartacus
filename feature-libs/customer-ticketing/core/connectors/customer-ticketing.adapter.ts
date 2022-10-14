@@ -7,5 +7,10 @@ export abstract class CustomerTicketingAdapter {
     ticketId: string
   ): Observable<TicketDetails>;
 
-  abstract getTickets(customerId: string): Observable<TicketList>;
+  abstract getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList>;
 }

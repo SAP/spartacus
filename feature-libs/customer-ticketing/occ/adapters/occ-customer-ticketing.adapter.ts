@@ -40,17 +40,36 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     });
   }
 
-  getTickets(customerId: string): Observable<TicketList> {
-    return this.http.get<TicketList>(this.getTicketsEndpoint(customerId)).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
-      this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
-    );
+  getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList> {
+    return this.http
+      .get<TicketList>(
+        this.getTicketsEndpoint(customerId, pageSize, currentPage, sort)
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
+      );
   }
 
-  protected getTicketsEndpoint(customerId: string): string {
+  protected getTicketsEndpoint(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): string {
     return this.occEndpoints.buildUrl('getTickets', {
       urlParams: {
         customerId,
+      },
+      queryParams: {
+        pageSize,
+        currentPage,
+        sort,
       },
     });
   }

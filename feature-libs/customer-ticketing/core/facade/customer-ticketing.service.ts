@@ -63,12 +63,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
-  protected getTicketsQuery$: Query<TicketList | undefined> =
-    this.queryService.create<TicketList | undefined>(
+  getTicketsQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<TicketList | undefined> {
+    return this.queryService.create<TicketList | undefined>(
       () =>
         this.customerTicketingListPreConditions().pipe(
           switchMap((customerId) =>
-            this.customerTicketingConnector.getTickets(customerId)
+            this.customerTicketingConnector.getTickets(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
           )
         ),
       {
@@ -76,6 +85,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketsQueryResetEvents(),
       }
     );
+  }
 
   constructor(
     protected queryService: QueryService,
@@ -122,11 +132,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.getTicketState().pipe(map((state) => state.data));
   }
 
-  getTicketsState(): Observable<QueryState<TicketList | undefined>> {
-    return this.getTicketsQuery$.getState();
+  getTicketsState(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<QueryState<TicketList | undefined>> {
+    return this.getTicketsQuery$(pageSize, currentPage, sort).getState();
   }
 
-  getTickets(): Observable<TicketList | undefined> {
-    return this.getTicketsState().pipe(map((state) => state.data));
+  getTickets(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<TicketList | undefined> {
+    return this.getTicketsState(pageSize, currentPage, sort).pipe(
+      map((state) => state.data)
+    );
   }
 }

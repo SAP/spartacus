@@ -18,7 +18,15 @@ export abstract class CustomerTicketingFacade {
 
   abstract getTicket(): Observable<TicketDetails | undefined>;
 
-  abstract getTicketsState(): Observable<QueryState<TicketList | undefined>>;
+  abstract getTicketsState(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<QueryState<TicketList | undefined>>;
 
-  abstract getTickets(): Observable<TicketList | undefined>;
+  abstract getTickets(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList | undefined>;
 }
