@@ -2,14 +2,10 @@
 
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
-HAS_GNU_PARALLEL_INSTALLED=false
-CUSTOM_CACHE_DIR="$(pwd)/.cache"
 
 TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
-
-KEEP_YARN_CACHE=false
 
 # Prints header adds time measurement
 function printh {
@@ -44,15 +40,12 @@ function cmd_clean {
 
     delete_dir ${BASE_DIR}
     delete_dir storage
-    if [[ "${KEEP_YARN_CACHE}" = false ]]; then
-        delete_dir ${CUSTOM_CACHE_DIR}
-    fi
+
+    yarn cache clean
 }
 
 function prepare_install {
     cmd_clean
-
-    setup_custom_yarn_cache "global"
 
     printh "Installing installation script prerequisites"
 
@@ -61,8 +54,6 @@ function prepare_install {
         echo "Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
         kill ${VERDACCIO_PID}
     fi
-
-    npm config set @spartacus:registry https://registry.npmjs.org/
 
     npm i -g verdaccio@5
     npm i -g npm-cli-login
@@ -93,11 +84,10 @@ function update_projects_versions {
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    local update_commands=()
-    for project in ${projects}; do
-        update_commands+=( "cd \"${CLONE_DIR}/${project}\" && pwd && sed -i -E 's/\"version\": \"[^\"]+/\"version\": \"'\"${SPARTACUS_VERSION}\"'/g' package.json" )
-    done
-    run_parallel_chunked "${MAX_PARALLEL}" "${update_commands[@]}"
+    for i in ${projects}
+        do
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+        done
 }
 
 function create_shell_app {
@@ -139,7 +129,11 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
+    local IS_NPM_INSTALL="$2"   
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${CSR_APP_NAME}
+    fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
@@ -150,11 +144,17 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function add_spartacus_ssr {
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${SSR_APP_NAME}
+    fi
+    
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
@@ -165,11 +165,16 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function add_spartacus_ssr_pwa {
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
+    if [ ! -z "$IS_NPM_INSTALL" ] ; then
+        create_npmrc ${SSR_PWA_APP_NAME}
+    fi
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
@@ -180,86 +185,42 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    remove_npmrc
     )
 }
 
 function create_apps {
-    local create_apps=()
-
+    local IS_NPM_INSTALL="${1}"
+    echo "create_apps is_npm_install: ${IS_NPM_INSTALL}"
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app install (no port defined)"
     else
-        printh "Add csr app"
-        create_apps+=("create_csr")
+        printh "Installing csr app"
+        create_shell_app ${CSR_APP_NAME}
+        add_spartacus_csr ${CSR_APP_NAME} ${IS_NPM_INSTALL}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
-        printh "Add ssr app"
-        create_apps+=("create_ssr")
+        printh "Installing ssr app"
+        create_shell_app ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME} ${IS_NPM_INSTALL}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
-        printh "Add ssr app (with pwa support)"
-        create_apps+=("create_ssr_pwa")
+        printh "Installing ssr app (with pwa support)"
+        create_shell_app ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
     fi
-
-    printh "Create Apps"
-    run_parallel "${create_apps[@]}"
-}
-
-function create_csr {
-    setup_custom_yarn_cache "csr"
-    create_shell_app ${CSR_APP_NAME}
-    add_spartacus_csr ${CSR_APP_NAME}
-}
-
-function create_ssr {
-    setup_custom_yarn_cache "ssr"
-    create_shell_app ${SSR_APP_NAME}
-    add_spartacus_ssr ${SSR_APP_NAME}
-}
-
-function create_ssr_pwa {
-    setup_custom_yarn_cache "pwa"
-    create_shell_app ${SSR_PWA_APP_NAME}
-    add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
-}
-
-function setup_custom_yarn_cache {
-    YARN_CACHE_FOLDER="${CUSTOM_CACHE_DIR}/yarn-${1}"
-    mkdir -p "$YARN_CACHE_FOLDER"
-    export YARN_CACHE_FOLDER
-}
-
-
-function clean_package {
-    local PKG_PATH="${1}"
-    local NPM_PKG_NAME=$(get_package_name "$PKG_PATH/package.json")
-
-    local dir="storage/${NPM_PKG_NAME}"
-    echo "clean package ${NPM_PKG_NAME}"
-    if [ -d ${dir} ]; then
-        echo " - removing package ${NPM_PKG_NAME}"
-        rm -rf ${dir}
-        yarn cache clean --force "${NPM_PKG_NAME}"
-    fi
-}
-
-function get_package_name {
-    local PKG_JSON="${1}"
-    cat "${PKG_JSON}"  | grep '"name":' | cut -d':' -f 2 | cut -d'"' -f 2
 }
 
 function publish_package {
     local PKG_PATH=${1}
     echo "Creating ${PKG_PATH} npm package"
-
-    clean_package "${PKG_PATH}"
-
     (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
 }
+
 
 function restore_clone {
     projects=$@
@@ -310,7 +271,7 @@ function install_from_sources {
         echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
     done
 
-    printh "Installing dependencies & build libs"
+    printh "Installing dependencies."
     ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
@@ -326,11 +287,9 @@ function install_from_sources {
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     printh "Publish Packages"
-    local packages_commands=()
     for project in ${project_packages[@]}; do
-        packages_commands+=( "publish_package ${CLONE_DIR}/${project}" )
+        publish_package "${CLONE_DIR}/${project}"
     done
-    run_parallel_chunked "${MAX_PARALLEL}" "${packages_commands[@]}"
 
     create_apps
 
@@ -344,19 +303,24 @@ function install_from_sources {
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 
-    print_warnings
-
     print_times
-
     print_summary
 }
 
 function install_from_npm {
     printh "Installing Spartacus from npm libraries"
+  
+    if [ -z "${NPM_URL}" ]; then
+        echo "Please fill NPM_URL"
+    else
+        prepare_install
 
-    prepare_install
+        #flag true to specify install is from npm
+        create_apps true
 
-    create_apps
+        remove_npm_token
+    fi
+    
 }
 
 function build_csr {
@@ -598,91 +562,7 @@ function run_e2e_b2b {
     fi
 }
 
-function run_parallel_chunked {
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        echo "⇶ Running in parallel chunked [fast]"
-        local n="${1}"
-        local tasks=("$@")
-
-        echo "  > Tasks: $((${#tasks[@]}-1))"
-        echo "  > Chunk-Size: ${n}"
-
-        for((i=1; i < ${#tasks[@]}; i+=n))
-        do
-            chunk=( "${tasks[@]:i:n}" )
-            echo "⇶ Running a chunk in parallel [fast]"
-            for c in "${chunk[@]}"
-            do
-                echo "  > ${c}"
-            done
-            exec_parallel "${chunk[@]}"
-        done
-    else
-        echo "→ Running linear [slow]"
-        local tasks=("$@")
-        unset tasks[0]
-        exec_linear "${tasks[@]}"
-    fi
-}
-
-function run_parallel {
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        echo "⇶ Running in parallel [fast]"
-        exec_parallel "${@}"
-    else
-        echo "→ Running linear [slow]"
-        exec_linear "${@}"
-    fi
-}
-
-function exec_parallel {
-    local tasks=("${@}")
-    exec_parallel_export_vars
-    parallel -k --ungroup eval ::: "${tasks[@]}"
-}
-
-function exec_linear {
-    local sep=" && "
-    local tasks=("${@}")
-
-    local ltasks=$(printf "${sep}%s" "${tasks[@]}")
-    ltasks="${ltasks:${#sep}}"
-
-    exec_parallel_export_vars
-    eval "$ltasks"
-}
-
-function exec_parallel_export_vars {
-    export CLONE_DIR
-    export BASE_DIR
-    export INSTALLATION_DIR
-    export BACKEND_URL
-    export OCC_PREFIX
-    export URL_PARAMETERS
-    export BASE_SITE
-    export CUSTOM_CACHE_DIR
-    export CSR_APP_NAME
-    export SSR_APP_NAME
-    export SSR_PWA_APP_NAME
-    export SPARTACUS_VERSION
-    export -f publish_package
-    export -f setup_custom_yarn_cache
-    export -f add_spartacus_ssr
-    export -f add_spartacus_ssr_pwa
-    export -f add_feature_libs
-    export -f add_spartacus_csr
-    export -f clean_package
-    export -f get_package_name
-    export -f create_shell_app
-    export -f create_csr
-    export -f create_ssr
-    export -f create_ssr_pwa
-    export -f add_b2b
-    export -f add_cdc
-    export -f add_epd_visualization
-    export -f add_product_configurator
-}
-
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function run_sanity_check {
     if [ "$SKIP_SANITY" = true ]; then
@@ -692,8 +572,6 @@ function run_sanity_check {
         ng_sanity_check
     fi
 }
-
-function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function ng_sanity_check {
     if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
@@ -746,27 +624,12 @@ function run_system_check {
     if [ $EXIT_CODE -eq 0 ] ; then
         HAS_XVFB_INSTALLED=true
     fi
-
-    HAS_GNU_PARALLEL_INSTALLED=false
-    EXIT_CODE=0
-    command -v parallel &> /dev/null || EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ] ; then
-        HAS_GNU_PARALLEL_INSTALLED=true
-        echo "🚀 Running in rocket speed [using gnu parallel]"
-    else
-        echo "🐢 Running in tutle speed [gnu parallel missing]"
-    fi
 }
 
 function parseInstallArgs {
     printh "Parsing arguments"
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --cache)
-                KEEP_YARN_CACHE=true
-                echo "➖ Keep Yarn Cache"
-                shift
-                ;;
             --skipsanity)
                 SKIP_SANITY=true
                 echo "➖ Skip Sanity Check"
@@ -940,11 +803,35 @@ function print_summary {
     local START_TIME=${TIME_MEASUREMENT_TIMES[0]}
     local END_TIME=$(date +%s)
     local ELAPSED=$(($END_TIME - $START_TIME))
+    printf "\nOS: ${EXECUTING_OS}\n"
     printf "BRANCH: ${BRANCH}\n"
-    if [ "$HAS_GNU_PARALLEL_INSTALLED" = true ] ; then
-        printf "Mode: 🚀 [USING GNU PARALLEL]\n"
-    else
-        printf "Mode: 🐢 [NO GNU PARALLEL]\n"
-    fi 
     printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
+}
+
+function create_npmrc {   
+    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
+    if [ -z "$NPM_TOKEN" ] ; then
+        echo "NPM_TOKEN is empty"
+    fi
+    echo "creating .npmrc file in ${1} folder"    
+    printf $NPMRC_CONTENT > .npmrc
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
+}
+
+function remove_npmrc {   
+    if [ -f "./.npmrc" ]; then
+        echo 'removing .npmrc file'
+        rm -rf .npmrc
+    fi
+}
+
+function remove_npm_token {
+    if [[ -f "./config.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'removing NPM_TOKEN value from config.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.sh
+    fi
+    if [[ -f "./config.default.sh" &&  ! -z "${NPM_TOKEN}" ]]; then
+        echo 'removing NPM_TOKEN value from config.default.sh'
+        sed -i'' -e 's/NPM_TOKEN=.*/NPM_TOKEN=/g' config.default.sh
+    fi
 }
