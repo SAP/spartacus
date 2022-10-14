@@ -84,6 +84,12 @@ const productConfiguration: Configurator.Configuration = {
   flatGroups: [group],
   priceSummary: {},
   priceSupplements: [],
+  pricingEnabled: true,
+};
+
+const productConfigurationWithoutPricing: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  pricingEnabled: false,
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -363,6 +369,18 @@ describe('ConfiguratorEffect', () => {
       });
       actions$ = hot('-a', { a: updatePriceSummaryAction });
       const expected = cold('-b', { b: failAction });
+
+      expect(configEffects.updatePriceSummary$).toBeObservable(expected);
+    });
+
+    it('should do nothing in case pricing is not enabled', () => {
+      const updatePriceSummaryAction =
+        new ConfiguratorActions.UpdatePriceSummary(
+          productConfigurationWithoutPricing
+        );
+
+      actions$ = hot('-a', { a: updatePriceSummaryAction });
+      const expected = cold('--');
 
       expect(configEffects.updatePriceSummary$).toBeObservable(expected);
     });
