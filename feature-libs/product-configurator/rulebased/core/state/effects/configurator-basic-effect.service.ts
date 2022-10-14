@@ -42,7 +42,7 @@ export class ConfiguratorBasicEffectService {
         (currentGroup) =>
           currentGroup.attributes && currentGroup.attributes.length > 0
       )
-      .pop();
+      .shift();
     let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
@@ -56,7 +56,7 @@ export class ConfiguratorBasicEffectService {
           this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
         )
         .filter((groupId) => groupId) //Filter undefined strings
-        .pop();
+        .shift();
     }
     return id;
   }
