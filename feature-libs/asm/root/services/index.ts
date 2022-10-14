@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+export * from './asm-360.service';
 export * from './asm-auth-http-header.service';
 export * from './asm-auth-storage.service';
 export * from './asm-auth.service';

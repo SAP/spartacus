@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 import { AsmConfig, AsmService } from '@spartacus/asm/core';
 import {
-  AsmCustomer360Data,
-  AsmCustomer360Query,
+  Asm360Service,
   AsmCustomer360TabConfig,
   AsmDialogActionEvent,
   AsmDialogActionType,
@@ -26,9 +25,9 @@ import { getAsmDialogActionEvent } from '../../core/utils/utils';
 export class AsmCustomer360Component implements OnInit {
   iconTypes = ICON_TYPE;
   loading = false;
-  tabs: Array<AsmCustomer360TabConfig>;
+  tabs: Array<AsmCustomer360TabConfig<unknown>>;
   activeTab = 0;
-  currentTab: AsmCustomer360TabConfig;
+  currentTab: AsmCustomer360TabConfig<unknown>;
   data: Array<Array<unknown>>;
 
   customer: User;
@@ -38,6 +37,7 @@ export class AsmCustomer360Component implements OnInit {
     protected asmService: AsmService,
     protected injector: Injector,
     protected launchDialogService: LaunchDialogService,
+    protected asm360Service: Asm360Service<unknown, unknown, unknown>
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
@@ -51,11 +51,7 @@ export class AsmCustomer360Component implements OnInit {
       const { customerId } = customer;
 
       if (customerId) {
-        const customerTypeCustomerDataMap: {
-          [type: string]: AsmCustomer360Data;
-        } = {};
-
-        const queries: Array<AsmCustomer360Query> = [];
+        const queries: Array<unknown> = [];
 
         this.tabs.forEach((tab) =>
           tab.components.forEach((component) => {
@@ -65,19 +61,18 @@ export class AsmCustomer360Component implements OnInit {
           })
         );
 
-        this.asmService.fetchCustomer360Data(queries, {
+        const request = this.asm360Service.createRequestObject(queries, {
           userId: this.customer.customerId ?? '',
         });
+
+        this.asmService.fetchCustomer360Data(request);
 
         this.asmService
           .getCustomer360Data()
           .pipe(take(1))
           .subscribe((data) => {
-            data.value.forEach((customer360Data) => {
-              customerTypeCustomerDataMap[customer360Data.type] = customer360Data;
-            });
             this.data = this.tabs.map((tab) => {
-              return tab.components.map((component) => component.requestData && customerTypeCustomerDataMap[component.requestData.customer360Type]);
+              return tab.components.map((component) => this.asm360Service.getResponseData(component, data));
             });
           });
       }

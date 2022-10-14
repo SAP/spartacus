@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsmCustomer360Params, AsmCustomer360Query, AsmCustomer360Response } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
 import {
   CustomerSearchOptions,
@@ -94,7 +93,7 @@ export class CustomerListCustomersSearchReset extends StateUtils.LoaderResetActi
 export class Customer360Get extends StateUtils.LoaderLoadAction {
   readonly type = CUSTOMER_360_GET;
   constructor(
-    public payload: [Array<AsmCustomer360Query>, AsmCustomer360Params]
+    public payload: unknown
   ) {
     super(CUSTOMER_360_DATA);
   }
@@ -109,7 +108,7 @@ export class Customer360GetFail extends StateUtils.LoaderFailAction {
 
 export class Customer360GetSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CUSTOMER_360_GET_SUCCESS;
-  constructor(public payload: AsmCustomer360Response) {
+  constructor(public payload: unknown) {
     super(CUSTOMER_360_DATA);
   }
 }

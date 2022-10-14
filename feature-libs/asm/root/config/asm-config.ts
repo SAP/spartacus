@@ -42,7 +42,7 @@ export abstract class AsmConfig {
        */
       enable?: boolean;
     };
-    customer360?: AsmCustomer360TabsConfig;
+    customer360?: AsmCustomer360TabsConfig<unknown>;
   };
 }
 

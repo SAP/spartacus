@@ -9,5 +9,5 @@ export abstract class Customer360SectionContext<Data> {
 
   readonly config$: Observable<Customer360SectionConfig>;
 
-  readonly data$: Observable<Data>;
+  data$: Observable<Data>;
 }

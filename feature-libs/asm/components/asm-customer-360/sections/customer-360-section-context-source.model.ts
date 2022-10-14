@@ -10,6 +10,4 @@ export class Customer360SectionContextSource<Data> extends Customer360SectionCon
   readonly customer$ = new ReplaySubject<User>(1);
 
   readonly config$ = new ReplaySubject<Customer360SectionConfig>(1);
-
-  readonly data$ = new ReplaySubject<Data>(1);
 }
