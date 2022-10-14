@@ -1,78 +1,83 @@
-<div class="cx-asm-customer-360" (esc)="closeModal('Escape clicked')">
+<div
+  class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  (esc)="closeModal('Escape clicked')"
+>
   <!-- Modal Header -->
-  <ng-container>
-    <div class="cx-dialog-header modal-header">
-      <div class="header-title">
-        <h3 id="asm-customer-360-title" class="modal-title">
-          {{ 'asm.customer360.header.title' | cxTranslate }}
-        </h3>
-        <div id="asm-customer-360-desc" class="cx-visually-hidden">
-          {{ 'asm.customer360.header.title' | cxTranslate }}
-        </div>
-        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
-      </div>
-      <div class="header-content">
-        <div class="header-content-container">
-          <div class="cx-customer-info-container">
-            <div class="cx-avatar">
-              {{ getAvatar() }}
-            </div>
-            <div class="cx-customer-info ml-3">
-              <div class="cx-customer-name">
-                {{
-                  'asm.customer360.header.subTitle'
-                    | cxTranslate: { name: customer.firstName }
-                }}
-              </div>
-              <div class="cx-customer-email">
-                {{ customer.uid }}
-              </div>
-            </div>
+  <div class="cx-modal-content">
+    <ng-container>
+      <div class="cx-dialog-header modal-header">
+        <div class="header-title">
+          <h3 id="asm-customer-360-title" class="modal-title">
+            {{ 'asm.customer360.header.title' | cxTranslate }}
+          </h3>
+          <div id="asm-customer-360-desc" class="cx-visually-hidden">
+            {{ 'asm.customer360.header.title' | cxTranslate }}
           </div>
-          <div class="login-info">Signed up 35 minutes ago 06-04-2007</div>
+          <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+        </div>
+        <div class="header-content">
+          <div class="header-content-container">
+            <div class="cx-customer-info-container">
+              <div class="cx-avatar">
+                {{ getAvatar() }}
+              </div>
+              <div class="cx-customer-info ml-3">
+                <div class="cx-customer-name">
+                  {{
+                    'asm.customer360.header.subTitle'
+                      | cxTranslate: { name: customer.firstName }
+                  }}
+                </div>
+                <div class="cx-customer-email">
+                  {{ customer.uid }}
+                </div>
+              </div>
+            </div>
+            <div class="login-info">Signed up 35 minutes ago 06-04-2007</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Modal Body -->
-    <div class="cx-dialog-body">
-      <div class="cx-dialog-row">
-        <div class="cx-dialog-item">
-          <div class="cx-tab-container">
-            <a
-              class="cx-tab"
-              *ngFor="let tab of tabs; let i = index"
-              (click)="selectTab(i)"
-              [class.active]="activeTab === i"
-            >
-              {{ tab.i18nNameKey | cxTranslate }}
-            </a>
+      <!-- Modal Body -->
+      <div class="cx-dialog-body">
+        <div class="cx-dialog-row">
+          <div class="cx-dialog-item">
+            <div class="cx-tab-container">
+              <a
+                class="cx-tab"
+                *ngFor="let tab of tabs; let i = index"
+                (click)="selectTab(i)"
+                [class.active]="activeTab === i"
+              >
+                {{ tab.i18nNameKey | cxTranslate }}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="cx-tab-content modal-body">
-        <ng-container
-          *ngFor="let config of currentTab?.components; let i = index"
-        >
+        <div class="cx-tab-content modal-body">
           <ng-container
-            [cxComponentWrapper]="{
-              flexType: config.component,
-              typeCode: config.component,
-              uid: ''
-            }"
-          ></ng-container>
-          <!--
-          <ng-container
-            *ngComponentOutlet="
-              config.component;
-              injector: injectors[activeTab][i]
-            "
-          ></ng-container>
-          -->
-        </ng-container>
+            *ngFor="let config of currentTab?.components; let i = index"
+          >
+            <ng-container
+              [cxComponentWrapper]="{
+                flexType: config.component,
+                typeCode: config.component,
+                uid: ''
+              }"
+            ></ng-container>
+            <!--
+            <ng-container
+              *ngComponentOutlet="
+                config.component;
+                injector: injectors[activeTab][i]
+              "
+            ></ng-container>
+            -->
+          </ng-container>
+        </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>
 
 <ng-template #closeButton>
@@ -80,8 +85,7 @@
     type="button"
     class="close"
     attr.aria-label="{{ 'common.close' | cxTranslate }}"
-    cxModal="dismiss"
-    cxModalReason="Cross click"
+    (click)="closeModal('Cross click')"
   >
     <span>
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

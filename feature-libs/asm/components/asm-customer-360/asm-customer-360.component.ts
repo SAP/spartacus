@@ -128,8 +128,7 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   closeModal(reason?: any): void {
-    reason;
-    // this.modalService.closeActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 
   createInjector(config: unknown, sectionData?: unknown): Injector {
