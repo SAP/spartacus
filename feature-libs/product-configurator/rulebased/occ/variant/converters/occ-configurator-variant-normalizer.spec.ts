@@ -53,6 +53,7 @@ const occAttribute: OccConfigurator.Attribute = {
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
+  visible: true,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
   key: groupKey,
@@ -211,6 +212,12 @@ const configuration: OccConfigurator.Configuration = {
       id: '2',
     },
   ],
+  kbKey: {
+    kbName: 'CONF_PRODUCT_KB',
+    kbLogsys: 'RR5CLNT910',
+    kbVersion: '1',
+    kbBuildNumber: '2',
+  },
 };
 
 const group: OccConfigurator.Group = {
@@ -379,6 +386,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attribute.required).toBe(requiredFlag);
       expect(attribute.selectedSingleValue).toBe(valueKey2);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
+      expect(attribute.visible).toBeTruthy();
       const values = attribute.values;
       expect(values?.length).toBe(2);
     });
@@ -398,6 +406,35 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(target.interactionState).toBe(
         targetFromPredecessor.interactionState
       );
+    });
+
+    it('should convert a configuration with kb key', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeDefined();
+      expect(result.kbKey?.kbName).toEqual(configuration.kbKey?.kbName);
+      expect(result.kbKey?.kbLogsys).toEqual(configuration.kbKey?.kbLogsys);
+      expect(result.kbKey?.kbVersion).toEqual(configuration.kbKey?.kbVersion);
+      expect(result.kbKey?.kbBuildNumber).toEqual(
+        configuration.kbKey?.kbBuildNumber
+      );
+    });
+
+    it('should convert a configuration with undefined kb key', () => {
+      configuration.kbKey = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeUndefined();
+    });
+
+    it('should convert flag that indicates that pricing is enabled', () => {
+      configuration.pricingEnabled = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(false);
+    });
+
+    it('should state that pricing is supported if backend does not support that attribute', () => {
+      configuration.pricingEnabled = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(true);
     });
   });
 

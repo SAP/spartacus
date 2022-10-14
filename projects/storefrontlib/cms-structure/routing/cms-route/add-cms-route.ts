@@ -17,6 +17,7 @@ const cmsRoute: Route = {
 
 export function addCmsRoute(injector: Injector): () => void {
   const result = () => {
+    // Router could not be injected via `deps[]` due to a cyclic dependency with APP_INITIALIZER:
     const router = injector.get(Router);
     router.config.push(cmsRoute);
   };
