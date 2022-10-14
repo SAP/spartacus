@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/eslint-plugin-eslint",
-  "main": "index.js",
   "version": "0.0.0-dev",
-  "private": true
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  }
 }
