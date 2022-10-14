@@ -28,6 +28,7 @@ export namespace OccConfigurator {
     groups?: Group[];
     rootProduct: string;
     kbKey?: KB;
+    pricingEnabled?: boolean;
   }
 
   export interface KB {
