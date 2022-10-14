@@ -411,11 +411,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
     it('should convert a configuration with kb key', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.kbKey).toBeDefined();
-      expect(result.kbKey.kbName).toEqual(configuration.kbKey.kbName);
-      expect(result.kbKey.kbLogsys).toEqual(configuration.kbKey.kbLogsys);
-      expect(result.kbKey.kbVersion).toEqual(configuration.kbKey.kbVersion);
-      expect(result.kbKey.kbBuildNumber).toEqual(
-        configuration.kbKey.kbBuildNumber
+      expect(result.kbKey?.kbName).toEqual(configuration.kbKey?.kbName);
+      expect(result.kbKey?.kbLogsys).toEqual(configuration.kbKey?.kbLogsys);
+      expect(result.kbKey?.kbVersion).toEqual(configuration.kbKey?.kbVersion);
+      expect(result.kbKey?.kbBuildNumber).toEqual(
+        configuration.kbKey?.kbBuildNumber
       );
     });
 
@@ -423,6 +423,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
       configuration.kbKey = undefined;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.kbKey).toBeUndefined();
+    });
+
+    it('should convert flag that indicates that pricing is enabled', () => {
+      configuration.pricingEnabled = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(false);
+    });
+
+    it('should state that pricing is supported if backend does not support that attribute', () => {
+      configuration.pricingEnabled = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(true);
     });
   });
 
