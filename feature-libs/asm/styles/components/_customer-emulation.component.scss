@@ -47,7 +47,6 @@
         fill: #fff;
       }
     }
-  }
 
     @include forVersion(5.1) {
       color: #aa0808;
@@ -72,6 +71,7 @@
       background-color: #ffd6ea;
       border: 1px solid #ffd6ea;
       margin-left: 15px;
+    }
   }
 
   @include forVersion(5.1) {

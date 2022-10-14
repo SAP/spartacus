@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
-import { AsmCustomer360Query } from '@spartacus/asm/root';
 
+import { AsmCustomer360Query } from './asm-360.model';
 import { Customer360SectionConfig } from './customer-360-section-config';
 
 export abstract class AsmCustomer360TabConfig {
