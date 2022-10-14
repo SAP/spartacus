@@ -79,3 +79,8 @@ NPM_URL=
 NPM_ALWAYS_AUTH=true
 
 SKIP_SANITY=false
+CHECK_AFTER_START=false
+CHECK_B2B_AFTER_START=false
+# Forces E2E even if XVFB is not installed
+FORCE_E2E=false
+SKIP_E2E=false
