@@ -664,6 +664,20 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attributeList.length).toBe(1);
       expect(attribute.label).toBe('AttributeName');
     });
+
+    it('should mark all attributes visible', () => {
+      const attributeList: Configurator.Attribute[] = [];
+
+      cpqConfiguratorNormalizer['convertAttribute'](
+        cpqAttribute,
+        cpqGroupId,
+        CURRENCY,
+        attributeList
+      );
+      const attribute: Configurator.Attribute = attributeList[0];
+      expect(attributeList.length).toBe(1);
+      expect(attribute.visible).toBe(true);
+    });
   });
 
   describe('convertGroup', () => {
