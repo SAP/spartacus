@@ -32,10 +32,11 @@ export function migrateConstructorDeprecation(
     const sourcePath = originalSource.fileName;
 
     for (const constructorDeprecation of constructorDeprecations) {
-      // 'source' has to be reloaded after each committed change
-      const source = getTsSourceFile(tree, sourcePath);
       if (
-        !isCandidateForConstructorDeprecation(source, constructorDeprecation)
+        !isCandidateForConstructorDeprecation(
+          originalSource,
+          constructorDeprecation
+        )
       ) {
         continue;
       }

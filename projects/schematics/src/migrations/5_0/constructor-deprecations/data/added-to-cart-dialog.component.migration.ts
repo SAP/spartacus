@@ -1,5 +1,6 @@
 import {
   ACTIVE_CART_FACADE,
+  ACTIVE_CART_SERVICE,
   ADDED_TO_CART_DIALOG_COMPONENT,
   ANGULAR_CORE,
   ELEMENT_REF,
@@ -20,16 +21,30 @@ export const ADDED_TO_CART_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDe
     class: ADDED_TO_CART_DIALOG_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
-      { className: MODAL_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
-      { className: ACTIVE_CART_FACADE, importPath: SPARTACUS_CART_BASE_ROOT },
+      {
+        className: MODAL_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
     ],
     removeParams: [
       {
         className: MODAL_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
       },
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
     ],
     addParams: [
+      {
+        className: ACTIVE_CART_FACADE,
+        importPath: SPARTACUS_CART_BASE_ROOT,
+      },
       {
         className: LAUNCH_DIALOG_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,

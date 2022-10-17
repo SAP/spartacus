@@ -1,10 +1,11 @@
 import {
-  MODAL_SERVICE,
-  CONSIGNMENT_TRACKING_COMPONENT,
-  ORDER_HISTORY_FACADE,
-  LAUNCH_DIALOG_SERVICE,
-  VIEW_CONTAINER_REF,
   ANGULAR_CORE,
+  CONSIGNMENT_TRACKING_COMPONENT,
+  LAUNCH_DIALOG_SERVICE,
+  MODAL_SERVICE,
+  ORDER_FACADE,
+  ORDER_HISTORY_FACADE,
+  VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
 import {
   SPARTACUS_ORDER_COMPONENTS,
@@ -20,7 +21,7 @@ export const CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDe
     importPath: SPARTACUS_ORDER_COMPONENTS,
     deprecatedParams: [
       {
-        className: ORDER_HISTORY_FACADE,
+        className: ORDER_FACADE,
         importPath: SPARTACUS_ORDER_ROOT,
       },
       {
@@ -30,11 +31,19 @@ export const CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDe
     ],
     removeParams: [
       {
+        className: ORDER_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
+      },
+      {
         className: MODAL_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
       },
     ],
     addParams: [
+      {
+        className: ORDER_HISTORY_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
+      },
       {
         className: LAUNCH_DIALOG_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
