@@ -21,5 +21,6 @@ export const customerTicketing = {
     category: 'Category',
     associateTo: 'Associate To',
     attachments: 'Attachments',
+    ticketCreated: 'Request {{requestNo}} Created.',
   },
 };

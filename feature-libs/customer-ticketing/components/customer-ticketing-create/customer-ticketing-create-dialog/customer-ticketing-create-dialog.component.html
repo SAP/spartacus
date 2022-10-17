@@ -40,8 +40,17 @@
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.category' | cxTranslate }}
           </span>
-          <select class="form-control">
-            <option *ngFor="let category of ticketCategories$ | async">
+          <select
+            class="form-control"
+            (change)="
+              getSelectedCategory($event.target.value, selectedCategory?.name)
+            "
+          >
+            <option
+              *ngFor="let category of ticketCategories$ | async"
+              value="{{ category.id }}"
+              [selected]="category.id === selectedCategory?.id"
+            >
               {{ category.name }}
             </option>
           </select>
@@ -53,9 +62,22 @@
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.associateTo' | cxTranslate }}
           </span>
-          <select class="form-control">
+          <select
+            class="form-control"
+            (change)="
+              getSelectedAssociatedObject(
+                $event.target.code,
+                selectedAssociatedTo?.modifiedAt,
+                selectedAssociatedTo?.type
+              )
+            "
+          >
             <option
               *ngFor="let associatedObject of ticketAssociatedObjects$ | async"
+              value="{{ associatedObject.code }}"
+              [selected]="
+                associatedObject.code === selectedAssociatedObject?.code
+              "
             >
               {{ associatedObject.type }} {{ associatedObject.code }}
             </option>

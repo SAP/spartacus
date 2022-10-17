@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
+  Command,
+  CommandService,
+  CommandStrategy,
+  EventService,
   Query,
   QueryNotifier,
   QueryService,
@@ -10,6 +14,7 @@ import {
 import {
   AssociatedObject,
   Category,
+  CreateEvent,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
@@ -17,10 +22,17 @@ import {
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  Ticket,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
 
 @Injectable()
@@ -49,6 +61,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
+
+  protected createTicketCommand: Command<Ticket, unknown> =
+    this.commandService.create<Ticket>(
+      (ticket) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId]) =>
+            this.customerTicketingConnector
+              .createTicket(customerId, ticket)
+              .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
+          )
+        ),
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
 
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
@@ -91,8 +118,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected queryService: QueryService,
     protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected commandService: CommandService,
+    protected eventService: EventService
   ) {}
+
   getTicketAssociatedObjectsState(): Observable<
     QueryState<AssociatedObject[]>
   > {
@@ -138,5 +168,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   getTicket(): Observable<TicketDetails | undefined> {
     return this.getTicketState().pipe(map((state) => state.data));
+  }
+
+  createTicket(ticket: Ticket): Observable<Ticket | unknown> {
+    return this.createTicketCommand.execute(ticket);
   }
 }

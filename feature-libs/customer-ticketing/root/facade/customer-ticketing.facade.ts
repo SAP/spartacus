@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CUSTOMER_TICKETING_FEATURE } from '../feature-name';
-import { AssociatedObject, Category, TicketDetails } from '../model';
-
+import { AssociatedObject, Category, Ticket, TicketDetails } from '../model';
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
@@ -17,6 +16,7 @@ import { AssociatedObject, Category, TicketDetails } from '../model';
         'getTicketCategories',
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
+        'createTicket',
       ],
     }),
 })
@@ -34,4 +34,6 @@ export abstract class CustomerTicketingFacade {
   >;
 
   abstract getTicketAssociatedObjects(): Observable<AssociatedObject[]>;
+
+  abstract createTicket(ticket: Ticket): Observable<Ticket | unknown>;
 }

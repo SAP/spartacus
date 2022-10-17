@@ -49,3 +49,10 @@ export interface Event {
   message?: string;
   toStatus?: Status;
 }
+
+export interface Ticket {
+  associatedTo?: AssociatedObject;
+  message?: string;
+  subject?: string;
+  ticketCategory?: Category;
+}
