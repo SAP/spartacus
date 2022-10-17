@@ -96,6 +96,7 @@ export namespace Configurator {
     warningMessages?: string[];
     variants?: Variant[];
     kbKey?: KB;
+    pricingEnabled?: boolean;
   }
 
   export interface InteractionState {

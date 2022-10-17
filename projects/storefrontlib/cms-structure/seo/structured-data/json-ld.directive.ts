@@ -30,22 +30,19 @@ export class JsonLdDirective {
   }
 
   constructor(
-    private renderer: Renderer2,
+    protected renderer: Renderer2,
     protected jsonLdScriptFactory: JsonLdScriptFactory,
-    private element: ElementRef
+    protected element: ElementRef
   ) {}
 
   /**
-   * attach the json-ld script tag to DOM with the schema data. To avoid xss attacks, HTMl tags within schema data are encoded (aka escaping)
+   * attach the json-ld script tag to DOM with the schema data secured by encoding html tags (aka escaping)
    */
-  protected generateJsonLdScript(schema: string | {}) {
+  protected generateJsonLdScript(schema: string | {}): void {
     if (schema && this.jsonLdScriptFactory.isJsonLdRequired()) {
-      const div: HTMLDivElement = this.renderer.createElement('div');
       const script: HTMLScriptElement = this.renderer.createElement('script');
       script.type = 'application/ld+json';
-      div.textContent = JSON.stringify(schema);
-      script.textContent = div.innerHTML;
-      this.renderer.appendChild(div, script);
+      script.textContent = this.jsonLdScriptFactory.escapeHtml(schema);
       this.renderer.appendChild(this.element.nativeElement, script);
     }
   }
