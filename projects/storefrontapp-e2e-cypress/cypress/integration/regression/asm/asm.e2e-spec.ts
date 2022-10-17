@@ -2,13 +2,12 @@ import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
-import { waitForPage } from '../../../helpers/navigation';
+import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { navigateToCategory } from '../../../helpers/navigation';
-import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
-import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 
 context('Assisted Service Module', () => {
   before(() => {
@@ -94,7 +93,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Agent binding cart');
       asm.bindCart();
 
-      cy.log('--> Retrieve customer cart code');
+      cy.log('--> Verify the agent sees the anonymous cart');
       cart.goToCart();
       cy.get('cx-cart-details').then(() => {
         const customerCartCode = JSON.parse(
@@ -109,6 +108,22 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
 
       cy.get('cx-asm-main-ui').should('exist');
+
+      cy.log('--> Log in as customer');
+      const loginPage = waitForPage('/login', 'getLoginPage');
+      cy.visit('/login');
+      cy.wait(`@${loginPage}`);
+      login(customer.email, customer.password);
+      cy.wait('@csAgentAuthentication');
+
+      cy.log("--> Verify anonymous cart is now the user's active cart");
+      cart.goToCart();
+      cy.get('cx-cart-details').then(() => {
+        const customerCartCode = JSON.parse(
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+        ).active;
+        expect(customerCartCode).to.equal(anonymousCartCode);
+      });
     });
   });
 

@@ -180,6 +180,7 @@ export class CpqConfiguratorNormalizer
       hasConflicts: sourceAttribute.hasConflict,
       selectedSingleValue: undefined,
       images: [],
+      visible: true,
     };
 
     if (
