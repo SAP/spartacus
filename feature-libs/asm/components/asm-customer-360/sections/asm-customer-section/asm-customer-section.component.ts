@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -43,7 +49,7 @@ export class AsmCustomerSectionComponent implements OnDestroy {
 
   constructor(protected source: Customer360SectionContextSource<unknown>) {
     this.subscription.add(
-      source.navigate$.subscribe(urlCommand => this.navigate.emit(urlCommand))
+      source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );
   }
 

@@ -47,13 +47,15 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
       this.source.data$.subscribe((data) => {
         this.storeFinderService.findStoresAction(data.address);
 
-        this.storeFinderService.getFindStoresEntities().subscribe((data: any) => {
-          if (data) {
-            this.storeData = data;
-            this.selectedStore = data.stores?.[0];
-            this.changeDetectorRef.detectChanges();
-          }
-        });
+        this.storeFinderService
+          .getFindStoresEntities()
+          .subscribe((data: any) => {
+            if (data) {
+              this.storeData = data;
+              this.selectedStore = data.stores?.[0];
+              this.changeDetectorRef.detectChanges();
+            }
+          });
       })
     );
   }

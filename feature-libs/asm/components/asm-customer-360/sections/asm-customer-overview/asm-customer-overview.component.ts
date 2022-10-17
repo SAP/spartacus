@@ -83,7 +83,7 @@ export class AsmCustomerOverviewComponent implements OnInit {
   navigateTo(path: string, product?: Product): void {
     const urlCommand: UrlCommand = { cxRoute: path };
     if (product) {
-      urlCommand.params = product ;
+      urlCommand.params = product;
     }
     this.sectionContext.navigate$.next(urlCommand);
   }
