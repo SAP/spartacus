@@ -22,14 +22,16 @@ pickup location for this product. It will not be making this store the preferres
 <div class="setpreferredstore-container" (click)="setAsPreferred()">
   <div
     [ngClass]="{
-      'icon-selected': storeSelected,
-      'icon-not-selected': !storeSelected
+      'icon-selected':
+        pointOfServiceName.name === (storeSelected$ | async)?.name,
+      'icon-not-selected':
+        pointOfServiceName.name !== (storeSelected$ | async)?.name
     }"
   >
     <cx-icon [type]="ICON_TYPE.HEART"></cx-icon>
   </div>
   <span class="set-preferred-heading">{{
-    (storeSelected
+    (pointOfServiceName.name === (storeSelected$ | async)?.name
       ? 'setPreferredStore.myStore'
       : 'setPreferredStore.makeThisMyStore'
     ) | cxTranslate

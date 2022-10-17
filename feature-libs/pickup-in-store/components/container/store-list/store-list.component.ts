@@ -57,9 +57,6 @@ export class StoreListComponent implements OnInit {
    */
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
-    const { name = '', displayName = '' } = pointOfService;
-
-    this.preferredStoreService.setPreferredStore({ name, displayName });
 
     this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
       ...pointOfService,

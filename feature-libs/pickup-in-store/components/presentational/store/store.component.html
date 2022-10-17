@@ -14,7 +14,10 @@
         <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
         </cx-store-schedule>
         <cx-set-preferred-store
-          [storeName]="storeDetails?.name"
+          [pointOfServiceName]="{
+            name: storeDetails?.name,
+            displayName: storeDetails?.displayName
+          }"
         ></cx-set-preferred-store>
       </div>
     </div>

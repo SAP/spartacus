@@ -17,7 +17,7 @@ import {
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
 import { isInStock } from '../utils';
@@ -32,6 +32,9 @@ export type PointOfServiceNames = PickRequiredDeep<
  */
 @Injectable()
 export class PreferredStoreService {
+  private _getPreferredStore$ = new BehaviorSubject<PointOfServiceNames | undefined>(
+    this.getPreferredStore()
+  );
   constructor(
     protected config: PickupInStoreConfig,
     protected consentService: ConsentService,
@@ -59,7 +62,7 @@ export class PreferredStoreService {
    * @returns the preferred store from local storage
    */
   getPreferredStore$(): Observable<PointOfServiceNames | undefined> {
-    return of(this.getPreferredStore());
+    return this._getPreferredStore$;
   }
 
   /**
@@ -80,6 +83,7 @@ export class PreferredStoreService {
             JSON.stringify(preferredStore)
           )
         ),
+        tap(() => this._getPreferredStore$.next(preferredStore)),
         mergeMap(() => this.userIdService.getUserId()),
         filter((userId) => userId !== 'anonymous'),
         mergeMap(() =>
