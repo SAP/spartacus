@@ -86,7 +86,7 @@ describe('CustomerTicketingDetailsComponent', () => {
     });
 
     it('should return close class when the status is close', () => {
-      assertStatusClassByStatusId('cx-text-gray', STATUS.CLOSED);
+      assertStatusClassByStatusId('cx-text-grey', STATUS.CLOSED);
     });
 
     it('should return empty if the id is not passed', () => {
