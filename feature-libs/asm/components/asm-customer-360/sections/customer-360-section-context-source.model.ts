@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
-import { User } from '@spartacus/core';
-import { ReplaySubject } from 'rxjs';
+import { UrlCommand, User } from '@spartacus/core';
+import { ReplaySubject, Subject } from 'rxjs';
 
 import { Customer360SectionContext } from './customer-360-section-context.model';
 
@@ -12,4 +12,6 @@ export class Customer360SectionContextSource<
   readonly customer$ = new ReplaySubject<User>(1);
 
   readonly config$ = new ReplaySubject<Customer360SectionConfig>(1);
+
+  readonly navigate$: Subject<UrlCommand> = new Subject();
 }

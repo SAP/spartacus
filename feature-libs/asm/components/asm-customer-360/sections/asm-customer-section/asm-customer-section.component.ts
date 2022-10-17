@@ -1,7 +1,13 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
-import { User } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { UrlCommand, User } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -17,7 +23,7 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
     },
   ],
 })
-export class AsmCustomerSectionComponent {
+export class AsmCustomerSectionComponent implements OnDestroy {
   @Input()
   component: string;
 
@@ -36,5 +42,18 @@ export class AsmCustomerSectionComponent {
     this.source.data$ = data$;
   }
 
-  constructor(protected source: Customer360SectionContextSource<unknown>) {}
+  @Output()
+  navigate: EventEmitter<UrlCommand> = new EventEmitter();
+
+  protected subscription = new Subscription();
+
+  constructor(protected source: Customer360SectionContextSource<unknown>) {
+    this.subscription.add(
+      source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

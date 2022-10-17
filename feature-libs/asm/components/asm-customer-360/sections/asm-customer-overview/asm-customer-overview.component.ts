@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-
 import {
   Product,
   ProductInterestEntryRelation,
@@ -11,9 +10,10 @@ import {
   UserInterestsService,
 } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Customer360SectionContext } from '../customer-360-section-context.model';
 import {
   AsmInterestProductEntry,
   OverviewSection,
@@ -24,9 +24,6 @@ import {
   templateUrl: './asm-customer-overview.component.html',
 })
 export class AsmCustomerOverviewComponent implements OnInit {
-  @Output()
-  navigate: EventEmitter<UrlCommand> = new EventEmitter();
-
   PAGE_SIZE = 100;
 
   OverviewSection = OverviewSection;
@@ -50,7 +47,8 @@ export class AsmCustomerOverviewComponent implements OnInit {
     protected savedCartFacade: SavedCartFacade,
     protected breakpointService: BreakpointService,
     protected interestsService: UserInterestsService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected sectionContext: Customer360SectionContext<void>
   ) {}
 
   ngOnInit(): void {
@@ -85,9 +83,9 @@ export class AsmCustomerOverviewComponent implements OnInit {
   navigateTo(path: string, product?: Product): void {
     const urlCommand: UrlCommand = { cxRoute: path };
     if (product) {
-      urlCommand.producct = product;
+      urlCommand.params = product;
     }
-    this.navigate.emit(urlCommand);
+    this.sectionContext.navigate$.next(urlCommand);
   }
 
   showMoreBySectionIndex(section: OverviewSection): void {
