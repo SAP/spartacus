@@ -13,8 +13,7 @@ export const enum STATUS {
 
 export const enum STATUS_NAME {
   OPEN = 'Open',
-  CLOSE = 'Closed',
-  INPROCESS = 'In ProcessD',
+  CLOSED = 'Closed',
   INPROCESS = 'INPROCESS',
 }
 

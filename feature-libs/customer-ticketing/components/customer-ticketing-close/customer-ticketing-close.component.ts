@@ -31,7 +31,7 @@ export class CustomerTicketingCloseComponent implements OnDestroy {
             (ticket?.status?.id === STATUS.OPEN ||
               ticket?.status?.id === STATUS.INPROCESS) &&
             ticket.availableStatusTransitions?.some(
-              (status) => status.id.toUpperCase() === STATUS.CLOSE
+              (status) => status.id.toUpperCase() === STATUS.CLOSED
             )
         )
       );

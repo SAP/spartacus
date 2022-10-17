@@ -47,8 +47,8 @@ export class CustomerTicketingCloseDialogComponent
     return {
       message: this.form?.get('message')?.value,
       toStatus: {
-        id: STATUS.CLOSE,
-        name: STATUS_NAME.CLOSE,
+        id: STATUS.CLOSED,
+        name: STATUS_NAME.CLOSED,
       },
     };
   }

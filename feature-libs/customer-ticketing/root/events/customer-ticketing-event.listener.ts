@@ -67,7 +67,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.globalMessageService.add(
           {
             key:
-              status === STATUS.CLOSE
+              status === STATUS.CLOSED
                 ? 'customerTicketing.requestClosed'
                 : 'customerTicketing.requestReopened',
           },

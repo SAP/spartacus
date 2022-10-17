@@ -28,7 +28,7 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
       .pipe(
         map(
           (ticket) =>
-            ticket?.status?.id === STATUS.CLOSE &&
+            ticket?.status?.id === STATUS.CLOSED &&
             ticket.availableStatusTransitions?.some(
               (status) =>
                 status.id.toUpperCase() === STATUS.INPROCESS ||

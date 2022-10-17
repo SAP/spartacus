@@ -37,8 +37,8 @@ describe('CustomerTicketingReopenComponent', () => {
     },
     availableStatusTransitions: [
       {
-        id: STATUS.CLOSE,
-        name: STATUS_NAME.CLOSE,
+        id: STATUS.CLOSED,
+        name: STATUS_NAME.CLOSED,
       },
     ],
   };
@@ -101,9 +101,9 @@ describe('CustomerTicketingReopenComponent', () => {
     });
 
     it('should be false if available status is not open or in process', (done) => {
-      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       mockTicket.availableStatusTransitions = [
-        { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE },
+        { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED },
       ];
       mockTicketDetails$.next(mockTicket);
 
@@ -116,7 +116,7 @@ describe('CustomerTicketingReopenComponent', () => {
     });
 
     it('should be true if status is close and available status is open or in process', (done) => {
-      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       mockTicket.availableStatusTransitions = [
         { id: STATUS.OPEN, name: STATUS_NAME.OPEN },
       ];

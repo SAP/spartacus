@@ -112,7 +112,7 @@ describe('CustomerTicketingEventListener', () => {
   describe('onTicketEventCreated', () => {
     it('TicketEventCreatedEvent should trigger requestClosed global message', () => {
       mockEventStream$.next(
-        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSE })
+        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSED })
       );
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
