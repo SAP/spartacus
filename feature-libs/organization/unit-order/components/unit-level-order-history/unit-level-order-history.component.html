@@ -5,13 +5,6 @@
 >
   <ng-container *ngIf="type.orderHistory as orderHistory">
     <div>
-      <!-- HEADER -->
-      <div class="cx-unit-level-order-history-header">
-        <h2>
-          {{ 'unitLevelOrderHistory.orderHistory' | cxTranslate }}
-        </h2>
-      </div>
-
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">
         <ng-container
@@ -129,7 +122,8 @@
                     "
                     class="cx-unit-level-order-history-value"
                   >
-                    {{ order?.orgCustomer?.name }}</a
+                    {{ order?.orgCustomer?.name }}
+                    <span> {{ order?.orgCustomer?.email }}</span></a
                   >
                 </td>
                 <td class="cx-unit-level-order-history-unit">
