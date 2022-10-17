@@ -24,7 +24,6 @@ import {
 } from '@spartacus/user/profile/root';
 
 @NgModule({
-  declarations: [],
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
     provideConfig(<CmsConfig>{
