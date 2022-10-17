@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AsmCustomer360Params, AsmCustomer360Query, AsmCustomer360Response } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
   AsmUi,
@@ -100,14 +99,11 @@ export class AsmService {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
 
-  fetchCustomer360Data(
-    queries: Array<AsmCustomer360Query>,
-    options: AsmCustomer360Params
-  ): void {
-    this.store.dispatch(new AsmActions.Customer360Get([queries, options]));
+  fetchCustomer360Data(request: unknown): void {
+    this.store.dispatch(new AsmActions.Customer360Get(request));
   }
 
-  getCustomer360Data(): Observable<AsmCustomer360Response> {
+  getCustomer360Data(): Observable<unknown> {
     return this.store.pipe(select(AsmSelectors.getCustomer360Data));
   }
 }

@@ -29,10 +29,12 @@ import { AsmAuthService } from './services/asm-auth.service';
         [ASM_FEATURE]: {
           cmsComponents: [
             'AsmCustomer360OverviewComponent',
-            'AsmCustomer360ProfileComponent'
+            'AsmCustomer360ProfileComponent',
+            'AsmCustomer360ProductReviewsComponent',
+            'AsmCustomer360MapComponent',
           ],
         },
-      }
+      },
     }),
     {
       provide: AuthStorageService,

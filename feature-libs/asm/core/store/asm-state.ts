@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { AsmCustomer360Response } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
 import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
@@ -20,6 +19,6 @@ export interface StateWithAsm {
 export interface AsmState {
   customerSearchResult: StateUtils.LoaderState<CustomerSearchPage>;
   customerListCustomersSearchResult: StateUtils.LoaderState<CustomerSearchPage>;
-  customer360Response: StateUtils.LoaderState<AsmCustomer360Response>;
+  customer360Response: StateUtils.LoaderState<unknown>;
   asmUi: AsmUi;
 }

@@ -6,10 +6,6 @@
 
 import { ICON_TYPE } from '@spartacus/storefront';
 
-// TODO: Cannot import from components module. Need to refactor
-// import { AsmCustomerMapComponent, AsmCustomerOverviewComponent, AsmCustomerProductReviewsComponent } from 'feature-libs/asm/components/asm-customer-360/sections/components';
-// import { AsmCustomer360Type } from '../model/asm-360.model';
-
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 
@@ -72,26 +68,13 @@ export const defaultAsmConfig: AsmConfig = {
             },
           ],
         },
-      ],
-    },
-    /*
-    customer360: {
-      tabs: [
         {
-          i18nNameKey: 'asm.customer360.overviewTab',
+          i18nNameKey: 'asm.customer360.activityTab',
           components: [
             {
-              component: AsmCustomerOverviewComponent,
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.overviewTab',
-          components: [
-            {
-              component: AsmCustomerProductReviewsComponent,
+              component: 'AsmCustomer360ProductReviewsComponent',
               requestData: {
-                customer360Type: AsmCustomer360Type.REVIEW_LIST,
+                customer360Type: 'C360ReviewList',
               },
               config: { pageSize: 5 },
             },
@@ -101,9 +84,9 @@ export const defaultAsmConfig: AsmConfig = {
           i18nNameKey: 'asm.customer360.mapsTab',
           components: [
             {
-              component: AsmCustomerMapComponent,
+              component: 'AsmCustomer360MapComponent',
               requestData: {
-                customer360Type: AsmCustomer360Type.STORE_LOCATION,
+                customer360Type: 'C360StoreLocation',
               },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
@@ -114,6 +97,5 @@ export const defaultAsmConfig: AsmConfig = {
         },
       ],
     },
-    */
   },
 };

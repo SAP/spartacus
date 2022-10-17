@@ -58,21 +58,11 @@
           <ng-container
             *ngFor="let config of currentTab?.components; let i = index"
           >
-            <ng-container
-              [cxComponentWrapper]="{
-                flexType: config.component,
-                typeCode: config.component,
-                uid: ''
-              }"
-            ></ng-container>
-            <!--
-            <ng-container
-              *ngComponentOutlet="
-                config.component;
-                injector: injectors[activeTab][i]
-              "
-            ></ng-container>
-            -->
+            <cx-asm-customer-section
+              [component]="config.component"
+              [config]="config.config"
+              [data]="data[activeTab][i]"
+            ></cx-asm-customer-section>
           </ng-container>
         </div>
       </div>
