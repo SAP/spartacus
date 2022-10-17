@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
   B2BUserRole,
+  B2BUserRight,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -27,7 +28,7 @@ export class UnitLevelOrdersViewerGuard implements CanActivate {
       map((roles) => {
         const hasRole =
           Array.isArray(roles) &&
-          (roles.includes(B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER) ||
+          (roles.includes(B2BUserRight.UNITORDERVIEWER) ||
             roles.includes(B2BUserRole.ADMIN));
 
         if (!hasRole) {

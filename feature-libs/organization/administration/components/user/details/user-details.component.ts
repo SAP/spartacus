@@ -32,8 +32,12 @@ export class UserDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
-  availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
+  availableRoles: string[] = this.b2bUserService
+    .getAllRoles()
+    .map((role: B2BUserRole) => role.toString());
+  availableRights: string[] = this.b2bUserService
+    .getAllRights()
+    .map((right: B2BUserRight) => right.toString());
 
   constructor(
     protected itemService: ItemService<B2BUser>,
@@ -41,7 +45,7 @@ export class UserDetailsComponent {
   ) {}
 
   hasRight(model: B2BUser): boolean {
-    return model.roles.some((role: B2BUserRight) =>
+    return (model.roles ?? []).some((role: string) =>
       this.availableRights.includes(role)
     );
   }

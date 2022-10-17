@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   B2BUserRole,
+  B2BUserRight,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -61,7 +62,7 @@ describe('UnitLevelOrdersViewerGuard', () => {
     let result: boolean | undefined;
     mockUserDetails.roles = [
       B2BUserRole.APPROVER,
-      B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER,
+      B2BUserRight.UNITORDERVIEWER,
     ];
 
     guard

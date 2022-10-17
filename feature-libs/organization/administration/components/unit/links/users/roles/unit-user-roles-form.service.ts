@@ -30,7 +30,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
 
   protected build() {
     const form = new UntypedFormGroup({});
-    this.availableRoles.forEach((role) =>
+    this.availableRoles.forEach((role: B2BUserRole) =>
       form.addControl(role, new UntypedFormControl())
     );
     this.availableRights.forEach((right: B2BUserRight) =>
