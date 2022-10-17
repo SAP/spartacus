@@ -51,12 +51,15 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
     case "${current_command}" in
         'install' )
+            parseInstallArgs $@
             install_from_sources;;
         'install_npm' )
             install_from_npm;;
         'start' )
+            parseStartArgs $@
             start_apps;;
         'stop' )
+            parseStopArgs $@
             stop_apps;;
         'help' )
             cmd_help;;
