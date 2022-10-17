@@ -1507,7 +1507,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: MODAL_REF,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_REF}' has been removed and is no longer part of the public API. Method 'openDialog' from 'LaunchDialogService' that is used instead of 'ModalService' is returning Observable<any> | undefined. For more information, see the 5.0 migration guide.`,
+    comment: `'${MODAL_REF}' has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {

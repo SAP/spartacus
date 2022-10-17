@@ -3801,6 +3801,40 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedParams: [
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      addParams: [
+        {
+          className: 'OrderHistoryFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+    },
+    {
       class: 'OrderCancellationService',
       importPath: '@spartacus/order/components',
       deprecatedParams: [
@@ -4185,6 +4219,40 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'LaunchDialogService',
           importPath: '@spartacus/storefront',
+        },
+      ],
+    },
+    {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+      ],
+      addParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'OrderHistoryFacade',
+          importPath: '@spartacus/order/root',
         },
       ],
     },
@@ -5185,6 +5253,40 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+      ],
+    },
+    {
       class: 'AddressBookComponent',
       importPath: '@spartacus/storefront',
       deprecatedParams: [
@@ -5997,6 +6099,40 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'EventService',
           importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'UserOrderService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'UserOrderService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      addParams: [
+        {
+          className: 'OrderHistoryFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
         },
       ],
     },
@@ -7231,6 +7367,40 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'WindowRef',
           importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'UserOrderService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'UserOrderService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'NgbActiveModal',
+          importPath: '@ng-bootstrap/ng-bootstrap',
+        },
+        {
+          className: 'OrderHistoryFacade',
+          importPath: '@spartacus/order/root',
         },
       ],
     },
