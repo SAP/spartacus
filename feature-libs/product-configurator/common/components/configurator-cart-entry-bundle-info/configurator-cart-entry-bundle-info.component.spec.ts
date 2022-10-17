@@ -851,7 +851,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          0,
+          1,
           undefined,
           undefined,
           '$1,000.00'
@@ -876,7 +876,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          1,
+          0,
           undefined,
           undefined,
           '5'
