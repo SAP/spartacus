@@ -25,4 +25,17 @@ export const customerTicketing = {
     requestClosed: 'Request closed, you may reopen if needed.',
     errorMessage: 'Something went wrong.',
   },
+
+  customerTicketingList: {
+    subject: 'Subject',
+    ticketCategory: 'Category',
+    sortSubtitle: 'Sort by',
+    sortOrders: 'Sort orders',
+    noTickets: `You don't have any request`,
+    requestTitle: 'All Requests',
+
+    mobile: {
+      ticketIdFull: 'Ticket ID',
+    },
+  },
 };
