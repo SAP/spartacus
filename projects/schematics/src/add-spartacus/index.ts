@@ -14,7 +14,6 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import * as path from 'path';
 import { ANGULAR_HTTP, RXJS } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import {
@@ -42,9 +41,13 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
+  getMainStyleFilePath,
+  getRelativeStyleConfigImportPath,
+  getStylConfigFilePath,
+} from '../shared/utils/styling-utils';
+import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
-  getProjectTargets,
   getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
@@ -54,18 +57,8 @@ import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
-function getStylConfigFilePath(project: WorkspaceProject): string {
-  const mainStyleFilePath = getMainStyleFilePath(project);
-  const styleConfigFileDir = path.parse(mainStyleFilePath).dir;
-  const styleConfigFilePath = path.join(
-    styleConfigFileDir,
-    'styles-config.scss'
-  );
-  return styleConfigFilePath;
-}
-
 function createStylesConfig(options: SpartacusOptions): Rule {
-  return (tree: Tree): Tree => {
+  return (tree: Tree, _context: SchematicContext): Tree => {
     const project = getProjectFromWorkspace(tree, options);
     const stylConfigFilePath = getStylConfigFilePath(project);
     const styleConfigContent = `$styleVersion: ${
@@ -75,36 +68,6 @@ function createStylesConfig(options: SpartacusOptions): Rule {
     tree.create(stylConfigFilePath, styleConfigContent);
     return tree;
   };
-}
-
-function getMainStyleFilePath(project: WorkspaceProject): string {
-  const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
-  const styleFilePath =
-    typeof rootStyles === 'object'
-      ? ((rootStyles as any)?.input as string)
-      : rootStyles;
-  if (!styleFilePath) {
-    throw new Error(
-      `Could not find main styling file from the project's angular configuration.`
-    );
-  }
-  return styleFilePath;
-}
-
-function getRelativeStyleConfigImportPath(
-  project: WorkspaceProject,
-  destFilePath: string
-) {
-  const styleConfigFilePath = getStylConfigFilePath(project);
-  const styleConfigFileRelativePath = path.relative(
-    path.parse(destFilePath).dir,
-    styleConfigFilePath
-  );
-  const styleConfigRelativeImportPath = path.join(
-    path.parse(styleConfigFileRelativePath).dir,
-    path.parse(styleConfigFileRelativePath).name
-  );
-  return styleConfigRelativeImportPath;
 }
 
 function installStyles(options: SpartacusOptions): Rule {
