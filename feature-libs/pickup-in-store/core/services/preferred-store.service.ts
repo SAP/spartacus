@@ -17,7 +17,7 @@ import {
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
 import { isInStock } from '../utils';
@@ -32,8 +32,15 @@ export type PointOfServiceNames = PickRequiredDeep<
  */
 @Injectable()
 export class PreferredStoreService {
-  private _getPreferredStore$ = new BehaviorSubject<PointOfServiceNames | undefined>(
-    this.getPreferredStore()
+  private _getPreferredStore$ = new BehaviorSubject<
+    PointOfServiceNames | undefined
+  >(
+    ((): PointOfServiceNames | undefined => {
+      const preferredStore = this.winRef.localStorage?.getItem(
+        PREFERRED_STORE_LOCAL_STORAGE_KEY
+      );
+      return preferredStore ? JSON.parse(preferredStore) : undefined;
+    })()
   );
   constructor(
     protected config: PickupInStoreConfig,
@@ -44,17 +51,6 @@ export class PreferredStoreService {
     protected userIdService: UserIdService
   ) {
     // Intentional empty constructor
-  }
-
-  /**
-   * Gets the user's preferred store for Pickup in Store.
-   * @returns the preferred store from local storage
-   */
-  getPreferredStore(): PointOfServiceNames | undefined {
-    const preferredStore = this.winRef.localStorage?.getItem(
-      PREFERRED_STORE_LOCAL_STORAGE_KEY
-    );
-    return preferredStore ? JSON.parse(preferredStore) : undefined;
   }
 
   /**
@@ -110,7 +106,7 @@ export class PreferredStoreService {
   getPreferredStoreWithProductInStock(
     productCode: string
   ): Observable<PointOfServiceNames> {
-    return of(this.getPreferredStore()).pipe(
+    return this.getPreferredStore$().pipe(
       filter((store): store is PointOfServiceNames => !!store),
       tap((preferredStore) => {
         this.pickupLocationsSearchService.stockLevelAtStore(

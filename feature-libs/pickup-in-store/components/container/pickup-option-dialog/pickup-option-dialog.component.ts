@@ -168,18 +168,26 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe();
       this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
-    } else {
-      const preferredStore = this.preferredStoreService.getPreferredStore();
-      if (!this.isPDP && preferredStore) {
-        this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
-          this.cartId,
-          this.entryNumber,
-          this.userId,
-          preferredStore.name,
-          this.quantity
-        );
-      }
+      return;
     }
+    this.subscription.add(
+      this.preferredStoreService
+        .getPreferredStore$()
+        .pipe(
+          filter((preferredStore) => !this.isPDP && !!preferredStore),
+          tap((preferredStore) =>
+            this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
+              this.cartId,
+              this.entryNumber,
+              this.userId,
+              preferredStore?.name as string,
+              this.quantity
+            )
+          ),
+          tap(() => console.log('setPickupOptionToPickupInStore'))
+        )
+        .subscribe()
+    );
   }
 
   /**

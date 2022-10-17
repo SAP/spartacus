@@ -147,14 +147,26 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       );
       return;
     }
-    const preferredStore = this.preferredStoreService.getPreferredStore();
     if (!this.displayNameIsSet) {
       this.openDialog();
-    } else if (preferredStore) {
-      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
-        ...preferredStore,
-        pickupOption: 'pickup',
-      });
+      return;
     }
+    this.subscription.add(
+      this.preferredStoreService
+        .getPreferredStore$()
+        .pipe(
+          filter((preferredStore) => !!preferredStore),
+          tap((preferredStore) =>
+            this.intendedPickupLocationService.setIntendedLocation(
+              this.productCode,
+              {
+                ...preferredStore,
+                pickupOption: 'pickup',
+              }
+            )
+          )
+        )
+        .subscribe()
+    );
   }
 }
