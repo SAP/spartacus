@@ -58,14 +58,24 @@ import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
 function createStylesConfig(options: SpartacusOptions): Rule {
-  return (tree: Tree, _context: SchematicContext): Tree => {
+  return (tree: Tree, context: SchematicContext): Tree => {
     const project = getProjectFromWorkspace(tree, options);
     const stylConfigFilePath = getStylConfigFilePath(project);
     const styleConfigContent = `$styleVersion: ${
       options.featureLevel || getSpartacusCurrentFeatureLevel()
     }`;
-
-    tree.create(stylConfigFilePath, styleConfigContent);
+    if (tree.exists(stylConfigFilePath)) {
+      context.logger.warn(
+        `Skipping styles config file creation. File ${stylConfigFilePath} already exists.`
+      );
+    } else {
+      tree.create(stylConfigFilePath, styleConfigContent);
+      if (options.debug) {
+        context.logger.info(
+          `✅ Styles config file created: ${stylConfigFilePath}`
+        );
+      }
+    }
     return tree;
   };
 }

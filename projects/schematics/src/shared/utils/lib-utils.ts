@@ -633,6 +633,9 @@ export function addLibraryStyles(
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       let content = initialContent;
 
+      if (!content.includes(stylesConfigImport)) {
+        content = `${stylesConfigImport}\n` + content;
+      }
       if (!content.includes(libraryStylesImport)) {
         content += `\n${libraryStylesImport}`;
       }
