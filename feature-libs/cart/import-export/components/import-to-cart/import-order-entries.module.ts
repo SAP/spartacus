@@ -11,7 +11,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  provideConfig,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FileUploadModule,
@@ -58,6 +58,6 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     ImportEntriesSummaryComponent,
     ImportToNewSavedCartFormComponent,
   ],
-  providers: [provideConfig(defaultImportEntriesLayoutConfig)],
+  providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportOrderEntriesModule {}
