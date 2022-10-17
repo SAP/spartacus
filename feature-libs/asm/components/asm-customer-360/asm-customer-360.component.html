@@ -62,6 +62,7 @@
               [component]="config.component"
               [config]="config.config"
               [data]="data[activeTab][i]"
+              (navigate)="navigateTo($event)"
             ></cx-asm-customer-section>
           </ng-container>
         </div>
