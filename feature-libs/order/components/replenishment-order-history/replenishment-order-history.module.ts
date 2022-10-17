@@ -11,7 +11,6 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -28,7 +27,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     I18nModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountReplenishmentHistoryComponent: {
