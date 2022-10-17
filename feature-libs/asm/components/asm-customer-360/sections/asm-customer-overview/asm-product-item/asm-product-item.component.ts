@@ -20,6 +20,4 @@ export class AsmProductItemComponent {
   @Input() price: Price;
   @Input() isOrderEntry = true;
   @Output() selectProduct = new EventEmitter<Product>();
-
-  constructor() {}
 }

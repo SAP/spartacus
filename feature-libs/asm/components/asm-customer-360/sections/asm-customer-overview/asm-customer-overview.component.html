@@ -1,37 +1,19 @@
-<div class="customer-description">
-  <div class="customer-description-section">
-    <h3>William is</h3>
-    <div class="customer-description-chips">
-      <div class="customer-description-chip">busy</div>
-      <div class="customer-description-chip">on-the-go</div>
-      <div class="customer-description-chip">early-adopting</div>
-      <div class="customer-description-chip">trend</div>
-      <div class="customer-description-chip">frequent buyer</div>
-      <div class="customer-description-chip">tech savvy</div>
-      <div class="customer-description-chip">photographer</div>
-    </div>
-  </div>
-  <div class="customer-description-section">
-    <h3>William uses</h3>
-  </div>
-</div>
-<!-- active cart -->
 <div
-  class="cx-asm-overview-section mt-3 pt-3"
+  class="cx-asm-overview-section cx-asm-overview-active-cart mt-3 pt-3"
   *ngIf="activeCart$ | async as activeCart; else emptyActiveCart"
 >
   <div class="section-header">
     <div class="header-title">
-      {{ 'asm.customerOverview.activeCart' | cxTranslate }}
+      {{ 'asm.customer360.overview.activeCart' | cxTranslate }}
       <a
         tabindex="0"
         [attr.aria-label]="
-          'asm.customerOverview.activeCartCode'
+          'asm.customer360.overview.activeCartCode'
             | cxTranslate: { code: activeCart.code }
         "
         role="link"
         class="cx-overview-title-link"
-        (click)="onSelectCart()"
+        (click)="navigateTo('cart')"
       >
         {{ activeCart.code }}
       </a>
@@ -39,65 +21,68 @@
     <div class="result-wrapper">
       <div class="cart-total-no-items">
         {{
-          'asm.customerOverview.totalNoItems'
+          'asm.customer360.overview.totalNoItems'
             | cxTranslate: { count: activeCart.totalItems }
         }}
       </div>
       <div class="cart-divider"></div>
       <div class="cart-total-price">
         {{
-          'asm.customerOverview.totalPrice'
-            | cxTranslate: { price: activeCart.totalPrice.formattedValue }
+          'asm.customer360.overview.totalPrice'
+            | cxTranslate: { price: activeCart.totalPrice?.formattedValue }
         }}
       </div>
     </div>
   </div>
-  <div class="row">
-    <div
-      class="col cx-asm-overview-items cx-asm-overview-order-items"
-      [class.show-more]="showMoreActiveCart"
-      [ngClass]="'column-' + numberofColumns"
-    >
-      <ng-container *ngFor="let entry of activeCart.entries; let i = index">
-        <cx-asm-product-item
-          *ngIf="i < numberofColumns || showMoreActiveCart"
-          [product]="entry.product"
-          [price]="entry.basePrice"
-          [quantity]="entry.quantity"
-          (selectProduct)="onSelectProduct($event)"
-        ></cx-asm-product-item>
-      </ng-container>
+  <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
+    <div class="row">
+      <div
+        class="col cx-asm-overview-items cx-asm-overview-order-items"
+        [class.show-more]="showMoreActiveCart"
+        [ngClass]="'column-' + numberofColumns"
+      >
+        <ng-container *ngFor="let entry of activeCart.entries; let i = index">
+          <cx-asm-product-item
+            class="cx-asm-overview-active-item"
+            *ngIf="i < numberofColumns || showMoreActiveCart"
+            [product]="entry.product"
+            [price]="entry.basePrice"
+            [quantity]="entry.quantity"
+            (selectProduct)="navigateTo('product', $event)"
+          ></cx-asm-product-item>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <ng-template
-    *ngTemplateOutlet="
-      showMoreButton;
-      context: {
-        itemLength: activeCart.entries.length,
-        columnNum: numberofColumns,
-        showMore: showMoreActiveCart,
-        sectionIndex: 0
-      }
-    "
-  ></ng-template>
+    <ng-template
+      *ngTemplateOutlet="
+        showMoreButton;
+        context: {
+          itemLength: activeCart.entries.length,
+          columnNum: numberofColumns,
+          showMore: showMoreActiveCart,
+          section: OverviewSection.ACTIVE_CART
+        }
+      "
+    ></ng-template>
+  </ng-container>
 </div>
 <!-- saved cart -->
 <div
-  class="cx-asm-overview-section mt-5"
+  class="cx-asm-overview-section cx-asm-overview-saved-cart mt-5"
   *ngIf="savedCart$ | async as savedCart; else emptySavedCart"
 >
   <div class="section-header">
     <div class="header-title">
-      {{ 'asm.customerOverview.savedCart' | cxTranslate }}
+      {{ 'asm.customer360.overview.savedCart' | cxTranslate }}
       <a
         tabindex="0"
         [attr.aria-label]="
-          'asm.customerOverview.savedCartCode'
+          'asm.customer360.overview.savedCartCode'
             | cxTranslate: { code: savedCart.code }
         "
         role="link"
         class="cx-overview-title-link"
-        (click)="onSelectCart()"
+        (click)="navigateTo('saved-carts')"
       >
         {{ savedCart.code }}
       </a>
@@ -105,93 +90,103 @@
     <div class="result-wrapper">
       <div class="cart-total-no-items">
         {{
-          'asm.customerOverview.totalNoItems'
+          'asm.customer360.overview.totalNoItems'
             | cxTranslate: { count: savedCart.totalItems }
         }}
       </div>
       <div class="cart-divider"></div>
       <div class="cart-total-price">
         {{
-          'asm.customerOverview.totalPrice'
+          'asm.customer360.overview.totalPrice'
             | cxTranslate: { price: savedCart.totalPrice.formattedValue }
         }}
       </div>
     </div>
   </div>
-  <div class="row">
-    <div
-      class="col cx-asm-overview-items cx-asm-overview-order-items"
-      [class.show-more]="showMoreSaveCart"
-      [ngClass]="'column-' + numberofColumns"
-    >
-      <ng-container *ngFor="let entry of savedCart.entries; let i = index">
-        <cx-asm-product-item
-          *ngIf="i < numberofColumns || showMoreSaveCart"
-          [product]="entry.product"
-          [price]="entry.basePrice"
-          [quantity]="entry.quantity"
-          (selectProduct)="onSelectProduct($event)"
-        ></cx-asm-product-item>
-      </ng-container>
+  <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
+    <div class="row">
+      <div
+        class="col cx-asm-overview-items cx-asm-overview-order-items"
+        [class.show-more]="showMoreSavedCart"
+        [ngClass]="'column-' + numberofColumns"
+      >
+        <ng-container *ngFor="let entry of savedCart.entries; let i = index">
+          <cx-asm-product-item
+            class="cx-asm-overview-saved-item"
+            *ngIf="i < numberofColumns || showMoreSavedCart"
+            [product]="entry.product"
+            [price]="entry.basePrice"
+            [quantity]="entry.quantity"
+            (selectProduct)="navigateTo('product', $event)"
+          ></cx-asm-product-item>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <ng-template
-    *ngTemplateOutlet="
-      showMoreButton;
-      context: {
-        itemLength: savedCart.entries.length,
-        columnNum: numberofColumns,
-        showMore: showMoreSaveCart,
-        sectionIndex: 1
-      }
-    "
-  ></ng-template>
+    <ng-template
+      *ngTemplateOutlet="
+        showMoreButton;
+        context: {
+          itemLength: savedCart.entries?.length,
+          columnNum: numberofColumns,
+          showMore: showMoreSavedCart,
+          section: OverviewSection.SAVED_CART
+        }
+      "
+    ></ng-template>
+  </ng-container>
 </div>
 
-<!-- Interest -->
+<!-- Interests -->
 <div
-  class="cx-asm-overview-section mt-5"
-  *ngIf="interests$ | async as interests; else emptyInterests"
+  class="cx-asm-overview-section cx-asm-overview-active-interests mt-5"
+  *ngIf="interestProducts$ | async as interests; else emptyInterests"
 >
   <div class="section-header">
     <div class="header-title">
       <a
         tabindex="0"
-        [attr.aria-label]="'asm.customerOverview.interests' | cxTranslate"
+        [attr.aria-label]="'asm.customer360.overview.interests' | cxTranslate"
         role="link"
         class="cx-overview-title-link"
-        (click)="goToMyInterests()"
+        (click)="navigateTo('myInterests')"
       >
-        {{ 'asm.customerOverview.interests' | cxTranslate }}
+        {{ 'asm.customer360.overview.interests' | cxTranslate }}
       </a>
     </div>
   </div>
-  <div class="row">
-    <div
-      class="col cx-asm-overview-items cx-asm-overview-interests-items"
-      [class.show-more]="showMoreInterests"
-    >
-      <ng-container *ngFor="let product of interests.products; let i = index">
-        <cx-asm-product-item
-          *ngIf="i < numberofColumns * 2 || showMoreInterests"
-          [product]="product"
-          [isOrderEntry]="false"
-          (selectProduct)="onSelectProduct($event)"
-        ></cx-asm-product-item>
-      </ng-container>
+  <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
+    <div class="row">
+      <div
+        class="col cx-asm-overview-items cx-asm-overview-interests-items"
+        [class.show-more]="showMoreInterests"
+      >
+        <ng-container
+          *ngFor="let product$ of interests.products; let i = index"
+        >
+          <ng-container *ngIf="product$ | async as product">
+            <cx-asm-product-item
+              class="cx-asm-overview-interests-item"
+              *ngIf="i < numberofColumns * 2 || showMoreInterests"
+              [product]="product"
+              [isOrderEntry]="false"
+              (selectProduct)="navigateTo('product', $event)"
+            ></cx-asm-product-item>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <ng-template
-    *ngTemplateOutlet="
-      showMoreButton;
-      context: {
-        itemLength: interests.products.length,
-        columnNum: numberofColumns * 2,
-        showMore: showMoreInterests,
-        sectionIndex: 2
-      }
-    "
-  ></ng-template>
+    <ng-template
+      *ngTemplateOutlet="
+        showMoreButton;
+        context: {
+          itemLength: interests.products.length,
+          columnNum: numberofColumns * 2,
+          showMore: showMoreInterests,
+          section: OverviewSection.INTERESTS
+        }
+      "
+    ></ng-template>
+  </ng-container>
 </div>
 
 <ng-template #emptySavedCart>
@@ -199,8 +194,8 @@
     *ngTemplateOutlet="
       emptyResult;
       context: {
-        title: 'asm.customerOverview.savedCart' | cxTranslate,
-        description: 'asm.customerOverview.noSavedCart' | cxTranslate
+        title: 'asm.customer360.overview.savedCart' | cxTranslate,
+        description: 'asm.customer360.overview.noSavedCart' | cxTranslate
       }
     "
   ></ng-template>
@@ -211,8 +206,8 @@
     *ngTemplateOutlet="
       emptyResult;
       context: {
-        title: 'asm.customerOverview.activeCart' | cxTranslate,
-        description: 'asm.customerOverview.noActiveCart' | cxTranslate
+        title: 'asm.customer360.overview.activeCart' | cxTranslate,
+        description: 'asm.customer360.overview.noActiveCart' | cxTranslate
       }
     "
   ></ng-template>
@@ -223,8 +218,8 @@
     *ngTemplateOutlet="
       emptyResult;
       context: {
-        title: 'asm.customerOverview.interests' | cxTranslate,
-        description: 'asm.customerOverview.noInterests' | cxTranslate
+        title: 'asm.customer360.overview.interests' | cxTranslate,
+        description: 'asm.customer360.overview.noInterests' | cxTranslate
       }
     "
   ></ng-template>
@@ -246,19 +241,19 @@
   let-itemLength="itemLength"
   let-columnNum="columnNum"
   let-showMore="showMore"
-  let-sectionIndex="sectionIndex"
+  let-section="section"
 >
   <div class="row" *ngIf="itemLength > columnNum">
     <div class="show-hide-container mt-4">
       <button
         class="link cx-action-link show-hide-btn"
-        (click)="showMoreBySectionIndex(sectionIndex)"
+        (click)="showMoreBySectionIndex(section)"
       >
         <span *ngIf="!showMore">{{
-          'asm.customerOverview.showMore' | cxTranslate
+          'asm.customer360.overview.showMore' | cxTranslate
         }}</span>
         <span *ngIf="showMore">{{
-          'asm.customerOverview.showLess' | cxTranslate
+          'asm.customer360.overview.showLess' | cxTranslate
         }}</span>
       </button>
     </div>

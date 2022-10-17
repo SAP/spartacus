@@ -19,15 +19,15 @@
     class="cx-asm-product-item-name"
     ><span title="{{ product?.name }}">{{ product?.name }}</span></a
   >
-  <div *ngIf="isOrderEntry">
+  <div class="cx-asm-product-item-code" *ngIf="isOrderEntry">
     {{ product?.code }}
   </div>
-  <div *ngIf="isOrderEntry">
-    {{ 'asm.customerOverview.quantity' | cxTranslate: { count: quantity } }}
+  <div class="cx-asm-product-item-quantity" *ngIf="isOrderEntry">
+    {{ 'asm.customer360.overview.quantity' | cxTranslate: { count: quantity } }}
   </div>
-  <div *ngIf="isOrderEntry">
+  <div class="cx-asm-product-item-price" *ngIf="isOrderEntry">
     {{
-      'asm.customerOverview.itemPrice'
+      'asm.customer360.overview.itemPrice'
         | cxTranslate: { price: price?.formattedValue }
     }}
   </div>
@@ -35,6 +35,6 @@
     class="cx-asm-overview-out-of-stock"
     *ngIf="!isOrderEntry && product.stock?.stockLevelStatus === 'outOfStock'"
   >
-    {{ 'asm.customerOverview.outOfStock' | cxTranslate }}
+    {{ 'asm.customer360.overview.outOfStock' | cxTranslate }}
   </div>
 </div>
