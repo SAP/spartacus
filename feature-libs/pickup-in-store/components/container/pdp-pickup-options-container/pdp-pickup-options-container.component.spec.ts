@@ -196,13 +196,13 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore').and.callThrough();
+      spyOn(preferredStoreService, 'getPreferredStore$').and.callThrough();
       component['productCode'] = 'productCode';
       component.onPickupOptionChange('pickup');
 
       component['displayNameIsSet'] = true;
 
-      expect(preferredStoreService.getPreferredStore).toHaveBeenCalled();
+      expect(preferredStoreService.getPreferredStore$).toHaveBeenCalled();
     });
   });
 
@@ -237,14 +237,15 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore');
+      spyOn(preferredStoreService, 'getPreferredStore$');
       spyOn(component, 'openDialog');
       component['productCode'] = 'productCode';
       component.onPickupOptionChange('pickup');
 
       component['displayNameIsSet'] = false;
 
-      expect(preferredStoreService.getPreferredStore).toHaveBeenCalled();
+      expect(preferredStoreService.getPreferredStore$).toHaveBeenCalled();
+
       expect(component.openDialog).toHaveBeenCalled();
     });
   });
@@ -283,9 +284,9 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('should not call getPreferredStore if display name is set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore');
+      spyOn(preferredStoreService, 'getPreferredStore$');
 
-      expect(preferredStoreService.getPreferredStore).not.toHaveBeenCalled();
+      expect(preferredStoreService.getPreferredStore$).not.toHaveBeenCalled();
     });
   });
 });

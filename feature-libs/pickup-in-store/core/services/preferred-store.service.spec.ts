@@ -117,8 +117,8 @@ describe('PreferredStoreService', () => {
           'preferred_store',
           JSON.stringify(preferredStore)
         );
-        expect(preferredStoreService.getPreferredStore()).toEqual(
-          preferredStore
+        expect(preferredStoreService.getPreferredStore$()).toEqual(
+          of(preferredStore)
         );
       });
     });
@@ -197,8 +197,8 @@ describe('PreferredStoreService', () => {
       };
       const productCode = 'P001';
 
-      spyOn(preferredStoreService, 'getPreferredStore').and.returnValue(
-        preferredStore
+      spyOn(preferredStoreService, 'getPreferredStore$').and.returnValue(
+        of(preferredStore)
       );
       spyOn(pickupLocationSearchService, 'stockLevelAtStore').and.callThrough();
       spyOn(
@@ -254,7 +254,9 @@ describe('PreferredStoreService', () => {
     });
 
     it('getPreferred Store to be undefined', () => {
-      expect(preferredStoreService.getPreferredStore()).toBeUndefined();
+      preferredStoreService
+        .getPreferredStore$()
+        .subscribe((preferredStore) => expect(preferredStore).toBeUndefined());
     });
   });
 
@@ -264,8 +266,8 @@ describe('PreferredStoreService', () => {
 });
 
 export class MockPreferredStoreService {
-  getPreferredStore(): PointOfServiceNames | undefined {
-    return { name: 'London School', displayName: 'London School' };
+  getPreferredStore$(): Observable<PointOfServiceNames | undefined> {
+    return of({ name: 'London School', displayName: 'London School' });
   }
   setPreferredStore(_preferredStore: PointOfServiceNames): void {}
   clearPreferredStore(): void {}
