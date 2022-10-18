@@ -1,9 +1,10 @@
 import {
-  ELEMENT_REF,
   ANGULAR_CORE,
+  ELEMENT_REF,
   LAUNCH_DIALOG_SERVICE,
   NGB_ACTIVE_MODAL,
   NG_BOOTSTRAP,
+  ORDER_FACADE,
   ORDER_HISTORY_FACADE,
   TRACKING_EVENTS_COMPONENT,
 } from '../../../../shared/constants';
@@ -21,12 +22,12 @@ export const TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDepreca
     importPath: SPARTACUS_ORDER_COMPONENTS,
     deprecatedParams: [
       {
-        className: ORDER_HISTORY_FACADE,
-        importPath: SPARTACUS_ORDER_ROOT,
-      },
-      {
         className: NGB_ACTIVE_MODAL,
         importPath: NG_BOOTSTRAP,
+      },
+      {
+        className: ORDER_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
       },
     ],
     removeParams: [
@@ -34,8 +35,16 @@ export const TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION: ConstructorDepreca
         className: NGB_ACTIVE_MODAL,
         importPath: NG_BOOTSTRAP,
       },
+      {
+        className: ORDER_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
+      },
     ],
     addParams: [
+      {
+        className: ORDER_HISTORY_FACADE,
+        importPath: SPARTACUS_ORDER_ROOT,
+      },
       {
         className: LAUNCH_DIALOG_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
