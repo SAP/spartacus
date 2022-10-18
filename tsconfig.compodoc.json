@@ -440,6 +440,12 @@
       "@spartacus/cdc/root": [
         "integration-libs/cdc/root/public_api"
       ],
+      "@spartacus/cdc/user-account": [
+        "integration-libs/cdc/user-account/public_api"
+      ],
+      "@spartacus/cdc/user-profile": [
+        "integration-libs/cdc/user-profile/public_api"
+      ],
       "@spartacus/cds": [
         "integration-libs/cds/public_api"
       ],
