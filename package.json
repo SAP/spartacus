@@ -129,8 +129,10 @@
     "@angular/cli": "^14.2.3",
     "@angular/compiler-cli": "^14.2.3",
     "@angular/language-service": "^14.2.3",
+    "@babel/runtime": "^7.18.9",
     "@ngrx/store-devtools": "^14.3.0",
     "@nguniversal/builders": "^14.2.0",
+    "@octokit/rest": "^19.0.5",
     "@sapui5/ts-types-esm": "1.98.0",
     "@schematics/angular": "^14.2.3",
     "@spartacus-eslint/eslint-plugin": "link:./projects/eslint",
@@ -197,8 +199,7 @@
     "ts-morph": "^9.1.0",
     "ts-node": "^10.6.0",
     "typescript": "^4.7.2",
-    "webpack-cli": "^4.10.0",
     "webpack": "^5.73.0",
-    "@babel/runtime": "^7.18.9"
+    "webpack-cli": "^4.10.0"
   }
 }
