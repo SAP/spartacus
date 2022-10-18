@@ -223,13 +223,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",

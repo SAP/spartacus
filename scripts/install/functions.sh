@@ -7,7 +7,7 @@ TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
-# Prints header
+# Prints header and adds time measurement
 function printh {
     local input="$1"
     local len=$((${#1}+2))
@@ -27,9 +27,8 @@ function delete_dir {
 
     echo "deleting directory ${dir} in background"
     if [ -d ${temp_dir} ]; then
-        rm -rf ${temp_dir}
+        delete_dir ${temp_dir}
     fi
-
     if [ -d ${dir} ]; then
         mv ${dir} ${temp_dir}
         rm -rf ${temp_dir} &
@@ -79,7 +78,6 @@ function clone_repo {
 }
 
 function update_projects_versions {
-
     projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
@@ -223,6 +221,7 @@ function publish_package {
     (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
+
 function restore_clone {
     projects=$@
 
@@ -329,7 +328,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
+        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
     fi
 }
 
@@ -338,7 +337,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
+        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
@@ -418,10 +417,10 @@ function stop_apps {
 function cmd_help {
     echo "Usage: run [command] [options...]"
     echo "Available commands are:"
-    echo " install [--skipsanity] (from sources)"
+    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
-    echo " stop"
+    echo " start [--port <port>] [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
+    echo " stop [--port <port>]"
     echo " help"
 }
 
@@ -499,7 +498,7 @@ function check_ssr {
 
 function run_e2e {
     if [[ "$SKIP_E2E" = true ]] ; then
-        echo "⏩️ B2B E2E skipped (Option: --skip-e2e)."
+        echo "⏩️ B2C E2E skipped (Option: --skip-e2e)."
         return 0
     fi
 
@@ -563,6 +562,8 @@ function run_e2e_b2b {
     fi
 }
 
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
 function run_sanity_check {
     if [ "$SKIP_SANITY" = true ]; then
         printh "Skip config sanity check"
@@ -571,8 +572,6 @@ function run_sanity_check {
         ng_sanity_check
     fi
 }
-
-function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
 
 function ng_sanity_check {
     if [[ "$BRANCH" == release/4.0.* ]] || [[ "$BRANCH" == release/4.3.* ]]; then
@@ -636,6 +635,52 @@ function parseInstallArgs {
                 echo "➖ Skip Sanity Check"
                 shift
                 ;;
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
+            -s|--basesite)
+                BASE_SITE="$2"
+                echo "➖ BASE_SITE to $BASE_SITE"
+                shift
+                shift
+                ;;
+            -b|--branch)
+                BRANCH="$2"
+                echo "➖ Branch to $BRANCH"
+                shift
+                shift
+                ;;
+            b2b)
+                ADD_B2B_LIBS=true
+                echo "➖ Added B2B Libs"         
+                shift
+                ;;
+            cpq)
+                ADD_CPQ=true
+                echo "➖ Added CPQ"   
+                shift
+                ;;
+            cdc)
+                ADD_CDC=true
+                echo "➖ Added CDC"   
+                shift
+                ;;
+            epd)
+                ADD_EPD_VISUALIZATION=true
+                echo "➖ Added EPD"   
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
@@ -669,6 +714,49 @@ function parseStartArgs {
             --skip-e2e)
                 SKIP_E2E=true
                 echo "➖ Skip E2E Tests"
+                shift
+                ;;
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
+                shift
+                ;;
+            -*|--*)
+                echo "Unknown option $1"
+                exit 1
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+}
+
+function parseStopArgs {
+    printh "Parsing arguments"
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -p|--port)
+                local PORTS
+                IFS=',' read -ra PORTS <<< "$2"
+                if [ ${#PORTS[@]} -eq 2 ]; then
+                    CSR_PORT="${PORTS[0]}"
+                    SSR_PORT="${PORTS[1]}"
+                    echo "➖ Set CSR Port to $CSR_PORT and SSR Port to $SSR_PORT"
+                else
+                    echo "Invalid Format: <CSRPort>,<SSRPort>"
+                    exit 1
+                fi
+                shift
                 shift
                 ;;
             -*|--*)

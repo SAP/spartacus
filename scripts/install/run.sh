@@ -64,6 +64,7 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             parseStartArgs $@
             start_apps;;
         'stop' )
+            parseStopArgs $@
             stop_apps;;
         'help' )
             cmd_help;;
