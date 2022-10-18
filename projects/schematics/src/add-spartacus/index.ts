@@ -43,7 +43,7 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import {
   getMainStyleFilePath,
   getRelativeStyleConfigImportPath,
-  getStylConfigFilePath,
+  getStylesConfigFilePath,
 } from '../shared/utils/styling-utils';
 import {
   getDefaultProjectNameFromWorkspace,
@@ -60,7 +60,7 @@ import { setupStoreModules } from './store';
 function createStylesConfig(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const project = getProjectFromWorkspace(tree, options);
-    const stylConfigFilePath = getStylConfigFilePath(project);
+    const stylConfigFilePath = getStylesConfigFilePath(project);
     const styleConfigContent = `$styleVersion: ${
       options.featureLevel || getSpartacusCurrentFeatureLevel()
     }`;

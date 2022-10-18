@@ -2,7 +2,7 @@ import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
 import { getProjectTargets } from './workspace-utils';
 
-export function getStylConfigFilePath(project: WorkspaceProject): string {
+export function getStylesConfigFilePath(project: WorkspaceProject): string {
   const mainStyleFilePath = getMainStyleFilePath(project);
   const styleConfigFileDir = path.parse(mainStyleFilePath).dir;
   const styleConfigFilePath = path.join(
@@ -30,7 +30,7 @@ export function getRelativeStyleConfigImportPath(
   project: WorkspaceProject,
   destFilePath: string
 ) {
-  const styleConfigFilePath = getStylConfigFilePath(project);
+  const styleConfigFilePath = getStylesConfigFilePath(project);
   const styleConfigFileRelativePath = path.relative(
     path.parse(destFilePath).dir,
     styleConfigFilePath
