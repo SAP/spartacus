@@ -131,6 +131,7 @@ function installStyles(options: SpartacusOptions): Rule {
     if (htmlContent.includes(insertion)) {
       return;
     }
+
     const recorder = tree.beginUpdate(styleFilePath);
 
     recorder.insertLeft(htmlContent.length, insertion);
@@ -426,7 +427,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
     const dependencies = prepareDependencies(features);
-
+    context.logger.info(`🛠 Schematics dev 1`);
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
