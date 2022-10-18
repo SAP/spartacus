@@ -13,6 +13,7 @@
     "i18next-http-backend": "^1.4.1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/eslint-plugin-eslint": {},
   "@spartacus/schematics": {
     "@angular-devkit/core": "^14.2.3",
     "@angular-devkit/schematics": "^14.2.3",

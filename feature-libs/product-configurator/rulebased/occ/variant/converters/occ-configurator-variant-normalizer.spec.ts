@@ -881,36 +881,55 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.ImageFormatType.ATTRIBUTE_IMAGE);
   });
 
-  it('should convert image with media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = 'https://mediaBackendBaseUrl/';
+  describe('convertImage', () => {
+    it('should convert image with media URL configured', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      if (media) {
+        media.baseUrl = 'https://mediaBackendBaseUrl/';
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe(
+          'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+        );
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
-      expect(images.length).toBe(2);
-    }
-  });
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+        expect(images.length).toBe(2);
+      }
+    });
 
-  it('should convert image with no media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = undefined;
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    it('should convert image with no media URL configured', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      if (media) {
+        media.baseUrl = undefined;
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
-    }
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe(
+          'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+        );
+      }
+    });
+
+    it('should convert image with no URL configuration at all', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      const occ = occConfig?.backend?.occ;
+      if (media && occ) {
+        media.baseUrl = undefined;
+        occ.baseUrl = undefined;
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe('media?This%20%is%20%a%20%URL');
+      }
+    });
   });
 
   describe('check the setting of incomplete', () => {
