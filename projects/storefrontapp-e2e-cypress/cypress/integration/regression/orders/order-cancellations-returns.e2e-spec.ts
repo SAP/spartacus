@@ -88,7 +88,7 @@ describe('Order Cancellations and Returns', () => {
       orderCancellationReturn.visitReturnRequestDetailsPage();
 
       // assert buttons
-      cy.get('cx-return-request-overview .btn-action').should(
+      cy.get('cx-return-request-overview .btn-secondary').should(
         'contain',
         'Back'
       );

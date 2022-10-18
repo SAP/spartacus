@@ -143,7 +143,7 @@
             <button
               (click)="close('Close Save Cart Dialog')"
               [attr.aria-label]="'common.close' | cxTranslate"
-              class="mr-2 btn btn-action"
+              class="mr-2 btn btn-secondary"
               type="button"
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
@@ -241,7 +241,7 @@
               (click)="close('Close Save Cart Dialog')"
               [attr.aria-label]="'common.close' | cxTranslate"
               [disabled]="isLoading$ | async"
-              class="btn btn-action"
+              class="btn btn-secondary"
               type="button"
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}

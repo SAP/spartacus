@@ -7,7 +7,7 @@
       display: none;
     }
 
-    .btn-action {
+    .btn-secondary {
       @include media-breakpoint-down(sm) {
         margin: 0 0 1rem;
       }

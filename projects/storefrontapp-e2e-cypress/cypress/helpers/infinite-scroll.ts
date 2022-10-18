@@ -12,7 +12,7 @@ const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;
 let defaultProductLimit = 12;
 
-const productScrollButtons = 'cx-product-scroll .btn-action';
+const productScrollButtons = 'cx-product-scroll .btn-secondary';
 
 const doubleButton = 'double';
 const singleButton = 'single';

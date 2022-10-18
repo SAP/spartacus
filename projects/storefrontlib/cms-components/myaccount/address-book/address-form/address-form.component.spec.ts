@@ -395,7 +395,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = 'Back to cart';
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('Back to cart');
     });
 
@@ -403,13 +403,14 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = undefined;
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('addressForm.chooseAddress');
     });
   });
 
   describe('UI back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should default "showCancelBtn" to true and create button', () => {
       fixture.detectChanges();

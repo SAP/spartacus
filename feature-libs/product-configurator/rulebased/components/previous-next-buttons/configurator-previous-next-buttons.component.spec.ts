@@ -186,7 +186,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-action')
+      By.css('.cx-previous')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
@@ -197,7 +197,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-action')
+      By.css('.cx-previous')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -208,7 +208,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(
-      By.css('.btn-secondary')
+      By.css('.cx-next')
     ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
@@ -219,7 +219,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-secondary')
+      By.css('.cx-next')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -338,7 +338,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         expect,
         htmlElem,
         'button',
-        'btn-action',
+        'cx-previous',
         0,
         'aria-label',
         'configurator.a11y.previous',
@@ -351,7 +351,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         expect,
         htmlElem,
         'button',
-        'btn-secondary',
+        'cx-next',
         0,
         'aria-label',
         'configurator.a11y.next',

@@ -52,8 +52,8 @@
       padding: 1.25rem 0;
     }
 
-    .btn-action {
-      @include media-breakpoint-down(sm) {
+    .btn-secondary {
+      @include media-breakpoint-down(md) {
         margin-bottom: 1rem;
       }
     }

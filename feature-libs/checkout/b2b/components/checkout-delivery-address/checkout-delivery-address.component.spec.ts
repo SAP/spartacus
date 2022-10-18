@@ -456,7 +456,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   describe('UI back button', () => {
     const getBackBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
@@ -494,7 +494,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find(
           (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );

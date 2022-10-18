@@ -4,13 +4,13 @@ $space: 0.5rem;
   background-color: var(--cx-color-light);
   color: var(--cx-color-inverse);
 
-    @include media-breakpoint-up(lg) {
-      background: linear-gradient(
-        to top,
-        var(--cx-color-text) $header-height,
-        var(--cx-color-light) 0
-      );
-    }
+  @include media-breakpoint-up(lg) {
+    background: linear-gradient(
+      to top,
+      var(--cx-color-text) $header-height,
+      var(--cx-color-light) 0
+    );
+  }
 
   .header {
     max-width: var(--cx-page-width-max);

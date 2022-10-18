@@ -73,7 +73,7 @@
       outline: none;
     }
     color: var(--cx-color-inverse);
-   
+
     &:not(:disabled) {
       cursor: pointer;
     }
@@ -93,9 +93,9 @@
 
       &[disabled] {
         .cx-icon {
-        color: var(--cx-color-primary);
-        background-color: var(--cx-color-inverse);
-        padding: 2px;
+          color: var(--cx-color-primary);
+          background-color: var(--cx-color-inverse);
+          padding: 2px;
         }
       }
       &:not(:disabled):hover {
