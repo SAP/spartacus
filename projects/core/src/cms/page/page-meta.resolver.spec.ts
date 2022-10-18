@@ -69,6 +69,13 @@ describe('PageMetaResolver', () => {
     service.pageType = PageType.CONTENT_PAGE;
     service.pageTemplate = 'any-template';
     service.pageUid = 'any-uid';
-    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(3);
+    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(102);
+  });
+
+  it('should score -98 for ContentPage with page template and wrong page id', () => {
+    service.pageType = PageType.CONTENT_PAGE;
+    service.pageTemplate = 'any-template';
+    service.pageUid = 'wrong-uid';
+    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(-98);
   });
 });
