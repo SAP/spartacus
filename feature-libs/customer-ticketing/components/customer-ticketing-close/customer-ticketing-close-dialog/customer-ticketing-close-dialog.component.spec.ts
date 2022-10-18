@@ -7,12 +7,13 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
+import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
 import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
+
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   createTicketEvent = createSpy().and.returnValue(of());
 }
@@ -21,15 +22,15 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-describe('CustomerTicketingReopenDialogComponent', () => {
-  let component: CustomerTicketingReopenDialogComponent;
-  let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
+describe('CustomerTicketingCloseDialogComponent', () => {
+  let component: CustomerTicketingCloseDialogComponent;
+  let fixture: ComponentFixture<CustomerTicketingCloseDialogComponent>;
   let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CustomerTicketingReopenDialogComponent],
+      declarations: [CustomerTicketingCloseDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -44,7 +45,7 @@ describe('CustomerTicketingReopenDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerTicketingReopenDialogComponent);
+    fixture = TestBed.createComponent(CustomerTicketingCloseDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -58,10 +59,10 @@ describe('CustomerTicketingReopenDialogComponent', () => {
     expect(component.form.get('file')?.value).toBeDefined();
   });
 
-  describe('reopenRequest', () => {
+  describe('closeRequest', () => {
     it('should not call createTicketEvent if the form is invalid', () => {
       component.form.get('message')?.setValue('');
-      component.reopenRequest();
+      component.closeRequest();
 
       expect(customerTicketingFacade.createTicketEvent).not.toHaveBeenCalled();
     });
@@ -70,13 +71,13 @@ describe('CustomerTicketingReopenDialogComponent', () => {
       const mockEvent = {
         message: 'mockMessage',
         toStatus: {
-          id: STATUS.INPROCESS,
-          name: STATUS_NAME.INPROCESS,
+          id: STATUS.CLOSED,
+          name: STATUS_NAME.CLOSED,
         },
       };
 
       component.form.get('message')?.setValue('mockMessage');
-      component.reopenRequest();
+      component.closeRequest();
 
       expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
         mockEvent

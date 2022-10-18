@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
@@ -11,10 +11,15 @@ const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'mockTicket',
 };
+
+const mockTicketEvent: TicketEvent = {
+  message: 'mockMessage',
+};
 class MockCustomerTicketingAdapter
   implements Partial<CustomerTicketingAdapter>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  createTicketEvent = createSpy().and.returnValue(of(mockTicketEvent));
 }
 
 describe('CustomerTicketingConnentor', () => {
@@ -39,10 +44,24 @@ describe('CustomerTicketingConnentor', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter', () => {
+  it('should call getTicket adapter', () => {
     adapter = TestBed.inject(CustomerTicketingAdapter);
     service.getTicket('current', '1').pipe(take(1)).subscribe();
 
     expect(adapter.getTicket).toHaveBeenCalledWith('current', '1');
+  });
+
+  it('should call createTicketEvent adapter', () => {
+    adapter = TestBed.inject(CustomerTicketingAdapter);
+    service
+      .createTicketEvent('current', '1', mockTicketEvent)
+      .pipe(take(1))
+      .subscribe();
+
+    expect(adapter.createTicketEvent).toHaveBeenCalledWith(
+      'current',
+      '1',
+      mockTicketEvent
+    );
   });
 });

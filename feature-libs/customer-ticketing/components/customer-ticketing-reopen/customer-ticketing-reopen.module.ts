@@ -12,6 +12,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
@@ -25,6 +26,7 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
     ReactiveFormsModule,
     FormErrorsModule,
     FileUploadModule,
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
