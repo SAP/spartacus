@@ -57,16 +57,18 @@ export class AsmComponentService {
   }
 
   // TODO: Find better place for method
-  handleAsmDialogAction(event: AsmDialogActionEvent): void {
-    let selectedUser = event.selectedUser?.customerId;
-    let { cxRoute, params } = event.route;
-    if (event.actionType === 'START_SESSION' && selectedUser) {
-      this.startCustomerEmulationSession(selectedUser);
-      if (cxRoute) {
+  handleAsmDialogAction(event: AsmDialogActionEvent | string): void {
+    if (typeof event === 'object') {
+      let selectedUser = event.selectedUser?.customerId;
+      let { cxRoute, params } = event.route;
+      if (event.actionType === 'START_SESSION' && selectedUser) {
+        this.startCustomerEmulationSession(selectedUser);
+        if (cxRoute) {
+          this.routingService.go({ cxRoute, params });
+        }
+      } else {
         this.routingService.go({ cxRoute, params });
       }
-    } else {
-      this.routingService.go({ cxRoute, params });
     }
   }
 

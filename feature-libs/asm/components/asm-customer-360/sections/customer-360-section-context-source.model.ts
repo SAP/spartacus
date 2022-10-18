@@ -14,4 +14,6 @@ export class Customer360SectionContextSource<
   readonly config$ = new ReplaySubject<Customer360SectionConfig>(1);
 
   readonly navigate$: Subject<UrlCommand> = new Subject();
+
+  readonly data$ = new ReplaySubject<Data>(1);
 }

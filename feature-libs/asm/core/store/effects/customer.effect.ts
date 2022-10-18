@@ -62,7 +62,7 @@ export class CustomerEffects {
       map((action: AsmActions.Customer360Get) => action.payload),
       switchMap((request) =>
         this.asmConnector.getCustomer360Data(request).pipe(
-          map((customer360Response: unknown) => {
+          map((customer360Response) => {
             return new AsmActions.Customer360GetSuccess(customer360Response);
           }),
           catchError((error) =>
