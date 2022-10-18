@@ -1501,42 +1501,42 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: MODAL_OPTIONS,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_OPTIONS} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_OPTIONS}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal-ref.ts
   {
     node: MODAL_REF,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_REF} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_REF}' has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE_OPTIONS,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_OPTIONS} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE_OPTIONS}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_SERVICE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.module.ts
   {
     node: MODAL_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_MODULE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_MODULE}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.service.ts
   {
     node: MODAL_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_SERVICE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
 ];
