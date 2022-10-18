@@ -10,7 +10,7 @@ import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { ConverterService, OccEndpointsService, OCC_HTTP_TOKEN } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -30,7 +30,6 @@ import {
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { OCC_HTTP_TOKEN } from '../../../../../projects/core/src/occ/utils';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
