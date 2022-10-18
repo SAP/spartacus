@@ -137,24 +137,20 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   }
 
   onPickupOptionChange(option: PickupOption) {
-    console.log('++++++++++++++++++++++++++++');
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,
       option
     );
-    console.log("-------------------------------------");
     if (option === 'delivery') {
       this.intendedPickupLocationService.removeIntendedLocation(
         this.productCode
       );
       return;
     }
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
     if (!this.displayNameIsSet) {
       this.openDialog();
       return;
     }
-    console.log('***************************');
     this.subscription.add(
       this.preferredStoreService
         .getPreferredStore$()

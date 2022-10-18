@@ -183,8 +183,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
               preferredStore?.name as string,
               this.quantity
             )
-          ),
-          tap(() => console.log('setPickupOptionToPickupInStore'))
+          )
         )
         .subscribe()
     );

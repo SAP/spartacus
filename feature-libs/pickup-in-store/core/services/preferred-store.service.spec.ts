@@ -3,7 +3,6 @@ import { ConsentService, UserIdService, WindowRef } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { User } from '@spartacus/user/account/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
 import { MockPickupLocationsSearchService } from '../facade/pickup-locations-search.service.spec';
@@ -117,8 +116,10 @@ describe('PreferredStoreService', () => {
           'preferred_store',
           JSON.stringify(preferredStore)
         );
-        expect(preferredStoreService.getPreferredStore$()).toEqual(
-          of(preferredStore)
+
+        const expected = of(preferredStore);
+        expected.subscribe((_preferredStore) =>
+          expect(_preferredStore).toEqual(preferredStore)
         );
       });
     });
@@ -209,8 +210,8 @@ describe('PreferredStoreService', () => {
       const preferredStoreWithStock =
         preferredStoreService.getPreferredStoreWithProductInStock(productCode);
 
-      expect(preferredStoreWithStock).toBeObservable(
-        cold('(a|)', { a: preferredStore })
+      preferredStoreWithStock.subscribe((value) =>
+        expect(value).toEqual(preferredStore)
       );
       expect(
         pickupLocationSearchService.stockLevelAtStore

@@ -138,7 +138,10 @@ describe('PickupOptionsComponent', () => {
       intendedPickupLocationService,
       'removeIntendedLocation'
     ).and.callThrough();
-    spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    spyOn(
+      intendedPickupLocationService,
+      'setIntendedLocation'
+    ).and.callThrough();
 
     fixture.detectChanges();
   };
@@ -197,15 +200,26 @@ describe('PickupOptionsComponent', () => {
 
     it('onPickupOptionChange where option is pickup and display name is not set', () => {
       spyOn(preferredStoreService, 'getPreferredStore$').and.callThrough();
-      component['productCode'] = 'productCode';
+      component['displayNameIsSet'] = true;
+      fixture.detectChanges();
       component.onPickupOptionChange('pickup');
 
-      component['displayNameIsSet'] = true;
-
-      expect(preferredStoreService.getPreferredStore$).toHaveBeenCalled();
+      const location: AugmentedPointOfService = {
+        name: 'London School',
+        displayName: 'London School',
+        pickupOption: 'pickup',
+      };
+      expect(
+        preferredStoreService
+          .getPreferredStore$()
+          .subscribe(() =>
+            expect(
+              intendedPickupLocationService.setIntendedLocation
+            ).toHaveBeenCalledWith('productCode', location)
+          )
+      );
     });
   });
-
   describe('without current product', () => {
     beforeEach(() => {
       configureTestingModule()
@@ -244,7 +258,7 @@ describe('PickupOptionsComponent', () => {
 
       component['displayNameIsSet'] = false;
 
-      expect(preferredStoreService.getPreferredStore$).toHaveBeenCalled();
+      expect(preferredStoreService.getPreferredStore$).not.toHaveBeenCalled();
 
       expect(component.openDialog).toHaveBeenCalled();
     });
