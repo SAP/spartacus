@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "strict": true,
+    "strict": false,
     "types": ["jasmine", "node"],
     "target": "es2020",
     "module": "es2020"
