@@ -171,6 +171,8 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
+export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
+
 /***** Scopes end *****/
 
 /***** File structure start *****/
