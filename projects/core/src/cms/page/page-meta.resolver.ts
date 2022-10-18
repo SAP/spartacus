@@ -38,7 +38,7 @@ export abstract class PageMetaResolver implements Applicable {
     }
 
     if (this.pageUid) {
-      score += page.pageId === this.pageUid ? 100 : -100;
+      score += page.pageId === this.pageUid ? 10 : -10;
     }
 
     return score;
