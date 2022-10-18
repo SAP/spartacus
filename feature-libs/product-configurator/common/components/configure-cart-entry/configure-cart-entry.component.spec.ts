@@ -1,10 +1,9 @@
-import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { ModalDirective } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
@@ -14,13 +13,6 @@ import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
-}
-
-@Directive({
-  selector: '[cxModal]',
-})
-class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal: any;
 }
 
 describe('ConfigureCartEntryComponent', () => {
@@ -34,11 +26,7 @@ describe('ConfigureCartEntryComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule, RouterModule],
-        declarations: [
-          ConfigureCartEntryComponent,
-          MockUrlPipe,
-          MockModalDirective,
-        ],
+        declarations: [ConfigureCartEntryComponent, MockUrlPipe],
       }).compileComponents();
     })
   );
