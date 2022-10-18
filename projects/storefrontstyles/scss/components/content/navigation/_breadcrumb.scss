@@ -12,7 +12,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   padding: var(--cx-spatial-base);
 
   box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
-  
+
   @include media-breakpoint-up(lg) {
     box-shadow: none;
   }

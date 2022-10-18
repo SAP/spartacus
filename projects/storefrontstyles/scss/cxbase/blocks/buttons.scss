@@ -121,7 +121,7 @@ button {
 
     &:focus {
       //this here below will not work unles cx global colors are initially declared in rbg
-      box-shadow: 0 0 0 0.2em rgba( var(--cx-color-visual-focus), 0.84 );
+      box-shadow: 0 0 0 0.2em rgba(var(--cx-color-visual-focus), 0.84);
       // box-shadow: 0 0 0 0.2em var(--cx-color-primary-accent);
       background-color: var(--cx-color-inverse);
       color: var(--cx-color-primary);
