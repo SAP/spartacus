@@ -7,7 +7,7 @@ TIME_MEASUREMENT_CURR_TITLE="Start"
 TIME_MEASUREMENT_TITLES=()
 TIME_MEASUREMENT_TIMES=($(date +%s))
 
-# Prints header adds time measurement
+# Prints header and adds time measurement
 function printh {
     local input="$1"
     local len=$((${#1}+2))
@@ -498,7 +498,7 @@ function check_ssr {
 
 function run_e2e {
     if [[ "$SKIP_E2E" = true ]] ; then
-        echo "⏩️ B2E E2E skipped (Option: --skip-e2e)."
+        echo "⏩️ B2C E2E skipped (Option: --skip-e2e)."
         return 0
     fi
 
