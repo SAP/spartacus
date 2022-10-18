@@ -1,6 +1,14 @@
 <div class="cx-conflict-solver-dialog cx-modal-container">
   <div class="cx-modal-content">
     <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+        {{ 'configurator.header.conflictWarning' | cxTranslate }}
+      </div>
+    </div>
+
+    <!-- Modal Header -->
     <ng-container *ngIf="routerData$ | async as routerData">
       <ng-container *ngIf="conflictGroups?.length > 0">
         <cx-configurator-conflict-description
@@ -139,5 +147,9 @@
         </div>
       </ng-container>
     </ng-container>
+
+    <!-- Modal Footer -->
+    <div class="cx-modal-footer">
+      <cx-configurator-exit-button></cx-configurator-exit-button>
   </div>
 </div>

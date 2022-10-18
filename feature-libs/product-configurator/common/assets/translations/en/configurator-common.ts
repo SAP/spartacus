@@ -15,6 +15,7 @@ export const configurator = {
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
       resolveConflicts: 'Resolve Conflicts',
+      conflictWarning: 'Resolve conflicts in the order they are presented',
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',

@@ -36,9 +36,37 @@
         min-width: $modal-min-width-md;
       }
 
+      .modal-header {
+        margin-block-end: 25px;
+        background-color: rgba(245, 206, 206, 1);
+        .cx-icon {
+          color: var(--cx-color-danger);
+        }
+      }
+
       .cx-modal-content {
         background-color: var(--cx-color-inverse);
         width: 100%;
+
+        .cx-modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          margin-block-start: 15px;
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+
+          %cx-configurator-exit-button {
+            width: 50%;
+
+            button {
+              width: 100%;
+              background-color: var(--cx-color-primary);
+              border-color: var(--cx-color-primary);
+            }
+          }
+        }
       }
     }
 

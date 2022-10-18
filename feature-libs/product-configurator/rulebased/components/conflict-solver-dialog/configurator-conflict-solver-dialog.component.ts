@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
 import { LanguageService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
@@ -20,6 +20,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy
 {
+  iconTypes = ICON_TYPE;
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
 
