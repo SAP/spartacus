@@ -11,7 +11,6 @@ import {
   DeferLoadingStrategy,
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../layout/a11y/keyboard-focus/index';
@@ -27,7 +26,7 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
     KeyboardFocusModule,
   ],
   providers: [
-    provideConfig(defaultAnonymousConsentLayoutConfig),
+    provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
