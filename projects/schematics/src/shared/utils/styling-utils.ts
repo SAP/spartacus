@@ -3,10 +3,8 @@ import * as path from 'path';
 import { getProjectTargets } from './workspace-utils';
 
 export function getStylesConfigFilePath(project: WorkspaceProject): string {
-  const mainStyleFilePath = getMainStyleFilePath(project);
-  const styleConfigFileDir = path.parse(mainStyleFilePath).dir;
   const styleConfigFilePath = path.join(
-    styleConfigFileDir,
+    project.sourceRoot,
     'styles-config.scss'
   );
   return styleConfigFilePath;

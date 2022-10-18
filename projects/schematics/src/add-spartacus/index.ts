@@ -70,11 +70,6 @@ function createStylesConfig(options: SpartacusOptions): Rule {
       );
     } else {
       tree.create(stylConfigFilePath, styleConfigContent);
-      if (options.debug) {
-        context.logger.info(
-          `✅ Styles config file created: ${stylConfigFilePath}`
-        );
-      }
     }
     return tree;
   };
