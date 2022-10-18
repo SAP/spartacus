@@ -210,4 +210,14 @@ export const common = {
     showPassword: 'Show password',
     hidePassword: 'Hide password',
   },
+  chatMessaging: {
+    charactersLeft: 'characters left: {{count}}',
+    addNewMessage: 'Add New Message',
+    send: 'Send',
+    uploadFile: 'Upload File',
+    informationLabel: '{{author}}. {{text}} at {{date}}',
+    messages: 'Messages',
+    addMessagePlaceHolder: 'Start Typing...',
+    characterLimitAlert: 'Characters limit reached.',
+  },
 };
