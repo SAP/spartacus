@@ -1,15 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EventService } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable, Subscription } from 'rxjs';
-import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core';
 
 @Injectable({
@@ -19,7 +17,6 @@ export class ConfiguratorConflictSolverDialogEventListener
   implements OnDestroy
 {
   protected subscription = new Subscription();
-  protected modalRef: ModalRef;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -32,8 +29,7 @@ export class ConfiguratorConflictSolverDialogEventListener
     );
 
   constructor(
-    protected eventService: EventService,
-    protected modalService: ModalService,
+    protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorGroupsService: ConfiguratorGroupsService
@@ -44,25 +40,46 @@ export class ConfiguratorConflictSolverDialogEventListener
   protected openConflictSolverDialog() {
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
-        this.openModal(conflictGroups);
+        if (conflictGroups && conflictGroups?.length > 0) {
+          this.openModal(conflictGroups, this.routerData$);
+        }
+      })
+    );
+
+    this.subscription.add(
+      this.conflictGroups$.subscribe((conflictGroups) => {
+        if (conflictGroups && conflictGroups?.length === 0) {
+          this.closeModal('CLOSE_CONFLICT_SOLVER_DIALOG');
+        }
       })
     );
   }
 
-  protected openModal(conflictGroups: Configurator.Group[] | undefined): void {
-    if (conflictGroups && conflictGroups?.length > 0) {
-      console.warn('There are ' + conflictGroups?.length + ' conflict groups');
-      this.modalRef = this.modalService.open(
-        ConfiguratorConflictSolverDialogComponent,
-        {
-          centered: true,
-          size: 'lg',
-        }
-      );
+  protected openModal(
+    conflictGroups: Configurator.Group[] | undefined,
+    routerData$: Observable<ConfiguratorRouter.Data>
+  ): void {
+    console.warn('There are ' + conflictGroups?.length + ' conflict groups');
 
-      const modalInstance = this.modalRef.componentInstance;
-      modalInstance.init(this.conflictGroups$, this.routerData$);
+    const dialogData = {
+      conflictGroups: conflictGroups,
+      routerData: routerData$,
+    };
+
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.CONFLICT_SOLVER,
+      undefined,
+      undefined,
+      dialogData
+    );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
     }
+  }
+
+  protected closeModal(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
   }
 
   ngOnDestroy(): void {

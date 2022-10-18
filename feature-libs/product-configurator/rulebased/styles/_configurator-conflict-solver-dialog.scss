@@ -2,12 +2,44 @@
 
 %cx-configurator-conflict-solver-dialog {
   &:not(:empty) {
-    .cx-conflict-solver-dialog {
-      box-sizing: border-box;
-      margin-inline-start: 25px;
-      margin-inline-end: 25px;
-      margin-block-start: 25px;
-      margin-block-end: 25px;
+    $modal-content-border-radius: 0;
+    $modal-dialog-margin-sm: 0 !important;
+    $modal-max-width: 1140px !important;
+    $modal-min-width: 1140px !important;
+    $modal-max-width-md: 1140px !important;
+    $modal-min-width-md: 1140px !important;
+    $modal-max-width-sm: 100% !important;
+    $modal-min-width-sm: 100% !important;
+
+    .cx-modal-container {
+      display: flex;
+      align-items: center;
+      margin: auto;
+      height: 100%;
+      overflow-y: auto;
+
+      max-width: $modal-max-width;
+      min-width: $modal-min-width;
+
+      @include media-breakpoint-down(sm) {
+        margin: $modal-dialog-margin-sm;
+        min-width: $modal-max-width-sm;
+        max-width: $modal-min-width-sm;
+        overflow-y: initial;
+
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      @include media-breakpoint-up(md) {
+        max-width: $modal-max-width-md;
+        min-width: $modal-min-width-md;
+      }
+
+      .cx-modal-content {
+        background-color: var(--cx-color-inverse);
+        width: 100%;
+      }
     }
 
     @extend %cx-configurator-form !optional;

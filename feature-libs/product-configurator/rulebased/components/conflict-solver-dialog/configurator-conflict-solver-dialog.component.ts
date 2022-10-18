@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  ViewChild,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { ModalService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { LanguageService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
@@ -17,20 +17,28 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   templateUrl: './configurator-conflict-solver-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorConflictSolverDialogComponent {
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
-  conflictGroups$: Observable<Configurator.Group[] | undefined>;
-  routerData$: Observable<ConfiguratorRouter.Data>;
+export class ConfiguratorConflictSolverDialogComponent
+  implements OnInit, OnDestroy
+{
+  activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
 
-  activeLanguage$: Observable<string> = this.languageService.getActive();
+  protected subscription = new Subscription();
+
+  routerData$: Observable<ConfiguratorRouter.Data>;
+  conflictGroups: Configurator.Group[] | undefined;
+
+  constructor(
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected launchDialogService: LaunchDialogService,
+    protected languageService: LanguageService
+  ) {}
 
   init(
-    conflictGroups: Observable<Configurator.Group[] | undefined>,
+    conflictGroups: Configurator.Group[] | undefined,
     routerData: Observable<ConfiguratorRouter.Data>
   ): void {
-    this.conflictGroups$ = conflictGroups;
+    this.conflictGroups = conflictGroups;
     this.routerData$ = routerData;
   }
 
@@ -42,9 +50,15 @@ export class ConfiguratorConflictSolverDialogComponent {
     );
   }
 
-  constructor(
-    protected modalService: ModalService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected languageService: LanguageService
-  ) {}
+  ngOnInit(): void {
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe((dialogData) => {
+        this.init(dialogData.conflictGroups, dialogData.routerData);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }

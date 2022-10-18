@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { ConfiguratorConflictSolverDialogEventListener } from './configurator-conflict-solver-dialog-event.listener';
@@ -19,11 +20,13 @@ import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/t
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
+import { defaultConflictSolverLayoutConfig } from './default-conflict-solver-layout.config';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
+    I18nModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorAttributeFooterModule,
     ConfiguratorAttributeNumericInputFieldModule,
@@ -41,11 +44,14 @@ import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/con
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
   ],
+  providers: [provideDefaultConfig(defaultConflictSolverLayoutConfig)],
   declarations: [ConfiguratorConflictSolverDialogComponent],
   exports: [ConfiguratorConflictSolverDialogComponent],
 })
 export class ConfiguratorConflictSolverDialogModule {
   constructor(
     _configuratorConflictSolverDialogEventListener: ConfiguratorConflictSolverDialogEventListener
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 }
