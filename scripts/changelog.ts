@@ -21,8 +21,10 @@ const changelogTemplate = ejs.compile(
 
 const conventionalCommitsParser = require('conventional-commits-parser');
 const gitRawCommits = require('git-raw-commits');
-const ghGot = require('gh-got');
+const { Octokit } = require('@octokit/rest');
 const through = require('through2');
+
+const octokit = new Octokit();
 
 export interface ChangelogOptions {
   to: string;
@@ -215,10 +217,12 @@ export default async function run(
       }
 
       // Check if we need to edit or create a new one.
-      return ghGot('repos/SAP/spartacus/releases').then((x: JsonObject) => [
-        x,
-        markdown,
-      ]);
+      return octokit.rest.repos
+        .listReleases({
+          owner: 'sap',
+          repo: 'spartacus',
+        })
+        .then((x: JsonObject) => [x, markdown]);
     })
     .then(([body, markdown]) => {
       const json = body.body;
@@ -229,7 +233,10 @@ export default async function run(
         prerelease: '',
       };
 
-      return ghGot('repos/SAP/spartacus/releases' + id, {
+      return octokit.rest.repos.updateRelease({
+        owner: 'sap',
+        repo: 'spartacus',
+        release_id: id,
         body: {
           body: markdown,
           draft: true,
@@ -238,7 +245,7 @@ export default async function run(
           tag_name: args.to,
           ...(toSha ? { target_commitish: toSha } : {}),
         },
-        token: githubToken,
+        auth: githubToken,
       });
     });
 }
