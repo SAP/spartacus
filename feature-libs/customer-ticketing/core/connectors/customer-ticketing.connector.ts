@@ -3,6 +3,7 @@ import {
   AssociatedObject,
   Category,
   TicketDetails,
+  TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
@@ -25,5 +26,13 @@ export class CustomerTicketingConnector {
     customerId: string
   ): Observable<AssociatedObject[]> {
     return this.adapter.getTicketAssociatedObjects(customerId);
+  }
+
+  public createTicketEvent(
+    customerId: string,
+    ticketId: string,
+    ticketEvent: TicketEvent
+  ): Observable<TicketEvent> {
+    return this.adapter.createTicketEvent(customerId, ticketId, ticketEvent);
   }
 }

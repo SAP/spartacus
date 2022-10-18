@@ -11,6 +11,12 @@ export const enum STATUS {
   INPROCESS = 'INPROCESS',
 }
 
+export const enum STATUS_NAME {
+  OPEN = 'Open',
+  CLOSED = 'Closed',
+  INPROCESS = 'INPROCESS',
+}
+
 export interface TicketDetails {
   availableStatusTransitions?: Array<Status>;
   id?: string;
@@ -19,7 +25,7 @@ export interface TicketDetails {
   status?: Status;
   subject?: string;
   ticketCategory?: Category;
-  ticketEvents?: Array<Event>;
+  ticketEvents?: Array<TicketEvent>;
 }
 
 export interface Status {
@@ -46,12 +52,19 @@ export interface AssociatedObjectsList {
   ticketAssociatedObjects: AssociatedObject[];
 }
 
-export interface Event {
+export interface TicketEvent {
   author?: string;
   createdAt?: string;
   message?: string;
   toStatus?: Status;
+  code?: string;
   addedByAgent?: boolean;
+  attachments?: Array<Attachment>;
+}
+
+export interface Attachment {
+  id?: string;
+  filename?: string;
 }
 
 export interface TicketList {

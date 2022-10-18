@@ -3,9 +3,9 @@ import { TranslationService } from '@spartacus/core';
 import {
   STATUS,
   TEXT_COLOR_CLASS,
-  CustomerTicketingFacade,
   TicketDetails,
   DATE_FORMAT,
+  CustomerTicketingFacade,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -36,13 +36,13 @@ export class CustomerTicketingDetailsComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customClass: this.getStatusClass(id),
+        customClass: this.getStatusClass(id?.toUpperCase()),
       }))
     );
   }
 
   getStatusClass(id?: string): string {
-    return id === STATUS.OPEN
+    return id === STATUS.OPEN || id === STATUS.INPROCESS
       ? TEXT_COLOR_CLASS.GREEN
       : id === STATUS.CLOSED
       ? TEXT_COLOR_CLASS.GREY
