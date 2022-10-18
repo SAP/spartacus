@@ -453,52 +453,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display in desktop mode', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementPresent(
-          expect,
-          htmlElem,
-          '.cx-item-infos.open'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-info',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          '$1,000.00'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          '5'
-        );
-      });
-
-      it('should display in mobile mode', () => {
+      it('should display', () => {
         spyOn(breakpointService, 'isUp').and.returnValue(of(false));
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -594,44 +549,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display in desktop mode', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-        CommonConfiguratorTestUtilsService.expectElementPresent(
-          expect,
-          htmlElem,
-          '.cx-item-infos.open'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-info',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          0
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          '10'
-        );
-      });
-
-      it('should display in mobile mode', () => {
+      it('should display', () => {
         spyOn(breakpointService, 'isUp').and.returnValue(of(false));
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -933,7 +851,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          0,
+          1,
           undefined,
           undefined,
           '$1,000.00'
@@ -958,7 +876,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          1,
+          0,
           undefined,
           undefined,
           '5'
