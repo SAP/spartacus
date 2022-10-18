@@ -7,8 +7,8 @@ export interface MessageEvent {
 }
 
 export interface Attachment {
-  filename: string;
-  URL: string;
+  filename?: string;
+  id?: string;
 }
 
 export interface MessagingConfigs {
