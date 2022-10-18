@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule, provideConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
@@ -47,6 +47,6 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
   ],
-  providers: [provideConfig(defaultAsmLayoutConfig)],
+  providers: [provideDefaultConfig(defaultAsmLayoutConfig)],
 })
 export class AsmComponentsModule {}

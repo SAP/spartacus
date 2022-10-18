@@ -10,7 +10,6 @@ import { StockNotificationComponent } from './stock-notification.component';
 import {
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -31,7 +30,7 @@ import { defaultStockNotificationLayoutConfig } from './stock-notification-dialo
     KeyboardFocusModule,
   ],
   providers: [
-    provideConfig(defaultStockNotificationLayoutConfig),
+    provideDefaultConfig(defaultStockNotificationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         StockNotificationComponent: {
