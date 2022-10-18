@@ -30,6 +30,8 @@ import { AsmCustomerOverviewComponent } from './asm-customer-overview.component'
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { By } from '@angular/platform-browser';
+import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 
 const mockProduct1: Product = {
   code: '553637',
@@ -268,6 +270,7 @@ describe('AsmCustomerOverviewComponent', () => {
   let activeCartFacade: ActiveCartFacade;
   let breakpointService: BreakpointService;
   let savedCartFacade: SavedCartFacade;
+  let sectionContext: Customer360SectionContext<void>;
 
   const productInterestService = jasmine.createSpyObj('UserInterestsService', [
     'loadProductInterests',
@@ -294,6 +297,7 @@ describe('AsmCustomerOverviewComponent', () => {
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: UserInterestsService, useValue: productInterestService },
         { provide: ProductService, useValue: productService },
+        { provide: Customer360SectionContext<void>, useClass: Customer360SectionContextSource<void>}
       ],
     }).compileComponents();
   });
@@ -306,6 +310,7 @@ describe('AsmCustomerOverviewComponent', () => {
     breakpointService = TestBed.inject(BreakpointService);
     savedCartFacade = TestBed.inject(SavedCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
+    sectionContext = TestBed.inject(Customer360SectionContext);
 
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(emptyInterests)
@@ -321,28 +326,36 @@ describe('AsmCustomerOverviewComponent', () => {
 
   it('should return active cart and not show more button', () => {
     spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
-    spyOn(component.navigate, 'emit').and.stub();
-
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.lg)
     );
     fixture.detectChanges();
 
     expect(activeCartFacade.getActive).toHaveBeenCalled();
-
     expect(el.queryAll(By.css('.cx-asm-overview-active-item')).length).toEqual(
       2
     );
+
     const showMoreBtn = el.query(
       By.css('.cx-asm-overview-active-cart .cx-action-link')
     );
     expect(showMoreBtn).toBeFalsy();
+  });
 
+  it('should link to cart page when click cart id', () => {
+    spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      of(BREAKPOINT.lg)
+    );
+    spyOn(sectionContext.navigate$, 'next').and.stub();
+    fixture.detectChanges();
     const titleLink = el.query(
       By.css('.cx-asm-overview-active-cart .cx-overview-title-link')
     );
+
     titleLink.nativeElement.click();
-    expect(component.navigate.emit).toHaveBeenCalledWith({
+
+    expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
       cxRoute: 'cart',
     });
   });
@@ -355,13 +368,11 @@ describe('AsmCustomerOverviewComponent', () => {
     fixture.detectChanges();
 
     expect(activeCartFacade.getActive).toHaveBeenCalled();
-
     expect(el.query(By.css('.cx-asm-overview-empty'))).toBeTruthy();
   });
 
-  it('should return active cart and show more button', () => {
+  it('should show more button for active cart', () => {
     spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
-
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.md)
     );
@@ -382,8 +393,7 @@ describe('AsmCustomerOverviewComponent', () => {
 
   it('should return saved cart and not show more button', () => {
     spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
-    spyOn(component.navigate, 'emit').and.stub();
-
+    spyOn(sectionContext.navigate$, 'next').and.stub();
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.xl)
     );
@@ -397,19 +407,27 @@ describe('AsmCustomerOverviewComponent', () => {
       By.css('.cx-asm-overview-saved-cart .cx-action-link')
     );
     expect(showMoreBtn).toBeFalsy();
+  });
+
+  it('should link to saved cart detail page', () => {
+    spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
+    spyOn(sectionContext.navigate$, 'next').and.stub();
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      of(BREAKPOINT.xl)
+    );
+    fixture.detectChanges();
 
     const titleLink = el.query(
       By.css('.cx-asm-overview-saved-cart .cx-overview-title-link')
     );
     titleLink.nativeElement.click();
-    expect(component.navigate.emit).toHaveBeenCalledWith({
-      cxRoute: 'saved-carts',
+    expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
+      cxRoute: 'savedCartsDetails', params: { savedCartId: '00001' }
     });
   });
 
   it('should return saved cart and show more button', () => {
     spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
-
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.md)
     );
@@ -432,7 +450,7 @@ describe('AsmCustomerOverviewComponent', () => {
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       new BehaviorSubject(BREAKPOINT.md)
     );
-    spyOn(component.navigate, 'emit').and.stub();
+    spyOn(sectionContext.navigate$, 'next').and.stub();
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
@@ -452,12 +470,27 @@ describe('AsmCustomerOverviewComponent', () => {
     expect(showMoreBtn).toBeTruthy();
     showMoreBtn.nativeElement.click();
     expect(component.showMoreInterests).toBe(true);
+  });
+
+  it('should link to interest page', () => {
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      new BehaviorSubject(BREAKPOINT.md)
+    );
+    spyOn(sectionContext.navigate$, 'next').and.stub();
+    productInterestService.getAndLoadProductInterests.and.returnValue(
+      of(mockedInterests)
+    );
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
+    productService.get.withArgs('553639', 'details').and.returnValue(p553639$);
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    fixture.detectChanges();
 
     const titleLink = el.query(
       By.css('.cx-asm-overview-active-interests .cx-overview-title-link')
     );
     titleLink.nativeElement.click();
-    expect(component.navigate.emit).toHaveBeenCalledWith({
+    expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
       cxRoute: 'myInterests',
     });
   });
