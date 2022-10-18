@@ -41,9 +41,13 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
+  getMainStyleFilePath,
+  getRelativeStyleConfigImportPath,
+  getStylesConfigFilePath,
+} from '../shared/utils/styling-utils';
+import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
-  getProjectTargets,
   getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
@@ -53,18 +57,31 @@ import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
+function createStylesConfig(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const project = getProjectFromWorkspace(tree, options);
+    const stylConfigFilePath = getStylesConfigFilePath(project);
+    const styleConfigContent = `$styleVersion: ${
+      options.featureLevel || getSpartacusCurrentFeatureLevel()
+    }`;
+    if (tree.exists(stylConfigFilePath)) {
+      context.logger.warn(
+        `Skipping styles config file creation. File ${stylConfigFilePath} already exists.`
+      );
+    } else {
+      tree.create(stylConfigFilePath, styleConfigContent);
+    }
+    return tree;
+  };
+}
+
 function installStyles(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
     if (options.debug) {
       context.logger.info(`⌛️ Installing styles...`);
     }
-
     const project = getProjectFromWorkspace(tree, options);
-    const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
-    const styleFilePath =
-      typeof rootStyles === 'object'
-        ? ((rootStyles as any)?.input as string)
-        : rootStyles;
+    const styleFilePath = getMainStyleFilePath(project);
 
     if (!styleFilePath) {
       context.logger.warn(
@@ -99,11 +116,13 @@ function installStyles(options: SpartacusOptions): Rule {
     }
 
     const htmlContent = buffer.toString();
+    const relativeStyleConfigImportPath = getRelativeStyleConfigImportPath(
+      project,
+      styleFilePath
+    );
     let insertion =
-      '\n' +
-      `$styleVersion: ${
-        options.featureLevel || getSpartacusCurrentFeatureLevel()
-      };\n@import '@spartacus/styles/index';\n`;
+      `\n@import '${relativeStyleConfigImportPath}';\n` +
+      `@import '@spartacus/styles/index';\n`;
 
     if (options?.theme) {
       insertion += `\n@import '@spartacus/styles/scss/theme/${options.theme}';\n`;
@@ -408,7 +427,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
     const dependencies = prepareDependencies(features);
-
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
@@ -427,6 +445,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addSpartacusConfiguration(options),
 
       updateAppModule(options),
+      createStylesConfig(options),
       installStyles(options),
       updateMainComponent(getProjectFromWorkspace(tree, options), options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
