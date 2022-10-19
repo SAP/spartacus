@@ -5,13 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
+import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
+
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
-import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
-import { WindowRef } from '../../../window/window-ref';
+import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { RoutingConfig } from '../config/routing-config';
 
 @Injectable({ providedIn: 'root' })
@@ -21,55 +22,41 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
 
   constructor(
     protected baseSiteService: BaseSiteService,
-    protected javaRegExpConverter: JavaRegExpConverter,
-    protected winRef: WindowRef
+    protected configInit: ConfigInitializerService
   ) {}
 
-  private get currentUrl(): string {
-    return this.winRef.location.href as string;
-  }
-
   /**
-   * Emits the site context config basing on the current base site data.
+   * Emits the Routing config basing on the current base site data.
    *
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<RoutingConfig> {
-    return this.baseSiteService.getAll().pipe(
-      map((baseSites) =>
-        baseSites?.find((site) => this.isCurrentBaseSite(site))
-      ),
-      filter((baseSite: any) => {
-        if (!baseSite) {
-          throw new Error(
-            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
-          );
-        }
-        return Boolean(baseSite);
-      }),
-      map((baseSite) => this.getRoutingConfig(baseSite)),
-      take(1)
+    return this.configInit.getStable('context').pipe(
+      switchMap((config) => {
+        const siteUid = config?.context?.[BASE_SITE_CONTEXT_ID]?.[0];
+        return this.baseSiteService.getAll().pipe(
+          map((baseSites) => baseSites?.find((site) => siteUid === site.uid)),
+          filter((baseSite: any) => {
+            if (!baseSite) {
+              throw new Error(
+                `Error: Cannot get base site config for ${siteUid}.`
+              );
+            }
+            return Boolean(baseSite);
+          }),
+          map((baseSite) => this.getRoutingConfig(baseSite)),
+          take(1)
+        );
+      })
     );
   }
 
   protected getRoutingConfig(source: BaseSite): RoutingConfig {
     const result = {
       routing: {
-        protected: source.requiresAuthentication === true,
+        protected: source.requiresAuthentication,
       },
     };
     return result;
-  }
-
-  private isCurrentBaseSite(site: BaseSite): boolean {
-    const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
-      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
-      if (jsRegexp) {
-        const result = jsRegexp.test(this.currentUrl);
-        return result;
-      }
-    });
-
-    return index !== -1;
   }
 }

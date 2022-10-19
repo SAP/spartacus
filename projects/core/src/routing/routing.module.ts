@@ -38,7 +38,7 @@ export function initRoutingConfig(
   configInitializer: SecurePortalConfigInitializer,
   routingConfig: RoutingConfig
 ): ConfigInitializer | null {
-  if (!routingConfig.routing?.protected) {
+  if (routingConfig.routing?.protected === undefined) {
     return configInitializer;
   }
   return null;

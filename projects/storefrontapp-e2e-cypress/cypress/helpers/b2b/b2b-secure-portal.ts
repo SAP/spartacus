@@ -1,13 +1,24 @@
-import { baseSitesConfig } from './my-company/config/basesites.config';
+export const baseSitesConfig = {
+  baseSites: [
+    {
+      defaultLanguage: {
+        isocode: 'en',
+      },
+      requiresAuthentication: true,
+      uid: 'powertools-spa',
+      urlPatterns: ['(?i)^https?://localhost(:[\\d]+)?/?$'],
+    },
+  ],
+};
+
+export const baseSites = JSON.parse(JSON.stringify(baseSitesConfig));
 
 export function getStubbedBasesites() {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/basesites`,
+      pathname: `${Cypress.env('OCC_PREFIX')}/basesites`,
     },
-    { body: baseSitesConfig }
-  ).as('basesites');
+    { body: baseSites }
+  );
 }
