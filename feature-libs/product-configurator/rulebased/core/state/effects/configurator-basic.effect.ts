@@ -1,8 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
   catchError,
@@ -141,6 +150,7 @@ export class ConfiguratorBasicEffects {
         (action: { type: string; payload: Configurator.Configuration }) =>
           action.payload
       ),
+      filter((configuration) => configuration.pricingEnabled === true),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
@@ -330,6 +340,7 @@ export class ConfiguratorBasicEffects {
     | ConfiguratorActions.SetMenuParentGroup
     | ConfiguratorActions.ReadConfigurationFail
     | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.CHANGE_GROUP),
@@ -363,6 +374,12 @@ export class ConfiguratorBasicEffects {
                     new ConfiguratorActions.ReadConfigurationSuccess(
                       configuration
                     ),
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...configuration,
+                      interactionState: {
+                        currentGroup: action.payload.groupId,
+                      },
+                    }),
                   ];
                 }),
                 catchError((error) => [
@@ -377,6 +394,33 @@ export class ConfiguratorBasicEffects {
       })
     )
   );
+
+  removeProductBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS),
+        switchMap(() => {
+          return this.store.pipe(
+            select(ConfiguratorSelectors.getConfigurationsState),
+            take(1),
+            map((configuratorState) => {
+              const entities = configuratorState.configurations.entities;
+
+              const ownerKeysToRemove: string[] = [];
+              for (const ownerKey in entities) {
+                if (ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)) {
+                  ownerKeysToRemove.push(ownerKey);
+                }
+              }
+
+              return new ConfiguratorActions.RemoveConfiguration({
+                ownerKey: ownerKeysToRemove,
+              });
+            })
+          );
+        })
+      )
+    );
 
   constructor(
     protected actions$: Actions,

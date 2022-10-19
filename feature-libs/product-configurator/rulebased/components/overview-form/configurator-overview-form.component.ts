@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -105,6 +111,30 @@ export class ConfiguratorOverviewFormComponent {
       styleClass += ' last-value-pair';
     }
 
+    return styleClass;
+  }
+
+  /**
+   * Retrieves the styling for the group levels.
+   *
+   * @param {number} level - Group level. 1 is top level.
+   * @param {Configurator.GroupOverview[]} subGroups - subgroups array
+   * @return {string} - corresponding style classes
+   */
+  getGroupLevelStyleClasses(
+    level: number,
+    subGroups: Configurator.GroupOverview[] | undefined
+  ): string {
+    let styleClass = 'cx-group';
+    if (level === 1) {
+      styleClass += ' topLevel';
+      if (subGroups && subGroups.length > 0) {
+        styleClass += ' subgroupTopLevel';
+      }
+    } else {
+      styleClass += ' subgroup';
+      styleClass += ' subgroupLevel' + level;
+    }
     return styleClass;
   }
 }

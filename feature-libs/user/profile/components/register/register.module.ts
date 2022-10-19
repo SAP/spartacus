@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,10 +18,12 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
@@ -37,6 +45,13 @@ import { RegisterComponent } from './register.component';
         RegisterCustomerComponent: {
           component: RegisterComponent,
           guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: RegisterComponentService,
+              useClass: RegisterComponentService,
+              deps: [UserRegisterFacade],
+            },
+          ],
         },
       },
     }),

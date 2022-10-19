@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
 // Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
@@ -30,6 +36,7 @@ export namespace Configurator {
     intervalInDomain?: boolean;
     key?: string;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -88,6 +95,8 @@ export namespace Configurator {
     errorMessages?: string[];
     warningMessages?: string[];
     variants?: Variant[];
+    kbKey?: KB;
+    pricingEnabled?: boolean;
   }
 
   export interface InteractionState {
@@ -172,6 +181,13 @@ export namespace Configurator {
 
   export interface Variant {
     productCode: string;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export enum GroupType {
