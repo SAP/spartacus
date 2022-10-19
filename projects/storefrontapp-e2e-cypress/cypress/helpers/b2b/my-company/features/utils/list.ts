@@ -61,11 +61,16 @@ export function testList(
       testList(
         config,
         {
-          trigger: () =>
-            cy
-              .get(`cx-pagination a.page`)
-              .contains(data.pagination.currentPage + 2)
-              .click(),
+          trigger: () => {
+            const NEXT_PAGE = data.pagination.currentPage + 2;
+            cy.get(`cx-pagination a.page`).contains(NEXT_PAGE).click();
+
+            // Wait for next page to load
+            cy.get(`cx-pagination a[aria-label="page ${NEXT_PAGE}"]`).should(
+              'have.class',
+              'current'
+            );
+          },
         },
         data.pagination.currentPage + 2
       );
@@ -83,6 +88,12 @@ export function testListSorting(config: MyCompanyConfig): void {
         waitForData(
           row.sortLabel,
           (data) => {
+            // Wait for first page to load
+            cy.get(`cx-pagination a[aria-label="page 1"]`).should(
+              'have.class',
+              'current'
+            );
+
             verifyList(
               getListRowsFromBody(data, config.objectType, config.rows),
               config.rows

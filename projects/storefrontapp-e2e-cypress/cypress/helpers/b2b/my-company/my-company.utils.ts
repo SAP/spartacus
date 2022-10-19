@@ -49,6 +49,9 @@ export function waitForData(
     if (xhr.aborted) {
       waitForData(suffix, thenCommand);
     } else {
+      // Make sure all text has rendered
+      cy.get('.ghost').should('not.exist');
+
       thenCommand(xhr?.response?.body);
     }
   });
