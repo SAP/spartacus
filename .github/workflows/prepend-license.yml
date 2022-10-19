@@ -1,0 +1,36 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+name: Prepend licences to files
+jobs:
+  prepend_license: 
+    name: Commit prepended licences to files 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GH_PR_TOKEN }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Download reuse tool
+        run: pip3 install --user reuse
+      - name: Setup git config for github bot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Adding headers to files
+        run: ci-scripts/prepend-license.sh
+      - name: push a commit to current pull request
+        run: |
+          git pull origin ${{ github.event.pull_request.head.ref }} 
+
+          if [ -z $(git status --porcelain) ];
+          then
+              echo "No files to commit"
+          else
+              git commit -am "Prepend licence to files"
+              git push
+          fi
