@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
-WARNINGS=()
-HAS_XVFB_INSTALLED=false
-
-TIME_MEASUREMENT_CURR_TITLE="Start"
-TIME_MEASUREMENT_TITLES=()
-TIME_MEASUREMENT_TIMES=($(date +%s))
-
-# Prints header adds time measurement
+# Prints header
 function printh {
     local input="$1"
     local len=$((${#1}+2))
@@ -18,20 +11,13 @@ function printh {
     printf -- "-%.0s" $(seq 1 $len)
     printf "+\n\n"
     printf "\033[0m" # end green color
-    add_time_measurement "$input"
 }
 
 function delete_dir {
     local dir="${1}"
-    local temp_dir="${1}.delete"
-
-    echo "deleting directory ${dir} in background"
-    if [ -d ${temp_dir} ]; then
-        delete_dir ${temp_dir}
-    fi
     if [ -d ${dir} ]; then
-        mv ${dir} ${temp_dir}
-        rm -rf ${temp_dir} &
+        echo "deleting directory ./${dir}"
+        rm -rf ${dir}
     fi
 }
 
@@ -78,6 +64,7 @@ function clone_repo {
 }
 
 function update_projects_versions {
+
     projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
@@ -227,13 +214,10 @@ function publish_package {
     ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version ${SPARTACUS_VERSION} --registry http://localhost:4873/ --no-git-tag-version )
 }
 
-
 function restore_clone {
-    projects=$@
-
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${projects[@]}
+        for path in ${SPARTACUS_PROJECTS[@]}
         do
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
@@ -245,43 +229,18 @@ function restore_clone {
 }
 
 function install_from_sources {
-    run_system_check
-
-    run_sanity_check
-
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
 
     npm set @spartacus:registry http://localhost:4873/
 
-    printh "Cloning Spartacus source code."
+    printh "Cloning Spartacus source code and installing dependencies."
     clone_repo
-
-    printh "Checking Packages"
-    local project_packages=()
-    local project_sources=()
-    for project in ${SPARTACUS_PROJECTS[@]}; do
-        local proj_pck_dir=${project%%:*}
-        local proj_src_dir=${project#*:}
-
-        local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
-        if [ ! -d "${pkg_src_path}" ]; then
-            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
-            printf " \033[33m[!]\033[m ${proj_pck_dir}: ${proj_src_dir}\n"
-            continue
-        fi
-
-        project_packages+=( "${proj_pck_dir}" )
-        project_sources+=( "${proj_src_dir}" )
-        echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
-    done
-
-    printh "Installing dependencies."
     ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
-    update_projects_versions ${project_sources[@]}
+    update_projects_versions ${SPARTACUS_PROJECTS[@]}
 
     verdaccio --config ./config.yaml &
 
@@ -292,9 +251,39 @@ function install_from_sources {
 
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
-    printh "Publish Packages"
-    for project in ${project_packages[@]}; do
-        publish_package "${CLONE_DIR}/${project}"
+    local dist_packages=(
+        'core'
+        'storefrontlib'
+        'assets'
+        'checkout'
+        'product'
+        'setup'
+        'cart'
+        'order'
+        'asm'
+        'user'
+        'organization'
+        'storefinder'
+        'tracking'
+        'qualtrics'
+        'smartedit'
+        'cds'
+        'cdc'
+        'epd-visualization'
+        'product-configurator'
+    )
+
+    local packages=(
+        'storefrontstyles'
+        'schematics'
+    )
+
+    for package in ${dist_packages[@]}; do
+        publish_dist_package ${package}
+    done
+
+    for package in ${packages[@]}; do
+        publish_package ${package}
     done
 
     create_apps
@@ -305,12 +294,9 @@ function install_from_sources {
 
     npm set @spartacus:registry https://registry.npmjs.org/
 
-    restore_clone ${project_sources[@]}
+    restore_clone
 
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
-
-    print_times
-    print_summary
 }
 
 function install_from_npm {
@@ -334,7 +320,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
+        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
     fi
 }
 
@@ -343,7 +329,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
@@ -403,15 +389,6 @@ function start_apps {
         start_ssr_unix
         start_ssr_pwa_unix
     fi
-
-
-    if [[ "$CHECK_AFTER_START" = true ]] ; then
-        check_apps
-    fi
-
-    if [[ "$CHECK_B2B_AFTER_START" = true ]] ; then
-        check_b2b
-    fi
 }
 
 function stop_apps {
@@ -421,12 +398,12 @@ function stop_apps {
 }
 
 function cmd_help {
-    echo "Usage: run [command] [options...]"
+    echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install [...extensions] [--port <port>] [--branch <branch>] [--basesite <basesite>] [--skipsanity] (from sources)"
+    echo " install (from sources)"
     echo " install_npm (from latest npm packages)"
-    echo " start [--port <port>] [-c|--check] [--check-b2b] [--force-e2e] [--skip-e2e]"
-    echo " stop [--port <port>]"
+    echo " start"
+    echo " stop"
     echo " help"
 }
 
