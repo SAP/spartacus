@@ -5,9 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   ConsentService,
   PointOfServiceStock,
+  User,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
@@ -17,9 +19,14 @@ import {
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of, iif } from 'rxjs';
+import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
+import { StateWithPickupLocations } from '../store';
+import {
+  LoadDefaultPointOfService,
+  SetDefaultPointOfService,
+} from '../store/actions/default-point-of-service-name.action';
 import { isInStock } from '../utils';
 
 export type PointOfServiceNames = PickRequiredDeep<
@@ -32,23 +39,18 @@ export type PointOfServiceNames = PickRequiredDeep<
  */
 @Injectable()
 export class PreferredStoreService {
-  private _getPreferredStore$ = new BehaviorSubject<
-    PointOfServiceNames | undefined
-  >(
-    ((): PointOfServiceNames | undefined => {
-      const preferredStore = this.winRef.localStorage?.getItem(
-        PREFERRED_STORE_LOCAL_STORAGE_KEY
-      );
-      return preferredStore ? JSON.parse(preferredStore) : undefined;
-    })()
-  );
+  // private _getPreferredStore$ = new BehaviorSubject<
+  //   PointOfServiceNames | undefined
+  // >(this.getPreferredStoreFromLocalStorage());
+
   constructor(
     protected config: PickupInStoreConfig,
     protected consentService: ConsentService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected winRef: WindowRef,
     protected userProfileService: UserProfileFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected store: Store<StateWithPickupLocations>
   ) {
     // Intentional empty constructor
   }
@@ -58,37 +60,69 @@ export class PreferredStoreService {
    * @returns the preferred store from local storage
    */
   getPreferredStore$(): Observable<PointOfServiceNames | undefined> {
-    return this._getPreferredStore$;
+    this.store.dispatch(LoadDefaultPointOfService());
+    return this.getPreferredStoreFromUserProfileService().pipe(
+      mergeMap((preferredStore: User | undefined) =>
+        iif(
+          () => !!preferredStore && !!preferredStore?.defaultPointOfServiceName,
+          of({
+            name: preferredStore?.defaultPointOfServiceName as string,
+            displayName: preferredStore?.defaultPointOfServiceName as string,
+          }),
+          of(this.getPreferredStoreFromLocalStorage())
+        )
+      )
+    );
+  }
+  /**
+   *
+   * @returns  Observable<User | undefined>
+   */
+  getPreferredStoreFromUserProfileService(): Observable<User | undefined> {
+    return this.userProfileService.get();
   }
 
+  /**
+   *
+   * @returns  Observable<User | undefined>
+   */
+  getPreferredStoreFromLocalStorage(): PointOfServiceNames | undefined {
+    const preferredStore = this.winRef.localStorage?.getItem(
+      PREFERRED_STORE_LOCAL_STORAGE_KEY
+    );
+    return preferredStore ? JSON.parse(preferredStore) : undefined;
+  }
   /**
    * Sets the user's preferred store for Pickup in Store.
    * @param preferredStore the preferred store to set
    */
   setPreferredStore(preferredStore: PointOfServiceNames): void {
-    this.consentService
-      .checkConsentGivenByTemplateId(
-        this.config.pickupInStore?.consentTemplateId ?? ''
-      )
-      .pipe(
-        take(1),
-        filter((consentGiven) => consentGiven),
-        tap(() =>
-          this.winRef.localStorage?.setItem(
-            PREFERRED_STORE_LOCAL_STORAGE_KEY,
-            JSON.stringify(preferredStore)
-          )
-        ),
-        tap(() => this._getPreferredStore$.next(preferredStore)),
-        mergeMap(() => this.userIdService.getUserId()),
-        filter((userId) => userId !== 'anonymous'),
-        mergeMap(() =>
-          this.userProfileService.update({
-            defaultPointOfServiceName: preferredStore.name,
-          })
-        )
-      )
-      .subscribe();
+    console.log('setPreferredStore');
+    this.store.dispatch(SetDefaultPointOfService({ payload: preferredStore }));
+    // this.consentService
+    //   .checkConsentGivenByTemplateId(
+    //     this.config.pickupInStore?.consentTemplateId ?? ''
+    //   )
+    //   .pipe(
+    //     take(1),
+    //     filter((consentGiven) => consentGiven),
+    //     tap(() =>
+    //       this.winRef.localStorage?.setItem(
+    //         PREFERRED_STORE_LOCAL_STORAGE_KEY,
+    //         JSON.stringify(preferredStore)
+    //       )
+    //     ),
+    //     // tap(() => this._getPreferredStore$.next(preferredStore)),
+    //     mergeMap(() => this.userIdService.getUserId()),
+    //     filter((userId) => userId !== 'anonymous'),
+    //     tap(() => console.log('perform Update')),
+    //     mergeMap(() =>
+    //       this.userProfileService.update({
+    //         defaultPointOfServiceName: preferredStore.name,
+    //       })
+    //     )
+    //   )
+    //   .subscribe();
   }
 
   /**

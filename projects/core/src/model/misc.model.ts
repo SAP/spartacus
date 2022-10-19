@@ -41,6 +41,7 @@ export interface User {
   customerId?: string;
   deactivationDate?: Date;
   defaultAddress?: Address;
+  defaultPointOfServiceName?: string;
   displayUid?: string;
   firstName?: string;
   language?: Language;
