@@ -11,8 +11,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
-  I18nModule,
   GlobalMessageService,
+  I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
