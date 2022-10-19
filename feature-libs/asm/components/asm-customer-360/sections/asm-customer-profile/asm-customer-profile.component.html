@@ -3,15 +3,17 @@
     <div>
       <div class="row">
         <div class="col">
-          <h4 class="mt-3 pt-3 mb-4">Address</h4>
+          <h4 class="mt-3 pt-3 mb-4">
+            {{ 'asm.customer360.profile.address' | cxTranslate }}
+          </h4>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="cx-asm-profile-subheader">
-            {{ 'asm.profileAddresses.billingAddress' | cxTranslate }}
+            {{ 'asm.customer360.profile.billingAddress' | cxTranslate }}
           </div>
-          <div class="cx-asm-profile-container">
+          <div class="cx-asm-profile-container billing-address">
             <ng-container
               *ngTemplateOutlet="
                 address;
@@ -22,9 +24,9 @@
         </div>
         <div class="col">
           <div class="cx-asm-profile-subheader">
-            {{ 'asm.profileAddresses.deliveryAddress' | cxTranslate }}
+            {{ 'asm.customer360.profile.deliveryAddress' | cxTranslate }}
           </div>
-          <div class="cx-asm-profile-container">
+          <div class="cx-asm-profile-container delivery-address">
             <ng-container
               *ngTemplateOutlet="
                 address;
@@ -36,24 +38,24 @@
         <div class="w-100 d-lg-none"></div>
         <div class="col">
           <div class="cx-asm-profile-subheader">
-            {{ 'asm.profileAddresses.phone1' | cxTranslate }}
+            {{ 'asm.customer360.profile.phone1' | cxTranslate }}
           </div>
-          <div class="cx-asm-profile-container">
+          <div class="cx-asm-profile-container profile-phone1">
             {{ customerProfileData?.phone1 }}
           </div>
         </div>
         <div class="col">
           <div class="cx-asm-profile-subheader">
-            {{ 'asm.profileAddresses.phone2' | cxTranslate }}
+            {{ 'asm.customer360.profile.phone2' | cxTranslate }}
           </div>
-          <div class="cx-asm-profile-container">
+          <div class="cx-asm-profile-container profile-phone2">
             {{ customerProfileData?.phone2 }}
           </div>
         </div>
       </div>
     </div>
     <div class="cx-asm-profile-subheader mt-4">
-      {{ 'asm.profileAddresses.paymentMethodHeader' | cxTranslate }}
+      {{ 'asm.customer360.profile.paymentMethodHeader' | cxTranslate }}
     </div>
     <div class="cx-asm-profile-cards">
       <div
@@ -74,18 +76,22 @@
   </ng-container>
   <ng-template #address let-address="address">
     <div class="cx-asm-profile-address-cell">
-      <div>
+      <div class="address-line1">
         {{ address?.line1 }}
       </div>
-      <div>
+      <div class="address-line2">
         {{ address?.line2 }}
       </div>
       <div>
-        {{ address?.town }}
-        {{ address?.region?.isocode }}
-        {{ address?.country?.isocode }}
+        <span class="address-town" *ngIf="address?.town"
+          >{{ address?.town }},
+        </span>
+        <span class="address-region" *ngIf="address?.region?.isocode"
+          >{{ address?.region?.isocode }},
+        </span>
+        <span class="address-country">{{ address?.country?.isocode }}</span>
       </div>
-      <div>
+      <div class="address-postal">
         {{ address?.postalCode }}
       </div>
     </div>
