@@ -18,6 +18,10 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
+  userAccountWrapperModulePath,
+  userProfileWrapperModulePath,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -127,6 +131,16 @@ describe('Spartacus CDC schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
+            {
+              ...cdcFeatureOptions,
+              features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
             { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
             appTree
           )
@@ -141,6 +155,16 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
     describe('general setup', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...cdcFeatureOptions,
+              features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
@@ -175,10 +199,32 @@ describe('Spartacus CDC schematics: ng-add', () => {
         const featureModule = appTree.readContent(cdcFeatureModulePath);
         expect(featureModule).toMatchSnapshot();
       });
+
+      it('should install the appropriate dependencies', async () => {
+        const userAccountWrapperModule = appTree.readContent(
+          userAccountWrapperModulePath
+        );
+        expect(userAccountWrapperModule).toMatchSnapshot();
+
+        const userProfileWrapperModule = appTree.readContent(
+          userProfileWrapperModulePath
+        );
+        expect(userProfileWrapperModule).toMatchSnapshot();
+      });
     });
 
     describe('eager loading', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...cdcFeatureOptions,
+              features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',

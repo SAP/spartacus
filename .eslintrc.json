@@ -17,7 +17,8 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "plugins": [
-        "deprecation"
+        "deprecation",
+        "@spartacus-eslint"
       ],
       "rules": {
         "@angular-eslint/no-host-metadata-property": "off",
@@ -90,6 +91,14 @@
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/eqeqeq": "error"
+      }
+    },
+    {
+      "files": [
+        "*.module.ts"
+      ],
+      "rules": {
+        "@spartacus-eslint/use-default-provide-config": "error"
       }
     }
   ]

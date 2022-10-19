@@ -150,6 +150,7 @@ export class ConfiguratorBasicEffects {
         (action: { type: string; payload: Configurator.Configuration }) =>
           action.payload
       ),
+      filter((configuration) => configuration.pricingEnabled === true),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
