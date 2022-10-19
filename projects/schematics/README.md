@@ -1,7 +1,7 @@
 # Getting Started
 
 This section is for Spartacus developers and anybody else who works with Spartacus source code.
-To see the documentation on how to use schematics from a customers perspective, see: [https://sap.github.io/spartacus-docs/schematics](https://sap.github.io/spartacus-docs/schematics)
+To see the documentation on how to use schematics from a customers perspective, see: [https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html)
 
 ## Prerequisites
 
@@ -105,7 +105,7 @@ The finished configuration file needs to imported to `projects/schematics/src/sh
 
 When upgrading Spartacus to a new major version (for example, from 3.x to 4.0), the Spartacus migration mechanism automatically implements fixes for code that is modified or removed in the new version.
 
-When you are working on a feature or a bug, or making any other change to the Spartacus source code, you need to update the schematics as part of the [Definition Of Done](https://sap.github.io/spartacus-docs/definition-of-done/). By making these updates iteratively as part of the DoD for each change to the source code, it saves you from having to spend a lot of time upgrading the migration mechanism at the end of the development cycle, and as a result, it makes it easier to prepare the Spartacus libraries for a new major version.
+When you are working on a feature or a bug, or making any other change to the Spartacus source code, you need to update the schematics as part of the [Definition Of Done](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/260a7736dfec4d678be034577a70b81b/0c5effe8b3f941e881b258793934c7a0.html). By making these updates iteratively as part of the DoD for each change to the source code, it saves you from having to spend a lot of time upgrading the migration mechanism at the end of the development cycle, and as a result, it makes it easier to prepare the Spartacus libraries for a new major version.
 
 ### Migration Mechanism
 
@@ -158,14 +158,14 @@ Similar to constructor deprecation, `projects/schematics/src/migrations/3_0/comp
 
 ### CSS
 
-To handle CSS changes, we print a link to the CSS migration documentation, where customers can look up which CSS selectors have changed in the new version of Spartacus. If you are making a change to a CSS selector, simply update the relevant documentation (such as, [Changes to Styles in 3.0](https://sap.github.io/spartacus-docs/css-changes-in-version-3/)).
+To handle CSS changes, we print a link to the CSS migration documentation, where customers can look up which CSS selectors have changed in the new version of Spartacus. If you are making a change to a CSS selector, simply update the relevant documentation (such as, [Changes to Styles in 5.0](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/d008d0179ea141bf84fde6ec98244ae5.html)).
 
 ### Adding a Migration
 
 The following is an example flow for adding a migration:
 
 - Check whether any of the changed files are exported in the public API. If no, then no further action is required.
-- Check whether any of the changes you have made are breaking changes. If not, no further action is required. For more information, see [Maintaining Public APIs](https://sap.github.io/spartacus-docs/breaking-changes/).
+- Check whether any of the changes you have made are breaking changes. If not, no further action is required. For more information, see [Maintaining Public APIs](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/260a7736dfec4d678be034577a70b81b/a73dc32f6e4343c7b8a0f4c56213fcd1.html).
 - For every breaking change, you must do the following:
   - Document the breaking change by updating the corresponding migration doc file (such as `docs/migration/3_0.md`), and if necessary, ensure that code comments have been added.
   - Build automation tasks, as described in the [Validations](#validations), [Constructor Deprecation](#constructor-deprecation), and [Component Deprecation](#component-deprecation)) sections, above.

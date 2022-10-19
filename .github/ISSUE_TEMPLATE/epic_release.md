@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-The following is a checklist for new epics or features acceptance for Spartacus, based on [our Definition of Done document](https://sap.github.io/spartacus-docs/definition-of-done/)
+The following is a checklist for new epics or features acceptance for Spartacus, based on [our Definition of Done document](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/260a7736dfec4d678be034577a70b81b/0c5effe8b3f941e881b258793934c7a0.html).
 
 ## General
 
@@ -15,8 +15,8 @@ The following is a checklist for new epics or features acceptance for Spartacus,
 - [ ] Epic has been tested in all supported browsers and devices (Check list on DoD page)
 - [ ] Epic has sufficient end to end (cypress) test coverage
 - [ ] Schematics code deprecations have been provided and tested
-- [ ] Epic complies with [Security best practices](https://sap.github.io/spartacus-docs/security-best-practices/)
-- [ ] Epic complies with [Accessibility best practices](https://sap.github.io/spartacus-docs/a11y-best-practices/)
+- [ ] Epic complies with [Security best practices](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/79102f15921a46edac8f7c73149878a9.html)
+- [ ] Epic complies with [Accessibility best practices](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/e8eae4bc27cd44af9a11d4ae40791ed6.html)
 - [ ] Epic CSS supports directionality (if required)
 - [ ] Epic code scans have been conducted [Compliance scans for branches](https://wiki.one.int.sap/wiki/display/spar/Compliance+scans+for+branches)
 - [ ] Epic renders successfully in SSR

@@ -261,7 +261,7 @@ describe('Workspace utils', () => {
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
+    To see more options, please check our documentation: https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html`
         )
       );
     });
