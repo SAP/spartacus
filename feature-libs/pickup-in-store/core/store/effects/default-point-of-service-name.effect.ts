@@ -6,17 +6,31 @@
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { WindowRef } from '@spartacus/core';
+import { PointOfServiceNames } from '@spartacus/pickup-in-store/core';
+import { PREFERRED_STORE_LOCAL_STORAGE_KEY } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { iif, of, throwError } from 'rxjs';
+import { iif, of } from 'rxjs';
 
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { DefaultPointOfServiceActions } from '../actions/index';
+import { StateWithPickupLocations } from '../pickup-location-state';
 
 @Injectable()
 export class DefaultPointOfServiceEffect {
   constructor(
     private actions$: Actions,
-    protected userProfileService: UserProfileFacade
+    protected store: Store<StateWithPickupLocations>,
+    protected userProfileService: UserProfileFacade,
+    protected winRef: WindowRef
   ) {}
 
   loadDefaultPointOfService$ = createEffect(() =>
@@ -24,17 +38,28 @@ export class DefaultPointOfServiceEffect {
       ofType(DefaultPointOfServiceActions.LOAD_DEFAULT_POINT_OF_SERVICE),
       switchMap(() =>
         this.userProfileService.get().pipe(
-          mergeMap((_preferredStore) => iif(() => !!_preferredStore, {}, {})),
-          map((defaultPointOfService) => {
-            console.log('loadDefaultPointOfService', defaultPointOfService);
-            return throwError('There was an error');
-          }),
-          map((_defaultPointOfService) =>
+          mergeMap((preferredStore) =>
+            iif(
+              () =>
+                !!preferredStore && !!preferredStore.defaultPointOfServiceName,
+              of({
+                name: preferredStore?.defaultPointOfServiceName,
+                displayName: null,
+              }),
+              (() => {
+                const preferredStore = this.winRef.localStorage?.getItem(
+                  PREFERRED_STORE_LOCAL_STORAGE_KEY
+                );
+                return of(
+                  preferredStore ? JSON.parse(preferredStore) : undefined
+                );
+              })()
+            )
+          ),
+          filter((defaultPointOfService) => defaultPointOfService),
+          map((defaultPointOfService: PointOfServiceNames) =>
             DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess({
-              payload: {
-                name: '',
-                displayName: '',
-              },
+              payload: defaultPointOfService,
             })
           ),
           catchError((error) => {
@@ -56,24 +81,20 @@ export class DefaultPointOfServiceEffect {
   setDefaultPointOfService$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DefaultPointOfServiceActions.SET_DEFAULT_POINT_OF_SERVICE),
-      switchMap(() =>
-        this.userProfileService.get().pipe(
-          tap((defaultPointOfService) =>
-            console.log('defaultPointOfService', defaultPointOfService)
-          ),
-          map((_defaultPointOfService) =>
-            DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess({
-              payload: {
-                name: '',
-                displayName: '',
-              },
-            })
-          )
-          //   catchError((error) =>
-          //     of(new StockLevelActions.StockLevelFail(normalizeHttpError(error)))
-          //   )
+      map((action): PointOfServiceNames => action['payload']),
+      tap((preferredStore) =>
+        this.winRef.localStorage?.setItem(
+          PREFERRED_STORE_LOCAL_STORAGE_KEY,
+          JSON.stringify(preferredStore)
         )
-      )
+      ),
+      switchMap((preferredStore: PointOfServiceNames) =>
+        this.userProfileService.update({
+          defaultPointOfServiceName: preferredStore.name,
+        })
+      ),
+      filter(() => false),
+      map((_defaultPointOfService) => ({ type: 'NULL_ACTION' }))
     )
   );
 }
