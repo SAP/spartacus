@@ -37,7 +37,7 @@
       }
 
       .modal-header {
-        margin-block-end: 25px;
+        margin-block-end: 16px;
         background-color: rgba(245, 206, 206, 1);
         .cx-icon {
           color: var(--cx-color-danger);
@@ -50,7 +50,7 @@
 
         .cx-modal-footer {
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
           margin-block-start: 15px;
           padding-inline-start: 16px;
           padding-inline-end: 16px;

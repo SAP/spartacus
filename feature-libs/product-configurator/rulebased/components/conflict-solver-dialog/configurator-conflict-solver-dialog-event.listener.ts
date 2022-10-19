@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
@@ -8,7 +14,6 @@ import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { switchMap, take } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../core';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +35,6 @@ export class ConfiguratorConflictSolverDialogEventListener
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorGroupsService: ConfiguratorGroupsService
   ) {
@@ -41,7 +45,7 @@ export class ConfiguratorConflictSolverDialogEventListener
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
         if (conflictGroups && conflictGroups?.length > 0) {
-          this.openModal(conflictGroups, this.routerData$);
+          this.openModal();
         }
       })
     );
@@ -49,21 +53,16 @@ export class ConfiguratorConflictSolverDialogEventListener
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
         if (conflictGroups && conflictGroups?.length === 0) {
-          this.closeModal('CLOSE_CONFLICT_SOLVER_DIALOG');
+          this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
         }
       })
     );
   }
 
-  protected openModal(
-    conflictGroups: Configurator.Group[] | undefined,
-    routerData$: Observable<ConfiguratorRouter.Data>
-  ): void {
-    console.warn('There are ' + conflictGroups?.length + ' conflict groups');
-
+  protected openModal(): void {
     const dialogData = {
-      conflictGroups: conflictGroups,
-      routerData: routerData$,
+      conflictGroups: this.conflictGroups$,
+      routerData: this.routerData$,
     };
 
     const dialog = this.launchDialogService.openDialog(

@@ -15,3 +15,9 @@ declare module '@spartacus/product-configurator/common' {
       ProductConfiguratorMessageConfig,
       ProductConfiguratorCoreConfig {}
 }
+
+declare module '@spartacus/storefront' {
+  const enum LAUNCH_CALLER {
+    CONFLICT_SOLVER = 'CONFLICT_SOLVER',
+  }
+}

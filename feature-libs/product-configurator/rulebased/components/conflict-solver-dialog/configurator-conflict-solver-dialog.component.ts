@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,7 +33,7 @@ export class ConfiguratorConflictSolverDialogComponent
   protected subscription = new Subscription();
 
   routerData$: Observable<ConfiguratorRouter.Data>;
-  conflictGroups: Configurator.Group[] | undefined;
+  conflictGroups$: Observable<Configurator.Group[]>;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -36,10 +42,10 @@ export class ConfiguratorConflictSolverDialogComponent
   ) {}
 
   init(
-    conflictGroups: Configurator.Group[] | undefined,
+    conflictGroups: Observable<Configurator.Group[]>,
     routerData: Observable<ConfiguratorRouter.Data>
   ): void {
-    this.conflictGroups = conflictGroups;
+    this.conflictGroups$ = conflictGroups;
     this.routerData$ = routerData;
   }
 
