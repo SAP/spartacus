@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
-
-import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
 import {
-  BREAKPOINT,
-  BreakpointService,
+  Address,
+  PaymentDetails,
+  TranslationService,
+  UserPaymentService,
+} from '@spartacus/core';
+import {
+  AddressBookComponentService,
   Card,
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
 
-import { combineLatest, forkJoin, of, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerProfileData } from './asm-customer-profile.model';
 
@@ -28,36 +30,24 @@ export class AsmCustomerProfileComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  BREAKPOINT = BREAKPOINT;
-
-  breakpoint$: Observable<BREAKPOINT>;
-
-  // customerListConfig = this.asmConfig?.asm?.customerList;
-
   customerProfileData$: Observable<CustomerProfileData>;
 
-  protected subscription = new Subscription();
-
   constructor(
-    protected breakpointService: BreakpointService,
-    protected asmConfig: AsmConfig,
-    protected translation: TranslationService
-  ) {
-    this.breakpoint$ = this.getBreakpoint();
-  }
+    protected translation: TranslationService,
+    protected userPaymentService: UserPaymentService,
+    protected addressBookComponentService: AddressBookComponentService
+  ) {}
 
   ngOnInit(): void {
-    this.getSamplePaymentMethods();
-
-    this.customerProfileData$ = forkJoin([
-      of(this.getSamplePaymentMethods()),
-      of(this.getAddresses()),
+    this.customerProfileData$ = combineLatest([
+      this.userPaymentService.getPaymentMethods(),
+      this.addressBookComponentService.getAddresses(),
     ]).pipe(
       map(([paymentDetails, addresses]) => {
         const defaultPaymentDetail = paymentDetails.find(
           (paymentDetail) => paymentDetail.defaultPayment
         );
-        const deliveryAddress = addresses.find(
+        const deliveryAddress: Address | undefined = addresses.find(
           (address) => address.defaultAddress
         );
         return {
@@ -69,6 +59,8 @@ export class AsmCustomerProfileComponent implements OnInit {
         };
       })
     );
+    this.userPaymentService.loadPaymentMethods();
+    this.addressBookComponentService.loadAddresses();
   }
 
   getCardContent({
@@ -95,7 +87,6 @@ export class AsmCustomerProfileComponent implements OnInit {
             ? 'paymentCard.defaultPaymentLabel'
             : 'paymentCard.additionalPaymentLabel',
         };
-
         return card;
       })
     );
@@ -115,166 +106,5 @@ export class AsmCustomerProfileComponent implements OnInit {
       ccIcon = this.iconTypes.CREDIT_CARD;
     }
     return ccIcon;
-  }
-
-  private getBreakpoint(): Observable<BREAKPOINT> {
-    return this.breakpointService.breakpoint$.pipe(
-      map((breakpoint) => {
-        if (breakpoint === BREAKPOINT.lg || breakpoint === BREAKPOINT.xl) {
-          breakpoint = BREAKPOINT.md;
-        }
-        return breakpoint;
-      })
-    );
-  }
-
-  private getSamplePaymentMethods(): PaymentDetails[] {
-    const paymentMethods: PaymentDetails[] = [
-      {
-        accountHolderName: 'hak',
-        billingAddress: {
-          country: {
-            isocode: 'US',
-          },
-          defaultAddress: false,
-          email: 'kimhakwo@hotmail.com',
-          firstName: 'billingFirst',
-          formattedAddress:
-            '53 State St Billing, Billing 2nd line, Massachusetts, Boston, 02109',
-          id: '8796158951447',
-          lastName: 'billingLast',
-          line1: '53 State St Billing, Billing 2nd line',
-          phone: '14165053687',
-          postalCode: '02109',
-          region: {
-            isocode: 'US-MA',
-          },
-          town: 'Boston',
-        },
-        cardNumber: '************1111',
-        cardType: {
-          code: 'visa',
-          name: 'Visa',
-        },
-        defaultPayment: true,
-        expiryMonth: '3',
-        expiryYear: '2030',
-        id: '8796125921322',
-        saved: true,
-        subscriptionId: 'f009b2cf-3ac4-4763-a7ce-80c9e0c98f25',
-      },
-      {
-        accountHolderName: 'hakMaster',
-        billingAddress: {
-          country: {
-            isocode: 'US',
-          },
-          defaultAddress: false,
-          email: 'kimhakwo@hotmail.com',
-          firstName: 'US',
-          formattedAddress: '53 State St, , Massachusetts, Boston, 02109',
-          id: '8796159311895',
-          lastName: 'Hak',
-          line1: '53 State St, ',
-          phone: '14165053687',
-          postalCode: '02109',
-          region: {
-            isocode: 'US-MA',
-          },
-          town: 'Boston',
-        },
-        cardNumber: '************4444',
-        cardType: {
-          code: 'master',
-          name: 'Mastercard',
-        },
-        defaultPayment: false,
-        expiryMonth: '3',
-        expiryYear: '2030',
-        id: '8796126052394',
-        saved: true,
-        subscriptionId: 'd90bb4b2-0bd3-4620-986f-43e2d062afe0',
-      },
-      {
-        accountHolderName: 'hakMaster',
-        billingAddress: {
-          country: {
-            isocode: 'US',
-          },
-          defaultAddress: false,
-          email: 'kimhakwo@hotmail.com',
-          firstName: 'US',
-          formattedAddress: '27 Corvus Starway, , Massachusetts, Boston, 02109',
-          id: '8796159311895',
-          lastName: 'Hak',
-          line1: '27 Corvus Starway, ',
-          phone: '14165053687',
-          postalCode: '02109',
-          region: {
-            isocode: 'US-MA',
-          },
-          town: 'Boston',
-        },
-        cardNumber: '************1234',
-        cardType: {
-          code: 'master',
-          name: 'Mastercard',
-        },
-        defaultPayment: false,
-        expiryMonth: '3',
-        expiryYear: '2030',
-        id: '8796126052394',
-        saved: true,
-        subscriptionId: 'd90bb4b2-0bd3-4620-986f-43e2d062afe0',
-      },
-    ];
-
-    return paymentMethods;
-  }
-
-  private getAddresses(): Address[] {
-    const addresses = [
-      {
-        country: {
-          isocode: 'US',
-        },
-        defaultAddress: true,
-        firstName: 'US',
-        formattedAddress: '53 State St,, , Massachusetts, Boston, 02109',
-        id: '8796158918679',
-        lastName: 'Hak',
-        line1: '53 State St,',
-        line2: '',
-        phone: '14165053687',
-        postalCode: '02109',
-        region: {
-          isocode: 'US-MA',
-        },
-        titleCode: 'mr',
-        town: 'Boston',
-      },
-      {
-        country: {
-          isocode: 'US',
-        },
-        defaultAddress: false,
-        firstName: 'FirstName1',
-        formattedAddress:
-          '53 State St Address line2,, Address line2, Massachusetts, Boston, 02109',
-        id: '8796159344663',
-        lastName: 'LastName1',
-        line1: '53 State St Address line2,',
-        line2: 'Address line2',
-        phone: '14165053687',
-        postalCode: '02109',
-        region: {
-          isocode: 'US-MA',
-        },
-        titleCode: 'mr',
-        town: 'Boston',
-      },
-    ];
-
-    return addresses;
   }
 }
