@@ -5,11 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
-
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
+import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
 import { BaseSite } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
