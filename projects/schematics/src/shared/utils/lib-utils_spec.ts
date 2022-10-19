@@ -66,6 +66,9 @@ describe('Lib utils', () => {
   const SCSS_FILE_NAME = 'xxx.scss';
   const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
 
+  const STYLES_CONFIG_IMPORT = '@import "../../styles-config";';
+  const FEATURE_MODULE_STYLE_IMPORT = `@import "${FEATURE_MODULE_IMPORT_PATH}";`;
+
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
   const BASE_FEATURE_CONFIG: SchematicConfig = {
@@ -266,7 +269,9 @@ describe('Lib utils', () => {
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
-            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+            expect(content).toEqual(
+              `${STYLES_CONFIG_IMPORT}\n${FEATURE_MODULE_STYLE_IMPORT}\n`
+            );
           });
         });
         describe('and the scss with the same content already exists', () => {
@@ -282,7 +287,9 @@ describe('Lib utils', () => {
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
-            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+            expect(content).toEqual(
+              `${STYLES_CONFIG_IMPORT}\n${FEATURE_MODULE_STYLE_IMPORT}`
+            );
           });
         });
         describe('and the scss file with a different content already exists', () => {
@@ -297,7 +304,7 @@ describe('Lib utils', () => {
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(
-              `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
+              `${STYLES_CONFIG_IMPORT}\n${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
             );
           });
         });
