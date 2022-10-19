@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as alerts from './global-message';
+//import * as alerts from './global-message'; //To enable after CXSPA-1557 is fixed
 
 export function signOut() {
   cy.intercept({
@@ -24,9 +24,9 @@ export function signOut() {
 }
 
 export function verifyGlobalMessageAfterRegistration() {
-  const alert = alerts.getSuccessAlert();
+  // const alert = alerts.getSuccessAlert(); //To enable after CXSPA-1557 is fixed
 
-  alert.should('contain', 'Please log in with provided credentials.');
+  // alert.should('contain', 'Please log in with provided credentials.'); //To enable after CXSPA-1557 is fixed
   cy.location().should((location) => {
     expect(location.pathname).to.match(/\/login$/);
   });
