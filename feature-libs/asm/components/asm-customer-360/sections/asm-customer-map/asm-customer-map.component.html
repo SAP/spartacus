@@ -12,7 +12,7 @@
   <div>
     <div
       class="store-listing-item"
-      [class.selected]="selectedStore.id === store.id"
+      [class.selected]="selectedStore === store"
       *ngFor="let store of storeData.stores"
       (click)="selectStore(store)"
     >
@@ -45,7 +45,7 @@
       </div>
     </div>
     <iframe
-      *ngIf="!!apiKey"
+      *ngIf="!!(source.config$ | async)?.googleMapsApiKey"
       class="store-map"
       height="400"
       loading="lazy"
@@ -58,14 +58,14 @@
       <div class="store-openings-dates">
         <div
           class="store-openings-date"
-          *ngFor="let opening of selectedStore.openingHours | keyvalue"
+          *ngFor="let opening of selectedStore?.openingHours | keyvalue"
         >
           <span class="store-openings-day bold">{{ opening.key }}</span
           >{{ opening.value }}
         </div>
       </div>
       <div class="store-openings-features">
-        <div *ngFor="let feature of selectedStore.features.entry">
+        <div *ngFor="let feature of selectedStore.features?.entry">
           {{ feature }}
         </div>
       </div>

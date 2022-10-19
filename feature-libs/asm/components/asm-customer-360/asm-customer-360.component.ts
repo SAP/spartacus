@@ -4,7 +4,7 @@ import {
   Injector,
   OnInit,
 } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
+import { AsmConfig, getAsmDialogActionEvent } from '@spartacus/asm/core';
 import {
   Asm360Facade,
   AsmCustomer360Data,
@@ -16,8 +16,6 @@ import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { getAsmDialogActionEvent } from '../../core/utils/utils';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

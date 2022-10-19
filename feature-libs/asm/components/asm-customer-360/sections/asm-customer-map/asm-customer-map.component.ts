@@ -14,6 +14,7 @@ import {
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 
@@ -32,10 +33,12 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
 
   selectedStore: PointOfService;
 
+  apiKey: string;
+
   protected subscription = new Subscription();
 
   constructor(
-    protected source: Customer360SectionContext<AsmCustomer360StoreLocation>,
+    public source: Customer360SectionContext<AsmCustomer360StoreLocation>,
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer,
     /** TODO: This belongs in the 'storefinder' module. Should ask if we need to move these to core or some feature design. */
@@ -66,7 +69,7 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
 
   updateGoogleMapsUrl(): void {
     this.subscription.add(
-      this.source.config$.subscribe((config) => {
+      this.source.config$.pipe(take(1)).subscribe((config) => {
         if (
           config.googleMapsApiKey &&
           this.currentLocation &&
