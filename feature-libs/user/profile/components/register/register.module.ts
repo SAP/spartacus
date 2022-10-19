@@ -18,10 +18,12 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
@@ -43,6 +45,13 @@ import { RegisterComponent } from './register.component';
         RegisterCustomerComponent: {
           component: RegisterComponent,
           guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: RegisterComponentService,
+              useClass: RegisterComponentService,
+              deps: [UserRegisterFacade],
+            },
+          ],
         },
       },
     }),
