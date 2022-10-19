@@ -12,7 +12,10 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { CONFIG_INITIALIZER } from '../config';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER,
+} from '../config/config-initializer/config-initializer';
 import { RoutingConfig } from './configurable-routes';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
 import { SecurePortalConfigInitializer } from './configurable-routes/secure-portal-config/secure-portal-config-initializer';
@@ -34,7 +37,7 @@ export function initConfigurableRoutes(
 export function initRoutingConfig(
   configInitializer: SecurePortalConfigInitializer,
   routingConfig: RoutingConfig
-): SecurePortalConfigInitializer | null {
+): ConfigInitializer | null {
   if (!routingConfig.routing?.protected) {
     return configInitializer;
   }

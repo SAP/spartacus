@@ -9,14 +9,14 @@ import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
-import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { RoutingConfig } from '../config/routing-config';
 
 @Injectable({ providedIn: 'root' })
 export class SecurePortalConfigInitializer implements ConfigInitializer {
-  readonly scopes = ['context'];
+  readonly scopes = ['routing'];
   readonly configFactory = () => this.resolveConfig().toPromise();
 
   constructor(
