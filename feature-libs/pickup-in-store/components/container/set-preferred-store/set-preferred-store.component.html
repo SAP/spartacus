@@ -19,7 +19,7 @@ pickup location for this product. It will not be making this store the preferres
 
 -->
 
-<div class="setpreferredstore-container" (click)="setAsPreferred()">
+<div [attr.data-preferred-store]="(storeSelected$ | async)?.name" class="setpreferredstore-container" (click)="setAsPreferred()">
   <div
     [ngClass]="{
       'icon-selected':
@@ -30,7 +30,7 @@ pickup location for this product. It will not be making this store the preferres
   >
     <cx-icon [type]="ICON_TYPE.HEART"></cx-icon>
   </div>
-  <span class="set-preferred-heading">{{
+  <span data-text="setPreferredStore.myStore" class="set-preferred-heading">{{
     (pointOfServiceName.name === (storeSelected$ | async)?.name
       ? 'setPreferredStore.myStore'
       : 'setPreferredStore.makeThisMyStore'
