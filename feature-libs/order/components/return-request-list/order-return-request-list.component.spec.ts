@@ -1,6 +1,5 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
@@ -60,7 +59,7 @@ describe('OrderReturnRequestListComponent', () => {
   let component: OrderReturnRequestListComponent;
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: OrderReturnRequestFacade;
-  let el: DebugElement;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -84,7 +83,6 @@ describe('OrderReturnRequestListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderReturnRequestListComponent);
-    el = fixture.debugElement;
     component = fixture.componentInstance;
   });
 
@@ -164,25 +162,5 @@ describe('OrderReturnRequestListComponent', () => {
 
     component.ngOnDestroy();
     expect(returnService.clearOrderReturnRequestList).toHaveBeenCalledWith();
-  });
-
-  it('should have valid attribute', () => {
-    let returns: ReturnRequestList | undefined;
-
-    mockReturnRequestList$.next(mockReturns);
-    fixture.detectChanges();
-
-    component.returnRequests$
-      .subscribe((value) => {
-        returns = value;
-      })
-      .unsubscribe();
-    expect(returns).toEqual(mockReturns);
-
-    const sortComponents = el.queryAll(By.css('cx-sorting'));
-    expect(sortComponents.length).toBe(2);
-    expect(
-      sortComponents[1].query(By.css('div[aria-controls="order-return-table"]'))
-    ).not.toBeNull();
   });
 });

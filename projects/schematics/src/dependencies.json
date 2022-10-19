@@ -60,7 +60,6 @@
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/styles": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
@@ -221,13 +220,7 @@
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
-<<<<<<< HEAD
-    "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
-    "@ng-select/ng-select": "^9.0.2",
-=======
-    "@angular/router": "^14.2.3",
->>>>>>> 2abeaf7881248165b10a82969dc9a27af82d423d
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
     "@spartacus/asm": "4.1.0-next.0",

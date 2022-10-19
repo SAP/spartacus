@@ -14,11 +14,7 @@ import {
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -31,8 +27,6 @@ export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy
 {
   private subscription = new Subscription();
-
-  iconTypes = ICON_TYPE;
 
   replenishmentOrderCode: string;
 
