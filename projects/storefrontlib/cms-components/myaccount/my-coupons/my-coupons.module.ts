@@ -11,7 +11,6 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -68,7 +67,7 @@ import { KeyboardFocusModule } from '../../../layout/index';
         },
       },
     }),
-    provideConfig(defaultCouponLayoutConfig),
+    provideDefaultConfig(defaultCouponLayoutConfig),
   ],
   exports: [MyCouponsComponent, CouponClaimComponent],
 })
