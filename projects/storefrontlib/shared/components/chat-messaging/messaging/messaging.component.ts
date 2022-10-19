@@ -16,7 +16,8 @@ export class MessagingComponent implements OnInit {
   @Input() messagingConfigs?: MessagingConfigs;
 
   @Output()
-  send = new EventEmitter<{ files: FileList | undefined; message: string }>();
+  send = new EventEmitter<{ files: File | undefined; message: string }>();
+  downloadAttachment = new EventEmitter<{ attachmentId: string }>();
 
   iconTypes = ICON_TYPE;
   form: FormGroup;
@@ -62,6 +63,10 @@ export class MessagingComponent implements OnInit {
         message: this.form.get('message')?.value,
       });
     }
+  }
+
+  triggerDownload(attachmentId: string) {
+    this.downloadAttachment.emit({ attachmentId });
   }
 
   protected buildForm() {

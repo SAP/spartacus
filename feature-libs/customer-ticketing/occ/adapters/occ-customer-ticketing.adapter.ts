@@ -7,7 +7,9 @@ import {
 } from '@spartacus/core';
 import {
   CustomerTicketingAdapter,
-  CUSTOMER_TICKETING_NORMALIZER,
+  CUSTOMER_TICKETING_DETAILS_NORMALIZER,
+  CUSTOMER_TICKETING_EVENT_NORMALIZER,
+  CUSTOMER_TICKETING_FILE_NORMALIZER,
 } from '@spartacus/customer-ticketing/core';
 import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
@@ -26,7 +28,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
       );
   }
 
@@ -46,8 +48,9 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   ): Observable<TicketEvent> {
     ticketEvent = this.converter.convert(
       ticketEvent,
-      CUSTOMER_TICKETING_NORMALIZER
+      CUSTOMER_TICKETING_EVENT_NORMALIZER
     );
+
     return this.http
       .post<TicketEvent>(
         this.getCreateTicketEventEndpoint(customerId, ticketId),
@@ -58,7 +61,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
       );
   }
 
@@ -70,6 +73,41 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       urlParams: {
         customerId,
         ticketId,
+      },
+    });
+  }
+
+  uploadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    file: File
+  ): Observable<unknown> {
+    file = this.converter.convert(file, CUSTOMER_TICKETING_FILE_NORMALIZER);
+    let formData: FormData = new FormData();
+    formData.append('ticketEventAttachment', file);
+
+    return this.http
+      .post(
+        this.getUploadAttachmentEndpoint(customerId, ticketId, eventCode),
+        formData
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
+      );
+  }
+
+  protected getUploadAttachmentEndpoint(
+    customerId: string,
+    ticketId: string,
+    eventCode: string
+  ): string {
+    return this.occEndpoints.buildUrl('uploadAttachment', {
+      urlParams: {
+        customerId,
+        ticketId,
+        eventCode,
       },
     });
   }

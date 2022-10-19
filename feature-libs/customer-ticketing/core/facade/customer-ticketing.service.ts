@@ -66,6 +66,26 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
+  protected uploadAttachmentCommand: Command<{
+    file: File | null;
+    eventCode: string;
+  }> = this.commandService.create<{ file: File; eventCode: string }>(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector.uploadAttachment(
+            customerId,
+            ticketId,
+            payload.eventCode,
+            payload.file
+          )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
+
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
       () =>
@@ -118,5 +138,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     ticketEvent: TicketEvent
   ): Observable<TicketEvent | unknown> {
     return this.createTicketEventCommand.execute(ticketEvent);
+  }
+
+  uploadAttachments(file: File | null, eventCode: string): Observable<unknown> {
+    return this.uploadAttachmentCommand.execute({ file, eventCode });
   }
 }

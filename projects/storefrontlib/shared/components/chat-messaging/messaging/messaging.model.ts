@@ -3,12 +3,12 @@ export interface MessageEvent {
   rightAlign?: boolean;
   createdAt?: string;
   text?: string;
-  attachments?: Array<Attachment>;
+  ticketEventAttachments?: Array<Attachment>;
 }
 
 export interface Attachment {
-  filename: string;
-  URL: string;
+  filename?: string;
+  id?: string;
 }
 
 export interface MessagingConfigs {
