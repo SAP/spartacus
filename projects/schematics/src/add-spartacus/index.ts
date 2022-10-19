@@ -41,13 +41,13 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
-  getMainStyleFilePath,
   getRelativeStyleConfigImportPath,
   getStylesConfigFilePath,
 } from '../shared/utils/styling-utils';
 import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
+  getProjectTargets,
   getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
@@ -73,6 +73,20 @@ function createStylesConfig(options: SpartacusOptions): Rule {
     }
     return tree;
   };
+}
+
+export function getMainStyleFilePath(project: WorkspaceProject): string {
+  const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
+  const styleFilePath =
+    typeof rootStyles === 'object'
+      ? ((rootStyles as any)?.input as string)
+      : rootStyles;
+  if (!styleFilePath) {
+    throw new Error(
+      `Could not find main styling file from the project's angular configuration.`
+    );
+  }
+  return styleFilePath;
 }
 
 function installStyles(options: SpartacusOptions): Rule {
