@@ -163,6 +163,8 @@ export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
+export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
@@ -170,6 +172,8 @@ export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/as
 export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
+
+export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 /***** Scopes end *****/
 
