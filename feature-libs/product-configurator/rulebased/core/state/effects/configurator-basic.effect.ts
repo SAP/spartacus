@@ -8,10 +8,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-} from '@spartacus/product-configurator/common';
+import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
   catchError,
@@ -39,7 +36,6 @@ import { ConfiguratorBasicEffectService } from './configurator-basic-effect.serv
 export class ConfiguratorBasicEffects {
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
-    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.CreateConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -64,7 +60,6 @@ export class ConfiguratorBasicEffects {
                 new ConfiguratorActions.CreateConfigurationSuccess(
                   configuration
                 ),
-                new ConfiguratorActions.SearchVariants(configuration),
               ];
             }),
             catchError((error) => [
@@ -93,9 +88,11 @@ export class ConfiguratorBasicEffects {
             action.payload.configuration.owner
           )
           .pipe(
-            switchMap((configuration: Configurator.Configuration) => [
-              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-            ]),
+            switchMap((configuration: Configurator.Configuration) => {
+              return [
+                new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+              ];
+            }),
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
@@ -150,7 +147,6 @@ export class ConfiguratorBasicEffects {
         (action: { type: string; payload: Configurator.Configuration }) =>
           action.payload
       ),
-      filter((configuration) => configuration.pricingEnabled === true),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
@@ -208,7 +204,6 @@ export class ConfiguratorBasicEffects {
   updateConfigurationSuccess$: Observable<
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ChangeGroup
   > = createEffect(() =>
     this.actions$.pipe(
@@ -260,18 +255,11 @@ export class ConfiguratorBasicEffects {
                       currentGroup: container.groupIdFromPayload,
                     },
                   });
-                const searchVariantsAction =
-                  new ConfiguratorActions.SearchVariants(payload);
                 return container.currentGroupId === container.groupIdFromPayload
-                  ? [
-                      updateFinalizeSuccessAction,
-                      updatePriceSummaryAction,
-                      searchVariantsAction,
-                    ]
+                  ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
                   : [
                       updateFinalizeSuccessAction,
                       updatePriceSummaryAction,
-                      searchVariantsAction,
                       new ConfiguratorActions.ChangeGroup({
                         configuration: payload,
                         groupId: container.groupIdFromPayload,
@@ -394,33 +382,6 @@ export class ConfiguratorBasicEffects {
       })
     )
   );
-
-  removeProductBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
-    createEffect(() =>
-      this.actions$.pipe(
-        ofType(ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS),
-        switchMap(() => {
-          return this.store.pipe(
-            select(ConfiguratorSelectors.getConfigurationsState),
-            take(1),
-            map((configuratorState) => {
-              const entities = configuratorState.configurations.entities;
-
-              const ownerKeysToRemove: string[] = [];
-              for (const ownerKey in entities) {
-                if (ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)) {
-                  ownerKeysToRemove.push(ownerKey);
-                }
-              }
-
-              return new ConfiguratorActions.RemoveConfiguration({
-                ownerKey: ownerKeysToRemove,
-              });
-            })
-          );
-        })
-      )
-    );
 
   constructor(
     protected actions$: Actions,

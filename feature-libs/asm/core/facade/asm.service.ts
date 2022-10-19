@@ -54,38 +54,6 @@ export class AsmService {
   }
 
   /**
-   * Search for customers in a customer list
-   */
-  customerListCustomersSearch(options: CustomerSearchOptions): void {
-    this.store.dispatch(new AsmActions.CustomerListCustomersSearch(options));
-  }
-
-  /**
-   * Returns the customer search result data for a customer list
-   */
-  getCustomerListCustomersSearchResults(): Observable<CustomerSearchPage> {
-    return this.store.pipe(
-      select(AsmSelectors.getCustomerListCustomersSearchResults)
-    );
-  }
-
-  /**
-   * Returns the customer list customers search result loading status.
-   */
-  getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(AsmSelectors.getCustomerListCustomersSearchResultsLoading)
-    );
-  }
-
-  /**
-   * Reset the customer list customers search result data to the initial state.
-   */
-  customerListCustomersSearchReset(): void {
-    this.store.dispatch(new AsmActions.CustomerListCustomersSearchReset());
-  }
-
-  /**
    * Updates the state of the ASM UI
    */
   updateAsmUiState(asmUi: AsmUi): void {

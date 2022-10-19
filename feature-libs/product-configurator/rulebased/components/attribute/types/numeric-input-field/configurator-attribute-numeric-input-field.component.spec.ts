@@ -82,17 +82,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
-  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
-    ...defaultConfiguratorUISettingsConfig,
-    productConfigurator: {
-      ...defaultConfiguratorUISettingsConfig.productConfigurator,
-    },
-  };
 
   beforeEach(
     waitForAsync(() => {
-      configuratorUISettingsConfig.productConfigurator =
-        defaultConfiguratorUISettingsConfig.productConfigurator;
       mockLanguageService = {
         getAll: () => of([]),
         getActive: jasmine.createSpy().and.returnValue(of(locale)),
@@ -109,7 +101,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorUISettingsConfig,
-            useValue: configuratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -277,15 +269,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
-    component.attributeInputForm.setValue('123');
-    fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
-  it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', fakeAsync(() => {
-    configuratorUISettingsConfig.productConfigurator = undefined;
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(component.inputChange.emit).not.toHaveBeenCalled();

@@ -19,7 +19,6 @@ import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module'
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
-import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
 
 @NgModule({
   imports: [
@@ -37,7 +36,6 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
-    ConfiguratorVariantCarouselModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}

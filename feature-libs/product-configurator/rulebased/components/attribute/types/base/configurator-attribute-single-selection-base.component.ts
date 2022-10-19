@@ -25,7 +25,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Input() language: string;
   @Input() ownerType: string;
-  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
@@ -197,9 +196,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
-      const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {
       return ariaLabel;

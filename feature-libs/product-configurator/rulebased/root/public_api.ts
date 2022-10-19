@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * Public API Surface of the rule based root entry point
+ */
+
 export * from './cpq/index';
 export * from './feature-name';
 export * from './rulebased-configurator-root-feature.module';

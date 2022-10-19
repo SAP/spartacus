@@ -13,7 +13,6 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -58,7 +57,6 @@ describe('ConfigurationGroupTitleComponent', () => {
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
-  let configExpertModeService: ConfiguratorExpertModeService;
 
   beforeEach(
     waitForAsync(() => {
@@ -101,10 +99,6 @@ describe('ConfigurationGroupTitleComponent', () => {
     );
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
-
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
   });
 
   it('should create component', () => {
@@ -114,38 +108,6 @@ describe('ConfigurationGroupTitleComponent', () => {
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);
-    });
-  });
-
-  describe('getGroupTitle', () => {
-    it('should return group title', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
-      );
-      expect(component.getGroupTitle(config.groups[0])).toEqual(
-        config.groups[0].description
-      );
-    });
-
-    it('should return group title for expert mode', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      const groupMenuTitle =
-        config.groups[0].description + ' / [' + config.groups[0].name + ']';
-      expect(component.getGroupTitle(config.groups[0])).toEqual(groupMenuTitle);
-    });
-
-    it('should return conflict group title for expert mode', () => {
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      fixture.detectChanges();
-      expect(
-        component.getGroupTitle(configForExpMode.groups[0].subGroups[0])
-      ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
 });

@@ -69,7 +69,7 @@ module.exports = function (config) {
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-   reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-<lib-name>.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests-reports'),      
@@ -255,7 +255,6 @@ Add the following scripts:
 
 ```json
 "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
-"release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
 And replace `asm` instances with the name of yours lib.

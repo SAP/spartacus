@@ -4,32 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LOCATION_INITIALIZED } from '@angular/common';
 import {
   APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   Optional,
 } from '@angular/core';
-import { Config } from '../config-tokens';
+import { ConfigInitializerService } from './config-initializer.service';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
 } from './config-initializer';
-import { ConfigInitializerService } from './config-initializer.service';
+import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
   initializers: ConfigInitializer[]
-): () => Promise<void> {
+) {
   const isReady = () => configInitializer.initialize(initializers);
   return isReady;
 }
 
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
-): Promise<Config> {
+) {
   return configInitializer.getStable().toPromise();
 }
 

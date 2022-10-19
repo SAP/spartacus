@@ -38,7 +38,6 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -61,7 +60,6 @@ class MockTranslationService {
 }
 
 const productCode = 'CONF_LAPTOP';
-let expMode = true;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const groupId = 'GROUP1';
@@ -106,8 +104,6 @@ const overviewOcc: OccConfigurator.Overview = {
   productCode: productCode,
 };
 
-const variantSearchResult: Configurator.Variant[] = [{ productCode: 'a' }];
-
 const cartModification: CartModification = { quantity: 1 };
 
 describe('OccConfigurationVariantAdapter', () => {
@@ -116,7 +112,6 @@ describe('OccConfigurationVariantAdapter', () => {
   let converterService: ConverterService;
   let occEndpointsService: OccEndpointsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
-  let configExpertModeService: ConfiguratorExpertModeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -160,10 +155,6 @@ describe('OccConfigurationVariantAdapter', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(configuration.owner);
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
-    configExpertModeService.setExpModeRequested(expMode);
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
@@ -174,9 +165,6 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call createConfiguration endpoint', (done) => {
-    expMode = false;
-    configExpertModeService.setExpModeRequested(expMode);
-    productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
@@ -201,47 +189,6 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           productCode,
         },
-        queryParams: { expMode },
-      }
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(productConfigurationOcc);
-  });
-
-  it('should call createConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
-
-    occConfiguratorVariantAdapter
-      .createConfiguration(configuration.owner)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-        done();
-      });
-
-    //this call doesn't do the actual mapping but retrieves the map function,
-    //therefore expectation is valid here outside the subscribe
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createVariantConfiguration';
-    });
-
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'createVariantConfiguration',
-      {
-        urlParams: {
-          productCode,
-        },
-        queryParams: { expMode },
       }
     );
 
@@ -251,9 +198,6 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfiguration endpoint', (done) => {
-    expMode = false;
-    configExpertModeService.setExpModeRequested(expMode);
-    productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner)
@@ -270,43 +214,7 @@ describe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId, expMode },
-      }
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    mockReq.flush(productConfigurationOcc);
-  });
-
-  it('should call readConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
-
-    occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId, configuration.owner)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-        done();
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readVariantConfiguration';
-    });
-
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'readVariantConfiguration',
-      {
-        urlParams: { configId },
-        queryParams: { groupId, expMode },
+        queryParams: { groupId },
       }
     );
 
@@ -319,9 +227,6 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call updateConfiguration endpoint', (done) => {
-    expMode = false;
-    configExpertModeService.setExpModeRequested(expMode);
-    productConfigurationOcc.kbKey = undefined;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .updateConfiguration(configuration)
@@ -340,49 +245,6 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           configId,
         },
-        queryParams: { expMode },
-      }
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    expect(converterService.convert).toHaveBeenCalledWith(
-      configuration,
-      VARIANT_CONFIGURATOR_SERIALIZER
-    );
-    mockReq.flush(productConfigurationOcc);
-  });
-
-  it('should call updateConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
-
-    occConfiguratorVariantAdapter
-      .updateConfiguration(configuration)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-        done();
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
-    });
-
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'updateVariantConfiguration',
-      {
-        urlParams: {
-          configId,
-        },
-        queryParams: { expMode },
       }
     );
 
@@ -704,33 +566,6 @@ describe('OccConfigurationVariantAdapter', () => {
       VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
     mockReq.flush(overviewOcc);
-  });
-
-  it('should call searchConfiguratorVariants endpoint', (done) => {
-    occConfiguratorVariantAdapter
-      .searchVariants(configuration.configId)
-      .subscribe((productConfigurationResult) => {
-        expect(productConfigurationResult.length).toBe(1);
-        done();
-      });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'searchConfiguratorVariants';
-    });
-
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'searchConfiguratorVariants',
-      {
-        urlParams: {
-          configId,
-        },
-      }
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-
-    mockReq.flush(variantSearchResult);
   });
 
   it('should return configurator type', () => {

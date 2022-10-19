@@ -41,7 +41,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='release/5.0.x'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -77,10 +77,3 @@ EPD_VISUALIZATION_BASE_URL=
 NPM_TOKEN=
 NPM_URL= 
 NPM_ALWAYS_AUTH=true
-
-SKIP_SANITY=false
-CHECK_AFTER_START=false
-CHECK_B2B_AFTER_START=false
-# Forces E2E even if XVFB is not installed
-FORCE_E2E=false
-SKIP_E2E=false

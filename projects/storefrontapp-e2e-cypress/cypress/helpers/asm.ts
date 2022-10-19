@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { login } from './auth-forms';
 import * as addressBook from '../helpers/address-book';
 import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';

@@ -35,29 +35,3 @@ export const getCustomerSearchResultsLoading: MemoizedSelector<
   (state: StateUtils.LoaderState<CustomerSearchPage>) =>
     StateUtils.loaderLoadingSelector(state)
 );
-
-export const getCustomerListCustomersSearchResultsLoaderState: MemoizedSelector<
-  StateWithAsm,
-  StateUtils.LoaderState<CustomerSearchPage>
-> = createSelector(
-  getAsmState,
-  (state: AsmState) => state.customerListCustomersSearchResult
-);
-
-export const getCustomerListCustomersSearchResults: MemoizedSelector<
-  StateWithAsm,
-  CustomerSearchPage
-> = createSelector(
-  getCustomerListCustomersSearchResultsLoaderState,
-  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
-    StateUtils.loaderValueSelector(state)
-);
-
-export const getCustomerListCustomersSearchResultsLoading: MemoizedSelector<
-  StateWithAsm,
-  boolean
-> = createSelector(
-  getCustomerListCustomersSearchResultsLoaderState,
-  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
-    StateUtils.loaderLoadingSelector(state)
-);

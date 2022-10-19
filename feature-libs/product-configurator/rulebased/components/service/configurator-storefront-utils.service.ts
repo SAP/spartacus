@@ -185,52 +185,34 @@ export class ConfiguratorStorefrontUtilsService {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(form);
       if (focusableElements.length > 0) {
-        this.focusOnElements(focusableElements, attribute);
+        let foundFocusableElement =
+          this.getFocusableConflictDescription(focusableElements);
+        if (!foundFocusableElement) {
+          const selectedValue = attribute.values?.find(
+            (value) => value.selected
+          );
+          if (selectedValue) {
+            const valueUiKey = this.createAttributeValueUiKey(
+              attribute.name,
+              selectedValue.valueCode
+            );
+            foundFocusableElement = this.getFocusableElementByValueUiKey(
+              focusableElements,
+              valueUiKey
+            );
+          }
+          if (!foundFocusableElement) {
+            foundFocusableElement = this.getFocusableElementByAttributeId(
+              focusableElements,
+              attribute.name
+            );
+          }
+        }
+        if (foundFocusableElement) {
+          foundFocusableElement.focus();
+        }
       }
     }
-  }
-
-  protected focusOnElements(
-    focusableElements: HTMLElement[],
-    attribute: Configurator.Attribute
-  ) {
-    let foundFocusableElement =
-      this.getFocusableConflictDescription(focusableElements);
-    if (!foundFocusableElement) {
-      foundFocusableElement = this.focusOnElementForConflicting(
-        attribute,
-        foundFocusableElement,
-        focusableElements
-      );
-    }
-    if (foundFocusableElement) {
-      foundFocusableElement.focus();
-    }
-  }
-
-  protected focusOnElementForConflicting(
-    attribute: Configurator.Attribute,
-    foundFocusableElement: HTMLElement | undefined,
-    focusableElements: HTMLElement[]
-  ) {
-    const selectedValue = attribute.values?.find((value) => value.selected);
-    if (selectedValue) {
-      const valueUiKey = this.createAttributeValueUiKey(
-        attribute.name,
-        selectedValue.valueCode
-      );
-      foundFocusableElement = this.getFocusableElementByValueUiKey(
-        focusableElements,
-        valueUiKey
-      );
-    }
-    if (!foundFocusableElement) {
-      foundFocusableElement = this.getFocusableElementByAttributeId(
-        focusableElements,
-        attribute.name
-      );
-    }
-    return foundFocusableElement;
   }
 
   /**

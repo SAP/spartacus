@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
 import {
@@ -84,12 +83,6 @@ const productConfiguration: Configurator.Configuration = {
   flatGroups: [group],
   priceSummary: {},
   priceSupplements: [],
-  pricingEnabled: true,
-};
-
-const productConfigurationWithoutPricing: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('a', owner),
-  pricingEnabled: false,
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -102,9 +95,6 @@ const productConfigurationAttributeOnNestedGroup: Configurator.Configuration = {
   groups: [parentGroup],
   flatGroups: [parentGroup],
 };
-const searchVariantsAction = new ConfiguratorActions.SearchVariants(
-  productConfiguration
-);
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -175,14 +165,11 @@ describe('ConfiguratorEffect', () => {
       productConfiguration.owner
     );
 
-    const configurationSuccessAction =
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration);
-
+    const completion = new ConfiguratorActions.CreateConfigurationSuccess(
+      productConfiguration
+    );
     actions$ = hot('-a', { a: action });
-    const expected = cold('-(bc)', {
-      b: configurationSuccessAction,
-      c: searchVariantsAction,
-    });
+    const expected = cold('-b', { b: completion });
 
     expect(configEffects.createConfiguration$).toBeObservable(expected);
   });
@@ -372,18 +359,6 @@ describe('ConfiguratorEffect', () => {
 
       expect(configEffects.updatePriceSummary$).toBeObservable(expected);
     });
-
-    it('should do nothing in case pricing is not enabled', () => {
-      const updatePriceSummaryAction =
-        new ConfiguratorActions.UpdatePriceSummary(
-          productConfigurationWithoutPricing
-        );
-
-      actions$ = hot('-a', { a: updatePriceSummaryAction });
-      const expected = cold('--');
-
-      expect(configEffects.updatePriceSummary$).toBeObservable(expected);
-    });
   });
 
   describe('Effect updateConfigurationSuccess', () => {
@@ -400,7 +375,6 @@ describe('ConfiguratorEffect', () => {
         ...productConfiguration,
         interactionState: { currentGroup: groupId },
       });
-
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: groupId,
@@ -408,11 +382,10 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: searchVariantsAction,
-        e: changeGroup,
+        d: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -432,10 +405,6 @@ describe('ConfiguratorEffect', () => {
         ...productConfigurationAttributeOnNestedGroup,
         interactionState: { currentGroup: groupId },
       });
-      const searchVariantsActionAttributeOnNestedGroup =
-        new ConfiguratorActions.SearchVariants(
-          productConfigurationAttributeOnNestedGroup
-        );
       const changeGroup = new ConfiguratorActions.ChangeGroup({
         configuration: productConfigurationAttributeOnNestedGroup,
         groupId: groupId,
@@ -443,11 +412,10 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: searchVariantsActionAttributeOnNestedGroup,
-        e: changeGroup,
+        d: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -475,10 +443,9 @@ describe('ConfiguratorEffect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: finalizeSuccess,
         c: updatePrices,
-        d: searchVariantsAction,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
@@ -591,46 +558,6 @@ describe('ConfiguratorEffect', () => {
         b: readConfigurationFail,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
-    });
-  });
-
-  describe('Effect removeProductBoundConfigurations', () => {
-    let entitiesInConfigurationState: {
-      [id: string]: any;
-    } = {};
-    let configurationState: any;
-
-    beforeEach(() => {
-      entitiesInConfigurationState = {};
-      configurationState = {
-        configurations: { entities: entitiesInConfigurationState },
-      };
-    });
-
-    it('should emit remove configuration action for configurations that are purely product bound', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(configurationState)
-      );
-
-      entitiesInConfigurationState[productConfiguration.owner.key] =
-        productConfiguration.owner.key;
-
-      const removeProductBoundConfigurationsAction =
-        new ConfiguratorActions.RemoveProductBoundConfigurations();
-
-      const removeConfigurationAction =
-        new ConfiguratorActions.RemoveConfiguration({
-          ownerKey: [productConfiguration.owner.key],
-        });
-
-      actions$ = cold('-a', { a: removeProductBoundConfigurationsAction });
-      const expected = cold('-(b)', {
-        b: removeConfigurationAction,
-      });
-
-      expect(configEffects.removeProductBoundConfigurations$).toBeObservable(
-        expected
-      );
     });
   });
 });

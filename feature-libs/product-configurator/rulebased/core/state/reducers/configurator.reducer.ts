@@ -31,7 +31,6 @@ export function configuratorReducer(
   action:
     | ConfiguratorActions.ConfiguratorAction
     | ConfiguratorActions.ConfiguratorCartAction
-    | ConfiguratorActions.ConfiguratorVariantAction
 ): Configurator.Configuration {
   switch (action.type) {
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
@@ -69,12 +68,6 @@ export function configuratorReducer(
       };
 
       return result;
-    }
-    case ConfiguratorActions.SEARCH_VARIANTS_SUCCESS: {
-      return {
-        ...state,
-        variants: action.payload.variants,
-      };
     }
     case ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS: {
       const configuration = { ...action.payload };

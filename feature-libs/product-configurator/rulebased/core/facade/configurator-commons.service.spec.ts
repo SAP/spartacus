@@ -564,14 +564,4 @@ describe('ConfiguratorCommonsService', () => {
         .unsubscribe();
     });
   });
-
-  describe('removeProductBoundConfigurations', () => {
-    it('should call matching action on removeProductBoundConfigurations', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.removeProductBoundConfigurations();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.RemoveProductBoundConfigurations()
-      );
-    });
-  });
 });

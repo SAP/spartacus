@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * Public API Surface of common configuration
+ */
 export * from './common-configurator.module';
 export * from './components/index';
 export * from './core/model/index';

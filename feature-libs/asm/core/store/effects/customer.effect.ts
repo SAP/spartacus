@@ -32,29 +32,5 @@ export class CustomerEffects {
     )
   );
 
-  customerListCustomersSearch$: Observable<AsmActions.CustomerAction> =
-    createEffect(() =>
-      this.actions$.pipe(
-        ofType(AsmActions.CUSTOMER_LIST_CUSTOMERS_SEARCH),
-        map((action: AsmActions.CustomerListCustomersSearch) => action.payload),
-        switchMap((options) =>
-          this.asmConnector.customerSearch(options).pipe(
-            map((customerListCustomersSearchResults: CustomerSearchPage) => {
-              return new AsmActions.CustomerListCustomersSearchSuccess(
-                customerListCustomersSearchResults
-              );
-            }),
-            catchError((error) =>
-              of(
-                new AsmActions.CustomerListCustomersSearchFail(
-                  normalizeHttpError(error)
-                )
-              )
-            )
-          )
-        )
-      )
-    );
-
   constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
 }

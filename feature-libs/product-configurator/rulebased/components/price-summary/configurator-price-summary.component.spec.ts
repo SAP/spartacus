@@ -14,7 +14,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -34,6 +33,7 @@ const config: Configurator.Configuration = {
     '1234-56-7890',
     ConfiguratorModelUtils.createInitialOwner()
   ),
+
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -54,7 +54,6 @@ const config: Configurator.Configuration = {
       formattedValue: '22.900 €',
     },
   },
-  pricingEnabled: true,
 };
 
 let routerStateObservable: Observable<RouterState>;
@@ -73,7 +72,6 @@ class MockConfiguratorCommonsService {
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
-  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -104,8 +102,6 @@ describe('ConfigPriceSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
-    fixture.detectChanges();
   });
 
   it('should create component', () => {
@@ -121,23 +117,5 @@ describe('ConfigPriceSummaryComponent', () => {
         );
       })
       .unsubscribe();
-  });
-
-  it('should render price summary container', () => {
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-price-summary-container'
-    );
-  });
-
-  it('should not render price summary container in case pricing not enabled', () => {
-    config.pricingEnabled = false;
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-price-summary-container'
-    );
   });
 });

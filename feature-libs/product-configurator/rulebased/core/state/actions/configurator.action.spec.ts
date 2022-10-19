@@ -148,13 +148,4 @@ describe('ConfiguratorActions', () => {
       });
     });
   });
-
-  describe('RemoveProductBoundConfigurations', () => {
-    it('should remove product bound configurations', () => {
-      const action = new ConfiguratorActions.RemoveProductBoundConfigurations();
-      expect({ ...action }).toEqual({
-        type: ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS,
-      });
-    });
-  });
 });

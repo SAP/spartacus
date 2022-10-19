@@ -60,9 +60,7 @@
               switchGroupOnArrowPress($event, groupIndex, group, currentGroup)
             "
           >
-            <span title="{{ group.description }}">{{
-              getGroupMenuTitle(group)
-            }}</span>
+            <span title="{{ group.description }}">{{ group.description }}</span>
             <div class="groupIndicators">
               <div class="conflictNumberIndicator">
                 {{ getConflictNumber(group) }}

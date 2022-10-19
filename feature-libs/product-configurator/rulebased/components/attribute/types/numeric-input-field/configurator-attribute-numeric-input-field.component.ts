@@ -235,91 +235,61 @@ export class ConfiguratorAttributeNumericInputFieldComponent
           .subscribe((text) => (intervalText = text));
         return intervalText;
       }
-      intervalText = this.getTextForRealInterval(
-        formattedMinValue,
-        formattedMaxValue,
-        intervalText,
-        interval
-      );
-    } else {
-      intervalText = this.getTextForPartialInterval(
-        interval,
-        intervalText,
-        formattedMinValue,
-        formattedMaxValue
-      );
-    }
-    return intervalText;
-  }
+      this.translation
+        .translate('configurator.a11y.numericIntervalStandard', {
+          minValue: formattedMinValue,
+          maxValue: formattedMaxValue,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (intervalText = text));
 
-  protected getTextForPartialInterval(
-    interval: ConfiguratorAttributeNumericInterval,
-    intervalText: string,
-    formattedMinValue: string,
-    formattedMaxValue: string
-  ) {
-    if (interval.minValue) {
-      if (interval.minValueIncluded) {
-        intervalText = this.getInfiniteIntervalText(
-          'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
-          formattedMinValue
-        );
-      } else {
-        intervalText = this.getInfiniteIntervalText(
-          'configurator.a11y.numericInfiniteIntervalMinValue',
-          formattedMinValue
-        );
+      if (!interval.minValueIncluded || !interval.maxValueIncluded) {
+        if (!interval.minValueIncluded && !interval.maxValueIncluded) {
+          intervalText += ' ';
+          intervalText += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardOpen'
+          );
+        } else {
+          if (!interval.minValueIncluded) {
+            intervalText += ' ';
+            intervalText += this.getAdditionalIntervalText(
+              'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+            );
+          }
+          if (!interval.maxValueIncluded) {
+            intervalText += ' ';
+            intervalText += this.getAdditionalIntervalText(
+              'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+            );
+          }
+        }
       }
     } else {
-      if (interval.maxValue) {
-        if (interval.maxValueIncluded) {
+      if (interval.minValue) {
+        if (interval.minValueIncluded) {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
-            formattedMaxValue
+            'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
+            formattedMinValue
           );
         } else {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMaxValue',
-            formattedMaxValue
+            'configurator.a11y.numericInfiniteIntervalMinValue',
+            formattedMinValue
           );
         }
-      }
-    }
-    return intervalText;
-  }
-
-  protected getTextForRealInterval(
-    formattedMinValue: string,
-    formattedMaxValue: string,
-    intervalText: string,
-    interval: ConfiguratorAttributeNumericInterval
-  ) {
-    this.translation
-      .translate('configurator.a11y.numericIntervalStandard', {
-        minValue: formattedMinValue,
-        maxValue: formattedMaxValue,
-      })
-      .pipe(take(1))
-      .subscribe((text) => (intervalText = text));
-
-    if (!interval.minValueIncluded || !interval.maxValueIncluded) {
-      if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-        intervalText += ' ';
-        intervalText += this.getAdditionalIntervalText(
-          'configurator.a11y.numericIntervalStandardOpen'
-        );
       } else {
-        if (!interval.minValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
-            'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
-          );
-        }
-        if (!interval.maxValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
-            'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
-          );
+        if (interval.maxValue) {
+          if (interval.maxValueIncluded) {
+            intervalText = this.getInfiniteIntervalText(
+              'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
+              formattedMaxValue
+            );
+          } else {
+            intervalText = this.getInfiniteIntervalText(
+              'configurator.a11y.numericInfiniteIntervalMaxValue',
+              formattedMaxValue
+            );
+          }
         }
       }
     }

@@ -99,14 +99,6 @@ export class RulebasedConfiguratorConnector {
     ).getConfigurationOverview(configuration.configId);
   }
 
-  searchVariants(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Variant[]> {
-    return this.getAdapter(configuration.owner.configuratorType).searchVariants(
-      configuration.configId
-    );
-  }
-
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
     const adapterResult = this.adapters.find(
       (adapter) => adapter.getConfiguratorType() === configuratorType

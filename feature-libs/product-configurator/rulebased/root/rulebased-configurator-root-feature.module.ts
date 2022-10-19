@@ -21,7 +21,6 @@ const cmsComponents: string[] = [
   'ConfiguratorProductTitle',
   'ConfiguratorTabBar',
   'ConfiguratorExitButton',
-  'ConfiguratorVariantCarousel',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
 ];
 

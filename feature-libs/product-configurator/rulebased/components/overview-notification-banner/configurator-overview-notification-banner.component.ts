@@ -45,7 +45,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
-      const configOv = configuration.overview;
+      let configOv = configuration.overview;
       if (configOv?.totalNumberOfIssues) {
         return configOv.numberOfIncompleteCharacteristics !== undefined
           ? configOv.numberOfIncompleteCharacteristics

@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as common from './common';
+import * as fs from 'fs';
+import stringifyObject from 'stringify-object';
 import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
 
 /**

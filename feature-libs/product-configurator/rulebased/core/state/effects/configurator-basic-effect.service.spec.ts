@@ -66,7 +66,7 @@ describe('ConfiguratorBasicEffectService', () => {
     it('should find group in single level config', () => {
       expect(
         classUnderTest.getFirstGroupWithAttributes(productConfiguration)
-      ).toBe(GROUP_ID_8);
+      ).toBe(GROUP_ID_9);
     });
     it('should throw error in case configuration has no attribute at all', () => {
       expect(function () {
@@ -117,7 +117,7 @@ describe('ConfiguratorBasicEffectService', () => {
         },
       ];
       expect(classUnderTest['getFirstGroupWithAttributesForList'](groups)).toBe(
-        GROUP_ID_8
+        GROUP_ID_9
       );
     });
 

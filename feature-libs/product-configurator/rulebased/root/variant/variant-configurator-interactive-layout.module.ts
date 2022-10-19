@@ -49,7 +49,6 @@ import { LayoutConfig } from '@spartacus/storefront';
               'VariantConfigMenu',
               'VariantConfigContent',
               'VariantConfigBottombar',
-              'VariantConfigVariantCarousel',
             ],
           },
 
@@ -57,7 +56,6 @@ import { LayoutConfig } from '@spartacus/storefront';
             'VariantConfigHeader',
             'VariantConfigContent',
             'VariantConfigBottombar',
-            'VariantConfigVariantCarousel',
           ],
         },
       },

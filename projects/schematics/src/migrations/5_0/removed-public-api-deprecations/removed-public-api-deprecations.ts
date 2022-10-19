@@ -6,12 +6,8 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
-  BAD_REQUEST_HANDLER,
-  BAD_VOUCHER_REQUEST_HANDLER,
   CDS_MERCHANDISING_FACET_NORMALIZER,
   CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
-  CONFIGURATOR_EVENT_LISTENER,
-  HANDLE_VOUCHER_OPERATION_ERROR,
   MODAL_DIRECTIVE,
   MODAL_DIRECTIVE_OPTIONS,
   MODAL_DIRECTIVE_SERVICE,
@@ -22,15 +18,28 @@ import {
 } from '../../../shared/constants';
 import {
   SPARTACUS_CDS,
-  SPARTACUS_CORE,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
 } from '../../../shared/libs-constants';
 
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
+export function migrate(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
+  };
+}
+
+//
+// Generated array, don't update manually.
+//
 export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  {
+    node: 'DeleteSavedCartEvent',
+    importPath: '@spartacus/cart/saved-cart/root',
+    comment:
+      "Class DeleteSavedCartEvent has been removed and is no longer part of the public API. Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.",
+  },
   {
     node: 'DeleteSavedCartFailEvent',
     importPath: '@spartacus/cart/saved-cart/root',
@@ -1211,13 +1220,13 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CartModule',
     importPath: '@spartacus/core',
     comment:
-      "Class CartModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
+      "Class CartModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
   },
   {
     node: 'CartOccModule',
     importPath: '@spartacus/core',
     comment:
-      "Class CartOccModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
+      "Class CartOccModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
   },
   {
     node: 'getActiveCartId',
@@ -1439,7 +1448,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CartComponentModule',
     importPath: '@spartacus/storefront',
     comment:
-      'Class CartComponentModule has been removed and is no longer part of the public API. ',
+      'Class CartComponentModule has been removed and is no longer part of the public API. The cart base feature is now extracted to a lazy loadable library @spartacus/cart/base.  See the release documentation for more information.  ',
   },
   {
     node: 'CartOrderEntriesContext',
@@ -1487,64 +1496,47 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CDS,
     comment: `'${CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER} has been removed and is no longer part of the public API.`,
   },
+
   // projects/storefrontlib/shared/components/modal/modal-options.ts
   {
     node: MODAL_OPTIONS,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_OPTIONS} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_OPTIONS}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal-ref.ts
   {
     node: MODAL_REF,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_REF} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_REF}' has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE_OPTIONS,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_OPTIONS} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE_OPTIONS}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.directive.ts
   {
     node: MODAL_DIRECTIVE_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_SERVICE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_DIRECTIVE_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.module.ts
   {
     node: MODAL_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_MODULE} has been removed and is no longer part of the public API.`,
+    comment: `'${MODAL_MODULE}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
   },
   // projects/storefrontlib/shared/components/modal/modal.service.ts
   {
     node: MODAL_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_SERVICE} has been removed and is no longer part of the public API.`,
-  },
-  // feature-libs/product-configurator/rulebased/core/event/rulebased-configurator-event.listener.ts
-  {
-    node: CONFIGURATOR_EVENT_LISTENER,
-    importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-    comment: `'${CONFIGURATOR_EVENT_LISTENER} has been removed and is no longer part of the public API. Please use 'ConfiguratorRouterListener' instead`,
-  },
-  // projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts
-  {
-    node: BAD_REQUEST_HANDLER,
-    importPath: SPARTACUS_CORE,
-    comment: `'${HANDLE_VOUCHER_OPERATION_ERROR} has been removed and is no longer part of the public API. Please use new methods in ${BAD_VOUCHER_REQUEST_HANDLER}`,
+    comment: `'${MODAL_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
   },
 ];
-
-export function migrate(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
-  };
-}

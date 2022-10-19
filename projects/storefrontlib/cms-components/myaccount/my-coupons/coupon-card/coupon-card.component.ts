@@ -15,9 +15,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CustomerCoupon } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 
 @Component({

@@ -11,8 +11,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-close-account',
