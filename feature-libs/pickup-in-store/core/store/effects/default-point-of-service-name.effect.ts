@@ -62,17 +62,16 @@ export class DefaultPointOfServiceEffect {
               payload: defaultPointOfService,
             })
           ),
-          catchError((error) => {
-            console.log('In the error', error);
-            return of(
+          catchError((_error) =>
+            of(
               DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess({
                 payload: {
                   name: '',
                   displayName: '',
                 },
               })
-            );
-          })
+            )
+          )
         )
       )
     )
@@ -82,19 +81,25 @@ export class DefaultPointOfServiceEffect {
     this.actions$.pipe(
       ofType(DefaultPointOfServiceActions.SET_DEFAULT_POINT_OF_SERVICE),
       map((action): PointOfServiceNames => action['payload']),
-      tap((preferredStore) =>
+      tap((preferredStore: PointOfServiceNames) =>
         this.winRef.localStorage?.setItem(
           PREFERRED_STORE_LOCAL_STORAGE_KEY,
           JSON.stringify(preferredStore)
         )
       ),
       switchMap((preferredStore: PointOfServiceNames) =>
-        this.userProfileService.update({
-          defaultPointOfServiceName: preferredStore.name,
-        })
+        this.userProfileService
+          .update({
+            defaultPointOfServiceName: preferredStore.name,
+          })
+          .pipe(
+            map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService()),
+            catchError((_error) =>
+              of(DefaultPointOfServiceActions.LoadDefaultPointOfService)
+            )
+          )
       ),
-      filter(() => false),
-      map((_defaultPointOfService) => ({ type: 'NULL_ACTION' }))
+      map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())
     )
   );
 }
