@@ -50,6 +50,7 @@ export enum ICON_TYPE {
   HEADSET = 'HEADSET',
   ATTACHMENT = 'ATTACHMENT',
   UPLOAD = 'UPLOAD',
+  USER = 'USER',
 }
 
 @Injectable({

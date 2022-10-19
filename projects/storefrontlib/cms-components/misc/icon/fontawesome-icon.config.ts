@@ -51,6 +51,7 @@ export const fontawesomeIconConfig: IconConfig = {
       HEADSET: 'fas fa-headset',
       ATTACHMENT: 'fas fa-paperclip',
       UPLOAD: 'fas fa-upload',
+      USER: 'fas fa-user',
     },
     resources: [
       {

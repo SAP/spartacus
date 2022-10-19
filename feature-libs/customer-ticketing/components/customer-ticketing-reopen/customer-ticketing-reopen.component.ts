@@ -5,11 +5,13 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { STATUS } from '@spartacus/customer-ticketing/root';
+import {
+  CustomerTicketingFacade,
+  STATUS,
+} from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CustomerTicketingService } from '../customer-ticketing.service';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',
@@ -20,12 +22,23 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  isStatusClose$: Observable<boolean> = this.customerTicketingService
-    .getTicketStatus()
-    .pipe(map((status) => status === STATUS.CLOSED));
+  enableReopenButton$: Observable<boolean | undefined> =
+    this.customerTicketingFacade
+      .getTicket()
+      .pipe(
+        map(
+          (ticket) =>
+            ticket?.status?.id === STATUS.CLOSED &&
+            ticket.availableStatusTransitions?.some(
+              (status) =>
+                status.id.toUpperCase() === STATUS.INPROCESS ||
+                status.id.toUpperCase() === STATUS.OPEN
+            )
+        )
+      );
 
   constructor(
-    protected customerTicketingService: CustomerTicketingService,
+    protected customerTicketingFacade: CustomerTicketingFacade,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}

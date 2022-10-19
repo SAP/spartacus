@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
+  STATUS,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
-import createSpy = jasmine.createSpy;
 
 const mockTicketId = '1';
 const mockTicketDetails: TicketDetails = {
@@ -24,7 +24,9 @@ class MockTranslationService {
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  getTicket(): Observable<TicketDetails | undefined> {
+    return of(mockTicketDetails);
+  }
 }
 
 describe('CustomerTicketingDetailsComponent', () => {
@@ -80,11 +82,11 @@ describe('CustomerTicketingDetailsComponent', () => {
     }
 
     it('should return open class when the status is open', () => {
-      assertStatusClassByStatusId('cx-text-green', 'OPEN');
+      assertStatusClassByStatusId('cx-text-green', STATUS.OPEN);
     });
 
     it('should return close class when the status is close', () => {
-      assertStatusClassByStatusId('cx-text-gray', 'CLOSE');
+      assertStatusClassByStatusId('cx-text-grey', STATUS.CLOSED);
     });
 
     it('should return empty if the id is not passed', () => {

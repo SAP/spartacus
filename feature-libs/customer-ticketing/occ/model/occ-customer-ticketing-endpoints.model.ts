@@ -13,5 +13,24 @@ declare module '@spartacus/core' {
      * @member {string}
      */
     getTickets?: string | OccEndpoint;
+
+    /**
+     * Endpoint to create a ticket event
+     *
+     * * @member {string}
+     */
+    createTicketEvent?: string | OccEndpoint;
+    /**
+     * Endpoint to get ticket categories
+     *
+     * * @member {string}
+     */
+    getTicketCategories?: string | OccEndpoint;
+    /**
+     * Endpoint to get ticket associated objects
+     *
+     * * @member {string}
+     */
+    getTicketAssociatedObjects?: string | OccEndpoint;
   }
 }

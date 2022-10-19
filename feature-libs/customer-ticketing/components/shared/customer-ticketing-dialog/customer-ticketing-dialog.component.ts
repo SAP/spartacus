@@ -1,7 +1,9 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
+  CustomerTicketingFacade,
   MAX_ENTRIES_FOR_ATTACHMENT,
   MAX_INPUT_CHARACTERS,
   MAX_INPUT_CHARACTERS_FOR_SUBJECT,
@@ -13,12 +15,16 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 
 @Directive()
 export abstract class CustomerTicketingDialogComponent {
   iconTypes = ICON_TYPE;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
+  isDataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -77,7 +83,9 @@ export abstract class CustomerTicketingDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected customerTicketingConfig: CustomerTicketingConfig,
-    protected filesFormValidators: FilesFormValidators
+    protected filesFormValidators: FilesFormValidators,
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected routingService: RoutingService
   ) {}
 
   protected buildForm(): void {

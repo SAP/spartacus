@@ -4,7 +4,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
@@ -16,6 +16,24 @@ const mockRoutingParams = { ticketCode: '1' };
 const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'MockTicket',
+};
+const mockCategories = [
+  {
+    id: 'ENQUIRY',
+    name: 'Enquiry',
+  },
+];
+
+const mockTicketAssociatedObjects = [
+  {
+    code: '00000626',
+    modifiedAt: '2022-06-30T16:16:44+0000',
+    type: 'Order',
+  },
+];
+const mockCreateEventResponse: TicketEvent = {
+  code: 'mockCode',
+  message: 'mock message',
 };
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -30,6 +48,11 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+  createTicketEvent = createSpy().and.returnValue(of(mockCreateEventResponse));
+  getTicketAssociatedObjects = createSpy().and.returnValue(
+    of(mockTicketAssociatedObjects)
+  );
+  getTicketCategories = createSpy().and.returnValue(of(mockCategories));
 }
 
 describe('CustomerTicketingService', () => {
@@ -120,5 +143,88 @@ describe('CustomerTicketingService', () => {
           done();
         });
     });
-  }
+  });
+
+  describe('getTicketCategories', () => {
+    it('should call customerTicketingConnector.getTicketCategories', (done) => {
+      service
+        .getTicketCategories()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketCategories);
+          expect(data).toEqual(mockCategories);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketCategoriesState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketCategories);
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockCategories,
+          });
+          done();
+        });
+    });
+  });
+
+  describe('getTicketAssociatedObjects', () => {
+    it('should call customerTicketingConnector.getTicketAssociatedObjects', (done) => {
+      service
+        .getTicketAssociatedObjects()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(data).toEqual(mockTicketAssociatedObjects);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketAssociatedObjectsState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicketAssociatedObjects).toHaveBeenCalledWith(
+            mockUserId
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockTicketAssociatedObjects,
+          });
+          done();
+        });
+    });
+  });
+
+  describe('createTicketEvent', () => {
+    it('should call customerTicketingConnector.createTicketEvent', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: 'mockTicket',
+          name: 'mockTicket',
+        },
+      };
+      service
+        .createTicketEvent(mockTicketEvent)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.createTicketEvent).toHaveBeenCalledWith(
+            mockUserId,
+            mockRoutingParams.ticketCode,
+            mockTicketEvent
+          );
+          expect(data).toEqual(mockCreateEventResponse);
+          done();
+        });
+    });
+  });
 });

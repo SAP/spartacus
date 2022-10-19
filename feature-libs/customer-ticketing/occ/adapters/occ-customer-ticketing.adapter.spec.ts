@@ -4,7 +4,8 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
+import { CUSTOMER_TICKETING_NORMALIZER } from 'feature-libs/customer-ticketing/core';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 
@@ -13,6 +14,7 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       endpoints: {
         getTicket: 'users/${customerId}/tickets/${ticketId}',
+        createTicketEvent: 'users/${customerId}/tickets/${ticketId}/events',
       } as OccEndpoints,
     },
   },
@@ -39,6 +41,7 @@ describe('OccCustomerTicketingAdapter', () => {
     converter = TestBed.inject(ConverterService);
 
     spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -47,7 +50,7 @@ describe('OccCustomerTicketingAdapter', () => {
 
   describe('getTicket', () => {
     it('should get ticket details for the given ticket id', (done) => {
-      const mockTicketiDetails: TicketDetails = {
+      const mockTicketDetails: TicketDetails = {
         id: '1',
         subject: 'mockTicket',
       };
@@ -56,7 +59,7 @@ describe('OccCustomerTicketingAdapter', () => {
         .getTicket(mockCustomerId, mockTicketId)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toEqual(mockTicketiDetails);
+          expect(result).toEqual(mockTicketDetails);
           done();
         });
 
@@ -68,7 +71,45 @@ describe('OccCustomerTicketingAdapter', () => {
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockTicketiDetails);
+      mockReq.flush(mockTicketDetails);
+    });
+  });
+
+  describe('createTicketEvent', () => {
+    it('should create ticket event for the given ticket id', (done) => {
+      const mockCreatedEvent: TicketEvent = {
+        message: 'mock message',
+        code: 'mockCode',
+      };
+
+      const mockTicketEvent: TicketEvent = {
+        message: 'mock message',
+      };
+
+      service
+        .createTicketEvent(mockCustomerId, mockTicketId, mockTicketEvent)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockCreatedEvent);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'POST' &&
+          req.url === `users/${mockCustomerId}/tickets/${mockTicketId}/events`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockCreatedEvent);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_TICKETING_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        mockTicketEvent,
+        CUSTOMER_TICKETING_NORMALIZER
+      );
     });
   });
 
