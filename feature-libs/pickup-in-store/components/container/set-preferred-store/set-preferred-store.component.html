@@ -19,7 +19,14 @@ pickup location for this product. It will not be making this store the preferres
 
 -->
 
-<div [attr.data-preferred-store]="(storeSelected$ | async)?.name" class="setpreferredstore-container" (click)="setAsPreferred()">
+<div
+  [attr.data-preferred-store]="pointOfServiceName.name"
+  [attr.data-store-is-selected]="
+    pointOfServiceName.name === (storeSelected$ | async)?.name
+  "
+  class="setpreferredstore-container"
+  (click)="setAsPreferred()"
+>
   <div
     [ngClass]="{
       'icon-selected':

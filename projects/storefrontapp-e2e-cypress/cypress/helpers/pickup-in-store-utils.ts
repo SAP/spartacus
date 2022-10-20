@@ -106,6 +106,8 @@ export const LOCATORS = {
   ...CHECKOUT_PAYMENT_FORM_LOCATORS,
   ...CHECKOUT_ADDRESS_FORM_LOCATORS,
   ...REVIEW_ORDER_LOCATORS,
+  SELECTED_STORE: `[data-store-is-selected=true]`,
+  SET_PREFERRED_STORE: `[data-preferred-store]`,
 };
 
 export const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
