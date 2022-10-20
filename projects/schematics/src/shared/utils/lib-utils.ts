@@ -239,7 +239,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
     if (!spartacusFeatureModuleExistsInApp) {
       context.logger.info('Scaffolding the new app structure...');
       context.logger.warn(
-        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
+        'Please migrate manually the rest of your feature modules to the new app structure: https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/3efc8ab2d99645169fbc81fc8afcc464.html'
       );
     }
 

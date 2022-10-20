@@ -66,11 +66,11 @@ Moreover, the renamed item, sinice it was considered deleted, was not comopared 
 
 As a general note, rename API element sparingly.  They can cause alot of overhead in the breakiing change handling process.
 
-## Manual review of the deprecated constructors.
+## Manual review of the deprecated constructors
 
-The deprecated construtors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
+The deprecated constructors must define all the overloaded signatures as well as the constructor implementation, as shown in the documentation. For more information, see [Adding New Constructor Dependencies in Minor Versions](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/260a7736dfec4d678be034577a70b81b/a73dc32f6e4343c7b8a0f4c56213fcd1.html#loio9433c54950f249b09749f5e09e78ed8c).
 
-When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaaded siignatures, and not the actual construtcor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
+When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaded signatures, and not the actual constructor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
 
 If the constructor deprecation was done as expected, the script should handle them well and no manual update should be required.
 

@@ -222,6 +222,7 @@ export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
+export const REGISTER_COMPONENT_SERVICE = 'RegisterComponentService';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
@@ -1131,8 +1132,10 @@ export const CSS_V3_DOCS_URL =
 export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 export const CSS_V5_DOCS_URL =
-  'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
+  'https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/d008d0179ea141bf84fde6ec98244ae5.html';
 
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
+
+export const CDC_JS_SERVICE = 'CdcJsService';
