@@ -103,4 +103,4 @@
 # ================================================
 #  Product configurator feature and CPQ integration
 # ================================================
-/feature-libs/product-configurator/**               @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+/feature-libs/product-configurator/**               @SAP/spartacus-CPQ
