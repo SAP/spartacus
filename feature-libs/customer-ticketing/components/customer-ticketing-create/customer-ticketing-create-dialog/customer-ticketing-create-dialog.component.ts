@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
+  CreateEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
@@ -110,11 +111,25 @@ export class CustomerTicketingCreateDialogComponent
             this.attachment[0] &&
             response.ticketEvents[0].code
           )
-            this.customerTicketingFacade.uploadAttachment(
-              this.attachment[0],
-              response.ticketEvents[0].code,
-              response.id
-            );
+            this.customerTicketingFacade
+              .uploadAttachment(
+                this.attachment[0],
+                response.ticketEvents[0].code,
+                response.id
+              )
+              .subscribe({
+                complete: () => {
+                  this.close('Ticket created successfully');
+                  this.eventService.dispatch({}, CreateEvent);
+                },
+                error: () => {
+                  this.close('Something went wrong');
+                },
+              });
+          else {
+            this.close('Ticket created successfully');
+            this.eventService.dispatch({}, CreateEvent);
+          }
         });
     }
   }
