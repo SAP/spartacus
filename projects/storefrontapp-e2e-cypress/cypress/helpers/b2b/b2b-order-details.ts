@@ -22,6 +22,10 @@ export function loginB2bUnitOrderViewer() {
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccount);
 }
 
+export function loginB2bUnitOrderViewerAdmin() {
+  cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccountAdmin);
+}
+
 export function loginB2bCommonUser() {
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
