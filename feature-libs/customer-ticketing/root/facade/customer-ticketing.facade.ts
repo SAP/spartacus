@@ -50,4 +50,9 @@ export abstract class CustomerTicketingFacade {
     file: File | null,
     eventCode: string
   ): Observable<unknown>;
+
+  abstract downloadAttachment(
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown>;
 }

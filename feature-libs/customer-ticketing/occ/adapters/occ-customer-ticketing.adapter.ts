@@ -143,7 +143,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
       );
   }
 
@@ -157,6 +157,47 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         customerId,
         ticketId,
         eventCode,
+      },
+    });
+  }
+
+  downloadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown> {
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+    return this.http
+      .get(
+        this.getDownloadAttachmentEndpoint(
+          customerId,
+          ticketId,
+          eventCode,
+          attachmentId
+        ),
+        httpOptions
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
+      );
+  }
+
+  protected getDownloadAttachmentEndpoint(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): string {
+    return this.occEndpoints.buildUrl('downloadAttachment', {
+      urlParams: {
+        customerId,
+        ticketId,
+        eventCode,
+        attachmentId,
       },
     });
   }

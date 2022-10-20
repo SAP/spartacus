@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { EventService } from '@spartacus/core';
 import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
+  STATUS,
   TicketDetails,
   TicketEvent,
+  TicketEventCreatedEvent,
 } from 'feature-libs/customer-ticketing/root';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
 })
-export class CustomerTicketingMessagesComponent {
+export class CustomerTicketingMessagesComponent implements OnDestroy {
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
   constructor(
     protected customerTicketingConfig: CustomerTicketingConfig,
-    protected customerTicketingFacade: CustomerTicketingFacade
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected eventService: EventService
   ) {}
+
+  subscription = new Subscription();
 
   messageEvents$: Observable<Array<MessageEvent> | undefined> =
     this.prepareMessageEvents();
@@ -28,15 +34,38 @@ export class CustomerTicketingMessagesComponent {
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
   onSend(event: { files: FileList | undefined; message: string }) {
-    this.customerTicketingFacade
-      .createTicketEvent(this.prepareTicketEvent(event.message))
-      .subscribe((createdEvent: TicketEvent) => {
-        if (event.files?.item && createdEvent.code)
-          this.customerTicketingFacade.uploadAttachment(
-            event.files.item(0),
-            createdEvent.code
-          );
-      });
+    this.subscription.add(
+      this.customerTicketingFacade
+        .createTicketEvent(this.prepareTicketEvent(event.message))
+        .subscribe((createdEvent: TicketEvent) => {
+          if (event.files?.length && createdEvent.code) {
+            this.customerTicketingFacade.uploadAttachment(
+              event.files.item(0),
+              createdEvent.code
+            );
+          } else {
+            this.eventService.dispatch({ status }, TicketEventCreatedEvent);
+          }
+        })
+    );
+  }
+
+  downloadAttachment(event: {
+    messageCode: string;
+    attachmentId: string;
+    fileName: string;
+  }) {
+    this.subscription.add(
+      this.customerTicketingFacade
+        .downloadAttachment(event.messageCode, event.attachmentId)
+        .subscribe((data) => {
+          const downloadURL = window.URL.createObjectURL(data as any);
+          const link = document.createElement('a');
+          link.href = downloadURL;
+          link.download = event.fileName;
+          link.click();
+        })
+    );
   }
 
   protected prepareMessageEvents(): Observable<
@@ -45,10 +74,11 @@ export class CustomerTicketingMessagesComponent {
     return this.ticketDetails$.pipe(
       map((ticket) =>
         ticket?.ticketEvents?.reverse().map(
-          (event): MessageEvent => ({
+          (event: TicketEvent): MessageEvent => ({
             ...event,
             text: event.message,
-            rightAlign: event.addedByAgent,
+            rightAlign: event.addedByAgent || false,
+            attachments: event.ticketEventAttachments,
           })
         )
       )
@@ -62,6 +92,9 @@ export class CustomerTicketingMessagesComponent {
       charactersLimit:
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
+      displayInput: this.ticketDetails$.pipe(
+        map((ticket) => ticket?.status?.id !== STATUS.CLOSED)
+      ),
     };
   }
 
@@ -69,5 +102,9 @@ export class CustomerTicketingMessagesComponent {
     return {
       message: messageText,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

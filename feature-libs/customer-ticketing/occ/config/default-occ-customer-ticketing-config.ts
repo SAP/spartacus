@@ -11,6 +11,8 @@ export const defaultOccCustomerTicketingConfig: OccConfig = {
           'users/${customerId}/ticketAssociatedObjects',
         uploadAttachment:
           '/users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments',
+        downloadAttachment:
+          '/users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments/${attachmentId}',
       },
     },
   },
