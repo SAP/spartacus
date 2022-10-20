@@ -242,7 +242,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should get pending changes from store', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(true));
 
-    let hasPendingChanges = null;
+    let hasPendingChanges = false;
     serviceUnderTest
       .hasPendingChanges(OWNER_PRODUCT)
       .subscribe((pendingChanges) => {
@@ -257,7 +257,7 @@ describe('ConfiguratorCommonsService', () => {
         of(configurationState.configurations.entities[OWNER_PRODUCT.key])
     );
 
-    let isLoading = null;
+    let isLoading = false;
     serviceUnderTest
       .isConfigurationLoading(OWNER_PRODUCT)
       .subscribe((loading) => {
