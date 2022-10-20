@@ -33,19 +33,6 @@
 #  - Each codeowners team must have write access to the repo, otherwise their reviews won't count.
 
 
-# ================================================
-#  GitHub username registry
-#  (just to make this file easier to understand)
-# ================================================
-
-#  Platonn - Krzysztof Platis
-#  znikola - Nikola Zarić
-#  developpeurweb - Miguel Estrada
-#  psmul - Patryk Smul
-#  plabadie - Patrick Labadie
-#  WeizhengSap - Weizheng Gao
-#  hackergil - Gilberto Alvarado Jimenez
-
 ######################################################################################################
 #
 # CODEOWNERS rules
@@ -58,49 +45,14 @@
 #
 ######################################################################################################
 
-# ================================================
 #  Default Owners
-# (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
-# ================================================
+# By default, @SAP/spartacus-codeowners owns all the files in the repo.
+# We open specific sections to additional teams. @SAP/spartacus-codeowners needs to be repeated
+# in each subsequent rules to remain owner of all the sources in the repo.
 
-# * @SAP/spartacus-codeowners
-
-# ================================================
-#  Core
-# ================================================
-/projects/core/**                                   @SAP/spartacus-codeowners
-/projects/storefrontlib/**                          @SAP/spartacus-codeowners
-/feature-libs/**                                    @SAP/spartacus-codeowners
-/core-libs/**                                       @SAP/spartacus-codeowners
-/ci-scripts/**                                      @SAP/spartacus-codeowners
-/scripts/**                                         @SAP/spartacus-codeowners
-/tools/**                                           @SAP/spartacus-codeowners
-/*                                                  @SAP/spartacus-codeowners
-
-
-# ================================================
-#  Styles
-# ================================================
-/projects/storefrontstyles/**                       @SAP/spartacus-codeowners
-
-# ================================================
-#  Cart
-# ================================================
-/projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-codeowners
-
-# ================================================
-#  Schematics
-# ================================================
-/projects/schematics/**                             @SAP/spartacus-codeowners
-
-# ================================================
-#  CODEOWNERS and workflows
-# ================================================
-/.github/**                                         @SAP/spartacus-codeowners
-
-######################################################################################################
+* @SAP/spartacus-codeowners
 
 # ================================================
 #  Product configurator feature and CPQ integration
 # ================================================
-/feature-libs/product-configurator/**               @SAP/spartacus-CPQ
+/feature-libs/product-configurator/             @SAP/spartacus-codeowners @SAP/spartacus-CPQ
