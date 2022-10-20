@@ -53,6 +53,11 @@
 * @SAP/spartacus-codeowners
 
 # ================================================
+#  Restrict codeowner file to admins
+# ================================================
+/.github/CODEOWNERS @SAP/spartacus-admins
+
+# ================================================
 #  Product configurator feature and CPQ integration
 # ================================================
 /feature-libs/product-configurator/             @SAP/spartacus-codeowners @SAP/spartacus-CPQ
