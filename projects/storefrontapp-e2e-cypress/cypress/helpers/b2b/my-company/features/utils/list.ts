@@ -121,7 +121,7 @@ function ngSelect(sortKey: string): void {
 export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
   configs.forEach((config) => {
     if (config.showInTable) {
-      cy.get('th').should('contain.text', config.label);
+      cy.get('cx-table th').should('contain.text', config.label);
     }
   });
 }
@@ -130,32 +130,32 @@ export function checkRows(rows): void {
   let j = 1; // Skip header table row at 0
   rows.forEach((row: any) => {
     if (row.text.length) {
-      cy.get('tr')
-        .eq(j)
-        .within(() => {
-          for (let i = 0; i < row.text.length; i++) {
-            if (row.text[i]) {
-              if (Array.isArray(row.text[i])) {
-                // Used in user roles array
-                // Because we can't use translate pipe, have to check per case
-                row.text[i].forEach((text) => {
-                  switch (text) {
-                    case 'b2bcustomergroup':
-                      return cy.get('td').eq(i).contains('Customer');
-                    case 'b2bmanagergroup':
-                      return cy.get('td').eq(i).contains('Manager');
-                    case 'b2bapprovergroup':
-                      return cy.get('td').eq(i).contains('Approver');
-                    case 'b2badmingroup':
-                      return cy.get('td').eq(i).contains('Admin');
-                  }
-                });
-              } else {
-                cy.get('td').eq(i).contains(row.text[i]);
-              }
-            }
+      for (let i = 0; i < row.text.length; i++) {
+        if (row.text[i]) {
+          if (Array.isArray(row.text[i])) {
+            const ROLE = {
+              b2bcustomergroup: 'Customer',
+              b2bmanagergroup: 'Manager',
+              b2bapprovergroup: 'Approver',
+              b2badmingroup: 'Admin',
+            };
+
+            // Used in user roles array
+            // Because we can't use translate pipe, have to check per case
+            row.text[i].forEach((text) => {
+              cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
+                'have.text',
+                ROLE[text]
+              );
+            });
+          } else {
+            cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
+              'have.text',
+              row.text[i]
+            );
           }
-        });
+        }
+      }
       j++;
     }
   });
@@ -257,10 +257,8 @@ export function getRootRowsFromBody(body: any, config: MyCompanyConfig) {
 }
 
 export function verifyList(rows, rowConfig): void {
-  cy.get('cx-table').within(() => {
-    checkRowHeaders(rowConfig);
-    checkRows(rows);
-  });
+  checkRowHeaders(rowConfig);
+  checkRows(rows);
 }
 
 function getVariableFromName(name: string, dataset: any) {
