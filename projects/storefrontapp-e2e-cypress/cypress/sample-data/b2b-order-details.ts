@@ -4,6 +4,11 @@ export const ORDER_CODE = '00000001';
 export const ORDER_STATUS = 'Approved';
 export const ORDER_DATE = 'Aug 30, 2022';
 
+export const b2bUnitOrderViewerAdmin = {
+  name: 'Linda Wolf',
+  uid: 'linda.wolf@rustic-hw.com',
+};
+
 export const b2bUnitOrderViewer = {
   name: 'Gi Sun',
   uid: 'gi.sun@rustic-hw.com',
@@ -33,6 +38,17 @@ export const b2bUnitOrderViewerAccount: AccountData = {
     password: 'pw4all',
     titleCode: 'mr',
     email: b2bUnitOrderViewer.uid,
+  },
+};
+
+export const b2bUnitOrderViewerAccountAdmin: AccountData = {
+  user: '',
+  registrationData: {
+    firstName: '',
+    lastName: '',
+    password: 'pw4all',
+    titleCode: 'mr',
+    email: b2bUnitOrderViewerAdmin.uid,
   },
 };
 
