@@ -13,29 +13,9 @@
   font-weight: 600;
 }
 
-.pagination {
-  margin-left: auto;
-
-  &-arrow {
-    background: none;
-    border: none;
-    color: #0486e0;
-    font-weight: 600;
-    padding: 12px;
-
-    &:hover {
-      opacity: 0.3;
-    }
-
-    &-right {
-      margin-left: 8px;
-    }
-  }
-}
-
-.pagination,
 .store-count {
   align-self: center;
+  grid-column: 1 / span 2;
 }
 
 .store-details {

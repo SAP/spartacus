@@ -35,6 +35,9 @@ export const customer360 = {
     phone2: 'Phone2',
     paymentMethodHeader: 'Saved Payment Methods',
   },
+  maps: {
+    storeClosed: 'Close',
+  },
   overviewTab: 'Overview',
   profileTab: 'Profile',
   activityTab: 'Activity',

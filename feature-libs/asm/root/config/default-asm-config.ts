@@ -91,6 +91,7 @@ export const defaultAsmConfig: AsmConfig = {
               },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                storefinderRadius: 10000000,
                 pageSize: 10,
               },
             },
