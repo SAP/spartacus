@@ -2621,7 +2621,7 @@ moved to @spartacus/checkout/base/root
 
 
 Namespace CheckoutActions has been removed and is no longer part of the public API.
-It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.
 
 
 
@@ -2702,7 +2702,7 @@ It is not used anymore. Checkout library no longer uses NgRX to dispatch actions
 
 
 TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.
-It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.
 
 
 
@@ -3188,7 +3188,7 @@ It is not used anymore. Checkout library no longer uses NgRX to dispatch actions
 
 
 TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.
-It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html. You can use 'setOrderType' from CheckoutReplenishmentFormService.
 
 
 
@@ -3215,7 +3215,7 @@ It is not used anymore. Checkout library no longer uses NgRX to dispatch actions
 
 
 TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.
-It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.
 
 
 
@@ -3278,7 +3278,7 @@ It is not used anymore. Checkout library no longer uses NgRX to dispatch actions
 
 
 TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.
-It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.
 
 
 

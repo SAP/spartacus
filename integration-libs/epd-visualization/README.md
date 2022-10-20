@@ -11,7 +11,7 @@ This integration library can be added to the existing Spartacus application by r
 Use the following to use the sample data created the `epdvisualizationspartacussampledata` extension:
 `ng add @spartacus/schematics@latest --base-site powertools-epdvisualization-spa`
 
-For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://sap.github.io/spartacus-docs/schematics/).
+For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html).
 
 The `epdvisualizationspartacussampledata` extension creates the following products in the `powertools-epdvisualization-spa` site which have spare part product references that can be linked to corresponding visualization data:
 

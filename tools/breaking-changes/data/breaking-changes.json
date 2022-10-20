@@ -16089,7 +16089,7 @@
     "name": "CheckoutActions",
     "isDeleted": true,
     "deletedComment": "Namespace CheckoutActions has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.",
     "breakingChanges": [
       {
         "change": "NAMESPACE_DELETED",
@@ -16433,7 +16433,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -18031,7 +18031,7 @@
     "members": ["SetOrderType"],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -18119,7 +18119,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -18339,7 +18339,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",

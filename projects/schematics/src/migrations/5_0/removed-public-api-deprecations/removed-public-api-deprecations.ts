@@ -92,7 +92,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CheckoutActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Namespace CheckoutActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
+      'Namespace CheckoutActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.',
   },
   {
     node: 'ADD_DELIVERY_ADDRESS_FAIL',
@@ -146,7 +146,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CheckoutAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
+      'TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.',
   },
   {
     node: 'CheckoutClearMiscsData',
@@ -470,7 +470,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'OrderTypesActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      "TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
+      "TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
   },
   {
     node: 'PAYMENT_PROCESS_SUCCESS',
@@ -488,7 +488,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'PaymentTypesAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
+      'TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.',
   },
   {
     node: 'PLACE_ORDER_FAIL',
@@ -530,7 +530,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ReplenishmentOrderActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
+      'TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/bfcbe6fa26f94035b67979f0053f9bee/dfb8caa5a78a4753b82be13727373265.html.',
   },
   {
     node: 'RESET_LOAD_PAYMENT_TYPES_PROCESS_ID',
