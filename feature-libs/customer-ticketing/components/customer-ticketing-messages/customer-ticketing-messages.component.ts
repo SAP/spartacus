@@ -41,7 +41,8 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           if (event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0),
-              createdEvent.code
+              createdEvent.code,
+              ''
             );
           } else {
             this.eventService.dispatch({ status }, TicketEventCreatedEvent);
@@ -57,7 +58,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   }) {
     this.subscription.add(
       this.customerTicketingFacade
-        .downloadAttachment(event.messageCode, event.attachmentId)
+        .downloadAttachment(event.messageCode, event.attachmentId, '')
         .subscribe((data) => {
           const downloadURL = window.URL.createObjectURL(data as any);
           const link = document.createElement('a');

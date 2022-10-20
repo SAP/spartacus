@@ -132,10 +132,15 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected downloadAttachmentCommand: Command<{
     eventCode: string;
     attachmentId: string;
-  }> = this.commandService.create<{ eventCode: string; attachmentId: string }>(
+    ticketId: string;
+  }> = this.commandService.create<{
+    eventCode: string;
+    attachmentId: string;
+    ticketId: string;
+  }>(
     (payload) =>
       this.customerTicketingPreConditions().pipe(
-        switchMap(([customerId, ticketId]) =>
+        switchMap(([customerId]) =>
           this.customerTicketingConnector.downloadAttachment(
             customerId,
             payload.ticketId,
@@ -262,8 +267,13 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   downloadAttachment(
     eventCode: string,
-    attachmentId: string
+    attachmentId: string,
+    ticketId: string
   ): Observable<unknown> {
-    return this.downloadAttachmentCommand.execute({ eventCode, attachmentId });
+    return this.downloadAttachmentCommand.execute({
+      eventCode,
+      attachmentId,
+      ticketId,
+    });
   }
 }
