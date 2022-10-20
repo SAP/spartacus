@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
+  GlobalMessageService,
   I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
@@ -49,7 +50,7 @@ import { RegisterComponent } from './register.component';
             {
               provide: RegisterComponentService,
               useClass: RegisterComponentService,
-              deps: [UserRegisterFacade],
+              deps: [UserRegisterFacade, GlobalMessageService],
             },
           ],
         },
