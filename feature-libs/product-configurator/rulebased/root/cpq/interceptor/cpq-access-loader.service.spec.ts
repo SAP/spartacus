@@ -4,8 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService, UserIdService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { of } from 'rxjs';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
@@ -14,6 +15,12 @@ const accessData: CpqAccessData = {
   endpoint: 'https://cpq',
   accessTokenExpirationTime: 1605004667020,
 };
+const USER_ID = 'actualUser';
+class MockUserIdService {
+  takeUserId() {
+    return of(USER_ID);
+  }
+}
 
 describe('CpqAccessLoaderService', () => {
   let serviceUnderTest: CpqAccessLoaderService;
@@ -26,6 +33,7 @@ describe('CpqAccessLoaderService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         CpqAccessLoaderService,
+        { provide: UserIdService, useClass: MockUserIdService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
@@ -61,7 +69,8 @@ describe('CpqAccessLoaderService', () => {
     });
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'getCpqAccessData'
+      'getCpqAccessData',
+      { urlParams: { userId: USER_ID } }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
