@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-declare module 'semver-extra';
-declare module 'npm-package-versions';
+export * from './cdc-core.module';
+export * from './events/index';
+export * from './models/cms.model';
