@@ -88,7 +88,7 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
           queryParams: { expMode },
-        }), { context: this.prepareSendUserContext() }
+        }), { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -115,7 +115,7 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
           urlParams: { configId },
           queryParams: { groupId, expMode },
-        }), { context: this.prepareSendUserContext() }
+        }), { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -149,7 +149,7 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .patch<OccConfigurator.Configuration>(url, occConfiguration, { context: this.prepareSendUserContext() })
+      .patch<OccConfigurator.Configuration>(url, occConfiguration, { context: this.indicateSendUserForAsm() })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
@@ -289,7 +289,7 @@ export class VariantConfiguratorOccAdapter
       }
     );
 
-    return this.http.get(url, { context: this.prepareSendUserContext() }).pipe(
+    return this.http.get(url, { context: this.indicateSendUserForAsm() }).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
       map((configResult) => {
         const result: Configurator.Configuration = {
@@ -311,7 +311,7 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get<OccConfigurator.Overview>(url, { context: this.prepareSendUserContext() })
+      .get<OccConfigurator.Overview>(url, { context: this.indicateSendUserForAsm() })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );
@@ -324,10 +324,20 @@ export class VariantConfiguratorOccAdapter
     );
     //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
     //variant representation
-    return this.http.get<Configurator.Variant[]>(url, { context: this.prepareSendUserContext() });
+    return this.http.get<Configurator.Variant[]>(url, { context: this.indicateSendUserForAsm() });
   }
 
-  prepareSendUserContext(): HttpContext {
+  /**
+   * Prepares http context indicating that emulated user has to be added to the request in ASM mode
+   *
+   * The actual calls to the commerce backend will only be changed if the ASM setting
+   * userIdHttpHeader:{
+   *  enable:true
+   * },
+   * is active
+   * @returns http context indicating that emulated user has to be added to the request in ASM mode
+   */
+  protected indicateSendUserForAsm(): HttpContext {
     return new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
     });
