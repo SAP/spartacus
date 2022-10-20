@@ -24,10 +24,25 @@
     <div class="property">
       <label>{{ 'orgUser.roles' | cxTranslate }}</label>
       <ul class="value">
-        <li
-          *ngFor="let role of model.roles; let isLast = last"
-          [innerText]="'organization.userRoles.' + role | cxTranslate"
-        ></li>
+        <ng-container *ngFor="let role of model.roles; let isLast = last">
+          <li
+            *ngIf="availableRoles.includes(role)"
+            [innerText]="'organization.userRoles.' + role | cxTranslate"
+          ></li>
+        </ng-container>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUser.rights' | cxTranslate }}</label>
+      <ul class="value">
+        <ng-container *ngFor="let right of model.roles; let isLast = last">
+          <li
+            *ngIf="availableRights.includes(right)"
+            [innerText]="'organization.userRights.' + right | cxTranslate"
+          ></li>
+        </ng-container>
         <li *ngIf="model.roles?.length === 0">-</li>
       </ul>
     </div>

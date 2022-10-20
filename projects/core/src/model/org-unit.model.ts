@@ -20,7 +20,10 @@ export enum B2BUserRole {
   CUSTOMER = 'b2bcustomergroup',
   MANAGER = 'b2bmanagergroup',
   APPROVER = 'b2bapprovergroup',
-  UNIT_LEVEL_ORDERS_VIEWER = 'unitorderviewergroup',
+}
+
+export enum B2BUserRight {
+  UNITORDERVIEWER = 'unitorderviewergroup',
 }
 
 export interface B2BUnit {

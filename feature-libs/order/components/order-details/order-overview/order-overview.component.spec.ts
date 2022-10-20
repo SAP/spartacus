@@ -10,6 +10,7 @@ import {
   I18nTestingModule,
   TranslationService,
   User,
+  B2BUserRight,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
@@ -129,7 +130,7 @@ const mockUnitOrderViewer: B2BUser = {
   uid: 'gi.sun@rustic-hw.com|powertools-standalone',
   name: 'Gi Sun',
   email: 'gi.sun@rustic-hw.com',
-  roles: [B2BUserRole.CUSTOMER, B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER],
+  roles: [B2BUserRole.CUSTOMER, B2BUserRight.UNITORDERVIEWER],
 };
 
 const mockUnformattedAddress = 'test1, , test3, test4';
