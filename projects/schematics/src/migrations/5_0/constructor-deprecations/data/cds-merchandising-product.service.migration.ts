@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CDS_MERCHANDISING_PRODUCT_SERVICE,
   MERCHANDISING_STRATEGY_CONNECTOR,

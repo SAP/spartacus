@@ -425,64 +425,36 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(resultConfiguration.priceSummary?.basePrice?.currencyIso).toBe(
           pricesOcc.priceSummary?.basePrice?.currencyIso
         );
-        expect(resultConfiguration.priceSupplements.length).toBe(3);
-        expect(resultConfiguration.priceSupplements[0].attributeUiKey).toBe(
-          'group1@attribute_1_1'
-        );
-        expect(
-          resultConfiguration.priceSupplements[0].valueSupplements.length
-        ).toBe(3);
-        expect(
-          resultConfiguration.priceSupplements[0].valueSupplements[0]
-            .attributeValueKey
-        ).toBe('value_1_1');
-        expect(
-          resultConfiguration.priceSupplements[0].valueSupplements[1]
-            .attributeValueKey
-        ).toBe('value_1_2');
-        expect(
-          resultConfiguration.priceSupplements[0].valueSupplements[2]
-            .attributeValueKey
-        ).toBe('value_1_3');
-
-        expect(resultConfiguration.priceSupplements[1].attributeUiKey).toBe(
-          'group1@attribute_1_2'
-        );
-        expect(
-          resultConfiguration.priceSupplements[1].valueSupplements.length
-        ).toBe(3);
-        expect(
-          resultConfiguration.priceSupplements[1].valueSupplements[0]
-            .attributeValueKey
-        ).toBe('value_2_1');
-        expect(
-          resultConfiguration.priceSupplements[1].valueSupplements[1]
-            .attributeValueKey
-        ).toBe('value_2_2');
-        expect(
-          resultConfiguration.priceSupplements[1].valueSupplements[2]
-            .attributeValueKey
-        ).toBe('value_2_3');
-
-        expect(resultConfiguration.priceSupplements[2].attributeUiKey).toBe(
-          'group1@attribute_1_3'
-        );
-        expect(
-          resultConfiguration.priceSupplements[2].valueSupplements.length
-        ).toBe(3);
-        expect(
-          resultConfiguration.priceSupplements[2].valueSupplements[0]
-            .attributeValueKey
-        ).toBe('value_3_1');
-        expect(
-          resultConfiguration.priceSupplements[2].valueSupplements[1]
-            .attributeValueKey
-        ).toBe('value_3_2');
-        expect(
-          resultConfiguration.priceSupplements[2].valueSupplements[2]
-            .attributeValueKey
-        ).toBe('value_3_3');
-        done();
+        expect(resultConfiguration.priceSupplements?.length).toBe(3);
+        const suppls = resultConfiguration.priceSupplements;
+        const supp1 = suppls ? suppls[0] : undefined;
+        expect(supp1).toBeDefined();
+        if (supp1) {
+          expect(supp1.attributeUiKey).toBe('group1@attribute_1_1');
+          expect(supp1.valueSupplements.length).toBe(3);
+          expect(supp1.valueSupplements[0].attributeValueKey).toBe('value_1_1');
+          expect(supp1.valueSupplements[1].attributeValueKey).toBe('value_1_2');
+          expect(supp1.valueSupplements[2].attributeValueKey).toBe('value_1_3');
+        }
+        const supp2 = suppls ? suppls[1] : undefined;
+        expect(supp2).toBeDefined();
+        if (supp2) {
+          expect(supp2.attributeUiKey).toBe('group1@attribute_1_2');
+          expect(supp2.valueSupplements.length).toBe(3);
+          expect(supp2.valueSupplements[0].attributeValueKey).toBe('value_2_1');
+          expect(supp2.valueSupplements[1].attributeValueKey).toBe('value_2_2');
+          expect(supp2.valueSupplements[2].attributeValueKey).toBe('value_2_3');
+        }
+        const supp3 = suppls ? suppls[2] : undefined;
+        expect(supp3).toBeDefined();
+        if (supp3) {
+          expect(supp3.attributeUiKey).toBe('group1@attribute_1_3');
+          expect(supp3.valueSupplements.length).toBe(3);
+          expect(supp3.valueSupplements[0].attributeValueKey).toBe('value_3_1');
+          expect(supp3.valueSupplements[1].attributeValueKey).toBe('value_3_2');
+          expect(supp3.valueSupplements[2].attributeValueKey).toBe('value_3_3');
+          done();
+        }
       });
 
     const mockReq = httpMock.expectOne((req) => {
