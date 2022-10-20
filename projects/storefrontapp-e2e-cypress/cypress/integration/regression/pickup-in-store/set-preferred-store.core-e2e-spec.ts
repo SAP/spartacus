@@ -79,7 +79,7 @@ for the second one assert that it does exist, and that its value is what we set 
 
       cy.intercept({
         method: 'GET',
-        url: /users\/current/,
+        url: /users\/current\?/,
       }).as('apiGetPreferredStoreBefore');
 
       cy.intercept({
@@ -106,12 +106,11 @@ for the second one assert that it does exist, and that its value is what we set 
           .undefined;
       });
 
+      cy.get(L.SELECTED_STORE).should('not.exist');
       cy.intercept({
         method: 'GET',
-        url: /users\/current/,
+        url: /users\/current\?/,
       }).as('apiGetPreferredStoreAfter');
-
-      cy.get(L.SELECTED_STORE).should('not.exist');
       cy.get(L.SET_PREFERRED_STORE).first().click({ force: true });
       cy.get(L.SELECTED_STORE).should('exist');
 
