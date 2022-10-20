@@ -5,7 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
-import { CUSTOMER_TICKETING_EVENT_NORMALIZER } from 'feature-libs/customer-ticketing/core';
+import { CUSTOMER_TICKETING_NORMALIZER } from 'feature-libs/customer-ticketing/core';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 
@@ -104,11 +104,11 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedEvent);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_EVENT_NORMALIZER
+        CUSTOMER_TICKETING_NORMALIZER
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockTicketEvent,
-        CUSTOMER_TICKETING_EVENT_NORMALIZER
+        CUSTOMER_TICKETING_NORMALIZER
       );
     });
   });

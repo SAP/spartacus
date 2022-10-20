@@ -1,6 +1,10 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { TicketDetails } from '@spartacus/customer-ticketing/root';
+import {
+  AssociatedObject,
+  Category,
+  TicketDetails,
+} from '@spartacus/customer-ticketing/root';
 
 export const CUSTOMER_TICKETING_DETAILS_NORMALIZER = new InjectionToken<
   Converter<any, TicketDetails>
@@ -13,3 +17,12 @@ export const CUSTOMER_TICKETING_EVENT_NORMALIZER = new InjectionToken<
 export const CUSTOMER_TICKETING_FILE_NORMALIZER = new InjectionToken<
   Converter<any, File>
 >('CustomerTicketingFileNormalizer');
+
+export const CUSTOMER_TICKETING_CATEGORY_NORMALIZER = new InjectionToken<
+  Converter<any, Category>
+>('CustomerTicketingCategoryNormalizer');
+
+export const CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER =
+  new InjectionToken<Converter<any, AssociatedObject>>(
+    'CustomerTicketingAssociatedObjectsNormalizer'
+  );

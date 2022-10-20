@@ -2,7 +2,7 @@ export * from './index';
 
 /** AUGMENTABLE_TYPES_START */
 export {
-  CUSTOM_CLASS,
+  TEXT_COLOR_CLASS,
   STATUS,
   STATUS_NAME,
 } from './model/customer-ticketing.model';

@@ -32,8 +32,8 @@ let mockTicket: TicketDetails = {
   },
   availableStatusTransitions: [
     {
-      id: STATUS.CLOSE,
-      name: STATUS_NAME.CLOSE,
+      id: STATUS.CLOSED,
+      name: STATUS_NAME.CLOSED,
     },
   ],
 };
@@ -89,7 +89,7 @@ describe('CustomerTicketingCloseComponent', () => {
 
   describe('enableCloseButton', () => {
     it('should be false if the status is not open or in process', (done) => {
-      mockTicket.status = { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE };
+      mockTicket.status = { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED };
       mockTicketDetails$.next(mockTicket);
 
       component.enableCloseButton$.pipe(take(1)).subscribe((data) => {
@@ -116,7 +116,7 @@ describe('CustomerTicketingCloseComponent', () => {
     it('should be true if status is open and available status is close', (done) => {
       mockTicket.status = { id: STATUS.OPEN, name: STATUS_NAME.OPEN };
       mockTicket.availableStatusTransitions = [
-        { id: STATUS.CLOSE, name: STATUS_NAME.CLOSE },
+        { id: STATUS.CLOSED, name: STATUS_NAME.CLOSED },
       ];
       mockTicketDetails$.next(mockTicket);
 

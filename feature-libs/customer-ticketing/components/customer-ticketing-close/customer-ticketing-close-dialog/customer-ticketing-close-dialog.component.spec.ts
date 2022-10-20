@@ -71,8 +71,8 @@ describe('CustomerTicketingCloseDialogComponent', () => {
       const mockEvent = {
         message: 'mockMessage',
         toStatus: {
-          id: STATUS.CLOSE,
-          name: STATUS_NAME.CLOSE,
+          id: STATUS.CLOSED,
+          name: STATUS_NAME.CLOSED,
         },
       };
 

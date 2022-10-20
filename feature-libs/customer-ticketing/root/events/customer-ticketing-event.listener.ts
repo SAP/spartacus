@@ -11,6 +11,8 @@ import {
 import { merge, Subscription } from 'rxjs';
 import { STATUS } from '../model';
 import {
+  GetTicketAssociatedObjectsQueryResetEvent,
+  GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
   TicketEventCreatedEvent,
@@ -27,7 +29,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     this.onGetTicketQueryReload();
-    this.onGetTicketQueryReset();
+    this.onLoginAndLogoutEvent();
     this.onTicketEventCreated();
   }
 
@@ -43,13 +45,18 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketQueryReset(): void {
+  protected onLoginAndLogoutEvent(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
+        this.eventService.dispatch(
+          {},
+          GetTicketAssociatedObjectsQueryResetEvent
+        );
       })
     );
   }
