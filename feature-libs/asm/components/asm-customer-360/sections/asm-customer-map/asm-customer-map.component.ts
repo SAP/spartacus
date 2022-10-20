@@ -29,7 +29,6 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-map',
   templateUrl: './asm-customer-map.component.html',
-  styleUrls: ['./asm-customer-map.component.scss'],
 })
 export class AsmCustomerMapComponent implements OnDestroy, OnInit {
   storeData: StoreFinderSearchPage;

@@ -1,7 +1,14 @@
 <ng-container *ngIf="storeData">
   <div class="store-count">
-    1 - {{ storeData.pagination?.pageSize }} from
-    {{ storeData.pagination?.totalResults }} stores found
+    {{
+      'asm.customer360.maps.storesFound'
+        | cxTranslate
+          : {
+              initial: 1,
+              end: storeData.pagination?.pageSize,
+              total: storeData.pagination?.totalResults
+            }
+    }}
   </div>
 
   <div>
@@ -12,13 +19,13 @@
       (click)="selectStore(store)"
     >
       <div class="store-listing-item-details">
-        <div class="store-listing-item-text bold">{{ store.displayName }}</div>
-        <div class="store-listing-item-text bold">
+        <div class="store-listing-item-text">{{ store.displayName }}</div>
+        <div class="store-listing-item-text">
           {{ store.address.line1 }}, {{ store.address.line2 }}
         </div>
         <div class="store-listing-item-text">{{ store.address.town }}</div>
       </div>
-      <div class="store-listing-item-distance store-listing-item-text bold">
+      <div class="store-listing-item-distance store-listing-item-text">
         {{ store.formattedDistance }}
       </div>
     </div>
@@ -27,7 +34,7 @@
   <div *ngIf="selectedStore">
     <div class="store-details">
       <img
-        *ngIf="selectedStore.storeImages[0]"
+        *ngIf="selectedStore.storeImages?.[0]"
         [src]="selectedStore.storeImages[0].url"
         width="110px"
         height="110px"

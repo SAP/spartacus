@@ -37,6 +37,7 @@ export const customer360 = {
   },
   maps: {
     storeClosed: 'Close',
+    storesFound: '{{ initial }} - {{ end }} from {{ total }} stores found',
   },
   overviewTab: 'Overview',
   profileTab: 'Profile',
