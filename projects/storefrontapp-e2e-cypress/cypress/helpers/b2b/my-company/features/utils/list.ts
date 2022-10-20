@@ -64,12 +64,6 @@ export function testList(
           trigger: () => {
             const NEXT_PAGE = data.pagination.currentPage + 2;
             cy.get(`cx-pagination a.page`).contains(NEXT_PAGE).click();
-
-            // Wait for next page to load
-            cy.get(`cx-pagination a[aria-label="page ${NEXT_PAGE}"]`).should(
-              'have.class',
-              'current'
-            );
           },
         },
         data.pagination.currentPage + 2
@@ -88,12 +82,6 @@ export function testListSorting(config: MyCompanyConfig): void {
         waitForData(
           row.sortLabel,
           (data) => {
-            // Wait for first page to load
-            cy.get(`cx-pagination a[aria-label="page 1"]`).should(
-              'have.class',
-              'current'
-            );
-
             verifyList(
               getListRowsFromBody(data, config.objectType, config.rows),
               config.rows
@@ -144,13 +132,13 @@ export function checkRows(rows): void {
             // Because we can't use translate pipe, have to check per case
             row.text[i].forEach((text) => {
               cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
-                'have.text',
+                'include.text',
                 ROLE[text]
               );
             });
           } else {
             cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
-              'have.text',
+              'include.text',
               row.text[i]
             );
           }
