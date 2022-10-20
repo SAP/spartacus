@@ -1,7 +1,7 @@
 # Getting Started
 
 This section is for Spartacus developers and anybody else who works with Spartacus source code.
-To see the documentation on how to use schematics from a customers perspective, see: [https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html)
+To see the documentation on how to use schematics from a customers perspective, see [Schematics](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/31164ec95c7c4136b1d1a4a371cad3c7/e38d45609de04412920a7fc9c13d41e3.html) on the SAP Help Portal.
 
 ## Prerequisites
 
@@ -167,7 +167,7 @@ The following is an example flow for adding a migration:
 - Check whether any of the changed files are exported in the public API. If no, then no further action is required.
 - Check whether any of the changes you have made are breaking changes. If not, no further action is required. For more information, see [Maintaining Public APIs](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/260a7736dfec4d678be034577a70b81b/a73dc32f6e4343c7b8a0f4c56213fcd1.html).
 - For every breaking change, you must do the following:
-  - Document the breaking change by updating the corresponding migration doc file (such as `docs/migration/3_0.md`), and if necessary, ensure that code comments have been added.
+  - Document the breaking change by updating the corresponding migration doc file (such as `docs/migration/5_0.md`), and if necessary, ensure that code comments have been added.
   - Build automation tasks, as described in the [Validations](#validations), [Constructor Deprecation](#constructor-deprecation), and [Component Deprecation](#component-deprecation)) sections, above.
   - [Test the added migrations](#testing-schematics) by running tests, [trying to migrate an example app](#Developing-schematics), and so on.
 
