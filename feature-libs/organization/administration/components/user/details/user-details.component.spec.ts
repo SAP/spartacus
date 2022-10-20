@@ -105,7 +105,7 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should load list of roles', () => {
-    expect(b2bUserService.getAllRights).toHaveBeenCalled();
+    expect(b2bUserService.getAllRoles).toHaveBeenCalled();
   });
 
   it('should trigger reload of model on each code change', () => {

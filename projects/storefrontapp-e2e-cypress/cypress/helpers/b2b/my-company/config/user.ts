@@ -114,6 +114,7 @@ export const userConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Unit',
+      selector: 'cx-org-card label ng-select:contains(Unit)',
     },
   ],
   subCategories: [

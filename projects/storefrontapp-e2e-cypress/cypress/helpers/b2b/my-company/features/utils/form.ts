@@ -92,9 +92,13 @@ export function completeForm(
   function fillNgSelect(input: MyCompanyRowConfig) {
     // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
     if (input[valueKey]) {
-      getFieldByLabel(input).within(() => {
-        cy.get(`ng-select`).click();
-      });
+      if (input.selector) {
+        getFieldBySelector(input.selector).click();
+      } else {
+        getFieldByLabel(input).within(() => {
+          cy.get(`ng-select`).click();
+        });
+      }
       cy.wait(1000); // Allow time for options to draw
       cy.get('ng-dropdown-panel')
         .contains(input[valueKey])
