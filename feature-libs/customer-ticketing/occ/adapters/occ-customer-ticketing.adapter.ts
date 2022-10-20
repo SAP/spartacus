@@ -9,6 +9,7 @@ import {
   CustomerTicketingAdapter,
   CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER,
   CUSTOMER_TICKETING_CATEGORY_NORMALIZER,
+  CUSTOMER_TICKETING_CREATE_NORMALIZER,
   CUSTOMER_TICKETING_DETAILS_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
@@ -86,14 +87,17 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     ticket: TicketStarter
   ): Observable<TicketStarter> {
-    ticket = this.converter.convert(ticket, CUSTOMER_TICKETING_NORMALIZER);
+    ticket = this.converter.convert(
+      ticket,
+      CUSTOMER_TICKETING_CREATE_NORMALIZER
+    );
     return this.http
       .post<TicketStarter>(this.getCreateTicketEndpoint(customerId), ticket, {
         headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
       );
   }
 

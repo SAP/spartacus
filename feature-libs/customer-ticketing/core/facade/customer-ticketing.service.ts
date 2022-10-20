@@ -14,7 +14,6 @@ import {
 import {
   AssociatedObject,
   Category,
-  CreateEvent,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
@@ -69,9 +68,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       (ticket) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
-            this.customerTicketingConnector
-              .createTicket(customerId, ticket)
-              .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
+            this.customerTicketingConnector.createTicket(customerId, ticket)
           )
         ),
       {
@@ -103,13 +100,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected uploadAttachmentCommand: Command<{
     file: File | null;
     eventCode: string;
-  }> = this.commandService.create<{ file: File; eventCode: string }>(
+    ticketId: string;
+  }> = this.commandService.create<{
+    file: File;
+    eventCode: string;
+    ticketId: string;
+  }>(
     (payload) =>
       this.customerTicketingPreConditions().pipe(
-        switchMap(([customerId, ticketId]) =>
+        switchMap(([customerId]) =>
           this.customerTicketingConnector.uploadAttachment(
             customerId,
-            ticketId,
+            payload.ticketId,
             payload.eventCode,
             payload.file
           )
@@ -221,7 +223,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.createTicketEventCommand.execute(ticketEvent);
   }
 
-  uploadAttachment(file: File | null, eventCode: string): Observable<unknown> {
-    return this.uploadAttachmentCommand.execute({ file, eventCode });
+  uploadAttachment(
+    file: File | null,
+    eventCode: string,
+    ticketId: string
+  ): Observable<unknown> {
+    return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
   }
 }

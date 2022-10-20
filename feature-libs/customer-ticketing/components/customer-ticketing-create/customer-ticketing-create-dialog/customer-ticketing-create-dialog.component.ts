@@ -30,6 +30,7 @@ export class CustomerTicketingCreateDialogComponent
 
   @Input()
   selectedAssociatedObject: AssociatedObject;
+  attachment: any;
 
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
@@ -96,19 +97,24 @@ export class CustomerTicketingCreateDialogComponent
   }
 
   createTicketRequest(): void {
+    this.attachment = this.form.get('file')?.value;
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
       this.subscription = this.customerTicketingFacade
         .createTicket(this.getCreateTicketPayload(this.form))
-        .subscribe({
-          complete: () => {
-            this.close('Ticket created successfully');
-          },
-          error: () => {
-            this.close('Something went wrong');
-          },
+        .subscribe((response: any) => {
+          if (
+            response.id &&
+            this.attachment[0] &&
+            response.ticketEvents[0].code
+          )
+            this.customerTicketingFacade.uploadAttachment(
+              this.attachment[0],
+              response.ticketEvents[0].code,
+              response.id
+            );
         });
     }
   }

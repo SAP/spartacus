@@ -34,7 +34,8 @@ export class CustomerTicketingMessagesComponent {
         if (event.files?.item && createdEvent.code)
           this.customerTicketingFacade.uploadAttachment(
             event.files.item(0),
-            createdEvent.code
+            createdEvent.code,
+            ''
           );
       });
   }
