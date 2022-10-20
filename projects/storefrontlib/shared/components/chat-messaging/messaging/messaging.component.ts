@@ -15,9 +15,16 @@ export class MessagingComponent implements OnInit {
   @Input() scrollToInput?: boolean = true;
   @Input() messagingConfigs?: MessagingConfigs;
 
-  @Output()
-  send = new EventEmitter<{ files: File | undefined; message: string }>();
-  downloadAttachment = new EventEmitter<{ attachmentId: string }>();
+  @Output() send = new EventEmitter<{
+    files: File | undefined;
+    message: string;
+  }>();
+
+  @Output() downloadAttachment = new EventEmitter<{
+    messageCode: string;
+    attachmentId: string;
+    fileName: string;
+  }>();
 
   iconTypes = ICON_TYPE;
   form: FormGroup;
@@ -62,11 +69,16 @@ export class MessagingComponent implements OnInit {
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
       });
+      this.form.get('message')?.setValue(null);
     }
   }
 
-  triggerDownload(attachmentId: string) {
-    this.downloadAttachment.emit({ attachmentId });
+  triggerDownload(messageCode: string, attachmentId: string, fileName: string) {
+    this.downloadAttachment.emit({
+      messageCode: messageCode,
+      attachmentId: attachmentId,
+      fileName: fileName,
+    });
   }
 
   protected buildForm() {

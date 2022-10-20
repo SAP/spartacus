@@ -42,4 +42,11 @@ export abstract class CustomerTicketingAdapter {
     eventCode: string,
     file: File
   ): Observable<unknown>;
+
+  abstract downloadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown>;
 }

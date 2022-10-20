@@ -83,12 +83,13 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             this.customerTicketingConnector
               .createTicketEvent(customerId, ticketId, ticketEvent)
               .pipe(
-                tap(() =>
-                  this.eventService.dispatch(
-                    { status: ticketEvent.toStatus?.id },
-                    TicketEventCreatedEvent
-                  )
-                )
+                tap(() => {
+                  if (ticketEvent.toStatus?.id)
+                    this.eventService.dispatch(
+                      { status: ticketEvent.toStatus?.id },
+                      TicketEventCreatedEvent
+                    );
+                })
               )
           )
         ),
@@ -109,11 +110,37 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     (payload) =>
       this.customerTicketingPreConditions().pipe(
         switchMap(([customerId]) =>
-          this.customerTicketingConnector.uploadAttachment(
+          this.customerTicketingConnector
+            .uploadAttachment(
+              customerId,
+              payload.ticketId,
+              payload.eventCode,
+              payload.file
+            )
+            .pipe(
+              tap(() =>
+                this.eventService.dispatch({ status }, TicketEventCreatedEvent)
+              )
+            )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
+
+  protected downloadAttachmentCommand: Command<{
+    eventCode: string;
+    attachmentId: string;
+  }> = this.commandService.create<{ eventCode: string; attachmentId: string }>(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector.downloadAttachment(
             customerId,
             payload.ticketId,
             payload.eventCode,
-            payload.file
+            payload.attachmentId
           )
         )
       ),
@@ -135,6 +162,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketQueryResetEvents(),
       }
     );
+
   protected getTicketCategoriesQuery: Query<Category[]> =
     this.queryService.create(
       () => this.customerTicketingConnector.getTicketCategories(),
@@ -143,6 +171,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketCategoriesQueryResetEvents(),
       }
     );
+
   protected getTicketAssociatedObjectsQuery: Query<AssociatedObject[]> =
     this.queryService.create(
       () =>
@@ -229,5 +258,12 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     ticketId: string
   ): Observable<unknown> {
     return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
+  }
+
+  downloadAttachment(
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown> {
+    return this.downloadAttachmentCommand.execute({ eventCode, attachmentId });
   }
 }

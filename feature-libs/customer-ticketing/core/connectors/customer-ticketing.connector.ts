@@ -52,4 +52,18 @@ export class CustomerTicketingConnector {
   ): Observable<unknown> {
     return this.adapter.uploadAttachment(customerId, ticketId, eventCode, file);
   }
+
+  public downloadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown> {
+    return this.adapter.downloadAttachment(
+      customerId,
+      ticketId,
+      eventCode,
+      attachmentId
+    );
+  }
 }

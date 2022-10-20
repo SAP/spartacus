@@ -1,9 +1,12 @@
+import { Observable } from 'rxjs';
+
 export interface MessageEvent {
   author?: string;
   rightAlign?: boolean;
   createdAt?: string;
   text?: string;
-  ticketEventAttachments?: Array<Attachment>;
+  attachments?: Array<Attachment>;
+  code?: string;
 }
 
 export interface Attachment {
@@ -17,6 +20,7 @@ export interface MessagingConfigs {
   newMessagePlaceHolder?: string;
   enableFileUploadOption?: boolean;
   dateFormat?: string;
+  displayInput?: Observable<boolean>;
 }
 
 export interface AttachmentRestrictions {

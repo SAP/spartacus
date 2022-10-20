@@ -40,5 +40,12 @@ declare module '@spartacus/core' {
      * * @member {string}
      */
     createTicket?: string | OccEndpoint;
+
+    /**
+     * Endpoint to download an attachment
+     *
+     * * @member {string}
+     */
+    downloadAttachment?: string | OccEndpoint;
   }
 }
