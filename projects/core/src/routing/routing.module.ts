@@ -34,7 +34,7 @@ export function initConfigurableRoutes(
   return result;
 }
 
-export function initRoutingConfig(
+export function initSecurePortalConfig(
   configInitializer: SecurePortalConfigInitializer,
   routingConfig: RoutingConfig
 ): ConfigInitializer | null {
@@ -72,7 +72,7 @@ export class RoutingModule {
         },
         {
           provide: CONFIG_INITIALIZER,
-          useFactory: initRoutingConfig,
+          useFactory: initSecurePortalConfig,
           deps: [SecurePortalConfigInitializer, RoutingConfig],
           multi: true,
         },
