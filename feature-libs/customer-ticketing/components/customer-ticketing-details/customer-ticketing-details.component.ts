@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   STATUS,
-  CUSTOM_CLASS,
-  CustomerTicketingFacade,
+  TEXT_COLOR_CLASS,
   TicketDetails,
   DATE_FORMAT,
+  CustomerTicketingFacade,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -36,16 +36,16 @@ export class CustomerTicketingDetailsComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customClass: this.getStatusClass(id),
+        customClass: this.getStatusClass(id?.toUpperCase()),
       }))
     );
   }
 
   getStatusClass(id?: string): string {
-    return id === STATUS.OPEN
-      ? CUSTOM_CLASS.OPEN
-      : id === STATUS.CLOSE
-      ? CUSTOM_CLASS.CLOSE
+    return id === STATUS.OPEN || id === STATUS.INPROCESS
+      ? TEXT_COLOR_CLASS.GREEN
+      : id === STATUS.CLOSED
+      ? TEXT_COLOR_CLASS.GREY
       : '';
   }
 }

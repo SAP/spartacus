@@ -17,6 +17,7 @@ import {
   CategoriesList,
   Category,
   TicketDetails,
+  TicketEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
@@ -107,6 +108,41 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.occEndpoints.buildUrl('createTicket', {
       urlParams: {
         customerId,
+      },
+    });
+  }
+
+  createTicketEvent(
+    customerId: string,
+    ticketId: string,
+    ticketEvent: TicketEvent
+  ): Observable<TicketEvent> {
+    ticketEvent = this.converter.convert(
+      ticketEvent,
+      CUSTOMER_TICKETING_NORMALIZER
+    );
+    return this.http
+      .post<TicketEvent>(
+        this.getCreateTicketEventEndpoint(customerId, ticketId),
+        ticketEvent,
+        {
+          headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        }
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+      );
+  }
+
+  protected getCreateTicketEventEndpoint(
+    customerId: string,
+    ticketId: string
+  ): string {
+    return this.occEndpoints.buildUrl('createTicketEvent', {
+      urlParams: {
+        customerId,
+        ticketId,
       },
     });
   }

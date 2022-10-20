@@ -1,19 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  createFrom,
   CurrencySetEvent,
   CxEvent,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
+import { STATUS } from '../model';
 import { CustomerTicketingEventListener } from './customer-ticketing-event.listener';
 import {
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  TicketEventCreatedEvent,
 } from './customer-ticketing.events';
 import createSpy = jasmine.createSpy;
 
@@ -24,19 +29,26 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('CustomerTicketingEventListener', () => {
   let eventService: EventService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CustomerTicketingEventListener,
         { provide: EventService, useClass: MockEventService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 
     TestBed.inject(CustomerTicketingEventListener);
     eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   function assertServiceDispatchForEvent(event: CxEvent, dispatchedEvent: any) {
@@ -93,6 +105,30 @@ describe('CustomerTicketingEventListener', () => {
       assertServiceDispatchForEvent(
         new LoginEvent(),
         GetTicketAssociatedObjectsQueryResetEvent
+      );
+    });
+  });
+
+  describe('onTicketEventCreated', () => {
+    it('TicketEventCreatedEvent should trigger requestClosed global message', () => {
+      mockEventStream$.next(
+        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSED })
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'customerTicketing.requestClosed' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('TicketEventCreatedEvent should trigger requestReopened global message', () => {
+      mockEventStream$.next(
+        createFrom(TicketEventCreatedEvent, { status: STATUS.OPEN })
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'customerTicketing.requestReopened' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
   });

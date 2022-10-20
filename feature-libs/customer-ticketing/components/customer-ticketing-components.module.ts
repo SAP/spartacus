@@ -6,6 +6,7 @@ import { CustomerTicketingCloseModule } from './customer-ticketing-close';
 import { CustomerTicketingCreateModule } from './customer-ticketing-create';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
 import { CustomerTicketingListModule } from './customer-ticketing-list';
+import { CustomerTicketingMessagesModule } from './customer-ticketing-messages';
 import { CustomerTicketingReopenModule } from './customer-ticketing-reopen';
 import { defaultCustomerTicketingFormLayoutConfig } from './shared/customer-ticketing-dialog';
 
@@ -17,6 +18,7 @@ import { defaultCustomerTicketingFormLayoutConfig } from './shared/customer-tick
     CustomerTicketingCloseModule,
     CustomerTicketingReopenModule,
     CustomerTicketingListModule,
+    CustomerTicketingMessagesModule,
     CustomerTicketingCreateModule,
   ],
   declarations: [],

@@ -1,0 +1,17 @@
+%cx-avatar {
+  .cx-avatar {
+    height: 4.375rem;
+    min-width: 4.375rem;
+    background-color: mix(theme-color('inverse'), theme-color('primary'), 90%);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: 1px solid var(--cx-color-light);
+    font-size: var(--cx-font-size, 2rem);
+  }
+
+  .right-align {
+    background-color: var(--cx-color-background);
+  }
+}

@@ -23,6 +23,8 @@ import {
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
   TicketDetails,
+  TicketEvent,
+  TicketEventCreatedEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -76,6 +78,27 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         strategy: CommandStrategy.Queue,
       }
     );
+  protected createTicketEventCommand: Command<TicketEvent, unknown> =
+    this.commandService.create<TicketEvent>(
+      (ticketEvent) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId, ticketId]) =>
+            this.customerTicketingConnector
+              .createTicketEvent(customerId, ticketId, ticketEvent)
+              .pipe(
+                tap(() =>
+                  this.eventService.dispatch(
+                    { status: ticketEvent.toStatus?.id },
+                    TicketEventCreatedEvent
+                  )
+                )
+              )
+          )
+        ),
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
 
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
@@ -116,13 +139,12 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   constructor(
     protected queryService: QueryService,
+    protected commandService: CommandService,
     protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
     protected routingService: RoutingService,
-    protected commandService: CommandService,
     protected eventService: EventService
   ) {}
-
   getTicketAssociatedObjectsState(): Observable<
     QueryState<AssociatedObject[]>
   > {
@@ -172,5 +194,10 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   createTicket(ticket: TicketStarter): Observable<TicketStarter | unknown> {
     return this.createTicketCommand.execute(ticket);
+  }
+  createTicketEvent(
+    ticketEvent: TicketEvent
+  ): Observable<TicketEvent | unknown> {
+    return this.createTicketEventCommand.execute(ticketEvent);
   }
 }

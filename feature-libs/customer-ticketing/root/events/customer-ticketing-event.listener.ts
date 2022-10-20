@@ -9,12 +9,14 @@ import {
   LogoutEvent,
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
+import { STATUS } from '../model';
 import {
   CreateEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  TicketEventCreatedEvent,
 } from './customer-ticketing.events';
 
 @Injectable({
@@ -42,13 +44,15 @@ export class CustomerTicketingEventListener implements OnDestroy {
         );
       })
     );
+    this.onTicketEventCreated();
   }
 
   protected onGetTicketQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
+        this.eventService.get(TicketEventCreatedEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
@@ -66,6 +70,22 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.dispatch(
           {},
           GetTicketAssociatedObjectsQueryResetEvent
+        );
+      })
+    );
+  }
+
+  protected onTicketEventCreated(): void {
+    this.subscriptions.add(
+      this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
+        this.globalMessageService.add(
+          {
+            key:
+              status === STATUS.CLOSED
+                ? 'customerTicketing.requestClosed'
+                : 'customerTicketing.requestReopened',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       })
     );

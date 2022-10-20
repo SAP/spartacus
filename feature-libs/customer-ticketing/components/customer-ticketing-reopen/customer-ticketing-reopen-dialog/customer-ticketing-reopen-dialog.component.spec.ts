@@ -1,16 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CustomerTicketingFacade,
+  STATUS,
+  STATUS_NAME,
+} from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-
+import { of } from 'rxjs';
 import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog.component';
+import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
+}
+class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
+  createTicketEvent = createSpy().and.returnValue(of());
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 describe('CustomerTicketingReopenDialogComponent', () => {
   let component: CustomerTicketingReopenDialogComponent;
   let fixture: ComponentFixture<CustomerTicketingReopenDialogComponent>;
+  let customerTicketingFacade: CustomerTicketingFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,8 +32,15 @@ describe('CustomerTicketingReopenDialogComponent', () => {
       declarations: [CustomerTicketingReopenDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
+
+    customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });
 
   beforeEach(() => {
@@ -30,5 +51,36 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should build form', () => {
+    expect(component.form.get('message')?.value).toBeDefined();
+    expect(component.form.get('file')?.value).toBeDefined();
+  });
+
+  describe('reopenRequest', () => {
+    it('should not call createTicketEvent if the form is invalid', () => {
+      component.form.get('message')?.setValue('');
+      component.reopenRequest();
+
+      expect(customerTicketingFacade.createTicketEvent).not.toHaveBeenCalled();
+    });
+
+    it('should call createTicketEvent if the form is valid', () => {
+      const mockEvent = {
+        message: 'mockMessage',
+        toStatus: {
+          id: STATUS.INPROCESS,
+          name: STATUS_NAME.INPROCESS,
+        },
+      };
+
+      component.form.get('message')?.setValue('mockMessage');
+      component.reopenRequest();
+
+      expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
+        mockEvent
+      );
+    });
   });
 });

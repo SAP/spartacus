@@ -1,11 +1,13 @@
 @import './customer-ticketing-actions';
 @import './customer-ticketing-details';
 @import './customer-ticketing-dialog';
+@import './customer-ticketing-list';
 
 $customer-ticketing-allowlist: cx-customer-ticketing-create-dialog,
-  cx-customer-ticketing-reopen-dialog, cx-customer-ticketing-reopen,
-  cx-customer-ticketing-close, cx-customer-ticketing-create,
-  cx-customer-ticketing-details !default;
+  cx-customer-ticketing-reopen-dialog, cx-customer-ticketing-close-dialog,
+  cx-customer-ticketing-reopen, cx-customer-ticketing-close,
+  cx-customer-ticketing-create, cx-customer-ticketing-details,
+  cx-customer-ticketing-list !default;
 
 $skipComponentStyles: () !default;
 
