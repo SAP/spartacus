@@ -117,6 +117,35 @@ describe('CustomerTicketingService', () => {
         });
     });
   });
+
+  describe('getTickets', () => {
+    it('should call customerTicketingConnector.getTickets', (done) => {
+      service
+        .getTickets()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTickets).toHaveBeenCalledWith(mockUserId);
+          expect(data).toEqual([]);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketsState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTickets).toHaveBeenCalledWith(mockUserId);
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: [],
+          });
+          done();
+        });
+    });
+  });
+
   describe('getTicketCategories', () => {
     it('should call customerTicketingConnector.getTicketCategories', (done) => {
       service
@@ -144,6 +173,7 @@ describe('CustomerTicketingService', () => {
         });
     });
   });
+
   describe('getTicketAssociatedObjects', () => {
     it('should call customerTicketingConnector.getTicketAssociatedObjects', (done) => {
       service
