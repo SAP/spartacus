@@ -180,18 +180,18 @@
   }
 
   .cx-unit-level-order-history-pagination {
-    margin-left: auto;
+    margin-inline-start: auto;
     @include media-breakpoint-down(sm) {
       align-items: flex-start;
-      padding-left: 1.25rem;
-      margin-left: unset;
+      padding-inline-start: 1.25rem;
+      margin-inline-start: 0;
     }
   }
 
   .cx-unit-level-order-history-total-result {
     font-style: italic;
     color: var(--cx-color-secondary);
-    padding-left: 1.25rem;
+    padding-inline-start: 1.25rem;
     @include media-breakpoint-down(sm) {
       padding-bottom: 1rem;
     }
@@ -204,8 +204,8 @@
 
   .cx-vertical-line-separator {
     border-color: var(--cx-color-light);
-    border-left-style: solid;
-    border-left-width: thin;
+    border-inline-start-style: solid;
+    border-inline-start-width: thin;
   }
 
   .cx-unit-level-order-history-no-order {
