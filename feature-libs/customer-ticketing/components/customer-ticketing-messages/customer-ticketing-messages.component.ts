@@ -32,7 +32,7 @@ export class CustomerTicketingMessagesComponent {
       .createTicketEvent(this.prepareTicketEvent(event.message))
       .subscribe((createdEvent: TicketEvent) => {
         if (event.files?.item && createdEvent.code)
-          this.customerTicketingFacade.uploadAttachments(
+          this.customerTicketingFacade.uploadAttachment(
             event.files.item(0),
             createdEvent.code
           );

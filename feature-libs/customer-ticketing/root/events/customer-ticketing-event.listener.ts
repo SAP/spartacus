@@ -64,7 +64,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
   protected onTicketEventCreated(): void {
     this.subscriptions.add(
       this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
-        if (status === STATUS.CLOSE) {
+        if (status === STATUS.CLOSED) {
           this.globalMessageService.add(
             {
               key: 'customerTicketing.requestClosed',

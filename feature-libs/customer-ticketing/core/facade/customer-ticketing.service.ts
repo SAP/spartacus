@@ -202,7 +202,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.createTicketEventCommand.execute(ticketEvent);
   }
 
-  uploadAttachments(file: File | null, eventCode: string): Observable<unknown> {
+  uploadAttachment(file: File | null, eventCode: string): Observable<unknown> {
     return this.uploadAttachmentCommand.execute({ file, eventCode });
   }
 }
