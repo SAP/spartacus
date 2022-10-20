@@ -1,8 +1,8 @@
 import {
   AssociatedObject,
   Category,
-  Ticket,
   TicketDetails,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 
@@ -18,5 +18,8 @@ export abstract class CustomerTicketingAdapter {
     customerId: string
   ): Observable<AssociatedObject[]>;
 
-  abstract createTicket(customerId: string, ticket: Ticket): Observable<Ticket>;
+  abstract createTicket(
+    customerId: string,
+    ticket: TicketStarter
+  ): Observable<TicketStarter>;
 }

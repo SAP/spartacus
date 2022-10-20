@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CurrencySetEvent,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -21,7 +23,10 @@ import {
 export class CustomerTicketingEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor(
+    protected eventService: EventService,
+    protected globalMessageService: GlobalMessageService
+  ) {
     this.onGetTicketQueryReload();
     this.onLoginAndLogoutEvent();
     this.onCreateEvent();
@@ -29,7 +34,12 @@ export class CustomerTicketingEventListener implements OnDestroy {
   onCreateEvent() {
     this.subscriptions.add(
       this.eventService.get(CreateEvent).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.globalMessageService.add(
+          {
+            key: 'customerTicketing.ticketCreated',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
       })
     );
   }

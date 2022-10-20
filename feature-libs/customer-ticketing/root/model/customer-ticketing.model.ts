@@ -50,7 +50,7 @@ export interface Event {
   toStatus?: Status;
 }
 
-export interface Ticket {
+export interface TicketStarter {
   associatedTo?: AssociatedObject;
   message?: string;
   subject?: string;

@@ -1,8 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
-  Ticket,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -20,18 +21,21 @@ export class CustomerTicketingCreateDialogComponent
   ticketAssociatedObjects$: Observable<AssociatedObject[]> =
     this.customerTicketingFacade.getTicketAssociatedObjects();
   subscription: Subscription;
+  ticketStarter: TicketStarter;
+  ticketCategories: Array<Category>;
+  ticketAssociatedObjects: Array<AssociatedObject>;
 
   @Input()
   selectedCategory: Category;
 
   @Input()
-  selectedAssociatedTo: AssociatedObject;
+  selectedAssociatedObject: AssociatedObject;
 
-  protected getCreateTicketPayload(): Ticket {
+  protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
-      message: this.form?.get('message')?.value,
-      subject: this.form?.get('subject')?.value,
-      associatedTo: this.selectedAssociatedTo,
+      message: form?.get('message')?.value,
+      subject: form?.get('subject')?.value,
+      associatedTo: this.selectedAssociatedObject,
       ticketCategory: this.selectedCategory,
     };
   }
@@ -40,21 +44,55 @@ export class CustomerTicketingCreateDialogComponent
     this.buildForm();
   }
 
-  getSelectedAssociatedObject(code: string, modifiedAt: string, type: string) {
-    this.selectedAssociatedTo = {
-      code: code,
-      modifiedAt: modifiedAt,
-      type: type,
-    };
+  protected buildForm(): void {
+    const form = new FormGroup({});
+    form.setControl(
+      'subject',
+      new FormControl('', [
+        Validators.required,
+        Validators.maxLength(this.inputCharactersLimit),
+      ])
+    );
+    form.setControl(
+      'ticketCategory',
+      new FormControl(0, [Validators.required])
+    );
+    form.setControl('associatedTo', new FormControl());
+    form.setControl(
+      'message',
+      new FormControl('', [
+        Validators.required,
+        Validators.maxLength(this.inputCharactersLimit),
+      ])
+    );
+    form.setControl(
+      'file',
+      new FormControl('', [
+        this.filesFormValidators.maxSize(this.maxSize),
+        this.filesFormValidators.maxEntries(this.maxEntries),
+      ])
+    );
+    this.form = form;
   }
 
-  getSelectedCategory(id: string, name: string): void {
-    if (id) {
-      this.selectedCategory = {
-        id: id,
-        name: name,
-      };
-    }
+  setSelectedAssociatedObject(selectedAssociatedObjectIndex: number) {
+    this.ticketAssociatedObjects$.subscribe((associatedObjects) => {
+      this.ticketAssociatedObjects = associatedObjects;
+    });
+    this.selectedAssociatedObject =
+      this.ticketAssociatedObjects[selectedAssociatedObjectIndex - 1];
+    this.form.controls.associatedTo.setValue(
+      this.selectedAssociatedObject.code
+    );
+  }
+
+  setSelectedCategory(selectedCategoryIndex: number): void {
+    this.ticketCategories$.subscribe((categories) => {
+      this.ticketCategories = categories;
+    });
+
+    this.selectedCategory = this.ticketCategories[selectedCategoryIndex];
+    this.form.controls.ticketCategory.setValue(this.selectedCategory.id);
   }
 
   createTicketRequest(): void {
@@ -63,7 +101,7 @@ export class CustomerTicketingCreateDialogComponent
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
       this.subscription = this.customerTicketingFacade
-        .createTicket(this.getCreateTicketPayload())
+        .createTicket(this.getCreateTicketPayload(this.form))
         .subscribe({
           complete: () => {
             this.close('Ticket created successfully');

@@ -22,5 +22,6 @@ export const customerTicketing = {
     associateTo: 'Associate To',
     attachments: 'Attachments',
     ticketCreated: 'Request {{requestNo}} Created.',
+    optionallyselectAssociatedObject: 'Optionally Select...',
   },
 };
