@@ -90,7 +90,11 @@ export class OrganizationAdministrationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/organization\\";
+"
+`;
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should update angular.json 1`] = `
 "{
@@ -304,7 +308,11 @@ export class OrganizationOrderApprovalFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/organization\\";
+"
+`;
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should update angular.json 1`] = `
 "{
