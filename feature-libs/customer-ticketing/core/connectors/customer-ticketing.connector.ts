@@ -43,4 +43,13 @@ export class CustomerTicketingConnector {
   ): Observable<TicketEvent> {
     return this.adapter.createTicketEvent(customerId, ticketId, ticketEvent);
   }
+
+  public uploadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    file: File
+  ): Observable<unknown> {
+    return this.adapter.uploadAttachment(customerId, ticketId, eventCode, file);
+  }
 }

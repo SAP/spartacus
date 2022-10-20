@@ -9,6 +9,8 @@ import {
   CustomerTicketingAdapter,
   CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER,
   CUSTOMER_TICKETING_CATEGORY_NORMALIZER,
+  CUSTOMER_TICKETING_CREATE_NORMALIZER,
+  CUSTOMER_TICKETING_FILE_NORMALIZER,
   CUSTOMER_TICKETING_NORMALIZER,
 } from '@spartacus/customer-ticketing/core';
 import {
@@ -84,14 +86,17 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     customerId: string,
     ticket: TicketStarter
   ): Observable<TicketStarter> {
-    ticket = this.converter.convert(ticket, CUSTOMER_TICKETING_NORMALIZER);
+    ticket = this.converter.convert(
+      ticket,
+      CUSTOMER_TICKETING_CREATE_NORMALIZER
+    );
     return this.http
       .post<TicketStarter>(this.getCreateTicketEndpoint(customerId), ticket, {
         headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(CUSTOMER_TICKETING_NORMALIZER)
+        this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
       );
   }
 
@@ -143,6 +148,41 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       urlParams: {
         customerId,
         ticketId,
+      },
+    });
+  }
+
+  uploadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    file: File
+  ): Observable<unknown> {
+    file = this.converter.convert(file, CUSTOMER_TICKETING_FILE_NORMALIZER);
+    let formData: FormData = new FormData();
+    formData.append('ticketEventAttachment', file);
+
+    return this.http
+      .post(
+        this.getUploadAttachmentEndpoint(customerId, ticketId, eventCode),
+        formData
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
+      );
+  }
+
+  protected getUploadAttachmentEndpoint(
+    customerId: string,
+    ticketId: string,
+    eventCode: string
+  ): string {
+    return this.occEndpoints.buildUrl('uploadAttachment', {
+      urlParams: {
+        customerId,
+        ticketId,
+        eventCode,
       },
     });
   }

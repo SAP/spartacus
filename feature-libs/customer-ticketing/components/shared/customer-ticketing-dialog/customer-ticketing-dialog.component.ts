@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { EventService, RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -93,7 +93,8 @@ export abstract class CustomerTicketingDialogComponent {
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected filesFormValidators: FilesFormValidators,
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected eventService: EventService
   ) {}
 
   protected buildForm(): void {

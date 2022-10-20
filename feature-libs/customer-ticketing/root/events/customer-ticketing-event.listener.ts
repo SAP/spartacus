@@ -11,11 +11,11 @@ import {
 import { merge, Subscription } from 'rxjs';
 import { STATUS } from '../model';
 import {
-  CreateEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  TicketCreatedEvent,
   TicketEventCreatedEvent,
 } from './customer-ticketing.events';
 
@@ -31,20 +31,21 @@ export class CustomerTicketingEventListener implements OnDestroy {
   ) {
     this.onGetTicketQueryReload();
     this.onLoginAndLogoutEvent();
-    this.onCreateEvent();
+    this.onTicketCreatedEvent();
   }
-  onCreateEvent() {
+  onTicketCreatedEvent() {
     this.subscriptions.add(
-      this.eventService.get(CreateEvent).subscribe(() => {
+      this.eventService.get(TicketCreatedEvent).subscribe(() => {
         this.globalMessageService.add(
           {
             key: 'customerTicketing.ticketCreated',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+        // TO DO - UNCOMMENT WHEN LIST API IS INTEGRATED
+        // this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
       })
     );
-    this.onTicketEventCreated();
   }
 
   protected onGetTicketQueryReload(): void {

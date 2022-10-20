@@ -9,6 +9,8 @@ export const defaultOccCustomerTicketingConfig: OccConfig = {
         getTicketCategories: '/ticketCategories',
         getTicketAssociatedObjects:
           'users/${customerId}/ticketAssociatedObjects',
+        uploadAttachment:
+          '/users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments',
         createTicket: 'users/${customerId}/tickets',
       },
     },

@@ -14,7 +14,6 @@ import {
 import {
   AssociatedObject,
   Category,
-  CreateEvent,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
@@ -69,9 +68,10 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       (ticketStarted) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
-            this.customerTicketingConnector
-              .createTicket(customerId, ticketStarted)
-              .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
+            this.customerTicketingConnector.createTicket(
+              customerId,
+              ticketStarted
+            )
           )
         ),
       {
@@ -99,6 +99,31 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         strategy: CommandStrategy.Queue,
       }
     );
+
+  protected uploadAttachmentCommand: Command<{
+    file: File | null;
+    eventCode: string;
+    ticketId: string;
+  }> = this.commandService.create<{
+    file: File;
+    eventCode: string;
+    ticketId: string;
+  }>(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId]) =>
+          this.customerTicketingConnector.uploadAttachment(
+            customerId,
+            payload.ticketId,
+            payload.eventCode,
+            payload.file
+          )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
 
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
@@ -201,5 +226,13 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     ticketEvent: TicketEvent
   ): Observable<TicketEvent | unknown> {
     return this.createTicketEventCommand.execute(ticketEvent);
+  }
+
+  uploadAttachment(
+    file: File | null,
+    eventCode: string,
+    ticketId: string
+  ): Observable<unknown> {
+    return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
   }
 }
