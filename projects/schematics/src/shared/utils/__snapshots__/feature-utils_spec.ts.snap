@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Feature utils addFeatures should generate feature modules for the given array of features 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is eagerly configured should succeed 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule,
+        CheckoutModule,
+        DigitalPaymentsModule
+    ],
+    providers: [provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutModule,
+        DigitalPaymentsModule
+    ]
+})
+export class CheckoutWrapperModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 2`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })
+    ]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Feature utils getDynamicallyImportedLocalSourceFile should return the locally referenced source file 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutModule,
+        CheckoutB2BModule
+    ]
+})
+export class CheckoutWrapperModule {
+}
+"
+`;

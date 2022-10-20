@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, isDevMode } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
@@ -47,7 +53,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @return {Configurator.Value[]} - list of configurator values
    */
   assembleValuesForMultiSelectAttributes(
-    controlArray: FormControl[],
+    controlArray: UntypedFormControl[],
     attribute: Configurator.Attribute
   ): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
@@ -75,26 +81,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Verifies whether the HTML element is in the viewport.
-   *
-   * @param {Element} element - HTML element
-   * @return {boolean} Returns 'true' if the HTML element is in the viewport, otherwise 'false'
-   */
-  protected isInViewport(element: Element): boolean {
-    const bounding = element.getBoundingClientRect();
-    const window = this.windowRef.nativeWindow;
-    const document = this.windowRef.document;
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.bottom <=
-        (window?.innerHeight || document?.documentElement.clientHeight) &&
-      bounding.right <=
-        (window?.innerWidth || document?.documentElement.clientWidth)
-    );
-  }
-
-  /**
    * Scrolls to the corresponding HTML element.
    *
    * @param {Element | HTMLElement} element - HTML element
@@ -116,7 +102,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
       const element = this.getElement(selector);
-      if (element && !this.isInViewport(element)) {
+      if (element) {
         this.scroll(element);
       }
     }
@@ -199,34 +185,52 @@ export class ConfiguratorStorefrontUtilsService {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(form);
       if (focusableElements.length > 0) {
-        let foundFocusableElement =
-          this.getFocusableConflictDescription(focusableElements);
-        if (!foundFocusableElement) {
-          const selectedValue = attribute.values?.find(
-            (value) => value.selected
-          );
-          if (selectedValue) {
-            const valueUiKey = this.createAttributeValueUiKey(
-              attribute.name,
-              selectedValue.valueCode
-            );
-            foundFocusableElement = this.getFocusableElementByValueUiKey(
-              focusableElements,
-              valueUiKey
-            );
-          }
-          if (!foundFocusableElement) {
-            foundFocusableElement = this.getFocusableElementByAttributeId(
-              focusableElements,
-              attribute.name
-            );
-          }
-        }
-        if (foundFocusableElement) {
-          foundFocusableElement.focus();
-        }
+        this.focusOnElements(focusableElements, attribute);
       }
     }
+  }
+
+  protected focusOnElements(
+    focusableElements: HTMLElement[],
+    attribute: Configurator.Attribute
+  ) {
+    let foundFocusableElement =
+      this.getFocusableConflictDescription(focusableElements);
+    if (!foundFocusableElement) {
+      foundFocusableElement = this.focusOnElementForConflicting(
+        attribute,
+        foundFocusableElement,
+        focusableElements
+      );
+    }
+    if (foundFocusableElement) {
+      foundFocusableElement.focus();
+    }
+  }
+
+  protected focusOnElementForConflicting(
+    attribute: Configurator.Attribute,
+    foundFocusableElement: HTMLElement | undefined,
+    focusableElements: HTMLElement[]
+  ) {
+    const selectedValue = attribute.values?.find((value) => value.selected);
+    if (selectedValue) {
+      const valueUiKey = this.createAttributeValueUiKey(
+        attribute.name,
+        selectedValue.valueCode
+      );
+      foundFocusableElement = this.getFocusableElementByValueUiKey(
+        focusableElements,
+        valueUiKey
+      );
+    }
+    if (!foundFocusableElement) {
+      foundFocusableElement = this.getFocusableElementByAttributeId(
+        focusableElements,
+        attribute.name
+      );
+    }
+    return foundFocusableElement;
   }
 
   /**

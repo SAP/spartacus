@@ -1,9 +1,9 @@
-import { entityReducer, initialEntityState } from './entity.reducer';
 import {
   EntityAction,
   EntityRemoveAction,
   EntityRemoveAllAction,
 } from './entity.action';
+import { entityReducer, initialEntityState } from './entity.reducer';
 
 describe('Entity reducer', () => {
   const testSubReducer = jasmine

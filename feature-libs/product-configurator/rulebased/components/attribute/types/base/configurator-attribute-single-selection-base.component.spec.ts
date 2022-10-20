@@ -1,11 +1,22 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfigFormUpdateEvent } from '../../../form';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 
+function createValue(code: string, name: string, isSelected: boolean) {
+  const value: Configurator.Value = {
+    valueCode: code,
+    valueDisplay: name,
+    name: name,
+    selected: isSelected,
+  };
+  return value;
+}
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
@@ -30,8 +41,11 @@ const createTestValue = (
   template: 'test-configurator-attribute-single-selection',
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService
+  ) {
+    super(quantityService, translation);
   }
 }
 
@@ -50,6 +64,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
+        imports: [I18nTestingModule],
         providers: [ConfiguratorAttributeQuantityService],
       }).compileComponents();
     })
@@ -105,6 +120,33 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
   });
 
+  describe('onSelectAdditionalValue', () => {
+    const configFormUpdateEvent: ConfigFormUpdateEvent = {
+      ownerKey: ownerKey,
+      changedAttribute: { name: 'Attr' },
+    };
+    it('should not call emit of selectionChange in case no user input is present', () => {
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onSelectAdditionalValue(configFormUpdateEvent);
+      expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call emit of selectionChange in case user input is present', () => {
+      configFormUpdateEvent.changedAttribute.userInput = 'userInput';
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onSelectAdditionalValue(configFormUpdateEvent);
+      expect(component.selectionChange.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          ownerKey: ownerKey,
+          changedAttribute: jasmine.objectContaining({
+            selectedSingleValue:
+              configFormUpdateEvent.changedAttribute.userInput,
+          }),
+        })
+      );
+    });
+  });
+
   describe('onHandleQuantity', () => {
     it('should call emit of selectionChange onHandleQuantity', () => {
       const quantity = 2;
@@ -141,7 +183,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should call form setValue with zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       spyOn(form, 'setValue').and.callThrough();
       component.onChangeQuantity(undefined, form);
       expect(form.setValue).toHaveBeenCalledWith('0');
@@ -239,7 +281,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return 0 as initial if form value equals zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       form.setValue('0');
       fixture.detectChanges();
       const quantityParameters = component.extractQuantityParameters(form);
@@ -255,7 +297,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return attribute quantity as initial if form value does not equal zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       form.setValue('5');
       component.attribute.quantity = attributeQuantity;
       fixture.detectChanges();
@@ -335,6 +377,169 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   describe('disableQuantityActions', () => {
     it('should allow quantity actions', () => {
       expect(component.disableQuantityActions).toBe(false);
+    });
+  });
+
+  describe('IsAdditionalValueNumeric', () => {
+    it('should return true for UI type Radio button additional input and validation type numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      expect(component.isAdditionalValueNumeric).toBe(true);
+    });
+
+    it('should return true for UI type Radio button additional input and validation type  numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      expect(component.isAdditionalValueNumeric).toBe(true);
+    });
+  });
+
+  describe('IsAdditionalValueAlphaNumeric', () => {
+    it('should return true for UI type Radio button additional input and validation type alpha numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+
+    it('should return true for UI type Dropdown box additional input and validation type alpha numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+  });
+  describe('getAriaLabel', () => {
+    it('should return aria label for additional value', () => {
+      expect(component.getAdditionalValueAriaLabel()).toEqual(
+        'configurator.a11y.additionalValue'
+      );
+    });
+    it('should return aria label of value with total price', () => {
+      let attributeWithTotalPrice: Configurator.Attribute = {
+        name: 'attribute with total price',
+        label: 'attribute with total price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      let priceTotal: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePriceTotal = createValue(
+        '1',
+        'value with total price',
+        true
+      );
+      valueWithValuePriceTotal.valuePriceTotal = priceTotal;
+      valueWithValuePriceTotal.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePriceTotal,
+          attributeWithTotalPrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithTotalPrice.label +
+          ' price:' +
+          valueWithValuePriceTotal.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePriceTotal.valueDisplay
+      );
+    });
+
+    it('should return aria label for value with price', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        true
+      );
+      valueWithValuePrice.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePrice,
+          attributeWithValuePrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for value without price', () => {
+      let attributeWithOutPrice: Configurator.Attribute = {
+        name: 'attribute without price',
+        label: 'attribute without value price',
+      };
+      const valueWithOutPrice = createValue('1', 'value without price', true);
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithOutPrice,
+          attributeWithOutPrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+          attributeWithOutPrice.label +
+          ' value:' +
+          valueWithOutPrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for value with price and attribute additional value', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        true
+      );
+      valueWithValuePrice.valuePrice = price;
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      expect(
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay +
+          ' ' +
+          'configurator.a11y.additionalValue'
+      );
     });
   });
 });

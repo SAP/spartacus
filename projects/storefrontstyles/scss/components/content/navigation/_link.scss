@@ -5,5 +5,9 @@
     margin: var(--cx-margin, 0);
     color: currentColor;
     display: var(--cx-display);
+
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
   }
 }

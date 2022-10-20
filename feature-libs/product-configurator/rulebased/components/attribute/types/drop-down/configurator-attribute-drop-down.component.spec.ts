@@ -215,6 +215,34 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
   });
 
+  describe('Rendering for additional value', () => {
+    it('should provide input field for alpha numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

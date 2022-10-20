@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
   cart,
@@ -125,6 +131,10 @@ export function signOut() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.get('cx-global-message div').should(
+    'contain',
+    'You have successfully signed out.'
+  );
 }
 
 export function registerUser(

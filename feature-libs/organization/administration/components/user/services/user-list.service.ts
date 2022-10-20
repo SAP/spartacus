@@ -1,5 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  B2BUser,
+  EntitiesModel,
+  isNotUndefined,
+  PaginationModel,
+} from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -43,7 +54,7 @@ export class UserListService extends ListService<UserModel> {
     pagination: PaginationModel
   ): Observable<EntitiesModel<UserModel>> {
     return this.userService.getList(pagination).pipe(
-      filter((list) => Boolean(list)),
+      filter(isNotUndefined),
       map((raw) => this.convertUsers(raw))
     );
   }
