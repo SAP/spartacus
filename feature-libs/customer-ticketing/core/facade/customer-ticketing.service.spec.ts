@@ -36,11 +36,6 @@ const mockCreateEventResponse: TicketEvent = {
   message: 'mock message',
 };
 
-const mockCreateEventResponse: TicketEvent = {
-  code: 'mockCode',
-  message: 'mock message',
-};
-
 class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(mockUserId));
 }
@@ -53,6 +48,7 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
+
   createTicketEvent = createSpy().and.returnValue(of(mockCreateEventResponse));
   getTicketAssociatedObjects = createSpy().and.returnValue(
     of(mockTicketAssociatedObjects)

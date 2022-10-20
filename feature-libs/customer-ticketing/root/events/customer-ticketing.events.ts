@@ -28,3 +28,6 @@ export class GetTicketAssociatedObjectsQueryResetEvent extends CxEvent {
 export class GetTicketAssociatedObjectsQueryReloadEvent extends CxEvent {
   static readonly type = 'GetTicketAssociatedObjectsQueryReloadEvent';
 }
+export class CreateEvent extends CxEvent {
+  static readonly type = 'CreateEvent';
+}

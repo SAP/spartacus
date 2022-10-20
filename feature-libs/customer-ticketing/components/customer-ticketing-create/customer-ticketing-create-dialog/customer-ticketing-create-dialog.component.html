@@ -29,35 +29,57 @@
           <textarea
             [maxLength]="inputCharactersLimit"
             class="form-control"
-            formControlName="message"
+            formControlName="subject"
             rows="1"
           ></textarea>
 
-          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+          <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
         </label>
 
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.category' | cxTranslate }}
           </span>
-          <select class="form-control">
-            <option *ngFor="let category of ticketCategories$ | async">
+          <select
+            class="form-control"
+            (change)="setSelectedCategory($event.target.selectedIndex)"
+          >
+            <option
+              *ngFor="let category of ticketCategories$ | async"
+              ngValue="{{ category.id }}"
+              [selected]="category.id === selectedCategory?.id"
+            >
               {{ category.name }}
             </option>
           </select>
 
-          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+          <cx-form-errors
+            [control]="form.get('ticketCategory')"
+          ></cx-form-errors>
         </label>
 
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.associateTo' | cxTranslate }}
           </span>
-          <select class="form-control">
+          <select
+            class="form-control"
+            (change)="setSelectedAssociatedObject($event.target.selectedIndex)"
+          >
+            <option value="" disabled selected>
+              {{
+                'customerTicketing.optionallyselectAssociatedObject'
+                  | cxTranslate
+              }}
+            </option>
             <option
               *ngFor="let associatedObject of ticketAssociatedObjects$ | async"
+              value="{{ associatedObject.code }}"
+              [selected]="
+                associatedObject.code === selectedAssociatedObject?.code
+              "
             >
-              {{ associatedObject.type }} {{ associatedObject.code }}
+              {{ associatedObject.type }}
             </option>
           </select>
         </label>

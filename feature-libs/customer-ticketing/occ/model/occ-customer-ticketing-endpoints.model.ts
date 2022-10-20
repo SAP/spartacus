@@ -34,5 +34,11 @@ declare module '@spartacus/core' {
      * * @member {string}
      */
     uploadAttachment?: string | OccEndpoint;
+    /**
+     * Endpoint to create ticket
+     *
+     * * @member {string}
+     */
+    createTicket?: string | OccEndpoint;
   }
 }
