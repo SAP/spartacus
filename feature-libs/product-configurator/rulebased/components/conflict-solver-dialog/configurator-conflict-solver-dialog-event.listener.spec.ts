@@ -13,6 +13,7 @@ import {
   Configurator,
   ConfiguratorGroupsService,
 } from '@spartacus/product-configurator/rulebased';
+import { RouterState, RoutingService } from '@spartacus/core';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -52,10 +53,28 @@ class MockConfiguratorGroupsService {
   }
 }
 
+let routerState: RouterState = {
+  navigationId: 1,
+  state: {
+    url: '',
+    queryParams: [],
+    params: [],
+    context: { id: '' },
+    cmsRequired: true,
+  },
+};
+
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return of(routerState);
+  }
+}
+
 describe('ConfiguratorConflictSolverDialogEventListener', () => {
   let listener: ConfiguratorConflictSolverDialogEventListener;
   let launchDialogService: LaunchDialogService;
   let configuratorGroupsService: ConfiguratorGroupsService;
+  let mockRoutingService: MockRoutingService = new MockRoutingService();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -72,6 +91,10 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
         },
       ],
     });
