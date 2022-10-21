@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -10,7 +17,7 @@ import { FilesFormValidators } from '../../../services/file/files-form-validator
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
-export class MessagingComponent implements OnInit {
+export class MessagingComponent implements OnInit, AfterViewInit {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
   @Input() messagingConfigs?: MessagingConfigs;
@@ -63,13 +70,26 @@ export class MessagingComponent implements OnInit {
     this.buildForm();
   }
 
+  ngAfterViewInit(): void {
+    if (this.scrollToInput) {
+      setTimeout(() => {
+        const element = this.windowRef.document.getElementById('cx-messages');
+        console.log(element?.scrollHeight);
+        element?.scroll({
+          top: element?.scrollHeight,
+          behavior: 'auto',
+        });
+      }, 500);
+    }
+  }
+
   onSend() {
     if (this.form.valid) {
       this.send.emit({
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
       });
-      this.form.get('message')?.setValue(null);
+      this.form.get('message')?.setValue('');
     }
   }
 

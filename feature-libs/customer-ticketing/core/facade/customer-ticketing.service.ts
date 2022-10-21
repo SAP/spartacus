@@ -10,6 +10,7 @@ import {
   QueryState,
   RoutingService,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import {
   AssociatedObject,
@@ -118,7 +119,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected uploadAttachmentCommand: Command<{
     file: File | null;
     eventCode: string;
-    ticketId: string;
+    ticketId?: string;
   }> = this.commandService.create<{
     file: File;
     eventCode: string;
@@ -126,11 +127,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   }>(
     (payload) =>
       this.customerTicketingPreConditions().pipe(
-        switchMap(([customerId]) =>
+        switchMap(([customerId, ticketId]) =>
           this.customerTicketingConnector
             .uploadAttachment(
               customerId,
-              payload.ticketId,
+              payload.ticketId ?? ticketId,
               payload.eventCode,
               payload.file
             )
@@ -149,18 +150,16 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected downloadAttachmentCommand: Command<{
     eventCode: string;
     attachmentId: string;
-    ticketId: string;
   }> = this.commandService.create<{
     eventCode: string;
     attachmentId: string;
-    ticketId: string;
   }>(
     (payload) =>
       this.customerTicketingPreConditions().pipe(
-        switchMap(([customerId]) =>
+        switchMap(([customerId, ticketId]) =>
           this.customerTicketingConnector.downloadAttachment(
             customerId,
-            payload.ticketId,
+            ticketId,
             payload.eventCode,
             payload.attachmentId
           )
@@ -240,13 +239,16 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
     protected routingService: RoutingService,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected windowRef: WindowRef
   ) {}
+
   getTicketAssociatedObjectsState(): Observable<
     QueryState<AssociatedObject[]>
   > {
     return this.getTicketAssociatedObjectsQuery.getState();
   }
+
   getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
     return this.getTicketAssociatedObjectsState().pipe(
       map((state) => state.data ?? [])
@@ -331,20 +333,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   uploadAttachment(
     file: File | null,
     eventCode: string,
-    ticketId: string
+    ticketId?: string
   ): Observable<unknown> {
     return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
   }
 
   downloadAttachment(
     eventCode: string,
-    attachmentId: string,
-    ticketId: string
+    attachmentId: string
   ): Observable<unknown> {
     return this.downloadAttachmentCommand.execute({
       eventCode,
       attachmentId,
-      ticketId,
     });
   }
 }

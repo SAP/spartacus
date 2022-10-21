@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { EventService, WindowRef } from '@spartacus/core';
 import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import {
   CustomerTicketingConfig,
@@ -23,7 +23,8 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   constructor(
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected windowRef: WindowRef
   ) {}
 
   subscription = new Subscription();
@@ -41,14 +42,20 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           if (event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0),
-              createdEvent.code,
-              ''
+              createdEvent.code
             );
           } else {
             this.eventService.dispatch({ status }, TicketEventCreatedEvent);
           }
         })
     );
+    setTimeout(() => {
+      const element = this.windowRef.document.getElementById('cx-messages');
+      element?.scroll({
+        top: element?.scrollHeight,
+        behavior: 'auto',
+      });
+    }, 500);
   }
 
   downloadAttachment(event: {
@@ -58,7 +65,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   }) {
     this.subscription.add(
       this.customerTicketingFacade
-        .downloadAttachment(event.messageCode, event.attachmentId, '')
+        .downloadAttachment(event.messageCode, event.attachmentId)
         .subscribe((data) => {
           const downloadURL = window.URL.createObjectURL(data as any);
           const link = document.createElement('a');

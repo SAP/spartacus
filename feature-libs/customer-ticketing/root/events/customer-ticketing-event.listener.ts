@@ -33,6 +33,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.onGetTicketQueryReload();
     this.onLoginAndLogoutEvent();
     this.onTicketCreatedEvent();
+    this.onTicketEventCreated();
   }
   onTicketCreatedEvent() {
     this.subscriptions.add(

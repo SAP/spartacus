@@ -69,12 +69,11 @@ export abstract class CustomerTicketingFacade {
   abstract uploadAttachment(
     file: File | null,
     eventCode: string,
-    ticketId: string
+    ticketId?: string
   ): Observable<unknown>;
 
   abstract downloadAttachment(
     eventCode: string,
-    attachmentId: string,
-    ticketId: string
+    attachmentId: string
   ): Observable<unknown>;
 }
