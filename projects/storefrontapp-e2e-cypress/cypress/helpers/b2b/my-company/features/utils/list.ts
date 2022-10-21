@@ -115,7 +115,8 @@ export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
 }
 
 export function checkRows(rows): void {
-  let j = 1; // Skip header table row at 0
+  const FIRST_ROW_INDEX = 1;
+  let j = FIRST_ROW_INDEX;
   rows.forEach((row: any) => {
     if (row.text.length) {
       for (let i = 0; i < row.text.length; i++) {
