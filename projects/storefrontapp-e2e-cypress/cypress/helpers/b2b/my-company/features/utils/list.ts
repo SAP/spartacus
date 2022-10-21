@@ -58,15 +58,15 @@ export function testList(
       data.pagination?.currentPage < data.pagination?.totalPages - 1 &&
       data.pagination?.currentPage < MAX_PAGES
     ) {
+      const NEXT_PAGE = data.pagination.currentPage + 2;
       testList(
         config,
         {
           trigger: () => {
-            const NEXT_PAGE = data.pagination.currentPage + 2;
             cy.get(`cx-pagination a.page`).contains(NEXT_PAGE).click();
           },
         },
-        data.pagination.currentPage + 2
+        NEXT_PAGE
       );
     }
   }
