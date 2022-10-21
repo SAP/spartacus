@@ -29,7 +29,7 @@
 
 
 # ================================================
-# @SAP/spartacus-codeowners owns all the files in the repo.
+# All the files in the repo.
 # ================================================
 
 * @SAP/spartacus-codeowners
@@ -41,7 +41,6 @@
 /.github/CODEOWNERS          @SAP/spartacus-admins
 
 
-# We open specific sections to additional teams.
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
 # to remain owner of all the sources in the repo.
 
