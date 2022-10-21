@@ -146,14 +146,15 @@ export const attributeRadioButton: Configurator.Attribute = {
     },
   ],
 };
-
+export const attributeCheckboxCode = 123;
+export const attributeCheckboxGroupId = '1';
 export const attributeCheckbox: Configurator.Attribute = {
   name: 'ATTRIBUTE_2_RADIOBUTTON',
   uiType: Configurator.UiType.RADIOBUTTON,
   required: false,
   incomplete: false,
-  groupId: '1',
-  attrCode: 123,
+  groupId: attributeCheckboxGroupId,
+  attrCode: attributeCheckboxCode,
   values: [
     {
       name: VALUE_01,
