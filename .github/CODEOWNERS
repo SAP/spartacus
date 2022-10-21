@@ -36,7 +36,7 @@
 
 
 # ================================================
-#  Codeowner file changes needs an admin review
+#  This code owner file
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
 
