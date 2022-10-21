@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 // dummy change to test code owner config
 import { User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
