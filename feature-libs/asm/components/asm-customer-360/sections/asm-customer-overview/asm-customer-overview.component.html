@@ -13,7 +13,7 @@
         "
         role="link"
         class="cx-overview-title-link"
-        (click)="navigateTo({cxRoute: 'cart' })"
+        (click)="navigateTo({ cxRoute: 'cart' })"
       >
         {{ activeCart.code }}
       </a>
@@ -48,7 +48,7 @@
             [product]="entry.product"
             [price]="entry.basePrice"
             [quantity]="entry.quantity"
-            (selectProduct)="navigateTo({cxRoute: 'product',  params: $event })"
+            (selectProduct)="navigateTo({ cxRoute: 'product', params: $event })"
           ></cx-asm-product-item>
         </ng-container>
       </div>
@@ -82,8 +82,12 @@
         "
         role="link"
         class="cx-overview-title-link"
-        (click)="navigateTo({cxRoute: 'savedCartsDetails', params: { savedCartId: savedCart?.code } })"
-
+        (click)="
+          navigateTo({
+            cxRoute: 'savedCartsDetails',
+            params: { savedCartId: savedCart?.code }
+          })
+        "
       >
         {{ savedCart.code }}
       </a>
@@ -118,7 +122,7 @@
             [product]="entry.product"
             [price]="entry.basePrice"
             [quantity]="entry.quantity"
-            (selectProduct)="navigateTo({cxRoute: 'product',  params: $event })"
+            (selectProduct)="navigateTo({ cxRoute: 'product', params: $event })"
           ></cx-asm-product-item>
         </ng-container>
       </div>
@@ -149,7 +153,7 @@
         [attr.aria-label]="'asm.customer360.overview.interests' | cxTranslate"
         role="link"
         class="cx-overview-title-link"
-        (click)="navigateTo({cxRoute: 'myInterests' })"
+        (click)="navigateTo({ cxRoute: 'myInterests' })"
       >
         {{ 'asm.customer360.overview.interests' | cxTranslate }}
       </a>
@@ -170,7 +174,9 @@
               *ngIf="i < numberofColumns * 2 || showMoreInterests"
               [product]="product"
               [isOrderEntry]="false"
-              (selectProduct)="navigateTo({cxRoute: 'product',  params: $event })"
+              (selectProduct)="
+                navigateTo({ cxRoute: 'product', params: $event })
+              "
             ></cx-asm-product-item>
           </ng-container>
         </ng-container>

@@ -297,7 +297,10 @@ describe('AsmCustomerOverviewComponent', () => {
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: UserInterestsService, useValue: productInterestService },
         { provide: ProductService, useValue: productService },
-        { provide: Customer360SectionContext<void>, useClass: Customer360SectionContextSource<void>}
+        {
+          provide: Customer360SectionContext,
+          useClass: Customer360SectionContextSource,
+        },
       ],
     }).compileComponents();
   });
@@ -422,7 +425,8 @@ describe('AsmCustomerOverviewComponent', () => {
     );
     titleLink.nativeElement.click();
     expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
-      cxRoute: 'savedCartsDetails', params: { savedCartId: '00001' }
+      cxRoute: 'savedCartsDetails',
+      params: { savedCartId: '00001' },
     });
   });
 
