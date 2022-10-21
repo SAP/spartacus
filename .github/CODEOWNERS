@@ -48,9 +48,9 @@
 
 /projects/storefrontapp-e2e-cypress/          @SAP/spartacus-project-team
 
+
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
 # to remain owner of all the sources in the repo.
-
 
 # ================================================
 #  ASM Feature
