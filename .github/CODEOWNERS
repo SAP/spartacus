@@ -56,6 +56,8 @@
 #  ASM Feature
 # ================================================
 /feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
+/projects/storefrontapp-e2e-cypress/**/asm/            @SAP/spartacus-codeowners @SAP/spartacus-iceman
+# The above is an example of a potential e2e code owner config.  See PR comment.
 
 # ================================================
 #  Product Configurator and CPQ integration Features
