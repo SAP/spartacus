@@ -18,19 +18,15 @@ export class TotalComponent {
   get pagination(): PaginationModel {
     return this._pagination;
   }
-  @Input() set pagination(value: PaginationModel | undefined) {
-    if (value) {
-      this._pagination = value;
-    } else {
-      this._pagination = { totalResults: 0 };
-    }
+  @Input() set pagination(paginationModel: PaginationModel | undefined) {
+    this._pagination = paginationModel ?? { totalResults: 0 };
   }
 
   /**
    * Current page, starting form page 0
    * */
   get currentPage(): number {
-    return this.pagination.currentPage ?? 0;
+    return this.pagination?.currentPage ?? 0;
   }
 
   get pageSize(): number {
