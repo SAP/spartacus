@@ -56,6 +56,7 @@ export class StoreListComponent implements OnInit {
    * @param store Store to pickup from
    */
   onSelectStore(store: PointOfServiceStock) {
+    console.log('StoreListComponent.onSelectStore');
     const { stockInfo: _, ...pointOfService } = store;
 
     this.intendedPickupLocationService.setIntendedLocation(this.productCode, {

@@ -84,12 +84,13 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       cy.url().should('include', '/cart');
       cy.get(L.PICKUP_STORE_LOCATION).should('be.visible');
       cy.get(L.CHANGE_STORE_LINK).click();
+      cy.pause();
       cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
       cy.intercept({
         method: 'GET',
         url: /stores\/[0-9a-zA-Z|-]*?/,
       }).as('getStores');
-      cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click();
+      cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click({force: true});
       cy.wait('@getStores').then((interception) => {
         cy.get('@firstStoreName').then((firstStoreName) => {
           cy.get(

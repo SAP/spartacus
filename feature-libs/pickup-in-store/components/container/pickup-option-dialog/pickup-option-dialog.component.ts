@@ -152,6 +152,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
    * @param reason The reason the dialog window was closed
    */
   close(reason: string): void {
+    console.log('.close*');
     this.launchDialogService.closeDialog(reason);
     if (reason === this.CLOSE_WITHOUT_SELECTION) {
       this.intendedPickupLocationService

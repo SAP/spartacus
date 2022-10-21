@@ -97,6 +97,7 @@ export class PickupLocationsSearchService
   }
 
   loadStoreDetails(storeName: string): void {
+    console.log('Load store details called');
     this.store.dispatch(GetStoreDetailsById({ payload: storeName }));
   }
 

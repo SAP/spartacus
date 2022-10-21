@@ -19,17 +19,7 @@ describe('Set Preferred store', () => {
       cy.get(L.ALLOW_COOKIES_BUTTON).click();
     });
 
-    /*
-2 intercepts required that intercept the GET request that constins defaultPointOfService in the response body
-1 of them needs to be defined before the patch request is made (eg at the top of the it block)
-1 of them needs to be defined immediately before the patch request
-they should have different alias names (I think)
-For the first one, assert that that the property defaultPointOfServiceName does not exist in teh body
-for the second one assert that it does exist, and that its value is what we set it to when we click the heart (firstStoreName I think)
-
-
-    */
-    xit('A logged in user should be able to set a preferred store when not logged in', () => {
+    it('A logged in user should be able to set a preferred store when not logged in', () => {
       cy.get(L.HOME_PAGE_FIRST_PRODUCT).click();
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.visible');
