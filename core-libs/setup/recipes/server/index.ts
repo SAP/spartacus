@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './b2b/index';
-export * from './server/index';
+export * from './backend-request-timeout/index';
+export * from './spartacus-server.module';

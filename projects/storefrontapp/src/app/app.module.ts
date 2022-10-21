@@ -27,7 +27,7 @@ import {
   TestConfigModule,
 } from '@spartacus/core';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
-import { SsrBackendRequestTimeoutModule } from 'core-libs/setup/recipes';
+import { SpartacusServerModule } from 'core-libs/setup/recipes';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -56,7 +56,7 @@ if (!environment.production) {
     ...devImports,
 
     // SPIKE TODO: move to server app module
-    SsrBackendRequestTimeoutModule,
+    SpartacusServerModule,
   ],
   providers: [
     provideConfig(<OccConfig>{
