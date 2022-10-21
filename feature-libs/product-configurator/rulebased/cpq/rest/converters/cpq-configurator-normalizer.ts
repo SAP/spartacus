@@ -44,6 +44,7 @@ export class CpqConfiguratorNormalizer
       interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
+      pricingEnabled: true,
     };
     source.tabs?.forEach((tab) =>
       this.convertGroup(
