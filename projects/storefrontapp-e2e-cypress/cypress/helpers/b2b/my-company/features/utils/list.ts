@@ -162,6 +162,10 @@ export function getListRowsFromBody(
         if (Array.isArray(row.variableName)) {
           row.variableName.forEach((variable) => {
             // TODO: Think of a way to use some sort of tranformation function/config
+            /**
+             * TODO: There is a disrepency between local and server time which can cause failure when testing dates locally.
+             * We could take this into account somehow in our tests or simply keep it in mind when backend is in another timezone.
+             */
             if (variable === 'startDate') {
               let foundText = getVariableFromName(variable, data);
               if (row.useDatePipe) {
