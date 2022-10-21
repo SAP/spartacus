@@ -40,6 +40,13 @@
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
 
+# ================================================
+#  Folders where anyone with write access to the repo can approve Pull Requests
+# ================================================
+
+/doc/          @SAP/spartacus-project-team
+
+/projects/storefrontapp-e2e-cypress/          @SAP/spartacus-project-team
 
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
 # to remain owner of all the sources in the repo.
