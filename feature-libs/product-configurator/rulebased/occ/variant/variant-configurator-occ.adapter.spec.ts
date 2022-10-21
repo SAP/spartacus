@@ -14,6 +14,7 @@ import {
   DynamicAttributes,
   OccEndpointsService,
   TranslationService,
+  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -207,6 +208,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     mockReq.flush(productConfigurationOcc);
   });
 
@@ -247,6 +251,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     mockReq.flush(productConfigurationOcc);
   });
 
@@ -276,6 +283,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -312,6 +322,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -346,6 +359,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -388,6 +404,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -457,6 +476,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_PRICE_NORMALIZER
     );
@@ -672,6 +694,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
@@ -701,6 +726,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
 
     mockReq.flush(variantSearchResult);
   });
