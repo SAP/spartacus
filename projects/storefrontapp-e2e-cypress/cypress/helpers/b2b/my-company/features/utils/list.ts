@@ -115,13 +115,12 @@ export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
 }
 
 export function checkRows(rows): void {
-  const FIRST_ROW_INDEX = 1;
-  let j = FIRST_ROW_INDEX;
+  let rowIndex = 1;
   rows.forEach((row: any) => {
     if (row.text.length) {
-      for (let i = 0; i < row.text.length; i++) {
-        if (row.text[i]) {
-          if (Array.isArray(row.text[i])) {
+      for (let columnIndex = 0; columnIndex < row.text.length; columnIndex++) {
+        if (row.text[columnIndex]) {
+          if (Array.isArray(row.text[columnIndex])) {
             const ROLE = {
               b2bcustomergroup: 'Customer',
               b2bmanagergroup: 'Manager',
@@ -131,21 +130,20 @@ export function checkRows(rows): void {
 
             // Used in user roles array
             // Because we can't use translate pipe, have to check per case
-            row.text[i].forEach((text) => {
-              cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
-                'include.text',
-                ROLE[text]
-              );
+            row.text[columnIndex].forEach((text) => {
+              cy.get(
+                `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+              ).should('include.text', ROLE[text]);
             });
           } else {
-            cy.get(`cx-table tr:eq(${j}) td:eq(${i})`).should(
+            cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
               'include.text',
-              row.text[i]
+              row.text[columnIndex]
             );
           }
         }
       }
-      j++;
+      rowIndex++;
     }
   });
 }
