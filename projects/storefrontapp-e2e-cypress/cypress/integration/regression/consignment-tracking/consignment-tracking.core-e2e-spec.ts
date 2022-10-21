@@ -17,7 +17,7 @@ describe('consignment tracking', () => {
           cy.get('.cx-code').should('contain', '300938');
           cy.get('.btn-track').click();
         });
-      cy.get('.event-body').should('have.length', 3);
+      cy.get('.cx-tracking-event-body').should('have.length', 3);
       cy.get('.close').click();
       cy.get('.cx-list')
         .next()
@@ -25,7 +25,7 @@ describe('consignment tracking', () => {
           cy.get('.cx-code').should('contain', '1992693');
           cy.get('.btn-track').click();
         });
-      cy.get('.no-tracking-heading').should('have.length', 1);
+      cy.get('.cx-no-tracking-heading').should('have.length', 1);
       cy.get('.close').click();
       cy.get('.cx-list')
         .last()

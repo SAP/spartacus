@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface CmsComponent {
   modifiedTime?: Date;
   name?: string;
@@ -23,6 +29,10 @@ export interface CmsComponent {
    * The styleClasses can contain a "list" of space separated style classes.
    */
   styleClasses?: string;
+}
+
+export interface CmsComponentWithChildren extends CmsComponent {
+  children?: string;
 }
 
 export enum PageType {
@@ -107,6 +117,9 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string | boolean;
+  contentPage?: string;
+  product?: string;
+  category?: string;
 }
 
 export enum CmsBannerCarouselEffect {
@@ -173,6 +186,7 @@ export interface CmsNavigationComponent extends CmsComponent {
   notice?: string;
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
+  resetMenuOnClose?: boolean;
 }
 
 export interface CmsProductFacetNavigationComponent extends CmsComponent {
@@ -184,6 +198,16 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
+}
+
+export interface CmsOrderDetailItemsComponent extends CmsComponent {
+  enableAddToCart?: boolean;
+}
+
+export interface CmsPDFDocumentComponent extends CmsComponent {
+  pdfFile?: CmsBannerComponentMedia;
+  title?: string;
+  height?: number;
 }
 
 export interface CmsVideoComponent extends CmsComponent {

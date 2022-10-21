@@ -154,13 +154,4 @@ describe('AuthRedirectService', () => {
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
     });
   });
-
-  // deprecated method:
-  describe('reportAuthGuard', () => {
-    it('should call saveCurrentNavigationUrl()', () => {
-      spyOn(service, 'saveCurrentNavigationUrl');
-      service.reportAuthGuard();
-      expect(service.saveCurrentNavigationUrl).toHaveBeenCalled();
-    });
-  });
 });

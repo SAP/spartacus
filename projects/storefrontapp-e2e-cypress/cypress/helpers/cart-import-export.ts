@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as cart from './cart';
 import { waitForPage, waitForProductPage } from './checkout-flow';
 
@@ -256,10 +262,16 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
  * @param expectedData will compare the data of the downloaded .csv to the parsed string.
  */
 export function exportCart(expectedData?: string) {
+  const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
+  cy.task('deleteFolder', DOWNLOADS_FOLDER);
+
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-export-order-entries button').contains('Export to CSV').click();
+  cy.get('cx-global-message').contains(
+    'CSV file will download automatically to your device'
+  );
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
   }

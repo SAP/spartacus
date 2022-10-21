@@ -8,7 +8,7 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  CLI_COMMERCE_QUOTES_FEATURE,
+  COMMERCE_QUOTES_FEATURE_NAME,
   COMMERCE_QUOTES_MODULE,
   COMMERCE_QUOTES_ROOT_MODULE,
   LibraryOptions as SpartacusCommerceQuotesOptions,
@@ -39,7 +39,7 @@ export function addCommerceQuotesFeatures(
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_COMMERCE_QUOTES_FEATURE, options.features)
+      shouldAddFeature(COMMERCE_QUOTES_FEATURE_NAME, options.features)
         ? addCommerceQuotesFeature(options)
         : noop(),
     ]);

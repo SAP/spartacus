@@ -42,10 +42,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -106,9 +103,6 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -132,7 +126,12 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -201,13 +200,17 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -279,9 +282,6 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -305,7 +305,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -374,13 +379,17 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -452,9 +461,6 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -478,7 +484,12 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -547,12 +558,16 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

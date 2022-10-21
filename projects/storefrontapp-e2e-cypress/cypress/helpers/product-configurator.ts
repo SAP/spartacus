@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as login from './login';
 import * as configurationCartVc from './product-configurator-cart-vc';
 //import * as configurationCart from './product-configurator-cart';
@@ -231,6 +237,14 @@ export function checkAttrValueNotDisplayed(
     valueLocator = `#${attributeId}--${valueName}`;
   }
   cy.get(`${valueLocator}`).should('not.exist');
+}
+
+export function checkVariantCarouselDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('be.visible');
+}
+
+export function checkVariantCarouselNotDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('not.exist');
 }
 
 /**

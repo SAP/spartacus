@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   formatNumber,
   getLocaleNumberSymbol,
@@ -5,6 +11,14 @@ import {
 } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { Configurator } from '../../../../core/model/configurator.model';
+
+export interface ConfiguratorAttributeNumericInterval {
+  minValue?: number;
+  maxValue?: number;
+  minValueIncluded: boolean;
+  maxValueIncluded: boolean;
+}
 
 /**
  * Provides validation and formatting of numeric input
@@ -48,6 +62,171 @@ export class ConfiguratorAttributeNumericInputFieldService {
       splitParts[1].length > numberDecimalPlaces
     );
   }
+
+  formatIntervalValue(
+    intervalValue: number,
+    decimalPlaces: number | undefined,
+    locale: string
+  ): string {
+    if (decimalPlaces === undefined) {
+      decimalPlaces = 0;
+    }
+    const formatted = formatNumber(
+      intervalValue,
+      locale,
+      '1.' + decimalPlaces + '-' + decimalPlaces
+    );
+    return formatted;
+  }
+
+  /**
+   * Parses the value names and returns the intervals.
+   *
+   * @param values values of the attribute
+   * @returns {ConfiguratorAttributeNumericInterval[]} parsed intervals
+   */
+  getIntervals(
+    values: Configurator.Value[] | undefined
+  ): ConfiguratorAttributeNumericInterval[] {
+    const intervals: ConfiguratorAttributeNumericInterval[] = [];
+    if (values && values.length > 0) {
+      values.forEach((value) => {
+        const interval = this.getInterval(value);
+        if (interval && Object.keys(interval).length !== 0) {
+          intervals.push(interval);
+        }
+      });
+    }
+    return intervals;
+  }
+
+  /**
+   * Parses the value name and returns the interval structure.
+   * Valid interval strings:
+   * Standard Interval
+   * 5 - 10
+   * 5 - <10
+   * >5 - 10
+   * >5 - <10
+   * -10 - -5
+   * 1.25 - 1.35
+   *
+   * Infinite Interval
+   * >5
+   * >=5
+   * <5
+   * <=5
+   * >-5
+   *
+   * @param value value which will be parsed
+   * @returns {ConfiguratorAttributeNumericInterval} parsed interval
+   */
+  getInterval(
+    value: Configurator.Value
+  ): ConfiguratorAttributeNumericInterval | undefined {
+    const interval: ConfiguratorAttributeNumericInterval = {
+      minValue: undefined,
+      maxValue: undefined,
+      minValueIncluded: false,
+      maxValueIncluded: false,
+    };
+    if (!value || !value.name || value.selected) {
+      return undefined;
+    }
+
+    let minVal: string = '';
+    let maxVal: string = '';
+
+    // standard interval a - b
+    if (value.name.includes(' - ')) {
+      ({ minVal, maxVal } = this.handleStandardInterval(
+        value.name,
+        minVal,
+        maxVal,
+        interval
+      ));
+
+      // infinite interval or single value
+    } else {
+      ({ minVal, maxVal } = this.handleSingleOrInfinite(
+        value.name,
+        minVal,
+        interval,
+        maxVal
+      ));
+    }
+
+    if (minVal && minVal.length > 0) {
+      interval.minValue = +minVal;
+    }
+    if (maxVal && maxVal.length > 0) {
+      interval.maxValue = +maxVal;
+    }
+
+    return interval;
+  }
+
+  protected handleSingleOrInfinite(
+    valueName: string,
+    minVal: string,
+    interval: ConfiguratorAttributeNumericInterval,
+    maxVal: string
+  ) {
+    if (valueName.includes('>')) {
+      minVal = valueName;
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+    if (valueName.includes('<')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    if (valueName.includes('≥')) {
+      minVal = valueName;
+      interval.minValueIncluded = true;
+      minVal = minVal.replace('≥', '');
+    }
+    if (valueName.includes('≤')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = true;
+      maxVal = maxVal.replace('≤', '');
+    }
+    if (
+      !valueName.includes('>') &&
+      !valueName.includes('<') &&
+      !valueName.includes('≤') &&
+      !valueName.includes('≥')
+    ) {
+      minVal = valueName;
+      maxVal = valueName;
+    }
+    return { minVal, maxVal };
+  }
+
+  protected handleStandardInterval(
+    valueName: string,
+    minVal: string,
+    maxVal: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    let index = valueName.indexOf(' - ');
+    minVal = valueName.substring(0, index);
+    maxVal = valueName.substring(index + 3, valueName.length);
+    interval.minValueIncluded = true;
+    interval.maxValueIncluded = true;
+    if (minVal.includes('>')) {
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+
+    if (maxVal.includes('<')) {
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    return { minVal, maxVal };
+  }
+
   /**
    * Get pattern for the message that is displayed when the validation fails. This message e.g. looks like
    * 'Wrong format, this numerical attribute should be entered according to pattern ##,###,###.##'

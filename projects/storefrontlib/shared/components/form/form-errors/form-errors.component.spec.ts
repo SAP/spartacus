@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
+const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
 
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
   let fixture: ComponentFixture<FormErrorsComponent>;
-  let control: FormControl;
+  let control: UntypedFormControl;
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
@@ -26,7 +27,7 @@ describe('FormErrors', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
     component = fixture.componentInstance;
-    control = new FormControl('exampleControl');
+    control = new UntypedFormControl('exampleControl');
 
     component.control = control;
   });
@@ -36,61 +37,43 @@ describe('FormErrors', () => {
   });
 
   it('should not provide errors, when control is valid', () => {
-    let returnedErrors: string[];
-
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.errorsDetails$.subscribe((errors) => {
+      expect(errors).toEqual([]);
     });
-
-    expect(returnedErrors).toEqual([]);
   });
 
   it('should not provide errors, when control no longer invalid', () => {
-    let returnedErrors: string[];
+    let returnedErrors: [string, string | boolean][] = [];
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
+    component.errorsDetails$.subscribe((errors) => {
       returnedErrors = errors;
     });
+    expect(returnedErrors).toEqual(mockErrorDetails);
 
-    expect(returnedErrors).toEqual([mockErrorName]);
-
-    control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
-    });
-
+    control.setErrors([]);
     expect(returnedErrors).toEqual([]);
   });
 
   it('should provide errors, when control not valid', () => {
-    let returnedErrors: string[];
-
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.errorsDetails$.subscribe((errors) => {
+      expect(errors).toEqual(mockErrorDetails);
     });
-
-    expect(returnedErrors).toEqual([mockErrorName]);
   });
 
   it('should provide errors, when control no longer valid', () => {
-    let returnedErrors: string[];
+    let returnedErrors: [string, string | boolean][] = [];
 
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
+    component.errorsDetails$.subscribe((errors) => {
       returnedErrors = errors;
     });
-
     expect(returnedErrors).toEqual([]);
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
-    });
-
-    expect(returnedErrors).toEqual([mockErrorName]);
+    expect(returnedErrors).toEqual(mockErrorDetails);
   });
 
   it('should render multiple errors', () => {

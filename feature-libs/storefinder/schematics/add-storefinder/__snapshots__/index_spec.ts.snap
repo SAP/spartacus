@@ -68,9 +68,6 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -94,7 +91,12 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/storefinder.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -163,12 +165,16 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/storefinder.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

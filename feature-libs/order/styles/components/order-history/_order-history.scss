@@ -12,21 +12,6 @@
     border-top: 1px solid var(--cx-color-light);
     border-bottom: 1px solid var(--cx-color-light);
 
-    thead {
-      border-bottom: 1px solid var(--cx-color-light);
-    }
-
-    tr {
-      width: 100%;
-      border-bottom: 1px solid var(--cx-color-light);
-
-      @include media-breakpoint-down(sm) {
-        &:first-child {
-          padding: 1.25rem 0 0 0;
-        }
-      }
-    }
-
     th {
       padding: 1.5rem 0 1.125rem 0;
       text-align: start;
@@ -65,6 +50,15 @@
     }
   }
 
+  .cx-order-history-table.cx-order-history-table-po {
+    td {
+      width: 20%;
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+  }
+
   .cx-order-history-header {
     padding: 40px 0 0 0;
     color: var(--cx-color-text);
@@ -86,6 +80,21 @@
   .cx-order-history-code {
     .cx-order-history-value {
       text-decoration: underline;
+    }
+  }
+
+  .cx-order-history-po {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
+    }
+  }
+  .cx-order-history-cost-center {
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: start;
     }
   }
 
@@ -116,6 +125,10 @@
   .cx-order-history-label {
     text-transform: uppercase;
     color: var(--cx-color-secondary);
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
 
     @include media-breakpoint-down(sm) {
       @include type('8');

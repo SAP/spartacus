@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const common = {
   common: {
     cancel: 'Cancel',
@@ -202,5 +208,9 @@ export const common = {
   },
   assistiveMessage: {
     actionCancelled: 'Action cancelled, nothing changed',
+  },
+  passwordVisibility: {
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
   },
 };

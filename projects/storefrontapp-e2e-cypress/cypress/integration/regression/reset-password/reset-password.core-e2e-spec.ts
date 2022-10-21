@@ -11,7 +11,7 @@ context('Reset Password Page', () => {
     // Submitting an empty form should not procede. Detailed form validation cases are covered by unit tests.
     alerts.getAlert().should('not.exist');
 
-    cy.get('cx-reset-password form button').click();
+    cy.get('cx-reset-password form button.btn-primary').click();
     cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
     alerts.getAlert().should('not.exist');
   });
@@ -22,7 +22,7 @@ context('Reset Password Page', () => {
     cy.get('cx-reset-password form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
-      cy.get('button').click();
+      cy.get('button.btn-primary').click();
     });
     cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
     alerts.getErrorAlert().should('exist');
@@ -45,7 +45,7 @@ context('Reset Password Page', () => {
     cy.get('cx-reset-password form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
-      cy.get('button').click();
+      cy.get('button.btn-primary').click();
     });
     cy.url().should('match', /\/login$/);
     alerts

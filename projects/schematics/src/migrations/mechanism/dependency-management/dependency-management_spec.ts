@@ -7,6 +7,19 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import collectedDependencies from '../../../dependencies.json';
+import {
+  SPARTACUS_CART,
+  SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_CORE,
+  SPARTACUS_ORDER,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_QUALTRICS,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_TRACKING,
+  SPARTACUS_USER,
+} from '../../../shared/libs-constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = '02-migration-v4-dependency-management';
@@ -31,7 +44,7 @@ describe('dependency management migrations', () => {
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
-          lib: ['es2015'],
+          lib: ['es2020'],
         },
       })
     );
@@ -74,7 +87,7 @@ describe('dependency management migrations', () => {
           name: 'xxx',
           version: '3.0.0',
           dependencies: {
-            '@spartacus/core': '3.0.0',
+            [SPARTACUS_CORE]: '3.0.0',
           },
         })
       );
@@ -85,7 +98,7 @@ describe('dependency management migrations', () => {
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies.rxjs;
       expect(updatedVersion).toEqual(
-        collectedDependencies['@spartacus/core'].rxjs
+        collectedDependencies[SPARTACUS_CORE].rxjs
       );
     });
   });
@@ -100,8 +113,8 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              '@spartacus/styles': '3.0.0',
-              bootstrap: '^5.0.0',
+              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
+              rxjs: '^10.0.0',
             },
           })
         );
@@ -111,9 +124,9 @@ describe('dependency management migrations', () => {
 
         const packageJson = appTree.readContent('/package.json');
         const updatedVersion: string =
-          JSON.parse(packageJson).dependencies.bootstrap;
+          JSON.parse(packageJson).dependencies.rxjs;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/styles'].bootstrap
+          collectedDependencies['@spartacus/storefront'].rxjs
         );
       });
     });
@@ -127,8 +140,8 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              '@spartacus/styles': '3.0.0',
-              bootstrap: '^3.0.0',
+              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
+              rxjs: '^3.0.0',
             },
           })
         );
@@ -138,9 +151,9 @@ describe('dependency management migrations', () => {
 
         const packageJson = appTree.readContent('/package.json');
         const updatedVersion: string =
-          JSON.parse(packageJson).dependencies.bootstrap;
+          JSON.parse(packageJson).dependencies.rxjs;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/styles'].bootstrap
+          collectedDependencies['@spartacus/storefront'].rxjs
         );
       });
     });
@@ -156,10 +169,10 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              '@spartacus/core': '3.0.0',
-              '@spartacus/storefront': '3.0.0',
-              '@spartacus/organization': '3.0.0',
-              '@spartacus/product-configurator': '3.0.0',
+              [SPARTACUS_CORE]: '3.0.0',
+              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
+              [SPARTACUS_ORGANIZATION]: '3.0.0',
+              [SPARTACUS_PRODUCT_CONFIGURATOR]: '3.0.0',
             },
           })
         );
@@ -169,11 +182,16 @@ describe('dependency management migrations', () => {
 
         const packageJson = JSON.parse(appTree.readContent('/package.json'));
 
-        expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/user']).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_USER]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CART]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_ORDER]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CHECKOUT]).toBeTruthy();
+        expect(
+          packageJson.dependencies[SPARTACUS_PRODUCT_CONFIGURATOR]
+        ).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_ORGANIZATION]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CORE]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_STOREFRONTLIB]).toBeTruthy();
       });
     });
 
@@ -186,10 +204,10 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              '@spartacus/core': '3.0.0',
-              '@spartacus/storefront': '3.0.0',
-              '@spartacus/cds': '3.0.0',
-              '@spartacus/qualtrics': '3.0.0',
+              [SPARTACUS_CORE]: '3.0.0',
+              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
+              [SPARTACUS_CDS]: '3.0.0',
+              [SPARTACUS_QUALTRICS]: '3.0.0',
             },
           })
         );
@@ -199,13 +217,13 @@ describe('dependency management migrations', () => {
 
         const packageJson = JSON.parse(appTree.readContent('/package.json'));
 
-        expect(packageJson.dependencies['@spartacus/core']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/storefront']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/order']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CORE]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_STOREFRONTLIB]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CDS]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_TRACKING]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_CART]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_ORDER]).toBeTruthy();
+        expect(packageJson.dependencies[SPARTACUS_QUALTRICS]).toBeTruthy();
       });
     });
   });

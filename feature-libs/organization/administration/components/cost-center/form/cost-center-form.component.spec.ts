@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
@@ -14,14 +18,14 @@ import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
-const mockForm = new FormGroup({
-  name: new FormControl(),
-  code: new FormControl(),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  name: new UntypedFormControl(),
+  code: new UntypedFormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  unit: new FormGroup({
-    uid: new FormControl(),
+  unit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
 });
 
@@ -92,7 +96,7 @@ describe('CostCenterFormComponent', () => {
   });
 
   it('should not render any form controls if the form is falsy', () => {
-    component.form = undefined;
+    component.form = null;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBe(0);
@@ -166,6 +170,18 @@ describe('CostCenterFormComponent', () => {
       );
 
       expect(component.form.get('code').value).toEqual('test code');
+    });
+
+    it('should prevent setting code if value provided is null', () => {
+      component.form = mockForm;
+      component.form.get('name').patchValue(null);
+      component.form.get('code').patchValue(null);
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toBeUndefined();
     });
   });
 });

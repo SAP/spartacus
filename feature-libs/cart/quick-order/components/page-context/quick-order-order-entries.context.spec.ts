@@ -1,19 +1,37 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry, ProductData } from '@spartacus/cart/base/root';
+import {
+  OrderEntry,
+  ProductData,
+  ProductImportStatus,
+} from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { ProductConnector } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries.context';
 import createSpy = jasmine.createSpy;
+
+const unhandledItemErrorId = 'UnhandledItemErrorId';
 
 const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
+  { productCode: '756745', quantity: 99999 },
+  { productCode: '345345', quantity: 123 },
 ];
 
 const products = {
-  693923: { name: 'mockProduct1', code: '693923' },
-  232133: { name: 'mockProduct2', code: '232133' },
+  693923: { name: 'mockProductSuccess', code: '693923' },
+  232133: { name: 'mockProductSuccess', code: '232133' },
+  756745: {
+    name: 'mockProductLowStock',
+    code: '756745',
+    stock: { stockLevel: 150 },
+  },
+  345345: {
+    name: 'mockProductOutOfStock',
+    code: '345345',
+    stock: { stockLevelStatus: 'outOfStock' },
+  },
 };
 
 const mockEntries: OrderEntry[] = [
@@ -25,12 +43,22 @@ const mockEntries: OrderEntry[] = [
     quantity: 2,
     product: products['232133'],
   },
+  {
+    quantity: 99999,
+    product: products['756745'],
+  },
+  {
+    quantity: 123,
+    product: products['756745'],
+  },
 ];
 
 const canAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockProductConnector implements Partial<ProductConnector> {
-  get = createSpy().and.callFake((code) => of(products[code]));
+  get(_code) {
+    return of();
+  }
 }
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
@@ -76,37 +104,172 @@ describe('QuickOrderOrderEntriesContext', () => {
   });
 
   describe('addEntries', () => {
-    it('should add entries to quick order', () => {
+    it('should try add entries to quick order', () => {
       canAdd$.next(true);
-      service.addEntries(mockProductData).subscribe();
+      productConnector.get = createSpy().and.callFake((code) =>
+        of(products[code])
+      );
+      const results = [];
 
-      expect(productConnector.get).toHaveBeenCalledTimes(
+      service
+        .addEntries(mockProductData)
+        .subscribe((data) => {
+          results.push(data);
+        })
+        .unsubscribe();
+
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
         mockProductData.length
       );
-      expect(productConnector.get).toHaveBeenCalledWith(
-        mockProductData[0].productCode
-      );
-      expect(productConnector.get).toHaveBeenCalledWith(
-        mockProductData[1].productCode
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        mockProductData.length
       );
       expect(quickOrderFacade.addProduct).toHaveBeenCalledTimes(
         mockProductData.length
       );
-      expect(quickOrderFacade.addProduct).toHaveBeenCalledWith(
-        products['693923'],
-        mockProductData[0].quantity
-      );
-      expect(quickOrderFacade.addProduct).toHaveBeenCalledWith(
-        products['232133'],
-        mockProductData[1].quantity
-      );
+      mockProductData.forEach((mockProduct) => {
+        expect(productConnector.get).toHaveBeenCalledWith(
+          mockProduct.productCode
+        );
+        expect(quickOrderFacade.addProduct).toHaveBeenCalledWith(
+          products[mockProduct.productCode],
+          mockProduct.quantity
+        );
+      });
+      expect(results).toEqual([
+        {
+          productCode: mockProductData[0].productCode,
+          statusCode: ProductImportStatus.SUCCESS,
+        },
+        {
+          productCode: mockProductData[1].productCode,
+          statusCode: ProductImportStatus.SUCCESS,
+        },
+        {
+          productCode: mockProductData[2].productCode,
+          statusCode: ProductImportStatus.LOW_STOCK,
+          productName: 'mockProductLowStock',
+          quantity: 99999,
+          quantityAdded: 150,
+        },
+        {
+          productCode: mockProductData[3].productCode,
+          statusCode: ProductImportStatus.NO_STOCK,
+          productName: 'mockProductOutOfStock',
+        },
+      ]);
     });
 
     it('should not add entries due to limit', () => {
       canAdd$.next(false);
-      service.addEntries(mockProductData).subscribe();
+      productConnector.get = createSpy().and.callFake((code) =>
+        of(products[code])
+      );
+      const results = [];
 
+      service
+        .addEntries(mockProductData)
+        .subscribe((data) => {
+          results.push(data);
+        })
+        .unsubscribe();
+
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        mockProductData.length
+      );
+      expect(productConnector.get).not.toHaveBeenCalled();
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
+      expect(results).toEqual([
+        {
+          productCode: mockProductData[0].productCode,
+          statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+        },
+        {
+          productCode: mockProductData[1].productCode,
+          statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+        },
+        {
+          productCode: mockProductData[2].productCode,
+          statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+        },
+        {
+          productCode: mockProductData[3].productCode,
+          statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+        },
+      ]);
+    });
+
+    it('should catch unknown identifier error', () => {
+      canAdd$.next(true);
+      productConnector.get = createSpy().and.returnValue(
+        throwError({
+          error: {
+            errors: [{ type: 'UnknownIdentifierError' }],
+          },
+        })
+      );
+
+      const unableToAddProductsData: ProductData[] = [
+        { productCode: '1232143', quantity: 2 },
+      ];
+      const results = [];
+
+      service
+        .addEntries(unableToAddProductsData)
+        .subscribe((data) => {
+          results.push(data);
+        })
+        .unsubscribe();
+
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
+      expect(results).toEqual([
+        {
+          productCode: unableToAddProductsData[0].productCode,
+          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+        },
+      ]);
+    });
+
+    it('should catch unknown errors', () => {
+      canAdd$.next(true);
+      productConnector.get = createSpy().and.returnValue(throwError({}));
+
+      const unableToAddProductsData: ProductData[] = [
+        { productCode: unhandledItemErrorId, quantity: 1 },
+      ];
+      const results = [];
+      spyOn(console, 'warn').and.stub();
+
+      service
+        .addEntries(unableToAddProductsData)
+        .subscribe((data) => {
+          results.push(data);
+        })
+        .unsubscribe();
+
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
+      expect(results).toEqual([
+        {
+          productCode: unableToAddProductsData[0].productCode,
+          statusCode: ProductImportStatus.UNKNOWN_ERROR,
+        },
+      ]);
+      expect(console.warn).toHaveBeenCalledWith(
+        'Unrecognized cart add entry action type while mapping messages',
+        {}
+      );
     });
   });
 });

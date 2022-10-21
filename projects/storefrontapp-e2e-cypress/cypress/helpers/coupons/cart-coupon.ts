@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
 import { addProductToCart as addToCart } from '../applied-promotions';
@@ -51,7 +57,6 @@ export function refreshCartAndVerifyIfCouponAdded(
   couponCode: string,
   userType = UserType.LOGGED
 ) {
-  registerCartRefreshRoute(userType);
   verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
     const subtotal = subTotal.formattedValue;
     const discount = totalDiscounts.formattedValue;
@@ -80,6 +85,8 @@ export function verifyBannerAfterAddingCoupon(couponCode) {
 }
 
 export function applyCoupon(couponCode: string, userType = UserType.LOGGED) {
+  registerCartRefreshRoute(userType);
+
   applyCartCoupon(couponCode);
 
   refreshCartAndVerifyIfCouponAdded(couponCode, userType);
@@ -344,7 +351,7 @@ export function getCouponItemOrderSummary(couponCode: string) {
 }
 
 export function verifyProductInCart(productCode: string) {
-  cy.get('cx-cart-item').within(() => {
+  cy.get('.cx-table-item-container').within(() => {
     cy.get('.cx-code').should('contain', productCode);
   });
 }

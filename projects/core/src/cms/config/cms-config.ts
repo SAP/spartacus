@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, StaticProvider } from '@angular/core';
 import { Route } from '@angular/router';
 import { Config } from '../../config/config-tokens';
@@ -122,6 +128,9 @@ export interface FeatureModuleConfig {
 export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
+  componentsLoading?: {
+    pageSize?: number;
+  };
 }
 
 declare module '../../config/config-tokens' {

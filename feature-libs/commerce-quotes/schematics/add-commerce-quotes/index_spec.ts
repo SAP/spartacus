@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_COMMERCE_QUOTES_FEATURE,
+  COMMERCE_QUOTES_FEATURE_NAME,
   LibraryOptions as SpartacusCommerceQuotesOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -57,7 +57,7 @@ describe('Spartacus Commerce Quotes schematics: ng-add', () => {
 
   const commerceQuotesFeatureOptions: SpartacusCommerceQuotesOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_COMMERCE_QUOTES_FEATURE],
+    features: [COMMERCE_QUOTES_FEATURE_NAME],
   };
 
   beforeEach(async () => {

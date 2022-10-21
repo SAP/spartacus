@@ -38,6 +38,10 @@
                 "bundleName": "styles"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-asm.scss",
+                "bundleName": "asm"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
@@ -82,14 +86,6 @@
                 "bundleName": "epd-visualization"
               }
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss",
-                "./feature-libs",
-                "./integration-libs"
-              ]
-            },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
@@ -397,7 +393,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/organization/tsconfig.lib.json",
             "project": "feature-libs/organization/ng-package.json"
@@ -1022,6 +1018,5 @@
         }
       }
     }
-  },
-  "defaultProject": "storefrontapp"
+  }
 }

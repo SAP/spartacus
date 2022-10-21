@@ -1,0 +1,36 @@
+{
+  "name": "breaking-change-extractor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "",
+  "private": true,
+  "scripts": {
+    "extract-all": "yarn extract-old && yarn extract-new",
+    "extract-old": "ts-node extract.ts ./src/old",
+    "extract-new": "ts-node extract.ts ./src/new",
+    "parse-all": "yarn parse-old && yarn parse-new",
+    "parse-old": "ts-node parse.ts ./src/old",
+    "parse-new": "ts-node parse.ts ./src/new",
+    "compare": "ts-node compare.ts ./src/old/public-api.json ./src/new/public-api.json",
+    "compare-test": "ts-node compare.ts ./public-api-old.json ./public-api-new.json",
+    "gen-const": "ts-node generate-constructors.ts",
+    "gen-deleted": "ts-node generate-deleted.ts",
+    "gen-moved": "ts-node generate-moved.ts",
+    "gen-methods-props": "ts-node generate-methods-props.ts",
+    "gen-doc": "ts-node generate-doc.ts",
+    "gen-stats": "ts-node generate-stats.ts",
+    "gen-all": "yarn gen-const && yarn gen-methods-props && yarn gen-deleted && yarn gen-moved && yarn gen-doc"
+  },
+  "dependencies": {
+    "@microsoft/api-extractor": "^7.19.4"
+  },
+  "devDependencies": {
+    "@types/deep-equal": "^1.0.1",
+    "@types/glob": "^7.2.0",
+    "deep-equal": "^2.0.5",
+    "glob": "^7.2.0",
+    "stringify-object": "3.3.0",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.2.4"
+  }
+}

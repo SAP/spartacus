@@ -127,9 +127,6 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -153,7 +150,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/epd-visualization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -222,12 +224,16 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/epd-visualization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

@@ -1,122 +1,146 @@
-import * as addressBook from '../../../helpers/address-book';
 import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
+import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
-import * as profile from '../../../helpers/update-profile';
+import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import * as consent from '../../../helpers/consent-management';
-import { fillShippingAddress } from '../../../helpers/checkout-forms';
-
-let customer: any;
 
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
-
-    cy.visit('/');
-
-    customer = getSampleUser();
-    checkout.registerUser(false, customer);
   });
 
   describe('Customer Support Agent - Emulation', () => {
-    it('should test customer emulation', () => {
-      // storefront should have ASM UI disabled by default
-      checkout.visitHomePage();
-      cy.get('cx-asm-main-ui').should('not.exist');
+    asm.testCustomerEmulation();
+
+    it('should checkout as customer', () => {
+      const customer = getSampleUser();
 
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
       asm.agentLogin();
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
 
-      cy.log('--> Update personal details');
-      cy.visit('/my-account/update-profile');
-      profile.updateProfile();
-      customer.firstName = profile.newFirstName;
-      customer.lastName = profile.newLastName;
-      customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
-      customer.titleCode = profile.newTitle;
+      cy.log('--> Add product to cart and go to checkout');
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
-      cy.log('--> Create new address');
-      cy.visit('/my-account/address-book');
-      cy.get('cx-card').should('have.length', 0);
-      fillShippingAddress(addressBook.newAddress);
-      cy.get('cx-card').should('have.length', 1);
-      addressBook.verifyNewAddress();
+      cy.log('--> Go through delivery form');
+      cy.contains('Continue').click();
+      checkout.fillAddressFormWithCheapProduct();
 
-      cy.log('--> Add a consent');
+      cy.log('--> Choose delivery method');
+      checkout.verifyDeliveryMethod();
 
-      cy.visit('/my-account/consents');
-      consent.giveConsent();
+      cy.log('--> Fill payment form and continue');
+      checkout.fillPaymentForm();
 
-      cy.log('--> Stop customer emulation');
-      cy.get('cx-customer-emulation button').click();
-      cy.get('cx-csagent-login-form').should('not.exist');
-      cy.get('cx-customer-selection').should('exist');
+      cy.log('--> Place order');
+      checkout.placeOrderWithCheapProduct();
 
-      // Without this wait, the test fails b/c the customer search box is disabled
-      cy.wait(1000);
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
 
-      cy.log('--> Start another emulation session');
-      asm.startCustomerEmulation(customer);
+    it('agent should be able to bind anonymous cart to customer', () => {
+      const customer = getSampleUser();
+
+      let anonymousCartCode: string;
+      checkout.visitHomePage();
+      cy.get('cx-asm-main-ui').should('not.exist');
+
+      checkout.registerUser(false, customer);
+
+      cy.log('--> Add to cart as an anonymous user');
+      cart.addProductAsAnonymous();
+
+      cy.log('--> Retrieve cart id');
+      cart.goToCart();
+      cy.get('cx-cart-details')
+        .get('h2.cx-total')
+        .then(($cartId) => {
+          // localStorage contains anonymous cart uid, read code from UI
+          const text = $cartId.text();
+          anonymousCartCode = text.replace('Cart #', '').trim();
+
+          cy.log('--> Agent logging in');
+          checkout.visitHomePage('asm=true');
+          cy.get('cx-asm-main-ui').should('exist');
+          cy.get('cx-asm-main-ui').should('be.visible');
+          asm.agentLogin();
+
+          cy.log('--> Starting customer emulation');
+          asm.startCustomerEmulation(customer);
+
+          cy.log('--> Enter users cart number');
+          cy.get(
+            'cx-customer-emulation input[formcontrolname="cartNumber"]'
+          ).type(anonymousCartCode);
+        });
+
+      cy.log('--> Agent binding cart');
+      asm.bindCart();
+
+      cy.log('--> Verify the agent sees the anonymous cart');
+      cart.goToCart();
+      cy.get('cx-cart-details').then(() => {
+        const customerCartCode = JSON.parse(
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+        ).active;
+        expect(customerCartCode).to.equal(anonymousCartCode);
+      });
 
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
       );
-      cy.get('cx-customer-emulation button').click();
-      cy.get('cx-customer-emulation').should('not.exist');
-      cy.get('cx-customer-selection').should('exist');
-
-      cy.log('--> sign out and close ASM UI');
       asm.agentSignOut();
 
-      cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('not.be.visible');
-    });
-  });
 
-  describe('Customer Self Verification', () => {
-    it('checks data changes made by the agent', () => {
-      cy.log('--> customer sign in');
+      cy.log('--> Log in as customer');
+      const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login');
-      asm.loginCustomerInStorefront(customer);
-      asm.assertCustomerIsSignedIn();
+      cy.wait(`@${loginPage}`);
+      login(customer.email, customer.password);
+      cy.wait('@csAgentAuthentication');
 
-      cy.log('Check personal details updated by the agent');
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+      cy.log("--> Verify anonymous cart is now the user's active cart");
+      cart.goToCart();
+      cy.get('cx-cart-details').then(() => {
+        const customerCartCode = JSON.parse(
+          window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+        ).active;
+        expect(customerCartCode).to.equal(anonymousCartCode);
       });
-      profile.verifyUpdatedProfile();
-
-      cy.log('--> check address created by the agent');
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-      cy.get('cx-card').should('have.length', 1);
-      addressBook.verifyNewAddress();
-
-      cy.log('--> Check consent given by agent');
-      cy.selectUserMenuOption({
-        option: 'Consent Management',
-      });
-      cy.get('input[type="checkbox"]').first().should('be.checked');
-
-      checkout.signOutUser();
     });
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
+    let customer;
+
+    before(() => {
+      clearAllStorage();
+
+      cy.visit('/', { qs: { asm: true } });
+
+      customer = getSampleUser();
+      checkout.registerUser(false, customer);
+    });
+
     it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+      const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 
@@ -134,98 +158,53 @@ context('Assisted Service Module', () => {
     // TODO(#9445): Add e2e test for this scenario
     it.skip('agent logout when user was logged and emulated should restore the session', () => {});
   });
-});
 
-/*
-function listenForAuthenticationRequest(): string {
-  return interceptPost(
-    'csAgentAuthentication',
-    '/authorizationserver/oauth/token',
-    false
-  );
-}
+  describe('Customer list', () => {
+    it('checking custom list features', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
 
-export function listenForCustomerSearchRequest(): string {
-  return interceptGet(
-    'customerSearch',
-    '/assistedservicewebservices/customers/search?*',
-    false
-  );
-}
-
-function listenForUserDetailsRequest(): string {
-  return interceptGet('userDetails', '/users/*');
-}
-
-export function agentLogin(): void {
-  const authRequest = listenForAuthenticationRequest();
-
-  cy.get('cx-storefront').within(() => {
-    cy.get('cx-csagent-login-form').should('exist');
-    cy.get('cx-customer-selection').should('not.exist');
-    cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]').type('asagent');
-      cy.get('[formcontrolname="password"]').type('pw4all');
-      cy.get('button[type="submit"]').click();
+      asm.agentLogin();
+      asm.asmCustomerLists();
+      asm.agentSignOut();
     });
   });
 
-  cy.wait(authRequest);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-}
+  describe('Apparel Site', () => {
+    before(() => {
+      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+    });
 
-function startCustomerEmulation(): void {
-  const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest();
+    after(() => {
+      Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
+    });
 
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-  cy.get('cx-customer-selection form').within(() => {
-    cy.get('[formcontrolname="searchTerm"]').type(customer.email);
+    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
+    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
+      cy.cxConfig({
+        context: {
+          baseSite: ['apparel-uk-spa'],
+          currency: ['GBP'],
+        },
+      });
+
+      cy.visit('/', { qs: { asm: true } });
+
+      const customer = getSampleUser();
+      checkout.registerUser(false, customer);
+
+      asm.agentLogin();
+
+      asm.startCustomerEmulation(customer);
+
+      navigateToCategory('Brands', 'brands', true);
+
+      cy.get('cx-product-list').should('exist');
+
+      navigateToCategory('Snow', 'snow', true);
+
+      cy.get('cx-product-list').should('exist');
+    });
   });
-  cy.wait(customerSearchRequestAlias);
-
-  cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('button[type="submit"]').click();
-
-  cy.wait(userDetailsRequestAlias);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
-    .should('contain', customer.fullName);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-customer-emulation').should('exist');
-}
-
-function loginCustomerInStorefront() {
-  const authRequest = listenForAuthenticationRequest();
-
-  login(customer.email, customer.password);
-  cy.wait(authRequest);
-}
-
-function agentSignOut() {
-  const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
-  cy.get('button[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias);
-  cy.get('cx-csagent-login-form').should('exist');
-  cy.get('cx-customer-selection').should('not.exist');
-}
-
-function assertCustomerIsSignedIn() {
-  cy.get('cx-login div.cx-login-greet').should('exist');
-}
-
-export function deleteFirstAddress() {
-  
-  //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
-  //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
-
-  const firstCard = cy.get('cx-card').first();
-  firstCard.contains('Delete').click();
-  cy.get('.cx-card-delete button.btn-primary').click();
-  cy.wait('@deleteAddress');
-  cy.wait('@fetchAddresses');
-}
-*/
+});

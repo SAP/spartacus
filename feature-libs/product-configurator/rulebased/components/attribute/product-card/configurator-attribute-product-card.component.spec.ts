@@ -731,8 +731,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ' itemIndex:' +
           itemIndex +
           ' price:' +
-          component.productCardOptions.productBoundValue.valuePriceTotal
-            .formattedValue
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            ?.formattedValue
       );
     });
 
@@ -793,7 +793,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            .formattedValue
+            ?.formattedValue
       );
     });
 
@@ -854,7 +854,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            .formattedValue
+            ?.formattedValue
       );
     });
 
@@ -915,7 +915,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            .formattedValue
+            ?.formattedValue
       );
     });
 
@@ -976,7 +976,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           itemIndex +
           ' price:' +
           component.productCardOptions.productBoundValue?.valuePriceTotal
-            .formattedValue
+            ?.formattedValue
       );
     });
 

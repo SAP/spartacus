@@ -1,5 +1,5 @@
 @import '../../theme';
-@import '~bootstrap/scss/buttons';
+@import 'bootstrap/scss/buttons';
 
 button {
   &:focus {
@@ -27,8 +27,7 @@ button {
   text-transform: var(--cx-text-transform);
   line-height: 1.34;
   padding: 11px 12px;
-  height: 48px;
-  max-height: 48px;
+  min-height: 48px;
   min-width: 48px;
   border-radius: var(--cx-buttons-border-radius);
 

@@ -32,6 +32,7 @@
           "EPD-Visualization",
           "Administration",
           "Order-Approval",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
           "Product-Variants",
@@ -44,8 +45,8 @@
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
-          "Account",
-          "Profile",
+          "User-Account",
+          "User-Profile",
           "Commerce-Quotes"
         ],
         "type": "string"
@@ -64,11 +65,11 @@
         "SmartEdit",
         "Store-Finder",
         "Personalization",
-        "Account",
-        "Profile"
+        "User-Account",
+        "User-Profile"
       ],
       "x-prompt": {
-        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the User-Account feature is required.",
         "type": "list",
         "items": [
           {
@@ -101,11 +102,11 @@
           },
           {
             "value": "Checkout-B2B",
-            "label": "Checkout (b2b feature, includes Base Checkout)"
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
           },
           {
             "value": "Checkout-Scheduled-Replenishment",
-            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
           },
           {
             "value": "Cart",
@@ -134,6 +135,10 @@
           {
             "value": "Order-Approval",
             "label": "Organization - Order Approval (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
           },
           {
             "value": "Bulk-Pricing",
@@ -184,11 +189,11 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
-            "value": "Account",
+            "value": "User-Account",
             "label": "User - Account"
           },
           {
-            "value": "Profile",
+            "value": "User-Profile",
             "label": "User - Profile"
           },
           {
@@ -223,13 +228,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",
