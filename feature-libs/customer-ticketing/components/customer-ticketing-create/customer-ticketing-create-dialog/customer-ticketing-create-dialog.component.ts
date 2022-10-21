@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
-  CreateEvent,
+  TicketCreatedEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
@@ -120,7 +120,7 @@ export class CustomerTicketingCreateDialogComponent
               .subscribe({
                 complete: () => {
                   this.close('Ticket created successfully');
-                  this.eventService.dispatch({}, CreateEvent);
+                  this.eventService.dispatch({}, TicketCreatedEvent);
                 },
                 error: () => {
                   this.close('Something went wrong');
@@ -128,7 +128,7 @@ export class CustomerTicketingCreateDialogComponent
               });
           else {
             this.close('Ticket created successfully');
-            this.eventService.dispatch({}, CreateEvent);
+            this.eventService.dispatch({}, TicketCreatedEvent);
           }
         });
     }
