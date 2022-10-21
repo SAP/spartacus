@@ -121,7 +121,7 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 
