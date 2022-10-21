@@ -10,7 +10,11 @@ import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService, OCC_HTTP_TOKEN } from '@spartacus/core';
+import {
+  ConverterService,
+  OccEndpointsService,
+  OCC_HTTP_TOKEN,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -88,7 +92,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
           queryParams: { expMode },
-        }), { context: this.indicateSendUserForAsm() }
+        }),
+        { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -115,7 +120,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
           urlParams: { configId },
           queryParams: { groupId, expMode },
-        }), { context: this.indicateSendUserForAsm() }
+        }),
+        { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -149,7 +155,9 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .patch<OccConfigurator.Configuration>(url, occConfiguration, { context: this.indicateSendUserForAsm() })
+      .patch<OccConfigurator.Configuration>(url, occConfiguration, {
+        context: this.indicateSendUserForAsm(),
+      })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
@@ -311,7 +319,9 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get<OccConfigurator.Overview>(url, { context: this.indicateSendUserForAsm() })
+      .get<OccConfigurator.Overview>(url, {
+        context: this.indicateSendUserForAsm(),
+      })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );
@@ -324,7 +334,9 @@ export class VariantConfiguratorOccAdapter
     );
     //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
     //variant representation
-    return this.http.get<Configurator.Variant[]>(url, { context: this.indicateSendUserForAsm() });
+    return this.http.get<Configurator.Variant[]>(url, {
+      context: this.indicateSendUserForAsm(),
+    });
   }
 
   /**
