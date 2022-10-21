@@ -44,7 +44,7 @@
 #  Folders where anyone with write access to the repo can approve Pull Requests
 # ================================================
 
-/doc/          @SAP/spartacus-project-team
+/docs/          @SAP/spartacus-project-team
 
 /projects/storefrontapp-e2e-cypress/          @SAP/spartacus-project-team
 
@@ -56,7 +56,7 @@
 #  ASM Feature
 # ================================================
 /feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
-/projects/storefrontapp-e2e-cypress/**/asm/            @SAP/spartacus-codeowners @SAP/spartacus-iceman
+
 # The above is an example of a potential e2e code owner config.  See PR comment.
 
 # ================================================
