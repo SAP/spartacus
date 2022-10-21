@@ -9,9 +9,6 @@
 #  More info: https://help.github.com/articles/about-codeowners/
 #
 
-# This is ONLY INITIAL CODEOWNERS file created to test and gradually introduce ownership
-# of specific features on a code level.
-
 
 # ================================================
 #  General rules / philosophy
@@ -22,9 +19,7 @@
 #  - we enforce that only approved PRs get merged to ensure that unreviewed code doesn't get accidentally merged
 #  - we delegate approval rights as much as possible so that we can scale better
 #  - each group must have at least one person, but several people are preferable to avoid a single point of failure issues
-#  - most file groups have a global approvers group as fallback:
-#    - @SAP/spartacus-global-owners: for approving minor changes, large-scale refactorings, and emergency situations.
-#  - a small number of file groups can have very limited number of reviewers because incorrect changes to the files they guard would have serious consequences (e.g. security, public api)
+#  - a small number of file groups may have very limited number of reviewers because incorrect changes to the files they guard would have serious consequences (e.g. security, public api)
 #
 #  Configuration nuances:
 #
@@ -33,31 +28,35 @@
 #  - Each codeowners team must have write access to the repo, otherwise their reviews won't count.
 
 
-######################################################################################################
-#
-# CODEOWNERS rules
-# -----------------
-#
-# All the following rules are applied in the order specified in this file.
-# The last rule that matches wins!
-#
-# See https://git-scm.com/docs/gitignore#_pattern_format for pattern syntax docs.
-#
-######################################################################################################
-
-#  Default Owners
-# By default, @SAP/spartacus-codeowners owns all the files in the repo.
-# We open specific sections to additional teams. @SAP/spartacus-codeowners needs to be repeated
-# in each subsequent rules to remain owner of all the sources in the repo.
+# ================================================
+# @SAP/spartacus-codeowners owns all the files in the repo.
+# ================================================
 
 * @SAP/spartacus-codeowners
 
-# ================================================
-#  Restrict codeowner file to admins
-# ================================================
-/.github/CODEOWNERS @SAP/spartacus-admins
 
 # ================================================
-#  Product configurator feature and CPQ integration
+#  Codeowner file changes needs an admin review
 # ================================================
-/feature-libs/product-configurator/             @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+/.github/CODEOWNERS          @SAP/spartacus-admins
+
+
+# We open specific sections to additional teams.
+# @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
+# to remain owner of all the sources in the repo.
+
+
+# ================================================
+#  ASM Feature
+# ================================================
+/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
+
+# ================================================
+#  Product Configurator and CPQ integration Features
+# ================================================
+/feature-libs/product-configurator/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+
+# ================================================
+#  Customer Ticketing Feature
+# ================================================
+/feature-libs/customer-ticketing/         @SAP/spartacus-codeowners @SAP/spartacus-alchemysts
