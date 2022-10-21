@@ -5,3 +5,4 @@
  */
 
 export * from './b2b/index';
+export * from './backend-request-timeout/index';
