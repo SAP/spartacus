@@ -9,6 +9,7 @@ import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+// SPIKE: RETHINK THE NAME
 @Injectable({ providedIn: 'root' })
 export class SsrHttpErrorsInterceptor implements HttpInterceptor {
   constructor(protected windowRef: WindowRef) {}
