@@ -71,9 +71,6 @@ export const LOCATORS = {
     `[data-pickup-location]:not([data-pickup-location="${value}"])[data-pickup-location]:not([data-pickup-location=""]) `,
   PICKUP_STORE_LOCATION_WITH_VALUE: (value) =>
     `[data-pickup-location="${value}"]`,
-  SAP_ICON_HOME_LINK: `.SiteLogo cx-banner cx-generic-link a`,
-  HOME_PAGE_FIRST_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(1) > cx-product-carousel-item > a > .is-initialized > img`,
-  HOME_PAGE_SECOND_PRODUCT: `:nth-child(1) > cx-carousel > .carousel-panel > .slides > .slide.active > :nth-child(2) > cx-product-carousel-item > a > .is-initialized > img`,
   PICKUP_OPTIONS_RADIO: `[data-pickup]`,
   PICKUP_OPTIONS_RADIO_DELIVERY: `[data-pickup=delivery]`,
   PICKUP_OPTIONS_RADIO_DELIVERY_CHECKED: `[data-pickup=delivery][aria-checked=true]`,
@@ -196,3 +193,22 @@ export const fillAddressForm = (address: typeof defaultAddress) => {
   cy.get(LOCATORS.ADDRESS_FORM_TOWN).type(address.city);
   cy.get(LOCATORS.ADDRESS_FORM_POSTAL_CODE).type(address.postal);
 };
+
+export function configureApparelProduct() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+  cy.visit(`/product/${defaultProduct}`, mockLocation(53, 0));
+  cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
+}
+
+export function visitAlternativeProductPage() {
+  cy.visit(`/product/${alternativeProduct}`, mockLocation(53, 0));
+}
+
+export const defaultProduct = '300441355';
+export const alternativeProduct = '300410966';

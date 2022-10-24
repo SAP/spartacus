@@ -1,7 +1,7 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
+  configureApparelProduct,
   LOCATORS as L,
-  mockLocation,
 } from '../../../helpers/pickup-in-store-utils';
 
 /*
@@ -24,15 +24,7 @@ import {
 describe('E2E Test: Changing a product from pickup to delivery and delivery to pickup', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-      cy.visit('/', mockLocation(53, 0));
-      cy.get(L.ALLOW_COOKIES_BUTTON).click();
+      configureApparelProduct();
     });
 
     it('Changing a product from pickup to delivery and delivery to pickup', () => {
@@ -42,8 +34,6 @@ describe('E2E Test: Changing a product from pickup to delivery and delivery to p
       }).as('apiAddToCart');
 
       // A guest user navigates to a PDP wishing to buy the product.
-      cy.get(L.HOME_PAGE_FIRST_PRODUCT).click();
-
       // The user has the choice of whether they want the product delivered (the default) or whether they want to pick it up in store.
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.visible');

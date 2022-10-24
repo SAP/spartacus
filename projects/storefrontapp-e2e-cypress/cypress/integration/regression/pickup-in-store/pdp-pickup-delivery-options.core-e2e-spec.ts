@@ -1,5 +1,6 @@
 import {
-  mockLocation,
+  configureApparelProduct,
+  defaultProduct,
   LOCATORS as L,
 } from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -7,14 +8,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-      cy.visit('/product/300310300', mockLocation(53, 0));
+      configureApparelProduct();
     });
 
     it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog witout picking a store. Delivery is selected', () => {
@@ -72,7 +66,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.USE_MY_LOCATION).click();
       cy.get('cx-store').should('have.length', 20);
       cy.get(L.HIDE_OUT_OF_STOCK_CHECK_BOX).click();
-      cy.get('cx-store').should('have.length', 10);
+      cy.get('cx-store').its('length').should('be.lessThan', 20);
     });
 
     it('uses the search term entered if Find Stores button clicked ', () => {
@@ -82,7 +76,7 @@ describe('Pickup delivery options', () => {
       cy.get(L.SEARCH_LOCATION_TEXTBOX).type('Maidenhead');
       cy.intercept({
         method: 'GET',
-        url: '/occ/v2/apparel-uk-spa/products/300310300/stock*',
+        url: `/occ/v2/apparel-uk-spa/products/${defaultProduct}/stock*`,
       }).as('apiSearchStores');
       cy.get(L.FIND_STORES_BUTTON).click();
       cy.wait('@apiSearchStores').then((interception) => {
@@ -97,7 +91,7 @@ describe('Pickup delivery options', () => {
 
       cy.intercept({
         method: 'GET',
-        url: '/occ/v2/apparel-uk-spa/products/300310300/stock*',
+        url: `/occ/v2/apparel-uk-spa/products/${defaultProduct}/stock*`,
       }).as('apiSearchStores');
       cy.get(L.USE_MY_LOCATION).click();
       cy.wait('@apiSearchStores').then((interception) => {

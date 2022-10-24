@@ -1,8 +1,9 @@
 import {
+  configureApparelProduct,
   LOCATORS as L,
   login,
-  mockLocation,
   register,
+  visitAlternativeProductPage,
 } from '../../../helpers/pickup-in-store-utils';
 
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -25,15 +26,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('A user who has a cart with multiple entries checkout with BOPIS are run in Client-Side Rendering (CSR) mode', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-      cy.visit('/', mockLocation(53, 0));
-      cy.get(L.ALLOW_COOKIES_BUTTON).click();
+      configureApparelProduct();
     });
 
     it('A user who has a cart with multiple entries checkout with BOPIS are run in CSR mode', () => {
@@ -48,7 +41,6 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       }).as('registerUser');
 
       // A guest user navigates to a PDP wishing to buy the product.
-      cy.get(L.HOME_PAGE_FIRST_PRODUCT).click();
 
       // The user has the choice of whether they want the product delivered (the default) or whether they want to pick it up in store.
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
@@ -84,13 +76,12 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       cy.url().should('include', '/cart');
       cy.get(L.PICKUP_STORE_LOCATION).should('be.visible');
       cy.get(L.CHANGE_STORE_LINK).click();
-      cy.pause();
       cy.get(L.PICKUP_IN_STORE_MODAL).should('exist');
       cy.intercept({
         method: 'GET',
         url: /stores\/[0-9a-zA-Z|-]*?/,
       }).as('getStores');
-      cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click({force: true});
+      cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).last().click({ force: true });
       cy.wait('@getStores').then((interception) => {
         cy.get('@firstStoreName').then((firstStoreName) => {
           cy.get(
@@ -102,8 +93,7 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
       });
 
       // The user also add another item only for delivery.(Multiple items in cart)
-      cy.get(L.SAP_ICON_HOME_LINK).click();
-      cy.get(L.HOME_PAGE_SECOND_PRODUCT).click();
+      visitAlternativeProductPage();
       cy.get(L.ADD_TO_CART).click();
       cy.get(L.VIEW_CART).click();
 

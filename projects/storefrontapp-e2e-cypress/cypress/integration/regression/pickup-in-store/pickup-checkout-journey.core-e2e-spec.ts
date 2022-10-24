@@ -1,4 +1,5 @@
 import {
+  configureApparelProduct,
   defaultAddress,
   defaultPaymentDetails,
   EMAIL_ADDRESS,
@@ -6,8 +7,8 @@ import {
   fillPaymentForm,
   LOCATORS as L,
   login,
-  mockLocation,
   register,
+  visitAlternativeProductPage,
 } from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
 
@@ -29,15 +30,7 @@ TODO:- The user completes checkout and sees the order details. On here they can 
 describe('Pickup Delivery Option - A guest user logs in while checking out with BOPIS', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-      cy.visit('/', mockLocation(53, 0));
-      cy.get(L.ALLOW_COOKIES_BUTTON).click();
+      configureApparelProduct();
     });
 
     it('A user who has a cart with multiple entries checkout with BOPIS', () => {
@@ -64,7 +57,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         method: 'PATCH',
         url,
       }).as('changePickupInStoreInOrderReview');
-      cy.get(L.HOME_PAGE_FIRST_PRODUCT).click();
+
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.checked');
@@ -108,8 +101,8 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         cy.log(
           'The user also add another item only for delivery. (Multiple items in cart)'
         );
-        cy.get(L.SAP_ICON_HOME_LINK).click();
-        cy.get(L.HOME_PAGE_SECOND_PRODUCT).click();
+
+        visitAlternativeProductPage();
         cy.get(L.ADD_TO_CART).click();
         cy.get(L.VIEW_CART).click();
 
