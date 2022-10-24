@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
-import { PointOfServiceNames } from '@spartacus/pickup-in-store/core';
 import { PREFERRED_STORE_LOCAL_STORAGE_KEY } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { iif, of } from 'rxjs';
@@ -21,6 +20,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { PointOfServiceNames } from '../../services/index';
 import { DefaultPointOfServiceActions } from '../actions/index';
 import { StateWithPickupLocations } from '../pickup-location-state';
 
