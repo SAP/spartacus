@@ -21,22 +21,17 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import {
-  ANGULAR_PLATFORM_BROWSER,
-  NGUNIVERSAL_EXPRESS_ENGINE,
-} from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
-  getTsSourceFile,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -121,43 +116,6 @@ function provideServerFile(options: SpartacusOptions): Source {
   ]);
 }
 
-function modifyAppModuleFile(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const appModulePath = getPathResultsForFile(
-      tree,
-      'app.module.ts',
-      '/src'
-    )[0];
-
-    if (!appModulePath) {
-      throw new SchematicsException(`Project file "app.module.ts" not found.`);
-    }
-
-    const moduleSource = getTsSourceFile(tree, appModulePath);
-    if (
-      !isImported(
-        moduleSource,
-        'BrowserTransferStateModule',
-        ANGULAR_PLATFORM_BROWSER
-      )
-    ) {
-      addImport(
-        tree,
-        appModulePath,
-        'BrowserTransferStateModule',
-        ANGULAR_PLATFORM_BROWSER
-      );
-      addToModuleImportsAndCommitChanges(
-        tree,
-        appModulePath,
-        `BrowserTransferStateModule`
-      );
-    }
-    context.logger.log('info', `✅️ Modified app.module.ts file.`);
-    return tree;
-  };
-}
-
 function prepareDependencies(): NodeDependency[] {
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
 
@@ -198,7 +156,6 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
-      modifyAppModuleFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
