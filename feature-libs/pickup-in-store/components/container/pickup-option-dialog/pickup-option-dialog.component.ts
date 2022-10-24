@@ -12,7 +12,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   LocationSearchParams,
@@ -66,8 +65,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreService
+    protected pickupOptionFacade: PickupOptionFacade
   ) {
     // Intentional empty constructor
   }
@@ -173,16 +171,16 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     }
     this.subscription.add(
       // TODO change this to be their intended store, not preferred store
-      this.preferredStoreService
-        .getPreferredStore$()
+      this.intendedPickupLocationService
+        .getIntendedLocation(this.productCode)
         .pipe(
-          filter((preferredStore) => !this.isPDP && !!preferredStore),
-          tap((preferredStore) =>
+          filter((store) => !this.isPDP && !!store),
+          tap((store) =>
             this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
               this.cartId,
               this.entryNumber,
               this.userId,
-              preferredStore?.name as string,
+              store?.name as string,
               this.quantity
             )
           )
