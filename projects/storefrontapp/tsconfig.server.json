@@ -402,9 +402,6 @@
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
   },
-  "angularCompilerOptions": {
-    "entryModule": "src/app/app.server.module#AppServerModule"
-  },
   "files": [
     "src/main.server.ts",
     "server.ts",
