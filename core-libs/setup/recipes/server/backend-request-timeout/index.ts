@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './ssr-backend-request-timeout.config';
-export * from './ssr-backend-request-timeout.interceptor';
-export * from './ssr-backend-request-timeout.module';
+export * from './server-backend-request-timeout.config';
+export * from './server-backend-request-timeout.interceptor';
+export * from './server-backend-request-timeout.module';

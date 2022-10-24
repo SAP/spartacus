@@ -16,18 +16,18 @@ import { inject, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { NEVER, Observable, of, throwError, TimeoutError } from 'rxjs';
 import { catchError, startWith, switchMap, timeout } from 'rxjs/operators';
-import { SSR_BACKEND_REQUEST_TIMEOUT_CONFIG } from './ssr-backend-request-timeout.config';
+import { SERVER_BACKEND_REQUEST_TIMEOUT_CONFIG } from './server-backend-request-timeout.config';
 
 // SPIKE TODO: add ability to pass custom value via HttpContextToken
 
 @Injectable({ providedIn: 'root' })
-export class SsrBackendRequestTimeoutInterceptor implements HttpInterceptor {
+export class ServerBackendRequestTimeoutInterceptor implements HttpInterceptor {
   constructor(protected windowRef: WindowRef) {}
 
   /**
    * Configurable timeout time in milliseconds, for backend requests.
    */
-  protected readonly TIMEOUT = inject(SSR_BACKEND_REQUEST_TIMEOUT_CONFIG);
+  protected readonly TIMEOUT = inject(SERVER_BACKEND_REQUEST_TIMEOUT_CONFIG);
 
   /**
    * The error message to be used in the `HttpErrorResponse` object, in case of timeout.
