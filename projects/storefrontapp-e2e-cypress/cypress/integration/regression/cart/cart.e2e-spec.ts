@@ -22,6 +22,7 @@ describe('Cart', () => {
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
+        cart.registerCartRefreshRoute();
 
         cart.addProductWhenLoggedIn(false);
 
@@ -30,7 +31,7 @@ describe('Cart', () => {
         cart.logOutAndNavigateToEmptyCart();
         cart.addProductAsAnonymous();
         cart.verifyMergedCartWhenLoggedIn();
-        cart.logOutAndEmptyCart();
+        cart.logOutAndNavigateToEmptyCart();
       });
 
       it('should add product and manipulate cart quantity', () => {
@@ -62,6 +63,8 @@ describe('Cart', () => {
       it('should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
+        cart.registerCartRefreshRoute();
+
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
         cy.window().then((window) => {

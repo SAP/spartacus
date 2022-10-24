@@ -8,7 +8,6 @@ import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
-import { waitForHomePage } from './homepage';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
@@ -325,7 +324,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   clickAddToCart();
 
-  cy.wait('@create_cart');
+  cy.wait(['@refresh_cart', '@create_cart']);
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -359,6 +358,9 @@ export function addProducts() {
 }
 
 export function addProductAsAnonymous() {
+  registerCartRefreshRoute();
+  registerCreateCartRoute();
+
   const product = products[2];
 
   createProductQuery(
@@ -380,6 +382,8 @@ export function addProductAsAnonymous() {
     .within(() => {
       clickAddToCart();
     });
+
+  cy.wait(['@refresh_cart', '@create_cart']);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -448,22 +452,6 @@ export function verifyMergedCartWhenLoggedIn() {
 
   checkProductInCart(product0);
   checkProductInCart(product1);
-}
-
-export function logOutAndEmptyCart() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
-  cy.selectUserMenuOption({
-    option: 'Sign Out',
-  });
-  cy.wait(`@${logoutPage}`);
-
-  waitForHomePage();
-
-  const cartPage = waitForPage('/cart', 'getCartPage');
-  cy.visit('/cart');
-  cy.wait(`@${cartPage}`);
-
-  validateEmptyCart();
 }
 
 export function manipulateCartQuantity() {
