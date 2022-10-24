@@ -407,7 +407,7 @@
   },
   "files": [
     "src/main.prerender.ts",
-    "server.ts",
+    "prerender.ts",
     "src/environments/models/build.process.env.d.ts"
   ]
 }

@@ -198,7 +198,7 @@
               "path": "./extra-webpack.config.js"
             },
             "outputPath": "dist/storefrontapp-prerender",
-            "main": "projects/storefrontapp/server.ts",
+            "main": "projects/storefrontapp/prerender.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.prerender.json"
           },
           "configurations": {
