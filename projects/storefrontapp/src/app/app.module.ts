@@ -27,7 +27,6 @@ import {
   TestConfigModule,
 } from '@spartacus/core';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
-import { SpartacusServerModule } from 'core-libs/setup/recipes';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -54,9 +53,6 @@ if (!environment.production) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
-
-    // SPIKE TODO: move to server app module
-    SpartacusServerModule,
   ],
   providers: [
     provideConfig(<OccConfig>{

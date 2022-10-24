@@ -5,4 +5,5 @@
  */
 
 export * from './backend-request-timeout/index';
+export * from './server-error/index';
 export * from './spartacus-server.module';

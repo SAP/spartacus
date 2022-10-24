@@ -8,13 +8,21 @@ import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ServerErrorCollector } from './server-error-collector';
 
-// SPIKE: RETHINK THE NAME
+/**
+ * In SSR, it catches errors from backend requests, collects them and exposes (as being a `ServerErrorCollector`).
+ */
 @Injectable({ providedIn: 'root' })
-export class SsrHttpErrorsInterceptor implements HttpInterceptor {
+export class ServerHttpErrorInterceptor
+  implements HttpInterceptor, ServerErrorCollector<any>
+{
   constructor(protected windowRef: WindowRef) {}
 
-  public readonly errors: any[] = [];
+  /**
+   * Errors collected during the server side rendering.
+   */
+  protected readonly errors: any[] = [];
 
   intercept(
     request: HttpRequest<any>,
@@ -35,5 +43,9 @@ export class SsrHttpErrorsInterceptor implements HttpInterceptor {
 
   protected collectError(error: any) {
     this.errors.push(error);
+  }
+
+  public getErrors() {
+    return this.errors;
   }
 }
