@@ -172,6 +172,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscription.add(
+      // TODO change this to be their intended store, not preferred store
       this.preferredStoreService
         .getPreferredStore$()
         .pipe(
