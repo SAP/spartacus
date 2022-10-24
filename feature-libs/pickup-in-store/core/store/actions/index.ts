@@ -16,5 +16,5 @@ export {
   StockLevelActions,
   PickupLocationActions,
   PickupOptionActions,
-  DefaultPointOfServiceActions
+  DefaultPointOfServiceActions,
 };

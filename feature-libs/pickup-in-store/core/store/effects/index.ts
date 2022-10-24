@@ -8,7 +8,11 @@ import { DefaultPointOfServiceEffect } from './default-point-of-service-name.eff
 import { PickupLocationEffect } from './pickup-location.effect';
 import { StockEffect } from './stock.effect';
 
-export const effects: any[] = [DefaultPointOfServiceEffect, StockEffect, PickupLocationEffect];
+export const effects: any[] = [
+  DefaultPointOfServiceEffect,
+  StockEffect,
+  PickupLocationEffect,
+];
 
 export * from './default-point-of-service-name.effect';
 export * from './pickup-location.effect';

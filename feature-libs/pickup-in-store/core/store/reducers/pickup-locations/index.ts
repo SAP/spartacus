@@ -17,7 +17,6 @@ export function getReducers(): ActionReducerMap<PickupLocationsState> {
     intendedPickupLocations: intendedPickupLocationsReducer,
     storeDetails: storeDetailsReducer,
     defaultPointOfService: defaultPointOfServiceReducer,
-
   };
 }
 
