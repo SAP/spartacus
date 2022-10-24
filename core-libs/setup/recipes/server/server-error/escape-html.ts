@@ -1,11 +1,8 @@
-/**
- * @license
+/*
  * Copyright Google LLC All Rights Reserved.
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- *
- * See: https://github.com/angular/angular/blob/24950dd2a5b6a69a6afc80b8e2041f99bfd47e06/packages/platform-browser/src/browser/transfer_state.ts#L12-L32
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 export function escapeHtml(text: string): string {
