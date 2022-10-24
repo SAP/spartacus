@@ -38,8 +38,8 @@ export class AsmCustomerSectionComponent implements OnDestroy {
   }
 
   @Input()
-  set data(data$: Observable<unknown>) {
-    this.source.data$ = data$;
+  set data(data: Observable<unknown>) {
+    this.source.data$.next(data);
   }
 
   @Output()

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
+import {
+  AsmCustomer360Request,
+  AsmCustomer360Response,
+  BindCartParams,
+  CustomerListsPage,
+} from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 
 import {
@@ -33,5 +38,7 @@ export abstract class AsmAdapter {
   /**
    * Fetches data needed for certain ASM components.
    */
-  abstract getCustomer360Data(request: unknown): Observable<unknown>;
+  abstract getCustomer360Data(
+    request: AsmCustomer360Request
+  ): Observable<AsmCustomer360Response>;
 }

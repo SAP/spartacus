@@ -4,5 +4,5 @@
   sortProperty="dateAndStatus"
   [columns]="reviewColumns"
   [entries]="reviewEntries"
-  [pageSize]="(context.config$ | async).pageSize"
+  [pageSize]="(context.config$ | async)?.pageSize"
 ></cx-asm-customer-table>

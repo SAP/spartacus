@@ -4,18 +4,18 @@ import {
   Injector,
   OnInit,
 } from '@angular/core';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import { AsmConfig, getAsmDialogActionEvent } from '@spartacus/asm/core';
 import {
-  Asm360Service,
+  Asm360Facade,
+  AsmCustomer360Data,
   AsmCustomer360TabConfig,
   AsmDialogActionEvent,
   AsmDialogActionType,
 } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
-
-import { getAsmDialogActionEvent } from '../../core/utils/utils';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,19 +25,19 @@ import { getAsmDialogActionEvent } from '../../core/utils/utils';
 export class AsmCustomer360Component implements OnInit {
   iconTypes = ICON_TYPE;
   loading = false;
-  tabs: Array<AsmCustomer360TabConfig<unknown>>;
+  tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;
-  currentTab: AsmCustomer360TabConfig<unknown>;
-  data: Array<Array<unknown>>;
+  currentTab: AsmCustomer360TabConfig;
 
   customer: User;
 
+  customer360Tab$: Observable<Array<AsmCustomer360Data | undefined>>;
+
   constructor(
     protected asmConfig: AsmConfig,
-    protected asmService: AsmService,
+    protected asm360Facade: Asm360Facade,
     protected injector: Injector,
-    protected launchDialogService: LaunchDialogService,
-    protected asm360Service: Asm360Service<unknown, unknown, unknown>
+    protected launchDialogService: LaunchDialogService
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
@@ -48,42 +48,16 @@ export class AsmCustomer360Component implements OnInit {
       const customer: User = data.customer;
 
       this.customer = customer;
-      const { customerId } = customer;
-
-      if (customerId) {
-        const queries: Array<unknown> = [];
-
-        this.tabs.forEach((tab) =>
-          tab.components.forEach((component) => {
-            if (component.requestData) {
-              queries.push(component.requestData);
-            }
-          })
-        );
-
-        const request = this.asm360Service.createRequestObject(queries, {
-          userId: this.customer.customerId ?? '',
-        });
-
-        this.asmService.fetchCustomer360Data(request);
-
-        this.asmService
-          .getCustomer360Data()
-          .pipe(take(1))
-          .subscribe((data) => {
-            this.data = this.tabs.map((tab) => {
-              return tab.components.map((component) =>
-                this.asm360Service.getResponseData(component, data)
-              );
-            });
-          });
-      }
     });
+
+    this.setTabData();
   }
 
   selectTab(selectedTab: any): void {
     this.activeTab = selectedTab;
     this.currentTab = this.tabs[selectedTab];
+
+    this.setTabData();
   }
 
   getAvatar(): string {
@@ -106,5 +80,25 @@ export class AsmCustomer360Component implements OnInit {
 
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
+  }
+
+  protected setTabData(): void {
+    this.customer360Tab$ = this.asm360Facade.get360Data(this.activeTab).pipe(
+      map((response) => {
+        if (response) {
+          return this.currentTab.components.map((component) => {
+            const requestData = component.requestData;
+
+            if (requestData) {
+              return response.value.find(
+                (data) => data.type === requestData.customer360Type
+              );
+            }
+          });
+        } else {
+          return [];
+        }
+      })
+    );
   }
 }

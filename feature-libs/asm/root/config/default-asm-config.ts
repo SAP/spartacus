@@ -6,6 +6,7 @@
 
 import { ICON_TYPE } from '@spartacus/storefront';
 
+import { AsmCustomer360Type } from '../model/customer-360.model';
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 
@@ -74,7 +75,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360ProductReviewsComponent',
               requestData: {
-                customer360Type: 'C360ReviewList',
+                customer360Type: AsmCustomer360Type.REVIEW_LIST,
               },
               config: { pageSize: 5 },
             },
@@ -86,10 +87,11 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360MapComponent',
               requestData: {
-                customer360Type: 'C360StoreLocation',
+                customer360Type: AsmCustomer360Type.STORE_LOCATION,
               },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                storefinderRadius: 10000000,
                 pageSize: 10,
               },
             },

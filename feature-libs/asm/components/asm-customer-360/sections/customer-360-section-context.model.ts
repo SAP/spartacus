@@ -11,5 +11,5 @@ export abstract class Customer360SectionContext<Data> {
 
   readonly navigate$: Observer<UrlCommand>;
 
-  data$: Observable<Data>;
+  readonly data$: Observable<Data>;
 }

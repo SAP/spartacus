@@ -1,29 +1,31 @@
 <ng-container *ngIf="storeData">
   <div class="store-count">
-    1 - {{ storeData.pagination?.pageSize }} from
-    {{ storeData.pagination?.totalResults }} stores found
-  </div>
-
-  <div class="pagination">
-    <button class="pagination-arrow"><<</button>
-    <button class="pagination-arrow pagination-arrow-right">>></button>
+    {{
+      'asm.customer360.maps.storesFound'
+        | cxTranslate
+          : {
+              initial: 1,
+              end: storeData.pagination?.pageSize,
+              total: storeData.pagination?.totalResults
+            }
+    }}
   </div>
 
   <div>
     <div
       class="store-listing-item"
-      [class.selected]="selectedStore.id === store.id"
+      [class.selected]="selectedStore === store"
       *ngFor="let store of storeData.stores"
       (click)="selectStore(store)"
     >
       <div class="store-listing-item-details">
-        <div class="store-listing-item-text bold">{{ store.displayName }}</div>
-        <div class="store-listing-item-text bold">
+        <div class="store-listing-item-text">{{ store.displayName }}</div>
+        <div class="store-listing-item-text">
           {{ store.address.line1 }}, {{ store.address.line2 }}
         </div>
         <div class="store-listing-item-text">{{ store.address.town }}</div>
       </div>
-      <div class="store-listing-item-distance store-listing-item-text bold">
+      <div class="store-listing-item-distance store-listing-item-text">
         {{ store.formattedDistance }}
       </div>
     </div>
@@ -32,7 +34,7 @@
   <div *ngIf="selectedStore">
     <div class="store-details">
       <img
-        *ngIf="selectedStore.storeImages"
+        *ngIf="selectedStore.storeImages?.[0]"
         [src]="selectedStore.storeImages[0].url"
         width="110px"
         height="110px"
@@ -45,7 +47,7 @@
       </div>
     </div>
     <iframe
-      *ngIf="!!apiKey"
+      *ngIf="!!(source.config$ | async)?.googleMapsApiKey"
       class="store-map"
       height="400"
       loading="lazy"
@@ -54,19 +56,30 @@
       [src]="googleMapsUrl"
     >
     </iframe>
-    <div class="store-openings">
+    <div class="store-openings" *ngIf="selectedStore?.openingHours">
       <div class="store-openings-dates">
         <div
           class="store-openings-date"
-          *ngFor="let opening of selectedStore.openingHours | keyvalue"
+          *ngFor="let opening of selectedStore.openingHours.weekDayOpeningList"
         >
-          <span class="store-openings-day bold">{{ opening.key }}</span
-          >{{ opening.value }}
+          <span class="store-openings-day bold">{{ opening.weekDay }}</span
+          >{{ getStoreOpening(opening) | async }}
+        </div>
+      </div>
+      <div class="store-openings-dates">
+        <div
+          class="store-openings-date"
+          *ngFor="
+            let opening of selectedStore.openingHours.specialDayOpeningList
+          "
+        >
+          <span class="store-openings-day bold">{{ opening.weekDay }}</span
+          >{{ getStoreOpening(opening) | async }}
         </div>
       </div>
       <div class="store-openings-features">
-        <div *ngFor="let feature of selectedStore.features.entry">
-          {{ feature }}
+        <div *ngFor="let feature of selectedStore.features?.entry">
+          {{ feature.value }}
         </div>
       </div>
     </div>

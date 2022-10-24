@@ -61,7 +61,7 @@
             <cx-asm-customer-section
               [component]="config.component"
               [config]="config.config"
-              [data]="data[activeTab][i]"
+              [data]="(customer360Tab$ | async)?.[i]"
               (navigate)="navigateTo($event)"
             ></cx-asm-customer-section>
           </ng-container>
