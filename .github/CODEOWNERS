@@ -69,6 +69,6 @@
 
 # For test purposes.  Remove before merge
 
-/feature-libs/cart/         bgambocjaviniar
+/feature-libs/cart/         @bgambocjaviniar
 
-/feature-libs/checkout/         hackergil
+/feature-libs/checkout/         @hackergil
