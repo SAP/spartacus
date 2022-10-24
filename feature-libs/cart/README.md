@@ -10,3 +10,5 @@ The Spartacus Cart library contains the following packages:
 - `@spartacus/cart/quick-order` is a package that adds the quick order feature.
 
 For more information about Spartacus, see [Spartacus](https://github.com/SAP/spartacus).
+
+dummy change in cart
