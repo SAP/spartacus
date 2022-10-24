@@ -14,4 +14,4 @@ if (environment.production) {
   enableProdMode();
 }
 export { renderModule, renderModuleFactory } from '@angular/platform-server';
-export { AppPrerenderModule } from './app/app.prerender.module';
+export { AppServerModule } from './app/app.prerender.module';

@@ -6,4 +6,4 @@
 
 import 'zone.js/node';
 
-export * from './src/main.server';
+export * from './src/main.prerender';

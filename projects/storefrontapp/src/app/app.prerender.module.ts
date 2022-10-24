@@ -8,10 +8,10 @@ import { inject, NgModule } from '@angular/core';
 import { INITIAL_CONFIG } from '@angular/platform-server';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { StorefrontComponent } from '@spartacus/storefront';
-import { AppServerModule } from './app.server.module';
+import { AppServerModule as OriginalAppServerModule } from './app.server.module';
 
 @NgModule({
-  imports: [AppServerModule],
+  imports: [OriginalAppServerModule],
   providers: [
     {
       provide: SERVER_REQUEST_ORIGIN,
@@ -27,4 +27,5 @@ import { AppServerModule } from './app.server.module';
   // imported AppModule, it needs to be repeated here.
   bootstrap: [StorefrontComponent],
 })
-export class AppPrerenderModule {}
+// NOTE: DO NOT RENAME! ngUniversal expects this module to be named and exported as exactly `AppServerModule`.
+export class AppServerModule {}
