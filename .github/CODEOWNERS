@@ -66,3 +66,9 @@
 #  Customer Ticketing Feature
 # ================================================
 /feature-libs/customer-ticketing/         @SAP/spartacus-codeowners @SAP/spartacus-alchemysts
+
+# For test purposes.  Remove before merge
+
+/feature-libs/cart/         bgambocjaviniar
+
+/feature-libs/checkout/         hackergil
