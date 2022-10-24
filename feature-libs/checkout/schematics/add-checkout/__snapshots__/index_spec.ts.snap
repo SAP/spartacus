@@ -54,10 +54,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -143,9 +140,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -253,8 +247,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -326,9 +319,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -436,8 +426,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -506,10 +495,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -606,9 +592,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -716,7 +699,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

@@ -7,7 +7,7 @@ import {
   Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ControlContainer, FormControl } from '@angular/forms';
+import { ControlContainer, UntypedFormControl } from '@angular/forms';
 import {
   CartItemContext,
   OrderEntry,
@@ -50,7 +50,7 @@ class MockConfigureCartEntryComponent {
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -163,7 +163,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   });
 
   it('should expose quantityControl$', (done) => {
-    const quantityControl = new FormControl();
+    const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
       done();
@@ -322,7 +322,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         });
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
-        mockCartItemContext.quantityControl$.next(new FormControl());
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         fixture.detectChanges();
       });
 
@@ -368,7 +368,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         });
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
-        mockCartItemContext.quantityControl$.next(new FormControl());
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         fixture.detectChanges();
       });
 
@@ -448,57 +448,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           },
         });
         mockCartItemContext.readonly$.next(false);
-        mockCartItemContext.quantityControl$.next(new FormControl());
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
         fixture.detectChanges();
       });
 
-      it('should display in desktop mode', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementPresent(
-          expect,
-          htmlElem,
-          '.cx-item-infos.open'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-info',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          '$1,000.00'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          '5'
-        );
-      });
-
-      it('should display in mobile mode', () => {
+      it('should display', () => {
         spyOn(breakpointService, 'isUp').and.returnValue(of(false));
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -589,49 +544,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           },
         });
         mockCartItemContext.readonly$.next(false);
-        mockCartItemContext.quantityControl$.next(new FormControl());
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
         fixture.detectChanges();
       });
 
-      it('should display in desktop mode', () => {
-        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-        CommonConfiguratorTestUtilsService.expectElementPresent(
-          expect,
-          htmlElem,
-          '.cx-item-infos.open'
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-info',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-price span.cx-item',
-          0
-        );
-
-        CommonConfiguratorTestUtilsService.expectNumberOfElements(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          1
-        );
-
-        CommonConfiguratorTestUtilsService.expectElementToContainText(
-          expect,
-          htmlElem,
-          '.cx-item-quantity span.cx-item',
-          '10'
-        );
-      });
-
-      it('should display in mobile mode', () => {
+      it('should display', () => {
         spyOn(breakpointService, 'isUp').and.returnValue(of(false));
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -692,7 +610,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     describe('shouldShowButton', () => {
       beforeEach(() => {
-        const quantityControl = new FormControl();
+        const quantityControl = new UntypedFormControl();
         mockCartItemContext.quantityControl$?.next(quantityControl);
         mockCartItemContext.item$?.next({
           product: { configurable: true },
@@ -835,7 +753,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           },
         });
         mockCartItemContext.readonly$.next(false);
-        mockCartItemContext.quantityControl$.next(new FormControl());
+        mockCartItemContext.quantityControl$.next(new UntypedFormControl());
         component.hideItems = false;
         spyOn(breakpointService, 'isUp').and.returnValue(of(true));
         fixture.detectChanges();
@@ -933,7 +851,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          0,
+          1,
           undefined,
           undefined,
           '$1,000.00'
@@ -958,7 +876,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           htmlElem,
           'span',
           'cx-item',
-          1,
+          0,
           undefined,
           undefined,
           '5'

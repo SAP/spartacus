@@ -26,18 +26,17 @@
     "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^13.3.0",
-    "@angular/common": "^13.3.0",
-    "@angular/core": "^13.3.0",
-    "@angular/forms": "^13.3.0",
-    "@angular/router": "^13.3.0",
-    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
-    "@ng-select/ng-select": "^8.0.0",
-    "@ngrx/effects": "^13.0.2",
-    "@ngrx/store": "^13.0.2",
+    "@angular-devkit/schematics": "^14.2.3",
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
+    "@angular/router": "^14.2.3",
+    "@ng-select/ng-select": "^9.0.2",
+    "@ngrx/effects": "^14.3.0",
+    "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",

@@ -49,10 +49,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -140,9 +137,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -250,8 +244,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -300,10 +293,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -381,9 +371,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -491,8 +478,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -537,10 +523,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -601,9 +584,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -711,8 +691,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -784,9 +763,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -894,7 +870,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

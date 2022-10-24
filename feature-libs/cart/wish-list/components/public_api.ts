@@ -4,4 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './index';
+export * from './wish-list-components.module';
+export * from './wish-list-item/wish-list-item.component';
+export * from './wish-list/wish-list.component';
