@@ -4,6 +4,7 @@
     "esModuleInterop": false,
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
+      "@spartacus/setup/prerender": ["../../dist/setup/prerender"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
       "@spartacus/asm/assets": ["../../dist/asm/assets"],
       "@spartacus/asm/components": ["../../dist/asm/components"],
@@ -251,11 +252,11 @@
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
-      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
-      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
+      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
+      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
