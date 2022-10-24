@@ -6,26 +6,26 @@
       "name": "United States"
     },
     "defaultAddress": false,
-    "email": "punchout.customer@punchoutorg.com",
-    "firstName": "PunchOut",
-    "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
-    "id": "8796098428951",
-    "lastName": "Customer",
-    "line1": "999 South Wacker Drive",
-    "postalCode": "60606",
+    "email": "carla.torres@rustic-hw.com",
+    "firstName": "Carla",
+    "formattedAddress": "1000 Bagby Street, Houston, Texas",
+    "id": "8796093612055",
+    "lastName": "Torres",
+    "line1": "1000 Bagby Street",
+    "postalCode": "Texas",
     "shippingAddress": true,
-    "title": "Mr.",
-    "titleCode": "mr",
-    "town": "Chicago",
+    "title": "Ms.",
+    "titleCode": "ms",
+    "town": "Houston",
     "visibleInAddressBook": true
   },
   "costCenter": {
     "active": "true",
-    "code": "PunchOut Organization",
+    "code": "Custom_Retail",
     "currency": {
       "isocode": "USD"
     },
-    "name": "PunchOut Organization",
+    "name": "Custom Retail",
     "assignedBudgets": [],
     "unit": {
       "active": true,
@@ -35,19 +35,19 @@
             "isocode": "US"
           },
           "defaultAddress": false,
-          "email": "punchout.customer@punchoutorg.com",
-          "firstName": "PunchOut",
-          "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
-          "id": "8796098428951",
-          "lastName": "Customer",
-          "line1": "999 South Wacker Drive",
-          "postalCode": "60606",
-          "titleCode": "mr",
-          "town": "Chicago"
+          "email": "carla.torres@rustic-hw.com",
+          "firstName": "Carla",
+          "formattedAddress": "1000 Bagby Street, Houston, Texas",
+          "id": "8796093612055",
+          "lastName": "Torres",
+          "line1": "1000 Bagby Street",
+          "postalCode": "Texas",
+          "titleCode": "ms",
+          "town": "Houston"
         }
       ],
-      "name": "PunchOut Organization",
-      "uid": "PunchOut Organization"
+      "name": "Custom Retail",
+      "uid": "Custom Retail"
     }
   },
   "paymentType": {
