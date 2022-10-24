@@ -5,23 +5,13 @@
  */
 
 import { inject, NgModule } from '@angular/core';
-import {
-  INITIAL_CONFIG,
-  ServerModule,
-  ServerTransferStateModule,
-} from '@angular/platform-server';
+import { INITIAL_CONFIG } from '@angular/platform-server';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { StorefrontComponent } from '@spartacus/storefront';
-import { AppModule } from './app.module';
+import { AppServerModule } from './app.server.module';
 
 @NgModule({
-  imports: [
-    // The AppServerModule should import your AppModule followed
-    // by the ServerModule from @angular/platform-server.
-    AppModule,
-    ServerModule,
-    ServerTransferStateModule,
-  ],
+  imports: [AppServerModule],
   providers: [
     {
       provide: SERVER_REQUEST_ORIGIN,
@@ -37,4 +27,4 @@ import { AppModule } from './app.module';
   // imported AppModule, it needs to be repeated here.
   bootstrap: [StorefrontComponent],
 })
-export class AppServerModule {}
+export class AppPrerenderModule {}
