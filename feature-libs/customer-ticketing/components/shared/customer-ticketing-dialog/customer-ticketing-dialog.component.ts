@@ -22,6 +22,7 @@ export abstract class CustomerTicketingDialogComponent {
   iconTypes = ICON_TYPE;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
+  inputCharactersForSubject: number = this.getInputCharactersForSubject;
   isDataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
@@ -36,6 +37,13 @@ export abstract class CustomerTicketingDialogComponent {
   get messagesCharacterLeft(): number {
     return (
       this.inputCharactersLimit - (this.form.get('message')?.value?.length || 0)
+    );
+  }
+
+  get subjectCharacterLeft(): number {
+    return (
+      this.inputCharactersForSubject -
+      (this.form.get('subject')?.value?.length || 0)
     );
   }
 

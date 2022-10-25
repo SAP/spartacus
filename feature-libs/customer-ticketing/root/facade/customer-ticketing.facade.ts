@@ -44,7 +44,7 @@ export abstract class CustomerTicketingFacade {
 
   abstract createTicket(
     ticket: TicketStarter
-  ): Observable<TicketStarter | unknown>;
+  ): Observable<TicketDetails | unknown>;
 
   abstract createTicketEvent(
     ticketEvent: TicketEvent

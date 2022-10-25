@@ -66,11 +66,11 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   protected createTicketCommand: Command<TicketStarter, unknown> =
     this.commandService.create<TicketStarter>(
-      (ticket) =>
+      (ticketStarted) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
             this.customerTicketingConnector
-              .createTicket(customerId, ticket)
+              .createTicket(customerId, ticketStarted)
               .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
           )
         ),
@@ -192,8 +192,10 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.getTicketState().pipe(map((state) => state.data));
   }
 
-  createTicket(ticket: TicketStarter): Observable<TicketStarter | unknown> {
-    return this.createTicketCommand.execute(ticket);
+  createTicket(
+    ticketStarted: TicketStarter
+  ): Observable<TicketStarter | unknown> {
+    return this.createTicketCommand.execute(ticketStarted);
   }
   createTicketEvent(
     ticketEvent: TicketEvent

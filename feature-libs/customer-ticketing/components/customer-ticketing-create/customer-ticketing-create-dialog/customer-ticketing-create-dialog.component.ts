@@ -50,12 +50,12 @@ export class CustomerTicketingCreateDialogComponent
       'subject',
       new FormControl('', [
         Validators.required,
-        Validators.maxLength(this.inputCharactersLimit),
+        Validators.maxLength(this.inputCharactersForSubject),
       ])
     );
     form.setControl(
       'ticketCategory',
-      new FormControl(0, [Validators.required])
+      new FormControl('', [Validators.required])
     );
     form.setControl('associatedTo', new FormControl());
     form.setControl(
@@ -91,7 +91,7 @@ export class CustomerTicketingCreateDialogComponent
       this.ticketCategories = categories;
     });
 
-    this.selectedCategory = this.ticketCategories[selectedCategoryIndex];
+    this.selectedCategory = this.ticketCategories[selectedCategoryIndex - 1];
     this.form.controls.ticketCategory.setValue(this.selectedCategory.id);
   }
 

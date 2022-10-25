@@ -27,13 +27,19 @@
             {{ 'customerTicketing.subject' | cxTranslate }}
           </span>
           <textarea
-            [maxLength]="inputCharactersLimit"
+            [maxLength]="inputCharactersForSubject"
             class="form-control"
             formControlName="subject"
             rows="1"
           ></textarea>
 
           <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.charactersLeft'
+                | cxTranslate: { count: subjectCharacterLeft }
+            }}
+          </p>
         </label>
 
         <label>
@@ -44,6 +50,9 @@
             class="form-control"
             (change)="setSelectedCategory($event.target.selectedIndex)"
           >
+            <option value="" disabled selected>
+              {{ 'customerTicketing.selectCategory' | cxTranslate }}
+            </option>
             <option
               *ngFor="let category of ticketCategories$ | async"
               ngValue="{{ category.id }}"

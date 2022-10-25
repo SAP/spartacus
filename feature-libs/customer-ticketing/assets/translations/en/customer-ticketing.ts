@@ -23,6 +23,7 @@ export const customerTicketing = {
     attachments: 'Attachments',
     ticketCreated: 'Request {{requestNo}} Created.',
     optionallyselectAssociatedObject: 'Optionally Select...',
+    selectCategory: 'Select a Category',
     requestReopened: 'Request Reopened.',
     requestClosed: 'Request closed, you may reopen if needed.',
     errorMessage: 'Something went wrong.',
