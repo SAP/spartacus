@@ -6,26 +6,26 @@
       "name": "United States"
     },
     "defaultAddress": false,
-    "email": "carla.torres@rustic-hw.com",
-    "firstName": "Carla",
-    "formattedAddress": "1000 Bagby Street, Houston, Texas",
-    "id": "8796093612055",
-    "lastName": "Torres",
-    "line1": "1000 Bagby Street",
-    "postalCode": "Texas",
+    "email": "punchout.customer@punchoutorg.com",
+    "firstName": "PunchOut",
+    "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
+    "id": "8796093775895",
+    "lastName": "Customer",
+    "line1": "999 South Wacker Drive",
+    "postalCode": "60606",
     "shippingAddress": true,
-    "title": "Ms.",
-    "titleCode": "ms",
-    "town": "Houston",
+    "title": "Mr.",
+    "titleCode": "mr",
+    "town": "Chicago",
     "visibleInAddressBook": true
   },
   "costCenter": {
     "active": "true",
-    "code": "Custom_Retail",
+    "code": "PunchOut Organization",
     "currency": {
       "isocode": "USD"
     },
-    "name": "Custom Retail",
+    "name": "PunchOut Organization",
     "assignedBudgets": [],
     "unit": {
       "active": true,
@@ -35,19 +35,19 @@
             "isocode": "US"
           },
           "defaultAddress": false,
-          "email": "carla.torres@rustic-hw.com",
-          "firstName": "Carla",
-          "formattedAddress": "1000 Bagby Street, Houston, Texas",
-          "id": "8796093612055",
-          "lastName": "Torres",
-          "line1": "1000 Bagby Street",
-          "postalCode": "Texas",
-          "titleCode": "ms",
-          "town": "Houston"
+          "email": "punchout.customer@punchoutorg.com",
+          "firstName": "PunchOut",
+          "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
+          "id": "8796093775895",
+          "lastName": "Customer",
+          "line1": "999 South Wacker Drive",
+          "postalCode": "60606",
+          "titleCode": "mr",
+          "town": "Chicago"
         }
       ],
-      "name": "Custom Retail",
-      "uid": "Custom Retail"
+      "name": "PunchOut Organization",
+      "uid": "PunchOut Organization"
     }
   },
   "paymentType": {
