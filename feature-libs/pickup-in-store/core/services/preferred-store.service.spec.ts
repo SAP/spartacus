@@ -1,22 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConsentService, UserIdService, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
-import { User } from '@spartacus/user/account/root';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
 import { MockPickupLocationsSearchService } from '../facade/pickup-locations-search.service.spec';
 
+import * as fromReducers from '../../core/store/reducers/index';
+import { StateWithPickupLocations } from '../store';
+import { SetDefaultPointOfService } from '../store/actions/default-point-of-service-name.action';
 import {
   PointOfServiceNames,
   PreferredStoreService,
 } from './preferred-store.service';
-import * as fromReducers from '../../core/store/reducers/index';
-import { StateWithPickupLocations } from '../store';
-import { SetDefaultPointOfService } from '../store/actions/default-point-of-service-name.action';
 
-class MockConsentService {
+export class MockConsentService {
   checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {
     return of(true);
   }
@@ -32,7 +30,7 @@ const MockPickupInStoreConfig = (withConfig = true): PickupInStoreConfig => {
     : {};
 };
 
-const MockWindowRef = () => {
+export const MockWindowRef = () => {
   const store: { [key: string]: string | null } = {};
   return {
     localStorage: {
@@ -50,16 +48,6 @@ const MockWindowRef = () => {
     },
   };
 };
-class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  update(_details: User): Observable<unknown> {
-    return of({});
-  }
-}
-class MockUserIdService implements Partial<UserIdService> {
-  public getUserId(): Observable<string> {
-    return of('');
-  }
-}
 
 describe('PreferredStoreService', () => {
   const preferredStore: PointOfServiceNames = {
@@ -67,11 +55,8 @@ describe('PreferredStoreService', () => {
     displayName: 'London School',
   };
   let preferredStoreService: PreferredStoreService;
-  // let consentService: ConsentService;
   let windowRef: WindowRef;
   let pickupLocationSearchService: PickupLocationsSearchFacade;
-  // let userProfileService: UserProfileFacade;
-  // let userIdService: UserIdService;
   let store: Store<StateWithPickupLocations>;
 
   const configureTestingModule = (withConfig = true, localStorage = true) => {
@@ -82,7 +67,6 @@ describe('PreferredStoreService', () => {
       ],
       providers: [
         PreferredStoreService,
-        { provide: ConsentService, useClass: MockConsentService },
         {
           provide: PickupInStoreConfig,
           useValue: MockPickupInStoreConfig(withConfig),
@@ -92,26 +76,16 @@ describe('PreferredStoreService', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
         },
-        {
-          provide: UserProfileFacade,
-          useClass: MockUserProfileFacade,
-        },
-        {
-          provide: UserIdService,
-          useClass: MockUserIdService,
-        },
       ],
     });
 
     preferredStoreService = TestBed.inject(PreferredStoreService);
-    // consentService = TestBed.inject(ConsentService);
     windowRef = TestBed.inject(WindowRef);
     pickupLocationSearchService = TestBed.inject(PickupLocationsSearchFacade);
-    // userProfileService = TestBed.inject(UserProfileFacade);
-    // userIdService = TestBed.inject(UserIdService);
 
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(store, 'pipe').and.callThrough();
   };
 
   describe('with pickup in store config', () => {
@@ -123,81 +97,20 @@ describe('PreferredStoreService', () => {
       expect(preferredStoreService).toBeDefined();
     });
 
-    describe('getPreferredStore', () => {
-      it('should return the preferred store', () => {
-        windowRef.localStorage?.setItem(
-          'preferred_store',
-          JSON.stringify(preferredStore)
-        );
-
-        const expected = of(preferredStore);
-        expected.subscribe((_preferredStore) =>
-          expect(_preferredStore).toEqual(preferredStore)
-        );
+    describe('getPreferredStore$', () => {
+      it('should get the preferred store ', () => {
+        preferredStoreService.getPreferredStore$();
+        expect(store.pipe).toHaveBeenCalled();
       });
     });
 
     describe('setPreferredStore', () => {
-      it('should set the preferred store in local storage if consent is given, additionally set in user profile if user logged in', () => {
-        // spyOn(userIdService, 'getUserId').and.returnValue(of('testuser'));
-        // spyOn(userProfileService, 'update').and.callThrough();
-        // spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-        //   of(true)
-        // );
-
-        // preferredStoreService.setPreferredStore(preferredStore);
-        // const result = JSON.parse(
-        //   windowRef.localStorage?.getItem('preferred_store') as string
-        // );
-        // expect(result.name).toEqual(preferredStore.name);
-        // expect(result.displayName).toEqual(preferredStore.displayName);
-        // expect(result).toEqual(preferredStore);
-        // expect(userIdService.getUserId).toHaveBeenCalled();
-        // expect(userProfileService.update).toHaveBeenCalledWith({
-        //   defaultPointOfServiceName: preferredStore.name,
-        // });
+      it('should dispatch action to set default point of service', () => {
         preferredStoreService.setPreferredStore(preferredStore);
         expect(store.dispatch).toHaveBeenCalledWith(
           SetDefaultPointOfService({ payload: preferredStore })
         );
       });
-
-      // it('should set the preferred store in local storage if consent is given and user not logged in', () => {
-      //   spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
-      //   spyOn(userProfileService, 'update').and.callThrough();
-      //   spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-      //     of(true)
-      //   );
-      //   preferredStoreService.setPreferredStore(preferredStore);
-      //   const result = JSON.parse(
-      //     windowRef.localStorage?.getItem('preferred_store') as string
-      //   );
-      //   expect(result.name).toEqual(preferredStore.name);
-      //   expect(result.displayName).toEqual(preferredStore.displayName);
-      //   expect(result).toEqual(preferredStore);
-      //   expect(userProfileService.update).not.toHaveBeenCalled();
-      // });
-
-      // it('should not set the preferred store if consent is not given and user is logged in', () => {
-      //   spyOn(userIdService, 'getUserId').and.returnValue(of('testuser'));
-      //   spyOn(userProfileService, 'update').and.callThrough();
-      //   spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-      //     of(false)
-      //   );
-      //   preferredStoreService.setPreferredStore(preferredStore);
-      //   expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
-      //   expect(userProfileService.update).not.toHaveBeenCalled();
-      // });
-      // it('should not set the preferred store if consent is not given and user is not logged in', () => {
-      //   spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
-      //   spyOn(userProfileService, 'update').and.callThrough();
-      //   spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-      //     of(false)
-      //   );
-      //   preferredStoreService.setPreferredStore(preferredStore);
-      //   expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
-      //   expect(userProfileService.update).not.toHaveBeenCalled();
-      // });
     });
 
     describe('clearPreferredStore', () => {
@@ -238,45 +151,6 @@ describe('PreferredStoreService', () => {
       ).toHaveBeenCalledWith(productCode, preferredStore.name);
     });
   });
-
-  // describe('without pickup in store config', () => {
-  //   beforeEach(() => {
-  //     configureTestingModule(false);
-  //   });
-
-  // it('setPreferredStore should not set preferred store if consent template config is not set', () => {
-  //   spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-  //     of(false)
-  //   );
-  //   preferredStoreService.setPreferredStore(preferredStore);
-  //   expect(consentService.checkConsentGivenByTemplateId).toHaveBeenCalledWith(
-  //     ''
-  //   );
-  //   expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
-  // });
-  // });
-
-  // describe('local Storage is not available', () => {
-  //   beforeEach(() => configureTestingModule(false, false));
-
-  //   it('setPreferredStore should not set preferredStore', () => {
-  //     spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
-  //       of(true)
-  //     );
-  //     expect(
-  //       preferredStoreService.setPreferredStore({
-  //         name: 'London School',
-  //         displayName: 'London School',
-  //       })
-  //     ).not.toBeDefined();
-  //   });
-
-  //   it('getPreferred Store to be undefined', () => {
-  //     preferredStoreService
-  //       .getPreferredStore$()
-  //       .subscribe((preferredStore) => expect(preferredStore).toBeUndefined());
-  //   });
-  // });
 
   it('clearPreferredStore should be void', () => {
     expect(preferredStoreService.clearPreferredStore()).toBeUndefined();

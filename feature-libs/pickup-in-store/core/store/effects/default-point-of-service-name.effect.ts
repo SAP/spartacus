@@ -44,7 +44,7 @@ export class DefaultPointOfServiceEffect {
                 !!preferredStore && !!preferredStore.defaultPointOfServiceName,
               of({
                 name: preferredStore?.defaultPointOfServiceName,
-                displayName: null,
+                displayName: '',
               }),
               (() => {
                 const preferredStore = this.winRef.localStorage?.getItem(
@@ -93,10 +93,7 @@ export class DefaultPointOfServiceEffect {
             defaultPointOfServiceName: preferredStore.name,
           })
           .pipe(
-            map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService()),
-            catchError((_error) =>
-              of(DefaultPointOfServiceActions.LoadDefaultPointOfService)
-            )
+            map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())
           )
       ),
       map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())

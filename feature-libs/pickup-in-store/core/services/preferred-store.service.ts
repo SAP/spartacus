@@ -6,18 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  ConsentService,
-  PointOfServiceStock,
-  UserIdService,
-  WindowRef,
-} from '@spartacus/core';
+import { PointOfServiceStock, WindowRef } from '@spartacus/core';
 import {
   PickRequiredDeep,
   PickupLocationsSearchFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
@@ -43,11 +37,8 @@ export type PointOfServiceNames = PickRequiredDeep<
 export class PreferredStoreService {
   constructor(
     protected config: PickupInStoreConfig,
-    protected consentService: ConsentService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected winRef: WindowRef,
-    protected userProfileService: UserProfileFacade,
-    protected userIdService: UserIdService,
     protected store: Store<StateWithPickupLocations>
   ) {
     this.store.dispatch(LoadDefaultPointOfService());
