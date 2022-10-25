@@ -1,5 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 
 export const UNIT_ORDER_FEATURE = 'unit order';
 export const UNIT_ORDERS = '[Unit Order] Unit Orders';
@@ -11,4 +11,5 @@ export interface StateWithUnitOrder {
 
 export interface UnitOrderState {
   orders: StateUtils.LoaderState<OrderHistoryList>;
+  orderDetail: StateUtils.LoaderState<Order>;
 }

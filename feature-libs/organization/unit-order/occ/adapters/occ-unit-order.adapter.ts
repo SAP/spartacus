@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
+  Order,
   OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
 } from '@spartacus/order/root';
 import { UnitOrderAdapter } from '../../core/connectors/unit-order.adapter';
 
@@ -41,5 +43,18 @@ export class OccUnitOrderAdapter implements UnitOrderAdapter {
     return this.http
       .get<Occ.OrderHistoryList>(url)
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
+  }
+
+  public loadUnitOrderDetail(
+    userId: string,
+    orderCode: string
+  ): Observable<Order> {
+    const url = this.occEndpoints.buildUrl('unitLevelOrderDetail', {
+      urlParams: { userId, orderId: orderCode },
+    });
+
+    return this.http
+      .get<Occ.Order>(url)
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 }

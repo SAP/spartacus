@@ -8,5 +8,12 @@ declare module '@spartacus/core' {
      * @member {string}
      */
     unitLevelOrderHistory?: string | OccEndpoint;
+
+    /**
+     * Endpoint to retrieve unit-level order detail
+     *
+     * @member {string}
+     */
+    unitLevelOrderDetail?: string | OccEndpoint;
   }
 }

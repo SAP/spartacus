@@ -16,7 +16,11 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [ORGANIZATION_UNIT_ORDER_FEATURE]: {
-        cmsComponents: ['UnitLevelOrderHistoryComponent'],
+        cmsComponents: [
+          'UnitLevelOrderHistoryComponent',
+          'UnitLevelOrderDetailsShippingComponent',
+          'UnitLevelOrderDetailsItemsComponent',
+        ],
         dependencies: [ORDER_FEATURE],
       },
     },
@@ -35,6 +39,18 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
         component: PageLayoutComponent,
         data: { cxRoute: 'unitLevelOrders' },
       },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'unitLevelOrderDetail',
+          // cxContext: {
+          //   [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContextToken,
+          // },
+        },
+      },
     ]),
   ],
   providers: [
@@ -44,6 +60,10 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
         routes: {
           unitLevelOrders: {
             paths: ['my-account/unitLevelOrders'],
+          },
+          unitLevelOrderDetail: {
+            paths: ['my-account/unitLevelOrderDetails/:orderCode'],
+            paramsMapping: { orderCode: 'code' },
           },
         },
       },

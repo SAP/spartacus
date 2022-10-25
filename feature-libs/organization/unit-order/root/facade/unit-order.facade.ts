@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ORGANIZATION_UNIT_ORDER_FEATURE } from '../feature-name';
 
@@ -13,6 +13,9 @@ export function unitOrderFacadeFactory() {
       'getOrderHistoryListLoaded',
       'loadOrderList',
       'clearOrderList',
+      'getOrderDetails',
+      'loadOrderDetails',
+      'clearOrderDetails',
     ],
     async: true,
   });
@@ -51,4 +54,21 @@ export abstract class UnitOrderFacade {
    * Cleaning order list
    */
   abstract clearOrderList(): void;
+
+  /**
+   * Returns an order's detail
+   */
+  abstract getOrderDetails(): Observable<Order>;
+
+  /**
+   * Retrieves order's details
+   *
+   * @param orderCode an order code
+   */
+  abstract loadOrderDetails(orderCode: string): void;
+
+  /**
+   * Clears order's details
+   */
+  abstract clearOrderDetails(): void;
 }
