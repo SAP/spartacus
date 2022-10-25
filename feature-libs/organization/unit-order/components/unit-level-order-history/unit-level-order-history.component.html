@@ -54,6 +54,9 @@
                 ariaControls="order-history-table"
               ></cx-sorting>
             </label>
+            <div class="cx-unit-level-order-history-total-result">
+              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+            </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
               class="cx-unit-level-order-history-pagination"
@@ -150,7 +153,8 @@
                     "
                     class="cx-unit-level-order-history-value"
                   >
-                    {{ order?.orgCustomer?.name }}</a
+                    {{ order?.orgCustomer?.name }}
+                    <span> {{ order?.orgCustomer?.email }}</span></a
                   >
                 </td>
                 <td class="cx-unit-level-order-history-unit">
@@ -190,6 +194,23 @@
           </table>
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-unit-level-order-history-sort bottom">
+            <label class="cx-unit-level-order-history-form-group form-group"
+              ><span>
+                {{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}
+              </span>
+              <cx-sorting
+                [sortOptions]="orderHistory?.sorts"
+                [sortLabels]="getSortLabels() | async"
+                (sortListEvent)="changeSortCode($event)"
+                [selectedOption]="orderHistory?.pagination?.sort"
+                placeholder="{{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}"
+                [ariaLabel]="'unitLevelOrderHistory.sortOrders' | cxTranslate"
+                ariaControls="order-history-table"
+              ></cx-sorting>
+            </label>
+            <div class="cx-unit-level-order-history-total-result">
+              <cx-total [pagination]="orderHistory?.pagination"></cx-total>
+            </div>
             <div
               *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
               class="cx-unit-level-order-history-pagination"

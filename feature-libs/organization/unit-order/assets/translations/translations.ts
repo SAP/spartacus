@@ -7,5 +7,5 @@ export const unitOrderTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for orderApproval feature
 export const unitOrderTranslationChunksConfig: TranslationChunksConfig = {
-  unitOrder: ['unitLevelOrderHistory'],
+  unitOrder: ['unitLevelOrderHistory', 'unitLevelOrderHistorySorting'],
 };

@@ -14,7 +14,7 @@ import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
-  B2BUserRole,
+  B2BUserRight,
   CostCenter,
   TranslationService,
 } from '@spartacus/core';
@@ -48,7 +48,7 @@ export class OrderOverviewComponent implements OnInit {
       .get()
       .pipe(
         map((user: User | undefined) =>
-          user?.roles?.includes(B2BUserRole.UNIT_LEVEL_ORDERS_VIEWER)
+          user?.roles?.includes(B2BUserRight.UNITORDERVIEWER)
         )
       );
   }
@@ -264,7 +264,7 @@ export class OrderOverviewComponent implements OnInit {
         (textTitle) =>
           ({
             title: textTitle,
-            text: [customer?.name, `(${customer?.uid})`],
+            text: [customer?.name, `(${customer?.email})`],
           } as Card)
       )
     );
