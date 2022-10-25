@@ -1,5 +1,6 @@
 import { PickupLocationActions } from '../../actions';
 import { IntendedPickupLocationsState } from '../../pickup-location-state';
+import { defaultPointOfServiceReducer } from './default-point-of-service-name.reducer';
 import { getReducers } from './index';
 import {
   intendedPickupLocationsInitialState,
@@ -82,6 +83,7 @@ describe('intendedPickupLocationsReducer', () => {
     expect(reducer).toEqual({
       intendedPickupLocations: intendedPickupLocationsReducer,
       storeDetails: storeDetailsReducer,
+      defaultPointOfService: defaultPointOfServiceReducer,
     });
   });
 });

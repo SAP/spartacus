@@ -17,6 +17,10 @@ describe('PickupLocationSelectors', () => {
             },
           },
           storeDetails: {},
+          defaultPointOfService: {
+            displayName: 'London School',
+            name: 'London School',
+          },
         },
       };
       const result = getIntendedPickupLocations(state);
@@ -35,6 +39,10 @@ describe('PickupLocationSelectors', () => {
             },
           },
           storeDetails: {},
+          defaultPointOfService: {
+            displayName: 'London School',
+            name: 'London School',
+          },
         },
       };
       const result = getIntendedPickupLocationByProductCode('P0001')(state);
@@ -58,6 +66,10 @@ describe('PickupLocationSelectors', () => {
             },
           },
           storeDetails: {},
+          defaultPointOfService: {
+            displayName: 'London School',
+            name: 'London School',
+          },
         },
       };
 
@@ -65,6 +77,10 @@ describe('PickupLocationSelectors', () => {
         'pickup-locations': {
           intendedPickupLocations: {},
           storeDetails: {},
+          defaultPointOfService: {
+            displayName: 'London School',
+            name: 'London School',
+          },
         },
       };
 
