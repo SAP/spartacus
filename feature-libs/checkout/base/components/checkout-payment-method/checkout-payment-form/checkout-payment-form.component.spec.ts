@@ -360,7 +360,7 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call getAddressCardContent(address)', () => {
-    const card = component.getAddressCardContent(mockAddress);
+    const card = component.getAddressCardContent(mockAddress, 'P', 'M');
     expect(card.textBold).toEqual('John Doe');
     expect(card.text).toEqual([
       'Toyosaki 2 create on cart',

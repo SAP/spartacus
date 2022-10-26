@@ -279,7 +279,9 @@ describe('CheckoutDeliveryAddressComponent', () => {
       undefined,
       'default',
       'shipTo',
-      'selected'
+      'selected',
+      'P',
+      'M'
     );
     expect(card.title).toEqual('');
     expect(card.textBold).toEqual('John Doe');

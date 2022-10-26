@@ -10,6 +10,7 @@ export const newAddress: AddressData = {
   firstName: 'Cypress',
   lastName: 'User',
   phone: '1234567',
+  cellPhone: '555555555',
   address: {
     city: 'Montreal',
     country: 'Canada',
@@ -43,6 +44,7 @@ export const assertAddressForm = (
       .should('contain', `${address.address.city}, ${state}`);
     cy.get('.cx-card-label').eq(3).should('contain', address.address.postal);
     cy.get('.cx-card-label').eq(4).should('contain', address.phone);
+    cy.get('.cx-card-label').eq(5).should('contain', address.cellPhone);
   });
 };
 

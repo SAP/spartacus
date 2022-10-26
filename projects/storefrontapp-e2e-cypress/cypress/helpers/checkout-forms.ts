@@ -19,6 +19,7 @@ export interface AddressData {
   firstName: string;
   lastName: string;
   phone: string;
+  cellPhone: string;
   address: Address;
 }
 
@@ -82,6 +83,8 @@ export function fillShippingAddress(
           .get('[formcontrolname="postalCode"]')
           .clear()
           .type(shippingAddress.address.postal);
+      shippingAddress?.cellPhone &&
+          cy.get('[formcontrolname="cellPhone"]').clear().type(shippingAddress.cellPhone);
       shippingAddress?.phone &&
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     }
