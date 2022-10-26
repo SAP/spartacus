@@ -1469,55 +1469,55 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'MerchandisingFacetNormalizer',
     importPath: '@spartacus/cds',
     comment:
-      'Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API. ',
+      '// TODO:Spartacus - Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API. ',
   },
   {
     node: 'MerchandisingFacetToQueryparamNormalizer',
     importPath: '@spartacus/cds',
     comment:
-      'Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API. ',
+      '// TODO:Spartacus - Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API. ',
   },
   {
     node: 'ModalOptions',
     importPath: '@spartacus/storefront',
     comment:
-      'Interface ModalOptions has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
+      '// TODO:Spartacus - Interface ModalOptions has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
   },
   {
     node: 'ModalRef',
     importPath: '@spartacus/storefront',
     comment:
-      "Class ModalRef has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.",
+      "// TODO:Spartacus - Class ModalRef has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.",
   },
   {
     node: 'ModalDirective',
     importPath: '@spartacus/storefront',
     comment:
-      "Class ModalDirective has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+      "// TODO:Spartacus - Class ModalDirective has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
   },
   {
     node: 'ModalDirectiveOptions',
     importPath: '@spartacus/storefront',
     comment:
-      "Interface ModalDirectiveOptions has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+      "// TODO:Spartacus - Interface ModalDirectiveOptions has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
   },
   {
     node: 'ModalDirectiveService',
     importPath: '@spartacus/storefront',
     comment:
-      "Class ModalDirectiveService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+      "// TODO:Spartacus - Class ModalDirectiveService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
   },
   {
     node: 'ModalModule',
     importPath: '@spartacus/storefront',
     comment:
-      'Class ModalModule has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
+      '// TODO:Spartacus - Class ModalModule has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
   },
   {
     node: 'ModalService',
     importPath: '@spartacus/storefront',
     comment:
-      "Class ModalService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+      "// TODO:Spartacus - Class ModalService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
   },
 ];
 
