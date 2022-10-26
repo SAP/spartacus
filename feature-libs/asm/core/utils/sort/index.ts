@@ -11,5 +11,6 @@ export * from './by-number.function';
 export * from './by-string.function';
 export * from './items-with.function';
 export * from './property.function';
+export * from './sort.helper.function';
 export * from './sort.model';
 export * from './when-type.function';

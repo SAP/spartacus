@@ -13,28 +13,6 @@ import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { By } from '@angular/platform-browser';
 import { AsmProductItemComponent } from './asm-product-item.component';
 
-const mockProduct: Product = {
-  code: '553637',
-  name: 'NV10',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV10',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$264.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-};
-
 @Directive({
   selector: '[cxFocus]',
 })
@@ -42,21 +20,43 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 describe('AsmProductItemComponent', () => {
+  const mockProduct: Product = {
+    code: '553637',
+    name: 'NV10',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV10',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$264.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+  };
+
+  @Pipe({
+    name: 'cxTranslate',
+  })
+  class MockTranslatePipe implements PipeTransform {
+    transform(): any {}
+  }
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
+
   let component: AsmProductItemComponent;
   let fixture: ComponentFixture<AsmProductItemComponent>;
   let el: DebugElement;

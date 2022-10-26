@@ -25,169 +25,6 @@ import { Customer360SectionContextSource } from '../customer-360-section-context
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerActivityComponent } from './asm-customer-activity.component';
 
-class MockAsmConfig implements AsmConfig {
-  asm = {
-    agentSessionTimer: {
-      startingDelayInSeconds: 600,
-    },
-    customerSearch: {
-      maxResults: 20,
-    },
-    customer360: {
-      tabs: [
-        {
-          i18nNameKey: 'asm.customer360.overviewTab',
-          components: [
-            {
-              component: 'AsmCustomer360OverviewComponent',
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.profileTab',
-          components: [
-            {
-              component: 'AsmCustomer360ProfileComponent',
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.activityTab',
-          components: [
-            {
-              component: 'AsmCustomer360CustomerActivityComponent',
-              requestData: {
-                customer360Type: 'C360ReviewList',
-              },
-              config: { pageSize: 5 },
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.mapsTab',
-          components: [
-            {
-              component: 'AsmCustomer360MapComponent',
-              requestData: {
-                customer360Type: 'C360StoreLocation',
-              },
-              config: {
-                googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
-                pageSize: 10,
-              },
-            },
-          ],
-        },
-      ],
-    },
-  };
-}
-
-const mockProduct1: Product = {
-  code: '553637',
-  name: 'NV10',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV10',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$264.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-};
-
-const mockProduct2: Product = {
-  code: '553638',
-  name: 'NV11',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV11',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$188.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-  baseOptions: [
-    {
-      selected: {
-        variantOptionQualifiers: [
-          {
-            name: 'color',
-            value: 'red',
-          },
-          {
-            name: 'size',
-            value: 'XL',
-          },
-        ],
-      },
-    },
-  ],
-};
-
-const mockCart1: Cart = {
-  code: '00001',
-  name: 'test name',
-  saveTime: new Date(2000, 2, 2),
-  description: 'test description',
-  totalItems: 2,
-  totalPrice: {
-    formattedValue: '$165.00',
-  },
-  entries: [
-    {
-      product: mockProduct1,
-    },
-    {
-      product: mockProduct2,
-    },
-  ],
-};
-const mockCart2: Cart = {
-  code: '00002',
-  name: 'test name',
-  saveTime: new Date(2000, 2, 2),
-  description: 'test description',
-  totalItems: 2,
-  totalPrice: {
-    formattedValue: '$167.00',
-  },
-};
-const mockCarts: Cart[] = [mockCart1, mockCart2];
-
-class MockSavedCartFacade implements Partial<SavedCartFacade> {
-  getList(): Observable<Cart[]> {
-    return of(mockCarts);
-  }
-  loadSavedCarts(): void {}
-}
-
-const cart$ = new BehaviorSubject<Cart>(mockCart1);
-
-class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive(): Observable<Cart> {
-    return cart$.asObservable();
-  }
-}
-
 @Directive({
   selector: '[cxFocus]',
 })
@@ -195,63 +32,227 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-const mockOrders: OrderHistoryList = {
-  orders: [
-    {
-      code: '1',
-      placed: new Date('2018-01-01'),
-      statusDisplay: 'test',
-      total: { formattedValue: '1' },
-    },
-    {
-      code: '2',
-      placed: new Date('2018-01-02'),
-      statusDisplay: 'test2',
-      total: { formattedValue: '2' },
-    },
-  ],
-  pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
-  sorts: [{ code: 'byDate', selected: true }],
-};
-
-const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(mockOrders);
-
-class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
-  getOrderHistoryList(): Observable<OrderHistoryList> {
-    return mockOrderHistoryList$.asObservable();
-  }
-  getOrderHistoryListLoaded(): Observable<boolean> {
-    return of(true);
-  }
-  loadOrderList(
-    _pageSize: number,
-    _currentPage?: number,
-    _sort?: string
-  ): void {}
-  clearOrderList() {}
-}
-
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('test');
-  }
-}
-
 describe('AsmCustomerActivityComponent', () => {
+  class MockAsmConfig implements AsmConfig {
+    asm = {
+      agentSessionTimer: {
+        startingDelayInSeconds: 600,
+      },
+      customerSearch: {
+        maxResults: 20,
+      },
+      customer360: {
+        tabs: [
+          {
+            i18nNameKey: 'asm.customer360.overviewTab',
+            components: [
+              {
+                component: 'AsmCustomer360OverviewComponent',
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.profileTab',
+            components: [
+              {
+                component: 'AsmCustomer360ProfileComponent',
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.activityTab',
+            components: [
+              {
+                component: 'AsmCustomer360CustomerActivityComponent',
+                requestData: {
+                  customer360Type: 'C360ReviewList',
+                },
+                config: { pageSize: 5 },
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.mapsTab',
+            components: [
+              {
+                component: 'AsmCustomer360MapComponent',
+                requestData: {
+                  customer360Type: 'C360StoreLocation',
+                },
+                config: {
+                  googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                  pageSize: 10,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+  }
+
+  const mockProduct1: Product = {
+    code: '553637',
+    name: 'NV10',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV10',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$264.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+  };
+
+  const mockProduct2: Product = {
+    code: '553638',
+    name: 'NV11',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV11',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$188.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+    baseOptions: [
+      {
+        selected: {
+          variantOptionQualifiers: [
+            {
+              name: 'color',
+              value: 'red',
+            },
+            {
+              name: 'size',
+              value: 'XL',
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  const mockCart1: Cart = {
+    code: '00001',
+    name: 'test name',
+    saveTime: new Date(2000, 2, 2),
+    description: 'test description',
+    totalItems: 2,
+    totalPrice: {
+      formattedValue: '$165.00',
+    },
+    entries: [
+      {
+        product: mockProduct1,
+      },
+      {
+        product: mockProduct2,
+      },
+    ],
+  };
+  const mockCart2: Cart = {
+    code: '00002',
+    name: 'test name',
+    saveTime: new Date(2000, 2, 2),
+    description: 'test description',
+    totalItems: 2,
+    totalPrice: {
+      formattedValue: '$167.00',
+    },
+  };
+  const mockCarts: Cart[] = [mockCart1, mockCart2];
+
+  class MockSavedCartFacade implements Partial<SavedCartFacade> {
+    getList(): Observable<Cart[]> {
+      return of(mockCarts);
+    }
+    loadSavedCarts(): void {}
+  }
+
+  const cart$ = new BehaviorSubject<Cart>(mockCart1);
+
+  class MockActiveCartService implements Partial<ActiveCartFacade> {
+    getActive(): Observable<Cart> {
+      return cart$.asObservable();
+    }
+  }
+
+  @Pipe({
+    name: 'cxTranslate',
+  })
+  class MockTranslatePipe implements PipeTransform {
+    transform(): any {}
+  }
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
+
+  const mockOrders: OrderHistoryList = {
+    orders: [
+      {
+        code: '1',
+        placed: new Date('2018-01-01'),
+        statusDisplay: 'test',
+        total: { formattedValue: '1' },
+      },
+      {
+        code: '2',
+        placed: new Date('2018-01-02'),
+        statusDisplay: 'test2',
+        total: { formattedValue: '2' },
+      },
+    ],
+    pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
+    sorts: [{ code: 'byDate', selected: true }],
+  };
+
+  const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(
+    mockOrders
+  );
+
+  class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
+    getOrderHistoryList(): Observable<OrderHistoryList> {
+      return mockOrderHistoryList$.asObservable();
+    }
+    getOrderHistoryListLoaded(): Observable<boolean> {
+      return of(true);
+    }
+    loadOrderList(
+      _pageSize: number,
+      _currentPage?: number,
+      _sort?: string
+    ): void {}
+    clearOrderList() {}
+  }
+
+  class MockTranslationService {
+    translate(): Observable<string> {
+      return of('test');
+    }
+  }
   let component: AsmCustomerActivityComponent;
   let fixture: ComponentFixture<AsmCustomerActivityComponent>;
   let el: DebugElement;

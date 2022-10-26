@@ -19,6 +19,9 @@ import {
   byNullish,
   byString,
   Comparator,
+  isBoolean,
+  isNumber,
+  isString,
   itemsWith,
   property,
   SortOrder,
@@ -28,17 +31,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { KeyValuePair } from '../../asm-customer-360.model';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
-
-const isString = (x: unknown): x is string => typeof x === 'string';
-const isNumber = (x: unknown): x is number => typeof x === 'number';
-const isBoolean = (x: unknown): x is boolean => typeof x === 'boolean';
-const isKeyValuePair = Array.isArray as (
-  object: unknown
-) => object is KeyValuePair[];
-
-const keValuePairComparator: Comparator<KeyValuePair[]> = (_, __) => {
-  return 0;
-};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -135,7 +127,7 @@ export class AsmCustomerTableComponent implements OnChanges {
               whenType(isString, byString(sortOrder)),
               whenType(isNumber, byComparison(sortOrder)),
               whenType(isBoolean, byBoolean(sortOrder)),
-              whenType(isKeyValuePair, keValuePairComparator)
+              whenType(this.isKeyValuePair, this.keValuePairComparator())
             )
           )
         )
@@ -143,5 +135,15 @@ export class AsmCustomerTableComponent implements OnChanges {
     } else {
       return [];
     }
+  }
+
+  private isKeyValuePair(object: unknown): object is KeyValuePair[] {
+    return Array.isArray(object);
+  }
+
+  private keValuePairComparator(): Comparator<KeyValuePair[]> {
+    return (_, __) => {
+      return 0;
+    };
   }
 }

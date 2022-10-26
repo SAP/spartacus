@@ -12,8 +12,6 @@ export interface CustomerTableColumn {
   property: string;
   sortOrder?: 'asc' | 'desc';
   renderAsStarRating?: boolean;
-  /** If truthy, use the value to read the value from the entry to link to. */
-  urlProperty?: string;
   isDate?: boolean;
   navigatable?: boolean;
 }

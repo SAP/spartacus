@@ -10,6 +10,8 @@ import {
   byNullish,
   byNumber,
   byString,
+  isNumber,
+  isString,
   itemsWith,
   property,
   SortOrder,
@@ -25,8 +27,6 @@ describe('sortArrayAlphabetically()', () => {
       a.every((val, index) => val === b[index])
     );
   }
-  const isString = (x: unknown): x is string => typeof x === 'string';
-  const isNumber = (x: unknown): x is number => typeof x === 'number';
   interface MockTypeData {
     valueString: string;
     valueNumber: number;
