@@ -77,25 +77,16 @@ export class AsmCustomerActivityComponent implements OnInit {
   ngOnInit(): void {
     // Notes:  we are sorting table locally so we need to translate all possible value
     // before pass them to the table component. e.g. type, description, status? ...etc
-    const activityTab = this.asmConfig.asm?.customer360?.tabs?.find((tab) => {
-      const activityComp = tab.components.find(
-        (item) => item.component === 'AsmCustomer360CustomerActivityComponent'
-      );
-      if (activityComp) {
-        return activityComp;
-      }
-    });
-    this.pageSize =
-      activityTab?.components?.[0].config?.pageSize || this.PAGE_SIZE;
-
     let entries: Array<GeneralEntry> = [];
 
     this.entries$ = combineLatest([
+      this.sectionContext.config$,
       this.orderHistoryFacade.getOrderHistoryList(this.ORDER_LIMIT),
       this.activeCartFacade.getActive(),
       this.savedCartFacade.getList(),
     ]).pipe(
-      switchMap(([orderHistory, activeCart, savedCarts]) => {
+      switchMap(([config, orderHistory, activeCart, savedCarts]) => {
+        this.pageSize = config.pageSize || this.PAGE_SIZE;
         entries = [];
         // notes: active cart does not have date
         if (activeCart) {

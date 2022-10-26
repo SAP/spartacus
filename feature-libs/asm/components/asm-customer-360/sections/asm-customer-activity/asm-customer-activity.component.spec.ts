@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmConfig } from '@spartacus/asm/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
@@ -33,64 +32,6 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('AsmCustomerActivityComponent', () => {
-  class MockAsmConfig implements AsmConfig {
-    asm = {
-      agentSessionTimer: {
-        startingDelayInSeconds: 600,
-      },
-      customerSearch: {
-        maxResults: 20,
-      },
-      customer360: {
-        tabs: [
-          {
-            i18nNameKey: 'asm.customer360.overviewTab',
-            components: [
-              {
-                component: 'AsmCustomer360OverviewComponent',
-              },
-            ],
-          },
-          {
-            i18nNameKey: 'asm.customer360.profileTab',
-            components: [
-              {
-                component: 'AsmCustomer360ProfileComponent',
-              },
-            ],
-          },
-          {
-            i18nNameKey: 'asm.customer360.activityTab',
-            components: [
-              {
-                component: 'AsmCustomer360CustomerActivityComponent',
-                requestData: {
-                  customer360Type: 'C360ReviewList',
-                },
-                config: { pageSize: 5 },
-              },
-            ],
-          },
-          {
-            i18nNameKey: 'asm.customer360.mapsTab',
-            components: [
-              {
-                component: 'AsmCustomer360MapComponent',
-                requestData: {
-                  customer360Type: 'C360StoreLocation',
-                },
-                config: {
-                  googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
-                  pageSize: 10,
-                },
-              },
-            ],
-          },
-        ],
-      },
-    };
-  }
-
   const mockProduct1: Product = {
     code: '553637',
     name: 'NV10',
@@ -271,14 +212,14 @@ describe('AsmCustomerActivityComponent', () => {
         AsmCustomerTableComponent,
       ],
       providers: [
-        { provide: AsmConfig, useClass: MockAsmConfig },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: TranslationService, useClass: MockTranslationService },
+        Customer360SectionContextSource,
         {
           provide: Customer360SectionContext,
-          useClass: Customer360SectionContextSource,
+          useExisting: Customer360SectionContextSource,
         },
       ],
     }).compileComponents();
@@ -288,6 +229,11 @@ describe('AsmCustomerActivityComponent', () => {
     fixture = TestBed.createComponent(AsmCustomerActivityComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+
+    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource.config$.next({
+      pageSize: 5,
+    });
 
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     savedCartFacade = TestBed.inject(SavedCartFacade);
