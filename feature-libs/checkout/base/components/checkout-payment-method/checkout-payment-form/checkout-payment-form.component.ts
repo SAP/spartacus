@@ -18,6 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
+import { getAddressNumbers } from '@spartacus/checkout/base/core';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -39,7 +40,6 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { getAddressNumbers } from 'feature-libs/checkout/base/core/utils/utils';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -223,7 +223,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-    let numbers: string;
+    let numbers: string|undefined;
     numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {

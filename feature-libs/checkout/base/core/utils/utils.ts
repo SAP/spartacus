@@ -10,8 +10,11 @@ import { Address } from "@spartacus/core";
 /**
  * Get strings for phone and mobile numbers
  */
-export function getAddressNumbers(address: Address, textPhone: string, textMobile: string): string {
-  let numbers= '';
+export function getAddressNumbers(
+  address: Address, 
+  textPhone: string, 
+  textMobile: string): string|undefined {
+  let numbers= undefined;
   if (address.cellphone && address.phone) {
     numbers =
     `${textPhone}: ${address.phone}
@@ -24,6 +27,5 @@ export function getAddressNumbers(address: Address, textPhone: string, textMobil
   } else if (address.phone) {
     numbers =  textPhone + ': ' + address.phone;
   }
-
   return numbers;
 }

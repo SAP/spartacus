@@ -14,7 +14,7 @@ export interface SampleUser {
   password?: string;
   email?: string;
   phone?: string;
-  cellPhone?: string;
+  cellphone?: string;
   address?: {
     city?: string;
     line1?: string;
@@ -60,7 +60,7 @@ export function getSampleUser() {
     password: 'Password123.',
     email: generateMail(randomString(), true),
     phone: '555 555 555',
-    cellPhone: '123 456 7899',
+    cellphone: '123 456 7899',
     address: {
       city: 'Los Angeles',
       line1: '1111 S Figueroa St',

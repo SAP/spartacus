@@ -17,17 +17,17 @@ describe('Checkout utils', () => {
 
     it('should return phone number only', () => {
       mockAddress.cellphone = '';
-      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual('P:' + mockAddress.phone);
+      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual('P: ' + mockAddress.phone);
     });
 
     it('should return mobile number only', () => {
       mockAddress.phone = '';
       mockAddress.cellphone = '67890';
-      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual('M:' + mockAddress.cellphone);
+      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual('M: ' + mockAddress.cellphone);
 
       mockAddress.phone = '67890';
       mockAddress.cellphone = '67890';
-      expect(getAddressNumbers(mockAddress,  'P', 'M')).toEqual('M:' + mockAddress.cellphone);
+      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual('M: ' + mockAddress.cellphone);
 
     });
   });
