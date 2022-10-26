@@ -25665,3 +25665,13 @@ For more information, see the 5.0 migration guide.
 
 Class ModalService has been removed and is no longer part of the public API.
 Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class JsonLdScriptFactory 
+## @spartacus/storefront
+
+
+### Method sanitize is removed.
+
+Use 'escapeHtml' instead.

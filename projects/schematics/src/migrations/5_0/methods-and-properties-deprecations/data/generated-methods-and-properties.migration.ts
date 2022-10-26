@@ -4813,4 +4813,11 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       comment:
         "// TODO:Spartacus - The 'isConsentGiven' method's signature changed to: 'isConsentGiven(  consent: AnonymousConsent | undefined): boolean'",
     },
+    {
+      class: 'JsonLdScriptFactory',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitize',
+      comment:
+        "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'. Use 'escapeHtml' instead.",
+    },
   ];

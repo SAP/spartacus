@@ -113769,5 +113769,34 @@
     "deletedComment": "Class ModalService has been removed and is no longer part of the public API.",
     "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
     "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "JsonLdScriptFactory",
+    "breakingChanges": [
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitize",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "sanitize",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": ""
+        },
+        "apiElementName": "JsonLdScriptFactory",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'.",
+        "migrationComment": "Use 'escapeHtml' instead.",
+        "topLevelApiElementName": "JsonLdScriptFactory"
+      }
+    ]
   }
 ]
