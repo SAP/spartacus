@@ -25,6 +25,7 @@ import { Address, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { getAddressNumbers } from '../../core/utils/utils';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
@@ -94,8 +95,13 @@ export class CheckoutReviewSubmitComponent {
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
-    return this.translationService.translate('addressCard.shipTo').pipe(
-      map((textTitle) => {
+    return combineLatest([
+      this.translationService.translate('addressCard.shipTo'),
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ])
+    .pipe(
+      map(([textTitle, textPhone, textMobile]) => {
         if (!countryName) {
           countryName = deliveryAddress?.country?.name as string;
         }
@@ -108,20 +114,7 @@ export class CheckoutReviewSubmitComponent {
         ) {
           region = deliveryAddress.region.isocode + ', ';
         }
-        let numbers = '';
-        if (deliveryAddress.cellphone && deliveryAddress.phone) {
-          numbers =
-          `P: ${deliveryAddress.phone}
-          M: ${deliveryAddress.cellphone}`;
-          if(deliveryAddress.cellphone === deliveryAddress.phone) {
-            numbers = 'M: ' + deliveryAddress.cellphone;
-          }
-        } else if (deliveryAddress.cellphone && !deliveryAddress.phone) {
-          numbers = 'M: ' + deliveryAddress.cellphone;
-        } else if (!deliveryAddress.cellphone && deliveryAddress.phone) {
-          numbers =  'P: ' + deliveryAddress.phone;
-        }
-
+        const numbers = getAddressNumbers(deliveryAddress, textPhone, textMobile);
         return {
           title: textTitle,
           textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,

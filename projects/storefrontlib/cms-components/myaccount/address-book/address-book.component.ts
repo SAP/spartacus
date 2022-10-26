@@ -5,13 +5,13 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { getAddressNumbers } from '@spartacus/checkout/base/core';
 import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
+import { getAddressNumbers } from 'feature-libs/checkout/base/core/utils/utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
