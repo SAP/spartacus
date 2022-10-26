@@ -37,8 +37,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent),
-        this.eventService.get(TicketEventCreatedEvent)
+        this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })

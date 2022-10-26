@@ -101,7 +101,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             )
             .pipe(
               tap(() =>
-                this.eventService.dispatch({ status }, TicketEventCreatedEvent)
+                this.eventService.dispatch({}, GetTicketQueryReloadEvent)
               )
             )
         )

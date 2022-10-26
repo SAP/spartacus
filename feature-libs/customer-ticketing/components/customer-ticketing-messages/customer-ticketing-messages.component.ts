@@ -7,7 +7,7 @@ import {
   STATUS,
   TicketDetails,
   TicketEvent,
-  TicketEventCreatedEvent,
+  GetTicketQueryReloadEvent,
 } from 'feature-libs/customer-ticketing/root';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
               createdEvent.code
             );
           } else {
-            this.eventService.dispatch({ status }, TicketEventCreatedEvent);
+            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
         })
     );
