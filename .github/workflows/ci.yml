@@ -7,6 +7,9 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+  
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
@@ -129,7 +132,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -151,14 +154,14 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -180,7 +183,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -190,7 +193,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -212,7 +215,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
