@@ -30,6 +30,7 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewModule } from './order-overview/order-overview.module';
+import { OrderDetailItemsWrapperComponent } from './order-detail-items-wrapper/order-detail-items-wrapper.component';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -39,6 +40,7 @@ const moduleComponents = [
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
+  OrderDetailItemsWrapperComponent,
 ];
 
 @NgModule({
@@ -62,7 +64,7 @@ const moduleComponents = [
           component: OrderDetailActionsComponent,
         },
         AccountOrderDetailsItemsComponent: {
-          component: OrderDetailItemsComponent,
+          component: OrderDetailItemsWrapperComponent,
           data: {
             enableAddToCart: true,
           },
