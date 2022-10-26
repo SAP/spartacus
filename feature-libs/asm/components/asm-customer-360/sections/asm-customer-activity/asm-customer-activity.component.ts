@@ -172,7 +172,7 @@ export class AsmCustomerActivityComponent implements OnInit {
     this.savedCartFacade.loadSavedCarts();
   }
 
-  itemSelected(entry: GeneralEntry): void {
+  itemSelected(entry: GeneralEntry | undefined): void {
     if (entry) {
       let urlCommand: UrlCommand;
       if (entry.typeId === 'savedCart') {
