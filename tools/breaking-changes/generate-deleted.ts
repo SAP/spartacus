@@ -6,6 +6,7 @@
 
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
+import { SCHEMATICS_COMMENT_PREFIX } from './common';
 
 /**
  * This script generates deleted api elements schematics code.
@@ -54,6 +55,6 @@ function getSchematicsData(apiElement: any): any {
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
-  schematicsData.comment = `${apiElement.deletedComment} ${apiElement.migrationComment}`;
+  schematicsData.comment = `${SCHEMATICS_COMMENT_PREFIX} ${apiElement.deletedComment} ${apiElement.migrationComment}`;
   return schematicsData;
 }
