@@ -6,4 +6,12 @@
 }
 .setpreferredstore-container {
   display: flex;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+  .set-preferred-heading {
+    padding-left: 0.5rem;
+    text-decoration: underline;
+  }
 }
