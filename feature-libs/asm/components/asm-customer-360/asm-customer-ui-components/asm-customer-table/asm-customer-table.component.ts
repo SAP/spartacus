@@ -1,9 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
+import {
+  byBoolean,
+  byComparison,
+  byNullish,
+  byString,
+  Comparator,
+  isBoolean,
+  isNumber,
+  isString,
+  itemsWith,
+  property,
+  SortOrder,
+  whenType,
+} from 'feature-libs/asm/core/utils/sort';
+import { BehaviorSubject } from 'rxjs';
 
 import { KeyValuePair } from '../../asm-customer-360.model';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
@@ -13,57 +37,69 @@ import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
   selector: 'cx-asm-customer-table',
   templateUrl: './asm-customer-table.component.html',
 })
-export class AsmCustomerTableComponent implements OnInit {
-  @Input()
-  columns: Array<CustomerTableColumn>;
+export class AsmCustomerTableComponent implements OnChanges {
+  @Input() columns: Array<CustomerTableColumn>;
 
-  @Input()
-  currentPage = 0;
+  @Input() emptyStateText: string;
 
-  @Input()
-  emptyStateText: string;
+  @Input() entries: Array<TableEntry>;
 
-  @Input()
-  entries: Array<TableEntry>;
+  @Input() headerText: string;
 
-  @Input()
-  headerText: string;
+  @Input() pageSize: number;
 
-  @Input()
-  pageSize: number;
+  @Input() sortProperty: keyof TableEntry;
 
-  @Input()
-  sortProperty: string;
+  @Output() selectItem = new EventEmitter<TableEntry>();
 
-  reverseSort = false;
+  SortOrder = SortOrder;
+
+  currentPageNumber = 0;
+
+  currentPage$ = new BehaviorSubject<Array<TableEntry> | undefined>(undefined);
+
+  listSortOrder = SortOrder.ASC;
 
   entryPages: Array<Array<TableEntry>>;
 
-  ngOnInit(): void {
-    const entries = this.sortEntries(this.entries, this.sortProperty);
-    this.entryPages = this.updateEntryPages(entries);
+  ngOnChanges(changes?: SimpleChanges): void {
+    if (changes?.entries) {
+      const entries = this.sortEntries(
+        this.entries,
+        this.sortProperty,
+        this.listSortOrder
+      );
+      this.entryPages = this.updateEntryPages(entries);
+      this.setPageNumber(this.currentPageNumber);
+    }
   }
 
-  public sortEntriesAndUpdatePages(property: string): void {
+  sortEntriesAndUpdatePages(property: string): void {
     const currentProperty = this.sortProperty;
 
-    let reverseSort: boolean;
-
+    let newSortOrder: SortOrder;
     if (property !== currentProperty) {
-      reverseSort = false;
+      newSortOrder = SortOrder.ASC;
     } else {
-      reverseSort = !this.reverseSort;
+      newSortOrder =
+        this.listSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     }
 
     this.sortProperty = property;
-    this.reverseSort = reverseSort;
+    this.listSortOrder = newSortOrder;
 
-    this.entries = this.sortEntries(this.entries, property, reverseSort);
+    this.entries = this.sortEntries(
+      this.entries,
+      this.sortProperty,
+      this.listSortOrder
+    );
     this.entryPages = this.updateEntryPages(this.entries);
+    this.setPageNumber(this.currentPageNumber);
   }
 
-  public setPageNumber(pageNumber: number): void {
-    this.currentPage = pageNumber;
+  setPageNumber(pageNumber: number): void {
+    this.currentPageNumber = pageNumber;
+    this.currentPage$.next(this.entryPages[this.currentPageNumber]);
   }
 
   private updateEntryPages(
@@ -78,45 +114,36 @@ export class AsmCustomerTableComponent implements OnInit {
 
   private sortEntries(
     entries: Array<TableEntry>,
-    sortByProperty: string,
-    reverseSort?: boolean
+    sortByProperty: keyof TableEntry,
+    sortOrder: SortOrder
   ): Array<TableEntry> {
-    const newEntries = entries.slice().sort((entryA, entryB) => {
-      const prev = entryA[sortByProperty];
-      const next = entryB[sortByProperty];
-      return this.compareEntryValues(prev, next);
-    });
-
-    if (reverseSort) {
-      return newEntries.reverse();
+    if (entries?.length) {
+      return entries.sort(
+        itemsWith(
+          property(
+            sortByProperty,
+            itemsWith(
+              byNullish(SortOrder.DESC),
+              whenType(isString, byString(sortOrder)),
+              whenType(isNumber, byComparison(sortOrder)),
+              whenType(isBoolean, byBoolean(sortOrder)),
+              whenType(this.isKeyValuePair, this.keValuePairComparator())
+            )
+          )
+        )
+      );
     } else {
-      return newEntries;
+      return [];
     }
   }
 
-  private compareEntryValues(
-    a: string | number | Array<KeyValuePair> | undefined,
-    b: string | number | Array<KeyValuePair> | undefined
-  ): number {
-    if (a === undefined || b === undefined) {
-      if (a === undefined && b === undefined) {
-        return 0;
-      } else if (a === undefined) {
-        return -1;
-      } else {
-        return 1;
-      }
-    } else if (typeof a !== typeof b) {
-      // Assume the values need to be of the same type to be compared.
-      throw new TypeError('Compared values need to be of the same type.');
-    } else if (Array.isArray(a) || Array.isArray(b)) {
-      // Ignore KeyValuePairs, assuming they will not be sorted.
+  private isKeyValuePair(object: unknown): object is KeyValuePair[] {
+    return Array.isArray(object);
+  }
+
+  private keValuePairComparator(): Comparator<KeyValuePair[]> {
+    return (_, __) => {
       return 0;
-    } else if (typeof a === 'string') {
-      return a.localeCompare(b as string);
-    } else {
-      // Assuming both values are 'number' now.
-      return a - (b as number);
-    }
+    };
   }
 }

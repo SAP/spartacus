@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Address,
   I18nTestingModule,
@@ -26,7 +27,6 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { OrderEntry } from '@spartacus/cart/base/root';
 
 import { By } from '@angular/platform-browser';
 import { AsmCustomerProfileComponent } from './asm-customer-profile.component';
@@ -38,150 +38,150 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
+describe('AsmCustomerProfileComponent', () => {
+  @Pipe({
+    name: 'cxTranslate',
+  })
+  class MockTranslatePipe implements PipeTransform {
+    transform(): any {}
+  }
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
 
-@Component({
-  template: '',
-  selector: '[cx-asm-product-item], cx-asm-product-item',
-})
-class MockAsmProductItemComponent {
-  @Input() item: OrderEntry;
-  @Input() product: Product;
-  @Input() quantity: number;
-  @Input() price: Price;
-  @Input() isOrderEntry = true;
-  @Output() selectProduct = new EventEmitter<Product>();
-}
-const mockPayment1: PaymentDetails = {
-  accountHolderName: 'hak',
-  billingAddress: {
-    country: {
-      isocode: 'US',
+  @Component({
+    template: '',
+    selector: '[cx-asm-product-item], cx-asm-product-item',
+  })
+  class MockAsmProductItemComponent {
+    @Input() item: OrderEntry;
+    @Input() product: Product;
+    @Input() quantity: number;
+    @Input() price: Price;
+    @Input() isOrderEntry = true;
+    @Output() selectProduct = new EventEmitter<Product>();
+  }
+  const mockPayment1: PaymentDetails = {
+    accountHolderName: 'hak',
+    billingAddress: {
+      country: {
+        isocode: 'US',
+      },
+      defaultAddress: false,
+      email: 'kimhakwo@test.com',
+      firstName: 'billingFirst',
+      formattedAddress:
+        '53 State St Billing, Billing 2nd line, Massachusetts, Boston, 02109',
+      id: '8796158951447',
+      lastName: 'billingLast',
+      line1: '53 State St Billing',
+      line2: 'Billing 2nd line',
+      phone: '14165053699',
+      postalCode: '02109',
+      region: {
+        isocode: 'US-MA',
+      },
+      town: 'Boston',
     },
-    defaultAddress: false,
-    email: 'kimhakwo@test.com',
-    firstName: 'billingFirst',
-    formattedAddress:
-      '53 State St Billing, Billing 2nd line, Massachusetts, Boston, 02109',
-    id: '8796158951447',
-    lastName: 'billingLast',
-    line1: '53 State St Billing',
-    line2: 'Billing 2nd line',
-    phone: '14165053699',
-    postalCode: '02109',
-    region: {
-      isocode: 'US-MA',
+    cardNumber: '************1111',
+    cardType: {
+      code: 'visa',
+      name: 'Visa',
     },
-    town: 'Boston',
-  },
-  cardNumber: '************1111',
-  cardType: {
-    code: 'visa',
-    name: 'Visa',
-  },
-  defaultPayment: true,
-  expiryMonth: '3',
-  expiryYear: '2030',
-  id: '8796125921322',
-  saved: true,
-  subscriptionId: 'f009b2cf-3ac4-4763-a7ce-80c9e0c98f25',
-};
-const mockPayment2: PaymentDetails = {
-  accountHolderName: 'hakMaster',
-  billingAddress: {
-    country: {
-      isocode: 'US',
+    defaultPayment: true,
+    expiryMonth: '3',
+    expiryYear: '2030',
+    id: '8796125921322',
+    saved: true,
+    subscriptionId: 'f009b2cf-3ac4-4763-a7ce-80c9e0c98f25',
+  };
+  const mockPayment2: PaymentDetails = {
+    accountHolderName: 'hakMaster',
+    billingAddress: {
+      country: {
+        isocode: 'US',
+      },
+      defaultAddress: false,
+      email: 'kimhakwo@test.com',
+      firstName: 'US',
+      formattedAddress: '53 State St, , Massachusetts, Boston, 02109',
+      id: '8796159311895',
+      lastName: 'Hak',
+      line1: '53 State St, ',
+      line2: 'Billing 2nd line',
+      phone: '14165053699',
+      postalCode: '02109',
+      region: {
+        isocode: 'US-MA',
+      },
+      town: 'Boston',
     },
-    defaultAddress: false,
-    email: 'kimhakwo@test.com',
-    firstName: 'US',
-    formattedAddress: '53 State St, , Massachusetts, Boston, 02109',
-    id: '8796159311895',
-    lastName: 'Hak',
-    line1: '53 State St, ',
-    line2: 'Billing 2nd line',
-    phone: '14165053699',
-    postalCode: '02109',
-    region: {
-      isocode: 'US-MA',
+    cardNumber: '************4444',
+    cardType: {
+      code: 'master',
+      name: 'Mastercard',
     },
-    town: 'Boston',
-  },
-  cardNumber: '************4444',
-  cardType: {
-    code: 'master',
-    name: 'Mastercard',
-  },
-  defaultPayment: false,
-  expiryMonth: '3',
-  expiryYear: '2030',
-  id: '8796126052394',
-  saved: true,
-  subscriptionId: 'd90bb4b2-0bd3-4620-986f-43e2d062afe0',
-};
-class MockUserPaymentService {
-  getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    defaultPayment: false,
+    expiryMonth: '3',
+    expiryYear: '2030',
+    id: '8796126052394',
+    saved: true,
+    subscriptionId: 'd90bb4b2-0bd3-4620-986f-43e2d062afe0',
+  };
+  class MockUserPaymentService {
+    getPaymentMethodsLoading(): Observable<boolean> {
+      return of();
+    }
+    getPaymentMethods(): Observable<PaymentDetails[]> {
+      return of([mockPayment1]);
+    }
+    loadPaymentMethods(): void {}
+    deletePaymentMethod(_paymentMethodId: string): void {}
+    setPaymentMethodAsDefault(_paymentMethodId: string): void {}
   }
-  getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of([mockPayment1]);
-  }
-  loadPaymentMethods(): void {}
-  deletePaymentMethod(_paymentMethodId: string): void {}
-  setPaymentMethodAsDefault(_paymentMethodId: string): void {}
-}
 
-const mockAddress: Address = {
-  id: '123',
-  firstName: 'John',
-  lastName: 'Doe',
-  titleCode: 'mr',
-  line1: 'Toyosaki 2 create on cart',
-  line2: 'line2',
-  town: 'town',
-  region: { isocode: 'JP-27' },
-  postalCode: 'zip',
-  country: { isocode: 'JP' },
-  phone: '14165053687',
-  cellphone: '14165053699',
-  defaultAddress: true,
-};
+  const mockAddress: Address = {
+    id: '123',
+    firstName: 'John',
+    lastName: 'Doe',
+    titleCode: 'mr',
+    line1: 'Toyosaki 2 create on cart',
+    line2: 'line2',
+    town: 'town',
+    region: { isocode: 'JP-27' },
+    postalCode: 'zip',
+    country: { isocode: 'JP' },
+    phone: '14165053687',
+    cellphone: '14165053699',
+    defaultAddress: true,
+  };
 
-const mockUser: User = {
-  uid: '1234',
-};
+  const mockUser: User = {
+    uid: '1234',
+  };
 
-const isLoading = new BehaviorSubject<boolean>(false);
-class MockComponentService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
-  getAddressesStateLoading(): Observable<boolean> {
-    return isLoading.asObservable();
+  const isLoading = new BehaviorSubject<boolean>(false);
+  class MockComponentService {
+    loadAddresses = jasmine.createSpy();
+    addUserAddress = jasmine.createSpy();
+    updateUserAddress = jasmine.createSpy();
+    deleteUserAddress = jasmine.createSpy();
+    setAddressAsDefault = jasmine.createSpy();
+    getAddressesStateLoading(): Observable<boolean> {
+      return isLoading.asObservable();
+    }
+    getAddresses(): Observable<Address[]> {
+      return of([mockAddress, mockAddress, mockAddress]);
+    }
+    getUserId(): Observable<string> {
+      return of(mockUser.uid ?? '');
+    }
   }
-  getAddresses(): Observable<Address[]> {
-    return of([mockAddress, mockAddress, mockAddress]);
-  }
-  getUserId(): Observable<string> {
-    return of(mockUser.uid ?? '');
-  }
-}
 
-fdescribe('AsmCustomerProfileComponent', () => {
   let component: AsmCustomerProfileComponent;
   let fixture: ComponentFixture<AsmCustomerProfileComponent>;
   let el: DebugElement;

@@ -1,8 +1,9 @@
 <cx-asm-customer-table
-  emptyStateText="There is currently no recorded customer activity"
-  headerText="General"
-  sortProperty="updated"
+  [emptyStateText]="'asm.customer360.activity.emptyStateText' | cxTranslate"
+  [headerText]="'asm.customer360.activity.headerText' | cxTranslate"
+  sortProperty="created"
   [columns]="columns"
-  [entries]="transformedEntries"
-  [pageSize]="config.pageSize"
+  [entries]="entries$ | async"
+  [pageSize]="pageSize"
+  (selectItem)="itemSelected($event)"
 ></cx-asm-customer-table>

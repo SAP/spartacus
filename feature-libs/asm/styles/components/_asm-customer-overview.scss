@@ -22,7 +22,7 @@
       font-size: 12px;
       font-weight: 600;
       margin-bottom: 12px;
-      margin-left: 8px;
+      margin-inline-start: 8px;
       padding: 0 16px;
     }
 
@@ -39,7 +39,7 @@
       flex-direction: column;
 
       &:nth-of-type(n + 2) {
-        border-left: 1px solid #dfe5ec;
+        border-left: 1px solid $asmBorderColor;
       }
     }
 
@@ -122,7 +122,7 @@
     .cx-asm-overview-order-items {
       gap: 1rem;
       cx-asm-product-item {
-        border: 1px solid var(--cx-color-light);
+        border: 1px solid $asmBorderColor;
         border-radius: 10px;
         max-width: 330px;
         cx-media {

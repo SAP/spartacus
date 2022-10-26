@@ -9,6 +9,9 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   I18nTestingModule,
   ImageType,
@@ -26,209 +29,10 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AsmCustomerOverviewComponent } from './asm-customer-overview.component';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { By } from '@angular/platform-browser';
-import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
+import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { AsmCustomerOverviewComponent } from './asm-customer-overview.component';
 
-const mockProduct1: Product = {
-  code: '553637',
-  name: 'NV10',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV10',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$264.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-};
-
-const mockProduct2: Product = {
-  code: '553638',
-  name: 'NV11',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV11',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$188.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-  baseOptions: [
-    {
-      selected: {
-        variantOptionQualifiers: [
-          {
-            name: 'color',
-            value: 'red',
-          },
-          {
-            name: 'size',
-            value: 'XL',
-          },
-        ],
-      },
-    },
-  ],
-};
-
-const mockProduct3: Product = {
-  code: '553639',
-  name: 'NV12',
-  images: {
-    PRIMARY: {
-      thumbnail: {
-        altText: 'NV12',
-        format: 'thumbnail',
-        imageType: ImageType.PRIMARY,
-        url: 'image-url',
-      },
-    },
-  },
-  price: {
-    formattedValue: '$22.69',
-  },
-  stock: {
-    stockLevel: 0,
-    stockLevelStatus: 'outOfStock',
-  },
-  baseOptions: [
-    {
-      selected: {
-        variantOptionQualifiers: [
-          {
-            name: 'color',
-            value: 'red',
-          },
-          {
-            name: 'size',
-            value: 'XL',
-          },
-        ],
-      },
-    },
-  ],
-};
-
-const mockCart1: Cart = {
-  code: '00001',
-  name: 'test name',
-  saveTime: new Date(2000, 2, 2),
-  description: 'test description',
-  totalItems: 2,
-  totalPrice: {
-    formattedValue: '$165.00',
-  },
-  entries: [
-    {
-      product: mockProduct1,
-    },
-    {
-      product: mockProduct2,
-    },
-  ],
-};
-const mockCart2: Cart = {
-  code: '00002',
-  name: 'test name',
-  saveTime: new Date(2000, 2, 2),
-  description: 'test description',
-  totalItems: 2,
-  totalPrice: {
-    formattedValue: '$167.00',
-  },
-};
-const mockCarts: Cart[] = [mockCart1, mockCart2];
-
-const p553637$: Observable<Product> = of(mockProduct1);
-
-const p553638$: Observable<Product> = of(mockProduct2);
-
-const p553639$: Observable<Product> = of(mockProduct3);
-
-const mockedInterests: ProductInterestSearchResult = {
-  sorts: [{ code: 'name', asc: true }],
-  pagination: {
-    count: 5,
-    page: 0,
-    totalCount: 1,
-    totalPages: 1,
-  },
-  results: [
-    {
-      product: mockProduct1,
-      productInterestEntry: [
-        {
-          dateAdded: new Date().toString(),
-          interestType: NotificationType.BACK_IN_STOCK,
-        },
-      ],
-    },
-    {
-      product: mockProduct2,
-      productInterestEntry: [
-        {
-          dateAdded: new Date().toString(),
-          interestType: NotificationType.BACK_IN_STOCK,
-        },
-      ],
-    },
-    {
-      product: mockProduct3,
-      productInterestEntry: [
-        {
-          dateAdded: new Date().toString(),
-          interestType: NotificationType.BACK_IN_STOCK,
-        },
-      ],
-    },
-  ],
-};
-const emptyInterests: ProductInterestSearchResult = {
-  sorts: [{ code: 'name', asc: true }],
-  pagination: {},
-};
-
-class MockSavedCartFacade implements Partial<SavedCartFacade> {
-  getList(): Observable<Cart[]> {
-    return of(mockCarts);
-  }
-  loadSavedCarts(): void {}
-}
-
-const cart$ = new BehaviorSubject<Cart>(mockCart1);
-
-class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive(): Observable<Cart> {
-    return cart$.asObservable();
-  }
-}
-class MockBreakpointService {
-  get breakpoint$(): Observable<BREAKPOINT> {
-    return of(BREAKPOINT.xl);
-  }
-}
 @Directive({
   selector: '[cxFocus]',
 })
@@ -236,34 +40,231 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Component({
-  template: '',
-  selector: '[cx-asm-product-item], cx-asm-product-item',
-})
-class MockAsmProductItemComponent {
-  @Input() item: OrderEntry;
-  @Input() product: Product;
-  @Input() quantity: number;
-  @Input() price: Price;
-  @Input() isOrderEntry = true;
-  @Output() selectProduct = new EventEmitter<Product>();
-}
-
 describe('AsmCustomerOverviewComponent', () => {
+  const mockProduct1: Product = {
+    code: '553637',
+    name: 'NV10',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV10',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$264.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+  };
+
+  const mockProduct2: Product = {
+    code: '553638',
+    name: 'NV11',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV11',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$188.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+    baseOptions: [
+      {
+        selected: {
+          variantOptionQualifiers: [
+            {
+              name: 'color',
+              value: 'red',
+            },
+            {
+              name: 'size',
+              value: 'XL',
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  const mockProduct3: Product = {
+    code: '553639',
+    name: 'NV12',
+    images: {
+      PRIMARY: {
+        thumbnail: {
+          altText: 'NV12',
+          format: 'thumbnail',
+          imageType: ImageType.PRIMARY,
+          url: 'image-url',
+        },
+      },
+    },
+    price: {
+      formattedValue: '$22.69',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
+    },
+    baseOptions: [
+      {
+        selected: {
+          variantOptionQualifiers: [
+            {
+              name: 'color',
+              value: 'red',
+            },
+            {
+              name: 'size',
+              value: 'XL',
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  const mockCart1: Cart = {
+    code: '00001',
+    name: 'test name',
+    saveTime: new Date(2000, 2, 2),
+    description: 'test description',
+    totalItems: 2,
+    totalPrice: {
+      formattedValue: '$165.00',
+    },
+    entries: [
+      {
+        product: mockProduct1,
+      },
+      {
+        product: mockProduct2,
+      },
+    ],
+  };
+  const mockCart2: Cart = {
+    code: '00002',
+    name: 'test name',
+    saveTime: new Date(2000, 2, 2),
+    description: 'test description',
+    totalItems: 2,
+    totalPrice: {
+      formattedValue: '$167.00',
+    },
+  };
+  const mockCarts: Cart[] = [mockCart1, mockCart2];
+
+  const p553637$: Observable<Product> = of(mockProduct1);
+
+  const p553638$: Observable<Product> = of(mockProduct2);
+
+  const p553639$: Observable<Product> = of(mockProduct3);
+
+  const mockedInterests: ProductInterestSearchResult = {
+    sorts: [{ code: 'name', asc: true }],
+    pagination: {
+      count: 5,
+      page: 0,
+      totalCount: 1,
+      totalPages: 1,
+    },
+    results: [
+      {
+        product: mockProduct1,
+        productInterestEntry: [
+          {
+            dateAdded: new Date().toString(),
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+      {
+        product: mockProduct2,
+        productInterestEntry: [
+          {
+            dateAdded: new Date().toString(),
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+      {
+        product: mockProduct3,
+        productInterestEntry: [
+          {
+            dateAdded: new Date().toString(),
+            interestType: NotificationType.BACK_IN_STOCK,
+          },
+        ],
+      },
+    ],
+  };
+  const emptyInterests: ProductInterestSearchResult = {
+    sorts: [{ code: 'name', asc: true }],
+    pagination: {},
+  };
+
+  class MockSavedCartFacade implements Partial<SavedCartFacade> {
+    getList(): Observable<Cart[]> {
+      return of(mockCarts);
+    }
+    loadSavedCarts(): void {}
+  }
+
+  const cart$ = new BehaviorSubject<Cart>(mockCart1);
+
+  class MockActiveCartService implements Partial<ActiveCartFacade> {
+    getActive(): Observable<Cart> {
+      return cart$.asObservable();
+    }
+  }
+  class MockBreakpointService {
+    get breakpoint$(): Observable<BREAKPOINT> {
+      return of(BREAKPOINT.xl);
+    }
+  }
+
+  @Pipe({
+    name: 'cxTranslate',
+  })
+  class MockTranslatePipe implements PipeTransform {
+    transform(): any {}
+  }
+  @Component({
+    selector: 'cx-icon',
+    template: '',
+  })
+  class MockCxIconComponent {
+    @Input() type: ICON_TYPE;
+  }
+
+  @Component({
+    template: '',
+    selector: '[cx-asm-product-item], cx-asm-product-item',
+  })
+  class MockAsmProductItemComponent {
+    @Input() item: OrderEntry;
+    @Input() product: Product;
+    @Input() quantity: number;
+    @Input() price: Price;
+    @Input() isOrderEntry = true;
+    @Output() selectProduct = new EventEmitter<Product>();
+  }
+
   let component: AsmCustomerOverviewComponent;
   let fixture: ComponentFixture<AsmCustomerOverviewComponent>;
   let el: DebugElement;

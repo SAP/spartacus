@@ -1,128 +1,253 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Customer360SectionConfig } from '@spartacus/asm/root';
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-import { formatEpochTime } from '../../asm-customer-360.utils';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsmConfig } from '@spartacus/asm/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { TranslationService, UrlCommand } from '@spartacus/core';
+import { OrderHistoryFacade } from '@spartacus/order/root';
+import { combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
+import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-activity',
   templateUrl: './asm-customer-activity.component.html',
 })
-export class AsmCustomerActivityComponent {
+export class AsmCustomerActivityComponent implements OnInit {
+  private PAGE_SIZE = 10;
+  private ORDER_LIMIT = 100;
+
+  pageSize: number;
+  entries$: Observable<Array<GeneralEntry>>;
   columns: Array<CustomerTableColumn> = [
-    { property: 'type', text: 'type' },
-    { property: 'id', text: 'id' },
-    { property: 'description', text: 'description' },
-    { property: 'category', text: 'status' },
-    { property: 'created', text: 'created' },
-    { property: 'updated', text: 'updated' },
-  ];
-
-  entries = [
     {
-      type: 'Ticket',
-      id: '00000001',
-      description: 'Thing not work good',
-      created: Number(new Date('2022-07-07T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-07T18:25:43.511Z')),
-      category: 'New',
+      property: 'type',
+      text: 'type',
+      i18nTextKey: 'asm.customer360.activity.type',
     },
     {
-      type: 'Ticket',
-      id: '00000002',
-      description: 'Thing not work as expected',
-      created: Number(new Date('2022-07-03T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-06T18:25:43.511Z')),
-      category: 'Closed',
+      property: 'id',
+      text: 'id',
+      i18nTextKey: 'asm.customer360.activity.id',
+      navigatable: true,
     },
     {
-      type: 'Ticket',
-      id: '00000003',
-      description: 'Thing work but so slow ${cool}',
-      descriptionArgs: [{ key: 'cool', value: 'beans' }],
-      created: Number(new Date('2022-06-30T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-01T18:25:43.511Z')),
-      category: 'Addressed',
+      property: 'description',
+      text: 'description',
+      i18nTextKey: 'asm.customer360.activity.description',
     },
     {
-      type: 'Cart',
-      id: '00002001',
-      description: 'Cart with 1 item',
-      created: Number(new Date('2022-07-01T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-02T18:25:43.511Z')),
-      url: 'https://www.example.com/00002001',
+      property: 'category',
+      text: 'status',
+      i18nTextKey: 'asm.customer360.activity.status',
     },
     {
-      type: 'Cart',
-      id: '00002004',
-      description: 'Cart with 2 items',
-      created: Number(new Date('2022-06-01T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-06T18:25:43.511Z')),
-      url: 'https://www.example.com/00002004',
+      property: 'created',
+      text: 'created',
+      i18nTextKey: 'asm.customer360.activity.created',
+      isDate: true,
     },
     {
-      type: 'Cart',
-      id: '00002007',
-      description: 'Cart with 0 items',
-      created: Number(new Date('2022-06-15T18:25:43.511Z')),
-      updated: Number(new Date('2022-06-20T18:25:43.511Z')),
-      url: 'https://www.example.com/00002007',
-    },
-    {
-      type: 'Saved Cart',
-      id: '00002002',
-      description: 'Cart with 2 items',
-      created: Number(new Date('2022-07-02T18:25:43.511Z')),
-      updated: Number(new Date('2022-07-04T18:25:43.511Z')),
-    },
-    {
-      type: 'Saved Cart',
-      id: '00002005',
-      description: 'Cart with 3 items',
-      created: Number(new Date('2022-06-09T18:25:43.511Z')),
-      updated: Number(new Date('2022-06-12T18:25:43.511Z')),
-    },
-    {
-      type: 'Saved Cart',
-      id: '00002008',
-      description: 'Cart with 4 items',
-      created: Number(new Date('2022-06-22T18:25:43.511Z')),
-      updated: Number(new Date('2022-06-22T18:25:43.511Z')),
-    },
-    {
-      type: 'Order',
-      id: '00002003',
-      description: 'Cart with 1 item',
-      created: Number(new Date('2022-05-30T18:25:43.511Z')),
-      updated: Number(new Date('2022-05-31T18:25:43.511Z')),
-      category: 'Draft',
-    },
-    {
-      type: 'Order',
-      id: '00002006',
-      description: 'Cart with 2 items',
-      created: Number(new Date('2022-06-05T18:25:43.511Z')),
-      updated: Number(new Date('2022-06-06T18:25:43.511Z')),
-      category: 'Completed',
-    },
-    {
-      type: 'Order',
-      id: '00002009',
-      description: 'Cart with 0 items',
-      created: Number(new Date('2022-05-15T18:25:43.511Z')),
-      updated: Number(new Date('2022-05-20T18:25:43.511Z')),
-      category: 'Processing',
+      property: 'updated',
+      text: 'updated',
+      i18nTextKey: 'asm.customer360.activity.updated',
+      isDate: true,
     },
   ];
-
   transformedEntries: Array<any>;
+  localizedValues: Array<ValueLocalization> = [];
 
-  constructor(public config: Customer360SectionConfig) {
-    this.transformedEntries = this.entries.map((entry) => ({
-      ...entry,
-      created: entry.created && formatEpochTime(entry.created),
-      updated: entry.updated && formatEpochTime(entry.updated),
-    }));
+  constructor(
+    protected asmConfig: AsmConfig,
+    protected activeCartFacade: ActiveCartFacade,
+    protected savedCartFacade: SavedCartFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected translationService: TranslationService,
+    protected sectionContext: Customer360SectionContext<void>
+  ) {}
+
+  ngOnInit(): void {
+    // Notes:  we are sorting table locally so we need to translate all possible value
+    // before pass them to the table component. e.g. type, description, status? ...etc
+    let entries: Array<GeneralEntry> = [];
+
+    this.entries$ = combineLatest([
+      this.sectionContext.config$,
+      this.orderHistoryFacade.getOrderHistoryList(this.ORDER_LIMIT),
+      this.activeCartFacade.getActive(),
+      this.savedCartFacade.getList(),
+    ]).pipe(
+      switchMap(([config, orderHistory, activeCart, savedCarts]) => {
+        this.pageSize = config.pageSize || this.PAGE_SIZE;
+        entries = [];
+        // notes: active cart does not have date
+        if (activeCart) {
+          entries.push({
+            typeId: 'activeCart',
+            id: activeCart.code,
+            created: undefined,
+            category: '',
+          });
+          this.saveLocalization(
+            activeCart.code,
+            'type',
+            'asm.customer360.activity.cart'
+          );
+          this.saveLocalization(
+            activeCart.code,
+            'description',
+            'asm.customer360.activity.numberOfCartItems',
+            {
+              count: activeCart.totalItems ?? 0,
+            }
+          );
+        }
+
+        if (savedCarts) {
+          savedCarts.forEach((cart) => {
+            entries.push({
+              typeId: 'savedCart',
+              id: cart.code,
+              created: cart?.saveTime
+                ? Date.parse(String(cart?.saveTime))
+                : undefined,
+              category: '',
+            });
+            this.saveLocalization(
+              cart.code,
+              'type',
+              'asm.customer360.activity.savedCart'
+            );
+            this.saveLocalization(
+              cart.code,
+              'description',
+              'asm.customer360.activity.numberOfCartItems',
+              {
+                count: cart.totalItems ?? 0,
+              }
+            );
+          });
+        }
+        // Notes: order history order doesn't have totalItems
+        if (orderHistory?.orders?.length) {
+          orderHistory.orders.forEach((order) => {
+            entries.push({
+              typeId: 'orderHistory',
+              id: order.code,
+              created: order?.placed
+                ? Date.parse(String(order?.placed))
+                : undefined,
+              category: order.statusDisplay,
+            });
+            this.saveLocalization(
+              order.code,
+              'type',
+              'asm.customer360.activity.order'
+            );
+          });
+        }
+        return this.getLocalizations().pipe(
+          map((valueLocalizations) => {
+            valueLocalizations.forEach((valueLocalization) => {
+              const entry = entries.find(
+                (item) => item.id === valueLocalization.id
+              );
+              if (entry && valueLocalization.propertyName) {
+                entry[valueLocalization.propertyName] = valueLocalization.value;
+              }
+            });
+            return entries;
+          })
+        );
+      })
+    );
+    this.savedCartFacade.loadSavedCarts();
+  }
+
+  itemSelected(entry: GeneralEntry | undefined): void {
+    if (entry) {
+      let urlCommand: UrlCommand;
+      if (entry.typeId === 'savedCart') {
+        urlCommand = {
+          cxRoute: 'savedCartsDetails',
+          params: { savedCartId: entry?.id },
+        };
+      } else if (entry.typeId === 'activeCart') {
+        urlCommand = {
+          cxRoute: 'cart',
+        };
+      } else if (entry.typeId === 'orderHistory') {
+        urlCommand = {
+          cxRoute: 'orderDetails',
+          params: { code: entry?.id },
+        };
+      }
+      if (urlCommand) {
+        this.sectionContext.navigate$.next(urlCommand);
+      }
+    }
+  }
+
+  private getLocalizations(): Observable<Array<ValueLocalization>> {
+    const translateRequests: Array<Observable<string>> = [];
+    // avoid duplicate calls
+    const filtredLocalizedValue = this.localizedValues.filter(
+      (item) => !item.value
+    );
+
+    filtredLocalizedValue.forEach((valueLocalization) => {
+      translateRequests.push(
+        this.translationService
+          .translate(valueLocalization.i18nNameKey, valueLocalization.options)
+          .pipe(take(1))
+      );
+    });
+
+    if (translateRequests.length) {
+      return forkJoin(translateRequests).pipe(
+        map((localizations) => {
+          localizations.forEach((item, index) => {
+            filtredLocalizedValue[index].value = item;
+            const orgIndex = this.localizedValues.findIndex(
+              (orgItem) =>
+                orgItem.i18nNameKey ===
+                  filtredLocalizedValue[index].i18nNameKey &&
+                orgItem.options === filtredLocalizedValue[index].options
+            );
+            this.localizedValues[orgIndex].value = item;
+          });
+          return this.localizedValues;
+        })
+      );
+    } else {
+      return of(this.localizedValues);
+    }
+  }
+
+  private saveLocalization(
+    id: string | undefined,
+    propertyName: string,
+    i18nNameKey: string,
+    options?: any
+  ): void {
+    const localizedValue = this.localizedValues.find(
+      (item) => item.id === id && item.propertyName === propertyName
+    );
+    if (!localizedValue) {
+      this.localizedValues.push({
+        i18nNameKey: i18nNameKey,
+        options: options,
+        propertyName: propertyName,
+        id: id,
+      });
+    }
   }
 }
