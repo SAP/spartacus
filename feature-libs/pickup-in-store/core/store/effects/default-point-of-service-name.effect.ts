@@ -93,7 +93,10 @@ export class DefaultPointOfServiceEffect {
             defaultPointOfServiceName: preferredStore.name,
           })
           .pipe(
-            map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())
+            map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService()),
+            catchError((_error) =>
+              of(DefaultPointOfServiceActions.LoadDefaultPointOfService)
+            )
           )
       ),
       map(() => DefaultPointOfServiceActions.LoadDefaultPointOfService())
