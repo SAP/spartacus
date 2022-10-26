@@ -1147,6 +1147,33 @@ constructor(
 ```
 
 
+### Method loadProductsForStrategy changed.
+
+
+Previous version: 
+
+```
+
+loadProductsForStrategy(
+  strategyId: string,
+  numberToDisplay?: number
+): Observable<StrategyProducts>
+
+```
+
+
+Current version: 
+
+```
+
+loadProductsForStrategy(
+  strategyId: string,
+  numberToDisplay?: number
+): Observable<StrategyResponse>
+
+```
+
+
 
 
 # Class CdsMerchandisingUserContextService 

@@ -7414,6 +7414,66 @@
         },
         "topLevelApiElementName": "CdsMerchandisingProductService",
         "entryPoint": "@spartacus/cds"
+      },
+      {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "loadProductsForStrategy",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay?: number\n): Observable<StrategyProducts>\n",
+        "currentStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay?: number\n): Observable<StrategyResponse>\n",
+        "topLevelApiElementName": "CdsMerchandisingProductService",
+        "entryPoint": "@spartacus/cds",
+        "oldElement": {
+          "kind": "Method",
+          "name": "loadProductsForStrategy",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "strategyId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "numberToDisplay",
+              "type": "number",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<StrategyProducts>"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "loadProductsForStrategy",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "strategyId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "numberToDisplay",
+              "type": "number",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<StrategyResponse>"
+        }
       }
     ]
   },

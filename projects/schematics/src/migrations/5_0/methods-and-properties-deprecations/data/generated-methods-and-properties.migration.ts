@@ -257,6 +257,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
     },
     {
+      class: 'CdsMerchandisingProductService',
+      importPath: '@spartacus/cds',
+      deprecatedNode: 'loadProductsForStrategy',
+      comment:
+        "// TODO:Spartacus - The 'loadProductsForStrategy' method's signature changed to: 'loadProductsForStrategy(  strategyId: string,  numberToDisplay: number): Observable<StrategyResponse>'",
+    },
+    {
       class: 'ProfileTagPushEventsService',
       importPath: '@spartacus/cds',
       deprecatedNode: 'activeCartService',
