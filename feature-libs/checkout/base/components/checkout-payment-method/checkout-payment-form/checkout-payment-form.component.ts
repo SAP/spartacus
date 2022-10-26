@@ -119,7 +119,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
+    protected translationService?: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -210,13 +210,12 @@ export class CheckoutPaymentFormComponent implements OnInit {
     combineLatest([
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
-    ]).pipe(
-      tap(([textPhone, textMobile]) => {
+    ]).subscribe(([textPhone, textMobile]) => {
         if (address) {
           this.getAddressCardContent(address, textPhone, textMobile);
         }
       }
-    ));
+    );
   }
 
   getAddressCardContent(address: Address, textPhone: string, textMobile: string): Card {
