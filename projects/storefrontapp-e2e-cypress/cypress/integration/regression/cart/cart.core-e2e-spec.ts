@@ -57,7 +57,6 @@ describe('Cart', () => {
     context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
-        cart.loginRegisteredUser();
         visitHomePage();
       });
 
@@ -78,6 +77,9 @@ describe('Cart', () => {
             'spartacus⚿electronics-spa⚿cart',
             JSON.stringify(storage)
           );
+
+          cy.wait(2000);
+
           cy.visit('/cart');
           alerts.getErrorAlert().should('contain', 'Cart not found');
           cy.get('.cart-details-wrapper .cx-total').contains(
@@ -180,7 +182,7 @@ describe('Cart', () => {
 
         cart.removeCartItem(cart.products[0]);
 
-        cy.wait('@refresh_cart');
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
         cart.removeCartItem(cart.products[1]);
         cart.validateEmptyCart();

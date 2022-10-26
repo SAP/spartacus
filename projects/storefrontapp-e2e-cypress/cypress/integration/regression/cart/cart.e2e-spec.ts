@@ -179,7 +179,7 @@ describe('Cart', () => {
 
         cart.removeCartItem(cart.products[0]);
 
-        cy.wait('@refresh_cart');
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
         cart.removeCartItem(cart.products[1]);
         cart.validateEmptyCart();
@@ -236,26 +236,28 @@ describe('Cart', () => {
       });
 
       it('should use existing cart when adding new entries', () => {
+        cart.registerCartRefreshRoute();
+
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
         cart.clickAddToCart();
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
         cart.checkAddedToCartDialog();
         cy.visit(`/product/${cart.products[1].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[1].name);
         cart.clickAddToCart();
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
         cart.checkAddedToCartDialog(2);
 
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
         cart.checkProductInCart(cart.products[1]);
 
-        // cleanup
-        cart.registerCartRefreshRoute();
         cart.removeCartItem(cart.products[0]);
-        cy.wait('@refresh_cart');
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
         cart.removeCartItem(cart.products[1]);
-        cy.wait('@refresh_cart');
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
         cart.validateEmptyCart();
       });
