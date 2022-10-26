@@ -1,3 +1,0 @@
-Fix cypress test
-Add cypress test
-Tidy up look and feel
