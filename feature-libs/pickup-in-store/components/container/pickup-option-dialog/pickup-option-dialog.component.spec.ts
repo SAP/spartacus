@@ -77,6 +77,8 @@ describe('PickupOptionDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let intendedPickupLocationFacade: IntendedPickupLocationFacade;
+  let pickupOptionFacade: PickupOptionFacade;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -122,7 +124,8 @@ describe('PickupOptionDialogComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
     intendedPickupLocationFacade = TestBed.inject(IntendedPickupLocationFacade);
-
+    pickupOptionFacade = TestBed.inject(PickupOptionFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     fixture.detectChanges();
   });
 
@@ -132,8 +135,36 @@ describe('PickupOptionDialogComponent', () => {
 
   it('ngOnInit should call appropriate methods', () => {
     spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
+    spyOn(pickupOptionFacade, 'getPageContext').and.returnValue(of('PDP'));
     component.ngOnInit();
+
+    expect(component.isPDP).toEqual(true);
     expect(pickupLocationsSearchService.getHideOutOfStock).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should set the cartId and userId for an anonymous user', () => {
+    spyOn(activeCartFacade, 'getActive').and.returnValue(
+      of({
+        guid: 'test',
+        user: { uid: 'anonymous' },
+        code: 'code',
+      })
+    );
+    component.ngOnInit();
+    expect(component.cartId).toEqual('test');
+    expect(component.userId).toEqual('anonymous');
+  });
+  it('ngOnInit should set the cartId and userId for a logged in user', () => {
+    spyOn(activeCartFacade, 'getActive').and.returnValue(
+      of({
+        guid: 'test',
+        user: { uid: 'test@sap.com' },
+        code: 'code',
+      })
+    );
+    component.ngOnInit();
+    expect(component.cartId).toEqual('code');
+    expect(component.userId).toEqual('test@sap.com');
   });
 
   it('onFindStores calls appropriate service method', () => {
