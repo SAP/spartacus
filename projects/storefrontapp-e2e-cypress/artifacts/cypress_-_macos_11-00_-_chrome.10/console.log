@@ -1,0 +1,53 @@
+Sauce Cypress Runner 8.4.0
+Preparing npm environment
+
+Installing packages: @cypress/webpack-preprocessor@^5.9.1 webpack-cli@^3.3.12
+npm WARN read-shrinkwrap This version of npm is compatible with lockfileVersion@1, but package-lock.json was generated for lockfileVersion@2. I'll try to do my best with it!
+npm WARN deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+npm WARN deprecated source-map-url@0.4.1: See https://github.com/lydell/source-map-url#deprecated
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm WARN webpack-cli@3.3.12 requires a peer of webpack@4.x.x but none is installed. You must install peer dependencies yourself.
+npm WARN @cypress/webpack-preprocessor@5.12.2 requires a peer of @babel/core@^7.0.1 but none is installed. You must install peer dependencies yourself.
+npm WARN @cypress/webpack-preprocessor@5.12.2 requires a peer of @babel/preset-env@^7.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @cypress/webpack-preprocessor@5.12.2 requires a peer of babel-loader@^8.0.2 but none is installed. You must install peer dependencies yourself.
+npm WARN @cypress/webpack-preprocessor@5.12.2 requires a peer of webpack@^4 || ^5 but none is installed. You must install peer dependencies yourself.
+npm WARN storefrontapp-e2e-cypress@3.0.0 No description
+npm WARN storefrontapp-e2e-cypress@3.0.0 No repository field.
+
++ webpack-cli@3.3.12
++ @cypress/webpack-preprocessor@5.12.2
+added 192 packages from 131 contributors in 14.749s
+Your pluginsFile is invalid: /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/cypress/plugins/index.js
+
+It threw an error when required, check the stack trace below:
+
+Error: Cannot find module 'webpack'
+Require stack:
+- /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/node_modules/@cypress/webpack-preprocessor/dist/index.js
+- /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/cypress/plugins/cy-ts-preprocessor.js
+- /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/cypress/plugins/index.js
+- /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/Cache/9.7.0/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/run_plugins.js
+- /Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/Cache/9.7.0/Cypress.app/Contents/Resources/app/packages/server/lib/plugins/child/index.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:902:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:746:27)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/node_modules/@cypress/webpack-preprocessor/dist/index.js:5:15)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/cypress/plugins/cy-ts-preprocessor.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/Volumes/Sauce/saucectl-runners/sauce-cypress-runner/8.4.0/bundle/__project__/cypress/plugins/index.js:1:39)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)

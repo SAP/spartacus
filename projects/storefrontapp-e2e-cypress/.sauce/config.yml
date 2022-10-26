@@ -1,0 +1,36 @@
+apiVersion: v1alpha
+kind: cypress
+defaults: {}
+showConsoleLog: false
+npm:
+  registry: https://registry.npmjs.org
+  packages: 
+    "@cypress/webpack-preprocessor": "^5.9.1"
+    "webpack-cli": "^3.3.12"
+    "cypress": "9.7.0"
+sauce:
+  region: eu-central-1
+  concurrency: 400
+  sauceignore: .sauceignore
+cypress:
+  configFile: cypress.json
+  version: 9.7.0
+  record: false
+  key: ""
+  reporters: []
+suites:
+- name: cypress - macos 11.00 - chrome
+  mode: sauce
+  browser: chrome
+  platformName: macos 11.00
+  config:
+    testFiles:
+    - 'regression/perf_baseline/*.*'
+rootDir: .
+artifacts:
+  download:
+    match:
+    - '*'
+    when: always
+    directory: ./artifacts
+    # - '**/*.*'
