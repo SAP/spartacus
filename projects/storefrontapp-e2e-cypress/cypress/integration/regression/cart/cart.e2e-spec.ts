@@ -256,6 +256,9 @@ describe('Cart', () => {
         cart.removeCartItem(cart.products[0]);
         cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
+        // flakes due to button still being disabled.
+        cy.wait(3000);
+
         cart.removeCartItem(cart.products[1]);
         cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
