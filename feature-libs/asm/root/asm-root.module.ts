@@ -30,6 +30,7 @@ import { AsmAuthService } from './services/asm-auth.service';
           cmsComponents: [
             'AsmCustomer360OverviewComponent',
             'AsmCustomer360ProfileComponent',
+            'AsmCustomer360CustomerActivityComponent',
             'AsmCustomer360ProductReviewsComponent',
             'AsmCustomer360MapComponent',
           ],

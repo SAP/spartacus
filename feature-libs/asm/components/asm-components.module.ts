@@ -30,6 +30,7 @@ import {
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import {
+  AsmCustomerActivityComponent,
   AsmCustomerMapComponent,
   AsmCustomerOverviewComponent,
   AsmCustomerProductReviewsComponent,
@@ -110,6 +111,9 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
         },
         AsmCustomer360ProductReviewsComponent: {
           component: AsmCustomerProductReviewsComponent,
+        },
+        AsmCustomer360CustomerActivityComponent: {
+          component: AsmCustomerActivityComponent,
         },
         AsmCustomer360MapComponent: {
           component: AsmCustomerMapComponent,

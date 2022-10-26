@@ -73,7 +73,7 @@ export const defaultAsmConfig: AsmConfig = {
           i18nNameKey: 'asm.customer360.activityTab',
           components: [
             {
-              component: 'AsmCustomer360ProductReviewsComponent',
+              component: 'AsmCustomer360CustomerActivityComponent',
               requestData: {
                 customer360Type: AsmCustomer360Type.REVIEW_LIST,
               },

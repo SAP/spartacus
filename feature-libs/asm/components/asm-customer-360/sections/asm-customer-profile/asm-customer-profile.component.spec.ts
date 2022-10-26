@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Address,
   I18nTestingModule,
@@ -26,7 +27,6 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { OrderEntry } from '@spartacus/cart/base/root';
 
 import { By } from '@angular/platform-browser';
 import { AsmCustomerProfileComponent } from './asm-customer-profile.component';
@@ -181,7 +181,7 @@ class MockComponentService {
   }
 }
 
-fdescribe('AsmCustomerProfileComponent', () => {
+describe('AsmCustomerProfileComponent', () => {
   let component: AsmCustomerProfileComponent;
   let fixture: ComponentFixture<AsmCustomerProfileComponent>;
   let el: DebugElement;
