@@ -20,7 +20,7 @@ export interface MessagingConfigs {
   newMessagePlaceHolder?: string;
   enableFileUploadOption?: boolean;
   dateFormat?: string;
-  displayInput?: Observable<boolean>;
+  displayAddMessageSection?: Observable<boolean>;
 }
 
 export interface AttachmentRestrictions {

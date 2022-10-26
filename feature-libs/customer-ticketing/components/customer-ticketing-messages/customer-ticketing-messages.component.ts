@@ -92,7 +92,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       charactersLimit:
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
-      displayInput: this.ticketDetails$.pipe(
+      displayAddMessageSection: this.ticketDetails$.pipe(
         map((ticket) => ticket?.status?.id !== STATUS.CLOSED)
       ),
     };
