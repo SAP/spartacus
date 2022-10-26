@@ -100303,149 +100303,6 @@
   {
     "entryPoint": "@spartacus/storefront",
     "kind": "Class",
-    "name": "ModalService",
-    "members": [
-      {
-        "kind": "Constructor",
-        "name": "constructor",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "ngbModalService",
-            "type": "NgbModal",
-            "isOptional": false,
-            "canonicalReference": "@ng-bootstrap/ng-bootstrap!NgbModal:class",
-            "shortType": "NgbModal",
-            "importPath": "@ng-bootstrap/ng-bootstrap"
-          },
-          {
-            "name": "applicationRef",
-            "type": "ApplicationRef",
-            "isOptional": false,
-            "canonicalReference": "@angular/core!ApplicationRef:class",
-            "shortType": "ApplicationRef",
-            "importPath": "@angular/core"
-          }
-        ]
-      },
-      {
-        "kind": "Property",
-        "name": "applicationRef",
-        "type": "ApplicationRef"
-      },
-      {
-        "kind": "Method",
-        "name": "closeActiveModal",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "reason",
-            "type": "any",
-            "isOptional": true,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "dismissActiveModal",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "reason",
-            "type": "any",
-            "isOptional": true,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "getActiveModal",
-        "overloadIndex": 1,
-        "parameters": [],
-        "returnType": "ModalRef"
-      },
-      {
-        "kind": "Method",
-        "name": "handleModalRemoveEvents",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "modal",
-            "type": "ModalRef",
-            "isOptional": false,
-            "canonicalReference": "@spartacus/storefront!ModalRef:class",
-            "shortType": "ModalRef",
-            "importPath": "@spartacus/storefront"
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "open",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "content",
-            "type": "any",
-            "isOptional": false,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          },
-          {
-            "name": "options",
-            "type": "ModalOptions",
-            "isOptional": true,
-            "canonicalReference": "@spartacus/storefront!ModalOptions:interface",
-            "shortType": "ModalOptions",
-            "importPath": "@spartacus/storefront"
-          }
-        ],
-        "returnType": "ModalRef"
-      },
-      { "kind": "Property", "name": "rootComponent", "type": "any" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "METHOD_CHANGED",
-        "changeType": "CHANGED",
-        "changeKind": "Method",
-        "changeLabel": "changed",
-        "changeElementName": "getActiveModal",
-        "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\ngetActiveModal(): ModalRef\n",
-        "currentStateDoc": "\ngetActiveModal(): ModalRef | null\n",
-        "oldElement": {
-          "kind": "Method",
-          "name": "getActiveModal",
-          "overloadIndex": 1,
-          "parameters": [],
-          "returnType": "ModalRef"
-        },
-        "newElement": {
-          "kind": "Method",
-          "name": "getActiveModal",
-          "overloadIndex": 1,
-          "parameters": [],
-          "returnType": "ModalRef | null"
-        },
-        "topLevelApiElementName": "ModalService",
-        "entryPoint": "@spartacus/storefront"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/storefront",
-    "kind": "Class",
     "name": "MyInterestsComponent",
     "members": [
       {
@@ -113771,5 +113628,86 @@
         "entryPoint": "@spartacus/user/profile/components"
       }
     ]
+  },
+  {
+    "entryPoint": "@spartacus/cds",
+    "kind": "Class",
+    "name": "MerchandisingFacetNormalizer",
+    "isDeleted": true,
+    "deletedComment": "Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API.",
+    "migrationComment": "",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/cds",
+    "kind": "Class",
+    "name": "MerchandisingFacetToQueryparamNormalizer",
+    "isDeleted": true,
+    "deletedComment": "Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API.",
+    "migrationComment": "",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Interface",
+    "name": "ModalOptions",
+    "isDeleted": true,
+    "deletedComment": "Interface ModalOptions has been removed and is no longer part of the public API.",
+    "migrationComment": "For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalRef",
+    "isDeleted": true,
+    "deletedComment": "Class ModalRef has been removed and is no longer part of the public API.",
+    "migrationComment": "Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalDirective",
+    "isDeleted": true,
+    "deletedComment": "Class ModalDirective has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Interface",
+    "name": "ModalDirectiveOptions",
+    "isDeleted": true,
+    "deletedComment": "Interface ModalDirectiveOptions has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalDirectiveService",
+    "isDeleted": true,
+    "deletedComment": "Class ModalDirectiveService has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalModule",
+    "isDeleted": true,
+    "deletedComment": "Class ModalModule has been removed and is no longer part of the public API.",
+    "migrationComment": "For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalService",
+    "isDeleted": true,
+    "deletedComment": "Class ModalService has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
   }
 ]

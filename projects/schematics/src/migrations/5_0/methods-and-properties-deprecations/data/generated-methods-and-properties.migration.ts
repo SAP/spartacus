@@ -4121,13 +4121,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'MiniCartComponent'. ",
     },
     {
-      class: 'ModalService',
-      importPath: '@spartacus/storefront',
-      deprecatedNode: 'getActiveModal',
-      comment:
-        "The 'getActiveModal' method's signature changed to: 'getActiveModal(): ModalRef | null'",
-    },
-    {
       class: 'MyInterestsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'removeInterest',

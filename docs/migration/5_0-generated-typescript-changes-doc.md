@@ -22342,33 +22342,6 @@ moved to @spartacus/cart/base/components/mini-cart
 
 
 
-# Class ModalService 
-## @spartacus/storefront
-
-
-### Method getActiveModal changed.
-
-
-Previous version: 
-
-```
-
-getActiveModal(): ModalRef
-
-```
-
-
-Current version: 
-
-```
-
-getActiveModal(): ModalRef | null
-
-```
-
-
-
-
 # Class MyInterestsComponent 
 ## @spartacus/storefront
 
@@ -25584,3 +25557,84 @@ isConsentGiven(
 
 ```
 
+
+
+
+# Class MerchandisingFacetNormalizer 
+## @spartacus/cds
+
+
+Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API.
+
+
+
+
+# Class MerchandisingFacetToQueryparamNormalizer 
+## @spartacus/cds
+
+
+Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API.
+
+
+
+
+# Interface ModalOptions 
+## @spartacus/storefront
+
+
+Interface ModalOptions has been removed and is no longer part of the public API.
+For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalRef 
+## @spartacus/storefront
+
+
+Class ModalRef has been removed and is no longer part of the public API.
+Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalDirective 
+## @spartacus/storefront
+
+
+Class ModalDirective has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Interface ModalDirectiveOptions 
+## @spartacus/storefront
+
+
+Interface ModalDirectiveOptions has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalDirectiveService 
+## @spartacus/storefront
+
+
+Class ModalDirectiveService has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalModule 
+## @spartacus/storefront
+
+
+Class ModalModule has been removed and is no longer part of the public API.
+For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalService 
+## @spartacus/storefront
+
+
+Class ModalService has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.

@@ -5,21 +5,6 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import {
-  CDS_MERCHANDISING_FACET_NORMALIZER,
-  CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
-  MODAL_DIRECTIVE,
-  MODAL_DIRECTIVE_OPTIONS,
-  MODAL_DIRECTIVE_SERVICE,
-  MODAL_MODULE,
-  MODAL_OPTIONS,
-  MODAL_REF,
-  MODAL_SERVICE,
-} from '../../../shared/constants';
-import {
-  SPARTACUS_CDS,
-  SPARTACUS_STOREFRONTLIB,
-} from '../../../shared/libs-constants';
 
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -1480,63 +1465,62 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     comment:
       'Class OrderDetailsServiceTransitionalToken has been removed and is no longer part of the public API. ',
   },
+  {
+    node: 'MerchandisingFacetNormalizer',
+    importPath: '@spartacus/cds',
+    comment:
+      'Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API. ',
+  },
+  {
+    node: 'MerchandisingFacetToQueryparamNormalizer',
+    importPath: '@spartacus/cds',
+    comment:
+      'Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API. ',
+  },
+  {
+    node: 'ModalOptions',
+    importPath: '@spartacus/storefront',
+    comment:
+      'Interface ModalOptions has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
+  },
+  {
+    node: 'ModalRef',
+    importPath: '@spartacus/storefront',
+    comment:
+      "Class ModalRef has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.",
+  },
+  {
+    node: 'ModalDirective',
+    importPath: '@spartacus/storefront',
+    comment:
+      "Class ModalDirective has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+  },
+  {
+    node: 'ModalDirectiveOptions',
+    importPath: '@spartacus/storefront',
+    comment:
+      "Interface ModalDirectiveOptions has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+  },
+  {
+    node: 'ModalDirectiveService',
+    importPath: '@spartacus/storefront',
+    comment:
+      "Class ModalDirectiveService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+  },
+  {
+    node: 'ModalModule',
+    importPath: '@spartacus/storefront',
+    comment:
+      'Class ModalModule has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.',
+  },
+  {
+    node: 'ModalService',
+    importPath: '@spartacus/storefront',
+    comment:
+      "Class ModalService has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+  },
 ];
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   ...GENERATED_REMOVED_PUBLIC_API_DATA,
-  // integration-libs/cds/src/merchandising/converters/merchandising-facet-normalizer.ts
-  {
-    node: CDS_MERCHANDISING_FACET_NORMALIZER,
-    importPath: SPARTACUS_CDS,
-    comment: `'${CDS_MERCHANDISING_FACET_NORMALIZER} has been removed and is no longer part of the public API.`,
-  },
-  // integration-libs/cds/src/merchandising/converters/merchandising-facet-to-queryparam-normalizer.ts
-  {
-    node: CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
-    importPath: SPARTACUS_CDS,
-    comment: `'${CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER} has been removed and is no longer part of the public API.`,
-  },
-
-  // projects/storefrontlib/shared/components/modal/modal-options.ts
-  {
-    node: MODAL_OPTIONS,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_OPTIONS}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal-ref.ts
-  {
-    node: MODAL_REF,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_REF}' has been removed and is no longer part of the public API. Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal.directive.ts
-  {
-    node: MODAL_DIRECTIVE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal.directive.ts
-  {
-    node: MODAL_DIRECTIVE_OPTIONS,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_OPTIONS}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal.directive.ts
-  {
-    node: MODAL_DIRECTIVE_SERVICE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_DIRECTIVE_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal.module.ts
-  {
-    node: MODAL_MODULE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_MODULE}' has been removed and is no longer part of the public API. For more information, see the 5.0 migration guide.`,
-  },
-  // projects/storefrontlib/shared/components/modal/modal.service.ts
-  {
-    node: MODAL_SERVICE,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${MODAL_SERVICE}' has been removed and is no longer part of the public API. Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.`,
-  },
 ];
