@@ -325,7 +325,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   clickAddToCart();
 
-  cy.wait(['@refresh_cart', '@create_cart']);
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -385,7 +385,7 @@ export function addProductAsAnonymous() {
       clickAddToCart();
     });
 
-  cy.wait(['@refresh_cart', '@create_cart']);
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
