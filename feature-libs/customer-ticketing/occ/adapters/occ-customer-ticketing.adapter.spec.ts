@@ -133,12 +133,14 @@ describe('OccCustomerTicketingAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET' && req.url === `users/${mockCustomerId}/tickets`;
+        return (
+          req.method === 'GET' && req.url === `users/${mockCustomerId}/tickets`
+        );
       });
-      
+
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockTicketList);
     });
-  }
+  });
 });
