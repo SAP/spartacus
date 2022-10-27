@@ -98,53 +98,6 @@ It is not used anymore.
 
 
 
-# Class AddedToCartDialogComponent
-## @spartacus/cart/components
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  protected modalService: ModalService,
-  protected activeCartFacade: ActiveCartFacade
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected activeCartFacade: ActiveCartFacade,
-  protected launchDialogService: LaunchDialogService,
-  protected routingService: RoutingService,
-  protected el: ElementRef
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-### Property modalIsOpen is removed.
-
-It is not used anymore.
-
-### Property dialog is removed.
-
-It is not used anymore.
-
-
-
 # Class CheckoutPaymentFormComponent
 ## @spartacus/checkout/components
 

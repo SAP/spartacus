@@ -5277,12 +5277,20 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
       addParams: [
         {
-          className: 'ModalService',
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+        {
+          className: 'LaunchDialogService',
           importPath: '@spartacus/storefront',
         },
         {
-          className: 'ActiveCartFacade',
-          importPath: '@spartacus/cart/base/root',
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
         },
       ],
     },

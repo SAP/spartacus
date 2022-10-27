@@ -19650,8 +19650,10 @@ Current version:
 ```
 
 constructor(
-  modalService: ModalService,
-  activeCartFacade: ActiveCartFacade
+  activeCartFacade: ActiveCartFacade,
+  launchDialogService: LaunchDialogService,
+  routingService: RoutingService,
+  el: ElementRef
 )
 
 ```
@@ -19660,6 +19662,10 @@ constructor(
 ### Property cartService is removed.
 
 
+
+### Property dialog is removed.
+
+It is not used anymore.
 
 ### Property entry$ changed.
 
@@ -19678,12 +19684,96 @@ entry$: Observable<OrderEntry | undefined>
 ```
 
 
-### Method ngOnInit is removed.
+### Property form changed.
 
 
+Previous version: 
+
+```
+form: FormGroup
+```
+
+
+Current version: 
+
+```
+form: UntypedFormGroup
+```
+
+
+### Method getQuantityControl changed.
+
+
+Previous version: 
+
+```
+
+getQuantityControl(): Observable<FormControl>
+
+```
+
+
+Current version: 
+
+```
+
+getQuantityControl(): Observable<UntypedFormControl>
+
+```
+
+
+### Method getQuantityFormControl changed.
+
+
+Previous version: 
+
+```
+
+getQuantityFormControl(
+  entry: OrderEntry
+): FormControl
+
+```
+
+
+Current version: 
+
+```
+
+getQuantityFormControl(
+  entry: OrderEntry
+): UntypedFormControl
+
+```
+
+
+### Property modalIsOpen is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
 
 ### Property numberOfEntriesBeforeAdd is removed.
 
+
+
+### Property quantityControl$ changed.
+
+
+Previous version: 
+
+```
+quantityControl$: Observable<FormControl>
+```
+
+
+Current version: 
+
+```
+quantityControl$: Observable<UntypedFormControl>
+```
 
 
 

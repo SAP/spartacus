@@ -3514,6 +3514,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddedToCartDialogComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'dialog',
+      comment:
+        "// TODO:Spartacus - Property 'dialog' was removed from Class 'AddedToCartDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'entry$',
       comment:
         "// TODO:Spartacus - The type of property 'entry$: Observable<OrderEntry>' changed to: 'entry$: Observable<OrderEntry | undefined>' ",
@@ -3521,9 +3528,37 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddedToCartDialogComponent',
       importPath: '@spartacus/storefront',
-      deprecatedNode: 'ngOnInit',
+      deprecatedNode: 'form',
       comment:
-        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'AddedToCartDialogComponent'. ",
+        "// TODO:Spartacus - The type of property 'form: FormGroup' changed to: 'form: UntypedFormGroup' ",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getQuantityControl',
+      comment:
+        "// TODO:Spartacus - The 'getQuantityControl' method's signature changed to: 'getQuantityControl(): Observable<UntypedFormControl>'",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getQuantityFormControl',
+      comment:
+        "// TODO:Spartacus - The 'getQuantityFormControl' method's signature changed to: 'getQuantityFormControl(  entry: OrderEntry): UntypedFormControl'",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalIsOpen',
+      comment:
+        "// TODO:Spartacus - Property 'modalIsOpen' was removed from Class 'AddedToCartDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddedToCartDialogComponent'. Use 'launchDialogService' instead.",
     },
     {
       class: 'AddedToCartDialogComponent',
@@ -3531,6 +3566,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'numberOfEntriesBeforeAdd',
       comment:
         "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddedToCartDialogComponent'. ",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'quantityControl$',
+      comment:
+        "// TODO:Spartacus - The type of property 'quantityControl$: Observable<FormControl>' changed to: 'quantityControl$: Observable<UntypedFormControl>' ",
     },
     {
       class: 'AddressBookComponent',
