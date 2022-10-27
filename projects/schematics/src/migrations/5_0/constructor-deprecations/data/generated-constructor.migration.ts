@@ -5333,6 +5333,88 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'UserService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'UserService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'UntypedFormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'UserService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+    },
+    {
       class: 'FormErrorsComponent',
       importPath: '@spartacus/storefront',
       deprecatedParams: [],

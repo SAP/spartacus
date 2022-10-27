@@ -90455,6 +90455,192 @@
     ],
     "breakingChanges": [
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  fb: FormBuilder,\n  userService: UserService,\n  userAddressService: UserAddressService,\n  globalMessageService: GlobalMessageService,\n  modalService: ModalService,\n  translation: TranslationService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  fb: UntypedFormBuilder,\n  userService: UserService,\n  userAddressService: UserAddressService,\n  globalMessageService: GlobalMessageService,\n  translation: TranslationService,\n  launchDialogService: LaunchDialogService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userService",
+              "type": "UserService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserService:class",
+              "shortType": "UserService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userService",
+              "type": "UserService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserService:class",
+              "shortType": "UserService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ]
+        },
+        "topLevelApiElementName": "AddressFormComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "addressForm",
+        "changeElementCategory": "MEMBER",
+        "oldType": "FormGroup",
+        "newType": "UntypedFormGroup",
+        "previousStateDoc": "addressForm: FormGroup",
+        "currentStateDoc": "addressForm: UntypedFormGroup",
+        "topLevelApiElementName": "AddressFormComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "addressVerifySub",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "addressVerifySub",
+          "type": "Subscription"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'addressVerifySub' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
         "change": "METHOD_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Method",
@@ -90503,14 +90689,74 @@
         "changeType": "CHANGED",
         "changeKind": "Property",
         "changeLabel": "changed",
-        "changeElementName": "suggestedAddressModalRef",
+        "changeElementName": "fb",
         "changeElementCategory": "MEMBER",
-        "oldType": "ModalRef",
-        "newType": "ModalRef | null",
-        "previousStateDoc": "suggestedAddressModalRef: ModalRef",
-        "currentStateDoc": "suggestedAddressModalRef: ModalRef | null",
+        "oldType": "FormBuilder",
+        "newType": "UntypedFormBuilder",
+        "previousStateDoc": "fb: FormBuilder",
+        "currentStateDoc": "fb: UntypedFormBuilder",
         "topLevelApiElementName": "AddressFormComponent",
         "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "regionsSub",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "regionsSub",
+          "type": "Subscription"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'regionsSub' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "suggestedAddressModalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "suggestedAddressModalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
       }
     ]
   },

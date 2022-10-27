@@ -148,63 +148,6 @@ Use 'launchDialogService' instead.
 It is not used anymore.
 
 
-# Class AddressFormComponent
-## @spartacus/storefront
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  protected fb: FormBuilder,
-  protected userService: UserService,
-  protected userAddressService: UserAddressService,
-  protected globalMessageService: GlobalMessageService,
-  protected modalService: ModalService,
-  protected translation: TranslationService
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected fb: FormBuilder,
-  protected userService: UserService,
-  protected userAddressService: UserAddressService,
-  protected globalMessageService: GlobalMessageService,
-  protected translation: TranslationService,
-  protected launchDialogService: LaunchDialogService
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-### Property addressVerifySub is removed.
-
-It is not used anymore.
-
-### Property regionsSub is removed.
-
-It is not used anymore.
-
-### Property suggestedAddressModalRef is removed.
-
-It is not used anymore.
-
-
-
 # Class SuggestedAddressDialogComponent
 ## @spartacus/storefront
 

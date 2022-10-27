@@ -3598,6 +3598,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddressFormComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'addressForm',
+      comment:
+        "// TODO:Spartacus - The type of property 'addressForm: FormGroup' changed to: 'addressForm: UntypedFormGroup' ",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'addressVerifySub',
+      comment:
+        "// TODO:Spartacus - Property 'addressVerifySub' was removed from Class 'AddressFormComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'countrySelected',
       comment:
         "// TODO:Spartacus - The 'countrySelected' method's signature changed to: 'countrySelected(  country: Country | undefined): void'",
@@ -3605,9 +3619,30 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddressFormComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'fb',
+      comment:
+        "// TODO:Spartacus - The type of property 'fb: FormBuilder' changed to: 'fb: UntypedFormBuilder' ",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddressFormComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'regionsSub',
+      comment:
+        "// TODO:Spartacus - Property 'regionsSub' was removed from Class 'AddressFormComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'suggestedAddressModalRef',
       comment:
-        "// TODO:Spartacus - The type of property 'suggestedAddressModalRef: ModalRef' changed to: 'suggestedAddressModalRef: ModalRef | null' ",
+        "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'AddressFormComponent'. It is not used anymore.",
     },
     {
       class: 'AddToCartComponent',

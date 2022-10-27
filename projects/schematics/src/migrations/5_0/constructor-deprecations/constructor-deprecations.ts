@@ -7,7 +7,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { ADDRESS_FORM_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/address-form.component.migration';
 import { CDC_JS_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-js-service.migration';
 import { CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-product.service.migration';
 import { CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-user-context.service.migration';
@@ -32,7 +31,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION,
   TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION,
   SUGGESTED_ADDRESS_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
-  ADDRESS_FORM_COMPONENT_CONSTRUCTOR_MIGRATION,
   CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION,
   CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION,
   COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION,
