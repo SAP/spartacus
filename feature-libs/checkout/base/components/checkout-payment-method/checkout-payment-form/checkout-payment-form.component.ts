@@ -18,7 +18,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
-import { getAddressNumbers } from '@spartacus/checkout/base/core';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -36,6 +35,7 @@ import {
 } from '@spartacus/core';
 import {
   Card,
+  getAddressNumbers,
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -110,7 +110,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
-
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -178,7 +177,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
         }
       })
     );
-
   }
 
   expMonthAndYear(): void {
@@ -211,19 +209,22 @@ export class CheckoutPaymentFormComponent implements OnInit {
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]).subscribe(([textPhone, textMobile]) => {
-        if (address) {
-          this.getAddressCardContent(address, textPhone, textMobile);
-        }
+      if (address) {
+        this.getAddressCardContent(address, textPhone, textMobile);
       }
-    );
+    });
   }
 
-  getAddressCardContent(address: Address, textPhone: string, textMobile: string): Card {
+  getAddressCardContent(
+    address: Address,
+    textPhone: string,
+    textMobile: string
+  ): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-    let numbers: string|undefined;
+    let numbers: string | undefined;
     numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {

@@ -199,9 +199,7 @@
               else billingAddress
             "
           >
-            <cx-card
-              [content]="createCard(deliveryAddress)"
-            ></cx-card>
+            <cx-card [content]="createCard(deliveryAddress)"></cx-card>
           </ng-container>
 
           <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->

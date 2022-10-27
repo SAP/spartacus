@@ -19,7 +19,7 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -28,7 +28,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { getAddressNumbers } from '../../core/utils/utils';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -91,7 +90,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textShipToThisAddress: string,
     textSelected: string,
     textPhone: string,
-    textMobile: string,
+    textMobile: string
   ): Card {
     let region = '';
     if (address.region && address.region.isocode) {
@@ -185,7 +184,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected createCards(): Observable<CardWithAddress[]> {
-    const $addresses = combineLatest([this.getSupportedAddresses(), this.selectedAddress$]);
+    const $addresses = combineLatest([
+      this.getSupportedAddresses(),
+      this.selectedAddress$,
+    ]);
     const translations = combineLatest([
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
@@ -196,26 +198,27 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
 
-    return combineLatest([
-      $addresses,
-      translations
-    ]).pipe(
+    return combineLatest([$addresses, translations]).pipe(
       tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),
-      map(([[addresses, selected], [textDefault, textShipTo,textSelected, textPhone, textMobile]]) =>
-        addresses?.map((address) => ({
-          address,
-          card: this.getCardContent(
+      map(
+        ([
+          [addresses, selected],
+          [textDefault, textShipTo, textSelected, textPhone, textMobile],
+        ]) =>
+          addresses?.map((address) => ({
             address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected,
-            textPhone,
-            textMobile,
-          ),
-        }))
+            card: this.getCardContent(
+              address,
+              selected,
+              textDefault,
+              textShipTo,
+              textSelected,
+              textPhone,
+              textMobile
+            ),
+          }))
       )
     );
   }

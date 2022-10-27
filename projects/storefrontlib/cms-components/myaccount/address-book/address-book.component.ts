@@ -11,7 +11,7 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
-import { getAddressNumbers } from 'feature-libs/checkout/base/core/utils/utils';
+import { getAddressNumbers } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -109,7 +109,6 @@ export class AddressBookComponent implements OnInit {
 
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-
           return {
             role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
@@ -119,7 +118,6 @@ export class AddressBookComponent implements OnInit {
               address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               numbers,
-
             ],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',

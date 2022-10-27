@@ -84,7 +84,10 @@ export function fillShippingAddress(
           .clear()
           .type(shippingAddress.address.postal);
       shippingAddress?.cellphone &&
-          cy.get('[formcontrolname="cellphone"]').clear().type(shippingAddress.cellphone);
+        cy
+          .get('[formcontrolname="cellphone"]')
+          .clear()
+          .type(shippingAddress.cellphone);
       shippingAddress?.phone &&
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     }
