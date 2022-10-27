@@ -11,10 +11,10 @@ describe('ticketing', () => {
       });
       it('should be able to view ticket details page for an existing ticket', () => {
         customerTicketing.loginRegisteredUser();
-        customerTicketing.openMyAccountDropDown();
-        customerTicketing.clickCustomerSupport();
-        customerTicketing.verifyCustomerSupportPageVisit();
-        customerTicketing.clickFirstTicket();
+        customerTicketing.clickMyAccountMenuOption();
+        customerTicketing.clickCustomerSupportMenuOption();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.clickFirstTicketFromTicketListing();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
     });

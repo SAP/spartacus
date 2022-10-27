@@ -8,26 +8,26 @@ export function loginRegisteredUser() {
   cy.reload();
 }
 
-export function openMyAccountDropDown(){
+export function clickMyAccountMenuOption(){
   cy.visit('/');
-  cy.wait(5000);
+  cy.get('#cx-header', { timeout: 10000 }).should('be.visible');
   cy.onMobile(() => {
     clickHamburger();
   });
   cy.get('.accNavComponent button').click();
 }
 
-export function clickCustomerSupport(){
+export function clickCustomerSupportMenuOption(){
   cy.get('.accNavComponent li:nth-child(14)').should('contain.text', 'Customer Service');
   cy.get('.accNavComponent li:nth-child(14) a').click();
 }
 
-export function verifyCustomerSupportPageVisit(){
+export function verifyTicketListingPageVisit(){
   cy.url().should('include','/my-account/support-tickets');
   cy.get('cx-customer-ticketing-list').should('exist');
 }
 
-export function clickFirstTicket(){
+export function clickFirstTicketFromTicketListing(){
   cy.get('#ticketing-list-table tbody tr:nth-child(1) .cx-ticketing-list-data:nth-child(1) a.cx-ticketing-list-value').should('exist');
   cy.get('#ticketing-list-table tbody tr:nth-child(1) .cx-ticketing-list-data:nth-child(1) a.cx-ticketing-list-value').click();
 }
