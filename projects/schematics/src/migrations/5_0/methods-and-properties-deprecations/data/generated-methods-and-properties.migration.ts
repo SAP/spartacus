@@ -4904,4 +4904,18 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       comment:
         "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'. Use 'escapeHtml' instead.",
     },
+    {
+      class: 'CloseAccountModalComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'isLoading$',
+      comment:
+        "// TODO:Spartacus - The type of property 'isLoading$: BehaviorSubject<boolean>' changed to: 'isLoading$: Observable<boolean>' ",
+    },
+    {
+      class: 'CloseAccountModalComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'. Use 'launchDialogService' instead.",
+    },
   ];

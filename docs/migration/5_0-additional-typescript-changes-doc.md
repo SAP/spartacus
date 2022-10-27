@@ -299,51 +299,6 @@ Use 'launchDialogService' instead.
 It is not used anymore.
 
 
-# Class CloseAccountModalComponent
-## @spartacus/user/components
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  protected modalService: ModalService,
-  protected authService: AuthService,
-  protected globalMessageService: GlobalMessageService,
-  protected routingService: RoutingService,
-  protected translationService: TranslationService,
-  protected userProfile: UserProfileFacade
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected authService: AuthService,
-  protected globalMessageService: GlobalMessageService,
-  protected routingService: RoutingService,
-  protected translationService: TranslationService,
-  protected userProfile: UserProfileFacade,
-  protected launchDialogService: LaunchDialogService,
-  protected el: ElementRef
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-
 # Class CouponCardComponent
 ## @spartacus/storefront
 

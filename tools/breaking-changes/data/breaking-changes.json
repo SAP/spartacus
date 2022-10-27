@@ -114700,5 +114700,328 @@
         "entryPoint": "@spartacus/cdc/root"
       }
     ]
+  },
+  {
+    "entryPoint": "@spartacus/user/profile/components",
+    "kind": "Class",
+    "name": "CloseAccountModalComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "authService",
+            "type": "AuthService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+            "shortType": "AuthService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "globalMessageService",
+            "type": "GlobalMessageService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+            "shortType": "GlobalMessageService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "routingService",
+            "type": "RoutingService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+            "shortType": "RoutingService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "translationService",
+            "type": "TranslationService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+            "shortType": "TranslationService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "userProfile",
+            "type": "UserProfileFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+            "shortType": "UserProfileFacade",
+            "importPath": "@spartacus/user/profile/root"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "authService", "type": "AuthService" },
+      {
+        "kind": "Method",
+        "name": "closeAccount",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "dismissModal",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "reason",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "globalMessageService",
+        "type": "GlobalMessageService"
+      },
+      { "kind": "Property", "name": "iconTypes", "type": "typeof ICON_TYPE" },
+      {
+        "kind": "Property",
+        "name": "isLoading$",
+        "type": "BehaviorSubject<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "isLoggedIn$",
+        "type": "Observable<boolean>"
+      },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Method",
+        "name": "ngOnInit",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onError",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onSuccess",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "routingService",
+        "type": "RoutingService"
+      },
+      {
+        "kind": "Property",
+        "name": "translationService",
+        "type": "TranslationService"
+      },
+      { "kind": "Property", "name": "userProfile", "type": "UserProfileFacade" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  authService: AuthService,\n  globalMessageService: GlobalMessageService,\n  routingService: RoutingService,\n  translationService: TranslationService,\n  userProfile: UserProfileFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  authService: AuthService,\n  globalMessageService: GlobalMessageService,\n  routingService: RoutingService,\n  translationService: TranslationService,\n  userProfile: UserProfileFacade,\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "authService",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userProfile",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "authService",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userProfile",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CloseAccountModalComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "isLoading$",
+        "changeElementCategory": "MEMBER",
+        "oldType": "BehaviorSubject<boolean>",
+        "newType": "Observable<boolean>",
+        "previousStateDoc": "isLoading$: BehaviorSubject<boolean>",
+        "currentStateDoc": "isLoading$: Observable<boolean>",
+        "topLevelApiElementName": "CloseAccountModalComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CloseAccountModalComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CloseAccountModalComponent"
+      }
+    ]
   }
 ]

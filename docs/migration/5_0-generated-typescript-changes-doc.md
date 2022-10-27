@@ -8,6 +8,9 @@ This is a list of breaking changes or potentially breaking changes for Spartacus
 
 
 
+
+
+
 # Class AsmMainUiComponent 
 ## @spartacus/asm/components
 
@@ -25889,3 +25892,67 @@ constructor(
 )
 
 ```
+
+
+
+
+# Class CloseAccountModalComponent 
+## @spartacus/user/profile/components
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  authService: AuthService,
+  globalMessageService: GlobalMessageService,
+  routingService: RoutingService,
+  translationService: TranslationService,
+  userProfile: UserProfileFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  authService: AuthService,
+  globalMessageService: GlobalMessageService,
+  routingService: RoutingService,
+  translationService: TranslationService,
+  userProfile: UserProfileFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property isLoading$ changed.
+
+
+Previous version: 
+
+```
+isLoading$: BehaviorSubject<boolean>
+```
+
+
+Current version: 
+
+```
+isLoading$: Observable<boolean>
+```
+
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.

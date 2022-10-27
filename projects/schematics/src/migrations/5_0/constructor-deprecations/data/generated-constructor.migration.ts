@@ -7654,4 +7654,90 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         },
       ],
     },
+    {
+      class: 'CloseAccountModalComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+      ],
+      addParams: [
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
   ];
