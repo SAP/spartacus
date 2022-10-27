@@ -11,7 +11,7 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
-import { getAddressNumbers } from '@spartacus/storefront';
+import { getAddressNumbers } from '../../../utils/address-number-utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
