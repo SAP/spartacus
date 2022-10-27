@@ -98,47 +98,6 @@ It is not used anymore.
 
 
 
-# Class AddedToCartDialogEventListener
-## @spartacus/cart/components
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  protected eventService: EventService,
-  protected modalService: ModalService
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected eventService: EventService,
-  protected launchDialogService: LaunchDialogService
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-### Property modalRef is removed.
-
-It is not used anymore.
-
-
-
 # Class AddedToCartDialogComponent
 ## @spartacus/cart/components
 
