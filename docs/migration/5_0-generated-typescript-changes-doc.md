@@ -25833,3 +25833,50 @@ Use 'LaunchDialogService' instead. For more information, see the 5.0 migration g
 ### Method sanitize is removed.
 
 Use 'escapeHtml' instead.
+
+# Class CdcJsService 
+## @spartacus/cdc/root
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  cdcConfig: CdcConfig,
+  baseSiteService: BaseSiteService,
+  languageService: LanguageService,
+  scriptLoader: ScriptLoader,
+  winRef: WindowRef,
+  cdcAuth: CdcAuthFacade,
+  auth: AuthService,
+  zone: NgZone,
+  userProfileFacade: UserProfileFacade,
+  platform: any
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  cdcConfig: CdcConfig,
+  baseSiteService: BaseSiteService,
+  languageService: LanguageService,
+  scriptLoader: ScriptLoader,
+  winRef: WindowRef,
+  cdcAuth: CdcAuthFacade,
+  auth: AuthService,
+  zone: NgZone,
+  userProfileFacade: UserProfileFacade,
+  platform: any,
+  globalMessageService: GlobalMessageService
+)
+
+```

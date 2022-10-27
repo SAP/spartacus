@@ -7,7 +7,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { CDC_JS_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-js-service.migration';
 import { CDS_MERCHANDISING_PRODUCT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-product.service.migration';
 import { CDS_MERCHANDISING_USER_CONTEXT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cds-merchandising-user-context.service.migration';
 import { CLOSE_ACCOUNT_MODAL_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/close-account-modal.component.migration';
@@ -39,7 +38,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   STOCK_NOTIFICATION_COMPONENT_CONSTRUCTOR_MIGRATION,
   JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
   JSON_LD_DIRECTIVE_CONSTRUCTOR_MIGRATION,
-  CDC_JS_SERVICE_CONSTRUCTOR_MIGRATION,
   REGISTER_COMPONENT_CONSTRUCTOR_MIGRATION,
 ];
 

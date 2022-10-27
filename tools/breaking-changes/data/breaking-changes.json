@@ -114228,5 +114228,440 @@
         "topLevelApiElementName": "JsonLdScriptFactory"
       }
     ]
+  },
+  {
+    "entryPoint": "@spartacus/cdc/root",
+    "kind": "Class",
+    "name": "CdcJsService",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "cdcConfig",
+            "type": "CdcConfig",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+            "shortType": "CdcConfig",
+            "importPath": "@spartacus/cdc/root"
+          },
+          {
+            "name": "baseSiteService",
+            "type": "BaseSiteService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+            "shortType": "BaseSiteService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "languageService",
+            "type": "LanguageService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+            "shortType": "LanguageService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "scriptLoader",
+            "type": "ScriptLoader",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+            "shortType": "ScriptLoader",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "winRef",
+            "type": "WindowRef",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+            "shortType": "WindowRef",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "cdcAuth",
+            "type": "CdcAuthFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+            "shortType": "CdcAuthFacade",
+            "importPath": "@spartacus/cdc/root"
+          },
+          {
+            "name": "auth",
+            "type": "AuthService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+            "shortType": "AuthService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "zone",
+            "type": "NgZone",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!NgZone:class",
+            "shortType": "NgZone",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "userProfileFacade",
+            "type": "UserProfileFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+            "shortType": "UserProfileFacade",
+            "importPath": "@spartacus/user/profile/root"
+          },
+          {
+            "name": "platform",
+            "type": "any",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "addCdcEventHandlers",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "auth", "type": "AuthService" },
+      {
+        "kind": "Property",
+        "name": "baseSiteService",
+        "type": "BaseSiteService"
+      },
+      { "kind": "Property", "name": "cdcAuth", "type": "CdcAuthFacade" },
+      { "kind": "Property", "name": "cdcConfig", "type": "CdcConfig" },
+      {
+        "kind": "Method",
+        "name": "didLoad",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "didScriptFailToLoad",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "Observable<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "errorLoading$",
+        "type": "ReplaySubject<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "initialize",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "languageService",
+        "type": "LanguageService"
+      },
+      {
+        "kind": "Method",
+        "name": "loadCdcJavascript",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "loaded$",
+        "type": "ReplaySubject<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "ngOnDestroy",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onLoginEventHandler",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          },
+          {
+            "name": "response",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onProfileUpdateEventHandler",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "response",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "platform", "type": "any" },
+      {
+        "kind": "Method",
+        "name": "registerEventListeners",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "scriptLoader", "type": "ScriptLoader" },
+      { "kind": "Property", "name": "subscription", "type": "Subscription" },
+      {
+        "kind": "Property",
+        "name": "userProfileFacade",
+        "type": "UserProfileFacade"
+      },
+      { "kind": "Property", "name": "winRef", "type": "WindowRef" },
+      { "kind": "Property", "name": "zone", "type": "NgZone" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  cdcConfig: CdcConfig,\n  baseSiteService: BaseSiteService,\n  languageService: LanguageService,\n  scriptLoader: ScriptLoader,\n  winRef: WindowRef,\n  cdcAuth: CdcAuthFacade,\n  auth: AuthService,\n  zone: NgZone,\n  userProfileFacade: UserProfileFacade,\n  platform: any\n)\n",
+        "currentStateDoc": "\nconstructor(\n  cdcConfig: CdcConfig,\n  baseSiteService: BaseSiteService,\n  languageService: LanguageService,\n  scriptLoader: ScriptLoader,\n  winRef: WindowRef,\n  cdcAuth: CdcAuthFacade,\n  auth: AuthService,\n  zone: NgZone,\n  userProfileFacade: UserProfileFacade,\n  platform: any,\n  globalMessageService: GlobalMessageService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "cdcConfig",
+              "type": "CdcConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+              "shortType": "CdcConfig",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "baseSiteService",
+              "type": "BaseSiteService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+              "shortType": "BaseSiteService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "languageService",
+              "type": "LanguageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+              "shortType": "LanguageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "scriptLoader",
+              "type": "ScriptLoader",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+              "shortType": "ScriptLoader",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cdcAuth",
+              "type": "CdcAuthFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+              "shortType": "CdcAuthFacade",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "auth",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "zone",
+              "type": "NgZone",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!NgZone:class",
+              "shortType": "NgZone",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "userProfileFacade",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "platform",
+              "type": "any",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "cdcConfig",
+              "type": "CdcConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+              "shortType": "CdcConfig",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "baseSiteService",
+              "type": "BaseSiteService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+              "shortType": "BaseSiteService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "languageService",
+              "type": "LanguageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+              "shortType": "LanguageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "scriptLoader",
+              "type": "ScriptLoader",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+              "shortType": "ScriptLoader",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cdcAuth",
+              "type": "CdcAuthFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+              "shortType": "CdcAuthFacade",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "auth",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "zone",
+              "type": "NgZone",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!NgZone:class",
+              "shortType": "NgZone",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "userProfileFacade",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "platform",
+              "type": "any",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "removedParams": [],
+          "addedParams": [
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CdcJsService",
+        "entryPoint": "@spartacus/cdc/root"
+      }
+    ]
   }
 ]

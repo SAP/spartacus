@@ -7516,4 +7516,138 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         },
       ],
     },
+    {
+      class: 'CdcJsService',
+      importPath: '@spartacus/cdc/root',
+      deprecatedParams: [
+        {
+          className: 'CdcConfig',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'BaseSiteService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LanguageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ScriptLoader',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CdcAuthFacade',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'NgZone',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'any',
+          importPath: '',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CdcConfig',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'BaseSiteService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LanguageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ScriptLoader',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CdcAuthFacade',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'NgZone',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'any',
+          importPath: '',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CdcConfig',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'BaseSiteService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LanguageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ScriptLoader',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CdcAuthFacade',
+          importPath: '@spartacus/cdc/root',
+        },
+        {
+          className: 'AuthService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'NgZone',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'UserProfileFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'any',
+          importPath: '',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
   ];
