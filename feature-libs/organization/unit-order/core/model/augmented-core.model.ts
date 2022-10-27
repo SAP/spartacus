@@ -7,4 +7,10 @@ declare module '@spartacus/order/root' {
   }
 
   interface OrderHistoryList {}
+
+}
+export interface OrderHistoryQueryParams{
+  currentPage? : number;
+  sortCode? : string;
+  filters? : string;
 }

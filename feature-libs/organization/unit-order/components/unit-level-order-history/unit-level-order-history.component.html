@@ -7,31 +7,9 @@
     <div>
       <!-- HEADER -->
 
-      <div class="cx-unit-level-order-history-filters top">
-        <label class="cx-unit-level-order-history-filters-group form-group"
-        ><span>
-          {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
-        </span>
-          <input
-            #queryInputUser
-            [formControl]="userFilter"
-            (keyup)="onFiltering()"
-            type="text"
-            class="form-control"
-            [attr.aria-label]="'unitLevelOrderHistory.filterByUserLabel' | cxTranslate"
-            placeholder="{{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}"
-          />
-          <input
-            #queryInputUnit
-            [formControl]="unitFilter"
-            (keyup)="onFiltering()"
-            type="text"
-            class="form-control"
-            [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-            placeholder="{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}"
-          />
-        </label>
-      </div>
+      <cx-unit-level-order-history-filter
+        (filterListEvent)="filterChange($event)"
+      ></cx-unit-level-order-history-filter>
 
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">

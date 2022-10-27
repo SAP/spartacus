@@ -13,6 +13,7 @@ import {
 import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '../../core/guards';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
+import {UnitLevelOrderHistoryFilterModule} from "./filter/unit-level-order-history-filter.module";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.compo
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    UnitLevelOrderHistoryFilterModule,
   ],
   declarations: [UnitLevelOrderHistoryComponent],
   exports: [UnitLevelOrderHistoryComponent],

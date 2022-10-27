@@ -24,6 +24,8 @@ export const unitOrder = {
     filterByUserLabel: 'Buyer name',
     filterByUnit: 'Unit',
     filterByUnitLabel: 'Unit name',
+    search: 'Search',
+    clearAll: 'Clear All'
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',
