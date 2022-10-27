@@ -308,30 +308,54 @@ describe('ConfiguratorCartEffect', () => {
   });
 
   describe('Effect readConfigurationForCartEntry', () => {
-    it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-        {
-          owner: owner,
-        };
-      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
-        readFromCartEntry
-      );
+    const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: owner,
+      };
+    const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+      readFromCartEntry
+    );
 
-      const readCartEntrySuccessAction =
-        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-          productConfiguration
-        );
-
-      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary(
+    const readCartEntrySuccessAction =
+      new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
         productConfiguration
       );
 
-      actions$ = cold('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: readCartEntrySuccessAction,
-        c: updatePriceAction,
+    const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+      productConfiguration
+    );
+
+    it('should emit a success action and also trigger the price update and variant search', () => {
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
       });
 
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessAction,
+        c: updatePriceAction,
+        d: searchVariantsAction,
+      });
+
+      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should trigger the price update without group specified in case service is not present', () => {
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+      });
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessAction,
+        c: updatePriceAction,
+        d: searchVariantsAction,
+      });
+
+      configCartEffects['configuratorBasicEffectService'] = undefined;
       expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
         expected
       );
@@ -340,13 +364,6 @@ describe('ConfiguratorCartEffect', () => {
     it('should emit a fail action if something goes wrong', () => {
       readConfigurationForCartEntryMock.and.returnValue(
         throwError(errorResponse)
-      );
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-        {
-          owner: owner,
-        };
-      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
-        readFromCartEntry
       );
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(

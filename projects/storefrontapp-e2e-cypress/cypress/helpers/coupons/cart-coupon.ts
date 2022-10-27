@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
 import { addProductToCart as addToCart } from '../applied-promotions';
@@ -345,7 +351,7 @@ export function getCouponItemOrderSummary(couponCode: string) {
 }
 
 export function verifyProductInCart(productCode: string) {
-  cy.get('cx-cart-item').within(() => {
+  cy.get('.cx-table-item-container').within(() => {
     cy.get('.cx-code').should('contain', productCode);
   });
 }
