@@ -69,9 +69,8 @@ describe('My Account - Close Account', () => {
         alerts
           .getSuccessAlert()
           .should('contain', 'Account closed with success');
-          
-        cy.get('cx-login .cx-login-greet').should('not.exist');
 
+        cy.get('cx-login .cx-login-greet').should('not.exist');
       });
 
       it('should not login with a closed account credentials', () => {
