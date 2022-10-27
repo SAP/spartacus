@@ -11,7 +11,7 @@ export interface ServerErrorsSummary {
 }
 
 @Injectable({ providedIn: 'root' })
-export class ServerErrorSerializer {
+export class ServerErrorHandler {
   constructor(
     @Inject(SERVER_ERROR_COLLECTOR)
     protected ssrErrorsCollectors: ServerErrorCollector<any>[],
