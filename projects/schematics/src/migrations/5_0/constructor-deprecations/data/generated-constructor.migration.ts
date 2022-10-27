@@ -1071,22 +1071,12 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
           className: 'CdsMerchandisingSiteContextService',
           importPath: '@spartacus/cds',
         },
+        {
+          className: 'CdsMerchandisingSearchContextService',
+          importPath: '',
+        },
       ],
       removeParams: [
-        {
-          className: 'MerchandisingStrategyConnector',
-          importPath: '@spartacus/cds',
-        },
-        {
-          className: 'CdsMerchandisingUserContextService',
-          importPath: '@spartacus/cds',
-        },
-        {
-          className: 'CdsMerchandisingSiteContextService',
-          importPath: '@spartacus/cds',
-        },
-      ],
-      addParams: [
         {
           className: 'MerchandisingStrategyConnector',
           importPath: '@spartacus/cds',
@@ -1102,6 +1092,20 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'CdsMerchandisingSearchContextService',
           importPath: '',
+        },
+      ],
+      addParams: [
+        {
+          className: 'MerchandisingStrategyConnector',
+          importPath: '@spartacus/cds',
+        },
+        {
+          className: 'CdsMerchandisingUserContextService',
+          importPath: '@spartacus/cds',
+        },
+        {
+          className: 'CdsMerchandisingSiteContextService',
+          importPath: '@spartacus/cds',
         },
       ],
     },

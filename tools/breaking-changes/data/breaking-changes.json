@@ -7335,8 +7335,8 @@
         "changeLabel": "changed",
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService,\n  merchandisingSearchContextService: CdsMerchandisingSearchContextService\n)\n",
+        "previousStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService,\n  merchandisingSearchContextService: CdsMerchandisingSearchContextService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -7364,6 +7364,14 @@
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSiteContextService:class",
               "shortType": "CdsMerchandisingSiteContextService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "merchandisingSearchContextService",
+              "type": "CdsMerchandisingSearchContextService",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
+              "shortType": "CdsMerchandisingSearchContextService",
+              "importPath": ""
             }
           ],
           "newParams": [
@@ -7390,27 +7398,19 @@
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSiteContextService:class",
               "shortType": "CdsMerchandisingSiteContextService",
               "importPath": "@spartacus/cds"
-            },
+            }
+          ],
+          "removedParams": [
             {
               "name": "merchandisingSearchContextService",
               "type": "CdsMerchandisingSearchContextService",
-              "isOptional": false,
+              "isOptional": true,
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
               "shortType": "CdsMerchandisingSearchContextService",
               "importPath": ""
             }
           ],
-          "removedParams": [],
-          "addedParams": [
-            {
-              "name": "merchandisingSearchContextService",
-              "type": "CdsMerchandisingSearchContextService",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
-              "shortType": "CdsMerchandisingSearchContextService",
-              "importPath": ""
-            }
-          ]
+          "addedParams": []
         },
         "topLevelApiElementName": "CdsMerchandisingProductService",
         "entryPoint": "@spartacus/cds"
@@ -7422,10 +7422,8 @@
         "changeLabel": "changed",
         "changeElementName": "loadProductsForStrategy",
         "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay?: number\n): Observable<StrategyProducts>\n",
-        "currentStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay?: number\n): Observable<StrategyResponse>\n",
-        "topLevelApiElementName": "CdsMerchandisingProductService",
-        "entryPoint": "@spartacus/cds",
+        "previousStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay: number\n): Observable<StrategyProducts>\n",
+        "currentStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay: number\n): Observable<StrategyResponse>\n",
         "oldElement": {
           "kind": "Method",
           "name": "loadProductsForStrategy",
@@ -7473,7 +7471,29 @@
             }
           ],
           "returnType": "Observable<StrategyResponse>"
-        }
+        },
+        "topLevelApiElementName": "CdsMerchandisingProductService",
+        "entryPoint": "@spartacus/cds"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "merchandisingSearchContextService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "merchandisingSearchContextService",
+          "type": "CdsMerchandisingSearchContextService"
+        },
+        "apiElementName": "CdsMerchandisingProductService",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/cds",
+        "deletedComment": "// TODO:Spartacus - Property 'merchandisingSearchContextService' was removed from Class 'CdsMerchandisingProductService'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "CdsMerchandisingProductService"
       }
     ]
   },

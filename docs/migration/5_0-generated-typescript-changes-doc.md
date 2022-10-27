@@ -1127,7 +1127,8 @@ Previous version:
 constructor(
   strategyConnector: MerchandisingStrategyConnector,
   merchandisingUserContextService: CdsMerchandisingUserContextService,
-  merchandisingSiteContextService: CdsMerchandisingSiteContextService
+  merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+  merchandisingSearchContextService: CdsMerchandisingSearchContextService
 )
 
 ```
@@ -1140,8 +1141,7 @@ Current version:
 constructor(
   strategyConnector: MerchandisingStrategyConnector,
   merchandisingUserContextService: CdsMerchandisingUserContextService,
-  merchandisingSiteContextService: CdsMerchandisingSiteContextService,
-  merchandisingSearchContextService: CdsMerchandisingSearchContextService
+  merchandisingSiteContextService: CdsMerchandisingSiteContextService
 )
 
 ```
@@ -1156,7 +1156,7 @@ Previous version:
 
 loadProductsForStrategy(
   strategyId: string,
-  numberToDisplay?: number
+  numberToDisplay: number
 ): Observable<StrategyProducts>
 
 ```
@@ -1168,10 +1168,14 @@ Current version:
 
 loadProductsForStrategy(
   strategyId: string,
-  numberToDisplay?: number
+  numberToDisplay: number
 ): Observable<StrategyResponse>
 
 ```
+
+
+### Property merchandisingSearchContextService is removed.
+
 
 
 

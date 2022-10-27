@@ -264,6 +264,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - The 'loadProductsForStrategy' method's signature changed to: 'loadProductsForStrategy(  strategyId: string,  numberToDisplay: number): Observable<StrategyResponse>'",
     },
     {
+      class: 'CdsMerchandisingProductService',
+      importPath: '@spartacus/cds',
+      deprecatedNode: 'merchandisingSearchContextService',
+      comment:
+        "// TODO:Spartacus - Property 'merchandisingSearchContextService' was removed from Class 'CdsMerchandisingProductService'. ",
+    },
+    {
       class: 'ProfileTagPushEventsService',
       importPath: '@spartacus/cds',
       deprecatedNode: 'activeCartService',
