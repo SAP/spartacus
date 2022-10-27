@@ -5,6 +5,9 @@ This is a list of breaking changes or potentially breaking changes for Spartacus
 
 
 
+
+
+
 # Class AsmMainUiComponent 
 ## @spartacus/asm/components
 
@@ -1208,9 +1211,9 @@ Current version:
 constructor(
   routingService: RoutingService,
   productSearchService: ProductSearchService,
-  converterService: ConverterService,
   profileTagEventService: ProfileTagEventService,
-  profileTagLifecycleService: ProfileTagLifecycleService
+  profileTagLifecycleService: ProfileTagLifecycleService,
+  facetService: FacetService
 )
 
 ```
@@ -25837,6 +25840,8 @@ Use 'LaunchDialogService' instead. For more information, see the 5.0 migration g
 ### Method sanitize is removed.
 
 Use 'escapeHtml' instead.
+
+
 
 # Class CdcJsService 
 ## @spartacus/cdc/root

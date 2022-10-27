@@ -7558,7 +7558,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  converterService: ConverterService,\n  profileTagEventService: ProfileTagEventService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  converterService: ConverterService,\n  profileTagEventService: ProfileTagEventService,\n  profileTagLifecycleService: ProfileTagLifecycleService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  profileTagEventService: ProfileTagEventService,\n  profileTagLifecycleService: ProfileTagLifecycleService,\n  facetService: FacetService\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -7614,14 +7614,6 @@
               "importPath": "@spartacus/core"
             },
             {
-              "name": "converterService",
-              "type": "ConverterService",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/cds!ConverterService:class",
-              "shortType": "ConverterService",
-              "importPath": "@spartacus/core"
-            },
-            {
               "name": "profileTagEventService",
               "type": "ProfileTagEventService",
               "isOptional": false,
@@ -7636,9 +7628,26 @@
               "canonicalReference": "@spartacus/cds!ProfileTagLifecycleService:class",
               "shortType": "ProfileTagLifecycleService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "facetService",
+              "type": "FacetService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!FacetService:class",
+              "shortType": "FacetService",
+              "importPath": "@spartacus/storefront"
             }
           ],
-          "removedParams": [],
+          "removedParams": [
+            {
+              "name": "converterService",
+              "type": "ConverterService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!ConverterService:class",
+              "shortType": "ConverterService",
+              "importPath": "@spartacus/core"
+            }
+          ],
           "addedParams": [
             {
               "name": "profileTagLifecycleService",
@@ -7647,6 +7656,14 @@
               "canonicalReference": "@spartacus/cds!ProfileTagLifecycleService:class",
               "shortType": "ProfileTagLifecycleService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "facetService",
+              "type": "FacetService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!FacetService:class",
+              "shortType": "FacetService",
+              "importPath": "@spartacus/storefront"
             }
           ]
         },

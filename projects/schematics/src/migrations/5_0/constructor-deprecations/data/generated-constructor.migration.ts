@@ -1158,16 +1158,16 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
           importPath: '@spartacus/core',
         },
         {
-          className: 'ConverterService',
-          importPath: '@spartacus/core',
-        },
-        {
           className: 'ProfileTagEventService',
           importPath: '@spartacus/cds',
         },
         {
           className: 'ProfileTagLifecycleService',
           importPath: '@spartacus/cds',
+        },
+        {
+          className: 'FacetService',
+          importPath: '@spartacus/storefront',
         },
       ],
     },
