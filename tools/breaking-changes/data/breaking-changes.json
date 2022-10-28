@@ -117189,5 +117189,93 @@
         "topLevelApiElementName": "SuggestedAddressDialogComponent"
       }
     ]
+  },
+  {
+    "entryPoint": "@spartacus/core",
+    "kind": "Function",
+    "name": "createFrom",
+    "parameters": [
+      {
+        "name": "type",
+        "type": "Type<T>",
+        "isOptional": false,
+        "canonicalReference": "@angular/core!Type:interface",
+        "shortType": "Type",
+        "importPath": "@angular/core"
+      },
+      {
+        "name": "data",
+        "type": "T",
+        "isOptional": false,
+        "canonicalReference": "",
+        "shortType": "",
+        "importPath": ""
+      }
+    ],
+    "returnType": "T",
+    "breakingChanges": [{
+      "change": "FUNCTION_CHANGED",
+      "changeType": "CHANGED",
+      "changeKind": "Function",
+      "changeLabel": "changed",
+      "changeElementName": "createFrom",
+      "changeElementCategory": "TOP_LEVEL_API",
+      "previousStateDoc": "\ncreateFrom<T>(\n  type: Type<T>, \n  data: T\n): T\n",
+      "currentStateDoc": "\ncreateFrom<T extends object>(\n  type: Type<T>, \n  data: T\n): T\n",
+      "oldElement": {
+        "entryPoint": "@spartacus/core",
+        "kind": "Function",
+        "name": "createFrom",
+        "parameters": [
+          {
+            "name": "type",
+            "type": "Type<T>",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!Type:interface",
+            "shortType": "Type",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "data",
+            "type": "T",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "T"
+      },
+      "newElement": {
+        "entryPoint": "@spartacus/core",
+        "kind": "Function",
+        "name": "createFrom",
+        "parameters": [
+          {
+            "name": "type",
+            "type": "Type<T>",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!Type:interface",
+            "shortType": "Type",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "data",
+            "type": "T",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "T"
+      },
+      "topLevelApiElementName": "createFrom",
+      "entryPoint": "@spartacus/core"
+    }]
   }
 ]
+
+
+
+

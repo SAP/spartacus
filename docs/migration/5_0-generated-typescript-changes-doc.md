@@ -26432,3 +26432,35 @@ Use 'launchDialogService' instead
 ### Property suggestedAddresses is removed.
 
 It is not used anymore.
+
+
+
+# Function createFrom 
+## @spartacus/core
+
+
+Function createFrom changed.
+
+Previous version: 
+
+```
+
+createFrom<T>(
+  type: Type<T>, 
+  data: T
+): T
+
+```
+
+
+Current version: 
+
+```
+
+createFrom<T extends object>(
+  type: Type<T>, 
+  data: T
+): T
+
+```
+
