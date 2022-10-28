@@ -25,11 +25,21 @@
           </div>
         </div>
       </div>
-
-      <a (click)="readMore()" class="cx-card-read-more">{{
-        'myCoupons.readMore' | cxTranslate
-      }}</a>
-
+      <a
+        *cxFeatureLevel="'!5.1'"
+        (click)="readMore()"
+        class="cx-card-read-more"
+        >{{ 'myCoupons.readMore' | cxTranslate }}</a
+      >
+      <a
+        *cxFeatureLevel="'5.1'"
+        tabindex="0"
+        role="button"
+        (click)="readMore()"
+        [attr.aria-label]="'myCoupons.readMore' | cxTranslate"
+        class="cx-card-read-more"
+        >{{ 'myCoupons.readMore' | cxTranslate }}</a
+      >
       <div class="cx-coupon-card-row bottom">
         <div class="cx-coupon-notification form-check">
           <label>

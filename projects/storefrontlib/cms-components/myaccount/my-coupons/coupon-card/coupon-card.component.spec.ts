@@ -9,12 +9,18 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
+import {
+  CustomerCoupon,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -88,12 +94,22 @@ describe('CouponCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-        imports: [I18nTestingModule, RouterTestingModule],
+        imports: [
+          I18nTestingModule,
+          RouterTestingModule,
+          FeaturesConfigModule.forRoot(),
+        ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: MyCouponsComponentService,
             useValue: couponComponentService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       }).compileComponents();
@@ -201,5 +217,23 @@ describe('CouponCardComponent', () => {
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );
+  });
+
+  describe('Accessibility', () => {
+    it('should contain correct attibutes', () => {
+      fixture.detectChanges();
+
+      const readMoreLink = el.query(By.css('a'));
+      expect(readMoreLink.nativeElement.getAttribute('tabindex')).toEqual('0');
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        el.nativeElement,
+        'a',
+        'cx-card-read-more',
+        0,
+        'aria-label',
+        'myCoupons.readMore'
+      );
+    });
   });
 });
