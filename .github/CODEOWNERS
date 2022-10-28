@@ -9,9 +9,6 @@
 #  More info: https://help.github.com/articles/about-codeowners/
 #
 
-# This is ONLY INITIAL CODEOWNERS file created to test and gradually introduce ownership
-# of specific features on a code level.
-
 
 # ================================================
 #  General rules / philosophy
@@ -22,9 +19,7 @@
 #  - we enforce that only approved PRs get merged to ensure that unreviewed code doesn't get accidentally merged
 #  - we delegate approval rights as much as possible so that we can scale better
 #  - each group must have at least one person, but several people are preferable to avoid a single point of failure issues
-#  - most file groups have a global approvers group as fallback:
-#    - @SAP/spartacus-global-owners: for approving minor changes, large-scale refactorings, and emergency situations.
-#  - a small number of file groups can have very limited number of reviewers because incorrect changes to the files they guard would have serious consequences (e.g. security, public api)
+#  - a small number of file groups may have very limited number of reviewers because incorrect changes to the files they guard would have serious consequences (e.g. security, public api)
 #
 #  Configuration nuances:
 #
@@ -34,73 +29,40 @@
 
 
 # ================================================
-#  GitHub username registry
-#  (just to make this file easier to understand)
+# All the files in the repo.
 # ================================================
 
-#  Platonn - Krzysztof Platis
-#  znikola - Nikola Zarić
-#  developpeurweb - Miguel Estrada
-#  psmul - Patryk Smul
-#  plabadie - Patrick Labadie
-#  WeizhengSap - Weizheng Gao
-#  hackergil - Gilberto Alvarado Jimenez
-
-######################################################################################################
-#
-# CODEOWNERS rules
-# -----------------
-#
-# All the following rules are applied in the order specified in this file.
-# The last rule that matches wins!
-#
-# See https://git-scm.com/docs/gitignore#_pattern_format for pattern syntax docs.
-#
-######################################################################################################
-
-# ================================================
-#  Default Owners
-# (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
-# ================================================
-
-# * @SAP/spartacus-codeowners
-
-# ================================================
-#  Core
-# ================================================
-/projects/core/**                                   @SAP/spartacus-codeowners
-/projects/storefrontlib/**                          @SAP/spartacus-codeowners
-/feature-libs/**                                    @SAP/spartacus-codeowners
-/core-libs/**                                       @SAP/spartacus-codeowners
-/ci-scripts/**                                      @SAP/spartacus-codeowners
-/scripts/**                                         @SAP/spartacus-codeowners
-/tools/**                                           @SAP/spartacus-codeowners
-/*                                                  @SAP/spartacus-codeowners
+* @SAP/spartacus-codeowners
 
 
 # ================================================
-#  Styles
+#  This code owner file
 # ================================================
-/projects/storefrontstyles/**                       @SAP/spartacus-codeowners
+/.github/CODEOWNERS          @SAP/spartacus-admins
 
 # ================================================
-#  Cart
+#  Folders where anyone with write access to the repo can approve Pull Requests
 # ================================================
-/projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-codeowners
+
+/docs/          @SAP/spartacus-project-team
+
+/projects/storefrontapp-e2e-cypress/          @SAP/spartacus-project-team
+
+
+# @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
+# to remain owner of all the sources in the repo.
 
 # ================================================
-#  Schematics
+#  ASM Feature
 # ================================================
-/projects/schematics/**                             @SAP/spartacus-codeowners
+/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
 
 # ================================================
-#  CODEOWNERS and workflows
+#  Product Configurator and CPQ integration Features
 # ================================================
-/.github/**                                         @SAP/spartacus-codeowners
-
-######################################################################################################
+/feature-libs/product-configurator/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
 
 # ================================================
-#  Product configurator feature and CPQ integration
+#  Customer Ticketing Feature
 # ================================================
-/feature-libs/product-configurator/**               @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+/feature-libs/customer-ticketing/         @SAP/spartacus-codeowners @SAP/spartacus-alchemysts
