@@ -14013,11 +14013,16 @@ Current version:
 
 constructor(
   orderHistoryFacade: OrderHistoryFacade,
-  modalService: ModalService
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
 )
 
 ```
 
+
+### Property modalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -21569,11 +21574,16 @@ Current version:
 
 constructor(
   orderHistoryFacade: OrderHistoryFacade,
-  modalService: ModalService
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
 )
 
 ```
 
+
+### Property modalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -25952,6 +25962,46 @@ Current version:
 isLoading$: Observable<boolean>
 ```
 
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class CloseAccountComponent 
+## @spartacus/user/profile/components
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property modal is removed.
+
+It is not used anymore.
 
 ### Property modalService is removed.
 

@@ -3833,8 +3833,12 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
           importPath: '@spartacus/order/root',
         },
         {
-          className: 'ModalService',
+          className: 'LaunchDialogService',
           importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
         },
       ],
     },
@@ -6225,8 +6229,12 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
           importPath: '@spartacus/order/root',
         },
         {
-          className: 'ModalService',
+          className: 'LaunchDialogService',
           importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
         },
       ],
     },
@@ -7736,6 +7744,32 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         },
         {
           className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'CloseAccountComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      addParams: [
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
           importPath: '@angular/core',
         },
       ],

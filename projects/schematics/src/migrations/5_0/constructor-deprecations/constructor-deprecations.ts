@@ -7,8 +7,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/close-account.component.migration';
-import { CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/consignment-tracking.component.migration';
 import { COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-card.component.migration';
 import { COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/coupon-dialog.component.migration';
 import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
@@ -22,10 +20,8 @@ import { TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION } from './data/tracking
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
-  CONSIGNMENT_TRACKING_COMPONENT_CONSTRUCTOR_MIGRATION,
   TRACKING_EVENTS_COMPONENT_CONSTRUCTOR_MIGRATION,
   SUGGESTED_ADDRESS_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
-  CLOSE_ACCOUNT_COMPONENT_CONSTRUCTOR_MIGRATION,
   COUPON_CARD_COMPONENT_CONSTRUCTOR_MIGRATION,
   COUPON_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,
   STOCK_NOTIFICATION_DIALOG_COMPONENT_CONSTRUCTOR_MIGRATION,

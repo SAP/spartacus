@@ -63339,7 +63339,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  userOrderService: OrderFacade,\n  modalService: ModalService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -63371,12 +63371,20 @@
               "importPath": "@spartacus/order/root"
             },
             {
-              "name": "modalService",
-              "type": "ModalService",
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
               "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!ModalService:class",
-              "shortType": "ModalService",
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
               "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ],
           "removedParams": [
@@ -63387,6 +63395,14 @@
               "canonicalReference": "@spartacus/order_components!OrderFacade:class",
               "shortType": "OrderFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
             }
           ],
           "addedParams": [
@@ -63397,11 +63413,47 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "ConsignmentTrackingComponent",
         "entryPoint": "@spartacus/order/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "ConsignmentTrackingComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/order/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "ConsignmentTrackingComponent"
       }
     ]
   },
@@ -97274,7 +97326,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  userOrderService: UserOrderService,\n  modalService: ModalService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -97306,12 +97358,20 @@
               "importPath": "@spartacus/order/root"
             },
             {
-              "name": "modalService",
-              "type": "ModalService",
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
               "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!ModalService:class",
-              "shortType": "ModalService",
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
               "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ],
           "removedParams": [
@@ -97322,6 +97382,14 @@
               "canonicalReference": "@spartacus/storefront!UserOrderService:class",
               "shortType": "UserOrderService",
               "importPath": "@spartacus/core"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
             }
           ],
           "addedParams": [
@@ -97332,11 +97400,47 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "ConsignmentTrackingComponent",
         "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "ConsignmentTrackingComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "ConsignmentTrackingComponent"
       }
     ]
   },
@@ -115021,6 +115125,147 @@
         "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'.",
         "migrationComment": "Use 'launchDialogService' instead.",
         "topLevelApiElementName": "CloseAccountModalComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/user/profile/components",
+    "kind": "Class",
+    "name": "CloseAccountComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "modal", "type": "any" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Method",
+        "name": "openModal",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CloseAccountComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": { "kind": "Property", "name": "modal", "type": "any" },
+        "apiElementName": "CloseAccountComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modal' was removed from Class 'CloseAccountComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CloseAccountComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CloseAccountComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CloseAccountComponent"
       }
     ]
   }

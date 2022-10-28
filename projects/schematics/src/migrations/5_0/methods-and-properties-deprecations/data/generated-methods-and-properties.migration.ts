@@ -1930,6 +1930,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'userService' was removed from Class 'WishListService'. ",
     },
     {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'. It is not used anymore.",
+    },
+    {
       class: 'OrderCancellationService',
       importPath: '@spartacus/order/components',
       deprecatedNode: 'userOrderService',
@@ -3960,6 +3967,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - The 'isRequired' method's signature changed to: 'isRequired(  templateId: string | undefined): boolean'",
     },
     {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'. It is not used anymore.",
+    },
+    {
       class: 'CustomFormValidators',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'dateRange',
@@ -4917,5 +4931,19 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'modalService',
       comment:
         "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'CloseAccountComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modal',
+      comment:
+        "// TODO:Spartacus - Property 'modal' was removed from Class 'CloseAccountComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CloseAccountComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountComponent'. Use 'launchDialogService' instead.",
     },
   ];

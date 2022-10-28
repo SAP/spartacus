@@ -14,47 +14,6 @@ This file contains additional typescript breaking change doc for changes made af
 
 - generic type `T` in `function createFrom<T>(type: Type<T>, data: T): T` has been changed to `T extends object`
 
-# Class ConsignmentTrackingComponent
-## @spartacus/order/components
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  private orderHistoryFacade: OrderHistoryFacade,
-  private modalService: ModalService
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected orderHistoryFacade: OrderHistoryFacade,
-  protected launchDialogService: LaunchDialogService,
-  protected vcr: ViewContainerRef
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-### Property modalRef is removed.
-
-It is not used anymore.
-
-
 
 # Class TrackingEventsComponent
 ## @spartacus/order/components
@@ -259,45 +218,6 @@ Current version:
 closeDialog(reason: any)
 
 ```
-
-# Class CloseAccountComponent
-## @spartacus/user/components
-
-
-### Constructor changed.
-
-
-Previous version: 
-
-```
-
-constructor(
-  protected modalService: ModalService
-)
-
-```
-
-
-Current version: 
-
-```
-
-constructor(
-  protected launchDialogService: LaunchDialogService,
-  protected vcr: ViewContainerRef
-)
-
-```
-
-
-### Property modalService is removed.
-
-Use 'launchDialogService' instead.
-
-### Property modal is removed.
-
-It is not used anymore.
-
 
 # Class CouponCardComponent
 ## @spartacus/storefront
