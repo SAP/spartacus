@@ -2,6 +2,10 @@ import { standardUser } from '../../sample-data/shared-users';
 import { generateMail, randomString } from '../user';
 import { clickHamburger } from '../checkout-flow';
 
+const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
+const FIRST_TICKET_COLUMN_INDEX = 1;
+const FIRST_TICKET_ROW_INDEX = 1;
+
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
@@ -18,8 +22,8 @@ export function clickMyAccountMenuOption(){
 }
 
 export function clickCustomerSupportMenuOption(){
-  cy.get('.accNavComponent li:nth-child(14)').should('contain.text', 'Customer Service');
-  cy.get('.accNavComponent li:nth-child(14) a').click();
+  cy.get(`.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX})`).should('contain.text', 'Customer Service');
+  cy.get(`.accNavComponent li:nth-child(${CUSTOMER_SUPPORT_MENU_OPTION_INDEX}) a`).click();
 }
 
 export function verifyTicketListingPageVisit(){
@@ -28,8 +32,8 @@ export function verifyTicketListingPageVisit(){
 }
 
 export function clickFirstTicketFromTicketListing(){
-  cy.get('#ticketing-list-table tbody tr:nth-child(1) .cx-ticketing-list-data:nth-child(1) a.cx-ticketing-list-value').should('exist');
-  cy.get('#ticketing-list-table tbody tr:nth-child(1) .cx-ticketing-list-data:nth-child(1) a.cx-ticketing-list-value').click();
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
 }
 
 export function verifyTicketDetailsPageVisit(){
