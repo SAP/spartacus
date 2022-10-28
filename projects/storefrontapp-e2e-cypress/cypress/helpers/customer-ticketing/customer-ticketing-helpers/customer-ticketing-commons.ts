@@ -100,3 +100,5 @@ export function verifyTicketDetailsPageVisit() {
   cy.url().should('match', /http:\/\/.+\/my\-account\/support\-ticket\/[0-9]+/);
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
+
+
