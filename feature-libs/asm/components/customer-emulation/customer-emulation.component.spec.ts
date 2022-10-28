@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
@@ -32,7 +32,7 @@ describe('CustomerEmulationComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CustomerEmulationComponent],
+        declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
@@ -61,9 +61,13 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('input[formcontrolname="customer"]')).nativeElement
-        .placeholder
-    ).toEqual(`${testUser.name}, ${testUser.uid}`);
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-name')).nativeElement
+        .innerHTML
+    ).toEqual(`${testUser.name}`);
+    expect(
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-uid')).nativeElement
+        .innerHTML
+    ).toEqual(`${testUser.uid}`);
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
 
@@ -76,7 +80,9 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     //Click button
-    const endSessionButton = fixture.debugElement.query(By.css('button'));
+    const endSessionButton = fixture.debugElement.query(
+      By.css('button[formControlName="logoutCustomer"]')
+    );
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
     endSessionButton.nativeElement.click();
 

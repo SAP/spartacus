@@ -28,6 +28,7 @@ export class ConfigModule {
   static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
+      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
       providers: [provideConfig(config)],
     };
   }
@@ -58,6 +59,7 @@ export class ConfigModule {
   static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
+      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
       providers: [provideConfig(config)],
     };
   }

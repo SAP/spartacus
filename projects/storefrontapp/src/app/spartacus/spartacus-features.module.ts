@@ -65,6 +65,7 @@ import { ImportExportFeatureModule } from './features/cart/cart-import-export-fe
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
@@ -82,6 +83,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 
 const featureModules = [];
@@ -89,15 +91,18 @@ const featureModules = [];
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
+    AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule
   );
 }
 
+if (environment.cdc) {
+  featureModules.push(CdcFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }

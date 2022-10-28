@@ -49,4 +49,22 @@ describe('Customer effect', () => {
       expect(customerEffects.customerSearch$).toBeObservable(expected);
     });
   });
+
+  describe('customerListCustomersSearch$', () => {
+    it('should provide search results', () => {
+      const action = new AsmActions.CustomerListCustomersSearch({
+        query: 'abc',
+      });
+      const completion = new AsmActions.CustomerListCustomersSearchSuccess({
+        entries: [],
+      } as CustomerSearchPage);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(customerEffects.customerListCustomersSearch$).toBeObservable(
+        expected
+      );
+    });
+  });
 });
