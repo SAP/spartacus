@@ -14362,12 +14362,21 @@ Current version:
 ```
 
 constructor(
-  activeModal: NgbActiveModal,
-  orderHistoryFacade: OrderHistoryFacade
+  orderHistoryFacade: OrderHistoryFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
 )
 
 ```
 
+
+### Property activeModal is removed.
+
+Use 'launchDialogService' instead.
+
+### Property consignmentCode is removed.
+
+It is not used anymore.
 
 
 
@@ -25628,12 +25637,21 @@ Current version:
 ```
 
 constructor(
-  activeModal: NgbActiveModal,
-  orderHistoryFacade: OrderHistoryFacade
+  orderHistoryFacade: OrderHistoryFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
 )
 
 ```
 
+
+### Property activeModal is removed.
+
+Use 'launchDialogService' instead.
+
+### Property consignmentCode is removed.
+
+It is not used anymore.
 
 
 
@@ -25734,6 +25752,43 @@ moved to @spartacus/cart/wish-list
 ## @spartacus/user/profile/components
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userRegister: UserRegisterFacade,
+  globalMessageService: GlobalMessageService,
+  fb: FormBuilder,
+  router: RoutingService,
+  anonymousConsentsService: AnonymousConsentsService,
+  anonymousConsentsConfig: AnonymousConsentsConfig,
+  authConfigService: AuthConfigService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService,
+  fb: UntypedFormBuilder,
+  router: RoutingService,
+  anonymousConsentsService: AnonymousConsentsService,
+  anonymousConsentsConfig: AnonymousConsentsConfig,
+  authConfigService: AuthConfigService,
+  registerComponentService: RegisterComponentService
+)
+
+```
+
+
 ### Property anonymousConsent$ changed.
 
 
@@ -25754,6 +25809,23 @@ anonymousConsent$: Observable<{
         consent: AnonymousConsent | undefined;
         template: string;
     }>
+```
+
+
+### Property fb changed.
+
+
+Previous version: 
+
+```
+fb: FormBuilder
+```
+
+
+Current version: 
+
+```
+fb: UntypedFormBuilder
 ```
 
 
@@ -25780,6 +25852,27 @@ isConsentGiven(
 ): boolean
 
 ```
+
+
+### Property registerForm changed.
+
+
+Previous version: 
+
+```
+registerForm: FormGroup
+```
+
+
+Current version: 
+
+```
+registerForm: UntypedFormGroup
+```
+
+
+### Property userRegister is removed.
+
 
 
 
@@ -26147,3 +26240,125 @@ It is replaced by 'close' method.
 ### Property modalService is removed.
 
 Use 'launchDialogService' instead.
+
+
+
+# Class StockNotificationDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  interestsService: UserInterestsService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  interestsService: UserInterestsService,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+
+
+# Class StockNotificationComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  currentProductService: CurrentProductService,
+  globalMessageService: GlobalMessageService,
+  translationService: TranslationService,
+  interestsService: UserInterestsService,
+  modalService: ModalService,
+  notificationPrefService: UserNotificationPreferenceService,
+  userIdService: UserIdService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  currentProductService: CurrentProductService,
+  globalMessageService: GlobalMessageService,
+  translationService: TranslationService,
+  interestsService: UserInterestsService,
+  notificationPrefService: UserNotificationPreferenceService,
+  userIdService: UserIdService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+
+
+# Class SuggestedAddressDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property enteredAddress is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead
+
+### Property suggestedAddresses is removed.
+
+It is not used anymore.

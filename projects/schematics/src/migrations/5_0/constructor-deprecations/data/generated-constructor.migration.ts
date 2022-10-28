@@ -4255,12 +4255,16 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
       addParams: [
         {
-          className: 'NgbActiveModal',
-          importPath: '@ng-bootstrap/ng-bootstrap',
-        },
-        {
           className: 'OrderHistoryFacade',
           importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
         },
       ],
     },
@@ -7535,12 +7539,16 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
       addParams: [
         {
-          className: 'NgbActiveModal',
-          importPath: '@ng-bootstrap/ng-bootstrap',
-        },
-        {
           className: 'OrderHistoryFacade',
           importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
         },
       ],
     },
@@ -7563,6 +7571,100 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'WishListFacade',
           importPath: '@spartacus/cart/wish-list/root',
+        },
+      ],
+    },
+    {
+      class: 'RegisterComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedParams: [
+        {
+          className: 'UserRegisterFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsConfig',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AuthConfigService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'UserRegisterFacade',
+          importPath: '@spartacus/user/profile/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsConfig',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AuthConfigService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UntypedFormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AnonymousConsentsConfig',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'AuthConfigService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RegisterComponentService',
+          importPath: '@spartacus/user/profile/components',
         },
       ],
     },
@@ -7918,6 +8020,168 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
     },
     {
       class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      addParams: [
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'StockNotificationDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'StockNotificationComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'CurrentProductService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserNotificationPreferenceService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserIdService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CurrentProductService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserNotificationPreferenceService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserIdService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CurrentProductService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserInterestsService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserNotificationPreferenceService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UserIdService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'SuggestedAddressDialogComponent',
       importPath: '@spartacus/storefront',
       deprecatedParams: [
         {
