@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SPARTACUS_COMMERCE_QUOTES } from '@spartacus/schematics';
 
 export const COMMERCE_QUOTES_FOLDER_NAME = 'commerce-quotes';
