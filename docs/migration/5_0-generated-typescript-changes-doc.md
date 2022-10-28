@@ -5,12 +5,6 @@ This is a list of breaking changes or potentially breaking changes for Spartacus
 
 
 
-
-
-
-
-
-
 # Class AsmMainUiComponent 
 ## @spartacus/asm/components
 
