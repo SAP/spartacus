@@ -68,9 +68,6 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -94,7 +91,12 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/commerce-quotes.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -163,12 +165,16 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/commerce-quotes.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

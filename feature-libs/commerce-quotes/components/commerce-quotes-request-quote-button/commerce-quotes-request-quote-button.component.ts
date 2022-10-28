@@ -1,8 +1,12 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { ModalRef, ModalService } from '@spartacus/storefront';
-import { take, tap } from 'rxjs/operators';
-import { CommerceQuotesRequestQuoteDialogComponent } from '../commerce-quotes-request-quote-dialog/commerce-quotes-request-quote-dialog.component';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-commerce-quotes-request-quote-button',
@@ -10,29 +14,19 @@ import { CommerceQuotesRequestQuoteDialogComponent } from '../commerce-quotes-re
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommerceQuotesRequestQuoteButtonComponent {
-  modalRef: ModalRef;
+  @ViewChild('element') element: ElementRef;
 
   constructor(
-    protected modalService: ModalService,
-    protected activeCartService: ActiveCartFacade
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   showDialog() {
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(
-        take(1),
-        tap((cartId: string) => {
-          this.modalRef = this.modalService.open(
-            CommerceQuotesRequestQuoteDialogComponent,
-            {
-              centered: true,
-              size: 'lg',
-            }
-          );
-          this.modalRef.componentInstance.cartId = cartId;
-        })
-      )
-      .subscribe();
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.REQUEST_QUOTE,
+      this.element,
+      this.vcr
+    );
+    dialog?.pipe(take(1)).subscribe();
   }
 }

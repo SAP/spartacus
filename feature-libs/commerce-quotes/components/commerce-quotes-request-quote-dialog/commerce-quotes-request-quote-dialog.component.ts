@@ -1,11 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ElementRef,
-  ViewChild,
-  OnInit,
-} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CQConfig } from '@spartacus/commerce-quotes/core';
 import {
   CommerceQuotesFacade,
@@ -13,7 +7,11 @@ import {
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
-import { FocusConfig, ICON_TYPE, ModalService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -21,9 +19,8 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './commerce-quotes-request-quote-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
+export class CommerceQuotesRequestQuoteDialogComponent {
   iconTypes = ICON_TYPE;
-  cartId: string;
   requestInProgress$ = new BehaviorSubject<boolean>(false);
   minRequestInitiationValue =
     this.config.commerceQuotes?.tresholds?.requestInitiation;
@@ -35,9 +32,6 @@ export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
     focusOnEscape: true,
   };
 
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
-
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', []),
@@ -45,16 +39,14 @@ export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
   });
 
   constructor(
-    protected modalService: ModalService,
     protected commerceQuotesFacade: CommerceQuotesFacade,
     protected routingService: RoutingService,
-    protected config: CQConfig
+    protected config: CQConfig,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
-  ngOnInit(): void {}
-
   dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 
   onSubmit(goToDetails?: boolean): void {
@@ -87,7 +79,7 @@ export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
             );
           }
 
-          this.modalService.dismissActiveModal();
+          this.dismissModal('success');
         });
     }
   }

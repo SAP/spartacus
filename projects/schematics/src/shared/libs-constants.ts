@@ -173,9 +173,11 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
-export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
-
 export const SPARTACUS_COMMERCE_QUOTES = '@spartacus/commerce-quotes';
+export const SPARTACUS_COMMERCE_QUOTES_ROOT = `@spartacus/commerce-quotes/root`;
+export const SPARTACUS_COMMERCE_QUOTES_ASSETS = `@spartacus/commerce-quotes/assets`;
+
+export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -238,6 +240,3 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 /***** Feature name end *****/
-
-export const COMMERCE_QUOTES_MODULE = 'CommerceQuotesModule';
-export const COMMERCE_QUOTES_ROOT_MODULE = 'CommerceQuotesRootModule';
