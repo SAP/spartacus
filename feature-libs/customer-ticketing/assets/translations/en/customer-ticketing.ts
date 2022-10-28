@@ -11,7 +11,7 @@ export const customerTicketing = {
     message: 'Message',
     cancel: 'Cancel',
     submit: 'Submit',
-    charactersLeft: 'Characters Left: {{count}}',
+    charactersLeft: 'characters left: {{count}}',
     uploadFile: 'Upload File',
     fileSizeLimit: 'File size limit: {{count}}MB',
     maximumAttachment: 'Maximum of one attachment per message',
