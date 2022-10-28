@@ -4146,14 +4146,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'generateJsonLdScript',
       comment:
-        "// TODO:Spartacus - The 'generateJsonLdScript' method's signature changed to: 'generateJsonLdScript(  schema: string | {}): SafeHtml | undefined'",
+        "// TODO:Spartacus - The 'generateJsonLdScript' method's signature changed to: 'generateJsonLdScript(  schema: string | {}): void'",
     },
     {
       class: 'JsonLdDirective',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'jsonLD',
       comment:
-        "// TODO:Spartacus - The type of property 'jsonLD: SafeHtml' changed to: 'jsonLD: SafeHtml | undefined' ",
+        "// TODO:Spartacus - Property 'jsonLD' was removed from Class 'JsonLdDirective'. ",
+    },
+    {
+      class: 'JsonLdDirective',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitizer',
+      comment:
+        "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdDirective'. ",
     },
     {
       class: 'LaunchDialogService',
@@ -4917,6 +4924,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'sanitize',
       comment:
         "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'. Use 'escapeHtml' instead.",
+    },
+    {
+      class: 'JsonLdScriptFactory',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitizer',
+      comment:
+        "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdScriptFactory'. ",
     },
     {
       class: 'CloseAccountModalComponent',

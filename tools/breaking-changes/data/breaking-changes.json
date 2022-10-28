@@ -99496,6 +99496,94 @@
     ],
     "breakingChanges": [
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  jsonLdScriptFactory: JsonLdScriptFactory,\n  sanitizer: DomSanitizer\n)\n",
+        "currentStateDoc": "\nconstructor(\n  renderer: Renderer2,\n  jsonLdScriptFactory: JsonLdScriptFactory,\n  element: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "jsonLdScriptFactory",
+              "type": "JsonLdScriptFactory",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!JsonLdScriptFactory:class",
+              "shortType": "JsonLdScriptFactory",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "renderer",
+              "type": "Renderer2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Renderer2:class",
+              "shortType": "Renderer2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "jsonLdScriptFactory",
+              "type": "JsonLdScriptFactory",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!JsonLdScriptFactory:class",
+              "shortType": "JsonLdScriptFactory",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "element",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "renderer",
+              "type": "Renderer2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Renderer2:class",
+              "shortType": "Renderer2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "element",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "JsonLdDirective",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
         "change": "METHOD_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Method",
@@ -99503,7 +99591,7 @@
         "changeElementName": "generateJsonLdScript",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): SafeHtml\n",
-        "currentStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): SafeHtml | undefined\n",
+        "currentStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): void\n",
         "oldElement": {
           "kind": "Method",
           "name": "generateJsonLdScript",
@@ -99534,24 +99622,50 @@
               "importPath": ""
             }
           ],
-          "returnType": "SafeHtml | undefined"
+          "returnType": "void"
         },
         "topLevelApiElementName": "JsonLdDirective",
         "entryPoint": "@spartacus/storefront"
       },
       {
-        "change": "PROPERTY_CHANGED",
-        "changeType": "CHANGED",
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
         "changeKind": "Property",
-        "changeLabel": "changed",
+        "changeLabel": "deleted",
         "changeElementName": "jsonLD",
         "changeElementCategory": "MEMBER",
-        "oldType": "SafeHtml",
-        "newType": "SafeHtml | undefined",
-        "previousStateDoc": "jsonLD: SafeHtml",
-        "currentStateDoc": "jsonLD: SafeHtml | undefined",
-        "topLevelApiElementName": "JsonLdDirective",
-        "entryPoint": "@spartacus/storefront"
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "jsonLD",
+          "type": "SafeHtml"
+        },
+        "apiElementName": "JsonLdDirective",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'jsonLD' was removed from Class 'JsonLdDirective'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "JsonLdDirective"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitizer",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "sanitizer",
+          "type": "DomSanitizer"
+        },
+        "apiElementName": "JsonLdDirective",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdDirective'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "JsonLdDirective"
       }
     ]
   },
@@ -114345,7 +114459,214 @@
     "entryPoint": "@spartacus/storefront",
     "kind": "Class",
     "name": "JsonLdScriptFactory",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "platformId",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          },
+          {
+            "name": "winRef",
+            "type": "WindowRef",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!WindowRef:class",
+            "shortType": "WindowRef",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "rendererFactory",
+            "type": "RendererFactory2",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!RendererFactory2:class",
+            "shortType": "RendererFactory2",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "sanitizer",
+            "type": "DomSanitizer",
+            "isOptional": false,
+            "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+            "shortType": "DomSanitizer",
+            "importPath": "@angular/platform-browser"
+          },
+          {
+            "name": "config",
+            "type": "SeoConfig",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+            "shortType": "SeoConfig",
+            "importPath": ""
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "build",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "schema",
+            "type": "{}[]",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "config", "type": "SeoConfig" },
+      {
+        "kind": "Method",
+        "name": "getJsonLdScriptElement",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "HTMLScriptElement"
+      },
+      {
+        "kind": "Method",
+        "name": "isJsonLdRequired",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "boolean"
+      },
+      { "kind": "Property", "name": "platformId", "type": "string" },
+      {
+        "kind": "Property",
+        "name": "rendererFactory",
+        "type": "RendererFactory2"
+      },
+      {
+        "kind": "Method",
+        "name": "sanitize",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "schema",
+            "type": "{}",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "string"
+      },
+      { "kind": "Property", "name": "sanitizer", "type": "DomSanitizer" },
+      { "kind": "Property", "name": "winRef", "type": "WindowRef" }
+    ],
     "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  platformId: string,\n  winRef: WindowRef,\n  rendererFactory: RendererFactory2,\n  sanitizer: DomSanitizer,\n  config: SeoConfig\n)\n",
+        "currentStateDoc": "\nconstructor(\n  platformId: string,\n  winRef: WindowRef,\n  rendererFactory: RendererFactory2,\n  config: SeoConfig\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "platformId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "rendererFactory",
+              "type": "RendererFactory2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!RendererFactory2:class",
+              "shortType": "RendererFactory2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            },
+            {
+              "name": "config",
+              "type": "SeoConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+              "shortType": "SeoConfig",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "platformId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "rendererFactory",
+              "type": "RendererFactory2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!RendererFactory2:class",
+              "shortType": "RendererFactory2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "config",
+              "type": "SeoConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+              "shortType": "SeoConfig",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "addedParams": []
+        },
+        "topLevelApiElementName": "JsonLdScriptFactory",
+        "entryPoint": "@spartacus/storefront"
+      },
       {
         "change": "METHOD_DELETED",
         "changeType": "DELETED",
@@ -114358,14 +114679,43 @@
           "kind": "Method",
           "name": "sanitize",
           "overloadIndex": 1,
-          "parameters": [],
-          "returnType": ""
+          "parameters": [
+            {
+              "name": "schema",
+              "type": "{}",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "string"
         },
         "apiElementName": "JsonLdScriptFactory",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'.",
         "migrationComment": "Use 'escapeHtml' instead.",
+        "topLevelApiElementName": "JsonLdScriptFactory"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitizer",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "sanitizer",
+          "type": "DomSanitizer"
+        },
+        "apiElementName": "JsonLdScriptFactory",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdScriptFactory'.",
+        "migrationComment": "",
         "topLevelApiElementName": "JsonLdScriptFactory"
       }
     ]

@@ -6375,6 +6375,44 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'JsonLdDirective',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'JsonLdScriptFactory',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'DomSanitizer',
+          importPath: '@angular/platform-browser',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'JsonLdScriptFactory',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'DomSanitizer',
+          importPath: '@angular/platform-browser',
+        },
+      ],
+      addParams: [
+        {
+          className: 'Renderer2',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'JsonLdScriptFactory',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
       class: 'LoginGuard',
       importPath: '@spartacus/storefront',
       deprecatedParams: [
@@ -7525,6 +7563,72 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'WishListFacade',
           importPath: '@spartacus/cart/wish-list/root',
+        },
+      ],
+    },
+    {
+      class: 'JsonLdScriptFactory',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'string',
+          importPath: '',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RendererFactory2',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'DomSanitizer',
+          importPath: '@angular/platform-browser',
+        },
+        {
+          className: 'SeoConfig',
+          importPath: '',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'string',
+          importPath: '',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RendererFactory2',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'DomSanitizer',
+          importPath: '@angular/platform-browser',
+        },
+        {
+          className: 'SeoConfig',
+          importPath: '',
+        },
+      ],
+      addParams: [
+        {
+          className: 'string',
+          importPath: '',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'RendererFactory2',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'SeoConfig',
+          importPath: '@spartacus/storefront',
         },
       ],
     },

@@ -22191,6 +22191,34 @@ constructor(
 ## @spartacus/storefront
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  jsonLdScriptFactory: JsonLdScriptFactory,
+  sanitizer: DomSanitizer
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  renderer: Renderer2,
+  jsonLdScriptFactory: JsonLdScriptFactory,
+  element: ElementRef
+)
+
+```
+
+
 ### Method generateJsonLdScript changed.
 
 
@@ -22211,26 +22239,17 @@ Current version:
 
 generateJsonLdScript(
   schema: string | {}
-): SafeHtml | undefined
+): void
 
 ```
 
 
-### Property jsonLD changed.
+### Property jsonLD is removed.
 
 
-Previous version: 
 
-```
-jsonLD: SafeHtml
-```
+### Property sanitizer is removed.
 
-
-Current version: 
-
-```
-jsonLD: SafeHtml | undefined
-```
 
 
 
@@ -25850,9 +25869,45 @@ Use 'LaunchDialogService' instead. For more information, see the 5.0 migration g
 ## @spartacus/storefront
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  platformId: string,
+  winRef: WindowRef,
+  rendererFactory: RendererFactory2,
+  sanitizer: DomSanitizer,
+  config: SeoConfig
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  platformId: string,
+  winRef: WindowRef,
+  rendererFactory: RendererFactory2,
+  config: SeoConfig
+)
+
+```
+
+
 ### Method sanitize is removed.
 
 Use 'escapeHtml' instead.
+
+### Property sanitizer is removed.
+
+
 
 
 
