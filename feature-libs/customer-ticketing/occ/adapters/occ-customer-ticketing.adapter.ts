@@ -22,7 +22,7 @@ import {
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
@@ -77,6 +77,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
       );
   }

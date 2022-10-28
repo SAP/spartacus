@@ -8,7 +8,7 @@ import {
   TicketDetails,
   TicketEvent,
   GetTicketQueryReloadEvent,
-} from 'feature-libs/customer-ticketing/root';
+} from '@spartacus/customer-ticketing/root';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -73,7 +73,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   > {
     return this.ticketDetails$.pipe(
       map((ticket) =>
-        ticket?.ticketEvents?.reverse().map(
+        ticket?.ticketEvents?.map(
           (event: TicketEvent): MessageEvent => ({
             ...event,
             text: event.message,
