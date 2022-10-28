@@ -23,6 +23,7 @@ import {
         'getTicketCategories',
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
+        'uploadAttachment',
         'createTicket',
       ],
     }),
