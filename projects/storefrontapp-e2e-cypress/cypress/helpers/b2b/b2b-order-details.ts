@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as sampleData from '../../sample-data/b2b-order-details';
 import { unitLevelOrder } from '../../sample-data/b2b-order-details';
 import { waitForPage } from '../checkout-flow';
