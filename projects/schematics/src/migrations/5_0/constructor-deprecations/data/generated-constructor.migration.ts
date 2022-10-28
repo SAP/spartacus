@@ -1902,6 +1902,100 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'PaymentFormComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'CheckoutDeliveryAddressFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'UntypedFormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+    },
+    {
       class: 'PaymentMethodComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedParams: [

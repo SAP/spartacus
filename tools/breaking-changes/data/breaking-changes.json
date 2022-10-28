@@ -12883,13 +12883,137 @@
     "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "PaymentFormComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
-        "topLevelApiElementName": "PaymentFormComponent",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n checkoutPaymentService: CheckoutPaymentFacade,\n checkoutDeliveryService: CheckoutDeliveryFacade,\n userPaymentService: UserPaymentService,\n globalMessageService: GlobalMessageService,\n fb: FormBuilder,\n modalService: ModalService,\n userAddressService: UserAddressService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  checkoutPaymentFacade: CheckoutPaymentFacade,\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  userPaymentService: UserPaymentService,\n  globalMessageService: GlobalMessageService,\n  fb: UntypedFormBuilder,\n  userAddressService: UserAddressService,\n  launchDialogService: LaunchDialogService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [],
+          "addedParams": []
+        },
+        "topLevelApiElementName": "PlaceOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
       }
     ]
@@ -100010,6 +100134,50 @@
     ],
     "breakingChanges": [
       {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "closeDialog",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\ncloseDialog(\n  reason: string\n): void\n",
+        "currentStateDoc": "\ncloseDialog(\n  reason: any\n): void\n",
+        "oldElement": {
+          "kind": "Method",
+          "name": "closeDialog",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "reason",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "void"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "closeDialog",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "reason",
+              "type": "any",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "void"
+        },
+        "topLevelApiElementName": "LaunchDialogService",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -100017,9 +100185,9 @@
         "changeElementName": "dialogClose",
         "changeElementCategory": "MEMBER",
         "oldType": "Observable<string>",
-        "newType": "Observable<string | undefined>",
+        "newType": "Observable<any | undefined>",
         "previousStateDoc": "dialogClose: Observable<string>",
-        "currentStateDoc": "dialogClose: Observable<string | undefined>",
+        "currentStateDoc": "dialogClose: Observable<any | undefined>",
         "topLevelApiElementName": "LaunchDialogService",
         "entryPoint": "@spartacus/storefront"
       },

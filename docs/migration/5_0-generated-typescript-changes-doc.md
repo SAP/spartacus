@@ -2132,6 +2132,43 @@ moved to @spartacus/checkout/base/components
 renamed to CheckoutPaymentFormComponent
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+ checkoutPaymentService: CheckoutPaymentFacade,
+ checkoutDeliveryService: CheckoutDeliveryFacade,
+ userPaymentService: UserPaymentService,
+ globalMessageService: GlobalMessageService,
+ fb: FormBuilder,
+ modalService: ModalService,
+ userAddressService: UserAddressService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  userPaymentService: UserPaymentService,
+  globalMessageService: GlobalMessageService,
+  fb: UntypedFormBuilder,
+  userAddressService: UserAddressService,
+  launchDialogService: LaunchDialogService
+)
+
+```
+
+
 
 
 # Class PaymentFormModule 
@@ -22285,6 +22322,31 @@ Function keyboardFocusFactory has been removed and is no longer part of the publ
 ## @spartacus/storefront
 
 
+### Method closeDialog changed.
+
+
+Previous version: 
+
+```
+
+closeDialog(
+  reason: string
+): void
+
+```
+
+
+Current version: 
+
+```
+
+closeDialog(
+  reason: any
+): void
+
+```
+
+
 ### Property dialogClose changed.
 
 
@@ -22298,7 +22360,7 @@ dialogClose: Observable<string>
 Current version: 
 
 ```
-dialogClose: Observable<string | undefined>
+dialogClose: Observable<any | undefined>
 ```
 
 
