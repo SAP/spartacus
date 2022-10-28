@@ -2169,6 +2169,14 @@ constructor(
 ```
 
 
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+### Property suggestedAddressModalRef is removed.
+
+It is not used anymore.
+
 
 
 # Class PaymentFormModule 

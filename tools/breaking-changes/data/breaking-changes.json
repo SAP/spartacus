@@ -13013,8 +13013,48 @@
           "removedParams": [],
           "addedParams": []
         },
-        "topLevelApiElementName": "PlaceOrderComponent",
-        "entryPoint": "@spartacus/checkout/components"
+        "topLevelApiElementName": "PaymentFormComponent",
+        "entryPoint": "@spartacus/checkout/base/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/base/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'PaymentFormComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "PaymentFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "suggestedAddressModalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "suggestedAddressModalRef",
+          "type": ""
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/base/components",
+        "deletedComment": "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'PaymentFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "PaymentFormComponent"
       }
     ]
   },

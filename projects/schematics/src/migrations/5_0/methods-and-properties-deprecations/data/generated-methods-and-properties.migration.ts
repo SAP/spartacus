@@ -453,6 +453,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. Use 'activeCartFacade' instead.",
     },
     {
+      class: 'PaymentFormComponent',
+      importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'PaymentFormComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'PaymentFormComponent',
+      importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'suggestedAddressModalRef',
+      comment:
+        "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'PaymentFormComponent'. It is not used anymore.",
+    },
+    {
       class: 'PaymentMethodComponent',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'checkoutService',
@@ -4179,9 +4193,16 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'LaunchDialogService',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'closeDialog',
+      comment:
+        "// TODO:Spartacus - The 'closeDialog' method's signature changed to: 'closeDialog(  reason: any): void'",
+    },
+    {
+      class: 'LaunchDialogService',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'dialogClose',
       comment:
-        "// TODO:Spartacus - The type of property 'dialogClose: Observable<string>' changed to: 'dialogClose: Observable<string | undefined>' ",
+        "// TODO:Spartacus - The type of property 'dialogClose: Observable<string>' changed to: 'dialogClose: Observable<any | undefined>' ",
     },
     {
       class: 'LaunchDialogService',
