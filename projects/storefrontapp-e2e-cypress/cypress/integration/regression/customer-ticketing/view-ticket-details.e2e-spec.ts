@@ -17,6 +17,21 @@ describe('ticketing', () => {
         customerTicketing.clickFirstTicketFromTicketListing();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
+      it('should be able to visit ticket details page for an existing ticket via url', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.clickMyAccountMenuOption();
+        customerTicketing.clickCustomerSupportMenuOption();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.visitTicketDetailsPageForFirstTicket();
+      });
+      it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.clickMyAccountMenuOption();
+        customerTicketing.clickCustomerSupportMenuOption();
+        customerTicketing.verifyTicketListingPageVisit();
+        // Uncomment the following action after 404 error flow is merged on epic
+        // customerTicketing.visitTicketDetailsPageForNonExistingTicket();
+      });
     });
   });
 });

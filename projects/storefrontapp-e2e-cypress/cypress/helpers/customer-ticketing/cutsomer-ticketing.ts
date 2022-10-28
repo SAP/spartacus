@@ -40,3 +40,19 @@ export function verifyTicketDetailsPageVisit(){
   cy.url().should('match',/http:\/\/.+\/my\-account\/support\-ticket\/[0-9]+/);
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
+
+export function visitTicketDetailsPageForFirstTicket(){
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).then( ($ticketIdElement) => {
+    const ticketId = $ticketIdElement.text().trim();
+    cy.visit(`/my-account/support-ticket/${ticketId}`);
+    cy.get('cx-customer-ticketing-messages', { timeout: 10000 }).should('be.visible');
+    cy.url().should('include',`/my-account/support-ticket/${ticketId}`);
+  });
+}
+
+export function visitTicketDetailsPageForNonExistingTicket(){
+  cy.visit('/my-account/support-ticket/XYZ01234');
+  cy.get('cx-global-message .alert-error', { timeout: 10000 }).should('be.visible');
+  cy.url().should('include','/my-account/support-ticket');
+}
