@@ -4946,4 +4946,39 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       comment:
         "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountComponent'. Use 'launchDialogService' instead.",
     },
+    {
+      class: 'CouponCardComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'CouponCardComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CouponCardComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponCardComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'dialog',
+      comment:
+        "// TODO:Spartacus - Property 'dialog' was removed from Class 'CouponDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'dismissModal',
+      comment:
+        "// TODO:Spartacus - Method 'dismissModal' was removed from Class 'CouponDialogComponent'. It is replaced by 'close' method.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponDialogComponent'. Use 'launchDialogService' instead.",
+    },
   ];

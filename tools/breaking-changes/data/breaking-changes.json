@@ -115268,5 +115268,391 @@
         "topLevelApiElementName": "CloseAccountComponent"
       }
     ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "CouponCardComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "myCouponsComponentService",
+            "type": "MyCouponsComponentService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+            "shortType": "MyCouponsComponentService",
+            "importPath": ""
+          }
+        ]
+      },
+      { "kind": "Property", "name": "coupon", "type": "CustomerCoupon" },
+      {
+        "kind": "Property",
+        "name": "couponSubscriptionLoading$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "findProducts",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "modalRef", "type": "ModalRef" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Property",
+        "name": "myCouponsComponentService",
+        "type": "MyCouponsComponentService"
+      },
+      {
+        "kind": "Property",
+        "name": "notificationChanged",
+        "type": "EventEmitter<{\n        couponId: string;\n        notification: boolean;\n    }>"
+      },
+      {
+        "kind": "Method",
+        "name": "onSubscriptionChange",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "readMore",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  myCouponsComponentService: MyCouponsComponentService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  myCouponsComponentService: MyCouponsComponentService,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "myCouponsComponentService",
+              "type": "MyCouponsComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+              "shortType": "MyCouponsComponentService",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "myCouponsComponentService",
+              "type": "MyCouponsComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+              "shortType": "MyCouponsComponentService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CouponCardComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "CouponCardComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'CouponCardComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CouponCardComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CouponCardComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponCardComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CouponCardComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "CouponDialogComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "coupon", "type": "CustomerCoupon" },
+      { "kind": "Property", "name": "dialog", "type": "ElementRef" },
+      {
+        "kind": "Method",
+        "name": "dismissModal",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "reason",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "iconTypes", "type": "typeof ICON_TYPE" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CouponDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "dialog",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "dialog",
+          "type": "ElementRef"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'dialog' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "dismissModal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "dismissModal",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "reason",
+              "type": "any",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "void"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'dismissModal' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "It is replaced by 'close' method.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      }
+    ]
   }
 ]

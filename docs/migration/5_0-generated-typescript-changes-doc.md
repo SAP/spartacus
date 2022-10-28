@@ -26006,3 +26006,89 @@ It is not used anymore.
 ### Property modalService is removed.
 
 Use 'launchDialogService' instead.
+
+
+
+# Class CouponCardComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  myCouponsComponentService: MyCouponsComponentService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  myCouponsComponentService: MyCouponsComponentService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property modalRef is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class CouponDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property dialog is removed.
+
+It is not used anymore.
+
+### Method dismissModal is removed.
+
+It is replaced by 'close' method.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.

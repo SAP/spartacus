@@ -7774,4 +7774,68 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         },
       ],
     },
+    {
+      class: 'CouponCardComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'MyCouponsComponentService',
+          importPath: '',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'MyCouponsComponentService',
+          importPath: '',
+        },
+      ],
+      addParams: [
+        {
+          className: 'MyCouponsComponentService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ModalService',
+          importPath: '@spartacus/storefront',
+        },
+      ],
+      addParams: [
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ElementRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
   ];
