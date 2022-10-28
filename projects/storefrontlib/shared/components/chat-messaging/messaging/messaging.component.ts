@@ -37,7 +37,7 @@ export class MessagingComponent implements OnInit {
   get inputCharacterLeft(): number {
     return (
       (this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS) -
-      this.form.get('message')?.value.length
+      this.form.get('message')?.value?.length
     );
   }
 
