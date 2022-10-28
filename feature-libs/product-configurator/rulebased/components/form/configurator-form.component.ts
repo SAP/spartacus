@@ -140,10 +140,11 @@ export class ConfiguratorFormComponent implements OnInit {
    * @returns true if conflict description box should be displayed
    */
   displayConflictDescription(group: Configurator.Group): boolean {
-      return (group.groupType !== undefined && this.configuratorGroupsService.isConflictGroupType(group.groupType) &&
-        group.name !== '')
-      
-
+    return (
+      group.groupType !== undefined &&
+      this.configuratorGroupsService.isConflictGroupType(group.groupType) &&
+      group.name !== ''
+    );
   }
 
   /**

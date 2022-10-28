@@ -74,17 +74,16 @@ const configRead2: Configurator.Configuration = {
   groups: groups,
 };
 
-const conflictGroup: Configurator.Group =
-  {
-    id: 'GROUP_ID_CONFLICT_1',
-    name: 'The conflict text',
-    groupType: Configurator.GroupType.CONFLICT_GROUP,
-    subGroups: [],
-    attributes: [
-      { name: 'ATTRIBUTE_1_CHECKBOX', key: 'ATTRIBUTE_1' },
-      { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
-    ],
-  };
+const conflictGroup: Configurator.Group = {
+  id: 'GROUP_ID_CONFLICT_1',
+  name: 'The conflict text',
+  groupType: Configurator.GroupType.CONFLICT_GROUP,
+  subGroups: [],
+  attributes: [
+    { name: 'ATTRIBUTE_1_CHECKBOX', key: 'ATTRIBUTE_1' },
+    { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
+  ],
+};
 
 @Component({
   selector: 'cx-configurator-price',
@@ -581,21 +580,35 @@ describe('ConfigurationFormComponent', () => {
 
   describe('displayConflictDescription', () => {
     it('should return true if group is conflict group and has a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(true);
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(true);
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        true
+      );
     });
     it('should return false if group is standard group', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(false);
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(false);
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        false
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
     });
     it('should return false if group is conflict group and does not have a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(true);
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
       conflictGroup.name = '';
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(false);
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
     });
     it('should return false if group type is undefined is standard group', () => {
       conflictGroup.groupType = undefined;
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(false);
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
     });
   });
 });
