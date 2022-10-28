@@ -1,0 +1,44 @@
+<form (ngSubmit)="formSearch()" [formGroup]="filterForm">
+  <div class="cx-unit-level-order-history-filter-form">
+    <label class="cx-unit-level-order-history-filter-form-item"
+    ><span>
+          {{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}
+        </span>
+      <input
+        #queryInputUser
+        formControlName="userFilter"
+        type="text"
+        class="form-control"
+        [attr.aria-label]="'unitLevelOrderHistory.filterByUserLabel' | cxTranslate"
+        placeholder="{{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}"
+      />
+    </label>
+    <label class="cx-unit-level-order-history-filter-form-item"
+    ><span>
+          {{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}
+        </span>
+      <input
+        #queryInputUnit
+        formControlName="unitFilter"
+        type="text"
+        class="form-control"
+        [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
+        placeholder="{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}"
+      />
+    </label>
+
+    <div class="cx-unit-level-order-history-filter-form-button-block">
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="resetForm()"
+      >
+        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+      </button>
+      <button class="btn btn-primary" type="submit" (click)="formSearch()">
+        {{ 'unitLevelOrderHistory.search' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>
+
