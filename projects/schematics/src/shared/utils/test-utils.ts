@@ -41,6 +41,8 @@ export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
+export const organizationAccountSummaryFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =
@@ -63,6 +65,10 @@ export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
+export const userAccountWrapperModulePath =
+  'src/app/spartacus/features/user/user-account-wrapper.module.ts';
+export const userProfileWrapperModulePath =
+  'src/app/spartacus/features/user/user-profile-wrapper.module.ts';
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
