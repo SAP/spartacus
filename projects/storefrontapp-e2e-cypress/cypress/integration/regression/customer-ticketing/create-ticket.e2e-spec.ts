@@ -13,6 +13,13 @@ describe('ticketing', () => {
           win.sessionStorage.clear();
         });
       });
+
+      it('clicking add should open create new ticket popup', () => {
+        loginRegisteredUser();
+        customerTicketing.visitElectronicSupportTicketPage();
+        customerTicketing.openCreateTicketModal();
+      })
+
       it('should be able to create ticket when filling the required form', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Entering a subject',
@@ -109,13 +116,13 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist();
       });
 
-      it('should not allow ticket to be created if form not properly completed', () => {
-        loginRegisteredUser();
-        customerTicketing.visitElectronicSupportTicketPage();
-        customerTicketing.openCreateTicketModal();
-        customerTicketing.clickSubmit();
-        customerTicketing.isFieldValidationErrorShown();
-      });
+      // it('should not allow ticket to be created if form not properly completed', () => {
+      //   loginRegisteredUser();
+      //   customerTicketing.visitElectronicSupportTicketPage();
+      //   customerTicketing.openCreateTicketModal();
+      //   customerTicketing.clickSubmit();
+      //   customerTicketing.isFieldValidationErrorShown();
+      // });
 
       it('should not create tickets when cancelling or closing the modal', () => {
         const testTicketDetails: TestTicketDetails = {
@@ -134,6 +141,49 @@ describe('ticketing', () => {
         customerTicketing.clickClose();
         customerTicketing.verifyTicketDoesNotExist();
       });
+
+      it('should not create ticket if subject exceeds 255 character limit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Exceeding character limit adsadasdasdasdasdadasdasddasdasdadasdadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda',
+          message: 'Exceeding character limit',
+          category: TestCategory.complaint,
+        }
+        loginRegisteredUser();
+        customerTicketing.visitElectronicSupportTicketPage();
+        customerTicketing.openCreateTicketModal();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.isFieldValidationErrorShown();
+      });
+
+      it('should not create ticket if message exceeds 5000 character limit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Exceeding character limit',
+          message: 'Exceeding character limit space-->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <--space',
+          category: TestCategory.complaint,
+        }
+        loginRegisteredUser();
+        customerTicketing.visitElectronicSupportTicketPage();
+        customerTicketing.openCreateTicketModal();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.isFieldValidationErrorShown();
+      });
+
+      it('should close create ticket popup upon submit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Entering a subject',
+          message: 'Typing a message',
+          category: TestCategory.complaint,
+        };
+
+        loginRegisteredUser();
+        customerTicketing.visitElectronicSupportTicketPage();
+        customerTicketing.openCreateTicketModal();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmitAndVerifyRequestCompleted();
+        customerTicketing.verifyCreateTicketPopupIsClosed();
+      })
 
     });
   });

@@ -15,8 +15,9 @@ export interface TestTicketDetails {
 
 
 export function visitElectronicSupportTicketPage() {
+  cy.intercept('/my-account/support-tickets').as('getElectronicSupportTicketPage');
   cy.visit('/my-account/support-tickets');
-  cy.wait(1000);
+  cy.wait(`@getElectronicSupportTicketPage`).its('response.statusCode').should('eq', 200);
 }
 
 
@@ -99,6 +100,11 @@ export function verifyTicketDoesNotExist() {
 }
 
 export function visitApparelUKSupportPage(){
-  cy.visit(`/apparel-uk-spa/en/GBP/my-account/support-tickets`);
-  cy.wait(5000);
+  cy.intercept('/apparel-uk-spa/en/GBP/my-account/support-tickets').as('getApparelUKSupportPage');
+  cy.visit('/apparel-uk-spa/en/GBP/my-account/support-tickets');
+  cy.wait(`@getApparelUKSupportPage`).its('response.statusCode').should('eq', 200);
+}
+
+export function verifyCreateTicketPopupIsClosed(){
+  cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }
