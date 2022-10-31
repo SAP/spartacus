@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Component,
   EventEmitter,
@@ -8,8 +8,13 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
 import { TicketList } from '@spartacus/customer-ticketing/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
@@ -146,12 +151,26 @@ describe('CustomerTicketingListComponent should init', () => {
   let component: CustomerTicketingListComponent;
   let fixture: ComponentFixture<CustomerTicketingListComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingListComponent],
-    }).compileComponents();
-  });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CustomerTicketingListComponent,
+          MockPaginationComponent,
+          MockSortingComponent,
+          MockUrlPipe,
+        ],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslationService },
+          {
+            provide: 'customerTicketingFacade',
+            useClass: MockcustomerTicketingFacade,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerTicketingListComponent);
@@ -171,7 +190,7 @@ describe('CustomerTicketingListComponent should display', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         CustomerTicketingListComponent,
         MockPaginationComponent,
@@ -183,14 +202,15 @@ describe('CustomerTicketingListComponent should display', () => {
           provide: 'CustomerTicketingFacade',
           useClass: MockcustomerTicketingFacade,
         },
-        { provide: 'RoutingService', useClass: MockRoutingService },
-        { provide: 'TranslationService', useClass: MockTranslationService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerTicketingListComponent);
     component = fixture.componentInstance;
     component.tickets$ = of(mockTicketList);
+    routingService = TestBed.inject(RoutingService);
     fixture.detectChanges();
   });
 
