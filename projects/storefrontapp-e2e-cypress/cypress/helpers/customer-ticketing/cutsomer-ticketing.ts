@@ -53,6 +53,7 @@ export function visitTicketDetailsPageForFirstTicket(){
 
 export function visitTicketDetailsPageForNonExistingTicket(){
   cy.visit('/my-account/support-ticket/XYZ01234');
-  cy.get('cx-global-message .alert-error', { timeout: 10000 }).should('be.visible');
+  cy.get('cx-global-message .alert-danger', { timeout: 10000 }).should('be.visible');
+  cy.get('cx-global-message .alert-danger span').should('include.text', 'Ticket not found.');
   cy.url().should('include','/my-account/support-ticket');
 }
