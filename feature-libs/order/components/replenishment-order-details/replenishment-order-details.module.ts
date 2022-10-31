@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -45,7 +44,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     RouterModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReplenishmentDetailItemsComponent: {

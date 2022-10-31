@@ -13,6 +13,7 @@
     "i18next-http-backend": "^1.4.1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/eslint-plugin-eslint": {},
   "@spartacus/schematics": {
     "@angular-devkit/core": "^14.2.3",
     "@angular-devkit/schematics": "^14.2.3",
@@ -131,8 +132,8 @@
     "@spartacus/order": "4.2.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/user": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
@@ -223,7 +224,9 @@
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
+    "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
     "@spartacus/asm": "4.1.0-next.0",
