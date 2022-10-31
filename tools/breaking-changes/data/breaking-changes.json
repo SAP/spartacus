@@ -100174,50 +100174,6 @@
     ],
     "breakingChanges": [
       {
-        "change": "METHOD_CHANGED",
-        "changeType": "CHANGED",
-        "changeKind": "Method",
-        "changeLabel": "changed",
-        "changeElementName": "closeDialog",
-        "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\ncloseDialog(\n  reason: string\n): void\n",
-        "currentStateDoc": "\ncloseDialog(\n  reason: any\n): void\n",
-        "oldElement": {
-          "kind": "Method",
-          "name": "closeDialog",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "name": "reason",
-              "type": "string",
-              "isOptional": false,
-              "canonicalReference": "",
-              "shortType": "",
-              "importPath": ""
-            }
-          ],
-          "returnType": "void"
-        },
-        "newElement": {
-          "kind": "Method",
-          "name": "closeDialog",
-          "overloadIndex": 1,
-          "parameters": [
-            {
-              "name": "reason",
-              "type": "any",
-              "isOptional": false,
-              "canonicalReference": "",
-              "shortType": "",
-              "importPath": ""
-            }
-          ],
-          "returnType": "void"
-        },
-        "topLevelApiElementName": "LaunchDialogService",
-        "entryPoint": "@spartacus/storefront"
-      },
-      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -117213,69 +117169,67 @@
       }
     ],
     "returnType": "T",
-    "breakingChanges": [{
-      "change": "FUNCTION_CHANGED",
-      "changeType": "CHANGED",
-      "changeKind": "Function",
-      "changeLabel": "changed",
-      "changeElementName": "createFrom",
-      "changeElementCategory": "TOP_LEVEL_API",
-      "previousStateDoc": "\ncreateFrom<T>(\n  type: Type<T>, \n  data: T\n): T\n",
-      "currentStateDoc": "\ncreateFrom<T extends object>(\n  type: Type<T>, \n  data: T\n): T\n",
-      "oldElement": {
-        "entryPoint": "@spartacus/core",
-        "kind": "Function",
-        "name": "createFrom",
-        "parameters": [
-          {
-            "name": "type",
-            "type": "Type<T>",
-            "isOptional": false,
-            "canonicalReference": "@angular/core!Type:interface",
-            "shortType": "Type",
-            "importPath": "@angular/core"
-          },
-          {
-            "name": "data",
-            "type": "T",
-            "isOptional": false,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "T"
-      },
-      "newElement": {
-        "entryPoint": "@spartacus/core",
-        "kind": "Function",
-        "name": "createFrom",
-        "parameters": [
-          {
-            "name": "type",
-            "type": "Type<T>",
-            "isOptional": false,
-            "canonicalReference": "@angular/core!Type:interface",
-            "shortType": "Type",
-            "importPath": "@angular/core"
-          },
-          {
-            "name": "data",
-            "type": "T",
-            "isOptional": false,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "T"
-      },
-      "topLevelApiElementName": "createFrom",
-      "entryPoint": "@spartacus/core"
-    }]
+    "breakingChanges": [
+      {
+        "change": "FUNCTION_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Function",
+        "changeLabel": "changed",
+        "changeElementName": "createFrom",
+        "changeElementCategory": "TOP_LEVEL_API",
+        "previousStateDoc": "\ncreateFrom<T>(\n  type: Type<T>, \n  data: T\n): T\n",
+        "currentStateDoc": "\ncreateFrom<T extends object>(\n  type: Type<T>, \n  data: T\n): T\n",
+        "oldElement": {
+          "entryPoint": "@spartacus/core",
+          "kind": "Function",
+          "name": "createFrom",
+          "parameters": [
+            {
+              "name": "type",
+              "type": "Type<T>",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Type:interface",
+              "shortType": "Type",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "data",
+              "type": "T",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "T"
+        },
+        "newElement": {
+          "entryPoint": "@spartacus/core",
+          "kind": "Function",
+          "name": "createFrom",
+          "parameters": [
+            {
+              "name": "type",
+              "type": "Type<T>",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Type:interface",
+              "shortType": "Type",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "data",
+              "type": "T",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "T"
+        },
+        "topLevelApiElementName": "createFrom",
+        "entryPoint": "@spartacus/core"
+      }
+    ]
   }
 ]
-
-
-
-

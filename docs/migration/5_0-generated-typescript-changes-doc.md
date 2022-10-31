@@ -22324,31 +22324,6 @@ Function keyboardFocusFactory has been removed and is no longer part of the publ
 ## @spartacus/storefront
 
 
-### Method closeDialog changed.
-
-
-Previous version: 
-
-```
-
-closeDialog(
-  reason: string
-): void
-
-```
-
-
-Current version: 
-
-```
-
-closeDialog(
-  reason: any
-): void
-
-```
-
-
 ### Property dialogClose changed.
 
 

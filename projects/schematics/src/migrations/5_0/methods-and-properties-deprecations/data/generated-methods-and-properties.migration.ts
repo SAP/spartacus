@@ -4193,13 +4193,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'LaunchDialogService',
       importPath: '@spartacus/storefront',
-      deprecatedNode: 'closeDialog',
-      comment:
-        "// TODO:Spartacus - The 'closeDialog' method's signature changed to: 'closeDialog(  reason: any): void'",
-    },
-    {
-      class: 'LaunchDialogService',
-      importPath: '@spartacus/storefront',
       deprecatedNode: 'dialogClose',
       comment:
         "// TODO:Spartacus - The type of property 'dialogClose: Observable<string>' changed to: 'dialogClose: Observable<any | undefined>' ",
