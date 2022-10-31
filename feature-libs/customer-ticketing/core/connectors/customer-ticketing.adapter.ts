@@ -24,12 +24,6 @@ export abstract class CustomerTicketingAdapter {
     ticketEvent: TicketEvent
   ): Observable<TicketEvent>;
 
-  abstract createTicketEvent(
-    customerId: string,
-    ticketId: string,
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent>;
-
   abstract uploadAttachment(
     customerId: string,
     ticketId: string,

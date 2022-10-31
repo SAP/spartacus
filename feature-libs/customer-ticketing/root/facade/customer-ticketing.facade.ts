@@ -42,9 +42,7 @@ export abstract class CustomerTicketingFacade {
 
   abstract getTicketAssociatedObjects(): Observable<AssociatedObject[]>;
 
-  abstract createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown>;
+  abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
 
   abstract uploadAttachment(
     file: File | null,

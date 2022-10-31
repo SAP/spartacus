@@ -31,10 +31,6 @@ const mockTicketAssociatedObjects = [
     type: 'Order',
   },
 ];
-const mockCreateEventResponse: TicketEvent = {
-  code: 'mockCode',
-  message: 'mock message',
-};
 
 const mockCreateEventResponse: TicketEvent = {
   code: 'mockCode',

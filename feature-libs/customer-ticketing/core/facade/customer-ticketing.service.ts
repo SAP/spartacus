@@ -62,18 +62,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketQueryResetEvent];
   }
 
-  protected createTicketEventCommand: Command<TicketEvent, unknown> =
-    this.commandService.create<TicketEvent>(
-      (ticketEvent) =>
+  protected createTicketEventCommand: Command<TicketEvent, TicketEvent> =
+    this.commandService.create<TicketEvent, TicketEvent>(
+      (payload) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId, ticketId]) =>
             this.customerTicketingConnector
-              .createTicketEvent(customerId, ticketId, ticketEvent)
+              .createTicketEvent(customerId, ticketId, payload)
               .pipe(
                 tap(() => {
-                  if (ticketEvent.toStatus?.id)
+                  if (payload.toStatus?.id)
                     this.eventService.dispatch(
-                      { status: ticketEvent.toStatus?.id },
+                      { status: payload.toStatus?.id },
                       TicketEventCreatedEvent
                     );
                 })
@@ -225,9 +225,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.getTicketState().pipe(map((state) => state.data));
   }
 
-  createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown> {
+  createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent> {
     return this.createTicketEventCommand.execute(ticketEvent);
   }
 
