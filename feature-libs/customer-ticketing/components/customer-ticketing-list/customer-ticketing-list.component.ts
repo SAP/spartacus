@@ -3,7 +3,6 @@ import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
 import {
   CustomerTicketingFacade,
-  // TicketDetails,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
