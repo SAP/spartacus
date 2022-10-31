@@ -23,8 +23,8 @@ const mockTicketList: TicketList = {
     currentPage: 0,
     pageSize: 5,
     sort: 'byId',
-    totalPages: 2,
-    totalResults: 10,
+    totalPages: 1,
+    totalResults: 2,
   },
   sorts: [
     { code: 'byId', selected: true },
@@ -147,14 +147,15 @@ class MockcustomerTicketingFacade {
 
 const mockTicketList$ = new BehaviorSubject<TicketList>(mockTicketList);
 
-describe('CustomerTicketingListComponent should init', () => {
+describe('CustomerTicketingListComponent', () => {
   let component: CustomerTicketingListComponent;
   let fixture: ComponentFixture<CustomerTicketingListComponent>;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           CustomerTicketingListComponent,
           MockPaginationComponent,
@@ -162,114 +163,33 @@ describe('CustomerTicketingListComponent should init', () => {
           MockUrlPipe,
         ],
         providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
           {
-            provide: 'customerTicketingFacade',
+            provide: 'CustomerTicketingFacade',
             useClass: MockcustomerTicketingFacade,
           },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: TranslationService, useClass: MockTranslationService },
         ],
       }).compileComponents();
+
+      fixture = TestBed.createComponent(CustomerTicketingListComponent);
+      component = fixture.componentInstance;
+      component.tickets$ = of(mockTicketList);
+      routingService = TestBed.inject(RoutingService);
+      fixture.detectChanges();
     })
   );
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerTicketingListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-});
-
-describe('CustomerTicketingListComponent should display', () => {
-  let component: CustomerTicketingListComponent;
-  let fixture: ComponentFixture<CustomerTicketingListComponent>;
-  let routingService: RoutingService;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        CustomerTicketingListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        {
-          provide: 'CustomerTicketingFacade',
-          useClass: MockcustomerTicketingFacade,
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(CustomerTicketingListComponent);
-    component = fixture.componentInstance;
-    component.tickets$ = of(mockTicketList);
-    routingService = TestBed.inject(RoutingService);
-    fixture.detectChanges();
-  });
 
   it('should display tickets', () => {
-    const tickets = fixture.nativeElement.querySelectorAll(
-      '.cx-ticket-list-item'
+    const ticketsCount = fixture.debugElement.query(
+      By.css('.cx-ticketing-list-title-count')
     );
-    expect(tickets.length).toEqual(2);
-  });
 
-  it('should display ticket id', () => {
-    const ticketId = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-id'
-    );
-    expect(ticketId.textContent).toContain('0000001');
-  });
-
-  it('should display ticket subject', () => {
-    const ticketSubject = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-subject'
-    );
-    expect(ticketSubject.textContent).toContain('My drill is broken.');
-  });
-
-  it('should display ticket category', () => {
-    const ticketCategory = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-category'
-    );
-    expect(ticketCategory.textContent).toContain('Enquiry');
-  });
-
-  it('should display ticket status', () => {
-    const ticketStatus = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-status'
-    );
-    expect(ticketStatus.textContent).toContain('Closed');
-  });
-
-  it('should display ticket created date', () => {
-    const ticketCreatedDate = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-created-date'
-    );
-    expect(ticketCreatedDate.textContent).toContain('13/01/2021');
-  });
-
-  it('should display ticket modified date', () => {
-    const ticketModifiedDate = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-modified-date'
-    );
-    expect(ticketModifiedDate.textContent).toContain('13/01/2021');
-  });
-
-  it('should display ticket event message', () => {
-    const ticketEventMessage = fixture.nativeElement.querySelector(
-      '.cx-ticket-list-item .cx-ticket-event-message'
-    );
-    expect(ticketEventMessage.textContent).toContain(
-      'It is broken when I receive it. Please send one replacement to me.'
-    );
+    expect(ticketsCount.nativeElement.textContent).toContain('(2)');
   });
 
   it('should fetch ticket list', () => {
@@ -284,15 +204,15 @@ describe('CustomerTicketingListComponent should display', () => {
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-customer-ticketing-table tbody tr')
+      By.css('.cx-ticketing-list-table tbody tr')
     );
     rows[1].triggerEventHandler('click', null);
 
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'supportTickets',
+      cxRoute: 'supportTicketDetails',
       params:
         mockTicketList && mockTicketList.tickets
-          ? mockTicketList.tickets[1]
+          ? { ticketCode: mockTicketList.tickets[1].id }
           : {},
     });
   });
