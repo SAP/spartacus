@@ -10,7 +10,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { CmsParagraphComponent } from '@spartacus/core';
+import { CmsParagraphComponent, FeatureConfigService } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -26,15 +26,30 @@ export class ParagraphComponent {
       const href = element?.getAttribute('href');
 
       // Use router for internal link navigation
-      if (href && window.location.host === element.host) {
-        event.preventDefault();
-        this.router.navigateByUrl(href);
+      /**
+       * @deprecated in 5.1
+       * TODO: Remove old method of resolving internal links.
+       */
+      if (this.featureConfigService?.isLevel('5.1')) {
+        const documentHost =
+          element.ownerDocument.URL.split('://')[1].split('/')[0];
+        console.log(documentHost, element.host);
+        if (href && documentHost === element.host) {
+          event.preventDefault();
+          this.router.navigateByUrl(href);
+        }
+      } else {
+        if (href?.indexOf('/') === 0) {
+          event.preventDefault();
+          this.router.navigate([`/${href}`]);
+        }
       }
     }
   }
 
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
-    protected router: Router
+    protected router: Router,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 }
