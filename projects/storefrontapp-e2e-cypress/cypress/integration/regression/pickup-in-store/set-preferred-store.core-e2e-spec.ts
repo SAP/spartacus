@@ -7,7 +7,8 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 
 /**
- * This test suite has been skipped for now and will be working with newer version of commerce instance.
+ * This test suite relies on an API on a newer version of commerce instance
+ * and will be activated when the CI commerce instance is updated to 2211.
  */
 describe.skip('Set Preferred store', () => {
   viewportContext(['desktop'], () => {
