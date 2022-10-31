@@ -26,9 +26,9 @@ export class ParagraphComponent {
       const href = element?.getAttribute('href');
 
       // Use router for internal link navigation
-      if (href?.indexOf('/') === 0) {
+      if (href && window.location.host === element.host) {
         event.preventDefault();
-        this.router.navigate([`/${href}`]);
+        this.router.navigateByUrl(href);
       }
     }
   }
