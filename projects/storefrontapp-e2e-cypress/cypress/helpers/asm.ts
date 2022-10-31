@@ -216,7 +216,12 @@ export function startCustomerEmulation(customer, b2b = false): void {
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-customer-selection button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
+  // wait's are interesting. What happens if the request is made before the wait is issued?
+  // cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
+
+  cy.get('cx-customer-selection').should('not.exist');
+  cy.get('cx-customer-emulation').should('exist');
+
   cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
     'contain',
     customer.fullName
@@ -345,15 +350,12 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('not.be.visible');
 
-    // CXSPA-301/GH-14914
-    // Must ensure that site is still functional after service agent logout
     navigateToHomepage();
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
     cy.get('cx-product-list-item').should('exist');
-  });
 
-  it('should verify data changed by the agent as a customer', () => {
+    cy.log('--> Verify data changed by the agent as a customer');
     cy.log('--> customer sign in');
 
     const loginPage = waitForPage('/login', 'getLoginPage');
