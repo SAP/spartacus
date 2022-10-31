@@ -5,7 +5,11 @@ import {
   register,
 } from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
-describe('Set Preferred store', () => {
+
+/**
+ * This test suite has been skipped for now and will be working with newer version of commerce instance.
+ */
+describe.skip('Set Preferred store', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       configureApparelProduct();
@@ -52,6 +56,7 @@ describe('Set Preferred store', () => {
         );
       });
     });
+
     it('A logged in user should be able to set a preferred store in when logged in', () => {
       cy.intercept({
         method: 'POST',
