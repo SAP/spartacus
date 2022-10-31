@@ -82,7 +82,7 @@ export class MockIntendedPickupLocationService
     _productCode: string
   ): Observable<AugmentedPointOfService | undefined> {
     const result: AugmentedPointOfService = {
-      pickupOption: 'pickup' as PickupOption,
+      pickupOption: 'pickup',
       displayName: 'London School',
     };
     return of(result);

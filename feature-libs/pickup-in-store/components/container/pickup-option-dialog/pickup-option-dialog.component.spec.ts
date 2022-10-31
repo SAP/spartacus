@@ -154,6 +154,7 @@ describe('PickupOptionDialogComponent', () => {
     expect(component.cartId).toEqual('test');
     expect(component.userId).toEqual('anonymous');
   });
+
   it('ngOnInit should set the cartId and userId for a logged in user', () => {
     spyOn(activeCartFacade, 'getActive').and.returnValue(
       of({

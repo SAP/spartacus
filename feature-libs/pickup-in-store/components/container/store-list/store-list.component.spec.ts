@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, PointOfServiceStock } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
@@ -14,7 +13,6 @@ import {
 import { SpinnerModule } from '@spartacus/storefront';
 import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { StoreListComponent } from './store-list.component';
 
 describe('StoreListComponent', () => {
@@ -38,7 +36,6 @@ describe('StoreListComponent', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
         },
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationService,

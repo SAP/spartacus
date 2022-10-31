@@ -7,8 +7,8 @@
 .setpreferredstore-container {
   display: flex;
   margin-top: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--cx-font-size, 1rem);
+  font-weight: var(--cx-font-weight, 600);
 
   .set-preferred-heading {
     padding-inline-start: 0.5rem;

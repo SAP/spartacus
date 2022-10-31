@@ -6,7 +6,6 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -33,8 +32,7 @@ export class StoreListComponent implements OnInit {
 
   constructor(
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected preferredStoreService: PreferredStoreService
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade
   ) {
     // Intentional empty constructor
   }
