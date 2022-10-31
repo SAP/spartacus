@@ -26,7 +26,7 @@ export class CustomerTicketingListComponent {
   customerTicketsFlag: boolean = true;
   tickets$: Observable<TicketList | undefined> =
     this.customerTicketingFacade.getTickets(this.PAGE_SIZE);
-  tickets: Observable<Array<TicketDetails>> = this.tickets$?.pipe(
+  tickets: Observable<Array<TicketDetails> | undefined> = this.tickets$?.pipe(
     map((ticketList) => ticketList?.tickets)
   );
 
