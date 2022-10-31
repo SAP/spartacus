@@ -31,15 +31,13 @@
         class="cx-card-read-more"
         >{{ 'myCoupons.readMore' | cxTranslate }}</a
       >
-      <a
+      <button
         *cxFeatureLevel="'5.1'"
-        tabindex="0"
-        role="button"
+        class="cx-card-read-more link cx-action-link"
         (click)="readMore()"
-        [attr.aria-label]="'myCoupons.readMore' | cxTranslate"
-        class="cx-card-read-more"
-        >{{ 'myCoupons.readMore' | cxTranslate }}</a
       >
+        {{ 'myCoupons.readMore' | cxTranslate }}
+      </button>
       <div class="cx-coupon-card-row bottom">
         <div class="cx-coupon-notification form-check">
           <label>

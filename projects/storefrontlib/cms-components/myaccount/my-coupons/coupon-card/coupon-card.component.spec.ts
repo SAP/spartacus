@@ -20,7 +20,6 @@ import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
-import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -155,7 +154,8 @@ describe('CouponCardComponent', () => {
       .textContent;
     expect(couponEndDate).toBeTruthy();
 
-    const readMoreLink = el.query(By.css('a')).nativeElement.textContent;
+    const readMoreLink = el.query(By.css('.cx-card-read-more')).nativeElement
+      .textContent;
     expect(readMoreLink).toContain('myCoupons.readMore');
 
     const couponNotificationCheckbox = el.queryAll(By.css('.form-check-input'));
@@ -164,14 +164,15 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button')).nativeElement.textContent;
+    const findProductBtn = el.query(By.css('button.btn-action')).nativeElement
+      .textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
   it('should be able to open coupon detail dialog', () => {
     spyOn(launchDialogService, 'openDialog').and.stub();
     fixture.detectChanges();
-    const readMoreLink = el.query(By.css('a'));
+    const readMoreLink = el.query(By.css('.cx-card-read-more'));
     readMoreLink.nativeElement.click();
     expect(launchDialogService.openDialog).toHaveBeenCalled();
   });
@@ -213,27 +214,9 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    el.query(By.css('button')).triggerEventHandler('click', null);
+    el.query(By.css('button.btn-action')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );
-  });
-
-  describe('Accessibility', () => {
-    it('should contain correct attibutes', () => {
-      fixture.detectChanges();
-
-      const readMoreLink = el.query(By.css('a'));
-      expect(readMoreLink.nativeElement.getAttribute('tabindex')).toEqual('0');
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        el.nativeElement,
-        'a',
-        'cx-card-read-more',
-        0,
-        'aria-label',
-        'myCoupons.readMore'
-      );
-    });
   });
 });
