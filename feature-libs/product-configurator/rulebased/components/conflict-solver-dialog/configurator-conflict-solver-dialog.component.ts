@@ -68,4 +68,8 @@ export class ConfiguratorConflictSolverDialogComponent
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
+
+  dismissModal(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
+  }
 }
