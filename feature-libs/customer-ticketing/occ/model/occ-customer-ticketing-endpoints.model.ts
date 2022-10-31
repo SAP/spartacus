@@ -27,5 +27,19 @@ declare module '@spartacus/core' {
      * * @member {string}
      */
     getTicketAssociatedObjects?: string | OccEndpoint;
+
+    /**
+     * Endpoint to upload an attachment
+     *
+     * * @member {string}
+     */
+    uploadAttachment?: string | OccEndpoint;
+
+    /**
+     * Endpoint to download an attachment
+     *
+     * * @member {string}
+     */
+    downloadAttachment?: string | OccEndpoint;
   }
 }

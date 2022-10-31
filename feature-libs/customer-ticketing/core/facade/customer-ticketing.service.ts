@@ -62,20 +62,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketQueryResetEvent];
   }
 
-  protected createTicketEventCommand: Command<TicketEvent, unknown> =
-    this.commandService.create<TicketEvent>(
-      (ticketEvent) =>
+  protected createTicketEventCommand: Command<TicketEvent, TicketEvent> =
+    this.commandService.create<TicketEvent, TicketEvent>(
+      (payload) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId, ticketId]) =>
             this.customerTicketingConnector
-              .createTicketEvent(customerId, ticketId, ticketEvent)
+              .createTicketEvent(customerId, ticketId, payload)
               .pipe(
-                tap(() =>
-                  this.eventService.dispatch(
-                    { status: ticketEvent.toStatus?.id },
-                    TicketEventCreatedEvent
-                  )
-                )
+                tap(() => {
+                  if (payload.toStatus?.id)
+                    this.eventService.dispatch(
+                      { status: payload.toStatus?.id },
+                      TicketEventCreatedEvent
+                    );
+                })
               )
           )
         ),
@@ -83,6 +84,52 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         strategy: CommandStrategy.Queue,
       }
     );
+
+  protected uploadAttachmentCommand: Command<{
+    file: File | null;
+    eventCode: string;
+  }> = this.commandService.create<{ file: File; eventCode: string }>(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector
+            .uploadAttachment(
+              customerId,
+              ticketId,
+              payload.eventCode,
+              payload.file
+            )
+            .pipe(
+              tap(() =>
+                this.eventService.dispatch({}, GetTicketQueryReloadEvent)
+              )
+            )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
+
+  protected downloadAttachmentCommand: Command<{
+    eventCode: string;
+    attachmentId: string;
+  }> = this.commandService.create<{ eventCode: string; attachmentId: string }>(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector.downloadAttachment(
+            customerId,
+            ticketId,
+            payload.eventCode,
+            payload.attachmentId
+          )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
 
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
@@ -97,6 +144,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketQueryResetEvents(),
       }
     );
+
   protected getTicketCategoriesQuery: Query<Category[]> =
     this.queryService.create(
       () => this.customerTicketingConnector.getTicketCategories(),
@@ -105,6 +153,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketCategoriesQueryResetEvents(),
       }
     );
+
   protected getTicketAssociatedObjectsQuery: Query<AssociatedObject[]> =
     this.queryService.create(
       () =>
@@ -176,9 +225,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.getTicketState().pipe(map((state) => state.data));
   }
 
-  createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown> {
+  createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent> {
     return this.createTicketEventCommand.execute(ticketEvent);
+  }
+
+  uploadAttachment(file: File | null, eventCode: string): Observable<unknown> {
+    return this.uploadAttachmentCommand.execute({ file, eventCode });
+  }
+
+  downloadAttachment(
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown> {
+    return this.downloadAttachmentCommand.execute({ eventCode, attachmentId });
   }
 }

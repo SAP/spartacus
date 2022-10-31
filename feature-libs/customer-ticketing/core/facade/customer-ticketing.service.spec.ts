@@ -31,6 +31,7 @@ const mockTicketAssociatedObjects = [
     type: 'Order',
   },
 ];
+
 const mockCreateEventResponse: TicketEvent = {
   code: 'mockCode',
   message: 'mock message',
@@ -170,6 +171,29 @@ describe('CustomerTicketingService', () => {
             error: false,
             data: mockTicketAssociatedObjects,
           });
+          done();
+        });
+    });
+  });
+
+  describe('createTicketEvent', () => {
+    it('should call customerTicketingConnector.createTicketEvent', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: 'mockTicket',
+          name: 'mockTicket',
+        },
+      };
+      service
+        .createTicketEvent(mockTicketEvent)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.createTicketEvent).toHaveBeenCalledWith(
+            mockUserId,
+            mockRoutingParams.ticketCode,
+            mockTicketEvent
+          );
+          expect(data).toEqual(mockCreateEventResponse);
           done();
         });
     });
