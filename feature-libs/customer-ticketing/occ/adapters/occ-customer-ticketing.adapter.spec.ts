@@ -142,5 +142,29 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockTicketList);
     });
+
+    it('should display no tickets for the given customer id', (done) => {
+      const mockTicketList = {
+        tickets: [{}],
+      };
+
+      service
+        .getTickets(mockCustomerId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockTicketList);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' && req.url === `users/${mockCustomerId}/tickets`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockTicketList);
+    });
   });
 });
