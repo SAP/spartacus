@@ -115,6 +115,11 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
+  /**
+   * Method obtains the CDC SDK URL for a base site
+   * @param baseSite 
+   * @returns CDC SDK URL
+   */
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
     const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
       (conf) => conf.baseSite === baseSite
@@ -132,6 +137,20 @@ export class CdcJsService implements OnDestroy {
    */
   protected registerEventListeners(baseSite: string): void {
     this.addCdcEventHandlers(baseSite);
+  }
+
+  /**
+   * Unregister login event listeners for CDC login
+   *
+   */
+   protected unRegisterEventListeners(): void {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.addEventHandlers({
+      onLogin: () => {
+        this.zone.run(() => {});
+      },
+    });
   }
 
   /**
@@ -201,6 +220,7 @@ export class CdcJsService implements OnDestroy {
   /**
    * Trigger CDC User registration using CDC APIs.
    *
+   * @param user
    * @param response
    */
   protected onInitRegistrationHandler(
@@ -239,7 +259,8 @@ export class CdcJsService implements OnDestroy {
   /**
    * Trigger CDC User log in using CDC APIs.
    *
-   * @param response
+   * @param email
+   * @param password
    */
   loginUserWithoutScreenSet(
     email: string,
@@ -251,6 +272,7 @@ export class CdcJsService implements OnDestroy {
       ]?.accounts?.login({
         loginID: email,
         password: password,
+        sessionExpiry: this.getSessionExpirationValue(),
         callback: (response: any) => {
           this.zone.run(() => {
             if (response?.status === 'OK') {
@@ -305,11 +327,34 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
+
+  protected getSessionExpirationValue(): number {
+    if (this.cdcConfig?.cdc !== undefined) {
+      const filteredConfigs: any = this.cdcConfig.cdc.filter(
+        (conf) => conf.baseSite === this.getCurrentBaseSite()
+      );
+      if (filteredConfigs && filteredConfigs.length > 0) {
+        return filteredConfigs[0].sessionExpiration;
+      }
+    }
+    // Return a default value
+    return 3600;
+  }
+
+  private getCurrentBaseSite(): string {
+    let baseSite: string = '';
+    this.baseSiteService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (baseSite = data));
+    return baseSite;
+  }
+  
+
   /**
    * Trigger CDC forgot password using CDC APIs.
    *
    * @param email
-   * @param password
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isResetPassword) => {
@@ -335,6 +380,10 @@ export class CdcJsService implements OnDestroy {
     });
   }
 
+  /**
+   * Response handler for forgot password
+   * @param response 
+   */
   protected handleResetPassResponse(response: any) {
     if (response && response.status === 'OK') {
       this.globalMessageService.add(
@@ -351,6 +400,78 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
+
+  /**
+   * Trigger CDC Profile update.
+   *
+   * @param firstName
+   * @param lastName
+   */
+  updateProfileWithoutScreenSet(firstName: string, lastName: string): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isProfileUpdated) => {
+      if (firstName && firstName.length > 0 && lastName && lastName.length > 0) {
+        let profileObj = {
+          profile: {
+            firstName: firstName,
+            lastName: lastName
+          }
+        };
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.setAccountInfo({
+          ...profileObj,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response?.status === 'OK') {
+                this.userProfileFacade.update(profileObj as User).subscribe({
+                  next: () => {
+                    isProfileUpdated.next({ status: response.status });
+                    isProfileUpdated.complete();
+                  }
+                })
+                
+              } else {
+                isProfileUpdated.error(response);
+              }
+            });
+          },
+        });
+      }
+    });
+  }
+
+
+  /**
+   * Trigger CDC User Password update.
+   *
+   * @param oldPassword
+   * @param newPassword
+   */
+   updateUserPasswordWithoutScreenSet(oldPassword: string, newPassword: string): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isPasswordUpdated) => {
+      if (oldPassword && oldPassword.length > 0 && newPassword && newPassword.length > 0) {
+        
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.setAccountInfo({
+          password: oldPassword,
+          newPassword: newPassword,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response?.status === 'OK') {
+                isPasswordUpdated.next({ status: response.status });
+                isPasswordUpdated.complete();
+                
+              } else {
+                isPasswordUpdated.error(response);
+              }
+            });
+          },
+        });
+      }
+    });
+  }
+
   /**
    * Updates user details using the existing User API
    *
@@ -363,6 +484,116 @@ export class CdcJsService implements OnDestroy {
       userDetails.lastName = response.profile.lastName;
       this.userProfileFacade.update(userDetails);
     }
+  }
+
+
+   /**
+   * Trigger CDC user email update.
+   *
+   * @param password
+   * @param newEmail
+   */
+    updateUserEmailWithoutScreenSet(password: string, newEmail: string): Observable<{ status: string }> {
+      return new Observable<{ status: string }>((isEmailUpdated) => {
+        //let baseSite = this.getCurrentBaseSite();
+        //disable the login event listeners to prevent CDC custom Auth token flow
+        //this.unRegisterEventListeners();
+
+        if (password && password.length > 0 && newEmail && newEmail.length > 0) {
+          let email = this.getLoggedInUserEmail();
+
+          //Verify the password by attempting to login
+          this.loginUserWithoutScreenSet(email, password).subscribe({
+            next: (response) => {
+              if (response?.status === 'OK') {
+                (this.winRef.nativeWindow as { [key: string]: any })?.[
+                  'gigya'
+                ]?.accounts?.logout();
+
+              (this.winRef.nativeWindow as { [key: string]: any })?.[
+                'gigya'
+              ]?.accounts?.setAccountInfo({
+                profile: {
+                  email: newEmail
+                },
+                callback: (response: any) => {
+                  this.zone.run(() => {
+                    if (response?.status === 'OK') {
+                      this.userProfileFacade.update({uid: newEmail});
+                    } else {
+                      isEmailUpdated.error(response);
+                    }
+                    //enable the login event listeners
+                    //this.registerEventListeners(baseSite);
+                  });
+                },
+              });
+              } else {
+                isEmailUpdated.error(response);
+              }
+            },
+            error: (error) => isEmailUpdated.error(error),
+            complete: () => {
+              isEmailUpdated.next({ status: 'OK' });
+              this.loadCdcJavascript();
+              isEmailUpdated.complete();
+            },
+          });
+
+         
+        }
+      });
+    }
+  
+  /**
+   * Obtain the email of the currently logged in user
+   * @returns emailID of the loggedIn user
+   */
+  protected getLoggedInUserEmail() {
+    let email: string = '';
+    this.userProfileFacade.get().pipe(take(1)).subscribe((user?: User) => {
+      if (user && user.uid) {
+        email = user.uid;
+      }
+    });
+    return email;
+  }
+
+
+  /**
+   * Trigger CDC address update.
+   *
+   * @param address
+   */
+   updateAddressWithoutScreenSet(address: string): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isAddressUpdated) => {
+      if (address && address.length > 0) {
+        let profileObj = {
+          profile: {
+            address: address,
+          }
+        };
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.setAccountInfo({
+          ...profileObj,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response?.status === 'OK') {
+                this.userProfileFacade.update(profileObj as User).subscribe({
+                  next: () => {
+                    isAddressUpdated.next({ status: response.status });
+                    isAddressUpdated.complete();
+                  }
+                })
+              } else {
+                isAddressUpdated.error(response);
+              }
+            });
+          },
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {

@@ -17,6 +17,7 @@ import {
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
+import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormModule } from './address-form/address-form.module';
 import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
@@ -37,6 +38,10 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
         AccountAddressBookComponent: {
           component: AddressBookComponent,
           guards: [AuthGuard],
+          providers: [ {
+            provide: AddressBookComponentService,
+            useClass: AddressBookComponentService,
+          }]
         },
       },
     }),
