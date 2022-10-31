@@ -12,10 +12,11 @@ import { AppServerModule as OriginalAppServerModule } from './app.server.module'
 @NgModule({
   imports: [OriginalAppServerModule],
   providers: [
-    ...getPrerenderProviders(
-      process.env['PRERENDER_DOMAIN'] ??
-        `http://localhost:${process.env['PORT'] || 4000}`
-    ),
+    ...getPrerenderProviders({
+      requestOrigin:
+        process.env['PRERENDER_DOMAIN'] ??
+        `http://localhost:${process.env['PORT'] || 4000}`,
+    }),
   ],
   // Since the bootstrapped component is not inherited from your
   // imported AppModule, it needs to be repeated here.

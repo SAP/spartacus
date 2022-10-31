@@ -11,15 +11,17 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 /**
  * Returns the providers for the prerender.
  */
-export function getPrerenderProviders(requestOrigin: string): StaticProvider[] {
+export function getPrerenderProviders(options: {
+  requestOrigin: string;
+}): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useValue: requestOrigin,
+      useValue: options.requestOrigin,
     },
     {
       provide: SERVER_REQUEST_URL,
-      useFactory: () => requestOrigin + inject(INITIAL_CONFIG).url,
+      useFactory: () => options.requestOrigin + inject(INITIAL_CONFIG).url,
     },
   ];
 }
