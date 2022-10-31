@@ -10,7 +10,7 @@ import {
   ServerModule,
   ServerTransferStateModule,
 } from '@angular/platform-server';
-import { ServerErrorHandler, SpartacusServerModule } from '@spartacus/setup';
+import { SpartacusServerModule, TransferServerErrors } from '@spartacus/setup';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
 
@@ -34,8 +34,8 @@ import { AppModule } from './app.module';
       // useFactory: () => () => console.log('BEFORE_APP_SERIALIZED'),
 
       useFactory: () => {
-        const ssrErrorHandlerService = inject(ServerErrorHandler);
-        return () => ssrErrorHandlerService.handleErrors();
+        const transferServerErrors = inject(TransferServerErrors);
+        return () => transferServerErrors.transferErrors();
       },
       multi: true,
     },

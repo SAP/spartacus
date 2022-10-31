@@ -5,23 +5,30 @@ import {
   ServerErrorCollector,
   SERVER_ERROR_COLLECTOR,
 } from './server-error-collector';
+import { ServerResponseService } from './server-response.service';
 
 export interface ServerErrorsSummary {
   count: number;
 }
 
 @Injectable({ providedIn: 'root' })
-export class ServerErrorHandler {
+export class TransferServerErrors {
   constructor(
     @Inject(SERVER_ERROR_COLLECTOR)
     protected ssrErrorsCollectors: ServerErrorCollector<any>[],
-    protected windowRef: WindowRef
+    protected windowRef: WindowRef,
+    protected serverResponse: ServerResponseService
   ) {}
 
   /**
    * The id of the `<script>` element that contains the serialized errors summary.
    */
   protected readonly SERVER_ERRORS_SCRIPT_ID = 'cx-server-errors';
+
+  /**
+   * The key of the renderingErrors context property in the server response object.
+   */
+  protected readonly RENDERING_ERRORS_KEY = 'renderingErrors';
 
   /**
    * Returns all errors collected during the server side rendering of the page.
@@ -42,12 +49,15 @@ export class ServerErrorHandler {
    * during the rendering, and the server middleware can react accordingly.
    * For example it can fallback to CSR (just send a shell index.html with no-cache headers).
    */
-  handleErrors() {
+  transferErrors() {
     const errors = this.collectErrors();
 
     if (errors.length) {
       const errorsReport = this.getErrorsSummary(errors);
-      this.serializeErrorsToScriptElement(errorsReport);
+      this.serverResponse.setContext(this.RENDERING_ERRORS_KEY, errorsReport);
+
+      // SPIKE TODO: remove the logic for serializing
+      // this.serializeErrorsToScriptElement(errorsReport);
     }
   }
 
