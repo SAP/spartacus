@@ -29,6 +29,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     this.onGetTicketQueryReload();
+    this.onGetTicketsQueryReload();
     this.onLoginAndLogoutEvent();
     this.onTicketEventCreated();
   }
@@ -41,6 +42,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(TicketEventCreatedEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+      })
+    );
+  }
+
+  protected onGetTicketsQueryReload(): void {
+    this.subscriptions.add(
+      this.eventService.get(GetTicketQueryResetEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketsQueryResetEvents);
       })
     );
   }

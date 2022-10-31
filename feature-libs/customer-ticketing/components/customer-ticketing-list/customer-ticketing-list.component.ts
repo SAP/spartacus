@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '@spartacus/storefront';
 import {
   CustomerTicketingFacade,
-  TicketDetails,
+  // TicketDetails,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -26,9 +26,6 @@ export class CustomerTicketingListComponent {
   customerTicketsFlag: boolean = true;
   tickets$: Observable<TicketList | undefined> =
     this.customerTicketingFacade.getTickets(this.PAGE_SIZE);
-  tickets: Observable<Array<TicketDetails> | undefined> = this.tickets$?.pipe(
-    map((ticketList) => ticketList?.tickets)
-  );
 
   goToTicketDetail(ticketId: string): void {
     this.routing.go({
@@ -79,9 +76,6 @@ export class CustomerTicketingListComponent {
       this.PAGE_SIZE,
       ticketListParams.currentPage,
       ticketListParams.sortCode
-    );
-    this.tickets = this.tickets$?.pipe(
-      map((ticketList) => ticketList?.tickets)
     );
   }
 
