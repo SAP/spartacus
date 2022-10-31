@@ -106,7 +106,7 @@ export function clickSubmit(){
 }
 
 export function verifyRequestCompleted(){
-  cy.get('cx-global-message').contains('Request Created');
+  cy.get('cx-global-message').contains('Request created.');
 }
 
 export function clickCancel(){
@@ -155,3 +155,52 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
+
+export function verifyTicketListingTableContent(): number{
+  let numberOfTickets = 0;
+  cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
+    if(ticketListingElement.find('tbody').length > 0) {
+      const headerRow = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(0).get('td');
+      headerRow.get('td').eq(0).should('contain', 'ID');
+      headerRow.get('td').eq(SUBJECT_COLUMN).should('contain', 'Subject');
+      headerRow.get('td').eq(2).should('contain', 'Category');
+      headerRow.get('td').eq(3).should('contain', 'Created On');
+      headerRow.get('td').eq(4).should('contain', 'Changed On');
+      headerRow.get('td').eq(5).should('contain', 'Status');
+      numberOfTickets = ticketListingElement.find('tbody').length;
+    }
+    else {
+      cy.get('cx-customer-ticketing-list').find('h3').contains("You don't have any request");
+    }
+  });
+
+  return numberOfTickets;
+}
+
+export function createTicket(ticketDetails: TestTicketDetails){
+  openCreateTicketPopup();
+  fillTicketDetails(ticketDetails);
+  clickSubmit();
+  verifyRequestCompleted();
+}
+
+export function shouldNowHave(expectedNumberOfTickets: number) {
+  cy.get('cx-customer-ticketing-list').get('tbody').should('have.length', expectedNumberOfTickets);
+}
+
+export function openLastCreatedTicket() {
+  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW);
+  row.click();
+}
+
+export function closeTicketRequest() {
+  cy.get('cx-customer-ticketing-close').click()
+  cy.get('textarea').last().type("closing the ticket, bye");
+  clickSubmit();
+}
+
+export function verifyClosedTicketIsStillInTicketListing() {
+  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW);
+  row.get('td').eq(STATUS_COLUMN).contains("Closed");
+}
+
