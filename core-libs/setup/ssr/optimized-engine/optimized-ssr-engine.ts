@@ -237,9 +237,28 @@ export class OptimizedSsrEngine {
 
     const renderingKey = this.getRenderingKey(request);
     const renderCallback: SsrCallbackFn = (err, html): void => {
+      // SPIKE TODO: refactor to simplify the if-branches:
+
+      // the rendering for this request has finished, so we don't want to execute the timeout logic anymore
+      if (requestTimeout) {
+        clearTimeout(requestTimeout);
+      }
+
+      console.log({
+        ssrRenderingContext: this.getRenderingContext(response),
+      }); // SPIKE TODO REMOVE
+
+      // SPIKE TODO UNCOMMENT:
+      if (this.getRenderingErrors(response)) {
+        this.handleRenderingErrors(request, response, filePath, callback);
+
+        // reset the isRendering status: // SPIKE TODO - comment it better
+        this.renderingCache.clear(renderingKey);
+        return;
+      }
+
       if (requestTimeout) {
         // if request is still waiting for render, return it
-        clearTimeout(requestTimeout);
         callback(err, html);
 
         this.log(
@@ -315,6 +334,12 @@ export class OptimizedSsrEngine {
     }
 
     const renderingKey = this.getRenderingKey(request);
+
+    console.log({
+      renderingKey,
+      renderingCallbacksLength: this.renderCallbacks.get(renderingKey)?.length,
+    }); // SPIKE TODO REMOVE
+
     if (!this.renderCallbacks.has(renderingKey)) {
       this.renderCallbacks.set(renderingKey, []);
     }
@@ -401,5 +426,35 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
+  }
+
+  /**
+   * Tells whether the rendering for the response encountered errors.
+   */
+  private getRenderingErrors(response: Response): any {
+    // SPIKE TODO IMPROVE TYPING any
+    return this.getRenderingContext(response)['renderingErrors'];
+  }
+
+  /**
+   * Fallback to CSR with a log about the encountered errors.
+   */
+  private handleRenderingErrors(
+    request: Request,
+    response: Response,
+    filePath: string,
+    callback: SsrCallbackFn
+  ) {
+    this.log(
+      `CSR fallback: Rendering encountered errors (${request?.originalUrl})`
+    );
+    this.fallbackToCsr(response, filePath, callback);
+  }
+
+  /**
+   * Returns the context of the rendering for the response.
+   */
+  private getRenderingContext(response: Response): Record<string, any> {
+    return response.locals['cx-server-rendering-context'] ?? {};
   }
 }
