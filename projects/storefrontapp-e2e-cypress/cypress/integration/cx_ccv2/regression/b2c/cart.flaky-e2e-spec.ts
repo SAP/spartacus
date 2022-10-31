@@ -1,12 +1,13 @@
-import * as cart from '../../../helpers/cart';
-import { visitHomePage } from '../../../helpers/checkout-flow';
-import * as alerts from '../../../helpers/global-message';
-import { clickHamburger } from '../../../helpers/homepage';
-import { viewportContext } from '../../../helpers/viewport-context';
-import { login } from '../../../support/utils/login';
+import * as cart from '../../../../helpers/cart';
+import { visitHomePage } from '../../../../helpers/checkout-flow';
+import * as alerts from '../../../../helpers/global-message';
+import { clickHamburger } from '../../../../helpers/homepage';
+import { viewportContext } from '../../../../helpers/viewport-context';
+import { login } from '../../../../support/utils/login';
+// TODO. Fix Priority 1. Remove this line after this spec runs successfully with CCV2.
 
 describe('Cart', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
@@ -23,7 +24,6 @@ describe('Cart', () => {
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
-        cart.registerCartRefreshRoute();
 
         cart.addProductWhenLoggedIn(false);
 
@@ -32,7 +32,7 @@ describe('Cart', () => {
         cart.logOutAndNavigateToEmptyCart();
         cart.addProductAsAnonymous();
         cart.verifyMergedCartWhenLoggedIn();
-        cart.logOutAndNavigateToEmptyCart();
+        cart.logOutAndEmptyCart();
       });
 
       it('should add product and manipulate cart quantity', () => {
@@ -42,29 +42,16 @@ describe('Cart', () => {
   });
 
   viewportContext(['desktop'], () => {
-    context('Anonymous user', () => {
-      it('should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
-      });
-
-      it('should keep cart on page refresh', () => {
-        cart.addProductAsAnonymous();
-        cy.reload();
-        cart.verifyCartNotEmpty();
-      });
-    });
-
     context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
+        cart.loginRegisteredUser();
         visitHomePage();
       });
 
       it('should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
-        cart.registerCartRefreshRoute();
-
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
         cy.window().then((window) => {
@@ -77,9 +64,6 @@ describe('Cart', () => {
             'spartacus⚿electronics-spa⚿cart',
             JSON.stringify(storage)
           );
-
-          cy.wait(2000);
-
           cy.visit('/cart');
           alerts.getErrorAlert().should('contain', 'Cart not found');
           cy.get('.cart-details-wrapper .cx-total').contains(
@@ -182,7 +166,7 @@ describe('Cart', () => {
 
         cart.removeCartItem(cart.products[0]);
 
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+        cy.wait('@refresh_cart');
 
         cart.removeCartItem(cart.products[1]);
         cart.validateEmptyCart();
@@ -238,30 +222,29 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      it('should have different cart on different base sites', () => {
+      it('should use existing cart when adding new entries', () => {
         cy.visit(`/product/${cart.products[0].code}`);
+        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
         cart.clickAddToCart();
         cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
-
-        const apparelProduct = {
-          code: '300310300',
-          name: 'Wallet Dakine Agent Leather Wallet brown',
-          price: 33.96,
-        };
-
-        cy.visit(`/apparel-uk-spa/en/GBP/product/${apparelProduct.code}`);
+        cy.visit(`/product/${cart.products[1].code}`);
+        cy.get('cx-breadcrumb h1').contains(cart.products[1].name);
         cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
+        cart.checkAddedToCartDialog(2);
 
-        cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
+        cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
-        cy.get('cx-global-message .alert-danger').should('not.exist');
+        cart.checkProductInCart(cart.products[1]);
 
-        cy.visit(`/apparel-uk-spa/en/GBP/cart`);
-        cart.checkProductInCart(apparelProduct, 1, 'GBP');
-        cy.get('cx-global-message .alert-danger').should('not.exist');
+        // cleanup
+        cart.registerCartRefreshRoute();
+        cart.removeCartItem(cart.products[0]);
+        cy.wait('@refresh_cart');
+
+        cart.removeCartItem(cart.products[1]);
+        cy.wait('@refresh_cart');
+
+        cart.validateEmptyCart();
       });
     });
   });
