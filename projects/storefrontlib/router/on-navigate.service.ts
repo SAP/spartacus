@@ -53,7 +53,10 @@ export class OnNavigateService {
 
     if (enable) {
       // Disable automatic scroll restoration to avoid race conditions
-      // TODO: this feature level check should be removed in Major release
+      /**
+       * @deprecated since 5.1
+       * this feature level check should be removed in Major release
+       */
       if (isFeatureLevel(this.config, '5.1')) {
         this.viewportScroller.setHistoryScrollRestoration('manual');
       }
