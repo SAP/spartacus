@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { AsmCustomer360Response } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
 import { AsmUi, CustomerSearchPage } from '../models/asm.models';

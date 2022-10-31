@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Customer360SectionConfig } from './customer-360-section-config';
 import { AsmCustomer360Query } from './customer-360.model';
 
