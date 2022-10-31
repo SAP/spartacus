@@ -210,7 +210,12 @@ describe('CustomerTicketingService', () => {
         .getTickets(mockCurrentPage, mockPageSize, mockSort)
         .pipe(take(1))
         .subscribe((data) => {
-          expect(connector.getTickets).toHaveBeenCalledWith(mockUserId);
+          expect(connector.getTickets).toHaveBeenCalledWith(
+            mockUserId,
+            mockCurrentPage,
+            mockPageSize,
+            mockSort
+          );
           expect(data).toEqual(mockTicketList);
           done();
         });
@@ -225,7 +230,12 @@ describe('CustomerTicketingService', () => {
         .getTicketsState(mockCurrentPage, mockPageSize, mockSort)
         .pipe(take(1))
         .subscribe((state) => {
-          expect(connector.getTickets).toHaveBeenCalledWith(mockUserId);
+          expect(connector.getTickets).toHaveBeenCalledWith(
+            mockUserId,
+            mockCurrentPage,
+            mockPageSize,
+            mockSort
+          );
           expect(state).toEqual({
             loading: false,
             error: false,
