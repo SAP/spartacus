@@ -257,6 +257,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
     },
     {
+      class: 'CdsMerchandisingProductService',
+      importPath: '@spartacus/cds',
+      deprecatedNode: 'loadProductsForStrategy',
+      comment:
+        "// TODO:Spartacus - The 'loadProductsForStrategy' method's signature changed to: 'loadProductsForStrategy(  strategyId: string,  numberToDisplay: number): Observable<StrategyResponse>'",
+    },
+    {
+      class: 'CdsMerchandisingProductService',
+      importPath: '@spartacus/cds',
+      deprecatedNode: 'merchandisingSearchContextService',
+      comment:
+        "// TODO:Spartacus - Property 'merchandisingSearchContextService' was removed from Class 'CdsMerchandisingProductService'. ",
+    },
+    {
       class: 'ProfileTagPushEventsService',
       importPath: '@spartacus/cds',
       deprecatedNode: 'activeCartService',
@@ -437,6 +451,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'activeCartService',
       comment:
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. Use 'activeCartFacade' instead.",
+    },
+    {
+      class: 'PaymentFormComponent',
+      importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'PaymentFormComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'PaymentFormComponent',
+      importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'suggestedAddressModalRef',
+      comment:
+        "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'PaymentFormComponent'. It is not used anymore.",
     },
     {
       class: 'PaymentMethodComponent',
@@ -1916,6 +1944,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'userService' was removed from Class 'WishListService'. ",
     },
     {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'. It is not used anymore.",
+    },
+    {
       class: 'OrderCancellationService',
       importPath: '@spartacus/order/components',
       deprecatedNode: 'userOrderService',
@@ -1963,6 +1998,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'userReplenishmentOrderService',
       comment:
         "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderHistoryComponent'. ",
+    },
+    {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedNode: 'activeModal',
+      comment:
+        "// TODO:Spartacus - Property 'activeModal' was removed from Class 'TrackingEventsComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedNode: 'consignmentCode',
+      comment:
+        "// TODO:Spartacus - Property 'consignmentCode' was removed from Class 'TrackingEventsComponent'. It is not used anymore.",
     },
     {
       class: 'OrderAdapter',
@@ -3507,6 +3556,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddedToCartDialogComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'dialog',
+      comment:
+        "// TODO:Spartacus - Property 'dialog' was removed from Class 'AddedToCartDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'entry$',
       comment:
         "// TODO:Spartacus - The type of property 'entry$: Observable<OrderEntry>' changed to: 'entry$: Observable<OrderEntry | undefined>' ",
@@ -3514,9 +3570,37 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddedToCartDialogComponent',
       importPath: '@spartacus/storefront',
-      deprecatedNode: 'ngOnInit',
+      deprecatedNode: 'form',
       comment:
-        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'AddedToCartDialogComponent'. ",
+        "// TODO:Spartacus - The type of property 'form: FormGroup' changed to: 'form: UntypedFormGroup' ",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getQuantityControl',
+      comment:
+        "// TODO:Spartacus - The 'getQuantityControl' method's signature changed to: 'getQuantityControl(): Observable<UntypedFormControl>'",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getQuantityFormControl',
+      comment:
+        "// TODO:Spartacus - The 'getQuantityFormControl' method's signature changed to: 'getQuantityFormControl(  entry: OrderEntry): UntypedFormControl'",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalIsOpen',
+      comment:
+        "// TODO:Spartacus - Property 'modalIsOpen' was removed from Class 'AddedToCartDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddedToCartDialogComponent'. Use 'launchDialogService' instead.",
     },
     {
       class: 'AddedToCartDialogComponent',
@@ -3524,6 +3608,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'numberOfEntriesBeforeAdd',
       comment:
         "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddedToCartDialogComponent'. ",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'quantityControl$',
+      comment:
+        "// TODO:Spartacus - The type of property 'quantityControl$: Observable<FormControl>' changed to: 'quantityControl$: Observable<UntypedFormControl>' ",
     },
     {
       class: 'AddressBookComponent',
@@ -3549,6 +3640,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddressFormComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'addressForm',
+      comment:
+        "// TODO:Spartacus - The type of property 'addressForm: FormGroup' changed to: 'addressForm: UntypedFormGroup' ",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'addressVerifySub',
+      comment:
+        "// TODO:Spartacus - Property 'addressVerifySub' was removed from Class 'AddressFormComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'countrySelected',
       comment:
         "// TODO:Spartacus - The 'countrySelected' method's signature changed to: 'countrySelected(  country: Country | undefined): void'",
@@ -3556,9 +3661,30 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AddressFormComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'fb',
+      comment:
+        "// TODO:Spartacus - The type of property 'fb: FormBuilder' changed to: 'fb: UntypedFormBuilder' ",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddressFormComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'regionsSub',
+      comment:
+        "// TODO:Spartacus - Property 'regionsSub' was removed from Class 'AddressFormComponent'. It is not used anymore.",
+    },
+    {
+      class: 'AddressFormComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'suggestedAddressModalRef',
       comment:
-        "// TODO:Spartacus - The type of property 'suggestedAddressModalRef: ModalRef' changed to: 'suggestedAddressModalRef: ModalRef | null' ",
+        "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'AddressFormComponent'. It is not used anymore.",
     },
     {
       class: 'AddToCartComponent',
@@ -3869,6 +3995,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - The 'isRequired' method's signature changed to: 'isRequired(  templateId: string | undefined): boolean'",
     },
     {
+      class: 'ConsignmentTrackingComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'. It is not used anymore.",
+    },
+    {
       class: 'CustomFormValidators',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'dateRange',
@@ -4041,21 +4174,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'generateJsonLdScript',
       comment:
-        "// TODO:Spartacus - The 'generateJsonLdScript' method's signature changed to: 'generateJsonLdScript(  schema: string | {}): SafeHtml | undefined'",
+        "// TODO:Spartacus - The 'generateJsonLdScript' method's signature changed to: 'generateJsonLdScript(  schema: string | {}): void'",
     },
     {
       class: 'JsonLdDirective',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'jsonLD',
       comment:
-        "// TODO:Spartacus - The type of property 'jsonLD: SafeHtml' changed to: 'jsonLD: SafeHtml | undefined' ",
+        "// TODO:Spartacus - Property 'jsonLD' was removed from Class 'JsonLdDirective'. ",
+    },
+    {
+      class: 'JsonLdDirective',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitizer',
+      comment:
+        "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdDirective'. ",
     },
     {
       class: 'LaunchDialogService',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'dialogClose',
       comment:
-        "// TODO:Spartacus - The type of property 'dialogClose: Observable<string>' changed to: 'dialogClose: Observable<string | undefined>' ",
+        "// TODO:Spartacus - The type of property 'dialogClose: Observable<string>' changed to: 'dialogClose: Observable<any | undefined>' ",
     },
     {
       class: 'LaunchDialogService',
@@ -4119,13 +4259,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'activeCartService',
       comment:
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'MiniCartComponent'. ",
-    },
-    {
-      class: 'ModalService',
-      importPath: '@spartacus/storefront',
-      deprecatedNode: 'getActiveModal',
-      comment:
-        "// TODO:Spartacus - The 'getActiveModal' method's signature changed to: 'getActiveModal(): ModalRef | null'",
     },
     {
       class: 'MyInterestsComponent',
@@ -4779,6 +4912,20 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - The 'setTheme' method's signature changed to: 'setTheme(  theme: string | undefined): void'",
     },
     {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeModal',
+      comment:
+        "// TODO:Spartacus - Property 'activeModal' was removed from Class 'TrackingEventsComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'TrackingEventsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'consignmentCode',
+      comment:
+        "// TODO:Spartacus - Property 'consignmentCode' was removed from Class 'TrackingEventsComponent'. It is not used anymore.",
+    },
+    {
       class: 'ViewComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: '_hidden',
@@ -4809,8 +4956,127 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'RegisterComponent',
       importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'fb',
+      comment:
+        "// TODO:Spartacus - The type of property 'fb: FormBuilder' changed to: 'fb: UntypedFormBuilder' ",
+    },
+    {
+      class: 'RegisterComponent',
+      importPath: '@spartacus/user/profile/components',
       deprecatedNode: 'isConsentGiven',
       comment:
         "// TODO:Spartacus - The 'isConsentGiven' method's signature changed to: 'isConsentGiven(  consent: AnonymousConsent | undefined): boolean'",
+    },
+    {
+      class: 'RegisterComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'registerForm',
+      comment:
+        "// TODO:Spartacus - The type of property 'registerForm: FormGroup' changed to: 'registerForm: UntypedFormGroup' ",
+    },
+    {
+      class: 'RegisterComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'userRegister',
+      comment:
+        "// TODO:Spartacus - Property 'userRegister' was removed from Class 'RegisterComponent'. ",
+    },
+    {
+      class: 'JsonLdScriptFactory',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitize',
+      comment:
+        "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'. Use 'escapeHtml' instead.",
+    },
+    {
+      class: 'JsonLdScriptFactory',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'sanitizer',
+      comment:
+        "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdScriptFactory'. ",
+    },
+    {
+      class: 'CloseAccountModalComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'isLoading$',
+      comment:
+        "// TODO:Spartacus - The type of property 'isLoading$: BehaviorSubject<boolean>' changed to: 'isLoading$: Observable<boolean>' ",
+    },
+    {
+      class: 'CloseAccountModalComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'CloseAccountComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modal',
+      comment:
+        "// TODO:Spartacus - Property 'modal' was removed from Class 'CloseAccountComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CloseAccountComponent',
+      importPath: '@spartacus/user/profile/components',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'CouponCardComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalRef',
+      comment:
+        "// TODO:Spartacus - Property 'modalRef' was removed from Class 'CouponCardComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CouponCardComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponCardComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'dialog',
+      comment:
+        "// TODO:Spartacus - Property 'dialog' was removed from Class 'CouponDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'dismissModal',
+      comment:
+        "// TODO:Spartacus - Method 'dismissModal' was removed from Class 'CouponDialogComponent'. It is replaced by 'close' method.",
+    },
+    {
+      class: 'CouponDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponDialogComponent'. Use 'launchDialogService' instead.",
+    },
+    {
+      class: 'SuggestedAddressDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'enteredAddress',
+      comment:
+        "// TODO:Spartacus - Property 'enteredAddress' was removed from Class 'SuggestedAddressDialogComponent'. It is not used anymore.",
+    },
+    {
+      class: 'SuggestedAddressDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'modalService',
+      comment:
+        "// TODO:Spartacus - Property 'modalService' was removed from Class 'SuggestedAddressDialogComponent'. Use 'launchDialogService' instead",
+    },
+    {
+      class: 'SuggestedAddressDialogComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'suggestedAddresses',
+      comment:
+        "// TODO:Spartacus - Property 'suggestedAddresses' was removed from Class 'SuggestedAddressDialogComponent'. It is not used anymore.",
     },
   ];

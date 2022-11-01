@@ -7335,8 +7335,8 @@
         "changeLabel": "changed",
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService,\n  merchandisingSearchContextService: CdsMerchandisingSearchContextService\n)\n",
+        "previousStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService,\n  merchandisingSearchContextService: CdsMerchandisingSearchContextService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  strategyConnector: MerchandisingStrategyConnector,\n  merchandisingUserContextService: CdsMerchandisingUserContextService,\n  merchandisingSiteContextService: CdsMerchandisingSiteContextService\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -7364,6 +7364,14 @@
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSiteContextService:class",
               "shortType": "CdsMerchandisingSiteContextService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "merchandisingSearchContextService",
+              "type": "CdsMerchandisingSearchContextService",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
+              "shortType": "CdsMerchandisingSearchContextService",
+              "importPath": ""
             }
           ],
           "newParams": [
@@ -7390,30 +7398,102 @@
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSiteContextService:class",
               "shortType": "CdsMerchandisingSiteContextService",
               "importPath": "@spartacus/cds"
-            },
+            }
+          ],
+          "removedParams": [
             {
               "name": "merchandisingSearchContextService",
               "type": "CdsMerchandisingSearchContextService",
-              "isOptional": false,
+              "isOptional": true,
               "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
               "shortType": "CdsMerchandisingSearchContextService",
               "importPath": ""
             }
           ],
-          "removedParams": [],
-          "addedParams": [
-            {
-              "name": "merchandisingSearchContextService",
-              "type": "CdsMerchandisingSearchContextService",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/cds!CdsMerchandisingSearchContextService:class",
-              "shortType": "CdsMerchandisingSearchContextService",
-              "importPath": ""
-            }
-          ]
+          "addedParams": []
         },
         "topLevelApiElementName": "CdsMerchandisingProductService",
         "entryPoint": "@spartacus/cds"
+      },
+      {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "loadProductsForStrategy",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay: number\n): Observable<StrategyProducts>\n",
+        "currentStateDoc": "\nloadProductsForStrategy(\n  strategyId: string,\n  numberToDisplay: number\n): Observable<StrategyResponse>\n",
+        "oldElement": {
+          "kind": "Method",
+          "name": "loadProductsForStrategy",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "strategyId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "numberToDisplay",
+              "type": "number",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<StrategyProducts>"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "loadProductsForStrategy",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "strategyId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "numberToDisplay",
+              "type": "number",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<StrategyResponse>"
+        },
+        "topLevelApiElementName": "CdsMerchandisingProductService",
+        "entryPoint": "@spartacus/cds"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "merchandisingSearchContextService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "merchandisingSearchContextService",
+          "type": "CdsMerchandisingSearchContextService"
+        },
+        "apiElementName": "CdsMerchandisingProductService",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/cds",
+        "deletedComment": "// TODO:Spartacus - Property 'merchandisingSearchContextService' was removed from Class 'CdsMerchandisingProductService'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "CdsMerchandisingProductService"
       }
     ]
   },
@@ -7478,7 +7558,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  converterService: ConverterService,\n  profileTagEventService: ProfileTagEventService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  converterService: ConverterService,\n  profileTagEventService: ProfileTagEventService,\n  profileTagLifecycleService: ProfileTagLifecycleService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  routingService: RoutingService,\n  productSearchService: ProductSearchService,\n  profileTagEventService: ProfileTagEventService,\n  profileTagLifecycleService: ProfileTagLifecycleService,\n  facetService: FacetService\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -7534,14 +7614,6 @@
               "importPath": "@spartacus/core"
             },
             {
-              "name": "converterService",
-              "type": "ConverterService",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/cds!ConverterService:class",
-              "shortType": "ConverterService",
-              "importPath": "@spartacus/core"
-            },
-            {
               "name": "profileTagEventService",
               "type": "ProfileTagEventService",
               "isOptional": false,
@@ -7556,9 +7628,26 @@
               "canonicalReference": "@spartacus/cds!ProfileTagLifecycleService:class",
               "shortType": "ProfileTagLifecycleService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "facetService",
+              "type": "FacetService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!FacetService:class",
+              "shortType": "FacetService",
+              "importPath": "@spartacus/storefront"
             }
           ],
-          "removedParams": [],
+          "removedParams": [
+            {
+              "name": "converterService",
+              "type": "ConverterService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!ConverterService:class",
+              "shortType": "ConverterService",
+              "importPath": "@spartacus/core"
+            }
+          ],
           "addedParams": [
             {
               "name": "profileTagLifecycleService",
@@ -7567,6 +7656,14 @@
               "canonicalReference": "@spartacus/cds!ProfileTagLifecycleService:class",
               "shortType": "ProfileTagLifecycleService",
               "importPath": "@spartacus/cds"
+            },
+            {
+              "name": "facetService",
+              "type": "FacetService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cds!FacetService:class",
+              "shortType": "FacetService",
+              "importPath": "@spartacus/storefront"
             }
           ]
         },
@@ -12786,14 +12883,178 @@
     "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "PaymentFormComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n checkoutPaymentService: CheckoutPaymentFacade,\n checkoutDeliveryService: CheckoutDeliveryFacade,\n userPaymentService: UserPaymentService,\n globalMessageService: GlobalMessageService,\n fb: FormBuilder,\n modalService: ModalService,\n userAddressService: UserAddressService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  checkoutPaymentFacade: CheckoutPaymentFacade,\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  userPaymentService: UserPaymentService,\n  globalMessageService: GlobalMessageService,\n  fb: UntypedFormBuilder,\n  userAddressService: UserAddressService,\n  launchDialogService: LaunchDialogService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [],
+          "addedParams": []
+        },
         "topLevelApiElementName": "PaymentFormComponent",
-        "entryPoint": "@spartacus/checkout/components"
+        "entryPoint": "@spartacus/checkout/base/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/base/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'PaymentFormComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "PaymentFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "suggestedAddressModalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "suggestedAddressModalRef",
+          "type": ""
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/base/components",
+        "deletedComment": "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'PaymentFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "PaymentFormComponent"
       }
     ]
   },
@@ -63242,7 +63503,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  userOrderService: OrderFacade,\n  modalService: ModalService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -63274,12 +63535,20 @@
               "importPath": "@spartacus/order/root"
             },
             {
-              "name": "modalService",
-              "type": "ModalService",
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
               "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!ModalService:class",
-              "shortType": "ModalService",
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
               "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ],
           "removedParams": [
@@ -63290,6 +63559,14 @@
               "canonicalReference": "@spartacus/order_components!OrderFacade:class",
               "shortType": "OrderFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
             }
           ],
           "addedParams": [
@@ -63300,11 +63577,47 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "ConsignmentTrackingComponent",
         "entryPoint": "@spartacus/order/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "ConsignmentTrackingComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/order/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "ConsignmentTrackingComponent"
       }
     ]
   },
@@ -65012,7 +65325,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  activeModal: NgbActiveModal,\n  userOrderService: OrderFacade\n)\n",
-        "currentStateDoc": "\nconstructor(\n  activeModal: NgbActiveModal,\n  orderHistoryFacade: OrderHistoryFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -65036,6 +65349,32 @@
           ],
           "newParams": [
             {
+              "name": "orderHistoryFacade",
+              "type": "OrderHistoryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
+              "shortType": "OrderHistoryFacade",
+              "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
               "name": "activeModal",
               "type": "NgbActiveModal",
               "isOptional": false,
@@ -65043,16 +65382,6 @@
               "shortType": "NgbActiveModal",
               "importPath": "@ng-bootstrap/ng-bootstrap"
             },
-            {
-              "name": "orderHistoryFacade",
-              "type": "OrderHistoryFacade",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
-              "shortType": "OrderHistoryFacade",
-              "importPath": "@spartacus/order/root"
-            }
-          ],
-          "removedParams": [
             {
               "name": "userOrderService",
               "type": "OrderFacade",
@@ -65070,11 +65399,67 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "TrackingEventsComponent",
         "entryPoint": "@spartacus/order/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "activeModal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "activeModal",
+          "type": "NgbActiveModal"
+        },
+        "apiElementName": "TrackingEventsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/order/components",
+        "deletedComment": "// TODO:Spartacus - Property 'activeModal' was removed from Class 'TrackingEventsComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "TrackingEventsComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "consignmentCode",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "consignmentCode",
+          "type": "string"
+        },
+        "apiElementName": "TrackingEventsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/order/components",
+        "deletedComment": "// TODO:Spartacus - Property 'consignmentCode' was removed from Class 'TrackingEventsComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "TrackingEventsComponent"
       }
     ]
   },
@@ -89403,7 +89788,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  cartService: ActiveCartService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  modalService: ModalService,\n  activeCartFacade: ActiveCartFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  activeCartFacade: ActiveCartFacade,\n  launchDialogService: LaunchDialogService,\n  routingService: RoutingService,\n  el: ElementRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -89427,23 +89812,47 @@
           ],
           "newParams": [
             {
-              "name": "modalService",
-              "type": "ModalService",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/cart_base_components!ModalService:class",
-              "shortType": "ModalService",
-              "importPath": "@spartacus/storefront"
-            },
-            {
               "name": "activeCartFacade",
               "type": "ActiveCartFacade",
               "isOptional": false,
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_base_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
             }
           ],
           "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
             {
               "name": "cartService",
               "type": "ActiveCartService",
@@ -89461,6 +89870,30 @@
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_base_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
             }
           ]
         },
@@ -89488,6 +89921,26 @@
         "topLevelApiElementName": "AddedToCartDialogComponent"
       },
       {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "dialog",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "dialog",
+          "type": "ElementRef"
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'dialog' was removed from Class 'AddedToCartDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddedToCartDialogComponent"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -89502,25 +89955,127 @@
         "entryPoint": "@spartacus/storefront"
       },
       {
-        "change": "METHOD_DELETED",
-        "changeType": "DELETED",
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "form",
+        "changeElementCategory": "MEMBER",
+        "oldType": "FormGroup",
+        "newType": "UntypedFormGroup",
+        "previousStateDoc": "form: FormGroup",
+        "currentStateDoc": "form: UntypedFormGroup",
+        "topLevelApiElementName": "AddedToCartDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
         "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "getQuantityControl",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\ngetQuantityControl(): Observable<FormControl>\n",
+        "currentStateDoc": "\ngetQuantityControl(): Observable<UntypedFormControl>\n",
+        "oldElement": {
+          "kind": "Method",
+          "name": "getQuantityControl",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "Observable<FormControl>"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "getQuantityControl",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "Observable<UntypedFormControl>"
+        },
+        "topLevelApiElementName": "AddedToCartDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "getQuantityFormControl",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\ngetQuantityFormControl(\n  entry: OrderEntry\n): FormControl\n",
+        "currentStateDoc": "\ngetQuantityFormControl(\n  entry: OrderEntry\n): UntypedFormControl\n",
+        "oldElement": {
+          "kind": "Method",
+          "name": "getQuantityFormControl",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "entry",
+              "type": "OrderEntry",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!OrderEntry:interface",
+              "shortType": "OrderEntry",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "returnType": "FormControl"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "getQuantityFormControl",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "entry",
+              "type": "OrderEntry",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/cart_base_components!OrderEntry:interface",
+              "shortType": "OrderEntry",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ],
+          "returnType": "UntypedFormControl"
+        },
+        "topLevelApiElementName": "AddedToCartDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
         "changeLabel": "deleted",
-        "changeElementName": "ngOnInit",
+        "changeElementName": "modalIsOpen",
         "changeElementCategory": "MEMBER",
         "isDeletedMember": true,
         "deletedMember": {
-          "kind": "Method",
-          "name": "ngOnInit",
-          "overloadIndex": 1,
-          "parameters": [],
-          "returnType": "void"
+          "kind": "Property",
+          "name": "modalIsOpen",
+          "type": "boolean"
         },
         "apiElementName": "AddedToCartDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'AddedToCartDialogComponent'.",
-        "migrationComment": "",
+        "deletedComment": "// TODO:Spartacus - Property 'modalIsOpen' was removed from Class 'AddedToCartDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddedToCartDialogComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "AddedToCartDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddedToCartDialogComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
         "topLevelApiElementName": "AddedToCartDialogComponent"
       },
       {
@@ -89542,6 +90097,20 @@
         "deletedComment": "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddedToCartDialogComponent'.",
         "migrationComment": "",
         "topLevelApiElementName": "AddedToCartDialogComponent"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "quantityControl$",
+        "changeElementCategory": "MEMBER",
+        "oldType": "Observable<FormControl>",
+        "newType": "Observable<UntypedFormControl>",
+        "previousStateDoc": "quantityControl$: Observable<FormControl>",
+        "currentStateDoc": "quantityControl$: Observable<UntypedFormControl>",
+        "topLevelApiElementName": "AddedToCartDialogComponent",
+        "entryPoint": "@spartacus/storefront"
       }
     ]
   },
@@ -90211,6 +90780,192 @@
     ],
     "breakingChanges": [
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  fb: FormBuilder,\n  userService: UserService,\n  userAddressService: UserAddressService,\n  globalMessageService: GlobalMessageService,\n  modalService: ModalService,\n  translation: TranslationService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  fb: UntypedFormBuilder,\n  userService: UserService,\n  userAddressService: UserAddressService,\n  globalMessageService: GlobalMessageService,\n  translation: TranslationService,\n  launchDialogService: LaunchDialogService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userService",
+              "type": "UserService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserService:class",
+              "shortType": "UserService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "userService",
+              "type": "UserService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserService:class",
+              "shortType": "UserService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            }
+          ]
+        },
+        "topLevelApiElementName": "AddressFormComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "addressForm",
+        "changeElementCategory": "MEMBER",
+        "oldType": "FormGroup",
+        "newType": "UntypedFormGroup",
+        "previousStateDoc": "addressForm: FormGroup",
+        "currentStateDoc": "addressForm: UntypedFormGroup",
+        "topLevelApiElementName": "AddressFormComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "addressVerifySub",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "addressVerifySub",
+          "type": "Subscription"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'addressVerifySub' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
         "change": "METHOD_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Method",
@@ -90259,14 +91014,74 @@
         "changeType": "CHANGED",
         "changeKind": "Property",
         "changeLabel": "changed",
-        "changeElementName": "suggestedAddressModalRef",
+        "changeElementName": "fb",
         "changeElementCategory": "MEMBER",
-        "oldType": "ModalRef",
-        "newType": "ModalRef | null",
-        "previousStateDoc": "suggestedAddressModalRef: ModalRef",
-        "currentStateDoc": "suggestedAddressModalRef: ModalRef | null",
+        "oldType": "FormBuilder",
+        "newType": "UntypedFormBuilder",
+        "previousStateDoc": "fb: FormBuilder",
+        "currentStateDoc": "fb: UntypedFormBuilder",
         "topLevelApiElementName": "AddressFormComponent",
         "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "regionsSub",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "regionsSub",
+          "type": "Subscription"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'regionsSub' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "suggestedAddressModalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "suggestedAddressModalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "AddressFormComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'suggestedAddressModalRef' was removed from Class 'AddressFormComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "AddressFormComponent"
       }
     ]
   },
@@ -96747,7 +97562,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  userOrderService: UserOrderService,\n  modalService: ModalService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -96779,12 +97594,20 @@
               "importPath": "@spartacus/order/root"
             },
             {
-              "name": "modalService",
-              "type": "ModalService",
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
               "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!ModalService:class",
-              "shortType": "ModalService",
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
               "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ],
           "removedParams": [
@@ -96795,6 +97618,14 @@
               "canonicalReference": "@spartacus/storefront!UserOrderService:class",
               "shortType": "UserOrderService",
               "importPath": "@spartacus/core"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
             }
           ],
           "addedParams": [
@@ -96805,11 +97636,47 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "ConsignmentTrackingComponent",
         "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "ConsignmentTrackingComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'ConsignmentTrackingComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "ConsignmentTrackingComponent"
       }
     ]
   },
@@ -98865,6 +99732,94 @@
     ],
     "breakingChanges": [
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  jsonLdScriptFactory: JsonLdScriptFactory,\n  sanitizer: DomSanitizer\n)\n",
+        "currentStateDoc": "\nconstructor(\n  renderer: Renderer2,\n  jsonLdScriptFactory: JsonLdScriptFactory,\n  element: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "jsonLdScriptFactory",
+              "type": "JsonLdScriptFactory",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!JsonLdScriptFactory:class",
+              "shortType": "JsonLdScriptFactory",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "renderer",
+              "type": "Renderer2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Renderer2:class",
+              "shortType": "Renderer2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "jsonLdScriptFactory",
+              "type": "JsonLdScriptFactory",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!JsonLdScriptFactory:class",
+              "shortType": "JsonLdScriptFactory",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "element",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "renderer",
+              "type": "Renderer2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Renderer2:class",
+              "shortType": "Renderer2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "element",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "JsonLdDirective",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
         "change": "METHOD_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Method",
@@ -98872,7 +99827,7 @@
         "changeElementName": "generateJsonLdScript",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): SafeHtml\n",
-        "currentStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): SafeHtml | undefined\n",
+        "currentStateDoc": "\ngenerateJsonLdScript(\n  schema: string | {}\n): void\n",
         "oldElement": {
           "kind": "Method",
           "name": "generateJsonLdScript",
@@ -98903,24 +99858,50 @@
               "importPath": ""
             }
           ],
-          "returnType": "SafeHtml | undefined"
+          "returnType": "void"
         },
         "topLevelApiElementName": "JsonLdDirective",
         "entryPoint": "@spartacus/storefront"
       },
       {
-        "change": "PROPERTY_CHANGED",
-        "changeType": "CHANGED",
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
         "changeKind": "Property",
-        "changeLabel": "changed",
+        "changeLabel": "deleted",
         "changeElementName": "jsonLD",
         "changeElementCategory": "MEMBER",
-        "oldType": "SafeHtml",
-        "newType": "SafeHtml | undefined",
-        "previousStateDoc": "jsonLD: SafeHtml",
-        "currentStateDoc": "jsonLD: SafeHtml | undefined",
-        "topLevelApiElementName": "JsonLdDirective",
-        "entryPoint": "@spartacus/storefront"
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "jsonLD",
+          "type": "SafeHtml"
+        },
+        "apiElementName": "JsonLdDirective",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'jsonLD' was removed from Class 'JsonLdDirective'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "JsonLdDirective"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitizer",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "sanitizer",
+          "type": "DomSanitizer"
+        },
+        "apiElementName": "JsonLdDirective",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdDirective'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "JsonLdDirective"
       }
     ]
   },
@@ -99200,9 +100181,9 @@
         "changeElementName": "dialogClose",
         "changeElementCategory": "MEMBER",
         "oldType": "Observable<string>",
-        "newType": "Observable<string | undefined>",
+        "newType": "Observable<any | undefined>",
         "previousStateDoc": "dialogClose: Observable<string>",
-        "currentStateDoc": "dialogClose: Observable<string | undefined>",
+        "currentStateDoc": "dialogClose: Observable<any | undefined>",
         "topLevelApiElementName": "LaunchDialogService",
         "entryPoint": "@spartacus/storefront"
       },
@@ -100296,149 +101277,6 @@
           "namespace": ""
         },
         "topLevelApiElementName": "MiniCartModule",
-        "entryPoint": "@spartacus/storefront"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/storefront",
-    "kind": "Class",
-    "name": "ModalService",
-    "members": [
-      {
-        "kind": "Constructor",
-        "name": "constructor",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "ngbModalService",
-            "type": "NgbModal",
-            "isOptional": false,
-            "canonicalReference": "@ng-bootstrap/ng-bootstrap!NgbModal:class",
-            "shortType": "NgbModal",
-            "importPath": "@ng-bootstrap/ng-bootstrap"
-          },
-          {
-            "name": "applicationRef",
-            "type": "ApplicationRef",
-            "isOptional": false,
-            "canonicalReference": "@angular/core!ApplicationRef:class",
-            "shortType": "ApplicationRef",
-            "importPath": "@angular/core"
-          }
-        ]
-      },
-      {
-        "kind": "Property",
-        "name": "applicationRef",
-        "type": "ApplicationRef"
-      },
-      {
-        "kind": "Method",
-        "name": "closeActiveModal",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "reason",
-            "type": "any",
-            "isOptional": true,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "dismissActiveModal",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "reason",
-            "type": "any",
-            "isOptional": true,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "getActiveModal",
-        "overloadIndex": 1,
-        "parameters": [],
-        "returnType": "ModalRef"
-      },
-      {
-        "kind": "Method",
-        "name": "handleModalRemoveEvents",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "modal",
-            "type": "ModalRef",
-            "isOptional": false,
-            "canonicalReference": "@spartacus/storefront!ModalRef:class",
-            "shortType": "ModalRef",
-            "importPath": "@spartacus/storefront"
-          }
-        ],
-        "returnType": "void"
-      },
-      {
-        "kind": "Method",
-        "name": "open",
-        "overloadIndex": 1,
-        "parameters": [
-          {
-            "name": "content",
-            "type": "any",
-            "isOptional": false,
-            "canonicalReference": "",
-            "shortType": "",
-            "importPath": ""
-          },
-          {
-            "name": "options",
-            "type": "ModalOptions",
-            "isOptional": true,
-            "canonicalReference": "@spartacus/storefront!ModalOptions:interface",
-            "shortType": "ModalOptions",
-            "importPath": "@spartacus/storefront"
-          }
-        ],
-        "returnType": "ModalRef"
-      },
-      { "kind": "Property", "name": "rootComponent", "type": "any" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "METHOD_CHANGED",
-        "changeType": "CHANGED",
-        "changeKind": "Method",
-        "changeLabel": "changed",
-        "changeElementName": "getActiveModal",
-        "changeElementCategory": "MEMBER",
-        "previousStateDoc": "\ngetActiveModal(): ModalRef\n",
-        "currentStateDoc": "\ngetActiveModal(): ModalRef | null\n",
-        "oldElement": {
-          "kind": "Method",
-          "name": "getActiveModal",
-          "overloadIndex": 1,
-          "parameters": [],
-          "returnType": "ModalRef"
-        },
-        "newElement": {
-          "kind": "Method",
-          "name": "getActiveModal",
-          "overloadIndex": 1,
-          "parameters": [],
-          "returnType": "ModalRef | null"
-        },
-        "topLevelApiElementName": "ModalService",
         "entryPoint": "@spartacus/storefront"
       }
     ]
@@ -113124,7 +113962,7 @@
         "changeElementName": "constructor",
         "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  activeModal: NgbActiveModal,\n  userOrderService: UserOrderService\n)\n",
-        "currentStateDoc": "\nconstructor(\n  activeModal: NgbActiveModal,\n  orderHistoryFacade: OrderHistoryFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderHistoryFacade: OrderHistoryFacade,\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
         "details": {
           "kind": "Constructor",
           "name": "constructor",
@@ -113148,6 +113986,32 @@
           ],
           "newParams": [
             {
+              "name": "orderHistoryFacade",
+              "type": "OrderHistoryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
+              "shortType": "OrderHistoryFacade",
+              "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
               "name": "activeModal",
               "type": "NgbActiveModal",
               "isOptional": false,
@@ -113155,16 +114019,6 @@
               "shortType": "NgbActiveModal",
               "importPath": "@ng-bootstrap/ng-bootstrap"
             },
-            {
-              "name": "orderHistoryFacade",
-              "type": "OrderHistoryFacade",
-              "isOptional": false,
-              "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
-              "shortType": "OrderHistoryFacade",
-              "importPath": "@spartacus/order/root"
-            }
-          ],
-          "removedParams": [
             {
               "name": "userOrderService",
               "type": "UserOrderService",
@@ -113182,11 +114036,67 @@
               "canonicalReference": "@spartacus/order_components!OrderHistoryFacade:class",
               "shortType": "OrderHistoryFacade",
               "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
             }
           ]
         },
         "topLevelApiElementName": "TrackingEventsComponent",
         "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "activeModal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "activeModal",
+          "type": "NgbActiveModal"
+        },
+        "apiElementName": "TrackingEventsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'activeModal' was removed from Class 'TrackingEventsComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "TrackingEventsComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "consignmentCode",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "consignmentCode",
+          "type": "string"
+        },
+        "apiElementName": "TrackingEventsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'consignmentCode' was removed from Class 'TrackingEventsComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "TrackingEventsComponent"
       }
     ]
   },
@@ -113713,6 +114623,174 @@
     ],
     "breakingChanges": [
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  userRegister: UserRegisterFacade,\n  globalMessageService: GlobalMessageService,\n  fb: FormBuilder,\n  router: RoutingService,\n  anonymousConsentsService: AnonymousConsentsService,\n  anonymousConsentsConfig: AnonymousConsentsConfig,\n  authConfigService: AuthConfigService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  globalMessageService: GlobalMessageService,\n  fb: UntypedFormBuilder,\n  router: RoutingService,\n  anonymousConsentsService: AnonymousConsentsService,\n  anonymousConsentsConfig: AnonymousConsentsConfig,\n  authConfigService: AuthConfigService,\n  registerComponentService: RegisterComponentService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "userRegister",
+              "type": "UserRegisterFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserRegisterFacade:class",
+              "shortType": "UserRegisterFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "router",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "anonymousConsentsService",
+              "type": "AnonymousConsentsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AnonymousConsentsService:class",
+              "shortType": "AnonymousConsentsService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "anonymousConsentsConfig",
+              "type": "AnonymousConsentsConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AnonymousConsentsConfig:class",
+              "shortType": "AnonymousConsentsConfig",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "authConfigService",
+              "type": "AuthConfigService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthConfigService:class",
+              "shortType": "AuthConfigService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "router",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "anonymousConsentsService",
+              "type": "AnonymousConsentsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AnonymousConsentsService:class",
+              "shortType": "AnonymousConsentsService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "anonymousConsentsConfig",
+              "type": "AnonymousConsentsConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AnonymousConsentsConfig:class",
+              "shortType": "AnonymousConsentsConfig",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "authConfigService",
+              "type": "AuthConfigService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthConfigService:class",
+              "shortType": "AuthConfigService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "registerComponentService",
+              "type": "RegisterComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RegisterComponentService:class",
+              "shortType": "RegisterComponentService",
+              "importPath": "@spartacus/user/profile/components"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "userRegister",
+              "type": "UserRegisterFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserRegisterFacade:class",
+              "shortType": "UserRegisterFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "fb",
+              "type": "UntypedFormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!UntypedFormBuilder:class",
+              "shortType": "UntypedFormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "registerComponentService",
+              "type": "RegisterComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RegisterComponentService:class",
+              "shortType": "RegisterComponentService",
+              "importPath": "@spartacus/user/profile/components"
+            }
+          ]
+        },
+        "topLevelApiElementName": "RegisterComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -113723,6 +114801,20 @@
         "newType": "Observable<{\n        consent: AnonymousConsent | undefined;\n        template: string;\n    }>",
         "previousStateDoc": "anonymousConsent$: Observable<{\n        consent: AnonymousConsent;\n        template: string;\n    }>",
         "currentStateDoc": "anonymousConsent$: Observable<{\n        consent: AnonymousConsent | undefined;\n        template: string;\n    }>",
+        "topLevelApiElementName": "RegisterComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "fb",
+        "changeElementCategory": "MEMBER",
+        "oldType": "FormBuilder",
+        "newType": "UntypedFormBuilder",
+        "previousStateDoc": "fb: FormBuilder",
+        "currentStateDoc": "fb: UntypedFormBuilder",
         "topLevelApiElementName": "RegisterComponent",
         "entryPoint": "@spartacus/user/profile/components"
       },
@@ -113769,6 +114861,2374 @@
         },
         "topLevelApiElementName": "RegisterComponent",
         "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "registerForm",
+        "changeElementCategory": "MEMBER",
+        "oldType": "FormGroup",
+        "newType": "UntypedFormGroup",
+        "previousStateDoc": "registerForm: FormGroup",
+        "currentStateDoc": "registerForm: UntypedFormGroup",
+        "topLevelApiElementName": "RegisterComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "userRegister",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "userRegister",
+          "type": "UserRegisterFacade"
+        },
+        "apiElementName": "RegisterComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'userRegister' was removed from Class 'RegisterComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "RegisterComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/cds",
+    "kind": "Class",
+    "name": "MerchandisingFacetNormalizer",
+    "isDeleted": true,
+    "deletedComment": "Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API.",
+    "migrationComment": "",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/cds",
+    "kind": "Class",
+    "name": "MerchandisingFacetToQueryparamNormalizer",
+    "isDeleted": true,
+    "deletedComment": "Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API.",
+    "migrationComment": "",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Interface",
+    "name": "ModalOptions",
+    "isDeleted": true,
+    "deletedComment": "Interface ModalOptions has been removed and is no longer part of the public API.",
+    "migrationComment": "For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalRef",
+    "isDeleted": true,
+    "deletedComment": "Class ModalRef has been removed and is no longer part of the public API.",
+    "migrationComment": "Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalDirective",
+    "isDeleted": true,
+    "deletedComment": "Class ModalDirective has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Interface",
+    "name": "ModalDirectiveOptions",
+    "isDeleted": true,
+    "deletedComment": "Interface ModalDirectiveOptions has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalDirectiveService",
+    "isDeleted": true,
+    "deletedComment": "Class ModalDirectiveService has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalModule",
+    "isDeleted": true,
+    "deletedComment": "Class ModalModule has been removed and is no longer part of the public API.",
+    "migrationComment": "For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "ModalService",
+    "isDeleted": true,
+    "deletedComment": "Class ModalService has been removed and is no longer part of the public API.",
+    "migrationComment": "Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.",
+    "breakingChanges": []
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "JsonLdScriptFactory",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "platformId",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          },
+          {
+            "name": "winRef",
+            "type": "WindowRef",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!WindowRef:class",
+            "shortType": "WindowRef",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "rendererFactory",
+            "type": "RendererFactory2",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!RendererFactory2:class",
+            "shortType": "RendererFactory2",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "sanitizer",
+            "type": "DomSanitizer",
+            "isOptional": false,
+            "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+            "shortType": "DomSanitizer",
+            "importPath": "@angular/platform-browser"
+          },
+          {
+            "name": "config",
+            "type": "SeoConfig",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+            "shortType": "SeoConfig",
+            "importPath": ""
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "build",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "schema",
+            "type": "{}[]",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "config", "type": "SeoConfig" },
+      {
+        "kind": "Method",
+        "name": "getJsonLdScriptElement",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "HTMLScriptElement"
+      },
+      {
+        "kind": "Method",
+        "name": "isJsonLdRequired",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "boolean"
+      },
+      { "kind": "Property", "name": "platformId", "type": "string" },
+      {
+        "kind": "Property",
+        "name": "rendererFactory",
+        "type": "RendererFactory2"
+      },
+      {
+        "kind": "Method",
+        "name": "sanitize",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "schema",
+            "type": "{}",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "string"
+      },
+      { "kind": "Property", "name": "sanitizer", "type": "DomSanitizer" },
+      { "kind": "Property", "name": "winRef", "type": "WindowRef" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  platformId: string,\n  winRef: WindowRef,\n  rendererFactory: RendererFactory2,\n  sanitizer: DomSanitizer,\n  config: SeoConfig\n)\n",
+        "currentStateDoc": "\nconstructor(\n  platformId: string,\n  winRef: WindowRef,\n  rendererFactory: RendererFactory2,\n  config: SeoConfig\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "platformId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "rendererFactory",
+              "type": "RendererFactory2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!RendererFactory2:class",
+              "shortType": "RendererFactory2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            },
+            {
+              "name": "config",
+              "type": "SeoConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+              "shortType": "SeoConfig",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "platformId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "rendererFactory",
+              "type": "RendererFactory2",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!RendererFactory2:class",
+              "shortType": "RendererFactory2",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "config",
+              "type": "SeoConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!SeoConfig:class",
+              "shortType": "SeoConfig",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "sanitizer",
+              "type": "DomSanitizer",
+              "isOptional": false,
+              "canonicalReference": "@angular/platform-browser!DomSanitizer:class",
+              "shortType": "DomSanitizer",
+              "importPath": "@angular/platform-browser"
+            }
+          ],
+          "addedParams": []
+        },
+        "topLevelApiElementName": "JsonLdScriptFactory",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitize",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "sanitize",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "schema",
+              "type": "{}",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "string"
+        },
+        "apiElementName": "JsonLdScriptFactory",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'sanitize' was removed from Class 'JsonLdScriptFactory'.",
+        "migrationComment": "Use 'escapeHtml' instead.",
+        "topLevelApiElementName": "JsonLdScriptFactory"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "sanitizer",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "sanitizer",
+          "type": "DomSanitizer"
+        },
+        "apiElementName": "JsonLdScriptFactory",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'sanitizer' was removed from Class 'JsonLdScriptFactory'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "JsonLdScriptFactory"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/cdc/root",
+    "kind": "Class",
+    "name": "CdcJsService",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "cdcConfig",
+            "type": "CdcConfig",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+            "shortType": "CdcConfig",
+            "importPath": "@spartacus/cdc/root"
+          },
+          {
+            "name": "baseSiteService",
+            "type": "BaseSiteService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+            "shortType": "BaseSiteService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "languageService",
+            "type": "LanguageService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+            "shortType": "LanguageService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "scriptLoader",
+            "type": "ScriptLoader",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+            "shortType": "ScriptLoader",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "winRef",
+            "type": "WindowRef",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+            "shortType": "WindowRef",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "cdcAuth",
+            "type": "CdcAuthFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+            "shortType": "CdcAuthFacade",
+            "importPath": "@spartacus/cdc/root"
+          },
+          {
+            "name": "auth",
+            "type": "AuthService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+            "shortType": "AuthService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "zone",
+            "type": "NgZone",
+            "isOptional": false,
+            "canonicalReference": "@angular/core!NgZone:class",
+            "shortType": "NgZone",
+            "importPath": "@angular/core"
+          },
+          {
+            "name": "userProfileFacade",
+            "type": "UserProfileFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+            "shortType": "UserProfileFacade",
+            "importPath": "@spartacus/user/profile/root"
+          },
+          {
+            "name": "platform",
+            "type": "any",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "addCdcEventHandlers",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "auth", "type": "AuthService" },
+      {
+        "kind": "Property",
+        "name": "baseSiteService",
+        "type": "BaseSiteService"
+      },
+      { "kind": "Property", "name": "cdcAuth", "type": "CdcAuthFacade" },
+      { "kind": "Property", "name": "cdcConfig", "type": "CdcConfig" },
+      {
+        "kind": "Method",
+        "name": "didLoad",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "didScriptFailToLoad",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "Observable<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "errorLoading$",
+        "type": "ReplaySubject<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "initialize",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "languageService",
+        "type": "LanguageService"
+      },
+      {
+        "kind": "Method",
+        "name": "loadCdcJavascript",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "loaded$",
+        "type": "ReplaySubject<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "ngOnDestroy",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onLoginEventHandler",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          },
+          {
+            "name": "response",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onProfileUpdateEventHandler",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "response",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "platform", "type": "any" },
+      {
+        "kind": "Method",
+        "name": "registerEventListeners",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "baseSite",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "scriptLoader", "type": "ScriptLoader" },
+      { "kind": "Property", "name": "subscription", "type": "Subscription" },
+      {
+        "kind": "Property",
+        "name": "userProfileFacade",
+        "type": "UserProfileFacade"
+      },
+      { "kind": "Property", "name": "winRef", "type": "WindowRef" },
+      { "kind": "Property", "name": "zone", "type": "NgZone" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  cdcConfig: CdcConfig,\n  baseSiteService: BaseSiteService,\n  languageService: LanguageService,\n  scriptLoader: ScriptLoader,\n  winRef: WindowRef,\n  cdcAuth: CdcAuthFacade,\n  auth: AuthService,\n  zone: NgZone,\n  userProfileFacade: UserProfileFacade,\n  platform: any\n)\n",
+        "currentStateDoc": "\nconstructor(\n  cdcConfig: CdcConfig,\n  baseSiteService: BaseSiteService,\n  languageService: LanguageService,\n  scriptLoader: ScriptLoader,\n  winRef: WindowRef,\n  cdcAuth: CdcAuthFacade,\n  auth: AuthService,\n  zone: NgZone,\n  userProfileFacade: UserProfileFacade,\n  platform: any,\n  globalMessageService: GlobalMessageService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "cdcConfig",
+              "type": "CdcConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+              "shortType": "CdcConfig",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "baseSiteService",
+              "type": "BaseSiteService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+              "shortType": "BaseSiteService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "languageService",
+              "type": "LanguageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+              "shortType": "LanguageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "scriptLoader",
+              "type": "ScriptLoader",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+              "shortType": "ScriptLoader",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cdcAuth",
+              "type": "CdcAuthFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+              "shortType": "CdcAuthFacade",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "auth",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "zone",
+              "type": "NgZone",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!NgZone:class",
+              "shortType": "NgZone",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "userProfileFacade",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "platform",
+              "type": "any",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "cdcConfig",
+              "type": "CdcConfig",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcConfig:class",
+              "shortType": "CdcConfig",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "baseSiteService",
+              "type": "BaseSiteService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!BaseSiteService:class",
+              "shortType": "BaseSiteService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "languageService",
+              "type": "LanguageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!LanguageService:class",
+              "shortType": "LanguageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "scriptLoader",
+              "type": "ScriptLoader",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!ScriptLoader:class",
+              "shortType": "ScriptLoader",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cdcAuth",
+              "type": "CdcAuthFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!CdcAuthFacade:class",
+              "shortType": "CdcAuthFacade",
+              "importPath": "@spartacus/cdc/root"
+            },
+            {
+              "name": "auth",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "zone",
+              "type": "NgZone",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!NgZone:class",
+              "shortType": "NgZone",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "userProfileFacade",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "platform",
+              "type": "any",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "removedParams": [],
+          "addedParams": [
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cdc_root!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CdcJsService",
+        "entryPoint": "@spartacus/cdc/root"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/user/profile/components",
+    "kind": "Class",
+    "name": "CloseAccountModalComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "authService",
+            "type": "AuthService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+            "shortType": "AuthService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "globalMessageService",
+            "type": "GlobalMessageService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+            "shortType": "GlobalMessageService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "routingService",
+            "type": "RoutingService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+            "shortType": "RoutingService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "translationService",
+            "type": "TranslationService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+            "shortType": "TranslationService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "userProfile",
+            "type": "UserProfileFacade",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+            "shortType": "UserProfileFacade",
+            "importPath": "@spartacus/user/profile/root"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "authService", "type": "AuthService" },
+      {
+        "kind": "Method",
+        "name": "closeAccount",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "dismissModal",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "reason",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "globalMessageService",
+        "type": "GlobalMessageService"
+      },
+      { "kind": "Property", "name": "iconTypes", "type": "typeof ICON_TYPE" },
+      {
+        "kind": "Property",
+        "name": "isLoading$",
+        "type": "BehaviorSubject<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "isLoggedIn$",
+        "type": "Observable<boolean>"
+      },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Method",
+        "name": "ngOnInit",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onError",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "onSuccess",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "routingService",
+        "type": "RoutingService"
+      },
+      {
+        "kind": "Property",
+        "name": "translationService",
+        "type": "TranslationService"
+      },
+      { "kind": "Property", "name": "userProfile", "type": "UserProfileFacade" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  authService: AuthService,\n  globalMessageService: GlobalMessageService,\n  routingService: RoutingService,\n  translationService: TranslationService,\n  userProfile: UserProfileFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  authService: AuthService,\n  globalMessageService: GlobalMessageService,\n  routingService: RoutingService,\n  translationService: TranslationService,\n  userProfile: UserProfileFacade,\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "authService",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userProfile",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "authService",
+              "type": "AuthService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!AuthService:class",
+              "shortType": "AuthService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userProfile",
+              "type": "UserProfileFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!UserProfileFacade:class",
+              "shortType": "UserProfileFacade",
+              "importPath": "@spartacus/user/profile/root"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CloseAccountModalComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "isLoading$",
+        "changeElementCategory": "MEMBER",
+        "oldType": "BehaviorSubject<boolean>",
+        "newType": "Observable<boolean>",
+        "previousStateDoc": "isLoading$: BehaviorSubject<boolean>",
+        "currentStateDoc": "isLoading$: Observable<boolean>",
+        "topLevelApiElementName": "CloseAccountModalComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CloseAccountModalComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountModalComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CloseAccountModalComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/user/profile/components",
+    "kind": "Class",
+    "name": "CloseAccountComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "modal", "type": "any" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Method",
+        "name": "openModal",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/user_profile_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CloseAccountComponent",
+        "entryPoint": "@spartacus/user/profile/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": { "kind": "Property", "name": "modal", "type": "any" },
+        "apiElementName": "CloseAccountComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modal' was removed from Class 'CloseAccountComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CloseAccountComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CloseAccountComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/user/profile/components",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CloseAccountComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CloseAccountComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "CouponCardComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "myCouponsComponentService",
+            "type": "MyCouponsComponentService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+            "shortType": "MyCouponsComponentService",
+            "importPath": ""
+          }
+        ]
+      },
+      { "kind": "Property", "name": "coupon", "type": "CustomerCoupon" },
+      {
+        "kind": "Property",
+        "name": "couponSubscriptionLoading$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "findProducts",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "modalRef", "type": "ModalRef" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Property",
+        "name": "myCouponsComponentService",
+        "type": "MyCouponsComponentService"
+      },
+      {
+        "kind": "Property",
+        "name": "notificationChanged",
+        "type": "EventEmitter<{\n        couponId: string;\n        notification: boolean;\n    }>"
+      },
+      {
+        "kind": "Method",
+        "name": "onSubscriptionChange",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "readMore",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  myCouponsComponentService: MyCouponsComponentService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  myCouponsComponentService: MyCouponsComponentService,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "myCouponsComponentService",
+              "type": "MyCouponsComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+              "shortType": "MyCouponsComponentService",
+              "importPath": ""
+            }
+          ],
+          "newParams": [
+            {
+              "name": "myCouponsComponentService",
+              "type": "MyCouponsComponentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!MyCouponsComponentService:class",
+              "shortType": "MyCouponsComponentService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CouponCardComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalRef",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalRef",
+          "type": "ModalRef"
+        },
+        "apiElementName": "CouponCardComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'CouponCardComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CouponCardComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CouponCardComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponCardComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CouponCardComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "CouponDialogComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "coupon", "type": "CustomerCoupon" },
+      { "kind": "Property", "name": "dialog", "type": "ElementRef" },
+      {
+        "kind": "Method",
+        "name": "dismissModal",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "reason",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "iconTypes", "type": "typeof ICON_TYPE" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "CouponDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "dialog",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "dialog",
+          "type": "ElementRef"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'dialog' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "dismissModal",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "dismissModal",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "reason",
+              "type": "any",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "void"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'dismissModal' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "It is replaced by 'close' method.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "CouponDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'CouponDialogComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead.",
+        "topLevelApiElementName": "CouponDialogComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "StockNotificationDialogComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "interestsService",
+            "type": "UserInterestsService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+            "shortType": "UserInterestsService",
+            "importPath": "@spartacus/core"
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "close",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "enabledPrefs",
+        "type": "NotificationPreference[]"
+      },
+      {
+        "kind": "Method",
+        "name": "ngOnDestroy",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "subscribeSuccess$",
+        "type": "Observable<boolean>"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService,\n  interestsService: UserInterestsService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  interestsService: UserInterestsService,\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "interestsService",
+              "type": "UserInterestsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+              "shortType": "UserInterestsService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "interestsService",
+              "type": "UserInterestsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+              "shortType": "UserInterestsService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "StockNotificationDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "StockNotificationComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "currentProductService",
+            "type": "CurrentProductService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!CurrentProductService:class",
+            "shortType": "CurrentProductService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "globalMessageService",
+            "type": "GlobalMessageService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+            "shortType": "GlobalMessageService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "translationService",
+            "type": "TranslationService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!TranslationService:class",
+            "shortType": "TranslationService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "interestsService",
+            "type": "UserInterestsService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+            "shortType": "UserInterestsService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          },
+          {
+            "name": "notificationPrefService",
+            "type": "UserNotificationPreferenceService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!UserNotificationPreferenceService:class",
+            "shortType": "UserNotificationPreferenceService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "userIdService",
+            "type": "UserIdService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!UserIdService:class",
+            "shortType": "UserIdService",
+            "importPath": "@spartacus/core"
+          }
+        ]
+      },
+      { "kind": "Property", "name": "anonymous", "type": "boolean" },
+      {
+        "kind": "Property",
+        "name": "hasProductInterests$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "isRemoveInterestLoading$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "ngOnDestroy",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "ngOnInit",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Property",
+        "name": "outOfStock$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Property",
+        "name": "prefsEnabled$",
+        "type": "Observable<boolean>"
+      },
+      {
+        "kind": "Method",
+        "name": "subscribe",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      {
+        "kind": "Method",
+        "name": "unsubscribe",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  currentProductService: CurrentProductService,\n  globalMessageService: GlobalMessageService,\n  translationService: TranslationService,\n  interestsService: UserInterestsService,\n  modalService: ModalService,\n  notificationPrefService: UserNotificationPreferenceService,\n  userIdService: UserIdService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  currentProductService: CurrentProductService,\n  globalMessageService: GlobalMessageService,\n  translationService: TranslationService,\n  interestsService: UserInterestsService,\n  notificationPrefService: UserNotificationPreferenceService,\n  userIdService: UserIdService,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "currentProductService",
+              "type": "CurrentProductService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!CurrentProductService:class",
+              "shortType": "CurrentProductService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "interestsService",
+              "type": "UserInterestsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+              "shortType": "UserInterestsService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "notificationPrefService",
+              "type": "UserNotificationPreferenceService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserNotificationPreferenceService:class",
+              "shortType": "UserNotificationPreferenceService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userIdService",
+              "type": "UserIdService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserIdService:class",
+              "shortType": "UserIdService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "currentProductService",
+              "type": "CurrentProductService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!CurrentProductService:class",
+              "shortType": "CurrentProductService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "interestsService",
+              "type": "UserInterestsService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserInterestsService:class",
+              "shortType": "UserInterestsService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "notificationPrefService",
+              "type": "UserNotificationPreferenceService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserNotificationPreferenceService:class",
+              "shortType": "UserNotificationPreferenceService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "userIdService",
+              "type": "UserIdService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!UserIdService:class",
+              "shortType": "UserIdService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "StockNotificationComponent",
+        "entryPoint": "@spartacus/storefront"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
+    "name": "SuggestedAddressDialogComponent",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "modalService",
+            "type": "ModalService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/storefront!ModalService:class",
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
+          }
+        ]
+      },
+      {
+        "kind": "Method",
+        "name": "closeModal",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "reason",
+            "type": "any",
+            "isOptional": true,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "enteredAddress", "type": "Address" },
+      { "kind": "Property", "name": "iconTypes", "type": "typeof ICON_TYPE" },
+      { "kind": "Property", "name": "modalService", "type": "ModalService" },
+      {
+        "kind": "Method",
+        "name": "ngOnInit",
+        "overloadIndex": 1,
+        "parameters": [],
+        "returnType": "void"
+      },
+      { "kind": "Property", "name": "selectedAddress", "type": "Address" },
+      { "kind": "Property", "name": "suggestedAddresses", "type": "Address[]" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  launchDialogService: LaunchDialogService,\n  el: ElementRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/storefront!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "el",
+              "type": "ElementRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ElementRef:class",
+              "shortType": "ElementRef",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "SuggestedAddressDialogComponent",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "enteredAddress",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "enteredAddress",
+          "type": "Address"
+        },
+        "apiElementName": "SuggestedAddressDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'enteredAddress' was removed from Class 'SuggestedAddressDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "SuggestedAddressDialogComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "modalService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "modalService",
+          "type": "ModalService"
+        },
+        "apiElementName": "SuggestedAddressDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'SuggestedAddressDialogComponent'.",
+        "migrationComment": "Use 'launchDialogService' instead",
+        "topLevelApiElementName": "SuggestedAddressDialogComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "suggestedAddresses",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "suggestedAddresses",
+          "type": "Address[]"
+        },
+        "apiElementName": "SuggestedAddressDialogComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'suggestedAddresses' was removed from Class 'SuggestedAddressDialogComponent'.",
+        "migrationComment": "It is not used anymore.",
+        "topLevelApiElementName": "SuggestedAddressDialogComponent"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/core",
+    "kind": "Function",
+    "name": "createFrom",
+    "parameters": [
+      {
+        "name": "type",
+        "type": "Type<T>",
+        "isOptional": false,
+        "canonicalReference": "@angular/core!Type:interface",
+        "shortType": "Type",
+        "importPath": "@angular/core"
+      },
+      {
+        "name": "data",
+        "type": "T",
+        "isOptional": false,
+        "canonicalReference": "",
+        "shortType": "",
+        "importPath": ""
+      }
+    ],
+    "returnType": "T",
+    "breakingChanges": [
+      {
+        "change": "FUNCTION_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Function",
+        "changeLabel": "changed",
+        "changeElementName": "createFrom",
+        "changeElementCategory": "TOP_LEVEL_API",
+        "previousStateDoc": "\ncreateFrom<T>(\n  type: Type<T>, \n  data: T\n): T\n",
+        "currentStateDoc": "\ncreateFrom<T extends object>(\n  type: Type<T>, \n  data: T\n): T\n",
+        "oldElement": {
+          "entryPoint": "@spartacus/core",
+          "kind": "Function",
+          "name": "createFrom",
+          "parameters": [
+            {
+              "name": "type",
+              "type": "Type<T>",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Type:interface",
+              "shortType": "Type",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "data",
+              "type": "T",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "T"
+        },
+        "newElement": {
+          "entryPoint": "@spartacus/core",
+          "kind": "Function",
+          "name": "createFrom",
+          "parameters": [
+            {
+              "name": "type",
+              "type": "Type<T>",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!Type:interface",
+              "shortType": "Type",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "data",
+              "type": "T",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "T"
+        },
+        "topLevelApiElementName": "createFrom",
+        "entryPoint": "@spartacus/core"
       }
     ]
   }

@@ -1127,7 +1127,8 @@ Previous version:
 constructor(
   strategyConnector: MerchandisingStrategyConnector,
   merchandisingUserContextService: CdsMerchandisingUserContextService,
-  merchandisingSiteContextService: CdsMerchandisingSiteContextService
+  merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+  merchandisingSearchContextService: CdsMerchandisingSearchContextService
 )
 
 ```
@@ -1140,11 +1141,41 @@ Current version:
 constructor(
   strategyConnector: MerchandisingStrategyConnector,
   merchandisingUserContextService: CdsMerchandisingUserContextService,
-  merchandisingSiteContextService: CdsMerchandisingSiteContextService,
-  merchandisingSearchContextService: CdsMerchandisingSearchContextService
+  merchandisingSiteContextService: CdsMerchandisingSiteContextService
 )
 
 ```
+
+
+### Method loadProductsForStrategy changed.
+
+
+Previous version: 
+
+```
+
+loadProductsForStrategy(
+  strategyId: string,
+  numberToDisplay: number
+): Observable<StrategyProducts>
+
+```
+
+
+Current version: 
+
+```
+
+loadProductsForStrategy(
+  strategyId: string,
+  numberToDisplay: number
+): Observable<StrategyResponse>
+
+```
+
+
+### Property merchandisingSearchContextService is removed.
+
 
 
 
@@ -1177,9 +1208,9 @@ Current version:
 constructor(
   routingService: RoutingService,
   productSearchService: ProductSearchService,
-  converterService: ConverterService,
   profileTagEventService: ProfileTagEventService,
-  profileTagLifecycleService: ProfileTagLifecycleService
+  profileTagLifecycleService: ProfileTagLifecycleService,
+  facetService: FacetService
 )
 
 ```
@@ -2094,6 +2125,51 @@ moved to @spartacus/order/components
 moved to @spartacus/checkout/base/components
 renamed to CheckoutPaymentFormComponent
 
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+ checkoutPaymentService: CheckoutPaymentFacade,
+ checkoutDeliveryService: CheckoutDeliveryFacade,
+ userPaymentService: UserPaymentService,
+ globalMessageService: GlobalMessageService,
+ fb: FormBuilder,
+ modalService: ModalService,
+ userAddressService: UserAddressService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  userPaymentService: UserPaymentService,
+  globalMessageService: GlobalMessageService,
+  fb: UntypedFormBuilder,
+  userAddressService: UserAddressService,
+  launchDialogService: LaunchDialogService
+)
+
+```
+
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+### Property suggestedAddressModalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -13976,11 +14052,16 @@ Current version:
 
 constructor(
   orderHistoryFacade: OrderHistoryFacade,
-  modalService: ModalService
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
 )
 
 ```
 
+
+### Property modalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -14320,12 +14401,21 @@ Current version:
 ```
 
 constructor(
-  activeModal: NgbActiveModal,
-  orderHistoryFacade: OrderHistoryFacade
+  orderHistoryFacade: OrderHistoryFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
 )
 
 ```
 
+
+### Property activeModal is removed.
+
+Use 'launchDialogService' instead.
+
+### Property consignmentCode is removed.
+
+It is not used anymore.
 
 
 
@@ -19623,8 +19713,10 @@ Current version:
 ```
 
 constructor(
-  modalService: ModalService,
-  activeCartFacade: ActiveCartFacade
+  activeCartFacade: ActiveCartFacade,
+  launchDialogService: LaunchDialogService,
+  routingService: RoutingService,
+  el: ElementRef
 )
 
 ```
@@ -19633,6 +19725,10 @@ constructor(
 ### Property cartService is removed.
 
 
+
+### Property dialog is removed.
+
+It is not used anymore.
 
 ### Property entry$ changed.
 
@@ -19651,12 +19747,96 @@ entry$: Observable<OrderEntry | undefined>
 ```
 
 
-### Method ngOnInit is removed.
+### Property form changed.
 
 
+Previous version: 
+
+```
+form: FormGroup
+```
+
+
+Current version: 
+
+```
+form: UntypedFormGroup
+```
+
+
+### Method getQuantityControl changed.
+
+
+Previous version: 
+
+```
+
+getQuantityControl(): Observable<FormControl>
+
+```
+
+
+Current version: 
+
+```
+
+getQuantityControl(): Observable<UntypedFormControl>
+
+```
+
+
+### Method getQuantityFormControl changed.
+
+
+Previous version: 
+
+```
+
+getQuantityFormControl(
+  entry: OrderEntry
+): FormControl
+
+```
+
+
+Current version: 
+
+```
+
+getQuantityFormControl(
+  entry: OrderEntry
+): UntypedFormControl
+
+```
+
+
+### Property modalIsOpen is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
 
 ### Property numberOfEntriesBeforeAdd is removed.
 
+
+
+### Property quantityControl$ changed.
+
+
+Previous version: 
+
+```
+quantityControl$: Observable<FormControl>
+```
+
+
+Current version: 
+
+```
+quantityControl$: Observable<UntypedFormControl>
+```
 
 
 
@@ -19783,6 +19963,62 @@ setAddressAsDefault(
 ## @spartacus/storefront
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  fb: FormBuilder,
+  userService: UserService,
+  userAddressService: UserAddressService,
+  globalMessageService: GlobalMessageService,
+  modalService: ModalService,
+  translation: TranslationService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  fb: UntypedFormBuilder,
+  userService: UserService,
+  userAddressService: UserAddressService,
+  globalMessageService: GlobalMessageService,
+  translation: TranslationService,
+  launchDialogService: LaunchDialogService
+)
+
+```
+
+
+### Property addressForm changed.
+
+
+Previous version: 
+
+```
+addressForm: FormGroup
+```
+
+
+Current version: 
+
+```
+addressForm: UntypedFormGroup
+```
+
+
+### Property addressVerifySub is removed.
+
+It is not used anymore.
+
 ### Method countrySelected changed.
 
 
@@ -19808,22 +20044,34 @@ countrySelected(
 ```
 
 
-### Property suggestedAddressModalRef changed.
+### Property fb changed.
 
 
 Previous version: 
 
 ```
-suggestedAddressModalRef: ModalRef
+fb: FormBuilder
 ```
 
 
 Current version: 
 
 ```
-suggestedAddressModalRef: ModalRef | null
+fb: UntypedFormBuilder
 ```
 
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+### Property regionsSub is removed.
+
+It is not used anymore.
+
+### Property suggestedAddressModalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -21374,11 +21622,16 @@ Current version:
 
 constructor(
   orderHistoryFacade: OrderHistoryFacade,
-  modalService: ModalService
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
 )
 
 ```
 
+
+### Property modalRef is removed.
+
+It is not used anymore.
 
 
 
@@ -21986,6 +22239,34 @@ constructor(
 ## @spartacus/storefront
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  jsonLdScriptFactory: JsonLdScriptFactory,
+  sanitizer: DomSanitizer
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  renderer: Renderer2,
+  jsonLdScriptFactory: JsonLdScriptFactory,
+  element: ElementRef
+)
+
+```
+
+
 ### Method generateJsonLdScript changed.
 
 
@@ -22006,26 +22287,17 @@ Current version:
 
 generateJsonLdScript(
   schema: string | {}
-): SafeHtml | undefined
+): void
 
 ```
 
 
-### Property jsonLD changed.
+### Property jsonLD is removed.
 
 
-Previous version: 
 
-```
-jsonLD: SafeHtml
-```
+### Property sanitizer is removed.
 
-
-Current version: 
-
-```
-jsonLD: SafeHtml | undefined
-```
 
 
 
@@ -22065,7 +22337,7 @@ dialogClose: Observable<string>
 Current version: 
 
 ```
-dialogClose: Observable<string | undefined>
+dialogClose: Observable<any | undefined>
 ```
 
 
@@ -22338,33 +22610,6 @@ constructor(
 ## @spartacus/storefront
 
 moved to @spartacus/cart/base/components/mini-cart
-
-
-
-
-# Class ModalService 
-## @spartacus/storefront
-
-
-### Method getActiveModal changed.
-
-
-Previous version: 
-
-```
-
-getActiveModal(): ModalRef
-
-```
-
-
-Current version: 
-
-```
-
-getActiveModal(): ModalRef | null
-
-```
 
 
 
@@ -25431,12 +25676,21 @@ Current version:
 ```
 
 constructor(
-  activeModal: NgbActiveModal,
-  orderHistoryFacade: OrderHistoryFacade
+  orderHistoryFacade: OrderHistoryFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
 )
 
 ```
 
+
+### Property activeModal is removed.
+
+Use 'launchDialogService' instead.
+
+### Property consignmentCode is removed.
+
+It is not used anymore.
 
 
 
@@ -25537,6 +25791,43 @@ moved to @spartacus/cart/wish-list
 ## @spartacus/user/profile/components
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userRegister: UserRegisterFacade,
+  globalMessageService: GlobalMessageService,
+  fb: FormBuilder,
+  router: RoutingService,
+  anonymousConsentsService: AnonymousConsentsService,
+  anonymousConsentsConfig: AnonymousConsentsConfig,
+  authConfigService: AuthConfigService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService,
+  fb: UntypedFormBuilder,
+  router: RoutingService,
+  anonymousConsentsService: AnonymousConsentsService,
+  anonymousConsentsConfig: AnonymousConsentsConfig,
+  authConfigService: AuthConfigService,
+  registerComponentService: RegisterComponentService
+)
+
+```
+
+
 ### Property anonymousConsent$ changed.
 
 
@@ -25557,6 +25848,23 @@ anonymousConsent$: Observable<{
         consent: AnonymousConsent | undefined;
         template: string;
     }>
+```
+
+
+### Property fb changed.
+
+
+Previous version: 
+
+```
+fb: FormBuilder
+```
+
+
+Current version: 
+
+```
+fb: UntypedFormBuilder
 ```
 
 
@@ -25581,6 +25889,547 @@ Current version:
 isConsentGiven(
   consent: AnonymousConsent | undefined
 ): boolean
+
+```
+
+
+### Property registerForm changed.
+
+
+Previous version: 
+
+```
+registerForm: FormGroup
+```
+
+
+Current version: 
+
+```
+registerForm: UntypedFormGroup
+```
+
+
+### Property userRegister is removed.
+
+
+
+
+
+# Class MerchandisingFacetNormalizer 
+## @spartacus/cds
+
+
+Class MerchandisingFacetNormalizer has been removed and is no longer part of the public API.
+
+
+
+
+# Class MerchandisingFacetToQueryparamNormalizer 
+## @spartacus/cds
+
+
+Class MerchandisingFacetToQueryparamNormalizer has been removed and is no longer part of the public API.
+
+
+
+
+# Interface ModalOptions 
+## @spartacus/storefront
+
+
+Interface ModalOptions has been removed and is no longer part of the public API.
+For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalRef 
+## @spartacus/storefront
+
+
+Class ModalRef has been removed and is no longer part of the public API.
+Because 'LaunchDialogService' that is used instead of 'ModalService' returns Observable<any> | undefined, ModalRef interface is no longer needed. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalDirective 
+## @spartacus/storefront
+
+
+Class ModalDirective has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Interface ModalDirectiveOptions 
+## @spartacus/storefront
+
+
+Interface ModalDirectiveOptions has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalDirectiveService 
+## @spartacus/storefront
+
+
+Class ModalDirectiveService has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalModule 
+## @spartacus/storefront
+
+
+Class ModalModule has been removed and is no longer part of the public API.
+For more information, see the 5.0 migration guide.
+
+
+
+# Class ModalService 
+## @spartacus/storefront
+
+
+Class ModalService has been removed and is no longer part of the public API.
+Use 'LaunchDialogService' instead. For more information, see the 5.0 migration guide.
+
+
+
+# Class JsonLdScriptFactory 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  platformId: string,
+  winRef: WindowRef,
+  rendererFactory: RendererFactory2,
+  sanitizer: DomSanitizer,
+  config: SeoConfig
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  platformId: string,
+  winRef: WindowRef,
+  rendererFactory: RendererFactory2,
+  config: SeoConfig
+)
+
+```
+
+
+### Method sanitize is removed.
+
+Use 'escapeHtml' instead.
+
+### Property sanitizer is removed.
+
+
+
+
+
+# Class CdcJsService 
+## @spartacus/cdc/root
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  cdcConfig: CdcConfig,
+  baseSiteService: BaseSiteService,
+  languageService: LanguageService,
+  scriptLoader: ScriptLoader,
+  winRef: WindowRef,
+  cdcAuth: CdcAuthFacade,
+  auth: AuthService,
+  zone: NgZone,
+  userProfileFacade: UserProfileFacade,
+  platform: any
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  cdcConfig: CdcConfig,
+  baseSiteService: BaseSiteService,
+  languageService: LanguageService,
+  scriptLoader: ScriptLoader,
+  winRef: WindowRef,
+  cdcAuth: CdcAuthFacade,
+  auth: AuthService,
+  zone: NgZone,
+  userProfileFacade: UserProfileFacade,
+  platform: any,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+
+
+# Class CloseAccountModalComponent 
+## @spartacus/user/profile/components
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  authService: AuthService,
+  globalMessageService: GlobalMessageService,
+  routingService: RoutingService,
+  translationService: TranslationService,
+  userProfile: UserProfileFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  authService: AuthService,
+  globalMessageService: GlobalMessageService,
+  routingService: RoutingService,
+  translationService: TranslationService,
+  userProfile: UserProfileFacade,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property isLoading$ changed.
+
+
+Previous version: 
+
+```
+isLoading$: BehaviorSubject<boolean>
+```
+
+
+Current version: 
+
+```
+isLoading$: Observable<boolean>
+```
+
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class CloseAccountComponent 
+## @spartacus/user/profile/components
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property modal is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class CouponCardComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  myCouponsComponentService: MyCouponsComponentService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  myCouponsComponentService: MyCouponsComponentService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property modalRef is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class CouponDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property dialog is removed.
+
+It is not used anymore.
+
+### Method dismissModal is removed.
+
+It is replaced by 'close' method.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead.
+
+
+
+# Class StockNotificationDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService,
+  interestsService: UserInterestsService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  interestsService: UserInterestsService,
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+
+
+# Class StockNotificationComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  currentProductService: CurrentProductService,
+  globalMessageService: GlobalMessageService,
+  translationService: TranslationService,
+  interestsService: UserInterestsService,
+  modalService: ModalService,
+  notificationPrefService: UserNotificationPreferenceService,
+  userIdService: UserIdService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  currentProductService: CurrentProductService,
+  globalMessageService: GlobalMessageService,
+  translationService: TranslationService,
+  interestsService: UserInterestsService,
+  notificationPrefService: UserNotificationPreferenceService,
+  userIdService: UserIdService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+
+
+# Class SuggestedAddressDialogComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  launchDialogService: LaunchDialogService,
+  el: ElementRef
+)
+
+```
+
+
+### Property enteredAddress is removed.
+
+It is not used anymore.
+
+### Property modalService is removed.
+
+Use 'launchDialogService' instead
+
+### Property suggestedAddresses is removed.
+
+It is not used anymore.
+
+
+
+# Function createFrom 
+## @spartacus/core
+
+
+Function createFrom changed.
+
+Previous version: 
+
+```
+
+createFrom<T>(
+  type: Type<T>, 
+  data: T
+): T
+
+```
+
+
+Current version: 
+
+```
+
+createFrom<T extends object>(
+  type: Type<T>, 
+  data: T
+): T
 
 ```
 
