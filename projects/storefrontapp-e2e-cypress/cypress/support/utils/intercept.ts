@@ -68,6 +68,6 @@ function interceptAndAlias(
     path: baseSitePrefix
       ? `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}${path}`
       : path,
-  }).as(aliasName);
+  }, req => req.continue(res => { res.setDelay(3000); })).as(aliasName);
   return `@${aliasName}`;
 }
