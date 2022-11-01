@@ -59,7 +59,7 @@ export interface TicketEvent {
   toStatus?: Status;
   code?: string;
   addedByAgent?: boolean;
-  attachments?: Array<Attachment>;
+  ticketEventAttachments?: Array<Attachment>;
 }
 
 export interface Attachment {

@@ -45,7 +45,13 @@
             <a
               *ngFor="let attachment of message.attachments"
               class="cx-attachment"
-              href="{{ attachment.URL }}"
+              (click)="
+                triggerDownload(
+                  message?.code,
+                  attachment.id,
+                  attachment.filename
+                )
+              "
               target="_blank"
             >
               <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
@@ -57,7 +63,11 @@
     </div>
   </div>
 
-  <div [formGroup]="form" class="cx-message-footer">
+  <div
+    [formGroup]="form"
+    class="cx-message-footer"
+    *ngIf="messagingConfigs.displayAddMessageSection | async"
+  >
     <div class="cx-message-box">
       <label class="cx-footer-label">
         <span>
@@ -68,6 +78,7 @@
             formControlName="message"
             type="text"
             class="form-control"
+            (keydown.enter)="onSend()"
             [maxLength]="
               messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
             "

@@ -24,6 +24,7 @@ import {
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
         'createTicket',
+        'uploadAttachment',
       ],
     }),
 })
@@ -46,7 +47,15 @@ export abstract class CustomerTicketingFacade {
     ticket: TicketStarter
   ): Observable<TicketDetails | unknown>;
 
-  abstract createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown>;
+  abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
+
+  abstract uploadAttachment(
+    file: File | null,
+    eventCode: string
+  ): Observable<unknown>;
+
+  abstract downloadAttachment(
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown>;
 }

@@ -51,8 +51,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent),
-        this.eventService.get(TicketEventCreatedEvent)
+        this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
@@ -78,15 +77,21 @@ export class CustomerTicketingEventListener implements OnDestroy {
   protected onTicketEventCreated(): void {
     this.subscriptions.add(
       this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
-        this.globalMessageService.add(
-          {
-            key:
-              status === STATUS.CLOSED
-                ? 'customerTicketing.requestClosed'
-                : 'customerTicketing.requestReopened',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
+        if (status === STATUS.CLOSED) {
+          this.globalMessageService.add(
+            {
+              key: 'customerTicketing.requestClosed',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        } else if (status === STATUS.INPROCESS || status === STATUS.OPEN) {
+          this.globalMessageService.add(
+            {
+              key: 'customerTicketing.requestReopened',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }
       })
     );
   }

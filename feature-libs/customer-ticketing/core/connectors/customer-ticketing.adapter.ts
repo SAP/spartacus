@@ -29,4 +29,18 @@ export abstract class CustomerTicketingAdapter {
     ticketId: string,
     ticketEvent: TicketEvent
   ): Observable<TicketEvent>;
+
+  abstract uploadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    file: File
+  ): Observable<unknown>;
+
+  abstract downloadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown>;
 }

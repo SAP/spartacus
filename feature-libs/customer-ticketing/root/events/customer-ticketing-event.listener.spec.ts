@@ -132,4 +132,28 @@ describe('CustomerTicketingEventListener', () => {
       );
     });
   });
+
+  describe('onTicketEventCreated', () => {
+    it('TicketEventCreatedEvent should trigger requestClosed global message', () => {
+      mockEventStream$.next(
+        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSED })
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'customerTicketing.requestClosed' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('TicketEventCreatedEvent should trigger requestReopened global message', () => {
+      mockEventStream$.next(
+        createFrom(TicketEventCreatedEvent, { status: STATUS.OPEN })
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'customerTicketing.requestReopened' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+  });
 });

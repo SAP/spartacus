@@ -28,11 +28,23 @@ declare module '@spartacus/core' {
      */
     getTicketAssociatedObjects?: string | OccEndpoint;
 
-    /**
      * Endpoint to create ticket
      *
      * * @member {string}
      */
     createTicket?: string | OccEndpoint;
+
+     * Endpoint to upload an attachment
+     *
+     * * @member {string}
+     */
+    uploadAttachment?: string | OccEndpoint;
+
+    /**
+     * Endpoint to download an attachment
+     *
+     * * @member {string}
+     */
+    downloadAttachment?: string | OccEndpoint;
   }
 }
