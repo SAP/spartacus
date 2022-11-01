@@ -49,7 +49,6 @@ export function verifyTicketListingPageVisit(){
 }
 
 export function clickFirstTicketFromTicketListing(){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
   cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
 }
 
@@ -58,14 +57,14 @@ export function verifyTicketDetailsPageVisit(){
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
 
-export function visitPage(page: string, alias: string){
-  cy.intercept(page).as(alias);
+export function visitPage(page: string, alias?: string){
+  cy.intercept(page).as(alias? alias : page);
   cy.visit(page);
-  cy.wait(`@${alias}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
+  cy.wait(`@${alias? alias : page}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
 }
 
 export function visitElectronicTicketListingPage() {
-  visitPage('/my-account/support-tickets', 'supportPage');
+  visitPage('/my-account/support-tickets', 'ticketListingPage');
 }
 
 
@@ -148,5 +147,5 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 }
 
 export function visitApparelUKTicketListingPage(){
-  visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'getApparelSupportPage');
+  visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
