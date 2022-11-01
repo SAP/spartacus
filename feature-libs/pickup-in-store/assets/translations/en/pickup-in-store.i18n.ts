@@ -25,6 +25,12 @@ const pickupOptions = {
   selectStore: 'Select Store',
 };
 
+/** Translation keys for the SetPreferredStoreComponent */
+export const setPreferredStore = {
+  makeThisMyStore: 'Make This My Store',
+  myStore: 'My Store',
+};
+
 /** Translation keys for the StoreComponent */
 export const store = {
   pickupFromHere: 'Pick Up from here',
@@ -59,6 +65,7 @@ export const pickupInStore = {
   pickupInfo,
   pickupOptionDialog,
   pickupOptions,
+  setPreferredStore,
   store,
   storeList,
   storeSchedule,

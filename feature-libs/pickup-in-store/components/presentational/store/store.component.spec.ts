@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
+import { SetPreferredStoreStubComponent } from '../../container/set-preferred-store/set-preferred-store.component.spec';
 import { StoreAddressStubComponent } from './store-address/store-address.component.spec';
 import { StoreScheduleStubComponent } from './store-schedule/store-schedule.component.spec';
 import { StoreComponent } from './store.component';
@@ -15,6 +16,7 @@ describe('StoreComponent', () => {
         StoreComponent,
         StoreAddressStubComponent,
         StoreScheduleStubComponent,
+        SetPreferredStoreStubComponent,
       ],
       imports: [I18nTestingModule, IconTestingModule],
     }).compileComponents();

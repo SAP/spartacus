@@ -81,7 +81,11 @@ export class MockIntendedPickupLocationService
   getIntendedLocation(
     _productCode: string
   ): Observable<AugmentedPointOfService | undefined> {
-    return of(undefined);
+    const result: AugmentedPointOfService = {
+      pickupOption: 'pickup',
+      displayName: 'London School',
+    };
+    return of(result);
   }
   setIntendedLocation(
     _productCode: string,

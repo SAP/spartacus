@@ -8,6 +8,7 @@ import * as BrowserLocationActions from './browser-location.action';
 import * as PickupLocationActions from './pickup-location.action';
 import * as PickupOptionActions from './pickup-option.action';
 import * as StockLevelActions from './stock.action';
+import * as DefaultPointOfServiceActions from './default-point-of-service-name.action';
 
 export * from './hide-out-of-stock.action';
 export {
@@ -15,4 +16,5 @@ export {
   StockLevelActions,
   PickupLocationActions,
   PickupOptionActions,
+  DefaultPointOfServiceActions,
 };

@@ -1,5 +1,5 @@
 import {
-  mockLocation,
+  configureApparelProduct,
   LOCATORS as L,
 } from '../../../helpers/pickup-in-store-utils';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -7,15 +7,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-      cy.visit('/product/300310300', mockLocation(53, 0));
-      cy.get(L.ALLOW_COOKIES_BUTTON).click();
+      configureApparelProduct();
     });
 
     it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {

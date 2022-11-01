@@ -4,23 +4,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import { I18nTestingModule, PointOfServiceStock } from '@spartacus/core';
 import {
+  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
 import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { StoreListComponent } from './store-list.component';
 
 describe('StoreListComponent', () => {
   let component: StoreListComponent;
   let fixture: ComponentFixture<StoreListComponent>;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
-  let preferredStoreService: PreferredStoreService;
+  let intendedPickupLocationService: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [StoreListComponent],
@@ -37,7 +36,6 @@ describe('StoreListComponent', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,
         },
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationService,
@@ -48,7 +46,9 @@ describe('StoreListComponent', () => {
     fixture = TestBed.createComponent(StoreListComponent);
     component = fixture.componentInstance;
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    intendedPickupLocationService = TestBed.inject(
+      IntendedPickupLocationFacade
+    );
     component.productCode = 'productCode';
     fixture.detectChanges();
   });
@@ -88,10 +88,16 @@ describe('StoreListComponent', () => {
     component.onSelectStore(pointOfService);
     expect(component.storeSelected.emit).toHaveBeenCalled();
   });
-  it('should call setPreferredStore', () => {
-    spyOn(preferredStoreService, 'setPreferredStore');
-    component.onSelectStore({});
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalled();
+
+  it('should call setIntendedLocation on IntendedPickupLocationService', () => {
+    spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    const store: PointOfServiceStock = { stockInfo: {} };
+    const location: AugmentedPointOfService = { pickupOption: 'pickup' };
+    component.onSelectStore(store);
+    component.productCode = 'productCode';
+    expect(
+      intendedPickupLocationService.setIntendedLocation
+    ).toHaveBeenCalledWith('productCode', location);
   });
 });
 
