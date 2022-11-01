@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
 import {
@@ -83,6 +84,12 @@ const productConfiguration: Configurator.Configuration = {
   flatGroups: [group],
   priceSummary: {},
   priceSupplements: [],
+  pricingEnabled: true,
+};
+
+const productConfigurationWithoutPricing: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  pricingEnabled: false,
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -365,6 +372,18 @@ describe('ConfiguratorEffect', () => {
 
       expect(configEffects.updatePriceSummary$).toBeObservable(expected);
     });
+
+    it('should do nothing in case pricing is not enabled', () => {
+      const updatePriceSummaryAction =
+        new ConfiguratorActions.UpdatePriceSummary(
+          productConfigurationWithoutPricing
+        );
+
+      actions$ = hot('-a', { a: updatePriceSummaryAction });
+      const expected = cold('--');
+
+      expect(configEffects.updatePriceSummary$).toBeObservable(expected);
+    });
   });
 
   describe('Effect updateConfigurationSuccess', () => {
@@ -572,6 +591,46 @@ describe('ConfiguratorEffect', () => {
         b: readConfigurationFail,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect removeProductBoundConfigurations', () => {
+    let entitiesInConfigurationState: {
+      [id: string]: any;
+    } = {};
+    let configurationState: any;
+
+    beforeEach(() => {
+      entitiesInConfigurationState = {};
+      configurationState = {
+        configurations: { entities: entitiesInConfigurationState },
+      };
+    });
+
+    it('should emit remove configuration action for configurations that are purely product bound', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(configurationState)
+      );
+
+      entitiesInConfigurationState[productConfiguration.owner.key] =
+        productConfiguration.owner.key;
+
+      const removeProductBoundConfigurationsAction =
+        new ConfiguratorActions.RemoveProductBoundConfigurations();
+
+      const removeConfigurationAction =
+        new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: [productConfiguration.owner.key],
+        });
+
+      actions$ = cold('-a', { a: removeProductBoundConfigurationsAction });
+      const expected = cold('-(b)', {
+        b: removeConfigurationAction,
+      });
+
+      expect(configEffects.removeProductBoundConfigurations$).toBeObservable(
+        expected
+      );
     });
   });
 });

@@ -8,6 +8,7 @@ import {
   SPARTACUS_CHECKOUT,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESLINT_PLUGIN,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PICKUP_IN_STORE,
@@ -139,6 +140,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
   });
@@ -164,6 +166,9 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
+          "Administration",
+          "Account-Summary",
+          "Order-Approval",
           "EPD-Visualization",
           "Digital-Payments",
           "CDS",
@@ -175,8 +180,6 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Order-Approval",
-          "Administration",
           "ASM",
         ]
       `);

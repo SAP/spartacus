@@ -7,17 +7,20 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
 
-concurrency: 
+concurrency:
   group: ci-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Spartacus build pipeline
 jobs:
-  no_retries: 
+  no_retries:
     name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
@@ -25,12 +28,12 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
       - uses: actions/checkout@v2
@@ -38,7 +41,7 @@ jobs:
           fetch-depth: 0
       - name: Determine whether to run e2es
         id: save-e2e-output-result
-        run: |         
+        run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   unit_tests_core:
@@ -55,7 +58,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -82,7 +85,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -109,7 +112,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -129,20 +132,20 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -151,27 +154,27 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c,bopis
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -180,7 +183,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c,bopis
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -190,20 +193,20 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -212,8 +215,8 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.sha }}
-        run: |     
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
     needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
@@ -232,7 +235,7 @@ jobs:
           needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
@@ -296,8 +299,8 @@ jobs:
                 }
               ]
             }
-        if: | 
+        if: |
           needs.build_conclusion.result == 'failure' &&
-          github.event_name == 'push' && 
+          github.event_name == 'push' &&
           github.ref_name == 'develop'
 
