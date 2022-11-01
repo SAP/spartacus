@@ -110,12 +110,6 @@ function setB2bPassword(
       confirmPassword: password,
     },
   });
-  // .then((passwordResponse) => {
-  //   expect(passwordResponse.status).to.eq(204);
-  //   if (passwordResponse.status === 204) {
-  //     return { email, password };
-  //   } else return null;
-  // });
 }
 
 export function addB2bProductToCartAndCheckout() {
@@ -199,9 +193,7 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
-    'b2b-checkout-replenishment/delivery-address-step/checkout-details.json'
-  );
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
@@ -210,7 +202,7 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  // cy.get('cx-cost-center select').select(costCenter);
+  cy.get('cx-cost-center select').select(costCenter);
 
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
@@ -248,9 +240,7 @@ export function selectAccountShippingAddress() {
 }
 
 export function selectAccountDeliveryMode() {
-  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
-    'b2b-checkout-replenishment/delivery-mode-step/checkout-details.json'
-  );
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
@@ -552,17 +542,14 @@ export function interceptPaymentTypesEndpoint(): string {
   return alias;
 }
 
-export function interceptCheckoutB2BDetailsEndpoint(fixture: string) {
+export function interceptCheckoutB2BDetailsEndpoint() {
   const alias = 'getCheckoutDetails';
-  cy.intercept(
-    {
-      method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
-    },
-    { fixture, statusCode: 200 }
-  ).as(alias);
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+  }).as(alias);
 
   return alias;
 }
