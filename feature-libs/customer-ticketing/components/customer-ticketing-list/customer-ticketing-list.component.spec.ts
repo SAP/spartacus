@@ -185,11 +185,13 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should display tickets', () => {
+    const TWO_TICKETS = '(2)';
+
     const ticketsCount = fixture.debugElement.query(
       By.css('.cx-ticketing-list-title-count')
     );
 
-    expect(ticketsCount.nativeElement.textContent).toContain('(2)');
+    expect(ticketsCount.nativeElement.textContent).toContain(TWO_TICKETS);
   });
 
   it('should fetch ticket list', () => {

@@ -69,7 +69,6 @@ describe('OccCustomerTicketingAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url2: ' + req.url);
         return (
           req.method === 'GET' &&
           req.url === `users/${mockCustomerId}/tickets/${mockTicketId}`
@@ -212,7 +211,6 @@ describe('OccCustomerTicketingAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url: ', req.url);
         return (
           req.method === 'GET' &&
           req.url ===
