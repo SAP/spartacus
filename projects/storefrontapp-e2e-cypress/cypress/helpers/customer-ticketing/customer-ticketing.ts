@@ -1,5 +1,4 @@
 import { clickHamburger } from '../checkout-flow';
-import { waitForPage, visitHomePage } from '../checkout-flow';
 import { loginRegisteredUser as login } from "../cart";
 
 const HTTP_STATUS_OK = 200;
@@ -59,11 +58,14 @@ export function verifyTicketDetailsPageVisit(){
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
 
+export function visitPage(page: string, alias: string){
+  cy.intercept(page).as(alias);
+  cy.visit(page);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
+}
+
 export function visitElectronicTicketListingPage() {
-  visitHomePage();
-  const supportPage = waitForPage('/my-account/support-tickets', 'support-tickets');
-  cy.visit('/my-account/support-tickets');
-  cy.wait(`@${supportPage}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
+  visitPage('/my-account/support-tickets', 'supportPage');
 }
 
 
@@ -146,8 +148,5 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 }
 
 export function visitApparelUKTicketListingPage(){
-  visitHomePage('apparel-uk-spa/en/GBP/');
-  const supportPage = waitForPage('/my-account/support-tickets', 'getApparelSupportPage');
-  cy.visit(`/apparel-uk-spa/en/GBP/my-account/support-tickets`);
-  cy.wait(`@${supportPage}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
+  visitPage('/my-account/support-tickets', 'getApparelSupportPage');
 }
