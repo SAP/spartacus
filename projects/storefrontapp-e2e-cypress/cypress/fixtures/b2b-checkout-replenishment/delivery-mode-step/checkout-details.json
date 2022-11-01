@@ -7,10 +7,10 @@
     },
     "defaultAddress": false,
     "email": "punchout.customer@punchoutorg.com",
-    "firstName": "Akiro",
+    "firstName": "PunchOut",
     "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
-    "id": "8796098887703",
-    "lastName": "Nakamura",
+    "id": "8796098428951",
+    "lastName": "Customer",
     "line1": "999 South Wacker Drive",
     "postalCode": "60606",
     "shippingAddress": true,
@@ -32,28 +32,12 @@
   },
   "costCenter": {
     "active": "true",
-    "code": "Rustic_Global",
+    "code": "PunchOut Organization",
     "currency": {
       "isocode": "USD"
     },
-    "name": "Rustic Global",
-    "assignedBudgets": [
-      {
-        "active": true,
-        "budget": 50000.0,
-        "code": "Monthly_50K_USD",
-        "currency": {
-          "active": true,
-          "isocode": "USD",
-          "name": "US Dollar",
-          "symbol": "$"
-        },
-        "endDate": "2034-07-12T00:59:59+0000",
-        "name": "Monthly 50K USD",
-        "selected": false,
-        "startDate": "2010-01-01T00:00:00+0000"
-      }
-    ],
+    "name": "PunchOut Organization",
+    "assignedBudgets": [],
     "unit": {
       "active": true,
       "addresses": [
@@ -62,19 +46,19 @@
             "isocode": "US"
           },
           "defaultAddress": false,
-          "email": "akiro.nakamura@rustic-hw.com",
-          "firstName": "Akiro",
+          "email": "punchout.customer@punchoutorg.com",
+          "firstName": "PunchOut",
           "formattedAddress": "999 South Wacker Drive, Chicago, 60606",
-          "id": "8796098887703",
-          "lastName": "Nakamura",
+          "id": "8796098428951",
+          "lastName": "Customer",
           "line1": "999 South Wacker Drive",
           "postalCode": "60606",
           "titleCode": "mr",
           "town": "Chicago"
         }
       ],
-      "name": "Rustic",
-      "uid": "Rustic"
+      "name": "PunchOut Organization",
+      "uid": "PunchOut Organization"
     }
   },
   "paymentType": {
