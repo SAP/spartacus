@@ -15,6 +15,8 @@ import {
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  GetTicketsQueryResetEvents,
+  GetTicketsQueryReloadEvents,
   TicketEventCreatedEvent,
 } from './customer-ticketing.events';
 
@@ -29,6 +31,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     this.onGetTicketQueryReload();
+    this.onGetTicketsQueryReload();
     this.onLoginAndLogoutEvent();
     this.onTicketEventCreated();
   }
@@ -44,6 +47,17 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
+  protected onGetTicketsQueryReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LanguageSetEvent),
+        this.eventService.get(CurrencySetEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
+      })
+    );
+  }
+
   protected onLoginAndLogoutEvent(): void {
     this.subscriptions.add(
       merge(
@@ -51,6 +65,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.eventService.dispatch({}, GetTicketsQueryResetEvents);
         this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
         this.eventService.dispatch(
           {},

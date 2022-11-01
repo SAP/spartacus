@@ -4,6 +4,7 @@ import {
   Category,
   TicketDetails,
   TicketEvent,
+  TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
@@ -18,6 +19,16 @@ export class CustomerTicketingConnector {
   ): Observable<TicketDetails> {
     return this.adapter.getTicket(customerId, ticketId);
   }
+
+  public getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList> {
+    return this.adapter.getTickets(customerId, pageSize, currentPage, sort);
+  }
+
   public getTicketCategories(): Observable<Category[]> {
     return this.adapter.getTicketCategories();
   }
