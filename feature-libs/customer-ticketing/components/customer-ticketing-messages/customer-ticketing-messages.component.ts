@@ -1,112 +1,110 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { EventService } from '@spartacus/core';
 import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
 import {
   CustomerTicketingConfig,
+  CustomerTicketingFacade,
+  STATUS,
   TicketDetails,
-} from 'feature-libs/customer-ticketing/root';
-import { Observable, of } from 'rxjs';
+  TicketEvent,
+  GetTicketQueryReloadEvent,
+} from '@spartacus/customer-ticketing/root';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
 })
-export class CustomerTicketingMessagesComponent {
-  ticketDetails$: Observable<TicketDetails> = of({
-    associatedTo: {
-      code: '00000001',
-      modifiedAt: '2022-06-28T00:00:00+0000',
-      type: 'Cart',
-    },
-    availableStatusTransitions: [
-      {
-        id: 'CLOSED',
-        name: 'Closed',
-      },
-    ],
-    createdAt: '2022-06-22T14:37:15+0000',
-    id: '00000001',
-    modifiedAt: '2022-06-22T20:25:02+0000',
-    status: {
-      id: 'CLOSE',
-      name: 'Close',
-    },
-    subject: 'test ticket again',
-    ticketCategory: {
-      id: 'COMPLAINT',
-      name: 'Complaint',
-    },
-    ticketEvents: [
-      {
-        author: 'Mark Rivers',
-        createdAt: '2022-06-22T20:25:02+0000',
-        message: 'This is the way',
-        attachments: [
-          {
-            filename: 'screenshot.png',
-            URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
-          },
-          {
-            filename: 'screenshot.png',
-            URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
-          },
-        ],
-      },
-      {
-        author: 'Mark Rivers',
-        createdAt: '2022-06-22T14:37:15+0000',
-        message: 'A message to consider',
-      },
-      {
-        addedByAgent: true,
-        createdAt: '2022-06-22T20:25:02+0000',
-        message: 'This is the way',
-      },
-      {
-        addedByAgent: true,
-        createdAt: '2022-06-22T20:25:02+0000',
-        message: 'This is the way',
-      },
-      {
-        author: 'Mark Rivers',
-        createdAt: '2022-06-22T14:37:15+0000',
-        message: 'A message to consider',
-      },
-    ],
-  });
+export class CustomerTicketingMessagesComponent implements OnDestroy {
+  ticketDetails$: Observable<TicketDetails | undefined> =
+    this.customerTicketingFacade.getTicket();
 
-  constructor(protected customerTicketingConfig: CustomerTicketingConfig) {}
+  constructor(
+    protected customerTicketingConfig: CustomerTicketingConfig,
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected eventService: EventService
+  ) {}
+
+  subscription = new Subscription();
 
   messageEvents$: Observable<Array<MessageEvent> | undefined> =
     this.prepareMessageEvents();
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  onSend(_event: { files: FileList | undefined; message: string }) {
-    // call to submit new event and upload attachment
+  onSend(event: { files: FileList | undefined; message: string }) {
+    this.subscription.add(
+      this.customerTicketingFacade
+        .createTicketEvent(this.prepareTicketEvent(event.message))
+        .subscribe((createdEvent: TicketEvent) => {
+          if (event.files?.length && createdEvent.code) {
+            this.customerTicketingFacade.uploadAttachment(
+              event.files.item(0),
+              createdEvent.code
+            );
+          } else {
+            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+          }
+        })
+    );
   }
 
-  prepareMessageEvents(): Observable<Array<MessageEvent> | undefined> {
+  downloadAttachment(event: {
+    messageCode: string;
+    attachmentId: string;
+    fileName: string;
+  }) {
+    this.subscription.add(
+      this.customerTicketingFacade
+        .downloadAttachment(event.messageCode, event.attachmentId)
+        .subscribe((data) => {
+          const downloadURL = window.URL.createObjectURL(data as any);
+          const link = document.createElement('a');
+          link.href = downloadURL;
+          link.download = event.fileName;
+          link.click();
+        })
+    );
+  }
+
+  protected prepareMessageEvents(): Observable<
+    Array<MessageEvent> | undefined
+  > {
     return this.ticketDetails$.pipe(
       map((ticket) =>
-        ticket.ticketEvents?.map(
-          (event): MessageEvent => ({
+        ticket?.ticketEvents?.map(
+          (event: TicketEvent): MessageEvent => ({
             ...event,
             text: event.message,
-            rightAlign: event.addedByAgent,
+            rightAlign: event.addedByAgent || false,
+            attachments: event.ticketEventAttachments,
           })
         )
       )
     );
   }
 
-  prepareMessagingConfigs(): MessagingConfigs {
+  protected prepareMessagingConfigs(): MessagingConfigs {
     return {
       attachmentRestrictions:
         this.customerTicketingConfig.customerTicketing?.attachmentRestrictions,
       charactersLimit:
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
+      displayAddMessageSection: this.ticketDetails$.pipe(
+        map((ticket) => ticket?.status?.id !== STATUS.CLOSED)
+      ),
     };
+  }
+
+  protected prepareTicketEvent(messageText: string): TicketEvent {
+    return {
+      message: messageText,
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
