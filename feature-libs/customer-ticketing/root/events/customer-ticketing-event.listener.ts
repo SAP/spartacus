@@ -38,7 +38,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
       this.eventService.get(CreateEvent).subscribe(() => {
         this.globalMessageService.add(
           {
-            key: 'customerTicketing.ticketCreated',
+            key: 'createCustomerTicket.ticketCreated',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
