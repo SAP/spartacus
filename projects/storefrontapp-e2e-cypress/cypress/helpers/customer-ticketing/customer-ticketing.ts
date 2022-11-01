@@ -148,5 +148,5 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 }
 
 export function visitApparelUKTicketListingPage(){
-  visitPage('/my-account/support-tickets', 'getApparelSupportPage');
+  visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'getApparelSupportPage');
 }
