@@ -15,7 +15,7 @@ import { AppServerModule as OriginalAppServerModule } from './app.server.module'
     ...getPrerenderProviders({
       requestOrigin:
         process.env['PRERENDER_DOMAIN'] ??
-        `http://localhost:${process.env['PORT'] || 4000}`,
+        `http://localhost:${process.env['PORT'] || 4200}`,
     }),
   ],
   // Since the bootstrapped component is not inherited from your
