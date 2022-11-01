@@ -18,7 +18,7 @@ describe('ticketing', () => {
         loginRegisteredUser();
         customerTicketing.visitElectronicSupportTicketPage();
         customerTicketing.openCreateTicketModal();
-      })
+      });
 
       it('should be able to create ticket when filling the required form', () => {
         const testTicketDetails: TestTicketDetails = {
@@ -33,7 +33,6 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmitAndVerifyRequestCompleted();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-
       });
 
       it('should be able to create a ticket with an attachment', () => {
@@ -116,20 +115,20 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist();
       });
 
-      // it('should not allow ticket to be created if form not properly completed', () => {
-      //   loginRegisteredUser();
-      //   customerTicketing.visitElectronicSupportTicketPage();
-      //   customerTicketing.openCreateTicketModal();
-      //   customerTicketing.clickSubmit();
-      //   customerTicketing.isFieldValidationErrorShown();
-      // });
+      it('should not allow ticket to be created if form not properly completed', () => {
+        loginRegisteredUser();
+        customerTicketing.visitElectronicSupportTicketPage();
+        customerTicketing.openCreateTicketModal();
+        customerTicketing.clickSubmit();
+        customerTicketing.isFieldValidationErrorShown();
+      });
 
       it('should not create tickets when cancelling or closing the modal', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Cancelling a ticketing creating',
           message: 'Cancelled',
           category: TestCategory.complaint,
-        }
+        };
         loginRegisteredUser();
         customerTicketing.visitElectronicSupportTicketPage();
         customerTicketing.openCreateTicketModal();
@@ -144,10 +143,10 @@ describe('ticketing', () => {
 
       it('should not create ticket if subject exceeds 255 character limit', () => {
         const testTicketDetails: TestTicketDetails = {
-          subject: 'Exceeding character limit adsadasdasdasdasdadasdasddasdasdadasdadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda',
+          subject: 'Exceeding character limit                                                                                                                                                                                                                                       <--Space',
           message: 'Exceeding character limit',
           category: TestCategory.complaint,
-        }
+        };
         loginRegisteredUser();
         customerTicketing.visitElectronicSupportTicketPage();
         customerTicketing.openCreateTicketModal();
@@ -161,7 +160,7 @@ describe('ticketing', () => {
           subject: 'Exceeding character limit',
           message: 'Exceeding character limit space-->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <--space',
           category: TestCategory.complaint,
-        }
+        };
         loginRegisteredUser();
         customerTicketing.visitElectronicSupportTicketPage();
         customerTicketing.openCreateTicketModal();
@@ -181,9 +180,9 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicSupportTicketPage();
         customerTicketing.openCreateTicketModal();
         customerTicketing.fillTicketDetails(testTicketDetails);
-        customerTicketing.clickSubmitAndVerifyRequestCompleted();
+        customerTicketing.clickSubmit();
         customerTicketing.verifyCreateTicketPopupIsClosed();
-      })
+      });
 
     });
   });

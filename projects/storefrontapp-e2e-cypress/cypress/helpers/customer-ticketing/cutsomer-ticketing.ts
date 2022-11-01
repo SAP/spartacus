@@ -108,3 +108,5 @@ export function visitApparelUKSupportPage(){
 export function verifyCreateTicketPopupIsClosed(){
   cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }
+
+
