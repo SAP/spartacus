@@ -11,8 +11,10 @@
     padding-top: 30px;
   }
 
-  h2 {
-    margin-bottom: 1.5rem;
+  @include forVersion(5.1) {
+    .cx-section-msg {
+      margin-bottom: 1.5rem;
+    }
   }
 
   @include forVersion(4.2) {
