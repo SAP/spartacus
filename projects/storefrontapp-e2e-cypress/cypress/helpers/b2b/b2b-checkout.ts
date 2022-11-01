@@ -22,11 +22,12 @@ import {
   replenishmentDay,
 } from '../../sample-data/b2b-checkout';
 import {
+  getSampleUser,
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
 } from '../../sample-data/checkout-flow';
+import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
@@ -35,99 +36,80 @@ import {
   waitForPage,
   waitForProductPage,
 } from '../checkout-flow';
-import { generateMail, randomString } from '../user';
-
-export function loginB2bUserOriginal() {
-  // b2bUser.registrationData.email = generateMail(randomString(), true);
-  b2bUser.registrationData.email = 'cypress_123@testing.com';
-  b2bUser.registrationData.password = 'Password123.';
-  cy.requireLoggedIn(b2bUser);
-  visitHomePage();
-  cy.get('.cx-login-greet').should('contain', user.fullName);
-}
 
 export function loginB2bUser() {
-  // cy.requireLoggedIn(myCompanyAdminUser);
-  // const obj = registerB2bCustomer();
-  // b2bUser.registrationData.email = obj.email;
-  // b2bUser.registrationData.password = obj.password;
-  // cy.requireLoggedIn(b2bUser);
-  // visitHomePage();
-  // loginAsMyCompanyAdmin();
-  registerB2bCustomer().then((res) => {
-    b2bUser.registrationData.email = res.email;
-    b2bUser.registrationData.password = res.password;
-    cy.requireLoggedIn(b2bUser);
-    visitHomePage();
-  });
+  let adminToken;
+  let user = getSampleUser();
 
-  cy.get('.cx-login-greet').should('contain', 'Hi');
-}
-
-function registerB2bCustomer(): any {
-  return login('linda.wolf@rustic-hw.com', 'pw4all').then((res) => {
-    //////
-    expect(res.status).to.eq(200);
-
-    return cy
-      .request({
-        method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
-        )}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/orgCustomers?lang=en&curr=USD`,
-        headers: {
-          Authorization: `bearer ${res.body.access_token}`,
-        },
-        body: {
-          customerId: null,
-          titleCode: 'mr',
-          firstName: 'Cypress',
-          lastName: 'customer',
-          email: generateMail(randomString(), true),
-          orgUnit: {
-            uid: 'Rustic',
-          },
-          roles: [null, 'b2bcustomergroup'],
-        },
-      })
-      .then((r) => {
-        return setB2bPassword(
-          r.body.customerId,
-          r.body.email,
-          'Password123.',
-          res.body.access_token
-        );
-        /////
-      });
-  });
-}
-
-function setB2bPassword(customerId, email, password, access_token) {
-  return cy
-    .request({
-      method: 'PATCH',
-      url: `${Cypress.env('API_URL')}/${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
-      headers: {
-        Authorization: `bearer ${access_token}`,
-      },
-      body: {
-        customerId: customerId,
-        password: password,
-        confirmPassword: password,
-      },
+  login(
+    myCompanyAdminUser.registrationData.email,
+    myCompanyAdminUser.registrationData.password
+  )
+    .then((result) => {
+      expect(result.status).to.eq(200);
+      adminToken = result?.body?.access_token;
+      console.log('adminToken', adminToken);
+      return addB2bUser(adminToken, user);
     })
-    .then((passwordResponse) => {
-      expect(passwordResponse.status).to.eq(204);
-      if (passwordResponse.status === 204) {
-        return { email, password };
-      } else return null;
+    .then((result) => {
+      expect(result.status).to.eq(201);
+      return setB2bPassword(result.body.customerId, user.password, adminToken);
+    })
+    .then((result: any) => {
+      expect(result.status).to.eq(204);
+      b2bUser.registrationData.email = user.email;
+      b2bUser.registrationData.password = user.password;
+
+      return cy.requireLoggedIn(b2bUser);
+    })
+    .then(() => {
+      visitHomePage();
+      cy.get('.cx-login-greet').should('contain', 'Hi');
     });
+}
+
+function addB2bUser(access_token: string, user: any) {
+  return cy.request({
+    method: 'POST',
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orgCustomers?lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${access_token}`,
+    },
+    body: {
+      customerId: null,
+      titleCode: 'mr',
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      orgUnit: {
+        uid: b2bUnit,
+      },
+      roles: [null, 'b2bcustomergroup'],
+    },
+  });
+}
+
+function setB2bPassword(
+  customerId: string,
+  password: string,
+  access_token: string
+) {
+  return cy.request({
+    method: 'PATCH',
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${access_token}`,
+    },
+    body: {
+      customerId: customerId,
+      password: password,
+      confirmPassword: password,
+    },
+  });
 }
 
 export function addB2bProductToCartAndCheckout() {
