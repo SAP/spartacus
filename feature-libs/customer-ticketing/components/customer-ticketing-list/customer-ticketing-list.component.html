@@ -23,15 +23,6 @@
           ariaControls="ticketing-list-table"
         ></cx-sorting>
       </label>
-      <div
-        *ngIf="ticketList.pagination.totalPages > 1"
-        class="cx-ticketing-list-pagination"
-      >
-        <cx-pagination
-          [pagination]="ticketList.pagination"
-          (viewPageEvent)="pageChange($event)"
-        ></cx-pagination>
-      </div>
       <cx-customer-ticketing-create></cx-customer-ticketing-create>
     </div>
     <table id="ticketing-list-table" class="table cx-ticketing-list-table">
@@ -167,6 +158,7 @@
     </div>
   </ng-container>
   <ng-template #noCustomerTickets>
+    <cx-customer-ticketing-create></cx-customer-ticketing-create>
     <ng-container>
       <div class="text-center">
         <h3>{{ 'customerTicketingList.noTickets' | cxTranslate }}</h3>
