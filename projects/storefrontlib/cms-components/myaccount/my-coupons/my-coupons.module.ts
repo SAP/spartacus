@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -47,6 +48,7 @@ import { KeyboardFocusModule } from '../../../layout/index';
       },
     ]),
     KeyboardFocusModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     MyCouponsComponent,
