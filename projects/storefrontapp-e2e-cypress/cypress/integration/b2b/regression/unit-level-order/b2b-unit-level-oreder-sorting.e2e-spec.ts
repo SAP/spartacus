@@ -9,6 +9,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   describe('Check unit level orders page sorting by buyer Ascendig ', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderDetails.getStubbedUnitLevelOrderHistory();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Buyer (Ascending)').click();
@@ -26,6 +27,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   describe('Check unit level orders page sorting by Buyer (Descending)', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderDetails.getStubbedUnitLevelOrderHistory();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Buyer (Descending)').click();
@@ -45,6 +47,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   describe('Check unit level orders page Order of sorting option ', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderDetails.getStubbedUnitLevelOrderHistory();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
 
@@ -59,6 +62,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   describe('Check unit level orders page sorting by Unit (Ascending)', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderDetails.getStubbedUnitLevelOrderHistory();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Unit (Ascending)').click();
@@ -78,6 +82,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   describe('Check unit level orders page sorting by Unit (Descending)', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderDetails.getStubbedUnitLevelOrderHistory();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Unit (Descending)').click();
