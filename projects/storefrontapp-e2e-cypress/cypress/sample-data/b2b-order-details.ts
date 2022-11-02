@@ -5,8 +5,8 @@ export const ORDER_STATUS = 'Approved';
 export const ORDER_DATE = 'Aug 30, 2022';
 
 export const b2bUnitOrderViewerAdmin = {
-  name: 'Linda Wolf',
-  uid: 'linda.wolf@rustic-hw.com',
+  name: 'Hanna Shmidt',
+  uid: 'hanna.schmidt@rustic-hw.com',
 };
 
 export const b2bUnitOrderViewer = {
@@ -450,3 +450,296 @@ export const unitLevelOrder = {
   ...unitLevelOrder_raw,
   code: ORDER_CODE,
 };
+
+export const unitLevelOrderHistory = {
+  "facets" : [ ],
+  "orders" : [ {
+    "code" : "00002007",
+    "guid" : "3338fa54-fe07-4a41-b7fa-0c08b82fdc86",
+    "orgCustomer" : {
+      "name" : "William Hunter",
+      "uid" : "william.hunter@rustic-hw.com",
+      "active" : true,
+      "approvers" : [ ],
+      "currency" : {
+        "active" : false,
+        "isocode" : "USD",
+        "name" : "USD",
+        "symbol" : "$"
+      },
+      "customerId" : "2b1d2812-e5e5-47f4-accf-96e67b76d4e7",
+      "defaultAddress" : {
+        "id" : "8796191490071"
+      },
+      "displayUid" : "william.hunter@rustic-hw.com",
+      "email" : "william.hunter@rustic-hw.com",
+      "firstName" : "William",
+      "lastName" : "Hunter",
+      "orgUnit" : {
+        "active" : true,
+        "name" : "Custom Retail",
+        "uid" : "Custom Retail"
+      },
+      "roles" : [ "b2bcustomergroup" ],
+      "selected" : false,
+      "title" : "Mr",
+      "titleCode" : "mr"
+    },
+    "orgUnit" : {
+      "active" : true,
+      "name" : "Custom Retail",
+      "parentOrgUnit" : {
+        "active" : true,
+        "name" : "Rustic Retail",
+        "uid" : "Rustic Retail"
+      },
+      "uid" : "Custom Retail"
+    },
+    "placed" : "2022-11-01T21:35:21+0000",
+    "purchaseOrderNumber" : "",
+    "status" : "CREATED",
+    "statusDisplay" : "created",
+    "total" : {
+      "currencyIso" : "USD",
+      "formattedValue" : "$12.99",
+      "priceType" : "BUY",
+      "value" : 12.99
+    }
+  }, {
+    "code" : "00002005",
+    "guid" : "ebd5e65f-5b04-47c5-ac5c-c41bd9f00236",
+    "orgCustomer" : {
+      "name" : "William Hunter",
+      "uid" : "william.hunter@rustic-hw.com",
+      "active" : true,
+      "approvers" : [ ],
+      "currency" : {
+        "active" : false,
+        "isocode" : "USD",
+        "name" : "USD",
+        "symbol" : "$"
+      },
+      "customerId" : "2b1d2812-e5e5-47f4-accf-96e67b76d4e7",
+      "defaultAddress" : {
+        "id" : "8796191490071"
+      },
+      "displayUid" : "william.hunter@rustic-hw.com",
+      "email" : "william.hunter@rustic-hw.com",
+      "firstName" : "William",
+      "lastName" : "Hunter",
+      "orgUnit" : {
+        "active" : true,
+        "name" : "Custom Retail",
+        "uid" : "Custom Retail"
+      },
+      "roles" : [ "b2bcustomergroup" ],
+      "selected" : false,
+      "title" : "Mr",
+      "titleCode" : "mr"
+    },
+    "orgUnit" : {
+      "active" : true,
+      "name" : "Custom Retail",
+      "parentOrgUnit" : {
+        "active" : true,
+        "name" : "Rustic Retail",
+        "uid" : "Rustic Retail"
+      },
+      "uid" : "Custom Retail"
+    },
+    "placed" : "2022-11-01T21:35:06+0000",
+    "purchaseOrderNumber" : "",
+    "status" : "CREATED",
+    "statusDisplay" : "created",
+    "total" : {
+      "currencyIso" : "USD",
+      "formattedValue" : "$59.99",
+      "priceType" : "BUY",
+      "value" : 59.99
+    }
+  }, {
+    "code" : "00002003",
+    "guid" : "484ea1ec-7f8d-4c63-ad64-00a8bbd38469",
+    "orgCustomer" : {
+      "name" : "William Hunter",
+      "uid" : "william.hunter@rustic-hw.com",
+      "active" : true,
+      "approvers" : [ ],
+      "currency" : {
+        "active" : false,
+        "isocode" : "USD",
+        "name" : "USD",
+        "symbol" : "$"
+      },
+      "customerId" : "2b1d2812-e5e5-47f4-accf-96e67b76d4e7",
+      "defaultAddress" : {
+        "id" : "8796191490071"
+      },
+      "displayUid" : "william.hunter@rustic-hw.com",
+      "email" : "william.hunter@rustic-hw.com",
+      "firstName" : "William",
+      "lastName" : "Hunter",
+      "orgUnit" : {
+        "active" : true,
+        "name" : "Custom Retail",
+        "uid" : "Custom Retail"
+      },
+      "roles" : [ "b2bcustomergroup" ],
+      "selected" : false,
+      "title" : "Mr",
+      "titleCode" : "mr"
+    },
+    "orgUnit" : {
+      "active" : true,
+      "name" : "Custom Retail",
+      "parentOrgUnit" : {
+        "active" : true,
+        "name" : "Rustic Retail",
+        "uid" : "Rustic Retail"
+      },
+      "uid" : "Custom Retail"
+    },
+    "placed" : "2022-11-01T21:34:43+0000",
+    "purchaseOrderNumber" : "",
+    "status" : "CREATED",
+    "statusDisplay" : "created",
+    "total" : {
+      "currencyIso" : "USD",
+      "formattedValue" : "$51.99",
+      "priceType" : "BUY",
+      "value" : 51.99
+    }
+  }, {
+    "code" : "00002000",
+    "guid" : "87ddf2db-88b3-4608-b149-0e35f332441e",
+    "orgCustomer" : {
+      "name" : "Mark Rivers",
+      "uid" : "mark.rivers@rustic-hw.com",
+      "active" : true,
+      "approvers" : [ ],
+      "currency" : {
+        "active" : false,
+        "isocode" : "USD",
+        "name" : "USD",
+        "symbol" : "$"
+      },
+      "customerId" : "0d18b584-c604-477a-8f75-6c211aeeaeb5",
+      "defaultAddress" : {
+        "id" : "8796126019607"
+      },
+      "displayUid" : "mark.rivers@rustic-hw.com",
+      "email" : "mark.rivers@rustic-hw.com",
+      "firstName" : "Mark",
+      "lastName" : "Rivers",
+      "orgUnit" : {
+        "active" : true,
+        "name" : "Custom Retail",
+        "uid" : "Custom Retail"
+      },
+      "roles" : [ "b2bcustomergroup", "unitorderviewergroup" ],
+      "selected" : false,
+      "title" : "Mr",
+      "titleCode" : "mr"
+    },
+    "orgUnit" : {
+      "active" : true,
+      "name" : "Custom Retail",
+      "parentOrgUnit" : {
+        "active" : true,
+        "name" : "Rustic Retail",
+        "uid" : "Rustic Retail"
+      },
+      "uid" : "Custom Retail"
+    },
+    "placed" : "2022-11-01T20:59:57+0000",
+    "purchaseOrderNumber" : "",
+    "status" : "CREATED",
+    "statusDisplay" : "created",
+    "total" : {
+      "currencyIso" : "USD",
+      "formattedValue" : "$70.99",
+      "priceType" : "BUY",
+      "value" : 70.99
+    }
+  }, {
+    "code" : "00001002",
+    "guid" : "2471dad9-bfd6-4828-a740-7c8ad02239f0",
+    "orgCustomer" : {
+      "name" : "Mark Rivers",
+      "uid" : "mark.rivers@rustic-hw.com",
+      "active" : true,
+      "approvers" : [ ],
+      "currency" : {
+        "active" : false,
+        "isocode" : "USD",
+        "name" : "USD",
+        "symbol" : "$"
+      },
+      "customerId" : "0d18b584-c604-477a-8f75-6c211aeeaeb5",
+      "defaultAddress" : {
+        "id" : "8796126019607"
+      },
+      "displayUid" : "mark.rivers@rustic-hw.com",
+      "email" : "mark.rivers@rustic-hw.com",
+      "firstName" : "Mark",
+      "lastName" : "Rivers",
+      "orgUnit" : {
+        "active" : true,
+        "name" : "Custom Retail",
+        "uid" : "Custom Retail"
+      },
+      "roles" : [ "b2bcustomergroup", "unitorderviewergroup" ],
+      "selected" : false,
+      "title" : "Mr",
+      "titleCode" : "mr"
+    },
+    "orgUnit" : {
+      "active" : true,
+      "name" : "Custom Retail",
+      "parentOrgUnit" : {
+        "active" : true,
+        "name" : "Rustic Retail",
+        "uid" : "Rustic Retail"
+      },
+      "uid" : "Custom Retail"
+    },
+    "placed" : "2022-10-27T08:30:32+0000",
+    "purchaseOrderNumber" : "",
+    "status" : "CREATED",
+    "statusDisplay" : "created",
+    "total" : {
+      "currencyIso" : "USD",
+      "formattedValue" : "$26.99",
+      "priceType" : "BUY",
+      "value" : 26.99
+    }
+  } ],
+  "pagination" : {
+    "currentPage" : 0,
+    "pageSize" : 5,
+    "sort" : "byDate",
+    "totalPages" : 3,
+    "totalResults" : 11
+  },
+  "sorts" : [ {
+    "code" : "byDate",
+    "selected" : true
+  }, {
+    "code" : "byOrderNumber",
+    "selected" : false
+  }, {
+    "code" : "byBuyer",
+    "selected" : false
+  }, {
+    "code" : "byBuyerDesc",
+    "selected" : false
+  }, {
+    "code" : "byOrgUnit",
+    "selected" : false
+  }, {
+    "code" : "byOrgUnitDesc",
+    "selected" : false
+  } ]
+};
+
+export const unitLevelOrderHistory1 = JSON.parse(JSON.stringify(unitLevelOrderHistory));

@@ -1,5 +1,5 @@
 import * as sampleData from '../../sample-data/b2b-order-details';
-import { unitLevelOrder } from '../../sample-data/b2b-order-details';
+import { unitLevelOrder, unitLevelOrderHistory1 } from '../../sample-data/b2b-order-details';
 import { waitForPage } from '../checkout-flow';
 
 export function visitOrderApprovalListPage() {
@@ -33,5 +33,17 @@ export function getStubbedUnitLevelOrderDetails() {
       )}/users/current/orders/*`,
     },
     { body: unitLevelOrder }
+  );
+}
+
+export function getStubbedUnitLevelOrderHistory() {
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/orders`,
+    },
+    { body: unitLevelOrderHistory1 }
   );
 }
