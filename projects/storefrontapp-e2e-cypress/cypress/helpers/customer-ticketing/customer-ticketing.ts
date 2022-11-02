@@ -2,14 +2,15 @@ import { clickHamburger } from '../checkout-flow';
 import { loginRegisteredUser as login } from "../cart";
 
 const HTTP_STATUS_OK = 200;
-const FIRST_ROW = 1;
+const COLUMN_HEADER_TICKET_LIST = 0;
+const FIRST_ROW_TICKET_LIST = 1;
+const ID_COLUMN = 1;
 const SUBJECT_COLUMN = 1;
 const CATEGORY_COLUMN = 2;
+const CREATED_ON_COLUMN = 3;
+const CHANGED_ON_COLUMN = 4;
 const STATUS_COLUMN = 5;
-
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
-const FIRST_TICKET_COLUMN_INDEX = 1;
-const FIRST_TICKET_ROW_INDEX = 1;
 
 export enum TestCategory {
   enquiry = "Enquiry",
@@ -49,7 +50,7 @@ export function verifyTicketListingPageVisit(){
 }
 
 export function clickFirstTicketFromTicketListing(){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_ROW_TICKET_LIST}) .cx-ticketing-list-data:nth-child(${SUBJECT_COLUMN}) a.cx-ticketing-list-value`).click();
 }
 
 export function verifyTicketDetailsPageVisit(){
@@ -121,7 +122,7 @@ export function verifyFileTooLargeErrorIsShown(){
 }
 
 export function verifyCreatedTicketDetails(ticketDetails: TestTicketDetails) {
-   const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW);
+   const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST);
    row.get('td').eq(SUBJECT_COLUMN).contains(ticketDetails.subject);
    row.get('td').eq(CATEGORY_COLUMN).contains(ticketDetails.category);
    row.get('td').eq(STATUS_COLUMN).contains("Open");
@@ -138,7 +139,11 @@ export function verifyFieldValidationErrorShown(){
 export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
   cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
     if(ticketListingElement.find('tbody').length > 0) {
-      cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW).get('td').eq(SUBJECT_COLUMN).should('not.contain', ticketDetails.subject);
+      cy.get('cx-customer-ticketing-list')
+        .get('tbody')
+        .get('tr').eq(FIRST_ROW_TICKET_LIST)
+        .get('td').eq(SUBJECT_COLUMN)
+      .should('not.contain', ticketDetails.subject);
     }
     else {
       cy.get('cx-customer-ticketing-list').find('h3').contains("You don't have any request");
@@ -154,13 +159,14 @@ export function verifyTicketListingTableContent(): number{
   let numberOfTickets = 0;
   cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
     if(ticketListingElement.find('tbody').length > 0) {
-      const headerRow = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(0).get('td');
-      headerRow.get('td').eq(0).should('contain', 'ID');
-      headerRow.get('td').eq(SUBJECT_COLUMN).should('contain', 'Subject');
-      headerRow.get('td').eq(2).should('contain', 'Category');
-      headerRow.get('td').eq(3).should('contain', 'Created On');
-      headerRow.get('td').eq(4).should('contain', 'Changed On');
-      headerRow.get('td').eq(5).should('contain', 'Status');
+      const headerRow = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(COLUMN_HEADER_TICKET_LIST).get('td');
+      const allRowColumns = headerRow.get('td');
+      allRowColumns.eq(ID_COLUMN).should('contain', 'ID');
+      allRowColumns.eq(SUBJECT_COLUMN).should('contain', 'Subject');
+      allRowColumns.eq(CATEGORY_COLUMN).should('contain', 'Category');
+      allRowColumns.eq(CREATED_ON_COLUMN).should('contain', 'Created On');
+      allRowColumns.eq(CHANGED_ON_COLUMN).should('contain', 'Changed On');
+      allRowColumns.eq(STATUS_COLUMN).should('contain', 'Status');
       numberOfTickets = ticketListingElement.find('tbody').length;
     }
     else {
@@ -183,7 +189,7 @@ export function shouldNowHave(expectedNumberOfTickets: number) {
 }
 
 export function openLastCreatedTicket() {
-  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW);
+  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST);
   row.click();
 }
 
@@ -194,7 +200,7 @@ export function closeTicketRequest() {
 }
 
 export function verifyClosedTicketIsStillInTicketListing() {
-  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW);
+  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST);
   row.get('td').eq(STATUS_COLUMN).contains("Closed");
 }
 
