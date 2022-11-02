@@ -14,5 +14,6 @@ export class HttpModule {
   static forRoot(): ModuleWithProviders<HttpModule> {
     return {
       ngModule: HttpModule,
+    };
   }
 }

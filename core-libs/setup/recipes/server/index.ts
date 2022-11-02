@@ -5,5 +5,5 @@
  */
 
 export * from './base-server.module';
-export * from './server-error/index';
+export * from './error-handling/index';
 export * from './server-response.service';

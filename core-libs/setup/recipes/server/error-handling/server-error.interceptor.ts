@@ -14,13 +14,13 @@ import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ServerErrorCollector } from './server-error-collector';
+import { ServerErrorCollector } from './server-error.collector';
 
 /**
- * In SSR, it catches errors from backend requests, collects them and exposes (as being a `ServerErrorCollector`).
+ * In SSR, it catches errors from backend requests, collects them and exposes as a `ServerErrorCollector`.
  */
 @Injectable({ providedIn: 'root' })
-export class ServerHttpErrorInterceptor
+export class ServerErrorInterceptor
   implements HttpInterceptor, ServerErrorCollector<any>
 {
   constructor(protected windowRef: WindowRef) {}
@@ -34,10 +34,9 @@ export class ServerHttpErrorInterceptor
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // SPIKE TODO - UNCOMMENT IT:
-    // if (this.windowRef.isBrowser()) {
-    //   return next.handle(request);
-    // }
+    if (this.windowRef.isBrowser()) {
+      return next.handle(request);
+    }
 
     return next.handle(request).pipe(
       catchError((error) => {

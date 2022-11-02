@@ -10,7 +10,7 @@ import { ServerResponseService } from '../server-response.service';
 import {
   ServerErrorCollector,
   SERVER_ERROR_COLLECTOR,
-} from './server-error-collector';
+} from './server-error.collector';
 
 // SPIKE TODO: rethink naming Transfer - as is suggests transferring to the client
 // maybe just ServerErrorService or RenderingErrorsService?

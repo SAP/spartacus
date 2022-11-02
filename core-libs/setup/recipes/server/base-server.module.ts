@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import { ServerErrorModule } from './server-error/server-error.module';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ServerErrorHandlingModule } from './error-handling/server-error-handling.module';
 
 // SPIKE TODO: move everything related to this module to a different package than /recipes
 @NgModule({
-  imports: [ServerErrorModule],
+  imports: [ServerErrorHandlingModule],
 })
-export class BaseServerModule {}
+export class BaseServerModule {
+  static forRoot(): ModuleWithProviders<BaseServerModule> {
+    return {
+      ngModule: BaseServerModule,
+    };
+  }
+}
