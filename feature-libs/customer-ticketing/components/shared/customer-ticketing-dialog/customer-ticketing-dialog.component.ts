@@ -103,6 +103,7 @@ export abstract class CustomerTicketingDialogComponent {
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(this.maxEntries),
+        this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
     this.form = form;
