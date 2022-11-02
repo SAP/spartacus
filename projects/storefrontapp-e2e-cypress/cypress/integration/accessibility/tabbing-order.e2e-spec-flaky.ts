@@ -197,13 +197,13 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  context.skip('Product Page', () => {
+  context('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
     });
   });
 
-  context.skip('Product Page Tabs', () => {
+  context('Product Page Tabs', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabsTabbingOrder();
     });
