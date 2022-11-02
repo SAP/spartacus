@@ -1,4 +1,4 @@
-import { SortModel, PaginationModel } from '@spartacus/core';
+import { PaginationModel, SortModel } from '@spartacus/core';
 
 export const enum TEXT_COLOR_CLASS {
   GREY = 'cx-text-grey',
@@ -77,4 +77,11 @@ export interface TicketSearchConfig {
   pageSize?: number;
   currentPage?: number;
   sort?: string;
+}
+
+export interface TicketStarter {
+  associatedTo?: AssociatedObject;
+  message?: string;
+  subject?: string;
+  ticketCategory?: Category;
 }

@@ -8,8 +8,8 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '../model';
-
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
@@ -26,6 +26,7 @@ import {
         'getTicketCategories',
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
+        'createTicket',
         'uploadAttachment',
       ],
     }),
@@ -57,12 +58,13 @@ export abstract class CustomerTicketingFacade {
 
   abstract getTicketAssociatedObjects(): Observable<AssociatedObject[]>;
 
+  abstract createTicket(
+    ticket: TicketStarter
+  ): Observable<TicketDetails | unknown>;
+
   abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
 
-  abstract uploadAttachment(
-    file: File | null,
-    eventCode: string
-  ): Observable<unknown>;
+  abstract uploadAttachment(file: File, eventCode: string): Observable<unknown>;
 
   abstract downloadAttachment(
     eventCode: string,

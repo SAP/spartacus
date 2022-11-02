@@ -9,6 +9,7 @@ import {
   CustomerTicketingAdapter,
   CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER,
   CUSTOMER_TICKETING_CATEGORY_NORMALIZER,
+  CUSTOMER_TICKETING_CREATE_NORMALIZER,
   CUSTOMER_TICKETING_DETAILS_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
@@ -22,6 +23,7 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -84,11 +86,37 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       );
   }
 
+  createTicket(
+    customerId: string,
+    ticket: TicketStarter
+  ): Observable<TicketStarter> {
+    ticket = this.converter.convert(
+      ticket,
+      CUSTOMER_TICKETING_CREATE_NORMALIZER
+    );
+    return this.http
+      .post<TicketStarter>(this.getCreateTicketEndpoint(customerId), ticket, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
+      );
+  }
+
   protected getTicketEndpoint(customerId: string, ticketId: string): string {
     return this.occEndpoints.buildUrl('getTicket', {
       urlParams: {
         customerId,
         ticketId,
+      },
+    });
+  }
+
+  protected getCreateTicketEndpoint(customerId: string): string {
+    return this.occEndpoints.buildUrl('createTicket', {
+      urlParams: {
+        customerId,
       },
     });
   }
