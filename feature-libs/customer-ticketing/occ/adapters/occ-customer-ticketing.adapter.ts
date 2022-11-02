@@ -4,6 +4,9 @@ import {
   ConverterService,
   normalizeHttpError,
   OccEndpointsService,
+  RoutingService,
+  GlobalMessageService,
+  GlobalMessageType
 } from '@spartacus/core';
 import {
   CustomerTicketingAdapter,
@@ -33,7 +36,9 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
   getTicketAssociatedObjects(
     customerId: string
@@ -80,7 +85,18 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.http
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          if(error.error.errors[0].type === 'NotFoundError'
+              && error.error.errors[0].message.toLowerCase().startsWith('ticket'))
+              {
+                this.routingService.go({ cxRoute: 'supportTickets' });
+                this.globalMessageService.add(
+                  { key: 'httpHandlers.ticketNotFound' },
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
+              }
+          return throwError(normalizeHttpError(error));
+        }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
       );
