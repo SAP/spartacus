@@ -21,9 +21,6 @@ export class CustomerTicketingCreateDialogComponent
   ticketAssociatedObjects$: Observable<AssociatedObject[]> =
     this.customerTicketingFacade.getTicketAssociatedObjects();
   subscription: Subscription;
-  ticketStarter: TicketStarter;
-  ticketCategories: Array<Category>;
-  ticketAssociatedObjects: Array<AssociatedObject>;
 
   @Input()
   selectedCategory: Category;
