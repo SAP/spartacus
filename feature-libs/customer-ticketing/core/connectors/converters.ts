@@ -4,6 +4,7 @@ import {
   AssociatedObject,
   Category,
   TicketDetails,
+  TicketList,
   TicketEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
@@ -19,6 +20,10 @@ export const CUSTOMER_TICKETING_EVENT_NORMALIZER = new InjectionToken<
 export const CUSTOMER_TICKETING_FILE_NORMALIZER = new InjectionToken<
   Converter<any, File>
 >('CustomerTicketingFileNormalizer');
+
+export const CUSTOMER_TICKETING_LIST_NORMALIZER = new InjectionToken<
+  Converter<any, TicketList>
+>('CustomerTicketingListNormalizer');
 
 export const CUSTOMER_TICKETING_CATEGORY_NORMALIZER = new InjectionToken<
   Converter<any, Category>

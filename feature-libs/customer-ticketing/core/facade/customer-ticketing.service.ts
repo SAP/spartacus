@@ -22,9 +22,12 @@ import {
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  GetTicketsQueryReloadEvents,
+  GetTicketsQueryResetEvents,
   TicketDetails,
   TicketEvent,
   TicketEventCreatedEvent,
+  TicketList,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -63,7 +66,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
-
   protected createTicketCommand: Command<TicketStarter, unknown> =
     this.commandService.create<TicketStarter>(
       (ticketStarted) =>
@@ -78,6 +80,19 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         strategy: CommandStrategy.Queue,
       }
     );
+  /**
+   * Returns the reload events for the getTickets query.
+   */
+  protected getTicketsQueryReloadEvents(): QueryNotifier[] {
+    return [GetTicketsQueryReloadEvents];
+  }
+
+  /**
+   * Returns the reset events for the getTickets query.
+   */
+  protected getTicketsQueryResetEvents(): QueryNotifier[] {
+    return [GetTicketsQueryResetEvents];
+  }
 
   protected createTicketEventCommand: Command<TicketEvent, TicketEvent> =
     this.commandService.create<TicketEvent, TicketEvent>(
@@ -187,6 +202,30 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
+  getTicketsQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<TicketList | undefined> {
+    return this.queryService.create<TicketList | undefined>(
+      () =>
+        this.customerTicketingListPreConditions().pipe(
+          switchMap((customerId) =>
+            this.customerTicketingConnector.getTickets(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
+          )
+        ),
+      {
+        reloadOn: this.getTicketsQueryReloadEvents(),
+        resetOn: this.getTicketsQueryResetEvents(),
+      }
+    );
+  }
+
   constructor(
     protected queryService: QueryService,
     protected commandService: CommandService,
@@ -234,6 +273,18 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
   }
 
+  protected customerTicketingListPreConditions(): Observable<string> {
+    return this.userIdService.getUserId().pipe(
+      take(1),
+      map((userId) => {
+        if (!userId) {
+          throw new Error('Customer ticketing list pre conditions not met');
+        }
+        return userId;
+      })
+    );
+  }
+
   getTicketState(): Observable<QueryState<TicketDetails | undefined>> {
     return this.getTicketQuery$.getState();
   }
@@ -246,6 +297,24 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     ticketStarted: TicketStarter
   ): Observable<TicketStarter | unknown> {
     return this.createTicketCommand.execute(ticketStarted);
+  }
+
+  getTicketsState(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<QueryState<TicketList | undefined>> {
+    return this.getTicketsQuery$(pageSize, currentPage, sort).getState();
+  }
+
+  getTickets(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<TicketList | undefined> {
+    return this.getTicketsState(pageSize, currentPage, sort).pipe(
+      map((state) => state.data)
+    );
   }
 
   createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent> {

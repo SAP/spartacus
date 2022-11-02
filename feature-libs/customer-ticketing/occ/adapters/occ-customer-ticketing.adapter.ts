@@ -13,6 +13,7 @@ import {
   CUSTOMER_TICKETING_DETAILS_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
+  CUSTOMER_TICKETING_LIST_NORMALIZER,
 } from '@spartacus/customer-ticketing/core';
 import {
   AssociatedObject,
@@ -21,6 +22,7 @@ import {
   Category,
   TicketDetails,
   TicketEvent,
+  TicketList,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, throwError } from 'rxjs';
@@ -115,6 +117,40 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.occEndpoints.buildUrl('createTicket', {
       urlParams: {
         customerId,
+      },
+    });
+  }
+
+  getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList> {
+    return this.http
+      .get<TicketList>(
+        this.getTicketsEndpoint(customerId, pageSize, currentPage, sort)
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
+      );
+  }
+
+  protected getTicketsEndpoint(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): string {
+    return this.occEndpoints.buildUrl('getTickets', {
+      urlParams: {
+        customerId,
+      },
+      queryParams: {
+        pageSize,
+        currentPage,
+        sort,
       },
     });
   }
