@@ -14,6 +14,7 @@ import {
 import {
   AssociatedObject,
   Category,
+  CreateEvent,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
@@ -27,6 +28,7 @@ import {
   TicketEvent,
   TicketEventCreatedEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
@@ -64,7 +66,20 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
-
+  protected createTicketCommand: Command<TicketStarter, unknown> =
+    this.commandService.create<TicketStarter>(
+      (ticketStarted) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId]) =>
+            this.customerTicketingConnector
+              .createTicket(customerId, ticketStarted)
+              .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
+          )
+        ),
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
   /**
    * Returns the reload events for the getTickets query.
    */
@@ -276,6 +291,12 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   getTicket(): Observable<TicketDetails | undefined> {
     return this.getTicketState().pipe(map((state) => state.data));
+  }
+
+  createTicket(
+    ticketStarted: TicketStarter
+  ): Observable<TicketStarter | unknown> {
+    return this.createTicketCommand.execute(ticketStarted);
   }
 
   getTicketsState(

@@ -4,6 +4,7 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 
@@ -25,6 +26,11 @@ export abstract class CustomerTicketingAdapter {
   abstract getTicketAssociatedObjects(
     customerId: string
   ): Observable<AssociatedObject[]>;
+
+  abstract createTicket(
+    customerId: string,
+    ticket: TicketStarter
+  ): Observable<TicketStarter>;
 
   abstract createTicketEvent(
     customerId: string,
