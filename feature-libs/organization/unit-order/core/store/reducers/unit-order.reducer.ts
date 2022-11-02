@@ -34,6 +34,10 @@ export function detailReducer(
       const order: Order = action.payload;
       return order;
     }
+    case UnitOrderActions.LOAD_ORDER_DETAILS_FAIL:
+    case UnitOrderActions.LOAD_ORDER_DETAILS: {
+      return detailInitialState;
+    }
   }
   return state;
 }
