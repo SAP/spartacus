@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { OccEndpoints } from '../occ-models/occ-endpoints.model';
+import { BackendTimeoutConfig } from './backend-timeout.config';
 import { LoadingScopes } from './loading-scopes-config';
 
 export interface BackendConfig {
@@ -31,6 +32,9 @@ export interface BackendConfig {
     baseUrl?: string;
   };
   loadingScopes?: LoadingScopes;
+
+  // SPIKE TODO: move it out from OccConfig!
+  timeout?: BackendTimeoutConfig;
 }
 
 @Injectable({

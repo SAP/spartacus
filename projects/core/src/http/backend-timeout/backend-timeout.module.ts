@@ -6,15 +6,15 @@
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ServerBackendRequestTimeoutInterceptor } from './server-backend-request-timeout.interceptor';
+import { BackendTimeoutInterceptor } from './backend-timeout.interceptor';
 
 @NgModule({
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useExisting: ServerBackendRequestTimeoutInterceptor,
+      useExisting: BackendTimeoutInterceptor,
       multi: true,
     },
   ],
 })
-export class ServerBackendRequestTimeoutModule {}
+export class BackendTimeoutModule {}
