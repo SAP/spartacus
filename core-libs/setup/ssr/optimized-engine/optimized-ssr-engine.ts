@@ -248,8 +248,7 @@ export class OptimizedSsrEngine {
         ssrRenderingContext: this.getRenderingContext(response),
       }); // SPIKE TODO REMOVE
 
-      // SPIKE TODO UNCOMMENT:
-      if (this.getRenderingErrors(response)) {
+      if (this.getRenderingErrors(response).length) {
         this.handleRenderingErrors(request, response, filePath, callback);
 
         // reset the isRendering status: // SPIKE TODO - comment it better
@@ -431,9 +430,8 @@ export class OptimizedSsrEngine {
   /**
    * Tells whether the rendering for the response encountered errors.
    */
-  private getRenderingErrors(response: Response): any {
-    // SPIKE TODO IMPROVE TYPING any
-    return this.getRenderingContext(response)['renderingErrors'];
+  private getRenderingErrors(response: Response): unknown[] {
+    return this.getRenderingContext(response)['renderingErrors'] ?? [];
   }
 
   /**
@@ -455,6 +453,6 @@ export class OptimizedSsrEngine {
    * Returns the context of the rendering for the response.
    */
   private getRenderingContext(response: Response): Record<string, any> {
-    return response.locals['cx-server-rendering-context'] ?? {};
+    return response.locals['cxRenderingContext'] ?? {};
   }
 }

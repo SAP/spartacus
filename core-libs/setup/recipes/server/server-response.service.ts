@@ -20,7 +20,7 @@ export class ServerResponseService {
   ) {}
 
   // SPIKE TODO: rethink naming (context vs. server rendering output context)
-  readonly CX_SERVER_RENDERING_CONTEXT_KEY = 'cx-server-rendering-context';
+  readonly CX_SERVER_RENDERING_CONTEXT_KEY = 'cxRenderingContext';
 
   /**
    * Returns a context object that ExpressJS middleware can read before
@@ -38,14 +38,14 @@ export class ServerResponseService {
   }
 
   /**
-   * Sets a context value for a given key to the server response object.
+   * Sets a context value for a given key to the ExpressJs response object.
    */
   setContext(key: string, value: any) {
     this.context[key] = value;
   }
 
   /**
-   * Returns a context value for a given key from the server response object.
+   * Returns a context value for a given key from the ExpressJs response object.
    */
   getContext(key: string) {
     return this.context[key];
