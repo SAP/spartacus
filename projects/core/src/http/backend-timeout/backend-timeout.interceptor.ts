@@ -25,7 +25,7 @@ import { BACKEND_TIMEOUT_CONFIG } from './backend-timeout.config';
  */
 @Injectable({ providedIn: 'root' })
 export class BackendTimeoutInterceptor implements HttpInterceptor {
-  // SPIKE TODO: change it to BackendTimeoutConfig!
+  // SPIKE TODO: change OccConfig to BackendTimeoutConfig!
   constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
 
   /**
@@ -34,9 +34,9 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
    * It starts counting time for timeout only after the request is sent.
    */
   intercept(
-    request: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     const timeoutValue = this.getTimeoutValue(request);
     if (typeof timeoutValue === 'undefined') {
       return next.handle(request);
@@ -52,7 +52,13 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
         return of(event);
       }),
       catchError((error) =>
-        this.convertTimeoutToHttpErrorResponse({ error, request, timeoutValue })
+        throwError(() =>
+          this.convertTimeoutToHttpErrorResponse({
+            error,
+            request,
+            timeoutValue,
+          })
+        )
       )
     );
   }
@@ -66,7 +72,7 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
    *
    * Depending on the platform (browser or server), the configured timeout value can be different.
    */
-  protected getTimeoutValue(request: HttpRequest<any>): number | undefined {
+  protected getTimeoutValue(request: HttpRequest<unknown>): number | undefined {
     const localTimeoutConfig = request.context.get(BACKEND_TIMEOUT_CONFIG);
     const globalTimeoutConfig = this.config?.backend?.timeout;
     const timeoutConfig = localTimeoutConfig ?? globalTimeoutConfig ?? {};
@@ -78,35 +84,35 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
 
   /**
    * It converts an RxJs `TimeoutError` (caused by the `timeout()` operator),
-   * to a manually crafted `HttpErrorResponse` object, and throws it.
+   * to a manually crafted `HttpErrorResponse` object.
    *
-   * If the error is not an RxJs `TimeoutError`, it just re-throws the error.
+   * If the error is not an RxJs `TimeoutError`, it just returns the original error.
    */
   protected convertTimeoutToHttpErrorResponse({
     error,
     request,
     timeoutValue,
   }: {
-    error: any;
-    request: HttpRequest<any>;
+    error: unknown;
+    request: HttpRequest<unknown>;
     timeoutValue: number;
-  }): Observable<never> {
+  }): unknown | HttpErrorResponse {
     if (error instanceof TimeoutError) {
       const httpErrorResponse = new HttpErrorResponse({
         url: request.url,
         status: this.getHttpErrorStatus(),
         error: this.getHttpErrorMessage(timeoutValue),
       });
-      return throwError(httpErrorResponse);
+      return httpErrorResponse;
     }
-    return throwError(error);
+    return error;
   }
 
   /**
    * Returns the error message to be used in the `HttpErrorResponse` object, in case of timeout.
    */
   getHttpErrorMessage(timeoutValue: number): string {
-    return `[Spartacus] request timeout ${timeoutValue}ms'`;
+    return `[Spartacus] request timeout (${timeoutValue}ms)`;
   }
 
   /**

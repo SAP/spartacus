@@ -28,7 +28,7 @@ import {
 export class TransferServerErrors {
   constructor(
     @Inject(SERVER_ERROR_COLLECTOR)
-    protected ssrErrorsCollectors: ServerErrorCollector<any>[],
+    protected ssrErrorsCollectors: ServerErrorCollector<unknown>[],
     protected windowRef: WindowRef,
     protected serverResponse: ServerResponseService
   ) {}
@@ -41,7 +41,7 @@ export class TransferServerErrors {
   /**
    * Returns all errors collected during the server side rendering of the page.
    */
-  protected collectErrors(): any[] {
+  protected collectErrors(): unknown[] {
     return this.ssrErrorsCollectors
       .map((collector) => collector.getErrors())
       .flat();
@@ -51,7 +51,7 @@ export class TransferServerErrors {
    * Transfers errors that happened during the server side rendering
    * to the ExpressJS response object.
    */
-  transferErrors() {
+  transferErrors(): void {
     const errors = this.collectErrors();
 
     if (errors.length) {

@@ -20,5 +20,5 @@ export interface ServerErrorCollector<T> {
  * Injection token for objects that collect errors from the server side rendering process.
  */
 export const SERVER_ERROR_COLLECTOR = new InjectionToken<
-  ServerErrorCollector<any>[]
+  ServerErrorCollector<unknown>[]
 >('SERVER_ERROR_COLLECTOR', { providedIn: 'root', factory: () => [] });

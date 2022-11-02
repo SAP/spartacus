@@ -21,19 +21,19 @@ import { ServerErrorCollector } from './server-error.collector';
  */
 @Injectable({ providedIn: 'root' })
 export class ServerErrorInterceptor
-  implements HttpInterceptor, ServerErrorCollector<any>
+  implements HttpInterceptor, ServerErrorCollector<unknown>
 {
   constructor(protected windowRef: WindowRef) {}
 
   /**
    * Errors collected during the server side rendering.
    */
-  protected readonly errors: any[] = [];
+  protected readonly errors: unknown[] = [];
 
   intercept(
-    request: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (this.windowRef.isBrowser()) {
       return next.handle(request);
     }
@@ -46,7 +46,7 @@ export class ServerErrorInterceptor
     );
   }
 
-  protected collectError(error: any) {
+  protected collectError(error: unknown) {
     this.errors.push(error);
   }
 
