@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
@@ -25,16 +20,6 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
     ReactiveFormsModule,
     FormErrorsModule,
     FileUploadModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SupportTicketCreateComponent: {
-          component: CustomerTicketingCreateComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
   ],
   declarations: [
     CustomerTicketingCreateComponent,

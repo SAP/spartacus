@@ -4,8 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
-import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
-import { CUSTOMER_TICKETING_NORMALIZER } from 'feature-libs/customer-ticketing/core';
+import {
+  TicketDetails,
+  TicketEvent,
+  TicketList,
+} from '@spartacus/customer-ticketing/root';
+import { CUSTOMER_TICKETING_EVENT_NORMALIZER } from 'feature-libs/customer-ticketing/core';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 
@@ -15,6 +19,7 @@ const MockOccModuleConfig: OccConfig = {
       endpoints: {
         getTicket: 'users/${customerId}/tickets/${ticketId}',
         createTicketEvent: 'users/${customerId}/tickets/${ticketId}/events',
+        getTickets: 'users/${customerId}/tickets',
       } as OccEndpoints,
     },
   },
@@ -104,12 +109,118 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedEvent);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_NORMALIZER
+        CUSTOMER_TICKETING_EVENT_NORMALIZER
       );
       expect(converter.convert).toHaveBeenCalledWith(
         mockTicketEvent,
-        CUSTOMER_TICKETING_NORMALIZER
+        CUSTOMER_TICKETING_EVENT_NORMALIZER
       );
+    });
+  });
+
+  describe('getTickets', () => {
+    it('should get tickets for the given customer id', (done) => {
+      const mockTicketList: TicketList = {
+        pagination: {
+          currentPage: 0,
+          pageSize: 5,
+          sort: 'byId',
+          totalPages: 1,
+          totalResults: 2,
+        },
+        sorts: [
+          { code: 'byId', selected: true },
+          { code: 'byChangedDate', selected: false },
+        ],
+        tickets: [
+          {
+            availableStatusTransitions: [
+              {
+                id: 'CLOSED',
+                name: 'Closed',
+              },
+            ],
+            id: '0000001',
+            createdAt: '2021-01-13T10:06:57+0000',
+            modifiedAt: '2021-01-13T10:06:57+0000',
+            status: {
+              id: 'CLOSED',
+              name: 'Closed',
+            },
+            subject: 'My drill is broken.',
+            ticketCategory: {
+              id: 'ENQUIRY',
+              name: 'Enquiry',
+            },
+            ticketEvents: [
+              {
+                author: 'Mark Rivers',
+                createdAt: '2021-01-13T10:06:57+0000',
+                message:
+                  'It is broken when I receive it. Please send one replacement to me.',
+                toStatus: {
+                  id: 'CLOSED',
+                  name: 'Closed',
+                },
+              },
+            ],
+          },
+          {
+            availableStatusTransitions: [
+              {
+                id: 'CLOSED',
+                name: 'Closed',
+              },
+            ],
+            id: '0000002',
+            createdAt: '2021-01-14T10:06:57+0000',
+            modifiedAt: '2021-01-14T10:06:57+0000',
+            status: {
+              id: 'OPEN',
+              name: 'Open',
+            },
+            subject: 'Need fix for my door',
+            ticketCategory: {
+              id: 'ENQUIRY',
+              name: 'Enquiry',
+            },
+            ticketEvents: [
+              {
+                author: 'Bob',
+                createdAt: '2021-01-14T10:06:57+0000',
+                message: 'Door received broken',
+                toStatus: {
+                  id: 'OPEN',
+                  name: 'Open',
+                },
+              },
+            ],
+          },
+        ],
+      };
+      const PAGE_SIZE = 5;
+      const currentPage = 1;
+      const sort = 'byId';
+
+      service
+        .getTickets(mockCustomerId, PAGE_SIZE, currentPage, sort)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockTicketList);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `users/${mockCustomerId}/tickets?pageSize=${PAGE_SIZE}&currentPage=${currentPage}&sort=${sort}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockTicketList);
     });
   });
 });

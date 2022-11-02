@@ -4,10 +4,15 @@ declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
      * Endpoint to get ticket details by ticket id
-     *
-     * * @member {string}
+     * @member {string}
      */
     getTicket?: string | OccEndpoint;
+
+    /**
+     * Endpoint to get ticket list by customer id
+     * @member {string}
+     */
+    getTickets?: string | OccEndpoint;
 
     /**
      * Endpoint to create a ticket event
@@ -27,5 +32,19 @@ declare module '@spartacus/core' {
      * * @member {string}
      */
     getTicketAssociatedObjects?: string | OccEndpoint;
+
+    /**
+     * Endpoint to upload an attachment
+     *
+     * * @member {string}
+     */
+    uploadAttachment?: string | OccEndpoint;
+
+    /**
+     * Endpoint to download an attachment
+     *
+     * * @member {string}
+     */
+    downloadAttachment?: string | OccEndpoint;
   }
 }

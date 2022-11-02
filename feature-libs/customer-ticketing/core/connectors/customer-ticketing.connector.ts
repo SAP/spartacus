@@ -4,6 +4,7 @@ import {
   Category,
   TicketDetails,
   TicketEvent,
+  TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
@@ -18,6 +19,16 @@ export class CustomerTicketingConnector {
   ): Observable<TicketDetails> {
     return this.adapter.getTicket(customerId, ticketId);
   }
+
+  public getTickets(
+    customerId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList> {
+    return this.adapter.getTickets(customerId, pageSize, currentPage, sort);
+  }
+
   public getTicketCategories(): Observable<Category[]> {
     return this.adapter.getTicketCategories();
   }
@@ -34,5 +45,28 @@ export class CustomerTicketingConnector {
     ticketEvent: TicketEvent
   ): Observable<TicketEvent> {
     return this.adapter.createTicketEvent(customerId, ticketId, ticketEvent);
+  }
+
+  public uploadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    file: File
+  ): Observable<unknown> {
+    return this.adapter.uploadAttachment(customerId, ticketId, eventCode, file);
+  }
+
+  public downloadAttachment(
+    customerId: string,
+    ticketId: string,
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown> {
+    return this.adapter.downloadAttachment(
+      customerId,
+      ticketId,
+      eventCode,
+      attachmentId
+    );
   }
 }

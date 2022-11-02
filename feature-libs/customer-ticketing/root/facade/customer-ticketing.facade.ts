@@ -7,6 +7,7 @@ import {
   Category,
   TicketDetails,
   TicketEvent,
+  TicketList,
 } from '../model';
 
 @Injectable({
@@ -18,11 +19,14 @@ import {
       methods: [
         'getTicketState',
         'getTicket',
+        'getTicketsState',
+        'getTickets',
         'createTicketEvent',
         'getTicketCategoriesState',
         'getTicketCategories',
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
+        'uploadAttachment',
       ],
     }),
 })
@@ -30,6 +34,18 @@ export abstract class CustomerTicketingFacade {
   abstract getTicketState(): Observable<QueryState<TicketDetails | undefined>>;
 
   abstract getTicket(): Observable<TicketDetails | undefined>;
+
+  abstract getTicketsState(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<QueryState<TicketList | undefined>>;
+
+  abstract getTickets(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList | undefined>;
 
   abstract getTicketCategoriesState(): Observable<QueryState<Category[]>>;
 
@@ -41,7 +57,15 @@ export abstract class CustomerTicketingFacade {
 
   abstract getTicketAssociatedObjects(): Observable<AssociatedObject[]>;
 
-  abstract createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown>;
+  abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
+
+  abstract uploadAttachment(
+    file: File | null,
+    eventCode: string
+  ): Observable<unknown>;
+
+  abstract downloadAttachment(
+    eventCode: string,
+    attachmentId: string
+  ): Observable<unknown>;
 }
