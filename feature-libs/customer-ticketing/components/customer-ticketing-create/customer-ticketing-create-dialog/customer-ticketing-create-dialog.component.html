@@ -42,19 +42,21 @@
           </p>
         </label>
 
-        <label>
+        <label *ngIf="ticketCategories$ | async as ticketCategories">
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.category' | cxTranslate }}
           </span>
           <select
             class="form-control"
-            (change)="setSelectedCategory($event.target.selectedIndex)"
+            (change)="
+              setSelectedCategory(ticketCategories, $event.target.selectedIndex)
+            "
           >
             <option value="" disabled selected>
               {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
             </option>
             <option
-              *ngFor="let category of ticketCategories$ | async"
+              *ngFor="let category of ticketCategories"
               ngValue="{{ category.id }}"
               [selected]="category.id === selectedCategory?.id"
             >
@@ -67,13 +69,20 @@
           ></cx-form-errors>
         </label>
 
-        <label>
+        <label
+          *ngIf="ticketAssociatedObjects$ | async as ticketAssociatedObjects"
+        >
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.associateTo' | cxTranslate }}
           </span>
           <select
             class="form-control"
-            (change)="setSelectedAssociatedObject($event.target.selectedIndex)"
+            (change)="
+              setSelectedAssociatedObject(
+                ticketAssociatedObjects,
+                $event.target.selectedIndex
+              )
+            "
           >
             <option value="" disabled selected>
               {{
@@ -82,7 +91,7 @@
               }}
             </option>
             <option
-              *ngFor="let associatedObject of ticketAssociatedObjects$ | async"
+              *ngFor="let associatedObject of ticketAssociatedObjects"
               value="{{ associatedObject.code }}"
               [selected]="
                 associatedObject.code === selectedAssociatedObject?.code

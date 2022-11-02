@@ -75,23 +75,22 @@ export class CustomerTicketingCreateDialogComponent
     this.form = form;
   }
 
-  setSelectedAssociatedObject(selectedAssociatedObjectIndex: number) {
-    this.ticketAssociatedObjects$.subscribe((associatedObjects) => {
-      this.ticketAssociatedObjects = associatedObjects;
-    });
+  setSelectedAssociatedObject(
+    ticketAssociatedObjects: AssociatedObject[],
+    selectedAssociatedObjectIndex: number
+  ) {
     this.selectedAssociatedObject =
-      this.ticketAssociatedObjects[selectedAssociatedObjectIndex - 1];
+      ticketAssociatedObjects[selectedAssociatedObjectIndex - 1];
     this.form.controls.associatedTo.setValue(
       this.selectedAssociatedObject.code
     );
   }
 
-  setSelectedCategory(selectedCategoryIndex: number): void {
-    this.ticketCategories$.subscribe((categories) => {
-      this.ticketCategories = categories;
-    });
-
-    this.selectedCategory = this.ticketCategories[selectedCategoryIndex - 1];
+  setSelectedCategory(
+    ticketCategories: Category[],
+    selectedCategoryIndex: number
+  ): void {
+    this.selectedCategory = ticketCategories[selectedCategoryIndex - 1];
     this.form.controls.ticketCategory.setValue(this.selectedCategory.id);
   }
 
