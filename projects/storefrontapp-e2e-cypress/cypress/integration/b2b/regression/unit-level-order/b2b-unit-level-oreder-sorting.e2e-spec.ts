@@ -95,6 +95,16 @@ describe('B2B - Unit-Level Order Details Page', () => {
         });
     })
 
+    describe('Check unit level orders page email  ', () => {
+      it('should display buyer and unit on order details page for unit-level-viewer user', () => {
+        unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+        unitLevelOrderDetails.getStubbedUnitLevelOrderDetails();
+        cy.visit(`/my-account/unitLevelOrders`);
+        cy.get('.cx-unit-level-order-history-value').contains('william.hunter@rustic-hw.com');
+
+
+      });
+    })
 
   });
 
