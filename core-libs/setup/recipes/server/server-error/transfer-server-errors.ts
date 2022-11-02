@@ -6,17 +6,24 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { escapeHtml } from './escape-html';
+import { ServerResponseService } from '../server-response.service';
 import {
   ServerErrorCollector,
   SERVER_ERROR_COLLECTOR,
 } from './server-error-collector';
-import { ServerResponseService } from './server-response.service';
 
-export interface ServerErrorsSummary {
-  count: number;
-}
+// SPIKE TODO: rethink naming Transfer - as is suggests transferring to the client
+// maybe just ServerErrorService or RenderingErrorsService?
 
+/**
+ * Transfers errors that happened during the server side rendering
+ * to the ExpressJS response object.
+ *
+ * Thanks to that, an ExpressJS middleware can intercept those errors
+ * and handle appropriately (e.g. avoid caching the rendered HTML,
+ * because it might be malformed due to the errors, and send a CSR fallback
+ * in response to the client).
+ */
 @Injectable({ providedIn: 'root' })
 export class TransferServerErrors {
   constructor(
@@ -27,12 +34,7 @@ export class TransferServerErrors {
   ) {}
 
   /**
-   * The id of the `<script>` element that contains the serialized errors summary.
-   */
-  protected readonly SERVER_ERRORS_SCRIPT_ID = 'cx-server-errors';
-
-  /**
-   * The key of the renderingErrors context property in the server response object.
+   * The key of the `renderingErrors` context property in the server response object.
    */
   protected readonly RENDERING_ERRORS_KEY = 'renderingErrors';
 
@@ -46,50 +48,14 @@ export class TransferServerErrors {
   }
 
   /**
-   * Checks if errors happened during the rendering of the page.
-   *
-   * If yes, handles them appropriately. By default, it serializes
-   * the errors summary into the DOM.
-   *
-   * This allows an (ExpressJS) server middleware for recognizing a page that had errors
-   * during the rendering, and the server middleware can react accordingly.
-   * For example it can fallback to CSR (just send a shell index.html with no-cache headers).
+   * Transfers errors that happened during the server side rendering
+   * to the ExpressJS response object.
    */
   transferErrors() {
     const errors = this.collectErrors();
 
     if (errors.length) {
-      const errorsReport = this.getErrorsSummary(errors);
-      this.serverResponse.setContext(this.RENDERING_ERRORS_KEY, errorsReport);
-
-      // SPIKE TODO: remove the logic for serializing
-      // this.serializeErrorsToScriptElement(errorsReport);
+      this.serverResponse.setContext(this.RENDERING_ERRORS_KEY, errors);
     }
-  }
-
-  /**
-   * Returns a summary of errors, with the number of errors.
-   *
-   * Potentially can be extended with other properties, like the list of errors
-   * or the count for specific types of errors.
-   */
-  protected getErrorsSummary(errors: any[]): ServerErrorsSummary {
-    return {
-      count: errors.length,
-    };
-  }
-
-  /**
-   * Serializes the summary of errors object to a `<script type="application/json">`
-   * and embeds it in the DOM. Special characters are escaped
-   */
-  protected serializeErrorsToScriptElement(errorsSummary: ServerErrorsSummary) {
-    const serializedErrorsSummary = JSON.stringify(errorsSummary);
-
-    const script = this.windowRef.document.createElement('script');
-    script.id = this.SERVER_ERRORS_SCRIPT_ID;
-    script.setAttribute('type', 'application/json');
-    script.textContent = escapeHtml(serializedErrorsSummary);
-    this.windowRef.document.body.appendChild(script);
   }
 }

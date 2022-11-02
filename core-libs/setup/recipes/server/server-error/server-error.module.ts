@@ -42,4 +42,4 @@ import { ServerHttpErrorInterceptor } from './server-http-error.interceptor';
     // },
   ],
 })
-export class ServerErrorSerializerModule {}
+export class ServerErrorModule {}
