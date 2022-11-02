@@ -48,7 +48,6 @@ export function loginB2bUser() {
     .then((result) => {
       expect(result.status).to.eq(200);
       adminToken = result?.body?.access_token;
-      console.log('adminToken', adminToken);
       return addB2bUser(adminToken, user);
     })
     .then((result) => {
