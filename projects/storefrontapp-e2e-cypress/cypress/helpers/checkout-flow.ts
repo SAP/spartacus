@@ -202,26 +202,27 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
+  fillShippingAddress(shippingAddressData);
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
   /**
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
-
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-  fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
