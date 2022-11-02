@@ -63,7 +63,7 @@ export function loginB2bUser() {
     })
     .then(() => {
       visitHomePage();
-      cy.get('.cx-login-greet').should('contain', 'Hi');
+      cy.get('.cx-login-greet').should('contain', user.fullName);
     });
 }
 
@@ -104,8 +104,8 @@ function setB2bPassword(
       Authorization: `bearer ${access_token}`,
     },
     body: {
-      customerId: customerId,
-      password: password,
+      customerId,
+      password,
       confirmPassword: password,
     },
   });
