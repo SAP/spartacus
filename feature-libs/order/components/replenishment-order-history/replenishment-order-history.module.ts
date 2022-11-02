@@ -12,7 +12,6 @@ import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -30,7 +29,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     FeaturesConfigModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountReplenishmentHistoryComponent: {

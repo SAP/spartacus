@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -14,32 +15,28 @@ import createSpy = jasmine.createSpy;
 const USER_ID = 'theUser';
 const CART_ID = '98876';
 
+const configuration: ConfiguratorTextfield.Configuration = {
+  owner: ConfiguratorModelUtils.createInitialOwner(),
+  configurationInfos: [],
+};
+const cartModification: CartModification = {};
+
 class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
-  readConfiguration = createSpy().and.callFake((configId: string) =>
-    of('readConfiguration' + configId)
+  readConfiguration = createSpy().and.callFake(() => of(configuration));
+
+  createConfiguration = createSpy().and.callFake(() => of(configuration));
+
+  addToCart = createSpy().and.callFake(() => of(cartModification));
+
+  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(cartModification)
   );
 
-  createConfiguration = createSpy().and.callFake((productCode: string) =>
-    of('createConfiguration' + productCode)
+  readConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(configuration)
   );
-
-  addToCart = createSpy().and.callFake(
-    (params: ConfiguratorTextfield.AddToCartParameters) =>
-      of('addToCart' + params)
-  );
-
-  updateConfigurationForCartEntry = createSpy().and.callFake(
-    (params: ConfiguratorTextfield.UpdateCartEntryParameters) =>
-      of('updateConfigurationForCartEntry' + params)
-  );
-
-  readConfigurationForCartEntry = createSpy().and.callFake(
-    (params: CommonConfigurator.ReadConfigurationFromCartEntryParameters) =>
-      of('readConfigurationForCartEntry' + params)
-  );
-  readConfigurationForOrderEntry = createSpy().and.callFake(
-    (params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters) =>
-      of('readConfigurationForOrderEntry' + params)
+  readConfigurationForOrderEntry = createSpy().and.callFake(() =>
+    of(configuration)
   );
 }
 
@@ -75,12 +72,11 @@ describe('ConfiguratorTextfieldConnector', () => {
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
-    let result;
     const owner = ConfiguratorModelUtils.createInitialOwner();
-    service
-      .createConfiguration(PRODUCT_CODE, owner)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('createConfiguration' + PRODUCT_CODE);
+    service.createConfiguration(PRODUCT_CODE, owner).subscribe((res) => {
+      expect(res).toBe(configuration);
+    });
+
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       PRODUCT_CODE,
       owner
@@ -96,11 +92,11 @@ describe('ConfiguratorTextfieldConnector', () => {
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
-    let result;
+
     service
       .readConfigurationForCartEntry(params)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('readConfigurationForCartEntry' + params);
+      .subscribe((res) => expect(res).toBe(configuration));
+
     expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(params);
   });
 
@@ -113,11 +109,11 @@ describe('ConfiguratorTextfieldConnector', () => {
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
       };
-    let result;
+
     service
       .readConfigurationForOrderEntry(params)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('readConfigurationForOrderEntry' + params);
+      .subscribe((res) => expect(res).toBe(configuration));
+
     expect(adapter.readConfigurationForOrderEntry).toHaveBeenCalledWith(params);
   });
 
@@ -132,10 +128,11 @@ describe('ConfiguratorTextfieldConnector', () => {
       productCode: PRODUCT_CODE,
       quantity: 1,
     };
-    let result;
-    service.addToCart(parameters).subscribe((res) => (result = res));
+
+    service
+      .addToCart(parameters)
+      .subscribe((res) => expect(res).toBe(cartModification));
     expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
-    expect(result).toBe('addToCart' + parameters);
   });
 
   it('should call adapter on updateCartEntry', () => {
@@ -148,13 +145,12 @@ describe('ConfiguratorTextfieldConnector', () => {
       cartId: CART_ID,
       cartEntryNumber: '1',
     };
-    let result;
+
     service
       .updateConfigurationForCartEntry(parameters)
-      .subscribe((res) => (result = res));
+      .subscribe((res) => expect(res).toBe(cartModification));
     expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
       parameters
     );
-    expect(result).toBe('updateConfigurationForCartEntry' + parameters);
   });
 });
