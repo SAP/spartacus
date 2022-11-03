@@ -153,3 +153,15 @@ export function visitApparelUKTicketListingPage(){
 export function verifyCreateTicketPopupIsClosed(){
   cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }
+
+export function verifyFieldInputDoesntExceedLimit(){
+  cy.get('cx-customer-ticketing-create-dialog').within(() => {
+    cy.get('textarea').first().invoke('text').then((text) => {
+      expect(text.length).to.be.lessThan(256);
+    });
+    cy.get('textarea').last().invoke('text').then((text) => {
+      expect(text.length).to.be.lessThan(5001);
+    });
+    cy.get('cx-form-errors').should('not.be.visible');
+  });
+}

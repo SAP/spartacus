@@ -158,7 +158,7 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyFieldValidationErrorShown();
+        customerTicketing.verifyFieldInputDoesntExceedLimit();
       });
 
       it('should not create ticket if message exceeds 5000 character limit', () => {
@@ -172,7 +172,7 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyFieldValidationErrorShown();
+        customerTicketing.verifyFieldInputDoesntExceedLimit();
       });
 
       it('should close create ticket popup upon submit', () => {
