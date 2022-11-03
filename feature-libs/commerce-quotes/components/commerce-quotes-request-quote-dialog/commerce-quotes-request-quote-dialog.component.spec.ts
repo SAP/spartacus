@@ -13,7 +13,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
-  ModalService,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -37,8 +37,8 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockModalService implements Partial<ModalService> {
-  dismissActiveModal = createSpy();
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  closeDialog = createSpy();
 }
 
 class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
@@ -53,7 +53,7 @@ class MockRoutingService implements Partial<RoutingService> {
 describe('CommerceQuotesRequestQuoteDialogComponent', () => {
   let component: CommerceQuotesRequestQuoteDialogComponent;
   let fixture: ComponentFixture<CommerceQuotesRequestQuoteDialogComponent>;
-  let modalService: ModalService;
+  let launchDialogService: LaunchDialogService;
   let commerceQuotesService: CommerceQuotesFacade;
   let routingService: RoutingService;
 
@@ -71,8 +71,8 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
       ],
       providers: [
         {
-          provide: ModalService,
-          useClass: MockModalService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
         {
           provide: CommerceQuotesFacade,
@@ -82,7 +82,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
       ],
     }).compileComponents();
 
-    modalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     commerceQuotesService = TestBed.inject(CommerceQuotesFacade);
     routingService = TestBed.inject(RoutingService);
 
@@ -174,7 +174,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
       cxRoute: 'quoteDetails',
       params: { quoteId: quoteCode },
     });
-    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('success');
   });
 
   it('should submit quote', () => {
@@ -209,6 +209,6 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
       quoteCode,
       QuoteActionType.SUBMIT
     );
-    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('success');
   });
 });

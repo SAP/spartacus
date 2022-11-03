@@ -4,26 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
-  ModalModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
+import { defaultCommerceQuotesRequestQuoteDialogConfig } from './default-commerce-quotes-request-quote-dialog-config';
 
 @NgModule({
-  declarations: [CommerceQuotesRequestQuoteDialogComponent],
-  exports: [CommerceQuotesRequestQuoteDialogComponent],
   imports: [
     CommonModule,
-    ModalModule,
     I18nModule,
     UrlModule,
     IconModule,
@@ -34,5 +31,10 @@ import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-req
     KeyboardFocusModule,
     SpinnerModule,
   ],
+  providers: [
+    provideDefaultConfig(defaultCommerceQuotesRequestQuoteDialogConfig),
+  ],
+  declarations: [CommerceQuotesRequestQuoteDialogComponent],
+  exports: [CommerceQuotesRequestQuoteDialogComponent],
 })
 export class CommerceQuotesRequestQuoteDialogModule {}

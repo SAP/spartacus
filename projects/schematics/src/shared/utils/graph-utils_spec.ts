@@ -6,6 +6,7 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_COMMERCE_QUOTES,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ESLINT_PLUGIN,
@@ -128,6 +129,7 @@ describe('Graph utils', () => {
         SPARTACUS_CHECKOUT,
         SPARTACUS_TRACKING,
         SPARTACUS_ASM,
+        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CDS,
@@ -135,9 +137,9 @@ describe('Graph utils', () => {
         SPARTACUS_STOREFINDER,
         SPARTACUS_SMARTEDIT,
         SPARTACUS_QUALTRICS,
-        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_COMMERCE_QUOTES,
         SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
@@ -177,6 +179,7 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
+          "Commerce-Quotes",
           "ASM",
         ]
       `);

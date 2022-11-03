@@ -10,21 +10,25 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  commerceQuotesFeatureModulePath,
   COMMERCE_QUOTES_FEATURE_NAME,
   LibraryOptions as SpartacusCommerceQuotesOptions,
   SpartacusOptions,
+  SPARTACUS_COMMERCE_QUOTES,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/commerce-quotes/commerce-quotes-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/commerce-quotes.scss';
 
 describe('Spartacus Commerce Quotes schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_COMMERCE_QUOTES,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -99,7 +103,7 @@ describe('Spartacus Commerce Quotes schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(commerceQuotesFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -137,8 +141,13 @@ describe('Spartacus Commerce Quotes schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(commerceQuotesFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -166,7 +175,7 @@ describe('Spartacus Commerce Quotes schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(commerceQuotesFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
