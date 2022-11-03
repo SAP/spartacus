@@ -11,7 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -76,8 +76,8 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     DotSpinnerComponent,
   ],
   providers: [
-    provideConfig(defaultAsmLayoutConfig),
-    provideConfig(defaultCustomerListLayoutConfig),
+    provideDefaultConfig(defaultAsmLayoutConfig),
+    provideDefaultConfig(defaultCustomerListLayoutConfig),
   ],
 })
 export class AsmComponentsModule {}

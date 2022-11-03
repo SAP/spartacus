@@ -78,6 +78,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
    *
+   * @deprecated since 5.0 - method not used anymore
    * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isDesktop(): Observable<boolean> {
