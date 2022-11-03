@@ -11,6 +11,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
   providedIn: 'root',
 })
 export class FilesFormValidators {
+  multiplier: number = 1000000;
+  extenstionRegEx: RegExp = /\.([0-9a-z]+)(?:[\?#]|$)/i;
+
   /**
    * Checks max size of file
    *
@@ -23,12 +26,12 @@ export class FilesFormValidators {
       const errors: ValidationErrors = {};
       if (maxSize && control.value) {
         const files: File[] = Array.from(control.value);
-        files.forEach((file: File) => {
-          if (file.size > maxSize * 1000000) {
+        files.forEach(({ size, name }) => {
+          if (size > maxSize * this.multiplier) {
             const invalidFiles = errors.tooLarge?.invalidFiles ?? [];
             errors.tooLarge = {
               maxSize,
-              invalidFiles: [...invalidFiles, file.name],
+              invalidFiles: [...invalidFiles, name],
             };
           }
         });
@@ -69,17 +72,15 @@ export class FilesFormValidators {
       const errors: ValidationErrors = {};
       if (allowedTypes && control.value) {
         const files: File[] = Array.from(control.value);
-        files.forEach((file: File) => {
-          if (!allowedTypes.includes(this.getExtension(file.name))) {
-            errors.notParsable = true;
-          }
-        });
+        errors.fileNotAllowed = files.some(
+          ({ name }) => !allowedTypes.includes(this.getExtension(name))
+        );
       }
       return Object.keys(errors).length === 0 ? null : errors;
     };
   }
 
-  protected getExtension(filename?: string): string {
-    return `.${filename?.split('.').pop()}` || '';
+  protected getExtension(filename: string): string {
+    return (filename.match(this.extenstionRegEx) || [])[0];
   }
 }
