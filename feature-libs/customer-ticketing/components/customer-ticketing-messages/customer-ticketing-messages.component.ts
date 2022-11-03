@@ -49,11 +49,10 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
               event.files.item(0),
               createdEvent.code
             );
-            this.messagingComponent.resetForm();
           } else {
             this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-            this.messagingComponent.resetForm();
           }
+          this.messagingComponent.resetForm();
         })
     );
   }
