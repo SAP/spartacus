@@ -12,6 +12,13 @@ describe('ticketing', () => {
           win.sessionStorage.clear();
         });
       });
+
+      it('clicking add should open create new ticket popup', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+      });
+
       it('should be able to create ticket when filling the required form', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Entering a subject',
@@ -138,6 +145,49 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickClose();
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
+      });
+
+      it('should not create ticket if subject exceeds 255 character limit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Exceeding character limit                                                                                                                                                                                                                                       <--Space',
+          message: 'Exceeding character limit',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.verifyFieldValidationErrorShown();
+      });
+
+      it('should not create ticket if message exceeds 5000 character limit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Exceeding character limit',
+          message: 'Exceeding character limit space-->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <--space',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.verifyFieldValidationErrorShown();
+      });
+
+      it('should close create ticket popup upon submit', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Entering a subject',
+          message: 'Typing a message',
+          category: TestCategory.complaint,
+        };
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.verifyCreateTicketPopupIsClosed();
       });
 
     });

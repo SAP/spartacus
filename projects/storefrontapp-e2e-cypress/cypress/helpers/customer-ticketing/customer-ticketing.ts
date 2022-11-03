@@ -149,3 +149,7 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
+
+export function verifyCreateTicketPopupIsClosed(){
+  cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
+}
