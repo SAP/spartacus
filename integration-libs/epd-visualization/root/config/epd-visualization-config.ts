@@ -53,8 +53,8 @@ export interface Ui5Config {
 export interface VisualizationApiConfig {
   /**
    * This is the base URL that is used to access the EPD Visualization APIs.
-   * Use the origin portion of the URL for your EPD Fiori Launchpad.
-   * i.e. https://mytenantsubdomain.epd.cfapps.eu20.hana.ondemand.com
+   * Use the origin portion of the URL for your EPD Visualization Fiori Launchpad.
+   * i.e. https://mytenant.visualization.eu20.epd.cloud.sap
    */
   baseUrl: string;
 }
