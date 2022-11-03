@@ -17,14 +17,14 @@ const productScrollButtons = 'cx-product-scroll .btn-action';
 const doubleButton = 'double';
 const singleButton = 'single';
 
-export const powerSuppliesCategorCode = '816';
-export const testUrl = `/Open-Catalogue/Components/Power-Supplies/c/${powerSuppliesCategorCode}`;
+export const powerSuppliesCategoryCode = '816';
+export const testUrl = `/Open-Catalogue/Components/Power-Supplies/c/${powerSuppliesCategoryCode}`;
 export const defaultQuery = `query_relevance`;
 export const defaultQueryAlias = `@${defaultQuery}`;
 
 export function visitPowerSupplyListingPage() {
   const categoryPage = waitForCategoryPage(
-    powerSuppliesCategorCode,
+    powerSuppliesCategoryCode,
     'getCategory'
   );
   cy.visit(testUrl);

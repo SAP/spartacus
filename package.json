@@ -7,6 +7,7 @@
     "node": "^14.15.0 || >=16.10.0"
   },
   "scripts": {
+    "testcy": "for i in {1..10}; do yarn e2e:run --spec cypress/integration/regression/scrolling/infinite-scroll.e2e-spec.ts; done",
     "build:analyze": "yarn build --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --configuration production",
     "build:core": "ng build core --configuration production",
