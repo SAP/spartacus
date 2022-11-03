@@ -24,7 +24,7 @@ export class ServerResponseService {
    *
    * For more see: https://expressjs.com/en/api.html#res.locals
    */
-  readonly CX_SERVER_RENDERING_CONTEXT_KEY = 'cxRenderingContext';
+  readonly CX_RENDERING_CONTEXT_KEY = 'cxRenderingContext';
 
   /**
    * Returns a context object that ExpressJS middleware can read before
@@ -34,11 +34,11 @@ export class ServerResponseService {
    */
   protected get context(): Record<string, any> {
     // initialize if not yet initialized
-    if (!this.serverResponse.locals[this.CX_SERVER_RENDERING_CONTEXT_KEY]) {
-      this.serverResponse.locals[this.CX_SERVER_RENDERING_CONTEXT_KEY] = {};
+    if (!this.serverResponse.locals[this.CX_RENDERING_CONTEXT_KEY]) {
+      this.serverResponse.locals[this.CX_RENDERING_CONTEXT_KEY] = {};
     }
 
-    return this.serverResponse.locals[this.CX_SERVER_RENDERING_CONTEXT_KEY];
+    return this.serverResponse.locals[this.CX_RENDERING_CONTEXT_KEY];
   }
 
   /**
