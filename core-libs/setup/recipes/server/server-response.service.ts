@@ -20,7 +20,10 @@ export class ServerResponseService {
   ) {}
 
   /**
-   * Spartacus-specific key of the context object in the ExpressJS response object.
+   * The main key of the Spartacus rendering context object in the ExpressJS response object.
+   *
+   * All pairs of key-value contexts will be stored under this main key
+   * at the object `Response.locals`.
    *
    * For more see: https://expressjs.com/en/api.html#res.locals
    */
