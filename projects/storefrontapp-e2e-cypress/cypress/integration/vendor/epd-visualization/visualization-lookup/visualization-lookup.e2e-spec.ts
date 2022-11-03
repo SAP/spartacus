@@ -26,6 +26,7 @@ describe('in Spare Parts Tab', () => {
         cy.wait(`@productPage`);
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
+          .click()
           .click();
         cy.wait(`@lookupVisualization`);
         cy.get(
@@ -52,6 +53,7 @@ describe('in Spare Parts Tab', () => {
         cy.wait(`@productPage`);
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
+          .click()
           .click();
         cy.wait(`@lookupVisualization`);
         cy.get(
@@ -82,6 +84,7 @@ describe('in Spare Parts Tab', () => {
         cy.wait(`@getProductReferences`);
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
+          .click()
           .click();
         cy.get(
           'cx-epd-visualization-visual-picking-tab .no-product-references'
