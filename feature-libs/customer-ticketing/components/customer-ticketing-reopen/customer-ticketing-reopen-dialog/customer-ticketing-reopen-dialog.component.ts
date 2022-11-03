@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  GetTicketQueryReloadEvent,
   STATUS,
   STATUS_NAME,
   TicketEvent,
@@ -30,14 +31,27 @@ export class CustomerTicketingReopenDialogComponent
       this.isDataLoading$.next(true);
       this.subscription = this.customerTicketingFacade
         .createTicketEvent(this.prepareTicketEvent())
-        .subscribe({
-          complete: () => {
+        .subscribe((createdEvent: TicketEvent) => {
+          if (this.form.get('file')?.value?.length && createdEvent.code) {
+            this.customerTicketingFacade
+              .uploadAttachment(
+                this.form.get('file')?.value?.item(0),
+                createdEvent.code
+              )
+              .subscribe({
+                complete: () => {
+                  this.isDataLoading$.next(false);
+                  this.close('Ticket reopened successfully');
+                },
+                error: () => {
+                  this.close('Something went wrong while reopening ticket');
+                },
+              });
+          } else {
+            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
             this.isDataLoading$.next(false);
             this.close('Ticket reopened successfully');
-          },
-          error: () => {
-            this.close('Something went wrong while reopening ticket');
-          },
+          }
         });
     }
   }

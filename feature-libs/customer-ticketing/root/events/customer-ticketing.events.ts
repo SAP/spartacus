@@ -8,6 +8,14 @@ export class GetTicketQueryReloadEvent extends CxEvent {
   static readonly type = 'GetTicketQueryReloadEvent';
 }
 
+export class GetTicketsQueryResetEvents extends CxEvent {
+  static readonly type = 'GetTicketsQueryResetEvents';
+}
+
+export class GetTicketsQueryReloadEvents extends CxEvent {
+  static readonly type = 'GetTicketsQueryReloadEvents';
+}
+
 export class TicketEventCreatedEvent extends CxEvent {
   static readonly type = 'TicketEventCreatedEvent';
   status: string;
@@ -30,4 +38,7 @@ export class GetTicketAssociatedObjectsQueryReloadEvent extends CxEvent {
 }
 export class TicketCreatedEvent extends CxEvent {
   static readonly type = 'TicketCreatedEvent';
+}
+export class CreateEvent extends CxEvent {
+  static readonly type = 'CreateEvent';
 }

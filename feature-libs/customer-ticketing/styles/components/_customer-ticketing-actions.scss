@@ -1,4 +1,3 @@
-%cx-customer-ticketing-create,
 %cx-customer-ticketing-close,
 %cx-customer-ticketing-reopen {
   display: flex;
@@ -13,5 +12,17 @@
 
   button {
     margin: 1rem;
+  }
+}
+
+%cx-customer-ticketing-create {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media-breakpoint-down(sm) {
+    div {
+      justify-content: center;
+      display: flex;
+    }
   }
 }

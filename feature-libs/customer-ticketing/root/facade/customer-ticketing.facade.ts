@@ -18,13 +18,15 @@ import {
       methods: [
         'getTicketState',
         'getTicket',
+        'getTicketsState',
+        'getTickets',
         'createTicketEvent',
         'getTicketCategoriesState',
         'getTicketCategories',
         'getTicketAssociatedObjectsState',
         'getTicketAssociatedObjects',
-        'uploadAttachment',
         'createTicket',
+        'uploadAttachment',
       ],
     }),
 })
@@ -32,6 +34,18 @@ export abstract class CustomerTicketingFacade {
   abstract getTicketState(): Observable<QueryState<TicketDetails | undefined>>;
 
   abstract getTicket(): Observable<TicketDetails | undefined>;
+
+  abstract getTicketsState(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<QueryState<TicketList | undefined>>;
+
+  abstract getTickets(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<TicketList | undefined>;
 
   abstract getTicketCategoriesState(): Observable<QueryState<Category[]>>;
 
@@ -47,13 +61,16 @@ export abstract class CustomerTicketingFacade {
     ticket: TicketStarter
   ): Observable<TicketDetails | unknown>;
 
-  abstract createTicketEvent(
-    ticketEvent: TicketEvent
-  ): Observable<TicketEvent | unknown>;
-
   abstract uploadAttachment(
     file: File | null,
     eventCode: string,
     ticketId?: string
+  ): Observable<unknown>;
+
+  abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
+
+  abstract downloadAttachment(
+    eventCode: string,
+    attachmentId: string
   ): Observable<unknown>;
 }

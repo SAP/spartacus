@@ -11,14 +11,16 @@ import {
 import { merge, Subscription } from 'rxjs';
 import { STATUS } from '../model';
 import {
+  CreateEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
+  GetTicketsQueryReloadEvents,
+  GetTicketsQueryResetEvents,
   TicketCreatedEvent,
   TicketEventCreatedEvent,
 } from './customer-ticketing.events';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +32,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     this.onGetTicketQueryReload();
+    this.onGetTicketsQueryReload();
     this.onLoginAndLogoutEvent();
     this.onTicketCreatedEvent();
   }
@@ -42,20 +45,43 @@ export class CustomerTicketingEventListener implements OnDestroy {
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
-        // TO DO - UNCOMMENT WHEN LIST API IS INTEGRATED
-        // this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
+        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
       })
     );
+    this.onCreateEvent();
+  }
+  onCreateEvent() {
+    this.subscriptions.add(
+      this.eventService.get(CreateEvent).subscribe(() => {
+        this.globalMessageService.add(
+          {
+            key: 'createCustomerTicket.ticketCreated',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      })
+    );
+    this.onTicketEventCreated();
   }
 
   protected onGetTicketQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent),
-        this.eventService.get(TicketEventCreatedEvent)
+        this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+      })
+    );
+  }
+
+  protected onGetTicketsQueryReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LanguageSetEvent),
+        this.eventService.get(CurrencySetEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
       })
     );
   }
@@ -67,6 +93,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.eventService.dispatch({}, GetTicketsQueryResetEvents);
         this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
         this.eventService.dispatch(
           {},
@@ -79,15 +106,21 @@ export class CustomerTicketingEventListener implements OnDestroy {
   protected onTicketEventCreated(): void {
     this.subscriptions.add(
       this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
-        this.globalMessageService.add(
-          {
-            key:
-              status === STATUS.CLOSED
-                ? 'customerTicketing.requestClosed'
-                : 'customerTicketing.requestReopened',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
+        if (status === STATUS.CLOSED) {
+          this.globalMessageService.add(
+            {
+              key: 'customerTicketing.requestClosed',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        } else if (status === STATUS.INPROCESS || status === STATUS.OPEN) {
+          this.globalMessageService.add(
+            {
+              key: 'customerTicketing.requestReopened',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }
       })
     );
   }

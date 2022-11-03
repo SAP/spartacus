@@ -4,7 +4,11 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { TicketDetails, TicketEvent } from '@spartacus/customer-ticketing/root';
+import {
+  TicketDetails,
+  TicketEvent,
+  TicketList,
+} from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
@@ -16,6 +20,84 @@ const mockRoutingParams = { ticketCode: '1' };
 const mockTicketDetails: TicketDetails = {
   id: '1',
   subject: 'MockTicket',
+};
+const mockTicketList: TicketList = {
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byId',
+    totalPages: 2,
+    totalResults: 10,
+  },
+  sorts: [
+    { code: 'byId', selected: true },
+    { code: 'byChangedDate', selected: false },
+  ],
+  tickets: [
+    {
+      availableStatusTransitions: [
+        {
+          id: 'CLOSED',
+          name: 'Closed',
+        },
+      ],
+      id: '0000001',
+      createdAt: '2021-01-13T10:06:57+0000',
+      modifiedAt: '2021-01-13T10:06:57+0000',
+      status: {
+        id: 'CLOSED',
+        name: 'Closed',
+      },
+      subject: 'My drill is broken.',
+      ticketCategory: {
+        id: 'ENQUIRY',
+        name: 'Enquiry',
+      },
+      ticketEvents: [
+        {
+          author: 'Mark Rivers',
+          createdAt: '2021-01-13T10:06:57+0000',
+          message:
+            'It is broken when I receive it. Please send one replacement to me.',
+          toStatus: {
+            id: 'CLOSED',
+            name: 'Closed',
+          },
+        },
+      ],
+    },
+    {
+      availableStatusTransitions: [
+        {
+          id: 'CLOSED',
+          name: 'Closed',
+        },
+      ],
+      id: '0000002',
+      createdAt: '2021-01-14T10:06:57+0000',
+      modifiedAt: '2021-01-14T10:06:57+0000',
+      status: {
+        id: 'OPEN',
+        name: 'Open',
+      },
+      subject: 'Need fix for my door',
+      ticketCategory: {
+        id: 'ENQUIRY',
+        name: 'Enquiry',
+      },
+      ticketEvents: [
+        {
+          author: 'Bob',
+          createdAt: '2021-01-14T10:06:57+0000',
+          message: 'Door received broken',
+          toStatus: {
+            id: 'OPEN',
+            name: 'Open',
+          },
+        },
+      ],
+    },
+  ],
 };
 const mockCategories = [
   {
@@ -31,6 +113,7 @@ const mockTicketAssociatedObjects = [
     type: 'Order',
   },
 ];
+
 const mockCreateEventResponse: TicketEvent = {
   code: 'mockCode',
   message: 'mock message',
@@ -55,7 +138,7 @@ class MockCustomerTicketingConnector
   implements Partial<CustomerTicketingConnector>
 {
   getTicket = createSpy().and.returnValue(of(mockTicketDetails));
-
+  getTickets = createSpy().and.returnValue(of(mockTicketList));
   createTicketEvent = createSpy().and.returnValue(of(mockCreateEventResponse));
   getTicketAssociatedObjects = createSpy().and.returnValue(
     of(mockTicketAssociatedObjects)
@@ -124,6 +207,53 @@ describe('CustomerTicketingService', () => {
         });
     });
   });
+
+  describe('getTickets', () => {
+    const mockCurrentPage = 1;
+    const mockPageSize = 5;
+    const mockSort = 'byId';
+
+    it('should call customerTicketingConnector.getTickets', (done) => {
+      service
+        .getTickets(mockCurrentPage, mockPageSize, mockSort)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getTickets).toHaveBeenCalledWith(
+            mockUserId,
+            mockCurrentPage,
+            mockPageSize,
+            mockSort
+          );
+          expect(data).toEqual(mockTicketList);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      const mockCurrentPage = 1;
+      const mockPageSize = 5;
+      const mockSort = 'byId';
+
+      service
+        .getTicketsState(mockCurrentPage, mockPageSize, mockSort)
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTickets).toHaveBeenCalledWith(
+            mockUserId,
+            mockCurrentPage,
+            mockPageSize,
+            mockSort
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockTicketList,
+          });
+          done();
+        });
+    });
+  });
+
   describe('getTicketCategories', () => {
     it('should call customerTicketingConnector.getTicketCategories', (done) => {
       service
@@ -151,6 +281,7 @@ describe('CustomerTicketingService', () => {
         });
     });
   });
+
   describe('getTicketAssociatedObjects', () => {
     it('should call customerTicketingConnector.getTicketAssociatedObjects', (done) => {
       service
@@ -178,6 +309,29 @@ describe('CustomerTicketingService', () => {
             error: false,
             data: mockTicketAssociatedObjects,
           });
+          done();
+        });
+    });
+  });
+
+  describe('createTicketEvent', () => {
+    it('should call customerTicketingConnector.createTicketEvent', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: 'mockTicket',
+          name: 'mockTicket',
+        },
+      };
+      service
+        .createTicketEvent(mockTicketEvent)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.createTicketEvent).toHaveBeenCalledWith(
+            mockUserId,
+            mockRoutingParams.ticketCode,
+            mockTicketEvent
+          );
+          expect(data).toEqual(mockCreateEventResponse);
           done();
         });
     });
