@@ -65,7 +65,7 @@ export const LOCATORS = {
   DIALOG_CLOSE: 'button.cx-dialog-close',
   ALLOW_COOKIES_BUTTON: `cx-anonymous-consent-management-banner button.btn-primary`,
   ACTIVE_PICK_UP_IN_STORE_BUTTON: `div.cx-store-pick-up-from-here button[data-pickup-in-store-button]:not([disabled])`,
-  CHANGE_STORE_LINK: `a[data-change-store-location-link]`,
+  CHANGE_STORE_LINK: `a[data-store-location-link=change]`,
   PICKUP_STORE_LOCATION: `[data-pickup-location]`,
   PICKUP_STORE_LOCATION_NOT_VALUE: (value) =>
     `[data-pickup-location]:not([data-pickup-location="${value}"])[data-pickup-location]:not([data-pickup-location=""]) `,
