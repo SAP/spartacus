@@ -237,41 +237,36 @@ export class OptimizedSsrEngine {
 
     const renderingKey = this.getRenderingKey(request);
     const renderCallback: SsrCallbackFn = (err, html): void => {
-      // SPIKE TODO: refactor to simplify the if-branches:
+      this.renderingCache.clear(renderingKey); // under the hood, it sets the `isRendering` flag to false
 
-      // the rendering for this request has finished, so we don't want to execute the timeout logic anymore
-      if (requestTimeout) {
+      const isRequestWaitingForResponse = requestTimeout !== undefined;
+      const hasRenderingErrors = this.getRenderingErrors(response).length !== 0;
+
+      if (isRequestWaitingForResponse) {
+        // turn off the timeout logic for this request:
         clearTimeout(requestTimeout);
-      }
+        requestTimeout = undefined;
 
-      console.log({
-        ssrRenderingContext: this.getRenderingContext(response),
-      }); // SPIKE TODO REMOVE
+        if (!hasRenderingErrors) {
+          callback(err, html); // send the rendered result
+          this.log(
+            `Request is resolved with the SSR rendering result (${request?.originalUrl})`
+          );
+          if (this.ssrOptions?.cache) {
+            this.renderingCache.store(renderingKey, err, html);
+          }
+          return;
+        }
 
-      if (this.getRenderingErrors(response).length) {
-        this.handleRenderingErrors(request, response, filePath, callback);
-
-        // reset the isRendering status: // SPIKE TODO - comment it better
-        this.renderingCache.clear(renderingKey);
+        this.log(
+          `CSR fallback: Rendering encountered errors (${request?.originalUrl})`
+        );
+        this.fallbackToCsr(response, filePath, callback);
         return;
       }
 
-      if (requestTimeout) {
-        // if request is still waiting for render, return it
-        callback(err, html);
-
-        this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`
-        );
-
-        // store the render only if caching is enabled
-        if (this.ssrOptions?.cache) {
-          this.renderingCache.store(renderingKey, err, html);
-        } else {
-          this.renderingCache.clear(renderingKey);
-        }
-      } else {
-        // store the render for future use
+      if (!hasRenderingErrors) {
+        // store the rendered result for future use
         this.renderingCache.store(renderingKey, err, html);
       }
     };
@@ -432,21 +427,6 @@ export class OptimizedSsrEngine {
    */
   private getRenderingErrors(response: Response): unknown[] {
     return this.getRenderingContext(response)['renderingErrors'] ?? [];
-  }
-
-  /**
-   * Fallback to CSR with a log about the encountered errors.
-   */
-  private handleRenderingErrors(
-    request: Request,
-    response: Response,
-    filePath: string,
-    callback: SsrCallbackFn
-  ) {
-    this.log(
-      `CSR fallback: Rendering encountered errors (${request?.originalUrl})`
-    );
-    this.fallbackToCsr(response, filePath, callback);
   }
 
   /**
