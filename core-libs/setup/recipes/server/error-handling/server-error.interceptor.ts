@@ -12,12 +12,12 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ServerErrorCollector } from './server-error.collector';
 
 /**
- * In SSR, it catches errors from backend requests, collects them and exposes as a `ServerErrorCollector`.
+ * In SSR, it collects http errors and them and exposes as a `ServerErrorCollector`.
  */
 @Injectable({ providedIn: 'root' })
 export class ServerErrorInterceptor
@@ -41,7 +41,7 @@ export class ServerErrorInterceptor
     return next.handle(request).pipe(
       catchError((error) => {
         this.collectError(error);
-        throw error;
+        return throwError(error);
       })
     );
   }
