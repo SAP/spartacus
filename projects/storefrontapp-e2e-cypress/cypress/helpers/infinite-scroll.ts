@@ -112,7 +112,8 @@ export function scrollToFooter(
 
   for (let i = 1; i < iterations; i++) {
     if (isShowMoreButton) {
-      cy.get('div')
+      cy.scrollTo('bottom');
+      cy.get('div.btn-action')
         .contains('SHOW MORE')
         .click({ force: true })
         .wait(defaultQueryAlias)
