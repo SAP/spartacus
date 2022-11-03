@@ -17,9 +17,9 @@ import {
 
 /**
  * Transfers errors that happened during the server side rendering
- * to the context of the ExpressJS response object.
+ * to the context of the server response object.
  *
- * Thanks to that, an ExpressJS middleware can intercept those errors
+ * Thanks to that, e.g. an ExpressJS middleware can intercept those errors
  * and handle appropriately (e.g. avoid caching the rendered HTML,
  * because it might be malformed due to the errors, and send a CSR fallback
  * in response to the client).
@@ -49,7 +49,7 @@ export class TransferServerErrors {
 
   /**
    * Transfers errors that happened during the server side rendering
-   * to the context of the ExpressJS response object.
+   * to the context of the server response object.
    */
   transferErrors(): void {
     const errors = this.collectErrors();
