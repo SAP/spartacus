@@ -5,5 +5,6 @@
  */
 
 export * from './server-error-handling.module';
+export * from './server-error.collector';
 export * from './server-error.interceptor';
 export * from './transfer-server-errors';
