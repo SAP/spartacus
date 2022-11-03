@@ -52,7 +52,7 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
         return of(event);
       }),
       catchError((error) =>
-        throwError(() =>
+        throwError(
           this.convertTimeoutToHttpErrorResponse({
             error,
             request,
