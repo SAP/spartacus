@@ -7,6 +7,7 @@ import {
   Category,
   TicketDetails,
   TicketEvent,
+  TicketList,
   TicketStarter,
 } from '../model';
 @Injectable({
