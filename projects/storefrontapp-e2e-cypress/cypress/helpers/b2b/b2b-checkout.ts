@@ -194,6 +194,7 @@ export function selectCreditCardPayment() {
 export function selectAccountShippingAddress() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
+  const getCheckoutPromotions = interceptCheckoutB2BPromotionsEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -232,6 +233,9 @@ export function selectAccountShippingAddress() {
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutPromotions}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
@@ -541,14 +545,33 @@ export function interceptPaymentTypesEndpoint(): string {
   return alias;
 }
 
-export function interceptCheckoutB2BDetailsEndpoint() {
-  const alias = 'getCheckoutDetails';
+export function interceptCheckoutB2BPromotionsEndpoint() {
+  const alias = 'getCheckoutPromotions';
+
   cy.intercept({
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+    )}/users/**/carts/**/*?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions*`,
   }).as(alias);
+
+  return alias;
+}
+export function interceptCheckoutB2BDetailsEndpoint(fixture?: string) {
+  const alias = 'getCheckoutDetails';
+  const request = {
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+  };
+  const stub = { fixture, statusCode: 200 };
+
+  if (!fixture) {
+    cy.intercept(request).as(alias);
+  } else {
+    cy.intercept(request, stub).as(alias);
+  }
 
   return alias;
 }
