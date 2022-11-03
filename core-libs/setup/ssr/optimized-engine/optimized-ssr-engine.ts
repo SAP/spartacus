@@ -266,6 +266,7 @@ export class OptimizedSsrEngine {
       }
 
       if (!hasRenderingErrors) {
+        // If request did timeout, but we rendered HTML without errors,
         // store the rendered result for future use
         this.renderingCache.store(renderingKey, err, html);
       }
