@@ -9,7 +9,7 @@ import { RESPONSE } from '@nguniversal/express-engine/tokens';
 import type { Response } from 'express';
 
 /**
- * Wrapper service for the server response object.
+ * Wrapper service for the ExpressJS response object.
  */
 @Injectable({ providedIn: 'root' })
 export class ServerResponseService {
@@ -19,7 +19,11 @@ export class ServerResponseService {
     protected serverResponse: Response
   ) {}
 
-  // SPIKE TODO: rethink naming (context vs. server rendering output context)
+  /**
+   * Spartacus-specific key of the context object in the ExpressJS response object.
+   *
+   * For more see: https://expressjs.com/en/api.html#res.locals
+   */
   readonly CX_SERVER_RENDERING_CONTEXT_KEY = 'cxRenderingContext';
 
   /**
