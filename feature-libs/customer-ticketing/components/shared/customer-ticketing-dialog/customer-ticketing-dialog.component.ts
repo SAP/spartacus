@@ -65,13 +65,6 @@ export abstract class CustomerTicketingDialogComponent {
     );
   }
 
-  get maxEntries(): number {
-    return (
-      this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-        ?.maxEntries ?? MAX_ENTRIES_FOR_ATTACHMENT
-    );
-  }
-
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
@@ -102,7 +95,7 @@ export abstract class CustomerTicketingDialogComponent {
       'file',
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
-        this.filesFormValidators.maxEntries(this.maxEntries),
+        this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
