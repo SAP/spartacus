@@ -119,13 +119,6 @@ const mockCreateEventResponse: TicketEvent = {
   message: 'mock message',
 };
 
-const mockTicketAssociatedObjects = [
-  {
-    code: '00000626',
-    modifiedAt: '2022-06-30T16:16:44+0000',
-    type: 'Order',
-  },
-];
 class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(mockUserId));
 }
