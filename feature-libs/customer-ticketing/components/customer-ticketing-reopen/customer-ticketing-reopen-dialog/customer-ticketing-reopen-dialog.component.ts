@@ -7,6 +7,7 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
@@ -31,27 +32,26 @@ export class CustomerTicketingReopenDialogComponent
       this.isDataLoading$.next(true);
       this.subscription = this.customerTicketingFacade
         .createTicketEvent(this.prepareTicketEvent())
-        .subscribe((createdEvent: TicketEvent) => {
-          if (this.form.get('file')?.value?.length && createdEvent.code) {
-            this.customerTicketingFacade
-              .uploadAttachment(
+        .pipe(
+          tap((createdEvent: TicketEvent) => {
+            if (this.form.get('file')?.value?.length && createdEvent.code) {
+              this.customerTicketingFacade.uploadAttachment(
                 this.form.get('file')?.value?.item(0),
                 createdEvent.code
-              )
-              .subscribe({
-                complete: () => {
-                  this.isDataLoading$.next(false);
-                  this.close('Ticket reopened successfully');
-                },
-                error: () => {
-                  this.close('Something went wrong while reopening ticket');
-                },
-              });
-          } else {
-            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+              );
+            } else {
+              this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+            }
+          })
+        )
+        .subscribe({
+          complete: () => {
             this.isDataLoading$.next(false);
             this.close('Ticket reopened successfully');
-          }
+          },
+          error: () => {
+            this.close('Something went wrong while reopening ticket');
+          },
         });
     }
   }
