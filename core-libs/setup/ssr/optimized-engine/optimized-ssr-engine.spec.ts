@@ -1,5 +1,5 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
-import { Application, Request } from 'express';
+import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -37,7 +37,7 @@ class TestEngineRunner {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
-      _: any,
+      _options: { req: Request; res: Response },
       callback: SsrCallbackFn
     ) => {
       setTimeout(() => {
@@ -71,7 +71,7 @@ class TestEngineRunner {
     };
 
     const optionsMock = {
-      req: <Partial<Request>>{
+      req: <Request>{
         protocol: 'https',
         originalUrl: url,
         headers,
@@ -81,7 +81,7 @@ class TestEngineRunner {
         app,
         connection: <Partial<Socket>>{},
       },
-      res: <Partial<Response>>{
+      res: <Response>{
         set: (key: string, value: any) => (response[key] = value),
       },
     };
