@@ -36,7 +36,7 @@
           <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
           <p class="cx-customer-ticket-input-hint">
             {{
-              'createCustomerTicket.charactersLeft'
+              'customerTicketing.charactersLeft'
                 | cxTranslate: { count: subjectCharacterLeft }
             }}
           </p>
@@ -117,7 +117,7 @@
 
           <p class="cx-customer-ticket-input-hint">
             {{
-              'createCustomerTicket.charactersLeft'
+              'customerTicketing.charactersLeft'
                 | cxTranslate: { count: messagesCharacterLeft }
             }}
           </p>
