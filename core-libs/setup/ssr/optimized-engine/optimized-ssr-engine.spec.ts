@@ -70,7 +70,7 @@ class TestEngineRunner {
       httpHeaders?: IncomingHttpHeaders;
     }
   ): TestEngineRunner {
-    const response: { [key: string]: string } = {};
+    const responseHeaders: { [key: string]: string } = {};
     const headers = params?.httpHeaders ?? { host };
     /** used when resolving getRequestUrl() and getRequestOrigin() */
     const app = <Partial<Application>>{
@@ -92,13 +92,13 @@ class TestEngineRunner {
         connection: <Partial<Socket>>{},
       },
       res: <Response>{
-        set: (key: string, value: any) => (response[key] = value),
+        set: (key: string, value: any) => (responseHeaders[key] = value),
       },
     };
 
     this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
-      this.responseParams.push(response);
+      this.responseParams.push(responseHeaders);
     });
 
     return this;
