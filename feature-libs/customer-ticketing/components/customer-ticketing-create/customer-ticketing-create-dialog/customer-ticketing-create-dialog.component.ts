@@ -4,6 +4,7 @@ import {
   AssociatedObject,
   Category,
   TicketCreatedEvent,
+  TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
@@ -104,7 +105,7 @@ export class CustomerTicketingCreateDialogComponent
       this.subscription = this.customerTicketingFacade
         .createTicket(this.getCreateTicketPayload(this.form))
         .pipe(
-          tap((response: any) => {
+          tap((response: TicketDetails) => {
             if (
               response.id &&
               this.attachment &&
