@@ -7,6 +7,9 @@
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import {
   b2bAccountShipToUser,
+  b2bDeliveryAddress,
+  b2bDeliveryAddressStub,
+  b2bDeliveryModeStub,
   b2bProduct,
   b2bUnit,
   b2bUser,
@@ -22,11 +25,13 @@ import {
   replenishmentDay,
 } from '../../sample-data/b2b-checkout';
 import {
+  getSampleUser,
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
 } from '../../sample-data/checkout-flow';
+import { myCompanyAdminUser } from '../../sample-data/shared-users';
+import { login } from '../../support/utils/login';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
@@ -34,13 +39,79 @@ import {
   waitForPage,
   waitForProductPage,
 } from '../checkout-flow';
-import { generateMail, randomString } from '../user';
 
 export function loginB2bUser() {
-  b2bUser.registrationData.email = generateMail(randomString(), true);
-  cy.requireLoggedIn(b2bUser);
-  visitHomePage();
-  cy.get('.cx-login-greet').should('contain', user.fullName);
+  let adminToken;
+  let user = getSampleUser();
+
+  login(
+    myCompanyAdminUser.registrationData.email,
+    myCompanyAdminUser.registrationData.password
+  )
+    .then((result) => {
+      expect(result.status).to.eq(200);
+      adminToken = result?.body?.access_token;
+      return addB2bUser(adminToken, user);
+    })
+    .then((result) => {
+      expect(result.status).to.eq(201);
+      return setB2bPassword(result.body.customerId, user.password, adminToken);
+    })
+    .then((result: any) => {
+      expect(result.status).to.eq(204);
+      b2bUser.registrationData.email = user.email;
+      b2bUser.registrationData.password = user.password;
+
+      return cy.requireLoggedIn(b2bUser);
+    })
+    .then(() => {
+      visitHomePage();
+      cy.get('.cx-login-greet').should('contain', user.fullName);
+    });
+}
+
+function addB2bUser(access_token: string, user: any) {
+  return cy.request({
+    method: 'POST',
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orgCustomers?lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${access_token}`,
+    },
+    body: {
+      customerId: null,
+      titleCode: 'mr',
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      orgUnit: {
+        uid: b2bUnit,
+      },
+      roles: [null, 'b2bcustomergroup'],
+    },
+  });
+}
+
+function setB2bPassword(
+  customerId: string,
+  password: string,
+  access_token: string
+) {
+  return cy.request({
+    method: 'PATCH',
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${access_token}`,
+    },
+    body: {
+      customerId,
+      password,
+      confirmPassword: password,
+    },
+  });
 }
 
 export function addB2bProductToCartAndCheckout() {
@@ -87,6 +158,8 @@ export function enterPONumber() {
 }
 
 export function selectAccountPayment() {
+  const getCostCenters = interceptCostCenterEndpoint();
+
   cy.get('cx-payment-type').within(() => {
     cy.findByText('Account').click({ force: true });
   });
@@ -106,6 +179,17 @@ export function selectAccountPayment() {
     .its('response.statusCode')
     .should('eq', 200);
   cy.wait('@getCart').its('response.statusCode').should('eq', 200);
+  // intercept costCenter list to get Rustic address Id which will be use in delivery addr/mode stubs
+  cy.wait(`@${getCostCenters}`).then((xhr) => {
+    if (
+      !b2bDeliveryAddress.id &&
+      xhr?.response?.body?.costCenters[0].unit.addresses[0].id
+    ) {
+      // first element of Cost Center is the default one, always match the combo-box selection
+      b2bDeliveryAddress.id =
+        xhr.response.body.costCenters[0].unit.addresses[0].id;
+    }
+  });
 }
 
 export function selectCreditCardPayment() {
@@ -125,7 +209,8 @@ export function selectCreditCardPayment() {
 
 export function selectAccountShippingAddress() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
-    'b2b-checkout-replenishment/delivery-address-step/checkout-details.json'
+    b2bDeliveryAddressStub,
+    b2bDeliveryAddress.id
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
@@ -172,7 +257,8 @@ export function selectAccountShippingAddress() {
 
 export function selectAccountDeliveryMode() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
-    'b2b-checkout-replenishment/delivery-mode-step/checkout-details.json'
+    b2bDeliveryModeStub,
+    b2bDeliveryAddress.id
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
@@ -475,18 +561,43 @@ export function interceptPaymentTypesEndpoint(): string {
   return alias;
 }
 
-export function interceptCheckoutB2BDetailsEndpoint(fixture: string) {
-  const alias = 'getCheckoutDetails';
-  cy.intercept(
-    {
-      method: 'GET',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
-    },
-    { fixture, statusCode: 200 }
-  ).as(alias);
+export function interceptCostCenterEndpoint() {
+  const alias = 'getCostCenters';
 
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/costcenters?fields=DEFAULT*`,
+  }).as(alias);
+
+  return alias;
+}
+
+export function interceptCheckoutB2BDetailsEndpoint(
+  body?: any,
+  addressId?: string
+) {
+  const alias = 'getCheckoutDetails';
+  const request = {
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+  };
+
+  if (body && addressId) {
+    if (JSON.stringify(body).includes('addressIdFromServer')) {
+      body = JSON.parse(
+        JSON.stringify(body).replace(/addressIdFromServer/g, addressId)
+      );
+    }
+    // stub contains server addressId
+    cy.intercept(request, { body, statusCode: 200 }).as(alias);
+  } else {
+    // no stub, use server response
+    cy.intercept(request).as(alias);
+  }
   return alias;
 }
 
