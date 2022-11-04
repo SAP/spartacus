@@ -26,9 +26,11 @@ export const unitOrder = {
     //--------------------
     applyFilter: 'Apply',
     filterBy: 'Filter by',
-    filterByUser: 'Buyer',
-    filterByUserLabel: 'Buyer name',
-    filterByUnit: 'Unit',
+    filterByBuyer: 'Filter by Buyer',
+    searchByBuyer: 'Search by Buyer',
+    filterByBuyerLabel: 'Buyer name',
+    filterByUnit: 'Filter by Unit',
+    searchByUnit: 'Search by Unit',
     filterByUnitLabel: 'Unit name',
     search: 'Search',
     clearAll: 'Clear All'

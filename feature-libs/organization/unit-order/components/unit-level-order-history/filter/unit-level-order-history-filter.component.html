@@ -1,21 +1,114 @@
-<form (ngSubmit)="formSearch()" [formGroup]="filterForm">
+
+<div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+  <h4>
+    {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="closeNav()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </h4>
+  <h4 (click)="launchSubNav('filterByBuyer')">
+    {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
+
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    </button>
+  </h4>
+  <h4  (click)="launchSubNav('filterByUnit')">
+    {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    </button>
+  </h4>
+</div>
+
+<div id="cx-unit-level-order-history-filter-nav-sub" class="cx-unit-level-order-history-filter-nav-sub"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+  <h4>
+    <button
+      class=""
+      type="button"
+      (click)="backSubNav()"
+    ><cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+      {{ filterByTitle }}
+    </button>
+
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="closeSubNav()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </h4>
+  <label class="cx-unit-level-order-history-filter-form-item" id="cx-unit-level-order-history-filter-sub-nav-item"
+  >
+    <input id="cx-unit-level-order-history-filter-sub-nav-item-input"
+      #queryInputUser
+      formControlName="inputFilter_{{ filterByTitle }}"
+      type="text"
+      class="form-control"
+      [attr.aria-label]="searchByTitle"
+      placeholder="{{ searchByTitle }}"
+    />
+  </label>
+  <div class="cx-unit-level-order-history-filter-nav-button-block">
+    <button
+      class="cx-action-link clear-btn"
+      type="button"
+      (click)="resetForm()"
+    >
+      {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+    </button>
+    <button class="btn btn-primary unit-level-order-history-search" type="submit" (click)="formSearch()">
+      {{ 'unitLevelOrderHistory.search' | cxTranslate }}
+    </button>
+  </div>
+</div>
+
+
+<form [formGroup]="filterForm">
+
+  <div class="cx-unit-level-order-history-filter-form-mobile">
+    <button
+      #trigger
+      class="btn btn-action btn-block dialog-trigger" (click)="launch()"
+    >
+      <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+      {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+    </button>
+  </div>
+
+
   <div class="cx-unit-level-order-history-filter-form">
     <label class="cx-unit-level-order-history-filter-form-item"
     ><span>
-          {{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}
+          {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
         </span>
       <input
         #queryInputUser
         formControlName="userFilter"
         type="text"
         class="form-control"
-        [attr.aria-label]="'unitLevelOrderHistory.filterByUserLabel' | cxTranslate"
-        placeholder="{{ 'unitLevelOrderHistory.filterByUser' | cxTranslate }}"
+        [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
+        placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
       />
     </label>
     <label class="cx-unit-level-order-history-filter-form-item"
     ><span>
-          {{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}
+          {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
         </span>
       <input
         #queryInputUnit
@@ -23,7 +116,7 @@
         type="text"
         class="form-control"
         [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-        placeholder="{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}"
+        placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
       />
     </label>
 
@@ -35,7 +128,7 @@
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
-      <button class="btn btn-primary" type="submit" (click)="formSearch()">
+      <button class="btn btn-primary unit-level-order-history-search" type="submit" (click)="formSearch()">
         {{ 'unitLevelOrderHistory.search' | cxTranslate }}
       </button>
     </div>
