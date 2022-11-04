@@ -112,7 +112,7 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
    * Returns the error message to be used in the `HttpErrorResponse` object, in case of timeout.
    */
   getHttpErrorMessage(timeoutValue: number): string {
-    return `[Spartacus] request timeout (${timeoutValue}ms)`;
+    return `[Spartacus] request timeout: ${timeoutValue} ms`;
   }
 
   /**
