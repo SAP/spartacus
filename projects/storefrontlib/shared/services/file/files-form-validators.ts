@@ -11,7 +11,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
   providedIn: 'root',
 })
 export class FilesFormValidators {
-  multiplier: number = 1000000;
+  CONVERT_TO_MB = 1000000;
+  or
+  ONE_MB  = 1000000
   extenstionRegEx: RegExp = /\.([0-9a-z]+)(?:[\?#]|$)/i;
 
   /**
