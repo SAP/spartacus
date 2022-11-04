@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ConverterService,
@@ -88,7 +88,8 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .pipe(
         catchError((errorResponse) => {
           const errorDetails = errorResponse.error.errors[0];
-          if(errorDetails.type === OccHttpErrorType.NOT_FOUND_ERROR
+          if( errorResponse.status === HttpStatusCode.NotFound
+              && errorDetails.type === OccHttpErrorType.NOT_FOUND_ERROR
               && errorDetails.message.toLowerCase().startsWith('ticket'))
               {
                 this.routingService.go({ cxRoute: 'supportTickets' });
