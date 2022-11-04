@@ -24,6 +24,15 @@
     td {
       width: 16.6%;
       padding: 1rem 0;
+      max-width: 1px;
+
+      .text {
+        @include media-breakpoint-up(md) {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
 
       @include media-breakpoint-up(md) {
         text-align: start;
@@ -50,7 +59,7 @@
 
       span {
         color: var(--cx-color-light);
-        display: table;
+        display: block;
       }
     }
   }
