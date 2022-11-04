@@ -19,6 +19,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserDetailsCellComponent extends CellComponent {
+  b2bUserModel: B2BUser;
+
   availableRoles: string[] = this.b2bUserService
     .getAllRoles()
     .map((role: B2BUserRole) => role.toString());
@@ -31,6 +33,7 @@ export class UserDetailsCellComponent extends CellComponent {
     protected outlet: OutletContextData<TableDataOutletContext>
   ) {
     super(outlet);
+    this.b2bUserModel = super.model as B2BUser;
   }
 
   hasRight(model: B2BUser): boolean {
