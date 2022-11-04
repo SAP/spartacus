@@ -8,6 +8,7 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
@@ -102,31 +103,29 @@ export class CustomerTicketingCreateDialogComponent
     } else {
       this.subscription = this.customerTicketingFacade
         .createTicket(this.getCreateTicketPayload(this.form))
-        .subscribe((response: any) => {
-          if (
-            response.id &&
-            this.attachment[0] &&
-            response.ticketEvents[0].code
-          )
-            this.customerTicketingFacade
-              .uploadAttachment(
+        .pipe(
+          tap((response: any) => {
+            if (
+              response.id &&
+              this.attachment[0] &&
+              response.ticketEvents[0].code
+            ) {
+              this.customerTicketingFacade.uploadAttachment(
                 this.attachment[0],
                 response.ticketEvents[0].code,
                 response.id
-              )
-              .subscribe({
-                complete: () => {
-                  this.close('Ticket created successfully');
-                  this.eventService.dispatch({}, TicketCreatedEvent);
-                },
-                error: () => {
-                  this.close('Something went wrong');
-                },
-              });
-          else {
+              );
+            }
+          })
+        )
+        .subscribe({
+          complete: () => {
             this.close('Ticket created successfully');
             this.eventService.dispatch({}, TicketCreatedEvent);
-          }
+          },
+          error: () => {
+            this.close('Something went wrong');
+          },
         });
     }
   }
