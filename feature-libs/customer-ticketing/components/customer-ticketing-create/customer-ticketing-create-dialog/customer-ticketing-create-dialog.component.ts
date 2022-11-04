@@ -30,7 +30,7 @@ export class CustomerTicketingCreateDialogComponent
   @Input()
   selectedAssociatedObject: AssociatedObject;
 
-  attachment: any;
+  attachment: File;
 
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
@@ -96,7 +96,7 @@ export class CustomerTicketingCreateDialogComponent
   }
 
   createTicketRequest(): void {
-    this.attachment = this.form.get('file')?.value;
+    this.attachment = this.form.get('file')?.value?.[0];
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
@@ -107,11 +107,11 @@ export class CustomerTicketingCreateDialogComponent
           tap((response: any) => {
             if (
               response.id &&
-              this.attachment[0] &&
+              this.attachment &&
               response.ticketEvents[0].code
             ) {
               this.customerTicketingFacade.uploadAttachment(
-                this.attachment[0],
+                this.attachment,
                 response.ticketEvents[0].code,
                 response.id
               );

@@ -58,14 +58,12 @@ export abstract class CustomerTicketingFacade {
 
   abstract getTicketAssociatedObjects(): Observable<AssociatedObject[]>;
 
-  abstract createTicket(
-    ticket: TicketStarter
-  ): Observable<TicketDetails | unknown>;
+  abstract createTicket(ticket: TicketStarter): Observable<TicketDetails>;
 
   abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
 
   abstract uploadAttachment(
-    file: File | null,
+    file: File,
     eventCode: string,
     ticketId?: string
   ): Observable<unknown>;

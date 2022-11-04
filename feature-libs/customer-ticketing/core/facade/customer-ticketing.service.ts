@@ -120,7 +120,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
 
   protected uploadAttachmentCommand: Command<{
-    file: File | null;
+    file: File;
     eventCode: string;
     ticketId?: string;
   }> = this.commandService.create<{
@@ -329,7 +329,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   }
 
   uploadAttachment(
-    file: File | null,
+    file: File,
     eventCode: string,
     ticketId?: string
   ): Observable<unknown> {
