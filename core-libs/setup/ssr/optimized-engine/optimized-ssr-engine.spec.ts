@@ -26,8 +26,8 @@ class TestEngineRunner {
   /** Accumulates html output for engine runs */
   renders: string[] = [];
 
-  /** Accumulates response parameters for engine runs */
-  responseParams: object[] = [];
+  /** Accumulates responses headers for engine runs */
+  responsesHeaders: object[] = [];
 
   renderCount = 0;
   optimizedSsrEngine: OptimizedSsrEngine;
@@ -39,7 +39,7 @@ class TestEngineRunner {
       renderTime,
     }: {
       /**
-       * Mick time in milliseconds before engine returns rendering.
+       * Mock time in milliseconds before engine returns rendering.
        */
       renderTime?: number;
     } = {}
@@ -98,7 +98,7 @@ class TestEngineRunner {
 
     this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
-      this.responseParams.push(responseHeaders);
+      this.responsesHeaders.push(responseHeaders);
     });
 
     return this;
@@ -122,6 +122,15 @@ describe('OptimizedSsrEngine', () => {
     }));
 
     it('should return timed out render in the followup request', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual(['']);
+
+      engineRunner.request('a');
+      expect(engineRunner.renders[1]).toEqual('a-0');
+    }));
+
+    it('should note return timed out render in the followup request, if the render contained errors', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
       tick(200);
       expect(engineRunner.renders).toEqual(['']);
@@ -165,7 +174,7 @@ describe('OptimizedSsrEngine', () => {
     it('should be applied for a fallback', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
       expect(engineRunner.renders).toEqual(['']);
-      expect(engineRunner.responseParams).toEqual([
+      expect(engineRunner.responsesHeaders).toEqual([
         { 'Cache-Control': 'no-store' },
       ]);
     });
@@ -174,7 +183,7 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({ timeout: 200 }).request('a');
       tick(200);
       expect(engineRunner.renders).toEqual(['a-0']);
-      expect(engineRunner.responseParams).toEqual([{}]);
+      expect(engineRunner.responsesHeaders).toEqual([{}]);
     }));
 
     it('should not be applied for a render served with next response', fakeAsync(() => {
@@ -182,7 +191,7 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
-      expect(engineRunner.responseParams).toEqual([
+      expect(engineRunner.responsesHeaders).toEqual([
         { 'Cache-Control': 'no-store' },
         {},
       ]);
