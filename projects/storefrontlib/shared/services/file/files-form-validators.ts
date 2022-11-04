@@ -12,8 +12,6 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 })
 export class FilesFormValidators {
   CONVERT_TO_MB = 1000000;
-  or
-  ONE_MB  = 1000000
   extenstionRegEx: RegExp = /\.([0-9a-z]+)(?:[\?#]|$)/i;
 
   /**
@@ -29,7 +27,7 @@ export class FilesFormValidators {
       if (maxSize && control.value) {
         const files: File[] = Array.from(control.value);
         files.forEach(({ size, name }) => {
-          if (size > maxSize * this.multiplier) {
+          if (size > maxSize * this.CONVERT_TO_MB) {
             const invalidFiles = errors.tooLarge?.invalidFiles ?? [];
             errors.tooLarge = {
               maxSize,
