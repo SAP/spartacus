@@ -3,6 +3,7 @@ import { loginRegisteredUser as login } from "../cart";
 
 const HTTP_STATUS_OK = 200;
 const FIRST_ROW = 1;
+const ID_COLUMN = 0;
 const SUBJECT_COLUMN = 1;
 const CATEGORY_COLUMN = 2;
 const STATUS_COLUMN = 5;
@@ -150,20 +151,23 @@ export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
 
-export function getTicketDetailsFromTicketListView(){
+export function visitTicketDetailsPageFromTicketListingPage(){
   let ticketDetails = [];
-  const row = cy.get('cx-customer-ticketing-list').find('tbody').get('tr').eq(1);
-  row.get('td').eq(0).invoke('text').then((x) => ticketDetails.push(x));
-  row.get('td').eq(1).invoke('text').then((x) => ticketDetails.push(x));
-  row.get('td').eq(5).invoke('text').then((x) => ticketDetails.push(x));
+  const row = cy.get('cx-customer-ticketing-list').find('tbody').get('tr').eq(FIRST_ROW);
+  row.get('td').eq(ID_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
+  row.get('td').eq(SUBJECT_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
+  row.get('td').eq(STATUS_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
 
    return ticketDetails;
 }
 
-export function verifyTicketDetails(ticketDetails){
+export function verifyTicketDetailsByComparingTIcketHeaderToTicketiListing(ticketDetails){
   //assert title when available
-  cy.get(':nth-child(1) > cx-card > .cx-card > .card-body > .cx-card-container > .cx-card-label-container > :nth-child(1) > .cx-card-label').contains(ticketDetails[1]);
-  cy.get(':nth-child(4) > cx-card > .cx-card > .card-body > .cx-card-container > .cx-card-label-container > :nth-child(1) > .cx-card-label').contains(ticketDetails[2]);
+
+  cy.get('.cx-card-label').eq(0).contains(ticketDetails[1]);
+
+  // cy.get(':nth-child(1) > cx-card > .cx-card > .card-body > .cx-card-container > .cx-card-label-container > :nth-child(1) > .cx-card-label').contains(ticketDetails[1]);
+  // cy.get(':nth-child(4) > cx-card > .cx-card > .card-body > .cx-card-container > .cx-card-label-container > :nth-child(1) > .cx-card-label').contains(ticketDetails[2]);
 }
 
 export function createNewTicket(){
@@ -174,10 +178,11 @@ export function createNewTicket(){
   };
 
   loginRegisteredUser();
-  visitElectronicSupportTicketPage();
-  openCreateTicketModal();
+  visitElectronicTicketListingPage();
+  openCreateTicketPopup();
   fillTicketDetails(testTicketDetails);
-  clickSubmitAndVerifyRequestCompleted();
+  clickSubmit();
+  verifyRequestCompleted();
   verifyCreatedTicketDetails(testTicketDetails);
 }
 
@@ -210,7 +215,7 @@ export function clickReopenRequestButton(){
   cy.get('.cx-customer-ticket-form-footer > .btn-primary').click();
 }
 
-export function verifyMessagesAreBeingPopulated(){
+export function verifyCustomerMessagesAreBeingPopulatedInChatHistory(){
   cy.get('.cx-message-left-align-text').should('exist');
 }
 
@@ -219,7 +224,10 @@ export function addFilesInChatBox(){
   cy.get('p').contains("test.docx");
 }
 
-export function sendMessageAsUser(){
+export function clickSend(){
+  cy.get('.cx-send').click();
+}
+
+export function postMessageAsCustomerIntoChatBox(){
   cy.get('.form-control').type("Update");
-  cy.get('.cx-message-input > .btn').click();
 }

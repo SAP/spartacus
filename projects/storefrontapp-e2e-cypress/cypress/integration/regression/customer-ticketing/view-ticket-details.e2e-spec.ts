@@ -24,9 +24,9 @@ describe('ticketing', () => {
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
         customerTicketing.verifyTicketListingPageVisit();
-        let ticketDetails = customerTicketing.getTicketDetailsFromTicketListView();
+        let ticketDetails = customerTicketing.visitTicketDetailsPageFromTicketListingPage();
         customerTicketing.clickFirstTicketFromTicketListing();
-        customerTicketing.verifyTicketDetails(ticketDetails);
+        customerTicketing.verifyTicketDetailsByComparingTIcketHeaderToTicketiListing(ticketDetails);
       });
 
       it('closing a ticket should not let user interact with the ticket anymore', () => {
@@ -63,7 +63,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.clickFirstTicketFromTicketListing();
         customerTicketing.verifyTicketDetailsPageVisit();
-        customerTicketing.verifyMessagesAreBeingPopulated();
+        customerTicketing.verifyCustomerMessagesAreBeingPopulatedInChatHistory();
       });
 
       it('pressing send should publish message without attachment', () => {
@@ -73,7 +73,8 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.clickFirstTicketFromTicketListing();
         customerTicketing.verifyTicketDetailsPageVisit();
-        customerTicketing.sendMessageAsUser();
+        customerTicketing.postMessageAsCustomerIntoChatBox();
+        customerTicketing.clickSend();
       });
 
       it('pressing send should publish message with attachment', () => {
@@ -84,7 +85,8 @@ describe('ticketing', () => {
         customerTicketing.clickFirstTicketFromTicketListing();
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.addFilesInChatBox();
-        customerTicketing.sendMessageAsUser();
+        customerTicketing.postMessageAsCustomerIntoChatBox();
+        customerTicketing.clickSend();
       });
     });
   });
