@@ -6,7 +6,8 @@ import {
   OccEndpointsService,
   RoutingService,
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
+  OccHttpErrorType
 } from '@spartacus/core';
 import {
   CustomerTicketingAdapter,
@@ -85,9 +86,10 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.http
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
-        catchError((error) => {
-          if(error.error.errors[0].type === 'NotFoundError'
-              && error.error.errors[0].message.toLowerCase().startsWith('ticket'))
+        catchError((errorResponse) => {
+          const errorDetails = errorResponse.error.errors[0];
+          if(errorDetails.type === OccHttpErrorType.NOT_FOUND_ERROR
+              && errorDetails.message.toLowerCase().startsWith('ticket'))
               {
                 this.routingService.go({ cxRoute: 'supportTickets' });
                 this.globalMessageService.add(
@@ -95,7 +97,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
                   GlobalMessageType.MSG_TYPE_ERROR
                 );
               }
-          return throwError(normalizeHttpError(error));
+          return throwError(normalizeHttpError(errorResponse));
         }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
