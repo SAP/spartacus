@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   EventEmitter,
   Input,
@@ -18,7 +19,7 @@ import { FileUploadComponent } from '../../form';
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
-export class MessagingComponent implements OnInit {
+export class MessagingComponent implements OnInit, AfterViewChecked {
   @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
 
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -43,6 +44,8 @@ export class MessagingComponent implements OnInit {
   MAX_SIZE: number = 10;
   MAX_ENTRIES: number = 1;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
+  updatedScrollHeight: number;
+  scrollOnceOnLoad: boolean = true;
 
   get inputCharacterLeft(): number {
     return (
@@ -75,6 +78,13 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.scrollToInput) {
+      this.observeScroll();
+      if (this.scrollOnceOnLoad) this.scrollOnLoad();
+    }
   }
 
   onSend() {
@@ -157,6 +167,39 @@ export class MessagingComponent implements OnInit {
         results[focusedIndex - 1].focus();
       }
     }
+  }
+
+  protected observeScroll(): void {
+    const element = this.windowRef.document.querySelector('.cx-messages');
+    if (element) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        this.scrollToBottom(element, entries[0].target.scrollHeight);
+        this.updatedScrollHeight = entries[0].target.scrollHeight;
+      });
+      resizeObserver.observe(element);
+    }
+  }
+
+  protected scrollToBottom(element: Element, previousScrollHeight: number) {
+    if (this.heightChanged(previousScrollHeight)) {
+      element?.scroll({
+        top: element?.scrollHeight,
+        behavior: 'auto',
+      });
+    }
+  }
+
+  protected heightChanged(previousScrollHeight: number): boolean {
+    return this.updatedScrollHeight !== previousScrollHeight;
+  }
+
+  protected scrollOnLoad() {
+    const element = this.windowRef.document.getElementById('cx-message-footer');
+    const resizeObserver = new ResizeObserver(() => {
+      element?.scrollIntoView({ behavior: 'auto', block: 'end' });
+      this.scrollOnceOnLoad = false;
+    });
+    if (element) resizeObserver.observe(element);
   }
 
   private getResultElements(): HTMLElement[] {
