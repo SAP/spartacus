@@ -34,9 +34,9 @@ export class TransferServerErrors {
   ) {}
 
   /**
-   * The key of the `renderingErrors` context property in the server response object.
+   * The key of the `cxRenderingErrors` context property in the server response object.
    */
-  protected readonly RENDERING_ERRORS_KEY = 'renderingErrors';
+  protected readonly CX_RENDERING_ERRORS_KEY = 'cxRenderingErrors';
 
   /**
    * Returns all errors collected during the server side rendering.
@@ -55,7 +55,7 @@ export class TransferServerErrors {
     const errors = this.collectErrors();
 
     if (errors.length) {
-      this.serverResponse.setContext(this.RENDERING_ERRORS_KEY, errors);
+      this.serverResponse.setContext(this.CX_RENDERING_ERRORS_KEY, errors);
     }
   }
 }

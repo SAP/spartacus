@@ -427,13 +427,6 @@ export class OptimizedSsrEngine {
    * Tells whether the rendering for the response encountered errors.
    */
   private getRenderingErrors(response: Response): unknown[] {
-    return this.getRenderingContext(response)['renderingErrors'] ?? [];
-  }
-
-  /**
-   * Returns the context of the rendering for the response.
-   */
-  private getRenderingContext(response: Response): Record<string, any> {
-    return response.locals['cxRenderingContext'] ?? {};
+    return response.locals['cxRenderingErrors'] ?? [];
   }
 }
