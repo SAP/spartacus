@@ -33,7 +33,17 @@ class TestEngineRunner {
   optimizedSsrEngine: OptimizedSsrEngine;
   engineInstance: NgExpressEngineInstance;
 
-  constructor(options: SsrOptimizationOptions, renderTime?: number) {
+  constructor(
+    ssrOptimizationOptions: SsrOptimizationOptions,
+    {
+      renderTime,
+    }: {
+      /**
+       * Mick time in milliseconds before engine returns rendering.
+       */
+      renderTime?: number;
+    } = {}
+  ) {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
@@ -47,7 +57,7 @@ class TestEngineRunner {
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(
       engineInstanceMock,
-      options
+      ssrOptimizationOptions
     );
     this.engineInstance = this.optimizedSsrEngine.engineInstance;
   }
@@ -562,7 +572,7 @@ describe('OptimizedSsrEngine', () => {
     it('should not kick-in for the non-hanging (normal) renders', fakeAsync(() => {
       const renderTime = 10;
       const requestUrl = 'a';
-      const engineRunner = new TestEngineRunner({}, renderTime).request(
+      const engineRunner = new TestEngineRunner({}, { renderTime }).request(
         requestUrl
       );
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
@@ -578,7 +588,7 @@ describe('OptimizedSsrEngine', () => {
     it('should use the default value of 5 minutes for hanging renders', fakeAsync(() => {
       const requestUrl = 'a';
       const renderTime = fiveMinutes + 100;
-      const engineRunner = new TestEngineRunner({}, renderTime).request(
+      const engineRunner = new TestEngineRunner({}, { renderTime }).request(
         requestUrl
       );
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
@@ -600,7 +610,7 @@ describe('OptimizedSsrEngine', () => {
       const maxRenderTime = renderTime - 50; // shorter than the predicted render time
       const engineRunner = new TestEngineRunner(
         { maxRenderTime },
-        renderTime
+        { renderTime }
       ).request(requestUrl);
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -623,7 +633,7 @@ describe('OptimizedSsrEngine', () => {
       const maxRenderTime = renderTime - 50; // shorter than the predicted render time
       const engineRunner = new TestEngineRunner(
         { concurrency: 1, maxRenderTime },
-        renderTime
+        { renderTime }
       );
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -672,7 +682,7 @@ describe('OptimizedSsrEngine', () => {
           timeout: 200,
           cache: true,
         },
-        renderTime
+        { renderTime }
       ).request(requestUrl);
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
       expect(engineRunner.renders).toEqual([]);
@@ -712,7 +722,10 @@ describe('OptimizedSsrEngine', () => {
     describe('when disabled', () => {
       it('should fallback to CSR for parallel subsequent requests for the same rendering key', fakeAsync(() => {
         const timeout = 300;
-        const engineRunner = new TestEngineRunner({ timeout }, 400);
+        const engineRunner = new TestEngineRunner(
+          { timeout },
+          { renderTime: 400 }
+        );
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
         engineRunner.request(requestUrl);
@@ -746,7 +759,7 @@ describe('OptimizedSsrEngine', () => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true },
-            400
+            { renderTime: 400 }
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -771,7 +784,7 @@ describe('OptimizedSsrEngine', () => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true },
-            1000
+            { renderTime: 1000 }
           );
           const logSpy = spyOn<any>(
             engineRunner.optimizedSsrEngine,
@@ -816,7 +829,7 @@ describe('OptimizedSsrEngine', () => {
               reuseCurrentRendering: true,
               renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
             },
-            400
+            { renderTime: 400 }
           );
 
           engineRunner.request(requestUrl);
@@ -850,7 +863,7 @@ describe('OptimizedSsrEngine', () => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
-            400
+            { renderTime: 400 }
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -935,7 +948,7 @@ describe('OptimizedSsrEngine', () => {
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
-            200
+            { renderTime: 200 }
           );
           engineRunner
             .request(requestUrl)
@@ -993,7 +1006,7 @@ describe('OptimizedSsrEngine', () => {
           const maxRenderTime = renderTime - 50; // shorter than the predicted render time
           const engineRunner = new TestEngineRunner(
             { concurrency: 2, maxRenderTime, reuseCurrentRendering: true },
-            renderTime
+            { renderTime }
           );
           spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
@@ -1054,7 +1067,7 @@ describe('OptimizedSsrEngine', () => {
         const timeout = 300;
         const engineRunner = new TestEngineRunner(
           { timeout, reuseCurrentRendering: true },
-          400
+          { renderTime: 400 }
         );
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
