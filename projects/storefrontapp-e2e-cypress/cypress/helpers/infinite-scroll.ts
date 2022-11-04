@@ -21,6 +21,10 @@ export const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
 export const defaultQuery = `query_relevance`;
 export const defaultQueryAlias = `@${defaultQuery}`;
 
+// ------------------------------------- Back to Top ------------------------------------------------------
+export const homepage = '/';
+export const pdp = 'product/358639/dsc-n1';
+
 export function configScroll(
   active: boolean,
   productLimit: number,
@@ -139,6 +143,44 @@ export function verifyGridResetsList() {
   });
 }
 
+export function acceptPrivaryTerm() {
+  cy.get('.anonymous-consent-banner .btn-primary', {timeout: 10000}).then(() => {
+    cy.get('.anonymous-consent-banner .btn-primary').click();
+  });
+}
+
+export function addToCartFromList(numberOfItems) {
+  for(let i = 1; i <= numberOfItems;i++){
+    cy.get(`:nth-child(${i}) > :nth-child(1) > .col-md-8 > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn`).click({ force: true });
+        cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
+          'contain',
+          'Item(s) added to your cart'
+        );
+        cy.get('.cx-dialog-header .close').click();
+  }
+  cy.get('cx-mini-cart .count').should('contain', numberOfItems);
+}
+
+export function clickCartIcon() {
+  cy.get('cx-mini-cart > a').click();
+}
+
+export function scrollToBottomOfPageAndClickBackToTopButton(){
+  cy.get(`.cx-scroll-to-top-btn`).should('not.be.visible');
+  cy.scrollTo('bottom');
+  cy.get(`.cx-scroll-to-top-btn`).should('be.visible');
+  cy.get(`.cx-scroll-to-top-btn`).click();
+
+  cy.window().its('scrollY').should('equal', 0);
+}
+
+
+export function goToURLAndWaitTillItLoads(pageName) {
+  cy.intercept(pageName).as(`get${pageName}Page`);
+  cy.visit(pageName);
+  cy.wait(`get${pageName}Page`).its('response.statusCode').should('eq', 200);
+}
+
 export function testInfiniteScrollAvoidDisplayShowMoreButton() {
   it("should enable Infinite scroll and NOT display 'Show more' button", () => {
     configScroll(true, 0, false);
@@ -179,3 +221,6 @@ export function testInfiniteScrollAvoidDisplayShowMoreButton() {
     });
   });
 }
+
+
+
