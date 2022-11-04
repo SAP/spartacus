@@ -207,6 +207,10 @@
             "tsConfig": "projects/storefrontapp/tsconfig.prerender.json"
           },
           "configurations": {
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            },
             "production": {
               "outputHashing": "media",
               "fileReplacements": [
@@ -219,7 +223,8 @@
               "optimization": true,
               "tsConfig": "projects/storefrontapp/tsconfig.prerender.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
@@ -238,13 +243,19 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "storefrontapp:build:production",
-            "serverTarget": "storefrontapp:prerender-ssr:production",
             "routes": ["/"]
           },
           "configurations": {
-            "production": {}
-          }
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:prerender-ssr:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development",
+              "serverTarget": "storefrontapp:prerender-ssr:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },
