@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 export const SCHEMATICS_COMMENT_PREFIX = '// TODO:Spartacus -';
 
 export function printStats(breakingChangeElements: any[]) {
