@@ -183,6 +183,14 @@ export function verifyTicketListingTableContent(): number{
   return numberOfTickets;
 }
 
+export function getNumberOfTicket(): number {
+  let numberOfTikcets = 0;
+  cy.get('cx-customer-ticketing-list').then(ticketListingElement => {
+    numberOfTikcets = ticketListingElement.find('tbody').length;
+  });
+  return numberOfTikcets;
+}
+
 export function createTicket(ticketDetails: TestTicketDetails){
   openCreateTicketPopup();
   fillTicketDetails(ticketDetails);
@@ -190,7 +198,16 @@ export function createTicket(ticketDetails: TestTicketDetails){
   verifyRequestCompleted();
 }
 
-export function shouldNowHave(expectedNumberOfTickets: number) {
+export function createNumberOfTickets(numberOfTicket: number, ticketDetails: TestTicketDetails){
+  for (let i = 0; i < numberOfTicket; i++)
+  {
+    ticketDetails.subject = ticketDetails.subject + i;
+    ticketDetails.message = ticketDetails.message + i;
+    createTicket(ticketDetails);
+  }
+}
+
+export function shouldHaveNumberOfTicketsListed(expectedNumberOfTickets: number) {
   cy.get('cx-customer-ticketing-list').get('tbody').should('have.length', expectedNumberOfTickets);
 }
 
@@ -198,10 +215,15 @@ export function openLastCreatedTicket() {
   const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST);
   row.click();
 }
-
-export function closeTicketRequest() {
-  cy.get('cx-customer-ticketing-close').click()
-  cy.get('textarea').last().type("closing the ticket, bye");
+export function clickCloseRequestButton() {
+  cy.get('cx-customer-ticketing-close').click();
+}
+export function typeCloseTicketRequestMessage(message = 'Thank you.') {
+  cy.get('textarea').last().type(message);
+}
+export function closeTicketRequest(message = 'Thank you.') {
+  clickCloseRequestButton();
+  typeCloseTicketRequestMessage(message);
   clickSubmit();
 }
 

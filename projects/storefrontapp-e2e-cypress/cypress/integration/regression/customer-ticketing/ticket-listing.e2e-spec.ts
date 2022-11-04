@@ -25,7 +25,7 @@ describe('ticketing', () => {
         let numberOfTickets: number = customerTicketing.verifyTicketListingTableContent();
 
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.shouldNowHave(++numberOfTickets);
+        customerTicketing.shouldHaveNumberOfTicketsListed(++numberOfTickets);
         customerTicketing.verifyTicketListingTableContent();
       });
 
