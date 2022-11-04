@@ -142,3 +142,169 @@ export const recurrencePeriodMap = new Map<string, string>([
   [recurrencePeriod.WEEKLY, 'week'],
   [recurrencePeriod.MONTHLY, 'month'],
 ]);
+
+// id is fetched from server in run-time
+export const b2bDeliveryAddress = {
+  id: null,
+};
+
+export const b2bDeliveryAddressStub = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    country: {
+      isocode: 'US',
+      name: 'United States',
+    },
+    defaultAddress: false,
+    email: 'akiro.nakamura@rustic-hw.com',
+    firstName: 'Akiro',
+    formattedAddress: '999 South Wacker Drive, Chicago, 60606',
+    id: 'addressIdFromServer',
+    lastName: 'Nakamura',
+    line1: '999 South Wacker Drive',
+    postalCode: '60606',
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'Chicago',
+    visibleInAddressBook: true,
+  },
+  costCenter: {
+    active: 'true',
+    code: 'Rustic_Global',
+    currency: {
+      isocode: 'USD',
+    },
+    name: 'Rustic Global',
+    assignedBudgets: [
+      {
+        active: true,
+        budget: 50000,
+        code: 'Monthly_50K_USD',
+        currency: {
+          active: true,
+          isocode: 'USD',
+          name: 'US Dollar',
+          symbol: '$',
+        },
+        endDate: '2034-07-12T00:59:59+0000',
+        name: 'Monthly 50K USD',
+        selected: false,
+        startDate: '2010-01-01T00:00:00+0000',
+      },
+    ],
+    unit: {
+      active: true,
+      addresses: [
+        {
+          country: {
+            isocode: 'US',
+          },
+          defaultAddress: false,
+          email: 'akiro.nakamura@rustic-hw.com',
+          firstName: 'Akiro',
+          formattedAddress: '999 South Wacker Drive, Chicago, 60606',
+          id: 'addressIdFromServer',
+          lastName: 'Nakamura',
+          line1: '999 South Wacker Drive',
+          postalCode: '60606',
+          titleCode: 'mr',
+          town: 'Chicago',
+        },
+      ],
+      name: 'Rustic',
+      uid: 'Rustic',
+    },
+  },
+  paymentType: {
+    code: 'ACCOUNT',
+    displayName: 'Account Payment',
+  },
+  purchaseOrderNumber: '123',
+};
+
+export const b2bDeliveryModeStub = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    country: {
+      isocode: 'US',
+      name: 'United States',
+    },
+    defaultAddress: false,
+    email: 'punchout.customer@punchoutorg.com',
+    firstName: 'Akiro',
+    formattedAddress: '999 South Wacker Drive, Chicago, 60606',
+    id: 'addressIdFromServer',
+    lastName: 'Nakamura',
+    line1: '999 South Wacker Drive',
+    postalCode: '60606',
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'Chicago',
+    visibleInAddressBook: true,
+  },
+  deliveryMode: {
+    code: 'premium-net',
+    deliveryCost: {
+      currencyIso: 'USD',
+      formattedValue: '$16.99',
+      priceType: 'BUY',
+      value: 16.99,
+    },
+    description: '1-2 business days',
+    name: 'Premium Delivery',
+  },
+  costCenter: {
+    active: 'true',
+    code: 'Rustic_Global',
+    currency: {
+      isocode: 'USD',
+    },
+    name: 'Rustic Global',
+    assignedBudgets: [
+      {
+        active: true,
+        budget: 50000,
+        code: 'Monthly_50K_USD',
+        currency: {
+          active: true,
+          isocode: 'USD',
+          name: 'US Dollar',
+          symbol: '$',
+        },
+        endDate: '2034-07-12T00:59:59+0000',
+        name: 'Monthly 50K USD',
+        selected: false,
+        startDate: '2010-01-01T00:00:00+0000',
+      },
+    ],
+    unit: {
+      active: true,
+      addresses: [
+        {
+          country: {
+            isocode: 'US',
+          },
+          defaultAddress: false,
+          email: 'akiro.nakamura@rustic-hw.com',
+          firstName: 'Akiro',
+          formattedAddress: '999 South Wacker Drive, Chicago, 60606',
+          id: 'addressIdFromServer',
+          lastName: 'Nakamura',
+          line1: '999 South Wacker Drive',
+          postalCode: '60606',
+          titleCode: 'mr',
+          town: 'Chicago',
+        },
+      ],
+      name: 'Rustic',
+      uid: 'Rustic',
+    },
+  },
+  paymentType: {
+    code: 'ACCOUNT',
+    displayName: 'Account Payment',
+  },
+  purchaseOrderNumber: '123',
+};
