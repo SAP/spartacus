@@ -23,6 +23,7 @@ describe('ticketing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         let numberOfTickets: number = customerTicketing.verifyTicketListingTableContent();
+        customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTickets);
 
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.shouldHaveNumberOfTicketsListed(++numberOfTickets);
@@ -30,7 +31,7 @@ describe('ticketing', () => {
       });
 
 
-      it("should still show the ticket when not in open", () => {
+      it("should still show the ticket in the list when status is not open", () => {
 
         const testTicketDetails: TestTicketDetails = {
           subject: "changing status",
@@ -44,6 +45,32 @@ describe('ticketing', () => {
         customerTicketing.openLastCreatedTicket();
         customerTicketing.closeTicketRequest();
         customerTicketing.verifyClosedTicketIsStillInTicketListing();
+      });
+
+      it("should create 6 tickets" ,() => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: "Creating tickets for pagination ",
+          message: "Creating tickets for pagination ",
+          category: TestCategory.complaint,
+        };
+
+        const numberOfTicketToCreateInitially = 5;
+        const numberOfTicketToCraeteForOnePagePagination = 1;
+        const numberOfTicketToCreateForMultipagePagination = 5;
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationDoesNotExist();
+        customerTicketing.createNumberOfTickets(numberOfTicketToCreateInitially, testTicketDetails);
+        customerTicketing.verifyPaginationDoesNotExist();
+        customerTicketing.createNumberOfTickets(numberOfTicketToCraeteForOnePagePagination, testTicketDetails);
+        customerTicketing.verifyPaginationExists();
+        let totalNumberOfTicketCreated = (numberOfTicketToCreateInitially + numberOfTicketToCraeteForOnePagePagination);
+        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
+
+        customerTicketing.createNumberOfTickets(numberOfTicketToCreateForMultipagePagination, testTicketDetails);
+        totalNumberOfTicketCreated += numberOfTicketToCreateForMultipagePagination;
+        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
       });
 
     });

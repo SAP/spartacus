@@ -72,7 +72,7 @@ export function visitElectronicTicketListingPage() {
 export function openCreateTicketPopup() {
   cy.get('cx-customer-ticketing-list').should('exist');
   cy.get('cx-customer-ticketing-create button').click();
-  cy.get('cx-customer-ticketing-create-dialog').should('exist');
+  cy.get('cx-customer-ticketing-create-dialog').contains('Add New Request');
 }
 
 export function fillTicketDetails(ticketDetails: TestTicketDetails){
@@ -102,6 +102,7 @@ export function clickSubmit(){
 
 export function verifyRequestCompleted(){
   cy.get('cx-global-message').contains('Request created.');
+  cy.get('cx-global-message').contains('Request created.').should('not.exist', { timeout: 10000 })
 }
 
 export function clickCancel(){
@@ -194,9 +195,7 @@ export function createTicket(ticketDetails: TestTicketDetails){
 
 export function createNumberOfTickets(numberOfTicket: number, ticketDetails: TestTicketDetails){
   for (let i = 0; i < numberOfTicket; i++)
-  {
-    ticketDetails.subject = ticketDetails.subject + i;
-    ticketDetails.message = ticketDetails.message + i;
+  {;
     createTicket(ticketDetails);
   }
 }
@@ -209,16 +208,23 @@ export function openLastCreatedTicket() {
   const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST);
   row.click();
 }
+
 export function clickCloseRequestButton() {
   cy.get('cx-customer-ticketing-close').click();
 }
+
 export function typeCloseTicketRequestMessage(message = 'Thank you.') {
   cy.get('textarea').last().type(message);
+
 }
+
 export function closeTicketRequest(message = 'Thank you.') {
+  const SUBMIT_BUTTON_INDEX = 2;
   clickCloseRequestButton();
-  typeCloseTicketRequestMessage(message);
-  clickSubmit();
+  cy.get('form').within(() => {
+    typeCloseTicketRequestMessage(message);
+    cy.get('button').eq(SUBMIT_BUTTON_INDEX).click();
+  })
 }
 
 export function verifyClosedTicketIsStillInTicketListing() {
@@ -226,3 +232,28 @@ export function verifyClosedTicketIsStillInTicketListing() {
   row.get('td').eq(STATUS_COLUMN).contains("Closed");
 }
 
+export function verifyPaginationDoesNotExist() {
+  cy.get('cx-pagination').should('not.exist');
+}
+
+export function verifyPaginationExists() {
+  cy.get('cx-pagination').should('exist');
+}
+
+
+export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTicketCreated: number) {
+  if(numberOfTicketCreated > 5) {
+    verifyPaginationExists();
+  }
+  else {
+    verifyPaginationDoesNotExist();
+  }
+}
+
+export function verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicket: number) {
+  const LEFT_RIGHT_ARROWS = 2;
+  const FIRST_PAGE = 1;
+  const expectedNumberOfPages = Math.floor(totalNumberOfTicket / 5) + FIRST_PAGE + LEFT_RIGHT_ARROWS;
+  verifyPaginationExistBasedOnTheNumberOfTicketsCreated(totalNumberOfTicket);
+  cy.get('cx-pagination').find('a').should('have.length', expectedNumberOfPages);
+}
