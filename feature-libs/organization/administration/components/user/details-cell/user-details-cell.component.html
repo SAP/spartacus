@@ -34,7 +34,7 @@
       </ul>
     </div>
 
-    <div class="property">
+    <div class="property" *ngIf="hasRight(model)">
       <label>{{ 'orgUser.rights' | cxTranslate }}</label>
       <ul class="value">
         <ng-container *ngFor="let right of model.roles; let isLast = last">

@@ -7,7 +7,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CellComponent } from '../../shared';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { B2BUserRole, B2BUserRight } from '@spartacus/core';
+import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -19,13 +19,23 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserDetailsCellComponent extends CellComponent {
-  availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
-  availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
+  availableRoles: string[] = this.b2bUserService
+    .getAllRoles()
+    .map((role: B2BUserRole) => role.toString());
+  availableRights: string[] = this.b2bUserService
+    .getAllRights()
+    .map((right: B2BUserRight) => right.toString());
 
   constructor(
     protected b2bUserService: B2BUserService,
     protected outlet: OutletContextData<TableDataOutletContext>
   ) {
     super(outlet);
+  }
+
+  hasRight(model: B2BUser): boolean {
+    return (model.roles ?? []).some((role: string) =>
+      this.availableRights.includes(role)
+    );
   }
 }
