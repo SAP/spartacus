@@ -7,27 +7,16 @@ import {
   OrderDetailsModule,
   OrderOverviewModule,
 } from '@spartacus/order/components';
-import { UnitLevelOrderDetailItemsWrapperComponent } from './unit-level-order-detail-items-wrapper/unit-level-order-detail-items-wrapper.component';
 
 @NgModule({
-  declarations: [
-    UnitLevelOrderDetailShippingComponent,
-    UnitLevelOrderDetailItemsWrapperComponent,
-  ],
+  declarations: [UnitLevelOrderDetailShippingComponent],
   imports: [CommonModule, OrderOverviewModule, OrderDetailsModule],
-  exports: [
-    UnitLevelOrderDetailShippingComponent,
-    UnitLevelOrderDetailItemsWrapperComponent,
-  ],
+  exports: [UnitLevelOrderDetailShippingComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UnitLevelOrderDetailsShippingComponent: {
           component: UnitLevelOrderDetailShippingComponent,
-          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
-        },
-        UnitLevelOrderDetailsItemsComponent: {
-          component: UnitLevelOrderDetailItemsWrapperComponent,
           guards: [AuthGuard, UnitLevelOrdersViewerGuard],
         },
       },

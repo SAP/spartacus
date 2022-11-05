@@ -5,6 +5,5 @@
  */
 
 export * from './unit-level-order-detail-shipping/unit-level-order-detail-shipping.component';
-export * from './unit-level-order-detail-items-wrapper/unit-level-order-detail-items-wrapper.component';
 export * from './unit-level-order-detail.module';
 export * from './unit-level-order-detail.service';

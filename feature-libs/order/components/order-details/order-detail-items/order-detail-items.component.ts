@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
 import {
@@ -14,6 +14,7 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
   completedValues,
@@ -25,16 +26,15 @@ import {
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
+    protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
     protected translation: TranslationService
   ) {}
 
   readonly CartOutlets = CartOutlets;
 
-  @Input()
-  order$: Observable<Order>;
-
   promotionLocation: PromotionLocation = PromotionLocation.Order;
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
   others$: Observable<Consignment[] | undefined>;
   completed$: Observable<Consignment[] | undefined>;
   cancel$: Observable<Consignment[] | undefined>;
