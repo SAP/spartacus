@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './unit-level-order-detail.module';
-export * from './unit-level-order-detail.service';
+export * from './unit-level-order-overview.component';
+export * from './unit-level-order-overview.module';
