@@ -13,7 +13,7 @@ import {
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UnitOrderFacade } from '../../root/facade';
+import { UnitLevelOrderDetailService } from '../unit-level-order-detail';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +23,12 @@ export class UnitOrderDetailsOrderEntriesContext
 {
   readonly type = OrderEntriesSource.UNIT_ORDER_DETAILS;
 
-  constructor(protected unitOrderFacade: UnitOrderFacade) {}
+  constructor(
+    protected unitLevelOrderDetailService: UnitLevelOrderDetailService
+  ) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.unitOrderFacade
+    return this.unitLevelOrderDetailService
       .getOrderDetails()
       .pipe(map((order: Order) => order?.entries ?? []));
   }
