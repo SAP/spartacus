@@ -22,6 +22,7 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
           'UnitLevelOrderHistoryComponent',
           'UnitLevelOrderDetailsOverviewComponent',
           'UnitLevelOrderDetailsItemsComponent',
+          'UnitLevelOrderDetailsTotalsComponent',
         ],
         dependencies: [ORDER_FEATURE],
       },

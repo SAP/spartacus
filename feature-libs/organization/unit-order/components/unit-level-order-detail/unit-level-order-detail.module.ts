@@ -6,6 +6,12 @@ import {
   UnitLevelOrderOverviewComponent,
   UnitLevelOrderOverviewModule,
 } from './unit-level-order-overview';
+import {
+  OrderDetailItemsComponent,
+  OrderDetailsService,
+  OrderDetailTotalsComponent,
+} from '@spartacus/order/components';
+import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
 
 @NgModule({
   imports: [CommonModule, UnitLevelOrderOverviewModule],
@@ -15,6 +21,26 @@ import {
         UnitLevelOrderDetailsOverviewComponent: {
           component: UnitLevelOrderOverviewComponent,
           guards: [AuthGuard, UnitLevelOrdersViewerGuard],
+        },
+        UnitLevelOrderDetailsItemsComponent: {
+          component: OrderDetailItemsComponent,
+          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: UnitLevelOrderDetailService,
+            },
+          ],
+        },
+        UnitLevelOrderDetailsTotalsComponent: {
+          component: OrderDetailTotalsComponent,
+          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: UnitLevelOrderDetailService,
+            },
+          ],
         },
       },
     }),
