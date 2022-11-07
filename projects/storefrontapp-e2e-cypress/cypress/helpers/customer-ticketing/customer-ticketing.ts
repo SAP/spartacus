@@ -9,7 +9,6 @@ const STATUS_COLUMN = 5;
 
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 const TICKET_ID_COLUMN_INDEX = 1;
-const FIRST_TICKET_ROW_INDEX = 1;
 
 export enum TestCategory {
   enquiry = "Enquiry",
@@ -48,8 +47,8 @@ export function verifyTicketListingPageVisit(){
   cy.get('cx-customer-ticketing-list').should('exist');
 }
 
-export function clickFirstTicketFromTicketListing(){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
+export function clickTicketFromTicketListing(ticketRowIndex: number){
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${ticketRowIndex}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
 }
 
 export function verifyTicketDetailsPageVisit(){
@@ -154,9 +153,9 @@ export function visitTicketDetailsPageForTicketId(ticketId: string) {
   visitPage(ticketDetailsPageUrl);
 }
 
-export function visitTicketDetailsPageForFirstTicket(){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).then( ($ticketIdElement) => {
+export function visitTicketDetailsPageForTicketInPosition(ticketRowIndex: number){
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${ticketRowIndex}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${ticketRowIndex}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).then( ($ticketIdElement) => {
     const ticketId = $ticketIdElement.text().trim();
     visitTicketDetailsPageForTicketId(ticketId);
     cy.get('cx-customer-ticketing-messages', { timeout: 10000 }).should('be.visible');
