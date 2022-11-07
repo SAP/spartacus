@@ -138,4 +138,27 @@ describe('add-ssr', () => {
       }
     });
   });
+
+  describe('should add prerendering', () => {
+    it('should create prerender.ts', () => {
+      const content = appTree.readContent('./prerender.ts');
+      expect(content).toMatchSnapshot();
+    });
+    it('should create main.prerender.ts', () => {
+      const content = appTree.readContent('./src/main.prerender.ts');
+      expect(content).toMatchSnapshot();
+    });
+    it('should create app.prerender.ts', () => {
+      const content = appTree.readContent('./src/app/app.prerender.ts');
+      expect(content).toMatchSnapshot();
+    });
+    it('should create tsconfig.prerender.json', () => {
+      const content = appTree.readContent('./tsconfig.prerender.json');
+      expect(content).toMatchSnapshot();
+    });
+    it('should update angular.json', () => {
+      const content = appTree.readContent('angular.json');
+      expect(content).toMatchSnapshot();
+    });
+  });
 });

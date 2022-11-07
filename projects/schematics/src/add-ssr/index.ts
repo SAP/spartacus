@@ -46,6 +46,7 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+import { addPrerendering } from './prerender';
 
 const DEPENDENCY_NAMES: string[] = [
   '@angular/platform-server',
@@ -156,6 +157,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      addPrerendering(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
