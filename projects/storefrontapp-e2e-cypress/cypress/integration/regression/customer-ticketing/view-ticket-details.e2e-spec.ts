@@ -41,10 +41,7 @@ describe('ticketing', () => {
         customerTicketing.visitTicketDetailsPageForFirstTicket();
       });
       it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
-        createTestTicket();
-        customerTicketing.clickMyAccountMenuOption();
-        customerTicketing.clickCustomerSupportMenuOption();
-        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.loginRegisteredUser();
         customerTicketing.visitTicketDetailsPageForNonExistentTicket(NOT_EXISTENT_TICKET_ID);
       });
     });
