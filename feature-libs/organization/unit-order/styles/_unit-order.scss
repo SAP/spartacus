@@ -226,55 +226,116 @@
     }
   }
 
-  cx-unit-level-order-history-filter {
-    .cx-unit-level-order-history-filter-form {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: flex-start;
+  .cx-unit-level-order-history-filter-form-mobile {
+    display: none;
+    flex-flow: row wrap;
+    justify-content: flex-start;
 
-    }
-
-    .cx-unit-level-order-history-filter-form-mobile {
-      display: none;
-      flex-flow: row wrap;
-      justify-content: flex-start;
-
-      @include media-breakpoint-down(md) {
-        flex-basis: 50%;
-        padding: 0.5rem;
-        display: flex;
-
-      }
-
-      @include media-breakpoint-down(sm) {
-        flex-basis: 100%;
-        padding: 0.5rem;
-        display: flex;
-      }
-    }
-
-    .cx-unit-level-order-history-filter-form-mobile-list{
-      display: flex;
-    }
-    .cx-unit-level-order-history-filter-form-item {
-      flex-direction: column;
-      flex-basis: 25%;
+    @include media-breakpoint-down(md) {
+      flex-basis: 50%;
       padding: 0.5rem;
-
-      @include media-breakpoint-down(md) {
-        flex-basis: 50%;
-        padding: 0.5rem;
-        display: none;
-
-      }
-
-      @include media-breakpoint-down(sm) {
-        flex-basis: 100%;
-        padding: 0.5rem;
-        display: none;
-      }
+      display: flex;
     }
-    .cx-unit-level-order-history-filter-form-button-block {
+
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0.5rem;
+      display: flex;
+    }
+  }
+  .cx-unit-level-order-history-filter-form-button-block {
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-inline-end: 0.5rem;
+    margin-bottom: 2rem;
+    align-self: center;
+
+    display: flex;
+    flex-direction: row;
+
+    .clear-btn {
+      margin-inline-end: 1rem;
+      border: none;
+      background-color: inherit;
+      font-size: var(--cx-font-size, 1rem);
+    }
+
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+  .cx-unit-level-order-history-filter-form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+  }
+  .cx-unit-level-order-history-filter-form-mobile-list{
+    display: flex;
+  }
+  .cx-unit-level-order-history-filter-form-item {
+    flex-direction: column;
+    flex-basis: 25%;
+    padding: 0.5rem;
+
+    @include media-breakpoint-down(md) {
+      flex-basis: 50%;
+      padding: 0.5rem;
+      display: none;
+
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0.5rem;
+      display: none;
+    }
+  }
+
+  .cx-filter-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: var(--cx-color-background);
+    overflow-x: hidden;
+    padding-top: 60px;
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+
+    h4 {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: var(--cx-font-size, 1rem);
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    label {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: var(--cx-font-size, 1rem);
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    a:hover {
+      color: #f1f1f1;
+    }
+    .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+    .cx-unit-level-order-history-filter-nav-button-block {
       flex-basis: 100%;
       justify-content: flex-end;
       margin-inline-end: 0.5rem;
@@ -291,101 +352,34 @@
         font-size: var(--cx-font-size, 1rem);
       }
 
-      @include media-breakpoint-down(md) {
-        display: none;
-      }
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-up(lg) {
         display: none;
       }
     }
+    .cx-unit-level-order-history-filter-nav-title-block {
+      flex-basis: 100%;
+      margin-inline-end: 0.5rem;
+      margin-bottom: 2rem;
+      align-self: center;
+      display: list-item;
+      flex-direction: row;
 
-  .cx-filter-nav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: var(--cx-color-background);
-      overflow-x: hidden;
-      padding-top: 60px;
-
-        @include media-breakpoint-up(lg) {
-            display: none;
-        }
-
-      h4 {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: var(--cx-font-size, 1rem);
-        color: #818181;
-        display: block;
-        transition: 0.3s;
+      .title{
+        justify-content: flex-start;
+        font-size: 1.188rem;
       }
-     label {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: var(--cx-font-size, 1rem);
-        color: #818181;
-        display: block;
-        transition: 0.3s;
-      }
-      a:hover {
-        color: #f1f1f1;
-      }
-      .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-      }
-      .cx-unit-level-order-history-filter-nav-button-block {
-        flex-basis: 100%;
+      .close{
         justify-content: flex-end;
-        margin-inline-end: 0.5rem;
-        margin-bottom: 2rem;
-        align-self: center;
-
-        display: flex;
-        flex-direction: row;
-
-        .clear-btn {
-          margin-inline-end: 1rem;
-          border: none;
-          background-color: inherit;
-          font-size: var(--cx-font-size, 1rem);
-        }
-
-        @include media-breakpoint-up(lg) {
-          display: none;
-        }
       }
-      .cx-unit-level-order-history-filter-nav-title-block {
-        flex-basis: 100%;
-        margin-inline-end: 0.5rem;
-        margin-bottom: 2rem;
-        align-self: center;
-        display: list-item;
-        flex-direction: row;
+      .clear-btn {
+        margin-inline-end: 1rem;
+        border: none;
+        background-color: inherit;
+        font-size: var(--cx-font-size, 1rem);
+      }
 
-        .title{
-          justify-content: flex-start;
-          font-size: 1.188rem;
-        }
-        .close{
-          justify-content: flex-end;
-        }
-        .clear-btn {
-          margin-inline-end: 1rem;
-          border: none;
-          background-color: inherit;
-          font-size: var(--cx-font-size, 1rem);
-        }
-
-        @include media-breakpoint-up(lg) {
-          display: none;
-        }
+      @include media-breakpoint-up(lg) {
+        display: none;
       }
     }
   }

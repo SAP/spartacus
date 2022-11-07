@@ -1,4 +1,5 @@
-<div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav cx-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+<div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav cx-filter-nav"
+     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <h4>
     {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
     <button
@@ -21,7 +22,7 @@
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
   </h4>
-  <h4  (click)="launchSubNav('filterByUnit')">
+  <h4 (click)="launchSubNav('filterByUnit')">
     {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
     <button
       type="button"
@@ -33,8 +34,9 @@
   </h4>
 </div>
 
-<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub" (keyup.enter)="formSearchMobile()"  >
-  <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub" (keyup.enter)="formSearchMobile()">
+  <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"
+       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
     <div class="cx-unit-level-order-history-filter-nav-title-block">
       <button class="title clear-btn " type="button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
@@ -45,15 +47,28 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
     </div>
-    <label class="cx-unit-level-order-history-filter-form-item" >
+    <label class="cx-unit-level-order-history-filter-form-item">
       <input id="cx-unit-level-order-history-filter-sub-nav-buyer"
-             #queryInputUser
-             formControlName="inputFilter_Buyer"
+             #queryInputBuyerMobile
+             formControlName="inputFilterBuyer"
              type="text"
              class="form-control"
              [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
              placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
       />
+      <button
+        [attr.aria-label]="'common.reset' | cxTranslate"
+        (mousedown)="clear(queryInputBuyerMobile)"
+        (keydown.enter)="clear(queryInputBuyerMobile)"
+        class="reset"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+
+      <div role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
+           (keydown.enter)="formSearchMobile()">
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </div>
     </label>
     <div class="cx-unit-level-order-history-filter-nav-button-block">
       <button
@@ -66,7 +81,8 @@
     </div>
   </div>
 
-  <div id="cx-unit-level-order-history-filter-nav-sub-unit" class=" cx-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+  <div id="cx-unit-level-order-history-filter-nav-sub-unit" class=" cx-filter-nav"
+       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
     <div class="cx-unit-level-order-history-filter-nav-title-block">
       <button class="title clear-btn " type="button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
@@ -79,13 +95,26 @@
     </div>
     <label class="cx-unit-level-order-history-filter-form-item">
       <input id="cx-unit-level-order-history-filter-sub-nav-unit"
-             #queryInputUser
-             formControlName="inputFilter_Unit"
+             #queryInputUnitMobile
+             formControlName="inputFilterUnit"
              type="text"
              class="form-control"
              [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
              placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
       />
+      <button
+        [attr.aria-label]="'common.reset' | cxTranslate"
+        (mousedown)="clear(queryInputUnitMobile)"
+        (keydown.enter)="clear(queryInputUnitMobile)"
+        class="reset"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+
+      <div role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
+           (keydown.enter)="formSearchMobile()">
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </div>
     </label>
     <div class="cx-unit-level-order-history-filter-nav-button-block">
       <button
@@ -112,20 +141,32 @@
     </button>
   </div>
 
-
   <div class="cx-unit-level-order-history-filter-form ">
     <label class="cx-unit-level-order-history-filter-form-item"
     ><span>
           {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
         </span>
       <input
-        #queryInputUser
+        #queryInputBuyer
         formControlName="userFilter"
         type="text"
         class="form-control"
         [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
         placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
       />
+      <button
+        [attr.aria-label]="'common.reset' | cxTranslate"
+        (mousedown)="clear(queryInputBuyer)"
+        (keydown.enter)="clear(queryInputBuyer)"
+        class="reset"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+
+      <div role="presentation" class="search-icon" (mousedown)="formSearch()"
+           (keydown.enter)="formSearch()">
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </div>
     </label>
     <label class="cx-unit-level-order-history-filter-form-item"
     ><span>
@@ -139,6 +180,20 @@
         [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
         placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
       />
+      <button
+        [attr.aria-label]="'common.reset' | cxTranslate"
+        (mousedown)="clear(queryInputUnit)"
+        (keydown.enter)="clear(queryInputUnit)"
+        class="reset"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+
+      <div role="presentation" class="search-icon" (mousedown)="formSearch()"
+           (keydown.enter)="formSearch()">
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </div>
+
     </label>
 
     <div class="cx-unit-level-order-history-filter-form-button-block">

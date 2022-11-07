@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
@@ -9,7 +9,7 @@ import {ICON_TYPE} from "@spartacus/storefront";
   templateUrl: './unit-level-order-history-filter.component.html',
   styleUrls: ['./unit-level-order-history-filter.component.css']
 })
-export class UnitLevelOrderHistoryFilterComponent implements OnInit {
+export class UnitLevelOrderHistoryFilterComponent{
 
   iconTypes = ICON_TYPE;
   encodedFilter: string;
@@ -20,9 +20,13 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
   });
 
   filterFormMobile: FormGroup = new FormGroup({
-    inputFilter_Buyer: new FormControl(),
-    inputFilter_Unit: new FormControl(),
+    inputFilterBuyer: new FormControl(),
+    inputFilterUnit: new FormControl(),
   });
+
+  // @ViewChild('queryInputUser') queryInputUser; // accessing the reference element
+  // @ViewChild('queryInputUnit') queryInputUnit; // accessing the reference element
+
 
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
@@ -30,9 +34,6 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
   constructor(
     protected translation: TranslationService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   formSearch(): void {
     let filters: string[] = [];
@@ -42,6 +43,10 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
+    this.emitFilterEvent(filters);
+  }
+
+  emitFilterEvent(filters: string[]){
     this.encodedFilter = filters.join(':');
 
     this.filterListEvent.emit({
@@ -49,7 +54,6 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
       filters : this.encodedFilter,
     });
   }
-
   resetForm(): void {
     this.filterForm.reset();
     this.filterFormMobile.reset();
@@ -72,22 +76,17 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
 
   formSearchMobile(): void {
     let filters: string[] = [];
-    let user = this.filterFormMobile.get('inputFilter_Buyer')?.value;
-    let unit = this.filterFormMobile.get('inputFilter_Unit')?.value;
+    let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
+    let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
 
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
-    this.encodedFilter = filters.join(':');
-
-    this.filterListEvent.emit({
-      currentPage : 0,
-      filters : this.encodedFilter,
-    });
+    this.emitFilterEvent(filters);
 
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
+    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
   closeNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
@@ -111,5 +110,9 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     }else if(option === 'filterByBuyer'){
       document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "100%";
     }
+  }
+  clear(el: HTMLInputElement): void {
+    el.value = '';
+    el.focus();
   }
 }
