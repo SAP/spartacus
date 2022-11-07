@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
+  MAX_ENTRIES_FOR_ATTACHMENT,
   TicketCreatedEvent,
   TicketDetails,
   TicketStarter,
@@ -71,7 +72,8 @@ export class CustomerTicketingCreateDialogComponent
       'file',
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
-        this.filesFormValidators.maxEntries(this.maxEntries),
+        this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
+        this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
     this.form = form;
