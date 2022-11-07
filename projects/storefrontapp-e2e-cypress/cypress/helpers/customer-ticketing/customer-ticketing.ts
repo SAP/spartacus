@@ -151,17 +151,24 @@ export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
 
-export function visitTicketDetailsPageFromTicketListingPage(){
+export function visitTicketDetailsPageFromTicketListingPage(): TestTicketDetails {
+  const testTicketDetails: TestTicketDetails = {
+    subject: "Temp",
+    message: "Temp",
+    category: TestCategory.complaint
+  };
+
+
   let ticketDetails = [];
   const row = cy.get('cx-customer-ticketing-list').find('tbody').get('tr').eq(FIRST_ROW);
-  row.get('td').eq(ID_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
+  row.get('td').eq(ID_COLUMN).invoke('text').then((x) => testTicketDetails.subject);
   row.get('td').eq(SUBJECT_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
   row.get('td').eq(STATUS_COLUMN).invoke('text').then((x) => ticketDetails.push(x));
 
-   return ticketDetails;
+   return testTicketDetails;
 }
 
-export function verifyTicketDetailsByComparingTIcketHeaderToTicketiListing(ticketDetails){
+export function verifyTicketDetailsByComparingTIcketHeaderToTicketiListing(ticketDetails: TestTicketDetails){
   //assert title when available
 
   cy.get('.cx-card-label').eq(0).contains(ticketDetails[1]);
