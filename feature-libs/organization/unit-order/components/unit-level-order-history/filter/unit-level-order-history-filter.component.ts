@@ -53,14 +53,6 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     });
   }
 
-  onFiltering() {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.refresh(this.filterForm.get('userFilter')?.value, this.filterForm.get('unitFilter')?.value);
-
-    }, 400);
-  }
-
   resetForm(): void {
     this.filterForm.reset();
     this.filterFormMobile.reset();
