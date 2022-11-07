@@ -29,49 +29,13 @@ export class UnitLevelOrderHistoryFilterNavComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  formSearch(): void {
-    let filters: string[] = [];
-    let user = this.filterFormMobile.get('inputFilter_Buyer')?.value;
-    let unit = this.filterFormMobile.get('inputFilter_Unit')?.value;
 
-    user?.length ? filters.push('user:' + user) : '';
-    unit?.length ? filters.push('unit:' + unit) : '';
-    filters.unshift(filters.length ? ':' : '');
-    this.encodedFilter = filters.join(':');
 
-    this.filterListEvent.emit({
-      currentPage : 0,
-      filters : this.encodedFilter,
-    });
-  }
+  //
+  // resetForm(): void {
+  //   this.filterFormMobile.reset();
+  //   this.formSearch();
+  // }
 
-  closeNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
-  }
-  closeSubNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
-  }
 
-  backSubNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
-  }
-
-  resetForm(): void {
-    this.filterFormMobile.reset();
-    this.formSearch();
-  }
-
-  launchSubNav(option: string){
-
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
-
-    if(option === 'filterByUnit') {
-      document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "100%";
-    }else if(option === 'filterByBuyer'){
-      document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "100%";
-    }
-  }
 }
