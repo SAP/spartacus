@@ -13,6 +13,7 @@ const FIRST_TICKET_ROW_INDEX = 1;
 
 
 const NOT_EXISTENT_TICKET_ID = 'XYZ01234';
+const FIRST_TICKET_ROW_INDEX = 1;
 
 function createTestTicket() {
   const testTicketDetails: customerTicketing.TestTicketDetails = {
