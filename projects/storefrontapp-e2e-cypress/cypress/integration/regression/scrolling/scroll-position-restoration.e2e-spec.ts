@@ -1,36 +1,25 @@
 context('scroll Position Restoration', () => {
-  const PRODUCT_NAME = 'DC Car Battery Adapter';
-  const PRODUCT_LIST_URL = '/Brands/all/c/brands?currentPage=0';
   it('should restore scroll position', () => {
-    let scrollPosY = 0;
-    cy.intercept({
-      method: 'GET',
-      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/cms/components`,
-    }).as('getComponents');
+    cy.visit('/');
 
-    cy.visit(PRODUCT_LIST_URL);
-    cy.wait('@getComponents');
+    cy.log('Go to category page');
+    cy.get('cx-category-navigation a').eq(0).click();
+
     cy.get('cx-product-list-item').should('exist');
     cy.get('cx-product-list-item').eq(3).scrollIntoView();
-    cy.window().then(($window) => {
-      scrollPosY = $window.scrollY;
-    });
     cy.get('cx-product-list-item .cx-product-name').eq(3).click();
-    cy.get('cx-breadcrumb h1').should('contain', PRODUCT_NAME);
 
+    cy.log('Go to product details page');
+    cy.get('.ProductDetailsPageTemplate').should('exist');
+
+    cy.log('Go back to product list');
     cy.go(-1);
-    cy.window().then(($window) => {
-      expect($window.scrollY).to.be.closeTo(scrollPosY, scrollPosY);
-    });
-    cy.get('cx-product-list-item h2').eq(3).should('contain', PRODUCT_NAME);
+    cy.window().its('scrollY').should('be.greaterThan', 0);
 
+    cy.log('Go forward to product details');
     cy.go(1);
-    cy.get('cx-breadcrumb h1').should('contain', PRODUCT_NAME);
-    cy.wait(500);
-    cy.window().then(($window) => {
-      expect($window.scrollY).to.be.closeTo(0, 0);
-    });
+    cy.get('.ProductDetailsPageTemplate').should('exist');
+
+    cy.window().its('scrollY').should('be.closeTo', 0, 0);
   });
 });
