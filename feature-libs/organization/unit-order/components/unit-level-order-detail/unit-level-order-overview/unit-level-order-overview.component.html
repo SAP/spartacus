@@ -2,12 +2,12 @@
   <div class="container">
     <div class="cx-summary-card">
       <cx-card
-        [content]="getOrderCodeCardContent(order?.code) | async"
+        [content]="getOrderCodeCardContent(order.code) | async"
       ></cx-card>
 
       <cx-card
         [content]="
-          getOrderCurrentDateCardContent(order?.created | cxDate) | async
+          getOrderCurrentDateCardContent(order.created | cxDate) | async
         "
       ></cx-card>
 
@@ -17,7 +17,7 @@
 
       <cx-card
         class="display-inline"
-        [content]="getBuyerNameCardContent(order?.orgCustomer) | async"
+        [content]="getBuyerNameCardContent(order.orgCustomer) | async"
       ></cx-card>
     </div>
 
@@ -26,11 +26,11 @@
     >
       <div class="cx-summary-card">
         <cx-card
-          [content]="getUnitNameCardContent(order?.orgUnit?.name) | async"
+          [content]="getUnitNameCardContent(order.orgUnit?.name) | async"
         ></cx-card>
 
         <cx-card
-          [content]="getPurchaseOrderNumber(order?.purchaseOrderNumber) | async"
+          [content]="getPurchaseOrderNumber(order.purchaseOrderNumber) | async"
         ></cx-card>
 
         <cx-card
@@ -39,7 +39,7 @@
 
         <ng-container *ngIf="order.costCenter">
           <cx-card
-            [content]="getCostCenterCardContent(order?.costCenter) | async"
+            [content]="getCostCenterCardContent(order.costCenter) | async"
           ></cx-card>
         </ng-container>
       </div>
@@ -48,13 +48,13 @@
     <div class="cx-summary-card">
       <ng-container *ngIf="order.deliveryAddress">
         <cx-card
-          [content]="getAddressCardContent(order?.deliveryAddress) | async"
+          [content]="getAddressCardContent(order.deliveryAddress) | async"
         ></cx-card>
       </ng-container>
 
       <ng-container *ngIf="order.deliveryMode">
         <cx-card
-          [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
+          [content]="getDeliveryModeCardContent(order.deliveryMode) | async"
         ></cx-card>
       </ng-container>
     </div>
@@ -62,12 +62,12 @@
     <ng-container *ngIf="order.paymentInfo">
       <div class="cx-summary-card">
         <cx-card
-          [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+          [content]="getPaymentInfoCardContent(order.paymentInfo) | async"
         ></cx-card>
 
         <cx-card
           [content]="
-            getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+            getBillingAddressCardContent(order.paymentInfo?.billingAddress)
               | async
           "
         ></cx-card>

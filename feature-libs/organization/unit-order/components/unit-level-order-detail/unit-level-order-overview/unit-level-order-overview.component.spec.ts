@@ -3,19 +3,15 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
-  CostCenter,
-  B2BUnit,
-  B2BUser,
-  B2BUserRole,
   I18nTestingModule,
   TranslationService,
-  B2BUserRight,
+  RequiredPick,
 } from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
+import { Order } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 
 @Component({ selector: 'cx-card', template: '' })
 class MockCardComponent {
@@ -72,30 +68,19 @@ const mockPayment: PaymentDetails = {
   billingAddress: mockBillingAddress,
 };
 
-const mockReplenishmentOrder: ReplenishmentOrder = {
-  active: true,
-  purchaseOrderNumber: 'test-po',
-  replenishmentOrderCode: 'test-repl-order',
-  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
-  firstDate: '1994-01-11T00:00Z',
-  trigger: {
-    activationTime: '1994-01-11T00:00Z',
-    displayTimeTable: 'every-test-date',
-  },
-  paymentType: {
-    code: 'test-type',
-    displayName: 'test-type-name',
-  },
-  costCenter: {
-    name: 'Rustic Global',
-    unit: {
-      name: 'Rustic',
-    },
-  },
-  paymentInfo: mockPayment,
-};
-
-const mockOrder: Order = {
+const mockOrder: RequiredPick<
+  Order,
+  | 'code'
+  | 'created'
+  | 'statusDisplay'
+  | 'purchaseOrderNumber'
+  | 'paymentInfo'
+  | 'costCenter'
+  | 'deliveryMode'
+  | 'orgUnit'
+  | 'orgCustomer'
+  | 'deliveryAddress'
+> = {
   code: 'test-code-412',
   deliveryAddress: mockDeliveryAddress,
   deliveryMode: mockDeliveryMode,
@@ -108,22 +93,15 @@ const mockOrder: Order = {
     unit: {
       name: 'Rustic',
     },
-  } as CostCenter,
+  },
   orgCustomer: {
     uid: 'gi.sun@rustic-hw.com|powertools-standalone',
     name: 'Gi Sun',
     email: 'gi.sun@rustic-hw.com',
-  } as B2BUser,
+  },
   orgUnit: {
     name: 'Rustic',
-  } as B2BUnit,
-};
-
-const mockUnitOrderViewer: B2BUser = {
-  uid: 'gi.sun@rustic-hw.com|powertools-standalone',
-  name: 'Gi Sun',
-  email: 'gi.sun@rustic-hw.com',
-  roles: [B2BUserRole.CUSTOMER, B2BUserRight.UNITORDERVIEWER],
+  },
 };
 
 const mockUnformattedAddress = 'test1, , test3, test4';
@@ -135,11 +113,17 @@ class MockTranslationService {
   }
 }
 
-describe('UnitOrderOverviewComponent', () => {
+class MockOrderDetailsService {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+}
+
+describe('UnitLevelOrderOverviewComponent', () => {
   let component: UnitLevelOrderOverviewComponent;
   let fixture: ComponentFixture<UnitLevelOrderOverviewComponent>;
   let translationService: TranslationService;
-  let userAccountFacade: UserAccountFacade;
+  let orderDetailService: UnitLevelOrderDetailService;
 
   beforeEach(
     waitForAsync(() => {
@@ -148,6 +132,10 @@ describe('UnitOrderOverviewComponent', () => {
         declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
         providers: [
           { provide: TranslationService, useClass: MockTranslationService },
+          {
+            provide: UnitLevelOrderDetailService,
+            useClass: MockOrderDetailsService,
+          },
         ],
       }).compileComponents();
     })
@@ -157,123 +145,21 @@ describe('UnitOrderOverviewComponent', () => {
     fixture = TestBed.createComponent(UnitLevelOrderOverviewComponent);
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
-    userAccountFacade = TestBed.inject(UserAccountFacade);
+    orderDetailService = TestBed.inject(UnitLevelOrderDetailService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('when replenishment order code is defined', () => {
-    beforeEach(() => {
-      component.order = mockReplenishmentOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
-    });
-
-    it('should call getReplenishmentCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getReplenishmentCodeCardContent').and.callThrough();
-
-      component
-        .getReplenishmentCodeCardContent(
-          mockReplenishmentOrder.replenishmentOrderCode
-        )
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([
-            mockReplenishmentOrder.replenishmentOrderCode,
-          ]);
-        })
-        .unsubscribe();
-
-      expect(component.getReplenishmentCodeCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.replenishmentOrderCode
-      );
-    });
-
-    it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
-      spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
-
-      component
-        .getReplenishmentActiveCardContent(mockReplenishmentOrder.active)
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual(['test']);
-        })
-        .unsubscribe();
-
-      expect(component.getReplenishmentActiveCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.active
-      );
-    });
-
-    it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
-
-      const date = mockReplenishmentOrder.firstDate;
-
-      component
-        .getReplenishmentStartOnCardContent(date)
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([date]);
-        })
-        .unsubscribe();
-
-      expect(component.getReplenishmentStartOnCardContent).toHaveBeenCalledWith(
-        mockReplenishmentOrder.firstDate
-      );
-    });
-
-    it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
-      spyOn(
-        component,
-        'getReplenishmentFrequencyCardContent'
-      ).and.callThrough();
-
-      component
-        .getReplenishmentFrequencyCardContent(
-          mockReplenishmentOrder.trigger.displayTimeTable
-        )
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([
-            mockReplenishmentOrder.trigger.displayTimeTable,
-          ]);
-        })
-        .unsubscribe();
-
-      expect(
-        component.getReplenishmentFrequencyCardContent
-      ).toHaveBeenCalledWith(mockReplenishmentOrder.trigger.displayTimeTable);
-    });
-
-    it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
-
-      const date = mockReplenishmentOrder.trigger.activationTime;
-
-      component
-        .getReplenishmentNextDateCardContent(date)
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          expect(data.title).toEqual('test');
-          expect(data.text).toEqual([date]);
-        })
-        .unsubscribe();
-
-      expect(
-        component.getReplenishmentNextDateCardContent
-      ).toHaveBeenCalledWith(date);
-    });
+  it('should call getOrderDetails', () => {
+    spyOn(orderDetailService, 'getOrderDetails').and.callThrough();
+    component.ngOnInit();
+    expect(orderDetailService.getOrderDetails).toHaveBeenCalled();
   });
 
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -331,7 +217,6 @@ describe('UnitOrderOverviewComponent', () => {
 
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -378,7 +263,7 @@ describe('UnitOrderOverviewComponent', () => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
           expect(data.textBold).toEqual(mockOrder.costCenter.name);
-          expect(data.text).toEqual([`(${mockOrder.costCenter.unit.name})`]);
+          expect(data.text).toEqual([`(${mockOrder.costCenter?.unit?.name})`]);
         })
         .unsubscribe();
 
@@ -390,7 +275,6 @@ describe('UnitOrderOverviewComponent', () => {
 
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -417,7 +301,7 @@ describe('UnitOrderOverviewComponent', () => {
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
       spyOn(component, 'getBillingAddressCardContent').and.callThrough();
 
-      const billingAddress = mockOrder.paymentInfo.billingAddress;
+      const billingAddress = mockOrder.paymentInfo.billingAddress as Address;
 
       component
         .getBillingAddressCardContent(billingAddress)
@@ -429,7 +313,7 @@ describe('UnitOrderOverviewComponent', () => {
           );
           expect(data.text).toEqual([
             billingAddress.formattedAddress,
-            billingAddress.country.name,
+            billingAddress.country?.name,
           ]);
         })
         .unsubscribe();
@@ -442,7 +326,6 @@ describe('UnitOrderOverviewComponent', () => {
 
   describe('common column in all types of order', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
 
@@ -461,7 +344,7 @@ describe('UnitOrderOverviewComponent', () => {
           );
           expect(data.text).toEqual([
             deliveryAddress.formattedAddress,
-            deliveryAddress.country.name,
+            deliveryAddress.country?.name,
           ]);
         })
         .unsubscribe();
@@ -482,7 +365,7 @@ describe('UnitOrderOverviewComponent', () => {
           expect(data.textBold).toEqual(mockOrder.deliveryMode.name);
           expect(data.text).toEqual([
             mockOrder.deliveryMode.description,
-            mockOrder.deliveryMode.deliveryCost.formattedValue,
+            mockOrder.deliveryMode.deliveryCost?.formattedValue,
           ]);
         })
         .unsubscribe();
@@ -512,16 +395,8 @@ describe('UnitOrderOverviewComponent', () => {
 
   describe('when unit order is defined', () => {
     beforeEach(() => {
-      component.order = mockOrder;
       spyOn(translationService, 'translate').and.returnValue(of('test'));
     });
-
-    // it('should set a variable to show more fields when the user has a unit order viewer', () => {
-    //   spyOn(userAccountFacade, 'get').and.returnValue(of(mockUnitOrderViewer));
-
-    //   component.ngOnInit();
-    //   expect(component.isUserOrgUnitViewer).toBeTruthy();
-    // });
 
     it('should call getBuyerNameCardContent(customer: B2BUser)', () => {
       spyOn(component, 'getBuyerNameCardContent').and.callThrough();
@@ -547,7 +422,7 @@ describe('UnitOrderOverviewComponent', () => {
       spyOn(component, 'getUnitNameCardContent').and.callThrough();
 
       component
-        .getUnitNameCardContent(mockOrder.orgUnit.name)
+        .getUnitNameCardContent(mockOrder.orgUnit.name as string)
         .subscribe((data) => {
           expect(data).toBeTruthy();
           expect(data.title).toEqual('test');
