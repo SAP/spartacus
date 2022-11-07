@@ -156,7 +156,6 @@ export function visitTicketDetailsPageForTicketId(ticketId: string) {
 }
 
 export function visitTicketDetailsPageForTicketInPosition(ticketRowIndex: number){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${ticketRowIndex}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
   cy.get(`#ticketing-list-table tbody tr:nth-child(${ticketRowIndex}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).then( ($ticketIdElement) => {
     const ticketId = $ticketIdElement.text().trim();
     visitTicketDetailsPageForTicketId(ticketId);
