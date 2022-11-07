@@ -1,6 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { EventService } from '@spartacus/core';
-import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
+import {
+  MessageEvent,
+  MessagingComponent,
+  MessagingConfigs,
+} from '@spartacus/storefront';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -17,6 +21,8 @@ import { map } from 'rxjs/operators';
   templateUrl: './customer-ticketing-messages.component.html',
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
+  @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
+
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
@@ -46,6 +52,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           } else {
             this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
+          this.messagingComponent.resetForm();
         })
     );
   }

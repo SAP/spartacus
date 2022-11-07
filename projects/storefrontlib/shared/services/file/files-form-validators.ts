@@ -11,6 +11,9 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
   providedIn: 'root',
 })
 export class FilesFormValidators {
+  CONVERT_TO_MB = 1000000;
+  extenstionRegEx: RegExp = /\.([0-9a-z]+)(?:[\?#]|$)/i;
+
   /**
    * Checks max size of file
    *
@@ -21,14 +24,14 @@ export class FilesFormValidators {
   maxSize(maxSize?: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
-      if (maxSize) {
+      if (maxSize && control.value) {
         const files: File[] = Array.from(control.value);
-        files.forEach((file: File) => {
-          if (file.size > maxSize * 1000000) {
+        files.forEach(({ size, name }) => {
+          if (size > maxSize * this.CONVERT_TO_MB) {
             const invalidFiles = errors.tooLarge?.invalidFiles ?? [];
             errors.tooLarge = {
               maxSize,
-              invalidFiles: [...invalidFiles, file.name],
+              invalidFiles: [...invalidFiles, name],
             };
           }
         });
@@ -47,7 +50,7 @@ export class FilesFormValidators {
   maxEntries(maxEntries?: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
-      if (maxEntries) {
+      if (maxEntries && control.value) {
         const files: File[] = Array.from(control.value);
         if (files.length > maxEntries) {
           errors.tooManyEntries = { maxEntries };
@@ -55,5 +58,29 @@ export class FilesFormValidators {
       }
       return Object.keys(errors).length === 0 ? null : errors;
     };
+  }
+
+  /**
+   * Checks allowed types
+   *
+   * @param {Array<string>} allowedTypes Allowed types of files
+   * @returns Uses 'notParsable' validator error with allowedTypes property
+   * @memberOf FilesFormValidators
+   */
+  allowedTypes(allowedTypes?: Array<string>): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      if (allowedTypes && control.value) {
+        const files: File[] = Array.from(control.value);
+        errors.fileNotAllowed = files.some(
+          ({ name }) => !allowedTypes.includes(this.getExtension(name))
+        );
+      }
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+  }
+
+  protected getExtension(filename: string): string {
+    return (filename.match(this.extenstionRegEx) || [])[0];
   }
 }
