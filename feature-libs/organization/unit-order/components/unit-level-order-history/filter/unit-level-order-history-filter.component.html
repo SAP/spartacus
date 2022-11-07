@@ -1,83 +1,4 @@
-
-<div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-  <h4>
-    {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
-    <button
-      type="button"
-      class="close"
-      [attr.aria-label]="'common.close' | cxTranslate"
-      (click)="closeNav()"
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-    </button>
-  </h4>
-  <h4 (click)="launchSubNav('filterByBuyer')">
-    {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
-    <button
-      type="button"
-      class="close"
-      [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
-
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
-    </button>
-  </h4>
-  <h4  (click)="launchSubNav('filterByUnit')">
-    {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-    <button
-      type="button"
-      class="close"
-      [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
-    </button>
-  </h4>
-</div>
-
-<div id="cx-unit-level-order-history-filter-nav-sub" class="cx-unit-level-order-history-filter-nav-sub"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-  <h4>
-    <button
-      class=""
-      type="button"
-      (click)="backSubNav()"
-    ><cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
-      {{ filterByTitle }}
-    </button>
-
-    <button
-      type="button"
-      class="close"
-      [attr.aria-label]="'common.close' | cxTranslate"
-      (click)="closeSubNav()"
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-    </button>
-  </h4>
-  <label class="cx-unit-level-order-history-filter-form-item" id="cx-unit-level-order-history-filter-sub-nav-item"
-  >
-    <input id="cx-unit-level-order-history-filter-sub-nav-item-input"
-      #queryInputUser
-      formControlName="inputFilter_{{ filterByTitle }}"
-      type="text"
-      class="form-control"
-      [attr.aria-label]="searchByTitle"
-      placeholder="{{ searchByTitle }}"
-    />
-  </label>
-  <div class="cx-unit-level-order-history-filter-nav-button-block">
-    <button
-      class="cx-action-link clear-btn"
-      type="button"
-      (click)="resetForm()"
-    >
-      {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
-    </button>
-    <button class="btn btn-primary unit-level-order-history-search" type="submit" (click)="formSearch()">
-      {{ 'unitLevelOrderHistory.search' | cxTranslate }}
-    </button>
-  </div>
-</div>
-
+<cx-unit-level-order-history-filter-nav></cx-unit-level-order-history-filter-nav>
 
 <form [formGroup]="filterForm">
 
@@ -92,7 +13,7 @@
   </div>
 
 
-  <div class="cx-unit-level-order-history-filter-form">
+  <div class="cx-unit-level-order-history-filter-form ">
     <label class="cx-unit-level-order-history-filter-form-item"
     ><span>
           {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}

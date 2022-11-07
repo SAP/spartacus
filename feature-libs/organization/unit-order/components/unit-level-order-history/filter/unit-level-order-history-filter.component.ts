@@ -3,7 +3,7 @@ import { TranslationService } from '@spartacus/core';
 import Timeout = NodeJS.Timeout;
 import {FormControl, FormGroup} from "@angular/forms";
 import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
-import {ICON_TYPE, BreakpointService} from "@spartacus/storefront";
+import {ICON_TYPE} from "@spartacus/storefront";
 
 @Component({
   selector: 'cx-unit-level-order-history-filter',
@@ -16,21 +16,17 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
   CLOSE_DELAY = 300;
   timeout: Timeout;
   encodedFilter: string;
-  searchByTitle: string;
-  filterByTitle: string;
 
   filterForm: FormGroup = new FormGroup({
     userFilter: new FormControl(),
     unitFilter: new FormControl(),
   });
 
-
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
 
   constructor(
-    protected translation: TranslationService,
-    protected breakpointService: BreakpointService,
+    protected translation: TranslationService
   ) { }
 
   ngOnInit(): void {
@@ -78,36 +74,4 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
 
-  closeNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
-  }
-  closeSubNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
-  }
-
-  backSubNav(){
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
-  }
-  launchSubNav(option: string){
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub").style.width = "100%";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
-
-    if(option === 'filterByUnit') {
-      this.translation.translate('unitLevelOrderHistory.unit').subscribe( (label:string) => {
-        this.searchByTitle = label
-      });
-      this.translation.translate('unitLevelOrderHistory.filterByUnit').subscribe( (label:string) => {
-        this.filterByTitle = label
-      });
-    }else if(option === 'filterByBuyer'){
-       this.translation.translate('unitLevelOrderHistory.searchByBuyer').subscribe( (label:string) => {
-         this.searchByTitle = label
-       });
-       this.translation.translate('unitLevelOrderHistory.filterByBuyer').subscribe( (label:string) => {
-         this.filterByTitle = label
-       });
-    }
-  }
 }
