@@ -16,10 +16,12 @@
   >
     <cx-icon [type]="ICON_TYPE.HEART"></cx-icon>
   </div>
-  <button data-text="setPreferredStore.myStore" class="set-preferred-heading">{{
-    (pointOfServiceName.name === (storeSelected$ | async)?.name
-      ? 'setPreferredStore.myStore'
-      : 'setPreferredStore.makeThisMyStore'
-    ) | cxTranslate
-  }}</button>
+  <button data-text="setPreferredStore.myStore" class="set-preferred-heading">
+    {{
+      (pointOfServiceName.name === (storeSelected$ | async)?.name
+        ? 'setPreferredStore.myStore'
+        : 'setPreferredStore.makeThisMyStore'
+      ) | cxTranslate
+    }}
+  </button>
 </div>
