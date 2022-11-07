@@ -9,8 +9,9 @@ import {
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
-const defaultRenderTime = 100;
+const DEFAULT_RENDER_TIME = 100;
 const host = 'my.shop.com';
+const noop = () => {};
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -23,6 +24,9 @@ const host = 'my.shop.com';
  * 3. Examine renders property for the renders
  */
 class TestEngineRunner {
+  /** Mock time in milliseconds before engine returns rendering. */
+  private readonly renderTime: number;
+
   /** Accumulates html output for engine runs */
   renders: string[] = [];
 
@@ -44,15 +48,23 @@ class TestEngineRunner {
       renderTime?: number;
     } = {}
   ) {
+    this.renderTime = renderTime ?? DEFAULT_RENDER_TIME;
+
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
-      _options: { req: Request; res: Response },
+      options: { req: Request; res: Response },
       callback: SsrCallbackFn
     ) => {
+      const renderLogic =
+        options.res.locals?._cxTestingContext?.renderLogic ?? noop;
+      const renderTime =
+        options.res.locals?._cxTestingContext?.renderTime ?? this.renderTime;
+
       setTimeout(() => {
+        renderLogic(options);
         callback(undefined, `${filePath}-${this.renderCount++}`);
-      }, renderTime ?? defaultRenderTime);
+      }, renderTime);
     };
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(
@@ -68,6 +80,19 @@ class TestEngineRunner {
     params?: {
       /** headers */
       httpHeaders?: IncomingHttpHeaders;
+
+      /**
+       * For the current request, mock time in milliseconds before engine returns rendering.
+       *
+       * If not specified, it fallbacks to the renderTime specified at the
+       * creation of the `TestEngineRunner`.
+       */
+      renderTime?: number;
+
+      /**
+       * Mock function executed during the render, that can operate on the `Request` and `Response` objects.
+       */
+      renderLogic?: ({ req, res }: { req: Request; res: Response }) => void;
     }
   ): TestEngineRunner {
     const responseHeaders: { [key: string]: string } = {};
@@ -80,7 +105,7 @@ class TestEngineRunner {
           true,
     };
 
-    const optionsMock = {
+    const optionsMock: { req: Request; res: Response } = {
       req: <Request>{
         protocol: 'https',
         originalUrl: url,
@@ -93,6 +118,13 @@ class TestEngineRunner {
       },
       res: <Response>{
         set: (key: string, value: any) => (responseHeaders[key] = value),
+        locals: {
+          // used to pass custom context to the test engine
+          _cxTestingContext: {
+            renderLogic: params?.renderLogic,
+            renderTime: params?.renderTime,
+          },
+        } as Record<string, any>,
       },
     };
 
