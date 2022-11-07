@@ -53,7 +53,9 @@ describe('StoreComponent', () => {
     };
     fixture.detectChanges();
 
-    const button = fixture.debugElement.nativeElement.querySelector('button');
+    const button = fixture.debugElement.nativeElement.querySelector(
+      'button[data-pickup-in-store-button]'
+    );
     expect(button.disabled).toEqual(true);
   });
 
@@ -66,7 +68,9 @@ describe('StoreComponent', () => {
     };
     fixture.detectChanges();
 
-    const button = fixture.debugElement.nativeElement.querySelector('button');
+    const button = fixture.debugElement.nativeElement.querySelector(
+      'button[data-pickup-in-store-button]'
+    );
     expect(button.disabled).toEqual(true);
   });
 
