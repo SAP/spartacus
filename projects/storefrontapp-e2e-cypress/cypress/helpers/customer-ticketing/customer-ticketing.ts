@@ -19,6 +19,8 @@ const STATUS_COLUMN = 5;
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 const TICKET_ID_COLUMN_INDEX = 1;
 
+const TICKET_NOT_FOUND = 'Ticket not found.';
+
 export enum TestCategory {
   enquiry = "Enquiry",
   complaint = "Complaint",
@@ -176,7 +178,7 @@ export function visitTicketDetailsPageForNonExistentTicket(nonExistentTicketId: 
   const ticketDetailsPageUrl = `/my-account/support-ticket/${nonExistentTicketId}`;
   visitPage(ticketDetailsPageUrl);
   cy.get('cx-global-message .alert-danger', { timeout: 10000 }).should('be.visible');
-  cy.get('cx-global-message .alert-danger span').should('include.text', 'Ticket not found.');
+  cy.get('cx-global-message .alert-danger span').should('include.text', TICKET_NOT_FOUND);
   cy.url().should('include','/my-account/support-ticket');
 }
 >>>>>>> fbfb638410 (Some more changes as per PR review)
