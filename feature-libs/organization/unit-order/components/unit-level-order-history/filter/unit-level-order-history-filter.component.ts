@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import Timeout = NodeJS.Timeout;
 import {FormControl, FormGroup} from "@angular/forms";
 import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
 import {ICON_TYPE} from "@spartacus/storefront";
@@ -13,8 +12,6 @@ import {ICON_TYPE} from "@spartacus/storefront";
 export class UnitLevelOrderHistoryFilterComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
-  CLOSE_DELAY = 300;
-  timeout: Timeout;
   encodedFilter: string;
 
   filterForm: FormGroup = new FormGroup({
@@ -68,7 +65,7 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     this.encodedFilter = filters.join(':');
   }
 
-  launch() {
+  launch(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
 
@@ -92,20 +89,20 @@ export class UnitLevelOrderHistoryFilterComponent implements OnInit {
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
   }
-  closeNav(){
+  closeNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
   }
-  closeSubNav(){
+  closeSubNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
   }
 
-  backSubNav(){
+  backSubNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
-  launchSubNav(option: string){
+  launchSubNav(option: string): void {
 
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
 
