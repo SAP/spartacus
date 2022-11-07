@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { configureApparelProduct, LOCATORS } from '../../pickup-in-store-utils';
 import { verifyTabbingOrder } from '../tabbing-order';
 import { TabbingOrderTypes, TabElement } from '../tabbing-order.model';
