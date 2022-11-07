@@ -33,7 +33,7 @@
   </h4>
 </div>
 
-<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub">
+<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub" (keyup.enter)="formSearchMobile()"  >
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
     <div class="cx-unit-level-order-history-filter-nav-title-block">
       <button class="title clear-btn " type="button" (click)="backSubNav()">
@@ -62,9 +62,6 @@
         (click)="resetForm()"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
-      </button>
-      <button class="btn btn-primary unit-level-order-history-search" type="submit" (click)="formSearchMobile()">
-        {{ 'unitLevelOrderHistory.search' | cxTranslate }}
       </button>
     </div>
   </div>
@@ -97,9 +94,6 @@
         (click)="resetForm()"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
-      </button>
-      <button class="btn btn-primary unit-level-order-history-search" type="submit" (click)="formSearchMobile()">
-        {{ 'unitLevelOrderHistory.search' | cxTranslate }}
       </button>
     </div>
   </div>
