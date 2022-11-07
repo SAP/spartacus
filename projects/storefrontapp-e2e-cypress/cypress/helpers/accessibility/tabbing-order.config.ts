@@ -766,6 +766,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
   ],
+  productPageModal: [
+    { value: 'CLOSE', type: TabbingOrderTypes.GENERIC_BUTTON },
+    { value: 'Find a Store', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Find Stores', type: TabbingOrderTypes.BUTTON },
+    { value: 'USE MY LOCATION', type: TabbingOrderTypes.LINK },
+    { value: 'VIEW ALL STORES', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Hide out of stock options',
+      type: TabbingOrderTypes.GENERIC_CHECKBOX,
+    },
+  ],
   headerMobileNotLoggedIn: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,

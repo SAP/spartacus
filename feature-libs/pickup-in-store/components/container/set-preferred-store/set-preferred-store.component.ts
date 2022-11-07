@@ -22,7 +22,8 @@ export class SetPreferredStoreComponent {
 
   constructor(protected preferredStoreService: PreferredStoreService) {}
 
-  setAsPreferred() {
+  setAsPreferred(): boolean {
     this.preferredStoreService.setPreferredStore(this.pointOfServiceName);
+    return false;
   }
 }
