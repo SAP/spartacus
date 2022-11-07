@@ -8,7 +8,7 @@ const CATEGORY_COLUMN = 2;
 const STATUS_COLUMN = 5;
 
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
-const FIRST_TICKET_COLUMN_INDEX = 1;
+const TICKET_ID_COLUMN_INDEX = 1;
 const FIRST_TICKET_ROW_INDEX = 1;
 
 export enum TestCategory {
@@ -49,7 +49,7 @@ export function verifyTicketListingPageVisit(){
 }
 
 export function clickFirstTicketFromTicketListing(){
-  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${FIRST_TICKET_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).click();
 }
 
 export function verifyTicketDetailsPageVisit(){
@@ -66,7 +66,6 @@ export function visitPage(page: string, alias?: string){
 export function visitElectronicTicketListingPage() {
   visitPage('/my-account/support-tickets', 'ticketListingPage');
 }
-
 
 export function openCreateTicketPopup() {
   cy.get('cx-customer-ticketing-list').should('exist');
@@ -148,4 +147,27 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
 
 export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
+}
+
+export function visitTicketDetailsPageForTicketId(ticketId: string) {
+  const ticketDetailsPageUrl = `/my-account/support-ticket/${ticketId}`;
+  visitPage(ticketDetailsPageUrl);
+}
+
+export function visitTicketDetailsPageForFirstTicket(){
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).should('exist');
+  cy.get(`#ticketing-list-table tbody tr:nth-child(${FIRST_TICKET_ROW_INDEX}) .cx-ticketing-list-data:nth-child(${TICKET_ID_COLUMN_INDEX}) a.cx-ticketing-list-value`).then( ($ticketIdElement) => {
+    const ticketId = $ticketIdElement.text().trim();
+    visitTicketDetailsPageForTicketId(ticketId);
+    cy.get('cx-customer-ticketing-messages', { timeout: 10000 }).should('be.visible');
+    cy.url().should('include',`/my-account/support-ticket/${ticketId}`);
+  });
+}
+
+export function visitTicketDetailsPageForNonExistentTicket(nonExistentTicketId: string){
+  const ticketDetailsPageUrl = `/my-account/support-ticket/${nonExistentTicketId}`;
+  visitPage(ticketDetailsPageUrl);
+  cy.get('cx-global-message .alert-danger', { timeout: 10000 }).should('be.visible');
+  cy.get('cx-global-message .alert-danger span').should('include.text', 'Ticket not found.');
+  cy.url().should('include','/my-account/support-ticket');
 }
