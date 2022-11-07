@@ -1,13 +1,9 @@
-import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ConverterService,
   normalizeHttpError,
   OccEndpointsService,
-  RoutingService,
-  GlobalMessageService,
-  GlobalMessageType,
-  OccHttpErrorType
 } from '@spartacus/core';
 import {
   CustomerTicketingAdapter,
@@ -37,9 +33,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected converter: ConverterService
   ) {}
   getTicketAssociatedObjects(
     customerId: string
@@ -87,17 +81,6 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
         catchError((errorResponse) => {
-          const errorDetails = errorResponse.error.errors[0];
-          if( errorResponse.status === HttpStatusCode.NotFound
-              && errorDetails.type === OccHttpErrorType.NOT_FOUND_ERROR
-              && errorDetails.message.toLowerCase().startsWith('ticket'))
-              {
-                this.routingService.go({ cxRoute: 'supportTickets' });
-                this.globalMessageService.add(
-                  { key: 'httpHandlers.ticketNotFound' },
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-              }
           return throwError(normalizeHttpError(errorResponse));
         }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
