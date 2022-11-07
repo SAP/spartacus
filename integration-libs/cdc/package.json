@@ -30,11 +30,11 @@
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
-    "@spartacus/asm": "5.0.0-11",
-    "@spartacus/core": "5.0.0-11",
-    "@spartacus/schematics": "5.0.0-11",
-    "@spartacus/storefront": "5.0.0-11",
-    "@spartacus/user": "5.0.0-11",
+    "@spartacus/asm": "5.0.0",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/schematics": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
+    "@spartacus/user": "5.0.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

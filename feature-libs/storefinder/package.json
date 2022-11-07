@@ -32,9 +32,9 @@
     "@angular/router": "^14.2.3",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
-    "@spartacus/core": "5.0.0-11",
-    "@spartacus/schematics": "5.0.0-11",
-    "@spartacus/storefront": "5.0.0-11",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/schematics": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
