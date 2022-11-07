@@ -1,16 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { MessageEvent, MessagingConfigs } from './messaging.model';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
+import { FileUploadComponent } from '../../form';
 
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
 export class MessagingComponent implements OnInit {
+  @ViewChild(FileUploadComponent) fileUploadComponent: FileUploadComponent;
+
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
   @Input() scrollToInput?: boolean = true;
   @Input() messagingConfigs?: MessagingConfigs;
@@ -37,7 +47,7 @@ export class MessagingComponent implements OnInit {
   get inputCharacterLeft(): number {
     return (
       (this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS) -
-      this.form.get('message')?.value?.length
+      (this.form.get('message')?.value?.length || 0)
     );
   }
 
@@ -52,6 +62,10 @@ export class MessagingComponent implements OnInit {
       this.messagingConfigs?.attachmentRestrictions?.maxEntries ||
       this.MAX_ENTRIES
     );
+  }
+
+  get allowedTypes(): Array<string> {
+    return this.messagingConfigs?.attachmentRestrictions?.allowedTypes || [];
   }
 
   constructor(
@@ -69,8 +83,12 @@ export class MessagingComponent implements OnInit {
         files: this.form.get('file')?.value,
         message: this.form.get('message')?.value,
       });
-      this.form.get('message')?.setValue(null);
     }
+  }
+
+  resetForm() {
+    this.form.reset();
+    this.fileUploadComponent.removeFile();
   }
 
   triggerDownload(messageCode: string, attachmentId: string, fileName: string) {
@@ -97,6 +115,7 @@ export class MessagingComponent implements OnInit {
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(this.maxEntries),
+        this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
     this.form = form;

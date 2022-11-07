@@ -4,8 +4,8 @@ import {
   AssociatedObject,
   Category,
   TicketDetails,
-  TicketList,
   TicketEvent,
+  TicketList,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 

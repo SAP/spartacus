@@ -11,16 +11,15 @@ import {
 import { merge, Subscription } from 'rxjs';
 import { STATUS } from '../model';
 import {
-  CreateEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
-  GetTicketsQueryResetEvents,
   GetTicketsQueryReloadEvents,
+  GetTicketsQueryResetEvents,
+  TicketCreatedEvent,
   TicketEventCreatedEvent,
 } from './customer-ticketing.events';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -34,20 +33,20 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.onGetTicketQueryReload();
     this.onGetTicketsQueryReload();
     this.onLoginAndLogoutEvent();
-    this.onCreateEvent();
+    this.onTicketCreatedEvent();
   }
-  onCreateEvent() {
+  onTicketCreatedEvent() {
     this.subscriptions.add(
-      this.eventService.get(CreateEvent).subscribe(() => {
+      this.eventService.get(TicketCreatedEvent).subscribe(() => {
         this.globalMessageService.add(
           {
             key: 'createCustomerTicket.ticketCreated',
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
       })
     );
-    this.onTicketEventCreated();
   }
 
   protected onGetTicketQueryReload(): void {

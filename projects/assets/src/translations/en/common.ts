@@ -197,6 +197,7 @@ export const common = {
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
       tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
       notParsable: 'File is not parsable',
+      fileNotAllowed: 'This file type is not allowed',
     },
   },
   errorHandlers: {

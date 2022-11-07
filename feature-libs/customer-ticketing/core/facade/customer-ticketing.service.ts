@@ -14,7 +14,6 @@ import {
 import {
   AssociatedObject,
   Category,
-  CreateEvent,
   CustomerTicketingFacade,
   GetTicketAssociatedObjectsQueryReloadEvent,
   GetTicketAssociatedObjectsQueryResetEvent,
@@ -66,26 +65,29 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
-  protected createTicketCommand: Command<TicketStarter, unknown> =
-    this.commandService.create<TicketStarter>(
-      (ticketStarted) =>
-        this.customerTicketingPreConditions().pipe(
-          switchMap(([customerId]) =>
-            this.customerTicketingConnector
-              .createTicket(customerId, ticketStarted)
-              .pipe(tap(() => this.eventService.dispatch({}, CreateEvent)))
-          )
-        ),
-      {
-        strategy: CommandStrategy.Queue,
-      }
-    );
+
   /**
    * Returns the reload events for the getTickets query.
    */
   protected getTicketsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketsQueryReloadEvents];
   }
+
+  protected createTicketCommand: Command<TicketStarter, unknown> =
+    this.commandService.create<TicketStarter>(
+      (ticketStarted) =>
+        this.customerTicketingPreConditions().pipe(
+          switchMap(([customerId]) =>
+            this.customerTicketingConnector.createTicket(
+              customerId,
+              ticketStarted
+            )
+          )
+        ),
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
 
   /**
    * Returns the reset events for the getTickets query.
@@ -118,16 +120,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
 
   protected uploadAttachmentCommand: Command<{
-    file: File | null;
+    file: File;
     eventCode: string;
-  }> = this.commandService.create<{ file: File; eventCode: string }>(
+    ticketId?: string;
+  }> = this.commandService.create<{
+    file: File;
+    eventCode: string;
+    ticketId?: string;
+  }>(
     (payload) =>
       this.customerTicketingPreConditions().pipe(
         switchMap(([customerId, ticketId]) =>
           this.customerTicketingConnector
             .uploadAttachment(
               customerId,
-              ticketId,
+              payload.ticketId ?? ticketId,
               payload.eventCode,
               payload.file
             )
@@ -321,8 +328,12 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.createTicketEventCommand.execute(ticketEvent);
   }
 
-  uploadAttachment(file: File | null, eventCode: string): Observable<unknown> {
-    return this.uploadAttachmentCommand.execute({ file, eventCode });
+  uploadAttachment(
+    file: File,
+    eventCode: string,
+    ticketId?: string
+  ): Observable<unknown> {
+    return this.uploadAttachmentCommand.execute({ file, eventCode, ticketId });
   }
 
   downloadAttachment(

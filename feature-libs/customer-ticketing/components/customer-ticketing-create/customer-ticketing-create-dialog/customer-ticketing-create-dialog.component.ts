@@ -3,10 +3,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
+  MAX_ENTRIES_FOR_ATTACHMENT,
+  TicketCreatedEvent,
+  TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
@@ -27,6 +31,8 @@ export class CustomerTicketingCreateDialogComponent
 
   @Input()
   selectedAssociatedObject: AssociatedObject;
+
+  attachment: File;
 
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
@@ -66,7 +72,8 @@ export class CustomerTicketingCreateDialogComponent
       'file',
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
-        this.filesFormValidators.maxEntries(this.maxEntries),
+        this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
+        this.filesFormValidators.allowedTypes(this.allowedTypes),
       ])
     );
     this.form = form;
@@ -92,15 +99,32 @@ export class CustomerTicketingCreateDialogComponent
   }
 
   createTicketRequest(): void {
+    this.attachment = this.form.get('file')?.value?.[0];
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
       this.subscription = this.customerTicketingFacade
         .createTicket(this.getCreateTicketPayload(this.form))
+        .pipe(
+          tap((response: TicketDetails) => {
+            if (
+              response.id &&
+              this.attachment &&
+              response.ticketEvents[0].code
+            ) {
+              this.customerTicketingFacade.uploadAttachment(
+                this.attachment,
+                response.ticketEvents[0].code,
+                response.id
+              );
+            }
+          })
+        )
         .subscribe({
           complete: () => {
             this.close('Ticket created successfully');
+            this.eventService.dispatch({}, TicketCreatedEvent);
           },
           error: () => {
             this.close('Something went wrong');

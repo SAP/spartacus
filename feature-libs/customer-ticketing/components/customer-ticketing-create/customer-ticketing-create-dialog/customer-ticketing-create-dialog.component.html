@@ -36,7 +36,7 @@
           <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
           <p class="cx-customer-ticket-input-hint">
             {{
-              'createCustomerTicket.charactersLeft'
+              'customerTicketing.charactersLeft'
                 | cxTranslate: { count: subjectCharacterLeft }
             }}
           </p>
@@ -117,7 +117,7 @@
 
           <p class="cx-customer-ticket-input-hint">
             {{
-              'createCustomerTicket.charactersLeft'
+              'customerTicketing.charactersLeft'
                 | cxTranslate: { count: messagesCharacterLeft }
             }}
           </p>
@@ -142,10 +142,7 @@
                 | cxTranslate: { count: maxSize }
             }}
           </p>
-          <p
-            class="cx-customer-ticket-file-upload-hint"
-            *ngIf="maxEntries === 1"
-          >
+          <p class="cx-customer-ticket-file-upload-hint">
             {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
           </p>
 
