@@ -41,6 +41,7 @@ describe('MessagingComponent', () => {
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
     component.messageEvents$ = of(mockMessageEvents);
+    component.messagingConfigs = { displayAddMessageSection: of(true) };
     fixture.detectChanges();
   });
 
