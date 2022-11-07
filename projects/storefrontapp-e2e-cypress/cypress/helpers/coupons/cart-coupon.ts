@@ -57,10 +57,11 @@ export function refreshCartAndVerifyIfCouponAdded(
   couponCode: string,
   userType = UserType.LOGGED
 ) {
+  verifyBannerAfterAddingCoupon(couponCode);
   verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
     const subtotal = subTotal.formattedValue;
     const discount = totalDiscounts.formattedValue;
-    verifyBannerAfterAddingCoupon(couponCode);
+    // verifyBannerAfterAddingCoupon(couponCode);
     getCouponItemFromCart(couponCode).should('exist');
     verifyPrice(subtotal, discount);
     getCouponItemOrderSummary(couponCode).should('contain', couponCode);
