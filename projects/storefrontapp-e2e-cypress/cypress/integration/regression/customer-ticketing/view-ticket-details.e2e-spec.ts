@@ -8,20 +8,19 @@ describe('ticketing', () => {
         cy.window().then((win) => {
           win.sessionStorage.clear();
         });
-        customerTicketing.createNewTicket();
       });
 
-      it('should be able to view ticket details page for an existing ticket', () => {
-        customerTicketing.loginRegisteredUser();
-        customerTicketing.clickMyAccountMenuOption();
-        customerTicketing.clickCustomerSupportMenuOption();
-        customerTicketing.verifyTicketListingPageVisit();
-        customerTicketing.clickFirstTicketFromTicketListing();
-        customerTicketing.verifyTicketDetailsPageVisit();
-      });
+      // it('should be able to view ticket details page for an existing ticket', () => {
+      //   customerTicketing.loginAsLindaWolf();
+      //   customerTicketing.clickMyAccountMenuOption();
+      //   customerTicketing.clickCustomerSupportMenuOption();
+      //   customerTicketing.verifyTicketListingPageVisit();
+      //   customerTicketing.clickFirstTicketFromTicketListing();
+      //   customerTicketing.verifyTicketDetailsPageVisit();
+      // });
 
       it('clicking a ticket should open its corresponding ticket details', () => {
-        customerTicketing.loginRegisteredUser();
+        customerTicketing.loginAsLindaWolf();
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
         customerTicketing.verifyTicketListingPageVisit();
