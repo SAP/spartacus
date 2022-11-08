@@ -77,7 +77,7 @@ function provideAppPrerenderModule(): Rule {
     imports: [OriginalAppServerModule],
     providers: [...providePrerendering({
       requestOrigin:
-      process.env['PRERENDER_DOMAIN'] ??
+      process.env['PRERENDER_REQUEST_ORIGIN'] ??
       \`http://localhost:\${process.env['PORT'] || 4200}\`
     })],
     // Since the bootstrapped component is not inherited from your

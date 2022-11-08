@@ -14,7 +14,7 @@ import { AppServerModule as OriginalAppServerModule } from './app.server.module'
   providers: [
     ...providePrerendering({
       requestOrigin:
-        process.env['PRERENDER_DOMAIN'] ??
+        process.env['PRERENDER_REQUEST_ORIGIN'] ??
         `http://localhost:${process.env['PORT'] || 4200}`,
     }),
   ],
