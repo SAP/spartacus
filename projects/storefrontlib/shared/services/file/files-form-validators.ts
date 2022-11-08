@@ -76,7 +76,7 @@ export class FilesFormValidators {
           ({ name }) => !allowedTypes.includes(this.getExtension(name))
         );
       }
-      return Object.keys(errors).length === 0 ? null : errors;
+      return errors[Object.keys(errors)?.[0]] ? errors : null;
     };
   }
 
