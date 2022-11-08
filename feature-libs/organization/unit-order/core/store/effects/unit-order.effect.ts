@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UnitOrderConnector } from '../../connectors/unit-order.connector';
@@ -59,4 +59,28 @@ export class UnitOrderEffect {
         })
       )
   );
+
+  loadOrderDetails$: Observable<UnitOrderActions.UnitOrdersAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UnitOrderActions.LOAD_ORDER_DETAILS),
+        map((action: UnitOrderActions.LoadOrderDetails) => action.payload),
+        switchMap((payload) => {
+          return this.orderConnector
+            .getUnitOrderDetail(payload.userId, payload.orderCode)
+            .pipe(
+              map((order: Order) => {
+                return new UnitOrderActions.LoadOrderDetailsSuccess(order);
+              }),
+              catchError((error) =>
+                of(
+                  new UnitOrderActions.LoadOrderDetailsFail(
+                    normalizeHttpError(error)
+                  )
+                )
+              )
+            );
+        })
+      )
+    );
 }

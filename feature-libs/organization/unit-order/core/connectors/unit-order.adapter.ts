@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class UnitOrderAdapter {
@@ -24,4 +24,15 @@ export abstract class UnitOrderAdapter {
     filters?: string,
     sort?: string
   ): Observable<OrderHistoryList>;
+
+  /**
+   * Abstract method used to load order data.
+   *
+   * @param userId The `userId` for given user
+   * @param orderCode The `orderCode` for given order
+   */
+  abstract loadUnitOrderDetail(
+    userId: string,
+    orderCode: string
+  ): Observable<Order>;
 }

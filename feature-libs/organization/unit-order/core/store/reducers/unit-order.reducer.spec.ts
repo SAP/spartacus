@@ -3,7 +3,7 @@ import { OrderHistory, OrderHistoryList } from '@spartacus/order/root';
 import { UnitOrderActions } from '../actions';
 import {
   initialState,
-  reducer as unitOrdersReducer,
+  historyReducer as unitOrdersReducer,
 } from './unit-order.reducer';
 
 describe('Unit Order Reducer', () => {
