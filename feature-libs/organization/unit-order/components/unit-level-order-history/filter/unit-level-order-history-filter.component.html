@@ -132,14 +132,7 @@
   </div>
 </form>
 
-<form [formGroup]="filterForm">
-  <div class="cx-unit-level-order-history-filter-form-mobile">
-    <button class="btn btn-action btn-block dialog-trigger" (click)="launch()">
-      <cx-icon [type]="iconTypes.FILTER"></cx-icon>
-      {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
-    </button>
-  </div>
-
+<form [formGroup]="filterForm" (keydown.enter)="formSearch()">
   <div class="topleveldivvv">
     <div class="mycustomwrapperdivvv">
       <div>
@@ -218,4 +211,11 @@
       </button>
     </div>
   </div>
+  <div class="cx-unit-level-order-history-filter-form-mobile">
+    <button class="btn btn-action btn-block dialog-trigger" (click)="launch()">
+      <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+      {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+    </button>
+  </div>
+
 </form>
