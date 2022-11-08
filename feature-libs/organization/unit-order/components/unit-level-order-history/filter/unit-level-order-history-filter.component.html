@@ -74,7 +74,6 @@
       <button
         [attr.aria-label]="'common.reset' | cxTranslate"
         (mousedown)="clear(queryInputBuyerMobile)"
-        (keydown.enter)="clear(queryInputBuyerMobile)"
         class="reset"
       >
         <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -89,7 +88,7 @@
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="resetForm()"
+        (click)="clear(queryInputBuyerMobile)"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
@@ -120,7 +119,6 @@
       <button
         [attr.aria-label]="'common.reset' | cxTranslate"
         (mousedown)="clear(queryInputUnitMobile)"
-        (keydown.enter)="clear(queryInputUnitMobile)"
         class="reset"
       >
         <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -135,7 +133,7 @@
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="resetForm()"
+        (click)="clear(queryInputUnitMobile)"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
@@ -146,10 +144,7 @@
 
 <form [formGroup]="filterForm">
   <div class="cx-unit-level-order-history-filter-form-mobile">
-    <button
-      #trigger
-      class="btn btn-action btn-block dialog-trigger" (click)="launch()"
-    >
+    <button class="btn btn-action btn-block dialog-trigger" (click)="launch()">
       <cx-icon [type]="iconTypes.FILTER"></cx-icon>
       {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
     </button>
@@ -165,7 +160,7 @@
           <!-- margin-bottom in input inherited I think -->
           <input
             #queryInputBuyer
-            formControlName="userFilter"
+            [formControlName]="'userFilter'"
             class="form-control"
             (input)="searchBuyer(queryInputBuyer)"
             [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
@@ -199,7 +194,7 @@
         <label style="display: flex; align-content: stretch;">
           <input
             #queryInputUnit
-            formControlName="unitFilter"
+            [formControlName]="'unitFilter'"
             class="form-control"
             (input)="searchUnit(queryInputUnit)"
             [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"

@@ -231,12 +231,6 @@
     flex-flow: row wrap;
     justify-content: flex-start;
 
-    @include media-breakpoint-down(md) {
-      flex-basis: 50%;
-      padding: 0.5rem;
-      display: flex;
-    }
-
     @include media-breakpoint-down(sm) {
       flex-basis: 100%;
       padding: 0.5rem;
@@ -260,9 +254,6 @@
       font-size: var(--cx-font-size, 1rem);
     }
 
-    @include media-breakpoint-down(md) {
-      display: none;
-    }
     @include media-breakpoint-down(sm) {
       display: none;
     }
@@ -273,9 +264,6 @@
     justify-content: flex-start;
 
   }
-  .cx-unit-level-order-history-filter-form-mobile-list{
-    display: flex;
-  }
   .cx-unit-level-order-history-filter-form-item {
     flex-direction: column;
     flex-basis: 25%;
@@ -284,8 +272,6 @@
     @include media-breakpoint-down(md) {
       flex-basis: 50%;
       padding: 0.5rem;
-      display: none;
-
     }
 
     @include media-breakpoint-down(sm) {
@@ -304,18 +290,19 @@
     background-color: var(--cx-color-background);
     overflow-x: hidden;
     padding-top: 60px;
+    top: 176px;
 
     @include media-breakpoint-up(lg) {
       display: none;
     }
 
     h4 {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
+      padding: 0px 29px 0px 29px;
       font-size: var(--cx-font-size, 1rem);
-      color: #818181;
-      display: block;
-      transition: 0.3s;
+      color: #212738;
+      font-weight: var(--cx-font-weight-bold);
+      text-transform: var(--cx-text-transform);
+      display: flow-root;
     }
     label {
       padding: 8px 8px 8px 32px;
@@ -324,9 +311,6 @@
       color: #818181;
       display: block;
       transition: 0.3s;
-    }
-    a:hover {
-      color: #f1f1f1;
     }
     .closebtn {
       position: absolute;
@@ -359,10 +343,10 @@
     .cx-unit-level-order-history-filter-nav-title-block {
       flex-basis: 100%;
       margin-inline-end: 0.5rem;
-      margin-bottom: 2rem;
       align-self: center;
       display: list-item;
       flex-direction: row;
+      padding: 0px 8px 0px 8px;
 
       .title{
         justify-content: flex-start;

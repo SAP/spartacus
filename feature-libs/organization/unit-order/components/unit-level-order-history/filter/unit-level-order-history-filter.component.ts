@@ -23,6 +23,11 @@ export class UnitLevelOrderHistoryFilterComponent {
     inputFilterUnit: new FormControl(),
   });
 
+  @ViewChild('queryInputBuyer') queryInputBuyer: ElementRef;
+  @ViewChild('queryInputUnit') queryInputUnit: ElementRef;
+  @ViewChild('queryInputBuyerMobile') queryInputBuyerMobile: ElementRef;
+  @ViewChild('queryInputUnitMobile') queryInputUnitMobile: ElementRef;
+
   @ViewChild('unitButton', {read: ElementRef}) unitButton: ElementRef;
   @ViewChild('buyerButton', {read: ElementRef}) buyerButton: ElementRef;
 
@@ -41,8 +46,8 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   formSearch(): void {
     let filters: string[] = [];
-    let user = this.filterForm.get('userFilter')?.value;
-    let unit = this.filterForm.get('unitFilter')?.value;
+    let user = this.queryInputBuyer?.nativeElement?.value;
+    let unit = this.queryInputUnit?.nativeElement?.value;
 
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
@@ -80,8 +85,8 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   formSearchMobile(): void {
     let filters: string[] = [];
-    let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
-    let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
+    let user = this.queryInputBuyerMobile?.nativeElement?.value;
+    let unit = this.queryInputUnitMobile?.nativeElement?.value;
 
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
