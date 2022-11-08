@@ -6,6 +6,41 @@
     }
   }
 
+  .mycustomdivvv {
+    width: 200px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+  }
+
+  .mycustominputtt {
+    border: none;
+    height: 100%;
+    margin-bottom: 0;
+  }
+
+  .mycustominputtt:focus {
+    background: white;
+  }
+
+  .mucustombutonnn {
+    display: none;
+    border: none;
+    color: lightgray;
+    background: white;
+    padding-right: 10px;
+  }
+
+  .mucustomlabelll {
+    display: flex;
+    align-content: stretch;
+  }
+
+  .mycustomwrapperdivvv {
+    display: flex;
+    justify-content: flex-start;
+    gap: 3rem;
+  }
+
   .cx-unit-level-order-history-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
@@ -88,8 +123,8 @@
   }
 
   .cx-unit-level-order-history-unit
-    .cx-unit-level-order-history-buyer
-    .cx-unit-level-order-history-status {
+  .cx-unit-level-order-history-buyer
+  .cx-unit-level-order-history-status {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -237,6 +272,7 @@
       display: flex;
     }
   }
+
   .cx-unit-level-order-history-filter-form-button-block {
     flex-basis: 100%;
     justify-content: flex-end;
@@ -258,12 +294,14 @@
       display: none;
     }
   }
+
   .cx-unit-level-order-history-filter-form {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
 
   }
+
   .cx-unit-level-order-history-filter-form-item {
     flex-direction: column;
     flex-basis: 25%;
@@ -304,6 +342,7 @@
       text-transform: var(--cx-text-transform);
       display: flow-root;
     }
+
     label {
       padding: 8px 8px 8px 32px;
       text-decoration: none;
@@ -312,6 +351,7 @@
       display: block;
       transition: 0.3s;
     }
+
     .closebtn {
       position: absolute;
       top: 0;
@@ -319,6 +359,7 @@
       font-size: 36px;
       margin-left: 50px;
     }
+
     .cx-unit-level-order-history-filter-nav-button-block {
       flex-basis: 100%;
       justify-content: flex-end;
@@ -340,6 +381,7 @@
         display: none;
       }
     }
+
     .cx-unit-level-order-history-filter-nav-title-block {
       flex-basis: 100%;
       margin-inline-end: 0.5rem;
@@ -348,13 +390,15 @@
       flex-direction: row;
       padding: 0px 8px 0px 8px;
 
-      .title{
+      .title {
         justify-content: flex-start;
         font-size: 1.188rem;
       }
-      .close{
+
+      .close {
         justify-content: flex-end;
       }
+
       .clear-btn {
         margin-inline-end: 1rem;
         border: none;

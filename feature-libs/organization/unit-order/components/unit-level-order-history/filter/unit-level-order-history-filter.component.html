@@ -1,17 +1,3 @@
-<style>
-  input:focus {
-    background: white;
-  }
-
-  label {
-    margin-bottom: 0;
-  }
-
-  /*input::placeholder {*/
-  /*  color: white;*/
-  /*}*/
-</style>
-
 <div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav cx-filter-nav"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <h4>
@@ -139,7 +125,6 @@
       </button>
     </div>
   </div>
-
 </form>
 
 <form [formGroup]="filterForm">
@@ -150,29 +135,27 @@
     </button>
   </div>
 
-  <div style="display: flex; justify-content: flex-start; gap: 3rem;">
+  <div class="mycustomwrapperdivvv">
     <div>
       <span style="font-weight: 600;">
         {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
       </span>
-      <div role="search" style="width: 200px; border: 1px solid lightgray; border-radius: 3px;">
-        <label style="display: flex; align-content: stretch;">
+      <div role="search" class="mycustomdivvv">
+        <label class="mycustomlabelll" style="display: flex; align-content: stretch;margin-bottom: 0;">
           <!-- margin-bottom in input inherited I think -->
           <input
             #queryInputBuyer
             [formControlName]="'userFilter'"
-            class="form-control"
+            class="form-control mycustominputtt"
             (input)="searchBuyer(queryInputBuyer)"
             [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
-            style="border: none; height: 100%; margin-bottom: 0"
             placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
           />
           <button #buyerButton
                   [attr.aria-label]="'common.reset' | cxTranslate"
                   (mousedown)="clearBuyer(queryInputBuyer)"
                   (keydown.enter)="clearBuyer(queryInputBuyer)"
-                  class="reset"
-                  style="display: none; border: none; color: lightgray; background: white; padding-right: 10px;"
+                  class="reset mucustombutonnn"
           >
             <cx-icon [type]="iconTypes.RESET"></cx-icon>
           </button>
@@ -182,31 +165,28 @@
             <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
           </div>
         </label>
-
       </div>
     </div>
 
     <div>
-    <span style="font-weight: 600;">
-      {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-    </span>
-      <div style="width: 200px; border: 1px solid lightgray; border-radius: 3px;">
-        <label style="display: flex; align-content: stretch;">
+      <span style="font-weight: 600;">
+        {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+      </span>
+      <div class="mycustomdivvv">
+        <label style="display: flex; align-content: stretch; margin-bottom: 0;">
           <input
             #queryInputUnit
             [formControlName]="'unitFilter'"
-            class="form-control"
+            class="form-control mycustominputtt"
             (input)="searchUnit(queryInputUnit)"
             [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-            style="border: none; height: 100%; margin-bottom: 0"
             placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
           />
           <button #unitButton
                   [attr.aria-label]="'common.reset' | cxTranslate"
                   (mousedown)="clearUnit(queryInputUnit)"
                   (keydown.enter)="clearUnit(queryInputUnit)"
-                  class="reset"
-                  style="display: none; border: none; color: lightgray; background: white; padding-right: 10px;"
+                  class="reset mucustombutonnn"
           >
             <cx-icon [type]="iconTypes.RESET"></cx-icon>
           </button>
