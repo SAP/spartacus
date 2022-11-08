@@ -1,3 +1,17 @@
+<style>
+  input:focus {
+    background: white;
+  }
+
+  label {
+    margin-bottom: 0;
+  }
+
+  /*input::placeholder {*/
+  /*  color: white;*/
+  /*}*/
+</style>
+
 <div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav cx-filter-nav"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <h4>
@@ -34,7 +48,8 @@
   </h4>
 </div>
 
-<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub" (keyup.enter)="formSearchMobile()">
+<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub"
+      (keyup.enter)="formSearchMobile()">
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
     <div class="cx-unit-level-order-history-filter-nav-title-block">
@@ -130,7 +145,6 @@
 </form>
 
 <form [formGroup]="filterForm">
-
   <div class="cx-unit-level-order-history-filter-form-mobile">
     <button
       #trigger
@@ -141,60 +155,74 @@
     </button>
   </div>
 
-  <div class="cx-unit-level-order-history-filter-form ">
-    <label class="cx-unit-level-order-history-filter-form-item"
-    ><span>
-          {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
-        </span>
-      <input
-        #queryInputBuyer
-        formControlName="userFilter"
-        type="text"
-        class="form-control"
-        [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
-        placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
-      />
-      <button
-        [attr.aria-label]="'common.reset' | cxTranslate"
-        (mousedown)="clear(queryInputBuyer)"
-        (keydown.enter)="clear(queryInputBuyer)"
-        class="reset"
-      >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
-      </button>
+  <div style="display: flex; justify-content: flex-start; gap: 3rem;">
+    <div>
+      <span style="font-weight: 600;">
+        {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+      </span>
+      <div role="search" style="width: 200px; border: 1px solid lightgray; border-radius: 3px;">
+        <label style="display: flex; align-content: stretch;">
+          <!-- margin-bottom in input inherited I think -->
+          <input
+            #queryInputBuyer
+            formControlName="userFilter"
+            class="form-control"
+            (input)="searchBuyer(queryInputBuyer)"
+            [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
+            style="border: none; height: 100%; margin-bottom: 0"
+            placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
+          />
+          <button #buyerButton
+                  [attr.aria-label]="'common.reset' | cxTranslate"
+                  (mousedown)="clearBuyer(queryInputBuyer)"
+                  (keydown.enter)="clearBuyer(queryInputBuyer)"
+                  class="reset"
+                  style="display: none; border: none; color: lightgray; background: white; padding-right: 10px;"
+          >
+            <cx-icon [type]="iconTypes.RESET"></cx-icon>
+          </button>
 
-      <div role="presentation" class="search-icon" (mousedown)="formSearch()"
-           (keydown.enter)="formSearch()">
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+          <div #buyerPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
+               (keydown.enter)="formSearch()" style="color: lightgray;">
+            <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+          </div>
+        </label>
+
       </div>
-    </label>
-    <label class="cx-unit-level-order-history-filter-form-item"
-    ><span>
-          {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-        </span>
-      <input
-        #queryInputUnit
-        formControlName="unitFilter"
-        type="text"
-        class="form-control"
-        [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-        placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
-      />
-      <button
-        [attr.aria-label]="'common.reset' | cxTranslate"
-        (mousedown)="clear(queryInputUnit)"
-        (keydown.enter)="clear(queryInputUnit)"
-        class="reset"
-      >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
-      </button>
+    </div>
 
-      <div role="presentation" class="search-icon" (mousedown)="formSearch()"
-           (keydown.enter)="formSearch()">
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    <div>
+    <span style="font-weight: 600;">
+      {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+    </span>
+      <div style="width: 200px; border: 1px solid lightgray; border-radius: 3px;">
+        <label style="display: flex; align-content: stretch;">
+          <input
+            #queryInputUnit
+            formControlName="unitFilter"
+            class="form-control"
+            (input)="searchUnit(queryInputUnit)"
+            [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
+            style="border: none; height: 100%; margin-bottom: 0"
+            placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
+          />
+          <button #unitButton
+                  [attr.aria-label]="'common.reset' | cxTranslate"
+                  (mousedown)="clearUnit(queryInputUnit)"
+                  (keydown.enter)="clearUnit(queryInputUnit)"
+                  class="reset"
+                  style="display: none; border: none; color: lightgray; background: white; padding-right: 10px;"
+          >
+            <cx-icon [type]="iconTypes.RESET"></cx-icon>
+          </button>
+
+          <div #unitPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
+               (keydown.enter)="formSearch()" style="color: lightgray;">
+            <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+          </div>
+        </label>
       </div>
-
-    </label>
+    </div>
 
     <div class="cx-unit-level-order-history-filter-form-button-block">
       <button

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import {Component, ElementRef, EventEmitter, Output, Renderer2, ViewChild} from '@angular/core';
+import {TranslationService} from '@spartacus/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
+import {OrderHistoryQueryParams} from '../../../core/model/augmented-core.model';
 import {ICON_TYPE} from "@spartacus/storefront";
 
 @Component({
@@ -9,8 +9,7 @@ import {ICON_TYPE} from "@spartacus/storefront";
   templateUrl: './unit-level-order-history-filter.component.html',
   styleUrls: ['./unit-level-order-history-filter.component.css']
 })
-export class UnitLevelOrderHistoryFilterComponent{
-
+export class UnitLevelOrderHistoryFilterComponent {
   iconTypes = ICON_TYPE;
   encodedFilter: string;
 
@@ -24,16 +23,21 @@ export class UnitLevelOrderHistoryFilterComponent{
     inputFilterUnit: new FormControl(),
   });
 
-  // @ViewChild('queryInputUser') queryInputUser; // accessing the reference element
-  // @ViewChild('queryInputUnit') queryInputUnit; // accessing the reference element
+  @ViewChild('unitButton', {read: ElementRef}) unitButton: ElementRef;
+  @ViewChild('buyerButton', {read: ElementRef}) buyerButton: ElementRef;
+
+  @ViewChild('unitPresentation', {read: ElementRef}) unitPresentation: ElementRef;
+  @ViewChild('buyerPresentation', {read: ElementRef}) buyerPresentation: ElementRef;
 
 
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
 
   constructor(
-    protected translation: TranslationService
-  ) { }
+    protected translation: TranslationService,
+    protected renderer: Renderer2,
+  ) {
+  }
 
   formSearch(): void {
     let filters: string[] = [];
@@ -46,14 +50,15 @@ export class UnitLevelOrderHistoryFilterComponent{
     this.emitFilterEvent(filters);
   }
 
-  emitFilterEvent(filters: string[]){
+  emitFilterEvent(filters: string[]): void {
     this.encodedFilter = filters.join(':');
 
     this.filterListEvent.emit({
-      currentPage : 0,
-      filters : this.encodedFilter,
+      currentPage: 0,
+      filters: this.encodedFilter,
     });
   }
+
   resetForm(): void {
     this.filterForm.reset();
     this.filterFormMobile.reset();
@@ -73,7 +78,6 @@ export class UnitLevelOrderHistoryFilterComponent{
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
 
-
   formSearchMobile(): void {
     let filters: string[] = [];
     let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
@@ -88,9 +92,11 @@ export class UnitLevelOrderHistoryFilterComponent{
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
+
   closeNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
   }
+
   closeSubNav(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
@@ -101,18 +107,53 @@ export class UnitLevelOrderHistoryFilterComponent{
     document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
   }
-  launchSubNav(option: string): void {
 
+  launchSubNav(option: string): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
 
-    if(option === 'filterByUnit') {
+    if (option === 'filterByUnit') {
       document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "100%";
-    }else if(option === 'filterByBuyer'){
+    } else if (option === 'filterByBuyer') {
       document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "100%";
     }
   }
+
   clear(el: HTMLInputElement): void {
     el.value = '';
     el.focus();
+  }
+
+  clearUnit(inputElement: HTMLInputElement): void {
+    inputElement.value = '';
+    inputElement.focus();
+    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'block');
+  }
+
+  clearBuyer(inputElement: HTMLInputElement): void {
+    inputElement.value = '';
+    inputElement.focus();
+    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
+  }
+
+  searchBuyer(inputElement: HTMLInputElement) {
+    const value = inputElement.value;
+    if (!value || value === '') {
+      this.clearBuyer(inputElement);
+      return;
+    }
+    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'none');
+  }
+
+  searchUnit(inputElement: HTMLInputElement) {
+    const value = inputElement.value;
+    if (!value || value === '') {
+      this.clearUnit(inputElement);
+      return;
+    }
+    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'none');
   }
 }
