@@ -135,67 +135,69 @@
     </button>
   </div>
 
-  <div class="mycustomwrapperdivvv">
-    <div>
-      <span style="font-weight: 600;">
-        {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
-      </span>
-      <div role="search" class="mycustomdivvv">
-        <label class="mycustomlabelll" style="display: flex; align-content: stretch;margin-bottom: 0;">
-          <!-- margin-bottom in input inherited I think -->
-          <input
-            #queryInputBuyer
-            [formControlName]="'userFilter'"
-            class="form-control mycustominputtt"
-            (input)="searchBuyer(queryInputBuyer)"
-            [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
-            placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
-          />
-          <button #buyerButton
-                  [attr.aria-label]="'common.reset' | cxTranslate"
-                  (mousedown)="clearBuyer(queryInputBuyer)"
-                  (keydown.enter)="clearBuyer(queryInputBuyer)"
-                  class="reset mucustombutonnn"
-          >
-            <cx-icon [type]="iconTypes.RESET"></cx-icon>
-          </button>
+  <div>
+    <div class="mycustomwrapperdivvv">
+      <div>
+        <span style="font-weight: 600;">
+          {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+        </span>
+        <div role="search" class="mycustomdivvv">
+          <label class="mycustomlabelll" style="display: flex; align-content: stretch;margin-bottom: 0;">
+            <!-- margin-bottom in input inherited I think -->
+            <input
+              #queryInputBuyer
+              [formControlName]="'userFilter'"
+              class="form-control mycustominputtt"
+              (input)="searchBuyer(queryInputBuyer)"
+              [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
+              placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
+            />
+            <button #buyerButton
+                    [attr.aria-label]="'common.reset' | cxTranslate"
+                    (mousedown)="clearBuyer(queryInputBuyer)"
+                    (keydown.enter)="clearBuyer(queryInputBuyer)"
+                    class="reset mucustombutonnn"
+            >
+              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+            </button>
 
-          <div #buyerPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
-               (keydown.enter)="formSearch()" style="color: lightgray;">
-            <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
-          </div>
-        </label>
+            <div #buyerPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
+                 (keydown.enter)="formSearch()" style="color: lightgray;">
+              <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+            </div>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <span style="font-weight: 600;">
-        {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-      </span>
-      <div class="mycustomdivvv">
-        <label style="display: flex; align-content: stretch; margin-bottom: 0;">
-          <input
-            #queryInputUnit
-            [formControlName]="'unitFilter'"
-            class="form-control mycustominputtt"
-            (input)="searchUnit(queryInputUnit)"
-            [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
-            placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
-          />
-          <button #unitButton
-                  [attr.aria-label]="'common.reset' | cxTranslate"
-                  (mousedown)="clearUnit(queryInputUnit)"
-                  (keydown.enter)="clearUnit(queryInputUnit)"
-                  class="reset mucustombutonnn"
-          >
-            <cx-icon [type]="iconTypes.RESET"></cx-icon>
-          </button>
+      <div>
+        <span style="font-weight: 600;">
+          {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+        </span>
+        <div class="mycustomdivvv">
+          <label style="display: flex; align-content: stretch; margin-bottom: 0;">
+            <input
+              #queryInputUnit
+              [formControlName]="'unitFilter'"
+              class="form-control mycustominputtt"
+              (input)="searchUnit(queryInputUnit)"
+              [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
+              placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
+            />
+            <button #unitButton
+                    [attr.aria-label]="'common.reset' | cxTranslate"
+                    (mousedown)="clearUnit(queryInputUnit)"
+                    (keydown.enter)="clearUnit(queryInputUnit)"
+                    class="reset mucustombutonnn"
+            >
+              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+            </button>
 
-          <div #unitPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
-               (keydown.enter)="formSearch()" style="color: lightgray;">
-            <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
-          </div>
-        </label>
+            <div #unitPresentation role="presentation" class="search-icon" (mousedown)="formSearch()"
+                 (keydown.enter)="formSearch()" style="color: lightgray;">
+              <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+            </div>
+          </label>
+        </div>
       </div>
     </div>
 
