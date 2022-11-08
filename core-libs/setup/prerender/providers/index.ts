@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { getPrerenderProviders } from './prerender-providers';
+export { providePrerendering } from './prerender-providers';

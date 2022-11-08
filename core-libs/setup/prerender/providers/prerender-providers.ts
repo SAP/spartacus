@@ -11,7 +11,7 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 /**
  * Returns the providers for the prerender.
  */
-export function getPrerenderProviders(options: {
+export function providePrerendering(options: {
   /**
    * A domain (origin) from which the HTTP requests are being made.
    * Specify without trailing slash, e.g. "https://my.domain.com"

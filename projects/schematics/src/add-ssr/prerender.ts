@@ -69,13 +69,13 @@ function provideMainPrerender(): Rule {
 
 function provideAppPrerenderModule(): Rule {
   const content = `import { NgModule } from '@angular/core';
-  import { getPrerenderProviders } from '@spartacus/setup/prerender';
+  import { providePrerendering } from '@spartacus/setup/prerender';
   import { AppComponent } from './app.component';
   import { AppServerModule as OriginalAppServerModule } from './app.server.module';
   
   @NgModule({
     imports: [OriginalAppServerModule],
-    providers: [...getPrerenderProviders({
+    providers: [...providePrerendering({
       requestOrigin:
       process.env['PRERENDER_DOMAIN'] ??
       \`http://localhost:\${process.env['PORT'] || 4200}\`

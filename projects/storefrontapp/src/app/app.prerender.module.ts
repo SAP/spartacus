@@ -5,14 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
-import { getPrerenderProviders } from '@spartacus/setup/prerender';
+import { providePrerendering } from '@spartacus/setup/prerender';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppServerModule as OriginalAppServerModule } from './app.server.module';
 
 @NgModule({
   imports: [OriginalAppServerModule],
   providers: [
-    ...getPrerenderProviders({
+    ...providePrerendering({
       requestOrigin:
         process.env['PRERENDER_DOMAIN'] ??
         `http://localhost:${process.env['PORT'] || 4200}`,
