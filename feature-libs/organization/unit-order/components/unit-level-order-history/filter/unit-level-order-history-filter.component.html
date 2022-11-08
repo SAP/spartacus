@@ -33,9 +33,9 @@
   </div>
 </div>
 
-<form [formGroup]="filterFormMobile" (keyup.enter)="formSearchMobile()">
+<form [formGroup]="filterFormMobile" (keydown.enter)="formSearchMobile()" >
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" #filterNavBuyer class="cx-filter-nav"
-       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
+       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate" (keydown.enter)="formSearchMobile()">
     <div class="cx-filter-nav-div">
       <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>

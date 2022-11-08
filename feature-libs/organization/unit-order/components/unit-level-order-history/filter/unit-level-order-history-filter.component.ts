@@ -56,6 +56,9 @@ export class UnitLevelOrderHistoryFilterComponent {
     let user = this.queryInputBuyer?.nativeElement?.value;
     let unit = this.queryInputUnit?.nativeElement?.value;
 
+    this.queryInputBuyerMobile.nativeElement.value = user;
+    this.queryInputUnitMobile.nativeElement.value = unit;
+
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
@@ -106,12 +109,17 @@ export class UnitLevelOrderHistoryFilterComponent {
     let user = this.queryInputBuyerMobile?.nativeElement?.value;
     let unit = this.queryInputUnitMobile?.nativeElement?.value;
 
+    this.queryInputBuyer.nativeElement.value = user;
+    this.queryInputUnit.nativeElement.value = unit;
+
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
     this.emitFilterEvent(filters);
 
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
   }
 
   closeNav(): void {
@@ -159,6 +167,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     inputElement.focus();
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
+    // this.formSearchMobile();
   }
 
   clearBuyerMobile(inputElement: HTMLInputElement): void {
@@ -166,6 +175,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     inputElement.focus();
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
+    // this.formSearchMobile();
   }
 
   searchBuyer(inputElement: HTMLInputElement) {
@@ -196,6 +206,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     }
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'block');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'none');
+    // this.formSearchMobile();
   }
 
   searchUnitMobile(inputElement: HTMLInputElement) {
@@ -206,5 +217,6 @@ export class UnitLevelOrderHistoryFilterComponent {
     }
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'block');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'none');
+    // this.formSearchMobile();
   }
 }
