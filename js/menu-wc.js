@@ -911,22 +911,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' :
                                         'id="xs-injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -999,13 +990,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <a href="injectables/CheckoutCostCenterConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterConnector</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
-                                        </li>
-                                        <li class="link">
                                             <a href="injectables/CheckoutDeliveryConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryConnector</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/CheckoutEventBuilder.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutEventBuilder</a>
@@ -1017,22 +1002,19 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <a href="injectables/CheckoutPaymentConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentConnector</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
                                             <a href="injectables/CheckoutReplenishmentOrderConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutReplenishmentOrderConnector</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/PaymentTypeConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeConnector</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -3279,28 +3261,19 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-OrderCoreModule-243e8fcfd8f4a813f8246a5140d712ac"' :
                                         'id="xs-injectables-links-module-OrderCoreModule-243e8fcfd8f4a813f8246a5140d712ac"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
                                             <a href="injectables/OrderConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderConnector</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/ReplenishmentOrderConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderConnector</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -4206,25 +4179,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-QuickOrderCoreModule-4caa03deb68f659feca2140ee45eb14f"' :
                                         'id="xs-injectables-links-module-QuickOrderCoreModule-4caa03deb68f659feca2140ee45eb14f"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/QuickOrderStatePersistenceService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QuickOrderStatePersistenceService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -4307,7 +4271,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderCancellationDialogComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderCancellationDialogComponent</a>
+                                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4350,7 +4314,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderHistoryComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderHistoryComponent</a>
+                                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4435,7 +4399,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReturnOrderModule-2034cd0465cee211655b74cdc02f502e-1"' :
                                             'id="xs-components-links-module-ReturnOrderModule-2034cd0465cee211655b74cdc02f502e-1"' }>
                                             <li class="link">
-                                                <a href="components/ReturnOrderComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReturnOrderComponent</a>
+                                                <a href="components/ReturnOrderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReturnOrderComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4559,22 +4523,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-SavedCartCoreModule-31733bef184312cd72dc3c0591d8364f"' :
                                         'id="xs-injectables-links-module-SavedCartCoreModule-31733bef184312cd72dc3c0591d8364f"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/SavedCartConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SavedCartConnector</a>
@@ -5654,22 +5609,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-UserAccountCoreModule-b8a3fd74c6fca534817005a4637ffd1c"' :
                                         'id="xs-injectables-links-module-UserAccountCoreModule-b8a3fd74c6fca534817005a4637ffd1c"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/UserAccountConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >UserAccountConnector</a>
@@ -5927,22 +5873,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-UserProfileCoreModule-a5a121c2fc4706102d4d67d814de0a47"' :
                                         'id="xs-injectables-links-module-UserProfileCoreModule-a5a121c2fc4706102d4d67d814de0a47"' }>
                                         <li class="link">
-                                            <a href="injectables/CheckoutCostCenterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutCostCenterService</a>
+                                            <a href="injectables/OrderReturnRequestService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderReturnRequestService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutDeliveryService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutDeliveryService</a>
+                                            <a href="injectables/OrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/CheckoutPaymentService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutPaymentService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/CheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/ClearCheckoutService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ClearCheckoutService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/PaymentTypeService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PaymentTypeService</a>
+                                            <a href="injectables/ReplenishmentOrderService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/UserProfileConnector.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >UserProfileConnector</a>
@@ -6232,10 +6169,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/ReplenishmentOrderCancellationComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
+                                <a href="components/ReturnOrderComponent-1.html" data-type="entity-link" class="deprecated-name">ReturnOrderComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReturnRequestItemsComponent.html" data-type="entity-link" >ReturnRequestItemsComponent</a>

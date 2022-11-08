@@ -14,13 +14,13 @@
 <title>cluster_ProgressButtonModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 318,-230.8 318,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ProgressButtonModule_declarations</title>
-<polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 310,-92.8 310,-40.8 126,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ProgressButtonModule_exports</title>
 <polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 257,-222.8 257,-170.8 69,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ProgressButtonModule_declarations</title>
+<polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 310,-92.8 310,-40.8 126,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ProgressButtonModule_imports</title>

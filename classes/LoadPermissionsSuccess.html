@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/organization/administration/core/store/actions/permission.action.ts</code>
+            <code>feature-libs/organization/administration/core/store/actions/user-group.action.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">feature-libs/organization/administration/core/store/actions/permission.action.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">feature-libs/organization/administration/core/store/actions/user-group.action.ts:170</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">feature-libs/organization/administration/core/store/actions/permission.action.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">feature-libs/organization/administration/core/store/actions/user-group.action.ts:172</a></div>
                         </td>
                     </tr>
 
@@ -197,12 +197,12 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>LOAD_PERMISSIONS_SUCCESS</code>
+                        <i>Default value : </i><code>LOAD_USER_GROUP_PERMISSIONS_SUCCESS</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">feature-libs/organization/administration/core/store/actions/permission.action.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">feature-libs/organization/administration/core/store/actions/user-group.action.ts:170</a></div>
                         </td>
                     </tr>
 
@@ -221,191 +221,508 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ListModel,
-  SearchConfig,
-  StateUtils,
-  OrderApprovalPermissionType,
-} from &#x27;@spartacus/core&#x27;;
-import { Permission } from &#x27;../../model/permission.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ListModel, SearchConfig, StateUtils } from &#x27;@spartacus/core&#x27;;
+import { UserGroup } from &#x27;../../model/user-group.model&#x27;;
 import {
+  B2B_USER_ENTITIES,
   PERMISSION_ENTITIES,
-  PERMISSION_LIST,
-  PERMISSION_TYPES,
-  PERMISSION_TYPES_LIST,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
+  USER_GROUP_ENTITIES,
+  USER_GROUP_LIST,
+  USER_GROUP_PERMISSIONS,
 } from &#x27;../organization-state&#x27;;
 
-export const LOAD_PERMISSION &#x3D; &#x27;[Permission] Load Permission Data&#x27;;
-export const LOAD_PERMISSION_FAIL &#x3D; &#x27;[Permission] Load Permission Data Fail&#x27;;
-export const LOAD_PERMISSION_SUCCESS &#x3D;
-  &#x27;[Permission] Load Permission Data Success&#x27;;
+export const LOAD_USER_GROUP &#x3D; &#x27;[UserGroup] Load UserGroup Data&#x27;;
+export const LOAD_USER_GROUP_FAIL &#x3D; &#x27;[UserGroup] Load UserGroup Data Fail&#x27;;
+export const LOAD_USER_GROUP_SUCCESS &#x3D;
+  &#x27;[UserGroup] Load UserGroup Data Success&#x27;;
 
-export const LOAD_PERMISSIONS &#x3D; &#x27;[Permission] Load Permissions&#x27;;
-export const LOAD_PERMISSIONS_FAIL &#x3D; &#x27;[Permission] Load Permissions Fail&#x27;;
-export const LOAD_PERMISSIONS_SUCCESS &#x3D; &#x27;[Permission] Load Permissions Success&#x27;;
+export const LOAD_USER_GROUPS &#x3D; &#x27;[UserGroup] Load UserGroups&#x27;;
+export const LOAD_USER_GROUPS_FAIL &#x3D; &#x27;[UserGroup] Load UserGroups Fail&#x27;;
+export const LOAD_USER_GROUPS_SUCCESS &#x3D; &#x27;[UserGroup] Load UserGroups Success&#x27;;
 
-export const CREATE_PERMISSION &#x3D; &#x27;[Permission] Create Permission&#x27;;
-export const CREATE_PERMISSION_FAIL &#x3D; &#x27;[Permission] Create Permission Fail&#x27;;
-export const CREATE_PERMISSION_SUCCESS &#x3D;
-  &#x27;[Permission] Create Permission Success&#x27;;
+export const LOAD_USER_GROUP_PERMISSIONS &#x3D; &#x27;[UserGroup] Load Permissions Data&#x27;;
+export const LOAD_USER_GROUP_PERMISSIONS_FAIL &#x3D;
+  &#x27;[UserGroup] Load Permissions Data Fail&#x27;;
+export const LOAD_USER_GROUP_PERMISSIONS_SUCCESS &#x3D;
+  &#x27;[UserGroup] Load Permissions Data Success&#x27;;
 
-export const UPDATE_PERMISSION &#x3D; &#x27;[Permission] Update Permission&#x27;;
-export const UPDATE_PERMISSION_FAIL &#x3D; &#x27;[Permission] Update Permission Fail&#x27;;
-export const UPDATE_PERMISSION_SUCCESS &#x3D;
-  &#x27;[Permission] Update Permission Success&#x27;;
+export const LOAD_USER_GROUP_AVAILABLE_CUSTOMERS &#x3D;
+  &#x27;[UserGroup] Load Customers Data&#x27;;
+export const LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL &#x3D;
+  &#x27;[UserGroup] Load Customers Data Fail&#x27;;
+export const LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS &#x3D;
+  &#x27;[UserGroup] Load Customers Data Success&#x27;;
 
-export const LOAD_PERMISSION_TYPES &#x3D; &#x27;[Permission Types] Load Permission Types&#x27;;
-export const LOAD_PERMISSION_TYPES_FAIL &#x3D;
-  &#x27;[Permission Types] Load Permission Types Fail&#x27;;
-export const LOAD_PERMISSION_TYPES_SUCCESS &#x3D;
-  &#x27;[Permission Types] Load Permission Types Success&#x27;;
+export const CREATE_USER_GROUP &#x3D; &#x27;[UserGroup] Create UserGroup&#x27;;
+export const CREATE_USER_GROUP_FAIL &#x3D; &#x27;[UserGroup] Create UserGroup Fail&#x27;;
+export const CREATE_USER_GROUP_SUCCESS &#x3D; &#x27;[UserGroup] Create UserGroup Success&#x27;;
 
-export class LoadPermission extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; LOAD_PERMISSION;
-  constructor(public payload: { userId: string; permissionCode: string }) {
-    super(PERMISSION_ENTITIES, payload.permissionCode);
+export const USER_GROUP_ASSIGN_MEMBER &#x3D; &#x27;[UserGroup] Assign Member&#x27;;
+export const USER_GROUP_ASSIGN_MEMBER_FAIL &#x3D; &#x27;[UserGroup] Assign Member Fail&#x27;;
+export const USER_GROUP_ASSIGN_MEMBER_SUCCESS &#x3D;
+  &#x27;[UserGroup] Assign Member Success&#x27;;
+
+export const USER_GROUP_ASSIGN_PERMISSION &#x3D; &#x27;[UserGroup] Assign Permissions&#x27;;
+export const USER_GROUP_ASSIGN_PERMISSION_FAIL &#x3D;
+  &#x27;[UserGroup] Assign Permissions Fail&#x27;;
+export const USER_GROUP_ASSIGN_PERMISSION_SUCCESS &#x3D;
+  &#x27;[UserGroup] Assign Permissions Success&#x27;;
+
+export const UPDATE_USER_GROUP &#x3D; &#x27;[UserGroup] Update UserGroup&#x27;;
+export const UPDATE_USER_GROUP_FAIL &#x3D; &#x27;[UserGroup] Update UserGroup Fail&#x27;;
+export const UPDATE_USER_GROUP_SUCCESS &#x3D; &#x27;[UserGroup] Update UserGroup Success&#x27;;
+
+export const DELETE_USER_GROUP &#x3D; &#x27;[UserGroup] Delete UserGroup&#x27;;
+export const DELETE_USER_GROUP_FAIL &#x3D; &#x27;[UserGroup] Delete UserGroup Fail&#x27;;
+export const DELETE_USER_GROUP_SUCCESS &#x3D; &#x27;[UserGroup] Delete UserGroup Success&#x27;;
+
+export const USER_GROUP_UNASSIGN_ALL_MEMBERS &#x3D; &#x27;[UserGroup] Unassign Members&#x27;;
+export const USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL &#x3D;
+  &#x27;[UserGroup] Unassign Members Fail&#x27;;
+export const USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS &#x3D;
+  &#x27;[UserGroup] Unassign Members Success&#x27;;
+
+export const USER_GROUP_UNASSIGN_MEMBER &#x3D; &#x27;[UserGroup] Unassign Member&#x27;;
+export const USER_GROUP_UNASSIGN_MEMBER_FAIL &#x3D;
+  &#x27;[UserGroup] Unassign Member Fail&#x27;;
+export const USER_GROUP_UNASSIGN_MEMBER_SUCCESS &#x3D;
+  &#x27;[UserGroup] Unassign Member Success&#x27;;
+
+export const USER_GROUP_UNASSIGN_PERMISSION &#x3D; &#x27;[UserGroup] Unassign Permission&#x27;;
+export const USER_GROUP_UNASSIGN_PERMISSION_FAIL &#x3D;
+  &#x27;[UserGroup] Unassign Permission Fail&#x27;;
+export const USER_GROUP_UNASSIGN_PERMISSION_SUCCESS &#x3D;
+  &#x27;[UserGroup] Unassign Permission Success&#x27;;
+
+export class LoadUserGroup extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; LOAD_USER_GROUP;
+  constructor(public payload: { userId: string; userGroupId: string }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
 }
 
-export class LoadPermissionFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; LOAD_PERMISSION_FAIL;
-  constructor(public payload: { permissionCode: string; error: any }) {
-    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
+export class LoadUserGroupFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; LOAD_USER_GROUP_FAIL;
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
-export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; LOAD_PERMISSION_SUCCESS;
-  constructor(public payload: Permission | Permission[]) {
+export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; LOAD_USER_GROUP_SUCCESS;
+  constructor(public payload: UserGroup | UserGroup[]) {
     super(
-      PERMISSION_ENTITIES,
+      USER_GROUP_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((permission) &#x3D;&gt; permission?.code)
-        : payload?.code
+        ? payload.map((userGroup) &#x3D;&gt; userGroup?.uid)
+        : payload?.uid
     );
   }
 }
 
-export class LoadPermissions extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; LOAD_PERMISSIONS;
+export class LoadUserGroups extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; LOAD_USER_GROUPS;
   constructor(
     public payload: {
       userId: string;
       params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
+    super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
-export class LoadPermissionsFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; LOAD_PERMISSIONS_FAIL;
+export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; LOAD_USER_GROUPS_FAIL;
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
-      PERMISSION_LIST,
+      USER_GROUP_LIST,
       StateUtils.serializeSearchConfig(payload.params),
       payload.error
     );
   }
 }
 
-export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; LOAD_PERMISSIONS_SUCCESS;
+export class LoadUserGroupsSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; LOAD_USER_GROUPS_SUCCESS;
   constructor(
     public payload: {
       page: ListModel;
       params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
+    super(USER_GROUP_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
-export class CreatePermission extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; CREATE_PERMISSION;
-  constructor(public payload: { userId: string; permission: Permission }) {
-    super(PERMISSION_ENTITIES, payload.permission.code);
-  }
-}
-
-export class CreatePermissionFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; CREATE_PERMISSION_FAIL;
-  constructor(public payload: { permissionCode: string; error: any }) {
-    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
-  }
-}
-
-export class CreatePermissionSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; CREATE_PERMISSION_SUCCESS;
-  constructor(public payload: Permission) {
-    super(PERMISSION_ENTITIES, payload.code, payload);
-  }
-}
-
-export class UpdatePermission extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; UPDATE_PERMISSION;
+export class LoadPermissions extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; LOAD_USER_GROUP_PERMISSIONS;
   constructor(
     public payload: {
       userId: string;
-      permissionCode: string;
-      permission: Permission;
+      userGroupId: string;
+      params: SearchConfig;
     }
   ) {
-    super(PERMISSION_ENTITIES, payload.permission.code);
+    super(
+      USER_GROUP_PERMISSIONS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+    );
   }
 }
 
-export class UpdatePermissionFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; UPDATE_PERMISSION_FAIL;
-  constructor(public payload: { permissionCode: string; error: any }) {
-    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
+export class LoadPermissionsFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; LOAD_USER_GROUP_PERMISSIONS_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      params: SearchConfig;
+      error: any;
+    }
+  ) {
+    super(
+      USER_GROUP_PERMISSIONS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
+      payload.error
+    );
   }
 }
 
-export class UpdatePermissionSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; UPDATE_PERMISSION_SUCCESS;
-  constructor(public payload: Permission) {
-    super(PERMISSION_ENTITIES, payload.code, payload);
+export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; LOAD_USER_GROUP_PERMISSIONS_SUCCESS;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      page: ListModel;
+      params: SearchConfig;
+    }
+  ) {
+    super(
+      USER_GROUP_PERMISSIONS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+    );
   }
 }
 
-export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; LOAD_PERMISSION_TYPES;
-  constructor() {
-    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
+export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; LOAD_USER_GROUP_AVAILABLE_CUSTOMERS;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      params: SearchConfig;
+    }
+  ) {
+    super(
+      USER_GROUP_AVAILABLE_CUSTOMERS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+    );
   }
 }
 
-export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; LOAD_PERMISSION_TYPES_FAIL;
-  constructor(public payload: any) {
-    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
+export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      params: SearchConfig;
+      error: any;
+    }
+  ) {
+    super(
+      USER_GROUP_AVAILABLE_CUSTOMERS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId),
+      payload.error
+    );
   }
 }
 
-export class LoadPermissionTypesSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; LOAD_PERMISSION_TYPES_SUCCESS;
-  constructor(public payload: OrderApprovalPermissionType[]) {
-    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
+export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      page: ListModel;
+      params: SearchConfig;
+    }
+  ) {
+    super(
+      USER_GROUP_AVAILABLE_CUSTOMERS,
+      StateUtils.serializeSearchConfig(payload.params, payload.userGroupId)
+    );
   }
 }
 
-export type PermissionAction &#x3D;
-  | LoadPermission
-  | LoadPermissionFail
-  | LoadPermissionSuccess
+export class CreateUserGroup extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; CREATE_USER_GROUP;
+  constructor(public payload: { userId: string; userGroup: UserGroup }) {
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
+  }
+}
+
+export class CreateUserGroupFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; CREATE_USER_GROUP_FAIL;
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
+  }
+}
+
+export class CreateUserGroupSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; CREATE_USER_GROUP_SUCCESS;
+  constructor(public payload: UserGroup) {
+    super(USER_GROUP_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class AssignMember extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_MEMBER;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      customerId: string;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId);
+  }
+}
+
+export class AssignMemberFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_MEMBER_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      customerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload.error);
+  }
+}
+
+export class AssignMemberSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_MEMBER_SUCCESS;
+  constructor(public payload: { customerId: string; selected: boolean }) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
+  }
+}
+
+export class AssignPermission extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_PERMISSION;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      permissionUid: string;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid);
+  }
+}
+
+export class AssignPermissionFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_PERMISSION_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      permissionUid: string;
+      error: any;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
+  }
+}
+
+export class AssignPermissionSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; USER_GROUP_ASSIGN_PERMISSION_SUCCESS;
+  constructor(public payload: { permissionUid: string; selected: boolean }) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload);
+  }
+}
+
+export class UpdateUserGroup extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; UPDATE_USER_GROUP;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      userGroup: UserGroup;
+    }
+  ) {
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
+  }
+}
+
+export class UpdateUserGroupFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; UPDATE_USER_GROUP_FAIL;
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
+  }
+}
+
+export class UpdateUserGroupSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; UPDATE_USER_GROUP_SUCCESS;
+  constructor(public payload: UserGroup) {
+    super(USER_GROUP_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class DeleteUserGroup extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; DELETE_USER_GROUP;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+    }
+  ) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
+  }
+}
+
+export class DeleteUserGroupFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; DELETE_USER_GROUP_FAIL;
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
+  }
+}
+
+export class DeleteUserGroupSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; DELETE_USER_GROUP_SUCCESS;
+  constructor(public payload: UserGroup) {
+    super(USER_GROUP_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class UnassignMember extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_MEMBER;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      customerId: string;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId);
+  }
+}
+
+export class UnassignMemberFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_MEMBER_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      customerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload.error);
+  }
+}
+
+export class UnassignMemberSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_MEMBER_SUCCESS;
+  constructor(public payload: { customerId: string; selected: boolean }) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
+  }
+}
+
+export class UnassignAllMembers extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_ALL_MEMBERS;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+    }
+  ) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
+  }
+}
+
+export class UnassignAllMembersFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
+  }
+}
+
+export class UnassignAllMembersSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS;
+  constructor(public payload: UserGroup) {
+    super(USER_GROUP_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class UnassignPermission extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_PERMISSION;
+  constructor(
+    public payload: {
+      userId: string;
+      userGroupId: string;
+      permissionUid: string;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid);
+  }
+}
+
+export class UnassignPermissionFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_PERMISSION_FAIL;
+  constructor(
+    public payload: {
+      userGroupId: string;
+      permissionUid: string;
+      error: any;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
+  }
+}
+
+export class UnassignPermissionSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; USER_GROUP_UNASSIGN_PERMISSION_SUCCESS;
+  constructor(public payload: { permissionUid: string; selected: boolean }) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload);
+  }
+}
+
+export type UserGroupAction &#x3D;
+  | LoadUserGroup
+  | LoadUserGroupFail
+  | LoadUserGroupSuccess
+  | LoadUserGroups
+  | LoadUserGroupsFail
+  | LoadUserGroupsSuccess
   | LoadPermissions
   | LoadPermissionsFail
   | LoadPermissionsSuccess
-  | CreatePermission
-  | CreatePermissionFail
-  | CreatePermissionSuccess
-  | UpdatePermission
-  | UpdatePermissionFail
-  | UpdatePermissionSuccess
-  | LoadPermissionTypes
-  | LoadPermissionTypesFail
-  | LoadPermissionTypesSuccess;
+  | LoadAvailableOrgCustomers
+  | LoadAvailableOrgCustomersFail
+  | LoadAvailableOrgCustomersSuccess
+  | CreateUserGroup
+  | CreateUserGroupFail
+  | CreateUserGroupSuccess
+  | AssignMember
+  | AssignMemberFail
+  | AssignMemberSuccess
+  | AssignPermission
+  | AssignPermissionFail
+  | AssignPermissionSuccess
+  | UpdateUserGroup
+  | UpdateUserGroupFail
+  | UpdateUserGroupSuccess
+  | DeleteUserGroup
+  | DeleteUserGroupFail
+  | DeleteUserGroupSuccess
+  | UnassignMember
+  | UnassignMemberFail
+  | UnassignMemberSuccess
+  | UnassignAllMembers
+  | UnassignAllMembersFail
+  | UnassignAllMembersSuccess
+  | UnassignPermission
+  | UnassignPermissionFail
+  | UnassignPermissionSuccess;
 </code></pre>
     </div>
 </div>
