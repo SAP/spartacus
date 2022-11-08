@@ -44,7 +44,8 @@ export class StoreComponent implements OnInit {
   /**
    * Toggle whether the store's opening hours are visible.
    */
-  toggleOpenHours(): void {
+  toggleOpenHours(): boolean {
     this.openHoursOpen = !this.openHoursOpen;
+    return false;
   }
 }

@@ -28,12 +28,12 @@ cx-store-search {
       margin-top: 0;
       margin-bottom: 0;
     }
-    .cx-find-a-store-pseudo-link-container {
+    .cx-find-a-store-link-container {
       @include media-breakpoint-down(sm) {
         margin: auto;
       }
 
-      .cx-find-a-store-pseudo-link {
+      .cx-find-a-store-link {
         @include type('6');
         color: $cx-color-link-primary;
         text-decoration: underline;

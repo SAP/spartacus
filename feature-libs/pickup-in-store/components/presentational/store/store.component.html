@@ -2,14 +2,22 @@
   <div class="cx-store-address">
     <div class="cx-store-full-address">
       <cx-store-address [storeDetails]="storeDetails"></cx-store-address>
+
       <div>
-        <div class="cx-store-opening-hours-toggle" (click)="toggleOpenHours()">
-          {{ 'store.viewHours' | cxTranslate }}
-          <span class="cx-store-opening-hours-icon"
-            ><cx-icon
-              [type]="openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN"
-            ></cx-icon
-          ></span>
+        <div>
+          <button
+            (click)="toggleOpenHours()"
+            class="cx-store-opening-hours-toggle"
+          >
+            {{ 'store.viewHours' | cxTranslate }}
+            <span class="cx-store-opening-hours-icon"
+              ><cx-icon
+                [type]="
+                  openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
+                "
+              ></cx-icon
+            ></span>
+          </button>
         </div>
         <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
         </cx-store-schedule>
