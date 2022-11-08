@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/layout/direction/config/direction.config.ts</code>
+            <code>projects/core/src/state/config/state-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/DirectionConfig.html" target="_self" >DirectionConfig</a></code>
+                        <code><a href="../injectables/StateConfig.html" target="_self" >StateConfig</a></code>
             </p>
 
 
@@ -84,33 +84,37 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
-import { Direction } from &#x27;./direction.model&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
 
-/**
- * The direction config provides an easy way to configure &quot;ltr&quot; versus &quot;rtl&quot; direction
- * for the storefront. The direction can be configured to detect the direction by language.
- *
- * The following configuration detects rtl languages by isoCode for Arabic and Hebrew:
- *
- * &#x60;&#x60;&#x60;typescript
- * direction: {
- *   detect: true,
- *   default: DirectionMode.LTR,
- *   rtlLanguages: [&#x27;ar&#x27;, &#x27;he&#x27;]
- * }
- * &#x60;&#x60;&#x60;
- */
+export enum StorageSyncType {
+  NO_STORAGE &#x3D; &#x27;NO_STORAGE&#x27;,
+  LOCAL_STORAGE &#x3D; &#x27;LOCAL_STORAGE&#x27;,
+  SESSION_STORAGE &#x3D; &#x27;SESSION_STORAGE&#x27;,
+}
+
+export enum StateTransferType {
+  TRANSFER_STATE &#x3D; &#x27;SSR&#x27;,
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class DirectionConfig {
-  direction?: Direction;
+export abstract class StateConfig {
+  state?: {
+    ssrTransfer?: {
+      keys?: {
+        /**
+         * A set of state keys that should be transferred from server.
+         */
+        [key: string]: StateTransferType;
+      };
+    };
+  };
 }
 
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends DirectionConfig {}
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends StateConfig {}
 }
 </code></pre>
     </div>

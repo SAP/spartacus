@@ -14,13 +14,13 @@
 <title>cluster_SupplementHashAnchorsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 228,-230.8 228,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_SupplementHashAnchorsModule_declarations</title>
-<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 218,-92.8 218,-40.8 18,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_SupplementHashAnchorsModule_exports</title>
 <polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 220,-222.8 220,-170.8 16,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SupplementHashAnchorsModule_declarations</title>
+<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 218,-92.8 218,-40.8 18,-40.8"/>
 </g>
 <!-- SupplementHashAnchorsPipe -->
 <g id="node1" class="node">

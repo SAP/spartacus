@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/anonymous-consents/config/anonymous-consents-config.ts</code>
+            <code>feature-libs/cart/import-export/core/config/import-export-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
+                        <code><a href="../injectables/ImportExportConfig.html" target="_self" >ImportExportConfig</a></code>
             </p>
 
 
@@ -84,45 +84,24 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config/config-tokens&#x27;;
-import { OccConfig } from &#x27;../../occ/config/occ-config&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
+import { ExportConfig } from &#x27;../model/export-entries.model&#x27;;
+import { ImportConfig } from &#x27;../model/import-entries.config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class AnonymousConsentsConfig extends OccConfig {
-  anonymousConsents?: {
-    /**
-     * Specify the consent template ID to be show on the registration page.
-     */
-    registerConsent?: string;
-    /**
-     * Show the legal description at the top of the anonymous consents dialog.
-     */
-    showLegalDescriptionInDialog?: boolean;
-    /**
-     * Specify the list of consent template IDs that are required and which can&#x27;t be toggled off.
-     */
-    requiredConsents?: string[];
-    /**
-     * Consent management page configuration.
-     */
-    consentManagementPage?: {
-      /**
-       * Show all anonymous consents on the consent management page.
-       */
-      showAnonymousConsents?: boolean;
-      /**
-       * A list of consent template IDs that should be hidden on the consent management page.
-       */
-      hideConsents?: string[];
-    };
+export abstract class ImportExportConfig {
+  cartImportExport?: {
+    file: { separator: string };
+    import?: ImportConfig;
+    export: ExportConfig;
   };
 }
 
-declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends AnonymousConsentsConfig {}
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends ImportExportConfig {}
 }
 </code></pre>
     </div>

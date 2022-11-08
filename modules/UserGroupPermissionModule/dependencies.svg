@@ -14,13 +14,13 @@
 <title>cluster_UserGroupPermissionModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-269.39 797,-269.39 797,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_UserGroupPermissionModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-152.39 16,-204.39 558,-204.39 558,-152.39 16,-152.39"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_UserGroupPermissionModule_imports</title>
 <polygon fill="none" stroke="black" points="566,-152.39 566,-204.39 789,-204.39 789,-152.39 566,-152.39"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UserGroupPermissionModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-152.39 16,-204.39 558,-204.39 558,-152.39 16,-152.39"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_UserGroupPermissionModule_UserGroupPermissionListComponent_providers</title>

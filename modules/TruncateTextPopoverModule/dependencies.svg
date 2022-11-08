@@ -14,13 +14,13 @@
 <title>cluster_TruncateTextPopoverModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 586,-230.8 586,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_TruncateTextPopoverModule_declarations</title>
-<polygon fill="none" stroke="black" points="250,-40.8 250,-92.8 578,-92.8 578,-40.8 250,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_TruncateTextPopoverModule_exports</title>
 <polygon fill="none" stroke="black" points="89,-170.8 89,-222.8 424,-222.8 424,-170.8 89,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TruncateTextPopoverModule_declarations</title>
+<polygon fill="none" stroke="black" points="250,-40.8 250,-92.8 578,-92.8 578,-40.8 250,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_TruncateTextPopoverModule_imports</title>

@@ -14,13 +14,13 @@
 <title>cluster_UnitUserCreateModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-269.39 572,-269.39 572,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_UnitUserCreateModule_imports</title>
-<polygon fill="none" stroke="black" points="391,-152.39 391,-204.39 523,-204.39 523,-152.39 391,-152.39"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_UnitUserCreateModule_declarations</title>
 <polygon fill="none" stroke="black" points="197,-152.39 197,-204.39 383,-204.39 383,-152.39 197,-152.39"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_UnitUserCreateModule_imports</title>
+<polygon fill="none" stroke="black" points="391,-152.39 391,-204.39 523,-204.39 523,-152.39 391,-152.39"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_UnitUserCreateModule_UnitUserCreateComponent_providers</title>

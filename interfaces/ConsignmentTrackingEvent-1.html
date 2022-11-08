@@ -45,6 +45,7 @@
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
+        class="deprecated-name"
   >
   ConsignmentTrackingEvent</li>
 </ol>
@@ -64,9 +65,15 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/order/root/model/consignment-tracking.model.ts</code>
+            <code>projects/core/src/model/consignment-tracking.model.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use order lib instead
+            </p>
 
 
 
@@ -285,11 +292,17 @@
   referenceCode?: string;
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export interface Carrier {
   code?: string;
   name?: string;
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export interface ConsignmentTracking {
   statusDisplay?: string;
   carrierDetails?: Carrier;

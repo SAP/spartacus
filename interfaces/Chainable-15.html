@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-logged-in.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/storage.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,21 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireLoggedIn" 
+                                        <a href="#clearLocalStorageMemory" 
 >
-                                            requireLoggedIn
+                                            clearLocalStorageMemory
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#restoreLocalStorage" 
+>
+                                            restoreLocalStorage
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#saveLocalStorage" 
+>
+                                            saveLocalStorage
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +115,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireLoggedIn"></a>
-                                        <span class="name "><b>requireLoggedIn</b>
-                                            <a href="#requireLoggedIn">
+                                        <a name="clearLocalStorageMemory"></a>
+                                        <span class="name "><b>clearLocalStorageMemory</b>
+                                            <a href="#clearLocalStorageMemory">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +125,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireLoggedIn:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>clearLocalStorageMemory:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,8 +144,86 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Registers a new user and logs him in. Returns user (generated) email.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.requireLoggedIn(user)</code></pre></div></div>
+                                    <div class="io-description"><p>Reset the local storage memory.</p>
+<div><pre class="line-numbers"><code class="language-none">cy.resetLocalStorageMemory()</code></pre></div></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="restoreLocalStorage"></a>
+                                        <span class="name "><b>restoreLocalStorage</b>
+                                            <a href="#restoreLocalStorage">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>restoreLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Restore localStorage</p>
+<div><pre class="line-numbers"><code class="language-none">cy.restoreLocalStorage()</code></pre></div></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="saveLocalStorage"></a>
+                                        <span class="name "><b>saveLocalStorage</b>
+                                            <a href="#saveLocalStorage">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>saveLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Save localStorage as state in the command since cypress clears the local storage of the browser in between tests</p>
+<div><pre class="line-numbers"><code class="language-none">cy.saveLocalStorage()</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -143,136 +233,64 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { generateMail, randomString } from &#x27;../helpers/user&#x27;;
-import { config, login, setSessionData } from &#x27;./utils/login&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">let LOCAL_STORAGE_MEMORY &#x3D; {};
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Registers a new user and logs him in. Returns user (generated) email.
+declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Save localStorage as state in the command since cypress clears the local storage of the browser in between tests
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireLoggedIn(user)
+        cy.saveLocalStorage()
         &#x60;&#x60;&#x60;
        */
-      requireLoggedIn: (
-        user?: AccountData,
-        options?: RequireLoggedInDebugOptions
-      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string; password: string }&gt;;
-    }
+    saveLocalStorage: () &#x3D;&gt; void;
+    /**
+       * Restore localStorage
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        &#x60;&#x60;&#x60;
+        cy.restoreLocalStorage()
+        &#x60;&#x60;&#x60;
+       */
+    restoreLocalStorage: () &#x3D;&gt; void;
+    /**
+       * Reset the local storage memory.
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        &#x60;&#x60;&#x60;
+        cy.resetLocalStorageMemory()
+        &#x60;&#x60;&#x60;
+       */
+    clearLocalStorageMemory: () &#x3D;&gt; void;
   }
 }
 
-export interface AccountData {
-  user: string;
-  registrationData: RegistrationData;
-}
+Cypress.Commands.add(&#x27;saveLocalStorage&#x27;, () &#x3D;&gt; {
+  Object.keys(localStorage).forEach((key) &#x3D;&gt; {
+    LOCAL_STORAGE_MEMORY[key] &#x3D; localStorage[key];
+  });
+});
 
-export interface RegistrationData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  titleCode: string;
-  email?: string;
-}
+Cypress.Commands.add(&#x27;restoreLocalStorage&#x27;, () &#x3D;&gt; {
+  Object.keys(LOCAL_STORAGE_MEMORY).forEach((key) &#x3D;&gt; {
+    localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
+  });
+});
 
-export interface RequireLoggedInDebugOptions {
-  freshUserOnTestRefresh?: boolean;
-}
-
-Cypress.Commands.add(
-  &#x27;requireLoggedIn&#x27;,
-  (accountData?: AccountData, options: RequireLoggedInDebugOptions &#x3D; {}) &#x3D;&gt; {
-    function loginAsGuest() {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: &#x27;client_credentials&#x27;,
-        },
-        form: true,
-      });
-    }
-
-    function registerUser(
-      uid: string,
-      registrationData: RegistrationData,
-      access_token: string
-    ) {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.newUserUrl,
-        body: {
-          firstName: registrationData.firstName,
-          lastName: registrationData.lastName,
-          password: registrationData.password,
-          titleCode: registrationData.titleCode,
-          uid,
-        },
-        headers: {
-          Authorization: &#x60;bearer ${access_token}&#x60;,
-        },
-      });
-    }
-
-    const defaultAccount: AccountData &#x3D; {
-      user: randomString(),
-      registrationData: {
-        firstName: &#x27;Cypress&#x27;,
-        lastName: &#x27;TestUser&#x27;,
-        password: &#x27;Password123.&#x27;,
-        titleCode: &#x27;mr&#x27;,
-      },
-    };
-    const account &#x3D; accountData || defaultAccount;
-    const username &#x3D;
-      account.registrationData.email ||
-      generateMail(account.user, options.freshUserOnTestRefresh);
-
-    login(username, account.registrationData.password, false).then((res) &#x3D;&gt; {
-      if (res.status &#x3D;&#x3D;&#x3D; 200) {
-        // User is already registered - only set session in sessionStorage
-        setSessionData(res.body);
-      } else {
-        /* User needs to be registered
-           1. Login as guest for access token
-           2. Create new user
-           3. Login as a new user
-        */
-        loginAsGuest()
-          .then((response) &#x3D;&gt;
-            registerUser(
-              username,
-              account.registrationData,
-              response.body.access_token
-            )
-          )
-          .then(() &#x3D;&gt; login(username, account.registrationData.password))
-          .then((response) &#x3D;&gt; {
-            setSessionData(response.body);
-            Cypress.log({
-              name: &#x27;requireLoggedIn&#x27;,
-              displayName: &#x27;New user auth&#x27;,
-              message: [&#x60;🔒 Authenticated new generated user | ${username}&#x60;],
-              consoleProps: () &#x3D;&gt; {
-                return {
-                  &#x27;User name&#x27;: username,
-                  &#x27;Session data&#x27;: response.body,
-                };
-              },
-            });
-          });
-      }
-    });
-
-    return cy.wrap({ username, password: account.registrationData.password });
-  }
-);
+/**
+ * Clears the command local storage
+ */
+Cypress.Commands.add(&#x27;clearLocalStorageMemory&#x27;, () &#x3D;&gt; {
+  LOCAL_STORAGE_MEMORY &#x3D; {};
+});
 </code></pre>
     </div>
 </div>

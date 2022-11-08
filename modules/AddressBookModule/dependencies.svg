@@ -14,10 +14,6 @@
 <title>cluster_AddressBookModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 891,-230.8 891,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_AddressBookModule_exports</title>
-<polygon fill="none" stroke="black" points="355,-170.8 355,-222.8 533,-222.8 533,-170.8 355,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_AddressBookModule_declarations</title>
 <polygon fill="none" stroke="black" points="709,-40.8 709,-92.8 883,-92.8 883,-40.8 709,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust4" class="cluster">
 <title>cluster_AddressBookModule_imports</title>
 <polygon fill="none" stroke="black" points="220,-40.8 220,-92.8 701,-92.8 701,-40.8 220,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AddressBookModule_exports</title>
+<polygon fill="none" stroke="black" points="355,-170.8 355,-222.8 533,-222.8 533,-170.8 355,-170.8"/>
 </g>
 <g id="clust7" class="cluster">
 <title>cluster_AddressBookModule_providers</title>

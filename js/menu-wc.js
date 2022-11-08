@@ -225,7 +225,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' :
                                             'id="xs-components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' }>
                                             <li class="link">
-                                                <a href="components/AmendOrderActionsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AmendOrderActionsComponent</a>
+                                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">AmendOrderActionsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -259,7 +259,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AmendOrderItemsModule-498bf701f5992a25d45dcda40151229c-1"' :
                                             'id="xs-components-links-module-AmendOrderItemsModule-498bf701f5992a25d45dcda40151229c-1"' }>
                                             <li class="link">
-                                                <a href="components/CancelOrReturnItemsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CancelOrReturnItemsComponent</a>
+                                                <a href="components/CancelOrReturnItemsComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">CancelOrReturnItemsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -637,7 +637,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' :
                                             'id="xs-components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' }>
                                             <li class="link">
-                                                <a href="components/CancelOrderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CancelOrderComponent</a>
+                                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">CancelOrderComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4307,7 +4307,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
+                                                <a href="components/ReplenishmentOrderCancellationDialogComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderCancellationDialogComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4350,7 +4350,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
+                                                <a href="components/ReplenishmentOrderHistoryComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderHistoryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -6184,15 +6184,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" class="deprecated-name">AmendOrderActionsComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" class="deprecated-name">CancelOrderComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/CancelOrReturnItemsComponent-1.html" data-type="entity-link" class="deprecated-name">CancelOrReturnItemsComponent</a>
-                            </li>
-                            <li class="link">
                                 <a href="components/ConsignmentTrackingComponent.html" data-type="entity-link" >ConsignmentTrackingComponent</a>
                             </li>
                             <li class="link">
@@ -6239,6 +6230,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReturnRequestItemsComponent.html" data-type="entity-link" >ReturnRequestItemsComponent</a>
@@ -11125,10 +11122,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/CarouselEvent.html" data-type="entity-link" >CarouselEvent</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Carrier.html" data-type="entity-link" class="deprecated-name">Carrier</a>
+                                <a href="interfaces/Carrier.html" data-type="entity-link" >Carrier</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Carrier-1.html" data-type="entity-link" >Carrier</a>
+                                <a href="interfaces/Carrier-1.html" data-type="entity-link" class="deprecated-name">Carrier</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Cart.html" data-type="entity-link" >Cart</a>
@@ -11605,16 +11602,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ConsignmentEntry-1.html" data-type="entity-link" >ConsignmentEntry</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/ConsignmentTracking.html" data-type="entity-link" class="deprecated-name">ConsignmentTracking</a>
+                                <a href="interfaces/ConsignmentTracking.html" data-type="entity-link" >ConsignmentTracking</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/ConsignmentTracking-1.html" data-type="entity-link" >ConsignmentTracking</a>
+                                <a href="interfaces/ConsignmentTracking-1.html" data-type="entity-link" class="deprecated-name">ConsignmentTracking</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/ConsignmentTrackingEvent.html" data-type="entity-link" class="deprecated-name">ConsignmentTrackingEvent</a>
+                                <a href="interfaces/ConsignmentTrackingEvent.html" data-type="entity-link" >ConsignmentTrackingEvent</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/ConsignmentTrackingEvent-1.html" data-type="entity-link" >ConsignmentTrackingEvent</a>
+                                <a href="interfaces/ConsignmentTrackingEvent-1.html" data-type="entity-link" class="deprecated-name">ConsignmentTrackingEvent</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ConsignmentTrackingState.html" data-type="entity-link" >ConsignmentTrackingState</a>

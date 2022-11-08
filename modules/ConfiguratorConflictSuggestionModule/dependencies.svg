@@ -14,13 +14,13 @@
 <title>cluster_ConfiguratorConflictSuggestionModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 412,-230.8 412,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorConflictSuggestionModule_exports</title>
-<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 351,-222.8 351,-170.8 69,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorConflictSuggestionModule_imports</title>
 <polygon fill="none" stroke="black" points="302,-40.8 302,-92.8 404,-92.8 404,-40.8 302,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorConflictSuggestionModule_exports</title>
+<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 351,-222.8 351,-170.8 69,-170.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorConflictSuggestionModule_declarations</title>
