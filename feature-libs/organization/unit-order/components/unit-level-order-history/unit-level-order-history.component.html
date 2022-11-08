@@ -89,7 +89,15 @@
                   <div class="cx-unit-level-order-history-label">
                     {{ 'unitLevelOrderHistory.date' | cxTranslate }}
                   </div>
-                  <a class="cx-unit-level-order-history-value">
+                  <a
+                    [routerLink]="
+                      {
+                      cxRoute: 'orderDetails',
+                      params: order
+                      } | cxUrl
+                    "
+                    class="cx-unit-level-order-history-value"
+                  >
                     {{ order?.placed | cxDate: 'longDate' }}
                   </a>
                 </td>
