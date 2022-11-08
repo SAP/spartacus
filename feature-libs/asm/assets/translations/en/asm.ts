@@ -60,8 +60,11 @@ export const asm = {
       },
       noOfCustomers: '{{count}} Customers',
       noCustomers: 'There are currently no customers in this customer list.',
+      noLists:
+        'There are currently no customer lists available. Contact your system administrator.',
+      listsError:
+        'The customer lists could not be retrieved. Please try again later.',
     },
-
     bindCart: {
       cartNumber: 'Cart Number',
       bindCartToCustomer: 'Assign Cart to Customer',
