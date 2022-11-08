@@ -322,7 +322,7 @@
 
   .cx-filter {
     height: 100%;
-    width: 0;
+    width: 100%;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -330,7 +330,7 @@
     overflow-x: hidden;
     top: 176px;
     padding-top: 33px;
-    display: flex;
+    display: none;
     flex-direction: column;
     font-weight: 600;
   }
@@ -348,9 +348,17 @@
     justify-content: flex-end;
   }
 
+  #cx-unit-level-order-history-filter-nav-sub-unit{
+    display: none;
+  }
+
+  #cx-unit-level-order-history-filter-nav-sub-buyer{
+    display: none;
+  }
+
   .cx-filter-nav {
     height: 100%;
-    width: 0;
+    width: 100%;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -360,6 +368,9 @@
     top: 176px;
 
     @include media-breakpoint-up(lg) {
+      display: none;
+    }
+    @include media-breakpoint-up(md) {
       display: none;
     }
 

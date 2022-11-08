@@ -97,9 +97,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   launch(): void {
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
-    // this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
-
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
   }
 
   formSearchMobile(): void {
@@ -112,33 +110,32 @@ export class UnitLevelOrderHistoryFilterComponent {
     filters.unshift(filters.length ? ':' : '');
     this.emitFilterEvent(filters);
 
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
   }
 
   closeNav(): void {
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
   }
 
   closeSubNav(): void {
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
+    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
   }
 
   backSubNav(): void {
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "0";
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
+    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
   }
 
   launchSubNav(option: string): void {
-    document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "0";
+    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
 
     if (option === 'filterByUnit') {
-      document.getElementById("cx-unit-level-order-history-filter-nav-sub-unit").style.width = "100%";
+      this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'block');
     } else if (option === 'filterByBuyer') {
-      document.getElementById("cx-unit-level-order-history-filter-nav-sub-buyer").style.width = "100%";
+      this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'block');
     }
   }
 
