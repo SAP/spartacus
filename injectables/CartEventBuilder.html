@@ -102,6 +102,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#registerMergeCartSuccess" >registerMergeCartSuccess</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#registerRemoveEntry" >registerRemoveEntry</a>
                             </li>
                             <li>
@@ -131,7 +135,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -220,8 +224,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:133</a></div>
                 </td>
             </tr>
 
@@ -297,8 +301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:38</a></div>
                 </td>
             </tr>
 
@@ -338,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:48</a></div>
                 </td>
             </tr>
 
@@ -379,8 +383,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:98</a></div>
                 </td>
             </tr>
 
@@ -448,6 +452,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="registerMergeCartSuccess"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>registerMergeCartSuccess</b></span>
+                        <a href="#registerMergeCartSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>registerMergeCartSuccess()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="registerRemoveEntry"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
@@ -466,8 +509,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:63</a></div>
                 </td>
             </tr>
 
@@ -505,8 +548,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:74</a></div>
                 </td>
             </tr>
 
@@ -546,6 +589,7 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from &#x27;./cart.events&#x27;;
 
 /**
@@ -568,6 +612,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerMergeCartSuccess();
   }
 
   /**
@@ -607,6 +652,13 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_FAIL,
       event: CartUpdateEntryFailEvent,
+    });
+  }
+
+  protected registerMergeCartSuccess(): void {
+    this.registerMapped({
+      action: CartActions.MERGE_CART_SUCCESS,
+      event: MergeCartSuccessEvent,
     });
   }
 

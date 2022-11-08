@@ -444,6 +444,16 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   quantity: number;
   entry: OrderEntry;
 }
+
+export class MergeCartSuccessEvent extends CartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;MergeCartSuccessEvent&#x27;;
+  tempCartId: string;
+  oldCartId?: string;
+  extraData?: { active?: boolean };
+}
 </code></pre>
     </div>
 </div>

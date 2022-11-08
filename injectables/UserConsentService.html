@@ -1414,7 +1414,7 @@ export class UserConsentService {
   getConsent(templateId: string): Observable&lt;Consent&gt; {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(() &#x3D;&gt; this.getConsents(true)),
+      switchMap(() &#x3D;&gt; this.getConsents(true)),
       switchMap(() &#x3D;&gt;
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))

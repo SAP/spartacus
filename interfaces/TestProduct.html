@@ -578,6 +578,12 @@ export function addProductAsAnonymous() {
   closeAddedToCartDialog();
 }
 
+export function goToCart() {
+  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
+  cy.visit(&#x27;/cart&#x27;);
+  cy.wait(&#x60;@${cartPage}&#x60;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.get(&#x27;cx-breadcrumb h1&#x27;).should(&#x27;contain&#x27;, &#x27;Your Shopping Cart&#x27;);
+}
 export function verifyCartNotEmpty() {
   cy.get(&#x27;cx-mini-cart .count&#x27;).contains(&#x27;1&#x27;);
 }

@@ -14,13 +14,13 @@
 <title>cluster_CarouselModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 594,-230.8 594,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_CarouselModule_exports</title>
-<polygon fill="none" stroke="black" points="201,-170.8 201,-222.8 351,-222.8 351,-170.8 201,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_CarouselModule_declarations</title>
 <polygon fill="none" stroke="black" points="438,-40.8 438,-92.8 586,-92.8 586,-40.8 438,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_CarouselModule_exports</title>
+<polygon fill="none" stroke="black" points="201,-170.8 201,-222.8 351,-222.8 351,-170.8 201,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CarouselModule_imports</title>

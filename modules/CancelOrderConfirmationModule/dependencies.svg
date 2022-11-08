@@ -18,13 +18,13 @@
 <title>cluster_CancelOrderConfirmationModule_imports</title>
 <polygon fill="none" stroke="black" points="268,-40.8 268,-92.8 643,-92.8 643,-40.8 268,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_CancelOrderConfirmationModule_exports</title>
-<polygon fill="none" stroke="black" points="234,-170.8 234,-222.8 482,-222.8 482,-170.8 234,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_CancelOrderConfirmationModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 260,-92.8 260,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_CancelOrderConfirmationModule_exports</title>
+<polygon fill="none" stroke="black" points="234,-170.8 234,-222.8 482,-222.8 482,-170.8 234,-170.8"/>
 </g>
 <!-- CancelOrderConfirmationComponent -->
 <g id="node1" class="node">

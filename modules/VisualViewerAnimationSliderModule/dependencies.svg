@@ -16,25 +16,25 @@
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_VisualViewerAnimationSliderModule_declarations</title>
-<polygon fill="none" stroke="black" points="126,-105.8 126,-157.8 394,-157.8 394,-105.8 126,-105.8"/>
+<polygon fill="none" stroke="black" points="16,-105.8 16,-157.8 284,-157.8 284,-105.8 16,-105.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_VisualViewerAnimationSliderModule_exports</title>
 <polygon fill="none" stroke="black" points="69,-235.8 69,-287.8 341,-287.8 341,-235.8 69,-235.8"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_VisualViewerAnimationSliderModule_VisualViewerAnimationSliderComponent_providers</title>
-<polygon fill="none" stroke="black" points="62,-40.8 62,-92.8 394,-92.8 394,-40.8 62,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_VisualViewerAnimationSliderModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-105.8 16,-157.8 118,-157.8 118,-105.8 16,-105.8"/>
+<polygon fill="none" stroke="black" points="292,-105.8 292,-157.8 394,-157.8 394,-105.8 292,-105.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_VisualViewerAnimationSliderModule_VisualViewerAnimationSliderComponent_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 348,-92.8 348,-40.8 16,-40.8"/>
 </g>
 <!-- VisualViewerAnimationSliderComponent -->
 <g id="node1" class="node">
 <title>VisualViewerAnimationSliderComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="386.4,-149.8 133.6,-149.8 133.6,-113.8 386.4,-113.8 386.4,-149.8"/>
-<text text-anchor="middle" x="260" y="-127.6" font-family="Times,serif" font-size="14.00">VisualViewerAnimationSliderComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="276.4,-149.8 23.6,-149.8 23.6,-113.8 276.4,-113.8 276.4,-149.8"/>
+<text text-anchor="middle" x="150" y="-127.6" font-family="Times,serif" font-size="14.00">VisualViewerAnimationSliderComponent</text>
 </g>
 <!-- VisualViewerAnimationSliderModule -->
 <g id="node2" class="node">
@@ -45,8 +45,8 @@
 <!-- VisualViewerAnimationSliderComponent&#45;&gt;VisualViewerAnimationSliderModule -->
 <g id="edge1" class="edge">
 <title>VisualViewerAnimationSliderComponent&#45;&gt;VisualViewerAnimationSliderModule</title>
-<path fill="none" stroke="black" d="M227.05,-149.91C227.05,-149.91 227.05,-168.79 227.05,-168.79"/>
-<polygon fill="black" stroke="black" points="223.55,-168.79 227.05,-178.79 230.55,-168.79 223.55,-168.79"/>
+<path fill="none" stroke="black" d="M182.95,-149.91C182.95,-149.91 182.95,-168.79 182.95,-168.79"/>
+<polygon fill="black" stroke="black" points="179.45,-168.79 182.95,-178.79 186.45,-168.79 179.45,-168.79"/>
 </g>
 <!-- VisualViewerAnimationSliderComponent  -->
 <g id="node5" class="node">
@@ -63,26 +63,26 @@
 <!-- VisualViewerAnimationSliderService -->
 <g id="node3" class="node">
 <title>VisualViewerAnimationSliderService</title>
-<ellipse fill="#fdb462" stroke="black" cx="228" cy="-66.8" rx="157.98" ry="18"/>
-<text text-anchor="middle" x="228" y="-62.6" font-family="Times,serif" font-size="14.00">VisualViewerAnimationSliderService</text>
+<ellipse fill="#fdb462" stroke="black" cx="182" cy="-66.8" rx="157.98" ry="18"/>
+<text text-anchor="middle" x="182" y="-62.6" font-family="Times,serif" font-size="14.00">VisualViewerAnimationSliderService</text>
 </g>
 <!-- VisualViewerAnimationSliderService&#45;&gt;VisualViewerAnimationSliderComponent -->
 <g id="edge2" class="edge">
 <title>VisualViewerAnimationSliderService&#45;&gt;VisualViewerAnimationSliderComponent</title>
-<path fill="none" stroke="black" d="M259.9,-84.56C259.9,-84.56 259.9,-103.61 259.9,-103.61"/>
-<polygon fill="black" stroke="black" points="256.4,-103.61 259.9,-113.61 263.4,-103.61 256.4,-103.61"/>
+<path fill="none" stroke="black" d="M150.1,-84.56C150.1,-84.56 150.1,-103.61 150.1,-103.61"/>
+<polygon fill="black" stroke="black" points="146.6,-103.61 150.1,-113.61 153.6,-103.61 146.6,-103.61"/>
 </g>
 <!-- I18nModule -->
 <g id="node4" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="109.71,-149.8 106.71,-153.8 85.71,-153.8 82.71,-149.8 24.29,-149.8 24.29,-113.8 109.71,-113.8 109.71,-149.8"/>
-<text text-anchor="middle" x="67" y="-127.6" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="385.71,-149.8 382.71,-153.8 361.71,-153.8 358.71,-149.8 300.29,-149.8 300.29,-113.8 385.71,-113.8 385.71,-149.8"/>
+<text text-anchor="middle" x="343" y="-127.6" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;VisualViewerAnimationSliderModule -->
 <g id="edge3" class="edge">
 <title>I18nModule&#45;&gt;VisualViewerAnimationSliderModule</title>
-<path fill="none" stroke="black" d="M99.65,-149.91C99.65,-149.91 99.65,-168.79 99.65,-168.79"/>
-<polygon fill="black" stroke="black" points="96.15,-168.79 99.65,-178.79 103.15,-168.79 96.15,-168.79"/>
+<path fill="none" stroke="black" d="M310.35,-149.91C310.35,-149.91 310.35,-168.79 310.35,-168.79"/>
+<polygon fill="black" stroke="black" points="306.85,-168.79 310.35,-178.79 313.85,-168.79 306.85,-168.79"/>
 </g>
 </g>
 </svg>

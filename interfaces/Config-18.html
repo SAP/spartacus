@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/cart/config/cart-config.ts</code>
+            <code>projects/core/src/site-context/config/site-context-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/CartConfig.html" target="_self" >CartConfig</a></code>
+                        <code><a href="../injectables/SiteContextConfig.html" target="_self" >SiteContextConfig</a></code>
             </p>
 
 
@@ -90,19 +90,15 @@ import { Config } from &#x27;../../config/config-tokens&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class CartConfig {
-  cart?: {
-    selectiveCart?: {
-      enabled?: boolean;
-    };
-    validation?: {
-      enabled?: boolean;
-    };
+export abstract class SiteContextConfig {
+  context?: {
+    urlParameters?: string[];
+    [contextName: string]: string[] | undefined;
   };
 }
 
 declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends CartConfig {}
+  interface Config extends SiteContextConfig {}
 }
 </code></pre>
     </div>

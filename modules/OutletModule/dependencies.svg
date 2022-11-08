@@ -14,13 +14,13 @@
 <title>cluster_OutletModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 146,-230.8 146,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_OutletModule_exports</title>
-<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 138,-222.8 138,-170.8 16,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_OutletModule_declarations</title>
 <polygon fill="none" stroke="black" points="17,-40.8 17,-92.8 137,-92.8 137,-40.8 17,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_OutletModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 138,-222.8 138,-170.8 16,-170.8"/>
 </g>
 <!-- OutletDirective -->
 <g id="node1" class="node">

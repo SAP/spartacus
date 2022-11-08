@@ -14,13 +14,13 @@
 <title>cluster_UrlTestingModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 144,-230.8 144,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_UrlTestingModule_exports</title>
-<polygon fill="none" stroke="black" points="20,-170.8 20,-222.8 132,-222.8 132,-170.8 20,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_UrlTestingModule_declarations</title>
 <polygon fill="none" stroke="black" points="22,-40.8 22,-92.8 130,-92.8 130,-40.8 22,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_UrlTestingModule_exports</title>
+<polygon fill="none" stroke="black" points="20,-170.8 20,-222.8 132,-222.8 132,-170.8 20,-170.8"/>
 </g>
 <!-- MockUrlPipe -->
 <g id="node1" class="node">
