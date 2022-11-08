@@ -27,6 +27,7 @@
 
       @include media-breakpoint-up(md) {
         text-align: start;
+        max-width: 1px;
 
         &:last-child {
           text-align: end;
@@ -48,9 +49,17 @@
         }
       }
 
+      .text-ellipsis {
+        @include media-breakpoint-up(md) {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
       span {
-        color: var(--cx-color-light);
-        display: table;
+        color: var(--cx-color-secondary);
+        display: block;
       }
     }
   }

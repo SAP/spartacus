@@ -12,6 +12,7 @@ import {
   Injector,
 } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
+import { isFeatureLevel } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
@@ -51,6 +52,14 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      // Disable automatic scroll restoration to avoid race conditions
+      /**
+       * @deprecated since 5.1
+       * this feature level check should be removed in Major release
+       */
+      if (isFeatureLevel(this.config, '5.1')) {
+        this.viewportScroller.setHistoryScrollRestoration('manual');
+      }
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
