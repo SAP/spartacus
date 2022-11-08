@@ -98,6 +98,7 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   launch(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
+    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
   }
 
   formSearchMobile(): void {
