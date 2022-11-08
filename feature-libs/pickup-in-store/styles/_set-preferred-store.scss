@@ -11,7 +11,9 @@
   font-weight: var(--cx-font-weight, 600);
 
   .set-preferred-heading {
-    padding-inline-start: 0.5rem;
+    border: none;
+    background: none;
+    padding: 0 0.5rem;
     text-decoration: underline;
   }
 }

@@ -35,6 +35,9 @@ cx-store {
       opacity: var(--cx-opacity, 0.5);
     }
     padding-top: 0.5rem;
+    background: none;
+    border: none;
+    padding-inline-start: 0
   }
 
   .cx-stock-level {
