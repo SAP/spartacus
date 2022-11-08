@@ -14,13 +14,17 @@ module.exports = (on, config) => {
 
     deleteFolder(folderName) {
       return new Promise((resolve, reject) => {
-        fs.rm(folderName, { maxRetries: 3, recursive: true, force: true }, (err) => {
-          if (err) {
-            console.error(err);
-            return reject(err);
+        fs.rm(
+          folderName,
+          { maxRetries: 3, recursive: true, force: true },
+          (err) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            resolve(null);
           }
-          resolve(null);
-        });
+        );
       });
     },
   });
