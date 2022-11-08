@@ -24,18 +24,10 @@
     td {
       width: 16.6%;
       padding: 1rem 0;
-      max-width: 1px;
-
-      .text {
-        @include media-breakpoint-up(md) {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
 
       @include media-breakpoint-up(md) {
         text-align: start;
+        max-width: 1px;
 
         &:last-child {
           text-align: end;
@@ -54,6 +46,14 @@
 
         &:last-child {
           padding-bottom: 1.25rem;
+        }
+      }
+
+      .text-ellipsis {
+        @include media-breakpoint-up(md) {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
 
