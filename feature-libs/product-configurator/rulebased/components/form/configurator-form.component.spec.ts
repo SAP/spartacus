@@ -604,7 +604,7 @@ describe('ConfigurationFormComponent', () => {
         false
       );
     });
-    it('should return false if group type is undefined is standard group', () => {
+    it('should return false if group type is undefined', () => {
       conflictGroup.groupType = undefined;
       expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
         false
