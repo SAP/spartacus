@@ -1,31 +1,4 @@
-<style> <!-- TODO move this styling to the appropriate styling places -->
-  #buyerPresentationMobileDiv {
-    display: block;
-  }
-
-  #cx-unit-level-order-history-filter-sub-nav-buyer:focus {
-    background: white
-  }
-
-  #cx-unit-level-order-history-filter-sub-nav-buyer::placeholder {
-    color: lightgray;
-    font-weight: 200;
-  }
-
-  #buyerMobileLabel {
-    background: white;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border: 1px solid lightgray;
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  #cx-unit-level-order-history-filter-nav-sub-buyer-div {
-    box-shadow: 0 4px 2px -2px lightgray;
-  }
-</style>
-<div id="cx-unit-level-order-history-filter-nav" class="cx-filter"
+<div id="cx-unit-level-order-history-filter-nav" #filterNav class="cx-filter"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <div class="cx-filter-list">
     <span>{{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}</span>
@@ -61,9 +34,9 @@
 </div>
 
 <form [formGroup]="filterFormMobile" (keyup.enter)="formSearchMobile()">
-  <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"
+  <div id="cx-unit-level-order-history-filter-nav-sub-buyer" #filterNavBuyer class="cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-    <div id="cx-unit-level-order-history-filter-nav-sub-buyer-div">
+    <div class="cx-filter-nav-div">
       <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
@@ -73,14 +46,14 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label id="buyerMobileLabel">
-        <input id="cx-unit-level-order-history-filter-sub-nav-buyer"
-               #queryInputBuyerMobile
-               formControlName="inputFilterBuyer"
-               class="form-control"
-               (input)="searchBuyerMobile(queryInputBuyerMobile)"
-               [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
-               placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
+      <label>
+        <input
+          #queryInputBuyerMobile
+          formControlName="inputFilterBuyer"
+          class="form-control"
+          (input)="searchBuyerMobile(queryInputBuyerMobile)"
+          [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
+          placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
         />
 
         <button #buyerButtonMobile
@@ -91,7 +64,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation" id="buyerPresentationMobileDiv" class="search-icon"
+        <div #buyerPresentationMobile role="presentation" id="buyerPresentationMobileDiv"
              (mousedown)="formSearchMobile()"
              (keydown.enter)="formSearchMobile()" style="color: lightgray;">
           <cx-icon [type]="iconTypes.SEARCH" style="display: block; padding: 10px; padding-top: 15px;"></cx-icon>
@@ -111,9 +84,9 @@
     </div>
   </div>
 
-  <div id="cx-unit-level-order-history-filter-nav-sub-unit" class=" cx-filter-nav"
+  <div id="cx-unit-level-order-history-filter-nav-sub-unit" #filterNavUnit class=" cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-    <div>
+    <div class="cx-filter-nav-div">
       <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
@@ -140,11 +113,12 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
+        <div #unitPresentationMobile role="presentation" (mousedown)="formSearchMobile()"
              (keydown.enter)="formSearchMobile()" style="color: lightgray;">
           <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
         </div>
       </label>
+      <br>
     </div>
     <div class="cx-unit-level-order-history-filter-nav-button-block">
       <button

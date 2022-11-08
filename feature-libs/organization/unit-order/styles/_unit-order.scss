@@ -363,12 +363,19 @@
       display: none;
     }
 
+    .cx-filter-nav-div {
+      box-shadow: 0 4px 2px -2px lightgray;
+    }
+
     label {
-      padding-bottom: 5px;
-      border-bottom: 2px solid #e0e0e0;
       display: flex;
       align-content: stretch;
+      background: white;
       margin-bottom: 0;
+      padding-bottom: 0;
+      border: 1px solid lightgray;
+      margin-left: 1rem;
+      margin-right: 1rem;
     }
 
     input {
@@ -377,13 +384,23 @@
       margin: 0px 11px 1px 11px;
     }
 
+    input:focus {
+      background-color: white
+    }
+
+    input::placeholder {
+      color: lightgray;
+      font-weight: $font-weight-light;
+      font-size: var(--cx-font-size, 1rem);;
+    }
+
     .filter-button {
       border: none;
       align-content: stretch;
       flex-basis: 100%;
       justify-content: flex-end;
       margin-inline-end: 0.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       align-self: center;
       background-color: var(--cx-color-background);
 

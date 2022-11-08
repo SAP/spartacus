@@ -38,6 +38,9 @@ export class UnitLevelOrderHistoryFilterComponent {
   @ViewChild('unitPresentationMobile', {read: ElementRef}) unitPresentationMobile: ElementRef;
   @ViewChild('buyerPresentationMobile', {read: ElementRef}) buyerPresentationMobile: ElementRef;
 
+  @ViewChild('filterNav', {read: ElementRef}) filterNav:ElementRef;
+  @ViewChild('filterNavUnit', {read: ElementRef}) filterNavUnit:ElementRef;
+  @ViewChild('filterNavBuyer', {read: ElementRef}) filterNavBuyer:ElementRef;
 
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
@@ -95,6 +98,8 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   launch(): void {
     document.getElementById("cx-unit-level-order-history-filter-nav").style.width = "100%";
+    // this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
+
   }
 
   formSearchMobile(): void {
