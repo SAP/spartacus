@@ -22,7 +22,8 @@ describe('ticketing', () => {
 
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
-        let numberOfTickets: number = customerTicketing.verifyTicketListingTableContent();
+        customerTicketing.verifyTicketListingTableContent();
+        let numberOfTickets = customerTicketing.getNumberOfTicket();
         customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTickets);
 
         customerTicketing.createTicket(testTicketDetails);
@@ -43,7 +44,7 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.openLastCreatedTicket();
-        customerTicketing.closeTicketRequest();
+        customerTicketing.closeTicketRequest("thank you");
         customerTicketing.verifyClosedTicketIsStillInTicketListing();
       });
 
@@ -71,6 +72,48 @@ describe('ticketing', () => {
         customerTicketing.createNumberOfTickets(numberOfTicketToCreateForMultipagePagination, testTicketDetails);
         totalNumberOfTicketCreated += numberOfTicketToCreateForMultipagePagination;
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
+      });
+
+
+      it('should sort by id when selecting ID from dropdown', () => {
+
+        const testTicketDetails: TestTicketDetails = {
+          subject: "Creating tickets for pagination ",
+          message: "Creating tickets for pagination ",
+          category: TestCategory.complaint,
+        };
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.createNumberOfTickets(1, testTicketDetails);
+        customerTicketing.selectSortById();
+
+      });
+
+      it('should put the ticket on top when Changed On is selected as the sort', () => {
+        const otherTickets: TestTicketDetails = {
+          subject: "Creating tickets for pagination ",
+          message: "Creating tickets for pagination ",
+          category: TestCategory.complaint,
+        };
+
+        const ticketToSort: TestTicketDetails = {
+          subject: "This will go from bottom of the list to the top ",
+          message: "This will go from bottom of the list to the top ",
+          category: TestCategory.complaint,
+        };
+
+        const numberOfOtherTicket = 2;
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.createTicket(ticketToSort);
+        customerTicketing.verifyCreatedTicketDetails(ticketToSort);
+        customerTicketing.createNumberOfTickets(numberOfOtherTicket, otherTickets);
+        customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTicket+1);
+        // customerTicketing.addMessage("");
+
+
       });
 
     });

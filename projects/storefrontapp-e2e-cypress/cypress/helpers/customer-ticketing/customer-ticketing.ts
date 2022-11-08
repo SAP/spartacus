@@ -162,8 +162,7 @@ export function visitApparelUKTicketListingPage(){
   visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
 
-export function verifyTicketListingTableContent(): number{
-  let numberOfTickets = 0;
+export function verifyTicketListingTableContent(){
   cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
     if(ticketListingElement.find('tbody').length > 0) {
       const headerRow = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(COLUMN_HEADER_TICKET_LIST).get('td');
@@ -174,14 +173,11 @@ export function verifyTicketListingTableContent(): number{
       allRowColumns.eq(CREATED_ON_COLUMN).should('contain', 'Created On');
       allRowColumns.eq(CHANGED_ON_COLUMN).should('contain', 'Changed On');
       allRowColumns.eq(STATUS_COLUMN).should('contain', 'Status');
-      numberOfTickets = ticketListingElement.find('tbody').length;
     }
     else {
       cy.get('cx-customer-ticketing-list').find('h3').contains("You don't have any request");
     }
   });
-
-  return numberOfTickets;
 }
 
 export function getNumberOfTicket(): number {
@@ -215,22 +211,28 @@ export function openLastCreatedTicket() {
   row.click();
 }
 
+export function openTicketOnSepcifiedRowNumber(rowNumber: number) {
+  const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber);
+  row.click();
+}
+
+
 export function clickCloseRequestButton() {
   cy.get('cx-customer-ticketing-close').click();
 }
 
-export function typeCloseTicketRequestMessage(message = 'Thank you.') {
+export function typeCloseTicketRequestMessage(message: string) {
   cy.get('textarea').last().type(message);
 
 }
 
-export function closeTicketRequest(message = 'Thank you.') {
+export function closeTicketRequest(message: string) {
   const SUBMIT_BUTTON_INDEX = 2;
   clickCloseRequestButton();
   cy.get('form').within(() => {
     typeCloseTicketRequestMessage(message);
     cy.get('button').eq(SUBMIT_BUTTON_INDEX).click();
-  })
+  });
 }
 
 export function verifyClosedTicketIsStillInTicketListing() {
@@ -256,10 +258,15 @@ export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTi
   }
 }
 
-export function verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicket: number) {
+export function verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated: number) {
   const LEFT_RIGHT_ARROWS = 2;
   const FIRST_PAGE = 1;
-  const expectedNumberOfPages = Math.floor(totalNumberOfTicket / 5) + FIRST_PAGE + LEFT_RIGHT_ARROWS;
-  verifyPaginationExistBasedOnTheNumberOfTicketsCreated(totalNumberOfTicket);
+  const expectedNumberOfPages = Math.floor(totalNumberOfTicketCreated / 5) + FIRST_PAGE + LEFT_RIGHT_ARROWS;
+  verifyPaginationExistBasedOnTheNumberOfTicketsCreated(totalNumberOfTicketCreated);
   cy.get('cx-pagination').find('a').should('have.length', expectedNumberOfPages);
 }
+
+export function selectSortById() {
+  cy.get('cx-sorting').get('select').eq(0).select('ID');
+}
+
