@@ -10,6 +10,10 @@
     width: 200px;
     border: 1px solid lightgray;
     border-radius: 3px;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
   }
 
   .mycustominputtt {
@@ -306,13 +310,6 @@
     }
   }
 
-  .cx-unit-level-order-history-filter-form {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-
-  }
-
   .cx-unit-level-order-history-filter-form-item {
     flex-direction: column;
     flex-basis: 25%;
@@ -329,7 +326,34 @@
       display: none;
     }
   }
-
+  .cx-filter-list{
+    margin: 1px 11px 1px 11px;
+  }
+  .cx-filter {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: var(--cx-color-background);
+    overflow-x: hidden;
+    top: 176px;
+    padding-top: 33px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+  }
+  .filter-list-border{
+    border-bottom: 2px solid #e0e0e0;
+  }
+  .clear-btn {
+    margin-inline-end: 1rem;
+    border: none;
+    background-color: inherit;
+    font-size: var(--cx-font-size, 1rem);
+    float: right;
+    justify-content: flex-end;
+  }
   .cx-filter-nav {
     height: 100%;
     width: 0;
@@ -338,87 +362,36 @@
     left: 0;
     background-color: var(--cx-color-background);
     overflow-x: hidden;
-    padding-top: 60px;
+    padding-top: 33px;
     top: 176px;
 
     @include media-breakpoint-up(lg) {
       display: none;
     }
-
-    h4 {
-      padding: 0px 29px 0px 29px;
-      font-size: var(--cx-font-size, 1rem);
-      color: #212738;
-      font-weight: var(--cx-font-weight-bold);
-      text-transform: var(--cx-text-transform);
-      display: flow-root;
-    }
-
     label {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: var(--cx-font-size, 1rem);
-      color: #818181;
-      display: block;
-      transition: 0.3s;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #e0e0e0;
+      display: flex;
+      align-content: stretch;margin-bottom: 0;
     }
 
-    .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
+    input {
+      border: none;
+      height: 100%;
+      margin: 0px 11px 1px 11px;
     }
-
-    .cx-unit-level-order-history-filter-nav-button-block {
+    .filter-button{
+      border: none;
+      align-content: stretch;
       flex-basis: 100%;
       justify-content: flex-end;
       margin-inline-end: 0.5rem;
       margin-bottom: 2rem;
       align-self: center;
+      background-color: var(--cx-color-background);
 
-      display: flex;
-      flex-direction: row;
-
-      .clear-btn {
-        margin-inline-end: 1rem;
-        border: none;
-        background-color: inherit;
-        font-size: var(--cx-font-size, 1rem);
-      }
-
-      @include media-breakpoint-up(lg) {
-        display: none;
-      }
-    }
-
-    .cx-unit-level-order-history-filter-nav-title-block {
-      flex-basis: 100%;
-      margin-inline-end: 0.5rem;
-      align-self: center;
-      display: list-item;
-      flex-direction: row;
-      padding: 0px 8px 0px 8px;
-
-      .title {
-        justify-content: flex-start;
-        font-size: 1.188rem;
-      }
-
-      .close {
-        justify-content: flex-end;
-      }
-
-      .clear-btn {
-        margin-inline-end: 1rem;
-        border: none;
-        background-color: inherit;
-        font-size: var(--cx-font-size, 1rem);
-      }
-
-      @include media-breakpoint-up(lg) {
-        display: none;
+      span{
+        padding-left: 12px;
       }
     }
   }

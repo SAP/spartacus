@@ -1,80 +1,81 @@
-<div id="cx-unit-level-order-history-filter-nav" class="cx-unit-level-order-history-filter-nav cx-filter-nav"
+<div id="cx-unit-level-order-history-filter-nav" class="cx-filter"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-  <h4>
-    {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+  <div class="cx-filter-list">
+    <span>{{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}</span>
     <button
       type="button"
-      class="close"
+      class="clear-btn"
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="closeNav()"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
-  </h4>
-  <h4 (click)="launchSubNav('filterByBuyer')">
-    {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+  </div>
+  <div class="cx-filter-list filter-list-border" (click)="launchSubNav('filterByBuyer')">
+    <span>{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}</span>
     <button
       type="button"
-      class="close"
+      class="clear-btn"
       [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
-
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
-  </h4>
-  <h4 (click)="launchSubNav('filterByUnit')">
-    {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+  </div>
+  <div class="cx-filter-list filter-list-border" (click)="launchSubNav('filterByUnit')">
+    <span>{{ 'unitLevelOrderHistory.unit' | cxTranslate }}</span>
     <button
       type="button"
-      class="close"
+      class="clear-btn"
       [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
-  </h4>
+  </div>
 </div>
 
-<form [formGroup]="filterFormMobile" class="cx-unit-level-order-history-filter-nav-sub"
-      (keyup.enter)="formSearchMobile()">
+<form [formGroup]="filterFormMobile" (keyup.enter)="formSearchMobile()">
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-    <div class="cx-unit-level-order-history-filter-nav-title-block">
-      <button class="title clear-btn " type="button" (click)="backSubNav()">
+    <div>
+      <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
-        {{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}
-      </button>
+        <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
 
-      <button type="button" class="close" [attr.aria-label]="'common.close' | cxTranslate" (click)="closeSubNav()">
+      </button>
+      <button class="clear-btn" [attr.aria-label]="'common.close' | cxTranslate" (click)="closeSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
-    </div>
-    <label class="cx-unit-level-order-history-filter-form-item">
-      <input id="cx-unit-level-order-history-filter-sub-nav-buyer"
-             #queryInputBuyerMobile
-             formControlName="inputFilterBuyer"
-             type="text"
-             class="form-control"
-             [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
-             placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
-      />
-      <button
-        [attr.aria-label]="'common.reset' | cxTranslate"
-        (mousedown)="clear(queryInputBuyerMobile)"
-        class="reset"
-      >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
-      </button>
 
-      <div role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
-           (keydown.enter)="formSearchMobile()">
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-      </div>
-    </label>
+      <label>
+        <input id="cx-unit-level-order-history-filter-sub-nav-buyer"
+               #queryInputBuyerMobile
+               formControlName="inputFilterBuyer"
+               class="form-control"
+               (input)="searchBuyerMobile(queryInputBuyerMobile)"
+               [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
+               placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
+        />
+
+        <button #buyerButtonMobile
+                [attr.aria-label]="'common.reset' | cxTranslate"
+                (mousedown)="clearBuyerMobile(queryInputBuyerMobile)"
+                class="reset mucustombutonnn"
+        >
+          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        </button>
+
+        <div #buyerPresentationMobile role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
+             (keydown.enter)="formSearchMobile()">
+          <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+        </div>
+      </label>
+    </div>
+
     <div class="cx-unit-level-order-history-filter-nav-button-block">
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="clear(queryInputBuyerMobile)"
+        (click)="clearBuyerMobile(queryInputBuyerMobile)"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
@@ -83,43 +84,44 @@
 
   <div id="cx-unit-level-order-history-filter-nav-sub-unit" class=" cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-    <div class="cx-unit-level-order-history-filter-nav-title-block">
-      <button class="title clear-btn " type="button" (click)="backSubNav()">
+    <div>
+      <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
-        {{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}
+        <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
       </button>
 
-      <button type="button" class="close" [attr.aria-label]="'common.close' | cxTranslate" (click)="closeSubNav()">
+      <button class="clear-btn" [attr.aria-label]="'common.close' | cxTranslate" (click)="closeSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
-    </div>
-    <label class="cx-unit-level-order-history-filter-form-item">
-      <input id="cx-unit-level-order-history-filter-sub-nav-unit"
-             #queryInputUnitMobile
-             formControlName="inputFilterUnit"
-             type="text"
-             class="form-control"
-             [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
-             placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
-      />
-      <button
-        [attr.aria-label]="'common.reset' | cxTranslate"
-        (mousedown)="clear(queryInputUnitMobile)"
-        class="reset"
-      >
-        <cx-icon [type]="iconTypes.RESET"></cx-icon>
-      </button>
 
-      <div role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
-           (keydown.enter)="formSearchMobile()">
-        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-      </div>
-    </label>
+      <label>
+        <input id="cx-unit-level-order-history-filter-sub-nav-unit"
+               #queryInputUnitMobile
+               formControlName="inputFilterUnit"
+               class="form-control"
+               (input)="searchUnitMobile(queryInputUnitMobile)"
+               [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
+               placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
+        />
+        <button #unitButtonMobile
+                [attr.aria-label]="'common.reset' | cxTranslate"
+                (mousedown)="clearUnitMobile(queryInputUnitMobile)"
+                class="reset mucustombutonnn"
+        >
+          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        </button>
+
+        <div #unitPresentationMobile role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
+             (keydown.enter)="formSearchMobile()" style="color: lightgray;">
+          <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+        </div>
+      </label>
+    </div>
     <div class="cx-unit-level-order-history-filter-nav-button-block">
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="clear(queryInputUnitMobile)"
+        (click)="clearUnitMobile(queryInputUnitMobile)"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
