@@ -37,6 +37,7 @@ export class SmartEditLauncherService {
       this.isLaunchedInSmartEdit() &&
       this.featureModules.isConfigured('smartEdit')
     ) {
+      console.log('smartedit module loading');
       this.featureModules.resolveFeature('smartEdit').subscribe();
     }
   }

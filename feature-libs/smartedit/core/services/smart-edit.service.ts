@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import {
+  Inject,
+  Injectable,
+  NgZone,
+  PLATFORM_ID,
+  Renderer2,
+  RendererFactory2,
+} from '@angular/core';
 import {
   BaseSiteService,
   CmsService,
@@ -35,7 +43,8 @@ export class SmartEditService {
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SmartEditConfig,
-    protected scriptLoader: ScriptLoader
+    protected scriptLoader: ScriptLoader,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {
     // load webApplicationInjector.js first
     this.loadScript();
@@ -58,6 +67,12 @@ export class SmartEditService {
   }
 
   public processCmsPage(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      console.log('--- processCmsPage: csr');
+    }
+    if (isPlatformServer(this.platformId)) {
+      console.log('--- processCmsPage: ssr');
+    }
     this.baseSiteService
       .get()
       .pipe(
@@ -178,6 +193,7 @@ export class SmartEditService {
     properties: any
   ): void {
     if (properties) {
+      console.log('addSmartEditContract: ', properties);
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) => {
         const name = 'data-' + group + '-';

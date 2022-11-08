@@ -5,7 +5,7 @@
  */
 
 import { Injectable, Renderer2 } from '@angular/core';
-import { shareReplay } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ComponentDecorator } from '../decorators/component-decorator';
@@ -23,11 +23,15 @@ import { ContentSlotData } from '../model/content-slot-data.model';
 export class DynamicAttributeService {
   private componentDecorators$ = this.unifiedInjector
     .getMulti(ComponentDecorator)
-    .pipe(shareReplay(1));
+    .pipe(
+      tap((comp) => console.log('ComponentDecorator', comp)),
+      shareReplay(1)
+    );
 
-  private slotDecorators$ = this.unifiedInjector
-    .getMulti(SlotDecorator)
-    .pipe(shareReplay(1));
+  private slotDecorators$ = this.unifiedInjector.getMulti(SlotDecorator).pipe(
+    tap((slot) => console.log('slotDecorators', slot)),
+    shareReplay(1)
+  );
 
   constructor(protected unifiedInjector: UnifiedInjector) {}
 
