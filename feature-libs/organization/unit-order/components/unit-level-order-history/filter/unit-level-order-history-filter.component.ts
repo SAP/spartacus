@@ -72,6 +72,16 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterForm.reset();
     this.filterFormMobile.reset();
     this.formSearch();
+
+    this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
+
+    this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'block');
+    this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
   }
 
   refresh(user: string, unit: string) {
