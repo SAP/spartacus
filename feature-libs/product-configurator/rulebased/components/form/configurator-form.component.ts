@@ -135,6 +135,19 @@ export class ConfiguratorFormComponent implements OnInit {
   }
 
   /**
+   * Display group description box only for conflict groups with a given group name (i.e. a conflict description)
+   * @param group
+   * @returns true if conflict description box should be displayed
+   */
+  displayConflictDescription(group: Configurator.Group): boolean {
+    return (
+      group.groupType !== undefined &&
+      this.configuratorGroupsService.isConflictGroupType(group.groupType) &&
+      group.name !== ''
+    );
+  }
+
+  /**
    * Generates a group ID.
    *
    * @param {string} groupId - group ID
