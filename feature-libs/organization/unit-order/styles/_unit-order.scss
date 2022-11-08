@@ -10,10 +10,6 @@
     width: 200px;
     border: 1px solid lightgray;
     border-radius: 3px;
-
-    @include media-breakpoint-down(sm) {
-      display: none;
-    }
   }
 
   .mycustominputtt {
@@ -43,13 +39,6 @@
     display: flex;
     justify-content: flex-start;
     gap: 3rem;
-  }
-
-  .topleveldivvv {
-    @include media-breakpoint-down(md) {
-      display: none;
-
-    }
 
     @include media-breakpoint-down(sm) {
       display: none;
@@ -326,9 +315,11 @@
       display: none;
     }
   }
-  .cx-filter-list{
+
+  .cx-filter-list {
     margin: 1px 11px 1px 11px;
   }
+
   .cx-filter {
     height: 100%;
     width: 0;
@@ -343,9 +334,11 @@
     flex-direction: column;
     font-weight: 600;
   }
-  .filter-list-border{
+
+  .filter-list-border {
     border-bottom: 2px solid #e0e0e0;
   }
+
   .clear-btn {
     margin-inline-end: 1rem;
     border: none;
@@ -354,6 +347,7 @@
     float: right;
     justify-content: flex-end;
   }
+
   .cx-filter-nav {
     height: 100%;
     width: 0;
@@ -368,11 +362,13 @@
     @include media-breakpoint-up(lg) {
       display: none;
     }
+
     label {
       padding-bottom: 5px;
       border-bottom: 2px solid #e0e0e0;
       display: flex;
-      align-content: stretch;margin-bottom: 0;
+      align-content: stretch;
+      margin-bottom: 0;
     }
 
     input {
@@ -380,7 +376,8 @@
       height: 100%;
       margin: 0px 11px 1px 11px;
     }
-    .filter-button{
+
+    .filter-button {
       border: none;
       align-content: stretch;
       flex-basis: 100%;
@@ -390,7 +387,7 @@
       align-self: center;
       background-color: var(--cx-color-background);
 
-      span{
+      span {
         padding-left: 12px;
       }
     }

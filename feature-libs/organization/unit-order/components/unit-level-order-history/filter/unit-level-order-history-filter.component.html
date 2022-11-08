@@ -1,3 +1,30 @@
+<style> <!-- TODO move this styling to the appropriate styling places -->
+  #buyerPresentationMobileDiv {
+    display: block;
+  }
+
+  #cx-unit-level-order-history-filter-sub-nav-buyer:focus {
+    background: white
+  }
+
+  #cx-unit-level-order-history-filter-sub-nav-buyer::placeholder {
+    color: lightgray;
+    font-weight: 200;
+  }
+
+  #buyerMobileLabel {
+    background: white;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border: 1px solid lightgray;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  #cx-unit-level-order-history-filter-nav-sub-buyer-div {
+    box-shadow: 0 4px 2px -2px lightgray;
+  }
+</style>
 <div id="cx-unit-level-order-history-filter-nav" class="cx-filter"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <div class="cx-filter-list">
@@ -36,7 +63,7 @@
 <form [formGroup]="filterFormMobile" (keyup.enter)="formSearchMobile()">
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" class="cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
-    <div>
+    <div id="cx-unit-level-order-history-filter-nav-sub-buyer-div">
       <button class="filter-button" (click)="backSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
@@ -46,7 +73,7 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label>
+      <label id="buyerMobileLabel">
         <input id="cx-unit-level-order-history-filter-sub-nav-buyer"
                #queryInputBuyerMobile
                formControlName="inputFilterBuyer"
@@ -64,14 +91,16 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation" class="search-icon" (mousedown)="formSearchMobile()"
-             (keydown.enter)="formSearchMobile()">
-          <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+        <div #buyerPresentationMobile role="presentation" id="buyerPresentationMobileDiv" class="search-icon"
+             (mousedown)="formSearchMobile()"
+             (keydown.enter)="formSearchMobile()" style="color: lightgray;">
+          <cx-icon [type]="iconTypes.SEARCH" style="display: block; padding: 10px; padding-top: 15px;"></cx-icon>
         </div>
       </label>
+      <br>
     </div>
 
-    <div class="cx-unit-level-order-history-filter-nav-button-block">
+    <div>
       <button
         class="cx-action-link clear-btn"
         type="button"
@@ -216,4 +245,3 @@
     </div>
   </div>
 </form>
-
