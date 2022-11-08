@@ -149,7 +149,7 @@ describe('add-ssr', () => {
       expect(content).toMatchSnapshot();
     });
     it('should create app.prerender.ts', () => {
-      const content = appTree.readContent('./src/app/app.prerender.ts');
+      const content = appTree.readContent('./src/app/app.prerender.module.ts');
       expect(content).toMatchSnapshot();
     });
     it('should create tsconfig.prerender.json', () => {

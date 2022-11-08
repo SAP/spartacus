@@ -21,6 +21,8 @@ import {
 
 const mainPrerenderPath = `./src/main.prerender`;
 const prerenderPath = `./prerender`;
+const appPrerenderModuleName = `app.prerender.module`;
+const appPrerenderModulePath = `./src/app/${appPrerenderModuleName}`;
 const tsConfigPrerenderJsonPath = `./tsconfig.prerender.json`;
 
 function providePrerenderFile(): Rule {
@@ -58,7 +60,7 @@ function provideMainPrerender(): Rule {
     enableProdMode();
   }
   export { renderModule, renderModuleFactory } from '@angular/platform-server';
-  export { AppServerModule } from './app/app.prerender';  
+  export { AppServerModule } from './app/${appPrerenderModuleName}';  
   `;
   return (tree: Tree) => {
     tree.create(mainPrerenderTs, content);
@@ -66,7 +68,6 @@ function provideMainPrerender(): Rule {
 }
 
 function provideAppPrerenderModule(): Rule {
-  const appPrerenderModule = './src/app/app.prerender.ts';
   const content = `import { NgModule } from '@angular/core';
   import { getPrerenderProviders } from '@spartacus/setup/prerender';
   import { AppComponent } from './app.component';
@@ -86,7 +87,7 @@ function provideAppPrerenderModule(): Rule {
   // NOTE: DO NOT RENAME. ngUniversal expects this module to be named and exported as exactly 'AppServerModule'.
   export class AppServerModule {}`;
   return (tree: Tree) => {
-    tree.create(appPrerenderModule, content);
+    tree.create(`${appPrerenderModulePath}.ts`, content);
   };
 }
 

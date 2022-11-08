@@ -29,7 +29,7 @@ exports[`add-ssr should add prerendering should create main.prerender.ts 1`] = `
     enableProdMode();
   }
   export { renderModule, renderModuleFactory } from '@angular/platform-server';
-  export { AppServerModule } from './app/app.prerender';  
+  export { AppServerModule } from './app/app.prerender.module';  
   "
 `;
 
