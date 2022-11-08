@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { UnitOrderAdapter } from './unit-order.adapter';
 
@@ -27,5 +27,12 @@ export class UnitOrderConnector {
       currentPage,
       sort
     );
+  }
+
+  public getUnitOrderDetail(
+    userId: string,
+    orderCode: string
+  ): Observable<Order> {
+    return this.adapter.loadUnitOrderDetail(userId, orderCode);
   }
 }

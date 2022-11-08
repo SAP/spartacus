@@ -62,7 +62,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      cxRoute: 'orderDetails',
+      cxRoute: 'unitLevelOrderDetail',
       params: order,
     });
   }

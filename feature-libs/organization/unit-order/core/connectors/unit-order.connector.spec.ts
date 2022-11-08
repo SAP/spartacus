@@ -4,7 +4,7 @@ import { UnitOrderAdapter } from './unit-order.adapter';
 import { UnitOrderConnector } from './unit-order.connector';
 import createSpy = jasmine.createSpy;
 
-class MockUnitOrderAdapter implements UnitOrderAdapter {
+class MockUnitOrderAdapter implements Partial<UnitOrderAdapter> {
   loadUnitOrderHistory = createSpy(
     'UnitOrderAdapter.loadUnitOrderHistory'
   ).and.callFake((userId: string) => of(`orderHistory-${userId}`));

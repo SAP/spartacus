@@ -5,6 +5,8 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { UnitOrderDetailsOrderEntriesContext } from '../components/page-context/unit-order-details-order-entries.context';
+import { UnitOrderDetailsOrderEntriesContextToken } from '../root/context';
 import { UnitOrderFacade } from '../root/facade';
 import { UnitOrderConnector } from './connectors';
 import { UnitOrderService } from './services';
@@ -23,6 +25,10 @@ export class UnitOrderCoreModule {
           useExisting: UnitOrderService,
         },
         UnitOrderConnector,
+        {
+          provide: UnitOrderDetailsOrderEntriesContextToken,
+          useExisting: UnitOrderDetailsOrderEntriesContext,
+        },
       ],
     };
   }
