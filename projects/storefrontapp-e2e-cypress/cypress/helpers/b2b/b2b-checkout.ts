@@ -80,7 +80,6 @@ function addB2bUser(access_token: string, user: any) {
       Authorization: `bearer ${access_token}`,
     },
     body: {
-      customerId: null,
       titleCode: 'mr',
       firstName: user.firstName,
       lastName: user.lastName,
@@ -88,7 +87,7 @@ function addB2bUser(access_token: string, user: any) {
       orgUnit: {
         uid: b2bUnit,
       },
-      roles: [null, 'b2bcustomergroup'],
+      roles: ['b2bcustomergroup'],
     },
   });
 }
