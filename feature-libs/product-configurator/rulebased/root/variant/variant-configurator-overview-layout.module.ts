@@ -52,6 +52,16 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
+          lg: {
+            slots: [
+              //refers to 'position' of ContentSlotForTemplate in CMS
+              'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
+              'VariantConfigOverviewContent',
+              'VariantConfigOverviewMenu',
+              'VariantConfigOverviewBottombar',
+            ],
+          },
           slots: [
             'VariantConfigOverviewHeader',
             'VariantConfigOverviewBanner',

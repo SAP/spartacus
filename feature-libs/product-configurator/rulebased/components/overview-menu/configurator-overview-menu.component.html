@@ -1,0 +1,7 @@
+<ng-container *ngIf="ovGroups$ | async as ovGroups">
+  <ng-container *ngFor="let group of ovGroups">
+    <span title="{{ group.groupDescription }}">{{
+      group.groupDescription
+    }}</span>
+  </ng-container>
+</ng-container>
