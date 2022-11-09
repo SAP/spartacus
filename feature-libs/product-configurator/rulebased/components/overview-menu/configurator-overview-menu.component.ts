@@ -22,7 +22,7 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewMenuComponent {
-  configuration$: Observable<Configurator.Configuration> =
+  ovGroups$: Observable<Configurator.GroupOverview[] | undefined> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
@@ -35,11 +35,7 @@ export class ConfiguratorOverviewMenuComponent {
           configuration
         )
       ),
-      filter((configuration) => configuration.overview != null)
-    );
-
-  ovGroups$: Observable<Configurator.GroupOverview[] | undefined> =
-    this.configuration$.pipe(
+      filter((configuration) => configuration.overview != null),
       map((configuration) => configuration.overview?.groups)
     );
 
