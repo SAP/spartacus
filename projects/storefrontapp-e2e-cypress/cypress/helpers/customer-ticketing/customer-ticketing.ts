@@ -160,10 +160,10 @@ export function verifyCreateTicketPopupIsClosed(){
 export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit(){
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get('textarea').first().invoke('text').then((text) => {
-      expect(text.length).to.be.lessThan(TICKET_SUBJECT_MAX_LENGTH+1);
+      expect(text.length).to.be.lte(TICKET_SUBJECT_MAX_LENGTH);
     });
     cy.get('textarea').last().invoke('text').then((text) => {
-      expect(text.length).to.be.lessThan(TICKET_MESSAGE_MAX_LENGTH+1);
+      expect(text.length).to.be.lte(TICKET_MESSAGE_MAX_LENGTH);
     });
     cy.get('cx-form-errors').should('not.be.visible');
   });
