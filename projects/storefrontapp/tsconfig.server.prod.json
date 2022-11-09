@@ -4,7 +4,6 @@
     "esModuleInterop": false,
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
-      "@spartacus/setup/prerender": ["../../dist/setup/prerender"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
       "@spartacus/asm/assets": ["../../dist/asm/assets"],
       "@spartacus/asm/components": ["../../dist/asm/components"],

@@ -8,9 +8,6 @@
     "skipLibCheck": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
-      "@spartacus/setup/prerender": [
-        "../../core-libs/setup/prerender/public_api"
-      ],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
       "@spartacus/asm/assets": ["../../feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": [

@@ -70,9 +70,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
-          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
-        ),
+        spartacusDependencies: Object.keys(
+          lib.peerDependencies ?? {}
+        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
@@ -360,7 +360,7 @@ function handleAppConfigs(
     options
   );
 
-  // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` and `projects/storefrontapp/tsconfig.prerender.prod.json` config.
+  // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
   const serverProdEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
     .reduce((acc, curr) => {
@@ -378,18 +378,8 @@ function handleAppConfigs(
     'projects/storefrontapp/tsconfig.server.prod.json',
     options
   );
-  const hadErrorsPrerenderProd = handleConfigUpdate(
-    serverProdEntryPoints,
-    'projects/storefrontapp/tsconfig.prerender.prod.json',
-    options
-  );
 
-  if (
-    hadErrorsApp ||
-    hadErrorsServer ||
-    hadErrorsServerProd ||
-    hadErrorsPrerenderProd
-  ) {
+  if (hadErrorsApp || hadErrorsServer || hadErrorsServerProd) {
     showAllGood = false;
   }
   if (showAllGood) {
