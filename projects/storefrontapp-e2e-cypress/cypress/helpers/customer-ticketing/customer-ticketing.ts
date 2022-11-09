@@ -10,13 +10,18 @@ import { loginRegisteredUser as login } from "../cart";
 const HTTP_STATUS_OK = 200;
 const COLUMN_HEADER_TICKET_LIST = 0;
 const FIRST_ROW_TICKET_LIST = 1;
-const ID_COLUMN = 1;
+const ID_COLUMN = 0;
 const SUBJECT_COLUMN = 1;
 const CATEGORY_COLUMN = 2;
 const CREATED_ON_COLUMN = 3;
 const CHANGED_ON_COLUMN = 4;
 const STATUS_COLUMN = 5;
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
+
+export enum TestSortingTypes {
+  changedOn = 'Changed On',
+  id = 'ID'
+}
 
 export enum TestCategory {
   enquiry = "Enquiry",
@@ -108,7 +113,7 @@ export function clickSubmit(){
 
 export function verifyRequestCompleted(){
   cy.get('cx-global-message').contains('Request created.');
-  cy.get('cx-global-message').contains('Request created.').should('not.exist', { timeout: 10000 })
+  cy.get('cx-global-message').contains('Request created.').should('not.exist', { timeout: 10000 });
 }
 
 export function clickCancel(){
@@ -126,6 +131,16 @@ export function verifyFileTooLargeErrorIsShown(){
   cy.get('cx-form-errors').should('be.visible');
   cy.get('cx-form-errors').get('p').contains('File size should not exceed 10 MB');
 
+}
+
+export function verifyCreatedTicketDetailsSPecifiedRow(ticketDetails: TestTicketDetails, rowNumber = FIRST_ROW_TICKET_LIST) {
+  const rowElement = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber);
+  rowElement.get('td').eq(SUBJECT_COLUMN).contains(ticketDetails.subject);
+  rowElement.get('td').eq(CATEGORY_COLUMN).contains(ticketDetails.category);
+  rowElement.get('td').eq(STATUS_COLUMN).contains("Open");
+
+  rowElement.click();
+  cy.get('cx-messaging').contains(ticketDetails.message);
 }
 
 export function verifyCreatedTicketDetails(ticketDetails: TestTicketDetails) {
@@ -165,14 +180,13 @@ export function visitApparelUKTicketListingPage(){
 export function verifyTicketListingTableContent(){
   cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
     if(ticketListingElement.find('tbody').length > 0) {
-      const headerRow = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(COLUMN_HEADER_TICKET_LIST).get('td');
-      const allRowColumns = headerRow.get('td');
-      allRowColumns.eq(ID_COLUMN).should('contain', 'ID');
-      allRowColumns.eq(SUBJECT_COLUMN).should('contain', 'Subject');
-      allRowColumns.eq(CATEGORY_COLUMN).should('contain', 'Category');
-      allRowColumns.eq(CREATED_ON_COLUMN).should('contain', 'Created On');
-      allRowColumns.eq(CHANGED_ON_COLUMN).should('contain', 'Changed On');
-      allRowColumns.eq(STATUS_COLUMN).should('contain', 'Status');
+      const headerRow = cy.get('cx-customer-ticketing-list').get('table').get('tbody').get('tr').eq(COLUMN_HEADER_TICKET_LIST);
+      headerRow.eq(ID_COLUMN).get('td').should('contain', ' Ticket ID ');
+      headerRow.eq(SUBJECT_COLUMN).get('td').should('contain', ' Subject ');
+      headerRow.eq(CATEGORY_COLUMN).get('td').should('contain', 'Category');
+      headerRow.eq(CREATED_ON_COLUMN).get('td').should('contain', 'Created On');
+      headerRow.eq(CHANGED_ON_COLUMN).get('td').should('contain', 'Changed On');
+      headerRow.eq(STATUS_COLUMN).get('td').should('contain', 'Status');
     }
     else {
       cy.get('cx-customer-ticketing-list').find('h3').contains("You don't have any request");
@@ -266,7 +280,33 @@ export function verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicke
   cy.get('cx-pagination').find('a').should('have.length', expectedNumberOfPages);
 }
 
-export function selectSortById() {
-  cy.get('cx-sorting').get('select').eq(0).select('ID');
+export function selectSortBy(sort: TestSortingTypes) {
+  cy.get('cx-sorting').click();
+  cy.get('[aria-label="Sort orders"]').get('.ng-value-label').then(box => {
+    if(box.is(sort)){
+      cy.get('cx-sorting').click();
+    }
+    else{
+      cy.get('cx-sorting').get('ng-dropdown-panel').get('span[ng-reflect-ng-item-label="'+sort+'"]').click();
+    }
+  });
 }
 
+export function sendMessage(message: string){
+  cy.get('.form-control').type(message);
+  cy.get('button').contains('Send').click();
+  cy.wait(1000);
+}
+
+export function verifyCertainNumberOfTicketsSortedById(numberOfTicketsToVerify: number){
+  for(let row = 1; row < numberOfTicketsToVerify; row++) {
+    getIdInRow(row).then(id => {
+      const smallerId = parseInt(id.text(), 10);
+      getIdInRow(row + 1).invoke('text').then(parseFloat).should('be.lt', smallerId);
+    });
+  }
+}
+
+function getIdInRow(rowNumber: number){
+  return cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber).find('td').eq(ID_COLUMN).find('a');
+}
