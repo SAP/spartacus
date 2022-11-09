@@ -1,7 +1,10 @@
 <ng-container *ngIf="ovGroups$ | async as ovGroups">
+  <span class="cx-title">{{
+    'configurator.overviewMenu.title' | cxTranslate
+  }}</span>
   <ng-container *ngFor="let group of ovGroups">
-    <span title="{{ group.groupDescription }}">{{
-      group.groupDescription
-    }}</span>
+    <div class="cx-group" title="{{ group.groupDescription }}">
+      {{ group.groupDescription }}
+    </div>
   </ng-container>
 </ng-container>

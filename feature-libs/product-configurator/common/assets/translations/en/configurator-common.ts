@@ -94,6 +94,9 @@ export const configurator = {
       noAttributeText: 'Remove filter(s) to see Overview content',
       itemPrice: 'Item Price',
     },
+    overviewMenu: {
+      title: 'Menu',
+    },
     group: {
       general: 'General',
       conflictHeader: 'Resolve conflicts',
