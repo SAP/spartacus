@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
+  AuthRedirectService,
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -22,10 +24,32 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UpdatePasswordComponentService {
+  // TODO(CXSPA-1697): make AuthRedirectService and AuthService a required dependency
+  constructor(
+    userPasswordService: UserPasswordFacade,
+    routingService: RoutingService,
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    authRedirectService: AuthRedirectService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    authService: AuthService
+  );
+
+  /*
+   * @deprecated since 5.1
+   */
+  constructor(
+    userPasswordService: UserPasswordFacade,
+    routingService: RoutingService,
+    globalMessageService: GlobalMessageService
+  );
+
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    @Optional() protected authRedirectService?: AuthRedirectService,
+    @Optional() protected authService?: AuthService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -78,7 +102,17 @@ export class UpdatePasswordComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
-    this.routingService.go({ cxRoute: 'home' });
+
+    console.log([this.authRedirectService, this.authService]);
+    // sets the redirect url after login
+    this.authRedirectService?.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService?.coreLogout().then(() => {
+      console.log('whyu');
+      this.routingService.go({ cxRoute: 'login' });
+    });
   }
 
   protected onError(_error: Error): void {
