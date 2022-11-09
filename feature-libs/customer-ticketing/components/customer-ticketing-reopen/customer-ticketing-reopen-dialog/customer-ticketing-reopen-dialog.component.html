@@ -48,7 +48,6 @@
         <cx-file-upload
           [formControl]="form.get('file')"
           [accept]="allowedTypes"
-          [multiple]="maxEntries > 1"
         >
           <ng-template>
             <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
@@ -63,7 +62,7 @@
             'customerTicketing.fileSizeLimit' | cxTranslate: { count: maxSize }
           }}
         </p>
-        <p class="cx-customer-ticket-file-upload-hint" *ngIf="maxEntries === 1">
+        <p class="cx-customer-ticket-file-upload-hint">
           {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
         </p>
 

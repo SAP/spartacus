@@ -84,4 +84,5 @@ export interface TicketStarter {
   message?: string;
   subject?: string;
   ticketCategory?: Category;
+  attachments?: Array<Attachment>;
 }

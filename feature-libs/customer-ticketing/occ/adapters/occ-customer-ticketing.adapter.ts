@@ -80,7 +80,9 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.http
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((errorResponse) => {
+          return throwError(normalizeHttpError(errorResponse));
+        }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
       );
