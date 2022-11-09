@@ -28,11 +28,13 @@
       id="lnkUseMyLocation"
       (click)="useMyLocation()"
       tabindex="0"
+      role="button"
     >
       {{ 'storeSearch.useMyLocation' | cxTranslate }}
     </a>
     |
-    <a class="cx-find-a-store-link" tabindex="0">
+    <!-- TODO implement click for this -->
+    <a class="cx-find-a-store-link" tabindex="0" role="button">
       {{ 'storeSearch.viewAllStores' | cxTranslate }}
     </a>
   </div>
