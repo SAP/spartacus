@@ -43,7 +43,7 @@ describe('ticketing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.openLastCreatedTicket();
+        customerTicketing.clickTicketInRow();
         customerTicketing.closeTicketRequest("thank you");
         customerTicketing.verifyClosedTicketIsStillInTicketListing();
       });
@@ -62,14 +62,14 @@ describe('ticketing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationDoesNotExist();
-        customerTicketing.createNumberOfTickets(numberOfTicketToCreateInitially, testTicketDetails);
+        customerTicketing.createMultipleTickets(numberOfTicketToCreateInitially, testTicketDetails);
         customerTicketing.verifyPaginationDoesNotExist();
-        customerTicketing.createNumberOfTickets(numberOfTicketToCraeteForOnePagePagination, testTicketDetails);
+        customerTicketing.createMultipleTickets(numberOfTicketToCraeteForOnePagePagination, testTicketDetails);
         customerTicketing.verifyPaginationExists();
         let totalNumberOfTicketCreated = (numberOfTicketToCreateInitially + numberOfTicketToCraeteForOnePagePagination);
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
 
-        customerTicketing.createNumberOfTickets(numberOfTicketToCreateForMultipagePagination, testTicketDetails);
+        customerTicketing.createMultipleTickets(numberOfTicketToCreateForMultipagePagination, testTicketDetails);
         totalNumberOfTicketCreated += numberOfTicketToCreateForMultipagePagination;
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
       });
@@ -103,7 +103,7 @@ describe('ticketing', () => {
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
         customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.changedOn);
-        customerTicketing.verifyCreatedTicketDetailsSPecifiedRow(fistTicket);
+        customerTicketing.verifyCreatedTicketDetails(fistTicket);
 
       });
 
@@ -126,11 +126,11 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(ticketToSort);
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
-        customerTicketing.createNumberOfTickets(numberOfOtherTicket, otherTickets);
+        customerTicketing.createMultipleTickets(numberOfOtherTicket, otherTickets);
         customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTicket+1);
         customerTicketing.sendMessage("adding to top");
         cy.go('back');
-        customerTicketing.verifyCreatedTicketDetailsSPecifiedRow(ticketToSort);
+        customerTicketing.verifyCreatedTicketDetails(ticketToSort);
       });
 
     });
