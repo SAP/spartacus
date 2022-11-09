@@ -227,9 +227,9 @@ export function checkConflictDetectedMsgNotDisplayed(
  *
  * @param {string} description - Conflict description
  */
-export function checkConflictDescriptionDisplayed(description: string): void {  
+export function checkConflictDescriptionDisplayed(description: string): void {
   cy.get('cx-configurator-conflict-description').should(($div) => {
-    expect($div).to.contain(description);    
+    expect($div).to.contain(description);
   });
 }
 
@@ -238,7 +238,7 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  *
  * @param attribute - Attribute name
  */
-function clickOnConflictSolverLink(attribute: string): void {   
+function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
@@ -248,7 +248,7 @@ function clickOnConflictSolverLink(attribute: string): void {
           checkGhostAnimationNotDisplayed();
         });
     });
-  });  
+  });
 }
 
 /**
