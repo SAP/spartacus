@@ -6,8 +6,7 @@ import {ICON_TYPE} from "@spartacus/storefront";
 
 @Component({
   selector: 'cx-unit-level-order-history-filter',
-  templateUrl: './unit-level-order-history-filter.component.html',
-  styleUrls: ['./unit-level-order-history-filter.component.css']
+  templateUrl: './unit-level-order-history-filter.component.html'
 })
 export class UnitLevelOrderHistoryFilterComponent {
   iconTypes = ICON_TYPE;
