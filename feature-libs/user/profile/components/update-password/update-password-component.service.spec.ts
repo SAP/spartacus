@@ -106,7 +106,7 @@ describe('UpdatePasswordComponentService', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
+      expect(result).toBeFalse();
       expect(service.form.disabled).toBeFalse();
     });
   });

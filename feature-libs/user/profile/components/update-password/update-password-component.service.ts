@@ -103,14 +103,12 @@ export class UpdatePasswordComponentService {
     this.busy$.next(false);
     this.form.reset();
 
-    console.log([this.authRedirectService, this.authService]);
     // sets the redirect url after login
     this.authRedirectService?.setRedirectUrl(
       this.routingService.getUrl({ cxRoute: 'home' })
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService?.coreLogout().then(() => {
-      console.log('whyu');
       this.routingService.go({ cxRoute: 'login' });
     });
   }
