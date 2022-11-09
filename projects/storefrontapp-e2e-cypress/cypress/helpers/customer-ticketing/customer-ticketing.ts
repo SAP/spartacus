@@ -11,6 +11,9 @@ const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 const FIRST_TICKET_COLUMN_INDEX = 1;
 const FIRST_TICKET_ROW_INDEX = 1;
 
+const TICKET_SUBJECT_MAX_LENGTH = 255;
+const TICKET_MESSAGE_MAX_LENGTH = 5000;
+
 export enum TestCategory {
   enquiry = "Enquiry",
   complaint = "Complaint",
@@ -154,13 +157,13 @@ export function verifyCreateTicketPopupIsClosed(){
   cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }
 
-export function verifyFieldInputDoesntExceedLimit(){
+export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit(){
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get('textarea').first().invoke('text').then((text) => {
-      expect(text.length).to.be.lessThan(256);
+      expect(text.length).to.be.lessThan(TICKET_SUBJECT_MAX_LENGTH+1);
     });
     cy.get('textarea').last().invoke('text').then((text) => {
-      expect(text.length).to.be.lessThan(5001);
+      expect(text.length).to.be.lessThan(TICKET_MESSAGE_MAX_LENGTH+1);
     });
     cy.get('cx-form-errors').should('not.be.visible');
   });
