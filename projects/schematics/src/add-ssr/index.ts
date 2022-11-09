@@ -21,6 +21,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -30,23 +31,21 @@ import collectedDependencies from '../dependencies.json';
 import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
+  commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
+  getTsSourceFile,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import {
-  addImport,
-  addToModuleImportsAndCommitChanges,
-} from '../shared/utils/module-file-utils';
+import { addToModuleProviders } from '../shared/utils/module-file-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
-import { addPrerendering } from './prerender';
 
 const DEPENDENCY_NAMES: string[] = [
   '@angular/platform-server',
@@ -68,17 +67,26 @@ function modifyAppServerModuleFile(): Rule {
       );
     }
 
-    addImport(
+    const importChange = insertImport(
+      getTsSourceFile(tree, appServerModulePath),
+      appServerModulePath,
+      `provideSsrAndPrerendering`,
+      `@spartacus/setup/ssr`,
+      false
+    );
+    const providerChanges = addToModuleProviders(
       tree,
       appServerModulePath,
-      'ServerTransferStateModule',
-      '@angular/platform-server'
+      `
+   ...provideSsrAndPrerendering({
+    serverRequestOrigin:
+      process.env['SERVER_REQUEST_ORIGIN'] ??
+      \`http://localhost:\${process.env['PORT'] || 4200}\`,
+    }),`
     );
-    addToModuleImportsAndCommitChanges(
-      tree,
-      appServerModulePath,
-      `ServerTransferStateModule`
-    );
+    const changes = [importChange, ...providerChanges];
+    commitChanges(tree, appServerModulePath, changes);
+
     context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
     return tree;
   };
@@ -157,7 +165,6 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
-      addPrerendering(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

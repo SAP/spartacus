@@ -101,23 +101,9 @@ describe('add-ssr', () => {
   });
 
   describe('app.server.module.ts', () => {
-    it('should contain ServerTransferStateModule import', async () => {
-      const appServerModulePath = getPathResultsForFile(
-        appTree,
-        'app.server.module.ts',
-        '/src'
-      )[0];
-      const buffer = appTree.read(appServerModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const appServerModule = buffer.toString(UTF_8);
-        expect(
-          appServerModule.includes('ServerTransferStateModule')
-        ).toBeTruthy();
-        expect(
-          appServerModule.includes('@angular/platform-server')
-        ).toBeTruthy();
-      }
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.server.module.ts');
+      expect(content).toMatchSnapshot();
     });
   });
 
@@ -136,29 +122,6 @@ describe('add-ssr', () => {
           indexHtmlFile.includes('meta name="occ-backend-base-url"')
         ).toBeTruthy();
       }
-    });
-  });
-
-  describe('should add prerendering', () => {
-    it('should create prerender.ts', () => {
-      const content = appTree.readContent('./prerender.ts');
-      expect(content).toMatchSnapshot();
-    });
-    it('should create main.prerender.ts', () => {
-      const content = appTree.readContent('./src/main.prerender.ts');
-      expect(content).toMatchSnapshot();
-    });
-    it('should create app.prerender.ts', () => {
-      const content = appTree.readContent('./src/app/app.prerender.module.ts');
-      expect(content).toMatchSnapshot();
-    });
-    it('should create tsconfig.prerender.json', () => {
-      const content = appTree.readContent('./tsconfig.prerender.json');
-      expect(content).toMatchSnapshot();
-    });
-    it('should update angular.json', () => {
-      const content = appTree.readContent('angular.json');
-      expect(content).toMatchSnapshot();
     });
   });
 });
