@@ -14,7 +14,8 @@ describe('ticketing', () => {
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
         customerTicketing.verifyTicketListingPageVisit();
-        customerTicketing.clickFirstTicketFromTicketListing();
+        customerTicketing.createTicket({subject: "ticket detilas", message: "ticket details", category: customerTicketing.TestCategory.complaint})
+        customerTicketing.clickTicketInRow();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
     });
