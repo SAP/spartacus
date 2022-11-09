@@ -196,36 +196,6 @@
           },
           "defaultConfiguration": "production"
         },
-        "prerender-ssr": {
-          "builder": "@angular-builders/custom-webpack:server",
-          "options": {
-            "customWebpackConfig": {
-              "path": "./extra-webpack.config.js"
-            },
-            "outputPath": "dist/storefrontapp-prerender",
-            "main": "projects/storefrontapp/prerender.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.prerender.json"
-          },
-          "configurations": {
-            "development": {
-              "sourceMap": true,
-              "optimization": false
-            },
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.prerender.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
@@ -248,11 +218,11 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production",
-              "serverTarget": "storefrontapp:prerender-ssr:production"
+              "serverTarget": "storefrontapp:server:production"
             },
             "development": {
               "browserTarget": "storefrontapp:build:development",
-              "serverTarget": "storefrontapp:prerender-ssr:development"
+              "serverTarget": "storefrontapp:server:development"
             }
           },
           "defaultConfiguration": "production"
