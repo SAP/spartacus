@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { RoutingService, UserIdService } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
@@ -83,5 +83,35 @@ export class UnitOrderService implements UnitOrderFacade {
    */
   clearOrderList(): void {
     this.store.dispatch(new UnitOrderActions.ClearUnitOrders());
+  }
+
+  /**
+   * Returns an order's detail
+   */
+  getOrderDetails(): Observable<Order> {
+    return this.store.pipe(select(UnitOrderSelectors.getOrderDetails));
+  }
+
+  /**
+   * Retrieves order's details
+   *
+   * @param orderCode an order code
+   */
+  loadOrderDetails(orderCode: string): void {
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UnitOrderActions.LoadOrderDetails({
+          userId,
+          orderCode,
+        })
+      );
+    });
+  }
+
+  /**
+   * Clears order's details
+   */
+  clearOrderDetails(): void {
+    this.store.dispatch(new UnitOrderActions.ClearOrderDetails());
   }
 }

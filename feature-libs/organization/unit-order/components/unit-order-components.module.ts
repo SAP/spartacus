@@ -6,9 +6,14 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UnitLevelOrderDetailModule } from './unit-level-order-detail/unit-level-order-detail.module';
 import { UnitLevelOrderHistoryModule } from './unit-level-order-history';
 
 @NgModule({
-  imports: [RouterModule, UnitLevelOrderHistoryModule],
+  imports: [
+    RouterModule,
+    UnitLevelOrderHistoryModule,
+    UnitLevelOrderDetailModule,
+  ],
 })
 export class UnitOrderComponentsModule {}

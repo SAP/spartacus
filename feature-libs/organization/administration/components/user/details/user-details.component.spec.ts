@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUserRight, B2BUserRole, I18nTestingModule } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
@@ -19,6 +24,14 @@ import createSpy = jasmine.createSpy;
 import { DisableInfoModule } from '../../shared';
 
 const mockCode = 'c1';
+
+const mockB2BUser: B2BUser = {
+  roles: [B2BUserRole.CUSTOMER, B2BUserRight.UNITORDERVIEWER],
+};
+
+const mockB2BUserWithoutRight: B2BUser = {
+  roles: [B2BUserRole.CUSTOMER],
+};
 
 class MockUserItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
@@ -106,6 +119,14 @@ describe('UserDetailsComponent', () => {
 
   it('should load list of roles', () => {
     expect(b2bUserService.getAllRoles).toHaveBeenCalled();
+  });
+
+  it('should find right', () => {
+    expect(component.hasRight(mockB2BUser)).toBeTruthy();
+  });
+
+  it('should not find right', () => {
+    expect(component.hasRight(mockB2BUserWithoutRight)).toBeFalsy();
   });
 
   it('should trigger reload of model on each code change', () => {

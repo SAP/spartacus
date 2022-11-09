@@ -11,6 +11,8 @@ export const defaultOccUnitOrderConfig: OccConfig = {
     occ: {
       endpoints: {
         unitLevelOrderHistory: '/orgUsers/${userId}/orgUnits/orders',
+        unitLevelOrderDetail:
+          'orgUsers/${userId}/orgUnits/orders/${orderId}?fields=FULL',
       },
     },
   },

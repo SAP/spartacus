@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { UnitOrderActions } from '../actions';
 
 export const initialState: OrderHistoryList = {
@@ -13,7 +13,9 @@ export const initialState: OrderHistoryList = {
   sorts: [],
 };
 
-export function reducer(
+export const detailInitialState: Order = {};
+
+export function historyReducer(
   state = initialState,
   action: UnitOrderActions.UnitOrdersAction
 ): OrderHistoryList {
@@ -26,5 +28,22 @@ export function reducer(
     }
   }
 
+  return state;
+}
+
+export function detailReducer(
+  state = detailInitialState,
+  action: UnitOrderActions.UnitOrdersAction
+): Order {
+  switch (action.type) {
+    case UnitOrderActions.LOAD_ORDER_DETAILS_SUCCESS: {
+      const order: Order = action.payload;
+      return order;
+    }
+    case UnitOrderActions.LOAD_ORDER_DETAILS_FAIL:
+    case UnitOrderActions.LOAD_ORDER_DETAILS: {
+      return detailInitialState;
+    }
+  }
   return state;
 }

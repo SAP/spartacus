@@ -82,7 +82,7 @@
                   <a
                     [routerLink]="
                       {
-                        cxRoute: 'orderDetails',
+                        cxRoute: 'unitLevelOrderDetail',
                         params: order
                       } | cxUrl
                     "
@@ -95,9 +95,17 @@
                   <div class="cx-unit-level-order-history-label">
                     {{ 'unitLevelOrderHistory.date' | cxTranslate }}
                   </div>
-                  <div class="cx-unit-level-order-history-value">
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'unitLevelOrderDetail',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-unit-level-order-history-value"
+                  >
                     {{ order?.placed | cxDate: 'longDate' }}
-                  </div>
+                  </a>
                 </td>
                 <td class="cx-unit-level-order-history-status">
                   <div class="cx-unit-level-order-history-label">
@@ -106,7 +114,7 @@
                   <a
                     [routerLink]="
                       {
-                        cxRoute: 'orderDetails',
+                        cxRoute: 'unitLevelOrderDetail',
                         params: order
                       } | cxUrl
                     "
@@ -125,14 +133,16 @@
                   <a
                     [routerLink]="
                       {
-                        cxRoute: 'orderDetails',
+                        cxRoute: 'unitLevelOrderDetail',
                         params: order
                       } | cxUrl
                     "
                     class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgCustomer?.name }}
-                    <span> {{ order?.orgCustomer?.email }}</span></a
+                    <span class="text-ellipsis">{{
+                      order?.orgCustomer?.email
+                    }}</span></a
                   >
                 </td>
                 <td class="cx-unit-level-order-history-unit">
@@ -142,7 +152,7 @@
                   <a
                     [routerLink]="
                       {
-                        cxRoute: 'orderDetails',
+                        cxRoute: 'unitLevelOrderDetail',
                         params: order
                       } | cxUrl
                     "
@@ -158,7 +168,7 @@
                   <a
                     [routerLink]="
                       {
-                        cxRoute: 'orderDetails',
+                        cxRoute: 'unitLevelOrderDetail',
                         params: order
                       } | cxUrl
                     "

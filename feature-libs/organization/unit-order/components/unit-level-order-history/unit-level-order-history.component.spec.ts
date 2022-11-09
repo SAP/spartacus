@@ -16,7 +16,7 @@ import {
   SortModel,
   TranslationService,
 } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
@@ -87,7 +87,16 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUnitLevelOrdersFacade implements Partial<UnitOrderFacade> {
+class MockUnitLevelOrdersFacade implements UnitOrderFacade {
+  getOrderDetails(): Observable<Order> {
+    throw new Error('Method not implemented.');
+  }
+  loadOrderDetails(_orderCode: string): void {
+    throw new Error('Method not implemented.');
+  }
+  clearOrderDetails(): void {
+    throw new Error('Method not implemented.');
+  }
   mockOrderHistoryListSubject = new BehaviorSubject<
     OrderHistoryList | undefined
   >(mockOrderList);
@@ -170,7 +179,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
     const order = mockOrderList.orders ? mockOrderList.orders[0] : undefined;
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderDetails',
+      cxRoute: 'unitLevelOrderDetail',
       params: order,
     });
   });
