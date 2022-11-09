@@ -101,6 +101,7 @@ context('Product Configuration', () => {
         GAMING_CONSOLE_YES,
         1
       );
+      cy.log("Conflict has been triggered");
       cy.wait('@updateConfig');
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
@@ -109,6 +110,7 @@ context('Product Configuration', () => {
         radioGroup,
         GAMING_CONSOLE_NO
       );
+      cy.log("Conflicting value has been de-selected");
       cy.wait('@updateConfig');
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
       configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
@@ -118,6 +120,7 @@ context('Product Configuration', () => {
         GAMING_CONSOLE_YES,
         1
       );
+      cy.log("Conflicting value again has been selected");
       cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(SUBWOOFER);
       configuration.clickOnPreviousBtn(REAR_SPEAKER);
@@ -136,6 +139,7 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
       configurationOverviewVc.registerConfigurationOvOCC();
       configurationVc.clickAddToCartBtn();
+      cy.log("Configuration has been added to the cart");
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       if (commerceIsAtLeast2205) {
         configurationOverviewVc.verifyNotificationBannerOnOP(0, 1);
@@ -143,12 +147,14 @@ context('Product Configuration', () => {
         configurationOverviewVc.verifyNotificationBannerOnOP(1);
       }
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configurationOverview.clickContinueToCartBtnOnOP();
+      configurationOverview.clickContinueToCartBtnOnOP();      
       configurationCartVc.verifyNotificationBannerInCart(0, 1);
       // Navigate back to the configuration page
       configurationCart.clickOnEditConfigurationLink(0);
+      cy.log("Cart configuration will be edited");
       // Navigate to Overview page and back to configuration via 'Resolve issues' link
       configurationVc.clickAddToCartBtn();
+      cy.log("Continue to cart clicked");
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
       if (commerceIsAtLeast2205) {
         configurationOverviewVc.clickOnResolveConflictsLinkOnOP(); //post 2205
@@ -160,16 +166,18 @@ context('Product Configuration', () => {
       );
       // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
       configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
-      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);      
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configurationVc.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
+      cy.log("Conflicting value again has been de-selected");
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
       configurationOverviewVc.registerConfigurationOvOCC();
       configurationVc.clickAddToCartBtn();
+      cy.log("Done button has been clicked");
       configurationOverviewVc.verifyNotificationBannerOnOP();
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
       configurationOverview.clickContinueToCartBtnOnOP();
