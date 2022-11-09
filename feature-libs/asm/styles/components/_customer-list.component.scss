@@ -185,7 +185,8 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  .cx-empty-state, .cx-error-state {
+  .cx-empty-state,
+  .cx-error-state {
     display: flex;
     justify-content: left;
   }
