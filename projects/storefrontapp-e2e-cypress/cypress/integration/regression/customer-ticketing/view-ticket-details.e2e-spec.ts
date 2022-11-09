@@ -2,7 +2,7 @@ import { viewportContext } from "../../../helpers/viewport-context";
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticketing', () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
       before(() => {
         cy.window().then((win) => {
