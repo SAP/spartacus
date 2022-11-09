@@ -111,11 +111,11 @@ export class CustomerTicketingCreateDialogComponent
             if (
               response.id &&
               this.attachment &&
-              response.ticketEvents[0].code
+              response.ticketEvents?.[0].code
             ) {
               this.customerTicketingFacade.uploadAttachment(
                 this.attachment,
-                response.ticketEvents[0].code,
+                response.ticketEvents?.[0].code,
                 response.id
               );
             }

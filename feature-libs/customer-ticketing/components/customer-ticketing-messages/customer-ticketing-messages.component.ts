@@ -46,7 +46,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
         .subscribe((createdEvent: TicketEvent) => {
           if (event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
-              event.files.item(0),
+              event.files.item(0) as File,
               createdEvent.code
             );
           } else {

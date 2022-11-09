@@ -73,8 +73,8 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketsQueryReloadEvents];
   }
 
-  protected createTicketCommand: Command<TicketStarter, unknown> =
-    this.commandService.create<TicketStarter>(
+  protected createTicketCommand: Command<TicketStarter, TicketDetails> =
+    this.commandService.create<TicketStarter, TicketDetails>(
       (ticketStarted) =>
         this.customerTicketingPreConditions().pipe(
           switchMap(([customerId]) =>
@@ -302,7 +302,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   createTicket(
     ticketStarted: TicketStarter
-  ): Observable<TicketStarter | unknown> {
+  ): Observable<TicketStarter | TicketDetails> {
     return this.createTicketCommand.execute(ticketStarted);
   }
 
