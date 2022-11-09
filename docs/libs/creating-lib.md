@@ -65,6 +65,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-junit-reporter'),
     ],
     parallelOptions: {
       executors: 2,
@@ -72,11 +73,13 @@ module.exports = function (config) {
     },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
-      jasmine: {
-        random: false,
-      },
     },
-    reporters: ['progress', 'kjhtml', 'dots'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    junitReporter: {
+      outputFile: 'unit-test-<lib-name>.xml',
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
+      useBrowserName: false,
+    },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/TODO'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
@@ -184,7 +187,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -216,14 +219,14 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020"
   }
 }
@@ -270,70 +273,10 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 
-Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
-
-- `.release-it.json`
-
-```json
-{
-  "git": {
-    "requireCleanWorkingDir": true,
-    "requireUpstream": false,
-    "tagName": "TODO:-${version}",
-    "commitMessage": "Bumping TODO: version to ${version}",
-    "tagAnnotation": "Bumping TODO: version to ${version}"
-  },
-  "npm": {
-    "publishPath": "./../../dist/TODO:"
-  },
-  "hooks": {
-    "after:version:bump": "cd ../.. && yarn build TODO:lib-name"
-  },
-  "github": {
-    "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/TODO:@${version}",
-    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib TODO: --to TODO:-${version}"
-  },
-  "plugins": {
-    "../../scripts/release-it/bumper.js": {
-      "out": [
-        {
-          "file": "package.json",
-          "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
 Replace `TODO:` with the appropriate name.
 Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
-- `scripts/changelog.ts`
-
-In the `const libraryPaths` object, add the following (and replace the `my-account` with your lib's name):
-
-```ts
-const libraryPaths = {
-  ...,
-  '@spartacus/my-account': 'feature-libs/my-account',
-};
-```
-
-Also make sure to add the lib to the `switch` statement at the end of the file.
-
-- `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
-
-- `sonar-project.properties` - list your library to this file
-
 - `projects/schematics/package.json` - add the library to the package group
-
-- `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
 - `ci-scripts/unit-tests.sh`
 
@@ -342,7 +285,7 @@ Add the library unit tests with code coverage
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
-output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -398,17 +341,17 @@ There are couple of required changes to make sure schematics will work properly
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
-- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file. 
-
+- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file.
 
 ### Testing Schematics
 
 IMPORTANT : DO NOT PUSH any changed done under this step.
+
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
-- Create new angular project `ng new schematics-test --style=scss`
+- Create new angular project `ng new schematics-test --style scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
 - Build all libs (if it is first time, if not just build your new lib)
 - Publish
-- Add spartacus to new angular project `ng add @spartacus/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa
+- Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa

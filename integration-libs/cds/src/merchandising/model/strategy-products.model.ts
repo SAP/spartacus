@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { StrategyRequest } from '../../cds-models';
+
 export interface StrategyProduct {
   id?: string;
   metadata?: { [metadataAttributeName: string]: string };
@@ -19,4 +21,9 @@ export interface StrategyProducts {
   products?: StrategyProduct[];
   paged?: Paged;
   metadata?: { [metadataAttributeName: string]: string };
+}
+
+export interface StrategyResponse {
+  request: StrategyRequest;
+  products: StrategyProducts;
 }

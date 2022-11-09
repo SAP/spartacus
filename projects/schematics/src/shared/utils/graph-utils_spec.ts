@@ -9,6 +9,7 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESLINT_PLUGIN,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
@@ -138,6 +139,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_ESLINT_PLUGIN,
         SPARTACUS_CUSTOMER_TICKETING,
       ]);
     });
@@ -164,6 +166,9 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
+          "Administration",
+          "Account-Summary",
+          "Order-Approval",
           "Customer-Ticketing",
           "EPD-Visualization",
           "Digital-Payments",
@@ -175,8 +180,6 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Order-Approval",
-          "Administration",
           "ASM",
         ]
       `);

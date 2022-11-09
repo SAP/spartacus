@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -26,9 +26,10 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    FeaturesConfigModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountReplenishmentHistoryComponent: {
