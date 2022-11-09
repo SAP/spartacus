@@ -75,18 +75,35 @@ describe('ticketing', () => {
       });
 
 
-      it('should sort by id when selecting ID from dropdown', () => {
+      it('should sort ticket listing', () => {
 
-        const testTicketDetails: TestTicketDetails = {
-          subject: "Creating tickets for pagination ",
-          message: "Creating tickets for pagination ",
+        const fistTicket: TestTicketDetails = {
+          subject: "first ticket",
+          message: "fisrt ticket",
           category: TestCategory.complaint,
         };
 
+        const secondTicket: TestTicketDetails = {
+          subject: "secondoo",
+          message: "no uno",
+          category: TestCategory.complaint,
+        };
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
-        customerTicketing.createNumberOfTickets(1, testTicketDetails);
-        customerTicketing.selectSortById();
+        customerTicketing.createTicket(fistTicket);
+        customerTicketing.createTicket(secondTicket);
+
+        customerTicketing.openTicketOnSepcifiedRowNumber(2);
+        cy.wait(1000);
+        customerTicketing.sendMessage("hello, world");
+        cy.go('back');
+
+
+
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
+        customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.changedOn);
+        customerTicketing.verifyCreatedTicketDetailsSPecifiedRow(fistTicket);
 
       });
 
@@ -111,9 +128,9 @@ describe('ticketing', () => {
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
         customerTicketing.createNumberOfTickets(numberOfOtherTicket, otherTickets);
         customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTicket+1);
-        // customerTicketing.addMessage("");
-
-
+        customerTicketing.sendMessage("adding to top");
+        cy.go('back');
+        customerTicketing.verifyCreatedTicketDetailsSPecifiedRow(ticketToSort);
       });
 
     });
