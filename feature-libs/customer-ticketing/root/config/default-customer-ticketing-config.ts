@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   MAX_INPUT_CHARACTERS,
   MAX_INPUT_CHARACTERS_FOR_SUBJECT,
