@@ -23,7 +23,7 @@ describe('ticketing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyTicketListingTableContent();
-        let numberOfTickets = customerTicketing.getNumberOfTicket();
+        let numberOfTickets = customerTicketing.getNumberOfTickets();
         customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTickets);
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.shouldHaveNumberOfTicketsListed(++numberOfTickets);

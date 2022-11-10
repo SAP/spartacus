@@ -60,12 +60,12 @@ export function verifyTicketListingTableContent(){
   });
 }
 
-export function getNumberOfTicket(): number {
-  let numberOfTikcets = 0;
+export function getNumberOfTickets(): number {
+  let numberOfTickets = 0;
   cy.get('cx-customer-ticketing-list').then(ticketListingElement => {
-    numberOfTikcets = ticketListingElement.find('tbody').length;
+    numberOfTickets = ticketListingElement.find('tbody').length;
   });
-  return numberOfTikcets;
+  return numberOfTickets;
 }
 
 export function shouldHaveNumberOfTicketsListed(expectedNumberOfTickets: number) {

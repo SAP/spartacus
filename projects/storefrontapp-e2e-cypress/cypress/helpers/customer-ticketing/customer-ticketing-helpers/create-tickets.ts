@@ -27,7 +27,8 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails){
 
 
 export function addFile(filename: string){
-  cy.get('cx-file-upload input[type="file"]').attachFile({filePath: '../helpers/customer-ticketing/files-to-upload/' + filename}, { allowEmpty: true });
+  cy.get('cx-file-upload input[type="file"]')
+    .attachFile({filePath: '../helpers/customer-ticketing/files-to-upload/' + filename}, { allowEmpty: true });
   cy.get('p').contains(filename);
 }
 
