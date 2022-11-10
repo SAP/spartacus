@@ -15,7 +15,7 @@
 
 <ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
   <ng-container *ngFor="let group of overviewGroups">
-    <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
+    <div [ngClass]="getGroupLevelStyleClasses(level)">
       <span class="cx-visually-hidden">
         {{
           'configurator.a11y.group'
