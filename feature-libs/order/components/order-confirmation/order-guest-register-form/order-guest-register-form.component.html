@@ -21,6 +21,8 @@
             name="password"
             placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
             formControlName="password"
+            [attr.aria-label]="'register.password.placeholder' | cxTranslate"
+            cxPasswordVisibilitySwitch
           />
           <cx-form-errors
             [control]="guestRegisterForm.get('password')"
@@ -42,6 +44,10 @@
               'register.confirmPassword.placeholder' | cxTranslate
             }}"
             formControlName="passwordconf"
+            [attr.aria-label]="
+              'register.confirmPassword.placeholder' | cxTranslate
+            "
+            cxPasswordVisibilitySwitch
           />
           <cx-form-errors
             [control]="guestRegisterForm.get('passwordconf')"

@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -109,7 +113,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
+        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
         declarations: [ConfiguratorAttributeHeaderComponent],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -128,6 +132,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       })
@@ -148,6 +158,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute = currentAttribute;
     component.attribute.label = 'label of attribute';
     component.attribute.name = '123';
+    component.attribute.visible = true;
     component.owner = owner;
     component.groupId = 'testGroup';
     component.attribute.required = false;
@@ -192,6 +203,30 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isSingleSelection', () => {
+    it('should know that DROPDOWN_ADDITIONAL_INPUT is a single selection attributes', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that RADIOBUTTON_ADDITIONAL_INPUT is a single selection attributes', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that CHECKBOX is a single selection attributes from the users point of view', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that MULTI_SELECTION_IMAGE is not a single selection attributes', () => {
+      component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+      expect(component['isSingleSelection']()).toBe(false);
+    });
+  });
+
   describe('hasImage', () => {
     it('should return true if image available', () => {
       expect(component.hasImage).toBe(true);
@@ -211,6 +246,31 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Render corresponding part of the component', () => {
+    it('should not render message for not visible attribute', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+    });
+
+    it('should render message for not visible attribute', () => {
+      component.attribute.visible = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg',
+        'configurator.attribute.notVisibleAttributeMsg'
+      );
+    });
+
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -256,7 +316,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('Get required message key', () => {
+  describe('getRequiredMessageKey', () => {
     it('should return a single-select message key for radio button attribute type', () => {
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
@@ -339,6 +399,14 @@ describe('ConfigAttributeHeaderComponent', () => {
         'singleSelectRequiredMessage'
       );
     });
+
+    it('should return proper key for attribute types with additional values', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.getRequiredMessageKey()).toContain(
+        'singleSelectAdditionalRequiredMessage'
+      );
+    });
   });
 
   describe('Required message at the attribute level', () => {
@@ -415,7 +483,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'a.cx-conflict-msg'
+        'div.cx-conflict-msg a.link.cx-action-link'
       );
     });
 
@@ -427,7 +495,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div .cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
     });
   });
@@ -441,7 +509,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -796,14 +864,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logWarning');
+      spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
-      expect(component['logWarning']).toHaveBeenCalled();
+      expect(component['logError']).toHaveBeenCalled();
     });
   });
 

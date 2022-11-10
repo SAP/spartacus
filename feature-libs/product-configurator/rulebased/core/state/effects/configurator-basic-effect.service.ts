@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Configurator } from '../../model/configurator.model';
 
@@ -36,7 +42,7 @@ export class ConfiguratorBasicEffectService {
         (currentGroup) =>
           currentGroup.attributes && currentGroup.attributes.length > 0
       )
-      .pop();
+      .shift();
     let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
@@ -50,7 +56,7 @@ export class ConfiguratorBasicEffectService {
           this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
         )
         .filter((groupId) => groupId) //Filter undefined strings
-        .pop();
+        .shift();
     }
     return id;
   }

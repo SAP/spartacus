@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as orderApprovalSampleData from '../../../sample-data/b2b-order-approval';
 import * as savedCartSampleData from '../../../sample-data/b2b-saved-cart';
 import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';
@@ -423,6 +429,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add to Active Cart', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'Import Products', type: TabbingOrderTypes.LINK },
     { value: 'Export to CSV', type: TabbingOrderTypes.LINK },

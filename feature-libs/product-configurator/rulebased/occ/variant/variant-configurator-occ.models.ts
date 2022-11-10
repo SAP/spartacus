@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export namespace OccConfigurator {
   /**
    *
@@ -21,6 +27,15 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct: string;
+    kbKey?: KB;
+    pricingEnabled?: boolean;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export interface Prices {
@@ -91,6 +106,8 @@ export namespace OccConfigurator {
     retractTriggered?: boolean;
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
+    validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -150,6 +167,7 @@ export namespace OccConfigurator {
     characteristicId?: string;
     value: string;
     valueId?: string;
+    price?: PriceDetails;
   }
   export interface Image {
     imageType: ImageType;

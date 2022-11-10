@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
@@ -15,18 +19,18 @@ import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
 
-const mockForm = new FormGroup({
-  name: new FormControl(),
-  code: new FormControl(),
-  startDate: new FormControl(),
-  endDate: new FormControl(),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  name: new UntypedFormControl(),
+  code: new UntypedFormControl(),
+  startDate: new UntypedFormControl(),
+  endDate: new UntypedFormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  orgUnit: new FormGroup({
-    uid: new FormControl(),
+  orgUnit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
-  budget: new FormControl(),
+  budget: new UntypedFormControl(),
 });
 
 const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
@@ -51,9 +55,9 @@ class MockItemService {
   template: '',
 })
 class MockDatePickerComponent {
-  @Input() control: FormControl;
-  @Input() min: FormControl;
-  @Input() max: FormControl;
+  @Input() control: UntypedFormControl;
+  @Input() min: UntypedFormControl;
+  @Input() max: UntypedFormControl;
 }
 
 describe('BudgetFormComponent', () => {
@@ -146,6 +150,12 @@ describe('BudgetFormComponent', () => {
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+
+    it('should not auto-select unit if there is no unit', () => {
+      activeUnitList$.next(undefined);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });

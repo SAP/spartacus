@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { StrategyProducts } from '../model/strategy-products.model';
-import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
-import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
-import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
-import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
-import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
-import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
+import {
+  StrategyProducts,
+  MerchandisingStrategyConnector,
+  MerchandisingSiteContext,
+  MerchandisingUserContext,
+  CdsMerchandisingProductService,
+  CdsMerchandisingSiteContextService,
+  CdsMerchandisingUserContextService,
+  StrategyResponse,
+} from '@spartacus/cds';
 import createSpy = jasmine.createSpy;
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
@@ -89,6 +92,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: '574',
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: undefined,
@@ -104,14 +108,15 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
-        actualStartegyProducts = productsForStrategy;
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -127,6 +132,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: '574',
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: `${CONSENT_REFERENCE}`,
@@ -143,14 +149,57 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
+    cdsMerchandisingPrductService
+      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .subscribe((productsForStrategy) => {
+        actualStrategyProducts = productsForStrategy;
+      })
+      .unsubscribe();
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
+    expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
+      STRATEGY_ID,
+      strategyRequest
+    );
+  });
+
+  it('loadProductsForStrategy should call connector and pass the seach phrase as a query param', () => {
+    const searchPhrase = 'camera';
+    const strategyRequest = {
+      queryParams: {
+        site: 'electronics-spa',
+        language: 'en',
+        products: undefined,
+        facets: undefined,
+        category: '574',
+        pageSize: 10,
+        searchPhrase: searchPhrase,
+      },
+      headers: {
+        consentReference: undefined,
+      },
+    };
+    const userContext: MerchandisingUserContext = {
+      category: '574',
+      searchPhrase: searchPhrase,
+    };
+    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+      of(siteContext)
+    );
+    spyOn(userContextService, 'getUserContext').and.returnValue(
+      of(userContext)
+    );
+
+    let actualStartegyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStartegyProducts.products).toEqual(strategyProducts);
+    expect(actualStartegyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -166,6 +215,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: undefined,
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: undefined,
@@ -179,14 +229,15 @@ describe('CdsMerchandisingProductService', () => {
       of({ products: ['123456'] })
     );
 
-    let actualStrategyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStrategyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest

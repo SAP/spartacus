@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as configuration from './product-configurator';
 
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
@@ -14,11 +20,29 @@ const conflictHeaderGroupSelector =
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(shopName: string, productId: string) {
-  registerConfigurationRoute();
+  //TODO: remove registerConfigurationRoute
+  //registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  cy.wait('@configure_product');
+  //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
+}
+
+/**
+ * Navigates to the configuration overview  page
+ */
+export function navigateToOverviewPage() {
+  cy.get('.cx-tab-bar').within(() => {
+    cy.get('a')
+      .filter((index) => index === 1)
+      .click()
+      .then(() => {
+        cy.location('pathname').should(
+          'contain',
+          '/en/USD/configure-overview/vc/product/entityKey/'
+        );
+      });
+  });
 }
 
 /**
@@ -218,7 +242,7 @@ function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('.cx-conflict-msg')
+      cy.get('.link')
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();
@@ -349,4 +373,16 @@ export function clickAddToCartBtn(): void {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkGlobalMessageNotDisplayed();
     });
+}
+
+/**
+ * Register configuration update route.
+ */
+export function registerConfigurationUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as('updateConfig');
 }

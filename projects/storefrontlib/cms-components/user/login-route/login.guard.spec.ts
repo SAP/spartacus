@@ -4,7 +4,6 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
-  AuthRedirectService,
   AuthService,
   CmsActivatedRouteSnapshot,
   OAuthFlow,
@@ -30,10 +29,6 @@ class MockCmsPageGuard implements Partial<CmsPageGuard> {
   }
 }
 
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  reportNotAuthGuard() {}
-}
-
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getOAuthFlow() {
     return OAuthFlow.ImplicitFlow;
@@ -50,7 +45,6 @@ describe('LoginGuard', () => {
   let loginGuard: LoginGuard;
   let authService: AuthService;
   let cmsPageGuard: CmsPageGuard;
-  let authRedirectService: AuthRedirectService;
   let authConfigService: AuthConfigService;
 
   beforeEach(() => {
@@ -86,14 +80,12 @@ describe('LoginGuard', () => {
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsPageGuard, useClass: MockCmsPageGuard },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
       ],
     });
     authService = TestBed.inject(AuthService);
     loginGuard = TestBed.inject(LoginGuard);
     cmsPageGuard = TestBed.inject(CmsPageGuard);
-    authRedirectService = TestBed.inject(AuthRedirectService);
     authConfigService = TestBed.inject(AuthConfigService);
   });
 
@@ -101,7 +93,6 @@ describe('LoginGuard', () => {
     it('should try to render login CMS page', (done) => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
       spyOn(authService, 'loginWithRedirect').and.callThrough();
 
       loginGuard
@@ -116,7 +107,6 @@ describe('LoginGuard', () => {
             'a' as unknown as CmsActivatedRouteSnapshot,
             'b' as unknown as RouterStateSnapshot
           );
-          expect(authRedirectService.reportNotAuthGuard).not.toHaveBeenCalled();
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
           done();
         });
@@ -126,7 +116,6 @@ describe('LoginGuard', () => {
   describe('When user is not authorized', () => {
     it('should try to render login CMS page when ResourcePasswordOwnerFlow is used', (done) => {
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
       spyOn(authService, 'loginWithRedirect').and.callThrough();
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
         OAuthFlow.ResourceOwnerPasswordFlow
@@ -144,14 +133,12 @@ describe('LoginGuard', () => {
             'a' as unknown as CmsActivatedRouteSnapshot,
             'b' as unknown as RouterStateSnapshot
           );
-          expect(authRedirectService.reportNotAuthGuard).not.toHaveBeenCalled();
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
           done();
         });
     });
 
     it('should report previous page and initialize login redirect when flows with redirects are used', () => {
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
       spyOn(authService, 'loginWithRedirect').and.callThrough();
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
 
@@ -164,12 +151,10 @@ describe('LoginGuard', () => {
         .unsubscribe();
 
       expect(cmsPageGuard.canActivate).not.toHaveBeenCalled();
-      expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
       expect(authService.loginWithRedirect).toHaveBeenCalled();
     });
 
     it('should report previous page and initialize login redirect when flows with redirects are used', (done) => {
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
       spyOn(authService, 'loginWithRedirect').and.returnValue(false);
       spyOn(cmsPageGuard, 'canActivate').and.callThrough();
 
@@ -181,7 +166,6 @@ describe('LoginGuard', () => {
         .subscribe((result) => {
           expect(result).toBe(false);
           expect(cmsPageGuard.canActivate).not.toHaveBeenCalled();
-          expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
           expect(authService.loginWithRedirect).toHaveBeenCalled();
           done();
         });

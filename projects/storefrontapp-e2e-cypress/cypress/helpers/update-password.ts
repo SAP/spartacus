@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import * as helper from './login';
@@ -19,7 +25,7 @@ export function testUpdatePassword() {
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-    cy.get('cx-update-password button').click();
+    cy.get('cx-update-password button.btn-primary').click();
     cy.title().should('eq', PAGE_TITLE_HOME);
     alerts.getSuccessAlert().should('exist');
 

@@ -133,6 +133,51 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('takeActive', () => {
+    it('should NOT emit if the cart is NOT stable', (done) => {
+      const isStableMock = new Subject<boolean>();
+      service.isStable = jasmine
+        .createSpy('isStable')
+        .and.returnValue(isStableMock);
+
+      let emissions = 0;
+      service
+        .takeActive()
+        .pipe(take(1))
+        .subscribe(() => emissions++);
+
+      isStableMock.next(false);
+
+      expect(emissions).toBe(0);
+      done();
+    });
+
+    it('should emit only when the cart is stable', (done) => {
+      const mockCart: Cart = {
+        code: 'code',
+      };
+      const isStableMock = new Subject<boolean>();
+
+      service.isStable = jasmine
+        .createSpy('isStable')
+        .and.returnValue(isStableMock);
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      let result: Cart | undefined;
+      service
+        .takeActive()
+        .pipe(take(1))
+        .subscribe((cart) => (result = cart));
+
+      isStableMock.next(true);
+
+      expect(result).toEqual(mockCart);
+      done();
+    });
+  });
+
   describe('getActiveCartId', () => {
     it('should return active cart id as guid for anonymous user', () => {
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -160,7 +205,7 @@ describe('ActiveCartService', () => {
   });
 
   describe('takeActiveCartId', () => {
-    it('should NOT emit if the cart is NOT stable', (done) => {
+    it('should NOT emit if the cart ID is NOT stable', (done) => {
       const isStableMock = new Subject<boolean>();
       service.isStable = jasmine
         .createSpy('isStable')
@@ -178,7 +223,7 @@ describe('ActiveCartService', () => {
       done();
     });
 
-    it('should emit only when the cart is stable', (done) => {
+    it('should emit only when the cart ID is stable', (done) => {
       const mockCartId = 'xxx';
       const isStableMock = new Subject<boolean>();
 

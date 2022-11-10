@@ -44,10 +44,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
@@ -78,9 +88,6 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -188,12 +195,11 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { ImportExportModule } from \\"@spartacus/cart/import-export\\";
 import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
@@ -217,7 +223,7 @@ export class CartImportExportFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { importExportTranslationChunksConfig, importExportTranslations } from \\"@spartacus/cart/import-export/assets\\";
 import { CART_IMPORT_EXPORT_FEATURE, ImportExportRootModule } from \\"@spartacus/cart/import-export/root\\";
@@ -248,9 +254,9 @@ export class CartImportExportFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Export feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -261,9 +267,6 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Expor
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -371,8 +374,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature Cart Import Expor
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -444,9 +446,6 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -554,8 +553,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -627,9 +625,6 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -737,8 +732,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;
 
@@ -784,7 +778,12 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_WISH_LIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
-      }, [ADD_TO_WISHLIST_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_WISHLIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list/components/add-to-wishlist').then((m) => m.AddToWishListModule),
       },
@@ -815,9 +814,6 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -925,7 +921,6 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

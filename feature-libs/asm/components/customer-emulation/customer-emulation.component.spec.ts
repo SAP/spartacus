@@ -1,12 +1,14 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User, UserService } from '@spartacus/core';
+import { I18nTestingModule, User } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
-class MockUserService {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
   }
@@ -22,7 +24,7 @@ class MockAsmComponentService {
 describe('CustomerEmulationComponent', () => {
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
-  let userService: UserService;
+  let userAccountFacade: UserAccountFacade;
   let asmComponentService: AsmComponentService;
   let el: DebugElement;
 
@@ -30,9 +32,9 @@ describe('CustomerEmulationComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CustomerEmulationComponent],
+        declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
         ],
       }).compileComponents();
@@ -43,7 +45,7 @@ describe('CustomerEmulationComponent', () => {
     fixture = TestBed.createComponent(CustomerEmulationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    userService = TestBed.inject(UserService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
     asmComponentService = TestBed.inject(AsmComponentService);
     el = fixture.debugElement;
   });
@@ -54,27 +56,33 @@ describe('CustomerEmulationComponent', () => {
 
   it('should display user info during customer emulation.', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('input[formcontrolname="customer"]')).nativeElement
-        .placeholder
-    ).toEqual(`${testUser.name}, ${testUser.uid}`);
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-name')).nativeElement
+        .innerHTML
+    ).toEqual(`${testUser.name}`);
+    expect(
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-uid')).nativeElement
+        .innerHTML
+    ).toEqual(`${testUser.uid}`);
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
 
   it("should call logoutCustomer() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
 
     component.ngOnInit();
     fixture.detectChanges();
 
     //Click button
-    const endSessionButton = fixture.debugElement.query(By.css('button'));
+    const endSessionButton = fixture.debugElement.query(
+      By.css('button[formControlName="logoutCustomer"]')
+    );
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
     endSessionButton.nativeElement.click();
 

@@ -34,7 +34,7 @@ describe('My Account - Update Email', () => {
       });
 
       it('should click cancel update email and go back to the homepage', () => {
-        cy.get('cx-update-email button').click();
+        cy.get('cx-update-email a.btn-secondary').click();
         checkBanner();
 
         cy.location('pathname').should('contain', '/');

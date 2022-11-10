@@ -1,13 +1,13 @@
+import { B2BUser, StateUtils } from '@spartacus/core';
 import {
-  B2B_USER_ENTITIES,
-  USER_LIST,
   B2B_USER_APPROVERS,
+  B2B_USER_ENTITIES,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
   PERMISSION_ENTITIES,
   USER_GROUP_ENTITIES,
+  USER_LIST,
 } from '../organization-state';
-import { B2BUser, StateUtils } from '@spartacus/core';
 import { B2BUserActions } from './index';
 
 const orgCustomerId = 'orgCustomerId';
@@ -68,7 +68,7 @@ describe('B2BUser Actions', () => {
     });
 
     describe('LoadB2BUserSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an Array', () => {
         const action = new B2BUserActions.LoadB2BUserSuccess([orgCustomer]);
 
         expect({ ...action }).toEqual({
@@ -77,6 +77,36 @@ describe('B2BUser Actions', () => {
           meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, [
             orgCustomerId,
           ]),
+        });
+      });
+
+      it('should create the action: payload is not an Array', () => {
+        const action = new B2BUserActions.LoadB2BUserSuccess(orgCustomer);
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.LOAD_B2B_USER_SUCCESS,
+          payload: orgCustomer,
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, orgCustomerId),
+        });
+      });
+
+      it('should create the action: customerId is undefined', () => {
+        const action = new B2BUserActions.LoadB2BUserSuccess({});
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.LOAD_B2B_USER_SUCCESS,
+          payload: {},
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, ''),
+        });
+      });
+
+      it('should create the action: list of customerIds are undefined', () => {
+        const action = new B2BUserActions.LoadB2BUserSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.LOAD_B2B_USER_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, ['']),
         });
       });
     });
@@ -148,6 +178,19 @@ describe('B2BUser Actions', () => {
           ),
         });
       });
+
+      it('should create the action: payload has undefined customerId', () => {
+        const action = new B2BUserActions.CreateB2BUser({
+          userId,
+          orgCustomer: {},
+        });
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.CREATE_B2B_USER,
+          payload: { userId, orgCustomer: {} },
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, null),
+        });
+      });
     });
 
     describe('CreateB2BUserFail', () => {
@@ -198,6 +241,20 @@ describe('B2BUser Actions', () => {
           type: B2BUserActions.UPDATE_B2B_USER,
           payload: { userId, orgCustomerId, orgCustomer },
           meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+        });
+      });
+
+      it('should create the action: payload has undefined cusomerId', () => {
+        const action = new B2BUserActions.UpdateB2BUser({
+          userId,
+          orgCustomerId,
+          orgCustomer: {},
+        });
+
+        expect({ ...action }).toEqual({
+          type: B2BUserActions.UPDATE_B2B_USER,
+          payload: { userId, orgCustomerId, orgCustomer: {} },
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, ''),
         });
       });
     });

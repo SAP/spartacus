@@ -11,16 +11,15 @@ import {
   RoutingService,
   SearchConfig,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
 import {
   OrganizationActions,
   UserGroup,
 } from '@spartacus/organization/administration/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { B2BUserConnector } from '../../connectors';
 import { Permission } from '../../model/permission.model';
 import {
@@ -126,7 +125,7 @@ class MockB2BUserConnector {
   create = createSpy().and.returnValue(of(orgCustomer));
   update = createSpy().and.returnValue(of(orgCustomer));
 }
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get = createSpy().and.returnValue(of(mockCurrentUser));
 }
 
@@ -138,7 +137,7 @@ describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
   let b2bUserConnector: B2BUserConnector;
   let effects: fromEffects.B2BUserEffects;
-  let expected: TestColdObservable;
+  let expected: TestColdObservable | null;
   let routingService: RoutingService;
 
   const mockB2bUserState = {
@@ -146,6 +145,15 @@ describe('B2B User Effects', () => {
       entities: {
         testLoadedCode: { loading: false, value: orgCustomer },
         testLoadingCode: { loading: true, value: null },
+      },
+    },
+  };
+
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
       },
     },
   };
@@ -159,10 +167,10 @@ describe('B2B User Effects', () => {
       providers: [
         { provide: B2BUserConnector, useClass: MockB2BUserConnector },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
@@ -285,7 +293,7 @@ describe('B2B User Effects', () => {
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
       const completion2 = new B2BUserActions.CreateB2BUserSuccess({
-        customerId: null,
+        customerId: undefined,
       });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });

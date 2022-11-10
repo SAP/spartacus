@@ -17,7 +17,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { BudgetActions, CostCenterActions } from '../actions/index';
 import * as fromEffects from './cost-center.effect';
 
@@ -85,6 +84,15 @@ describe('CostCenter Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -93,7 +101,7 @@ describe('CostCenter Effects', () => {
       ],
       providers: [
         { provide: CostCenterConnector, useClass: MockCostCenterConnector },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.CostCenterEffects,
         provideMockActions(() => actions$),
       ],

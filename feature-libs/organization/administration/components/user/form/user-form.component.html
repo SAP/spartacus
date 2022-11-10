@@ -73,7 +73,7 @@
           class="form-check-input"
           [value]="role"
           [checked]="roles?.value?.includes(role)"
-          (change)="updateRoles($event)"
+          (change)="updateRoles($any($event))"
           [disabled]="form?.status === 'DISABLED'"
         />
         <span class="form-check-label">
@@ -82,7 +82,7 @@
       </label>
     </fieldset>
 
-    <label [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUser.orgUnit' | cxTranslate
       }}</span>
@@ -91,7 +91,7 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="(units$ | async) ?? null"
         bindLabel="name"
         bindValue="id"
         appendTo="cx-org-list"

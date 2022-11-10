@@ -35,6 +35,7 @@ import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -73,6 +74,17 @@ const configRead2: Configurator.Configuration = {
   groups: groups,
 };
 
+const conflictGroup: Configurator.Group = {
+  id: 'GROUP_ID_CONFLICT_1',
+  name: 'The conflict text',
+  groupType: Configurator.GroupType.CONFLICT_GROUP,
+  subGroups: [],
+  attributes: [
+    { name: 'ATTRIBUTE_1_CHECKBOX', key: 'ATTRIBUTE_1' },
+    { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
+  ],
+};
+
 @Component({
   selector: 'cx-configurator-price',
   template: '',
@@ -106,32 +118,58 @@ class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
+
   removeConfiguration(): void {}
+
   updateConfiguration(): void {}
 
   isConfigurationLoading(): Observable<boolean> {
     return isConfigurationLoadingObservable;
   }
+
   hasConflicts(): Observable<boolean> {
     return hasConfigurationConflictsObservable;
   }
 }
+
 class MockConfiguratorGroupsService {
   getCurrentGroup(): Observable<string> {
     return currentGroupObservable;
   }
+
   getNextGroup(): Observable<string> {
     return of('');
   }
+
   getPreviousGroup(): Observable<string> {
     return of('');
   }
+
+  isGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
+
   subscribeToUpdateConfiguration() {}
+
   setGroupStatusVisited(): void {}
+
   navigateToConflictSolver(): void {}
+
   navigateToFirstIncompleteGroup(): void {}
+
   isConflictGroupType() {}
 }
+
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+
+  getExpModeRequested() {}
+
+  setExpModeActive(): void {}
+
+  getExpModeActive() {}
+}
+
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -151,6 +189,7 @@ function checkConfigurationObs(
     cold(expectedMarbels, { x: configRead, y: configRead2 })
   );
 }
+
 function checkCurrentGroupObs(
   routerMarbels: string,
   groupMarbels: string,
@@ -177,9 +216,11 @@ describe('ConfigurationFormComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
+  let configExpertModeService: ConfiguratorExpertModeService;
   let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorFormComponent>;
+  let component: ConfiguratorFormComponent;
 
   beforeEach(
     waitForAsync(() => {
@@ -216,7 +257,6 @@ describe('ConfigurationFormComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
-
           {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
@@ -225,6 +265,10 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: ConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: ConfiguratorExpertModeService,
+            useClass: MockConfiguratorExpertModeService,
           },
         ],
       })
@@ -253,6 +297,12 @@ describe('ConfigurationFormComponent', () => {
     ).and.callThrough();
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
 
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
+    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
+
     configuratorUtils.setOwnerKey(owner);
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -263,6 +313,7 @@ describe('ConfigurationFormComponent', () => {
 
   function createComponent(): ConfiguratorFormComponent {
     fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     return fixture.componentInstance;
   }
@@ -390,6 +441,20 @@ describe('ConfigurationFormComponent', () => {
         configuratorGroupsService.navigateToFirstIncompleteGroup
       ).toHaveBeenCalledTimes(1);
     });
+
+    it('should not call setExpMode method', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { expMode: 'false' },
+        },
+      });
+      createComponent().ngOnInit();
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
+        0
+      );
+    });
   });
 
   it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
@@ -438,6 +503,112 @@ describe('ConfigurationFormComponent', () => {
 
     it('should return group ID string', () => {
       expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('Rendering', () => {
+    it('should support radio button attribute type', () => {
+      const component = createComponent();
+      component.configuration$ = of(ConfigurationTestData.productConfiguration);
+      component.currentGroup$ = of(
+        ConfigurationTestData.productConfiguration.groups[0]
+      );
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        1
+      );
+    });
+
+    it('should display the radio button component for attribute type RADIOBUTTON_ADDITIONAL_INPUT', () => {
+      const component = createComponent();
+      const configurationWithAdditionalValueType =
+        ConfigurationTestData.productConfiguration;
+      configurationWithAdditionalValueType.groups[0].attributes?.push({
+        name: 'AdditionalVal',
+        uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      });
+      component.configuration$ = of(configurationWithAdditionalValueType);
+      component.currentGroup$ = of(
+        configurationWithAdditionalValueType.groups[0]
+      );
+      fixture.detectChanges();
+      //now we expect 2 attributes resulting in a radio button component
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        2
+      );
+    });
+  });
+
+  describe('expMode', () => {
+    it("should check whether expert mode status is set to 'true'", () => {
+      createComponent();
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(true)
+      );
+
+      if (component.expMode) {
+        component.expMode
+          .subscribe((expMode) => {
+            expect(expMode).toBe(true);
+          })
+          .unsubscribe();
+      }
+    });
+
+    it("should check whether expert mode status is set to 'false'", () => {
+      createComponent();
+      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        of(false)
+      );
+
+      if (component.expMode) {
+        component.expMode
+          .subscribe((expMode) => {
+            expect(expMode).toBe(false);
+          })
+          .unsubscribe();
+      }
+    });
+  });
+
+  describe('displayConflictDescription', () => {
+    it('should return true if group is conflict group and has a name', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        true
+      );
+    });
+    it('should return false if group is standard group', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        false
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
+    });
+    it('should return false if group is conflict group and does not have a name', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      conflictGroup.name = '';
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
+    });
+    it('should return false if group type is undefined', () => {
+      conflictGroup.groupType = undefined;
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
     });
   });
 });

@@ -82,14 +82,6 @@
                 "bundleName": "epd-visualization"
               }
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss",
-                "./feature-libs",
-                "./integration-libs"
-              ]
-            },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
@@ -185,6 +177,10 @@
             "tsConfig": "projects/storefrontapp/tsconfig.server.json"
           },
           "configurations": {
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            },
             "production": {
               "outputHashing": "media",
               "fileReplacements": [
@@ -197,20 +193,22 @@
               "optimization": true,
               "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
-          "options": {
-            "browserTarget": "storefrontapp:build",
-            "serverTarget": "storefrontapp:server"
-          },
           "configurations": {
+            "development": {
+              "browserTarget": "storefrontapp:build:development",
+              "serverTarget": "storefrontapp:server:development"
+            },
             "production": {
               "browserTarget": "storefrontapp:build:production",
               "serverTarget": "storefrontapp:server:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
@@ -397,7 +395,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/organization/tsconfig.lib.json",
             "project": "feature-libs/organization/ng-package.json"
@@ -985,6 +983,5 @@
         }
       }
     }
-  },
-  "defaultProject": "storefrontapp"
+  }
 }
