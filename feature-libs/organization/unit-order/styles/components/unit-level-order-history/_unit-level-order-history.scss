@@ -6,23 +6,23 @@
     }
   }
 
-  .mycustomdivvv {
+  .cx-unit-level-order-history-filter-label-wrapper {
     width: 200px;
     border: 1px solid lightgray;
     border-radius: 3px;
   }
 
-  .mycustominputtt {
+  .cx-unit-level-order-history-filter-input {
     border: none;
     height: 100%;
     margin-bottom: 0;
   }
 
-  .mycustominputtt:focus {
+  .cx-unit-level-order-history-filter-input:focus {
     background: white;
   }
 
-  .mucustombutonnn {
+  .cx-unit-level-order-history-filter-reset-button {
     display: none;
     border: none;
     color: lightgray;
@@ -30,12 +30,13 @@
     padding-right: 10px;
   }
 
-  .mucustomlabelll {
+  .cx-unit-level-order-history-filter-label {
     display: flex;
     align-content: stretch;
+    margin-bottom: 0;
   }
 
-  .mycustomwrapperdivvv {
+  .cx-unit-level-order-history-filter-div-wrapper {
     display: flex;
     justify-content: flex-start;
     gap: 3rem;
