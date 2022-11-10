@@ -40,7 +40,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -205,30 +205,32 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   getAddressCardContent(address: Address): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('addressCard.phoneNumber'),
-      this.translationService.translate('addressCard.mobileNumber'),
-    ]).pipe(
-      map(([textPhone, textMobile]) => {
-        let region = '';
-        if (address.region && address.region.isocode) {
-          region = address.region.isocode + ', ';
-        }
-        let numbers: string | undefined;
-        numbers = getAddressNumbers(address, textPhone, textMobile);
+    return this.translationService
+      ? combineLatest([
+          this.translationService.translate('addressCard.phoneNumber'),
+          this.translationService.translate('addressCard.mobileNumber'),
+        ]).pipe(
+          map(([textPhone, textMobile]) => {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            let numbers: string | undefined;
+            numbers = getAddressNumbers(address, textPhone, textMobile);
 
-        return {
-          textBold: address.firstName + ' ' + address.lastName,
-          text: [
-            address.line1,
-            address.line2,
-            address.town + ', ' + region + address.country?.isocode,
-            address.postalCode,
-            numbers,
-          ],
-        } as Card;
-      })
-    );
+            return {
+              textBold: address.firstName + ' ' + address.lastName,
+              text: [
+                address.line1,
+                address.line2,
+                address.town + ', ' + region + address.country?.isocode,
+                address.postalCode,
+                numbers,
+              ],
+            } as Card;
+          })
+        )
+      : EMPTY;
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.
