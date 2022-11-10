@@ -17,6 +17,7 @@ const CREATED_ON_COLUMN = 3;
 const CHANGED_ON_COLUMN = 4;
 const STATUS_COLUMN = 5;
 const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
+const MAX_TICKETS_PER_PAGE = 5;
 
 export enum TestSortingTypes {
   changedOn = 'Changed On',
@@ -80,7 +81,6 @@ export function visitElectronicTicketListingPage() {
   visitPage('/my-account/support-tickets', 'ticketListingPage');
 }
 
-
 export function openCreateTicketPopup() {
   cy.get('cx-customer-ticketing-list').should('exist');
   cy.get('cx-customer-ticketing-create button').click();
@@ -112,9 +112,9 @@ export function clickSubmit(){
   cy.contains('[type="button"]', 'Submit').click();
 }
 
-export function verifyRequestCompleted(){
-  cy.get('cx-global-message').contains('Request created.');
-  cy.get('cx-global-message').contains('Request created.').should('not.exist', { timeout: 10000 });
+export function verifyGlobalMessage(globalMessage = 'Request created.'){
+  cy.get('cx-global-message').contains(globalMessage);
+  cy.get('cx-global-message').contains(globalMessage).should('not.exist', { timeout: 10000 });
 }
 
 export function clickCancel(){
@@ -201,12 +201,11 @@ export function createTicket(ticketDetails: TestTicketDetails){
   openCreateTicketPopup();
   fillTicketDetails(ticketDetails);
   clickSubmit();
-  verifyRequestCompleted();
+  verifyGlobalMessage();
 }
 
 export function createMultipleTickets(numberOfTicket: number, ticketDetails: TestTicketDetails){
-  for (let i = 0; i < numberOfTicket; i++)
-  {;
+  for (let i = 0; i < numberOfTicket; i++){
     createTicket(ticketDetails);
   }
 }
@@ -254,7 +253,7 @@ export function verifyPaginationExists() {
 
 
 export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTicketCreated: number) {
-  if(numberOfTicketCreated > 5) {
+  if(numberOfTicketCreated > MAX_TICKETS_PER_PAGE) {
     verifyPaginationExists();
   }
   else {
@@ -265,7 +264,7 @@ export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTi
 export function verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated: number) {
   const LEFT_RIGHT_ARROWS = 2;
   const FIRST_PAGE = 1;
-  const expectedNumberOfPages = Math.floor(totalNumberOfTicketCreated / 5) + FIRST_PAGE + LEFT_RIGHT_ARROWS;
+  const expectedNumberOfPages = Math.floor(totalNumberOfTicketCreated / MAX_TICKETS_PER_PAGE) + FIRST_PAGE + LEFT_RIGHT_ARROWS;
   verifyPaginationExistBasedOnTheNumberOfTicketsCreated(totalNumberOfTicketCreated);
   cy.get('cx-pagination').find('a').should('have.length', expectedNumberOfPages);
 }
