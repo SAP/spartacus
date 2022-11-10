@@ -156,7 +156,7 @@ describe('ConfigPriceSummaryComponent', () => {
     );
   });
 
-  it('should not render selected and options price when requested', () => {
+  it('should render selected and options price when requested', () => {
     config.hideBasePriceAndSelectedOptions = false;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
