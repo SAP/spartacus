@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CUSTOMER_TICKETING_FEATURE_NAME,
   SPARTACUS_CUSTOMER_TICKETING,
