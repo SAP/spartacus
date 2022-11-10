@@ -1,10 +1,11 @@
-import { viewportContext } from "../../../helpers/viewport-context";
+import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import {TestTicketDetails, TestCategory} from '../../../helpers/customer-ticketing/customer-ticketing';
+import {
+  TestTicketDetails,
+  TestCategory,
+} from '../../../helpers/customer-ticketing/customer-ticketing';
 
-
-
-describe('ticketing', () => {
+describe('create ticket', () => {
   viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
       before(() => {
@@ -24,9 +25,8 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-
       });
 
       it('should be able to create a ticket with an attachment', () => {
@@ -42,9 +42,11 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.addFile(testTicketDetails.filename);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not be able to create a ticket with an attachment larger than 10mb', () => {
@@ -92,9 +94,11 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.addFile(testTicketDetails.filename);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not be able to see created ticket in other stores', () => {
@@ -108,7 +112,7 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
         customerTicketing.visitApparelUKTicketListingPage();
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
@@ -139,7 +143,6 @@ describe('ticketing', () => {
         customerTicketing.clickClose();
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
-
     });
   });
 });
