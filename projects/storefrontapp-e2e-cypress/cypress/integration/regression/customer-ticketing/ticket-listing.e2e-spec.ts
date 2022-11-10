@@ -70,7 +70,7 @@ describe('ticket listing', () => {
           numberOfTicketToCraeteForOnePagePagination,
           testTicketDetails
         );
-        customerTicketing.verifyPaginationExists();
+        customerTicketing.verifyPaginationExist();
         let totalNumberOfTicketsCreated =
           numberOfTicketToCreateInitially +
           numberOfTicketToCraeteForOnePagePagination;

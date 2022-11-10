@@ -120,7 +120,7 @@ export function verifyPaginationDoesNotExist() {
   cy.get('cx-pagination').should('not.exist');
 }
 
-export function verifyPaginationExists() {
+export function verifyPaginationExist() {
   cy.get('cx-pagination').should('exist');
 }
 
@@ -128,13 +128,13 @@ export function verifyPaginationExistBasedOnTheNumberOfTicketsCreated(
   numberOfTicketCreated: number
 ) {
   if (numberOfTicketCreated > MAX_TICKETS_PER_PAGE) {
-    verifyPaginationExists();
+    verifyPaginationExist();
   } else {
     verifyPaginationDoesNotExist();
   }
 }
 
-export function verifyNumberOfPasBasedOnTotalNumberOfTickets(
+export function verifyNumberOfPagesBasedOnTotalNumberOfTickets(
   totalNumberOfTicketsCreated: number
 ) {
   const LEFT_RIGHT_ARROWS = 2;
