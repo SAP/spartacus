@@ -54,36 +54,36 @@ describe('ticket listing', () => {
           category: TestCategory.complaint,
         };
 
-        const numberOfTicketToCreateInitially = 5;
-        const numberOfTicketToCraeteForOnePagePagination = 1;
-        const numberOfTicketToCreateForMultipagePagination = 5;
+        const numberOfTicketsToCreateInitially = 5;
+        const numberOfTicketsToCreateForOnePagination = 1;
+        const numberOfTicketsToCreateForMultipagePagination = 5;
 
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationDoesNotExist();
         customerTicketing.createMultipleTickets(
-          numberOfTicketToCreateInitially,
+          numberOfTicketsToCreateInitially,
           testTicketDetails
         );
         customerTicketing.verifyPaginationDoesNotExist();
         customerTicketing.createMultipleTickets(
-          numberOfTicketToCraeteForOnePagePagination,
+          numberOfTicketsToCreateForOnePagination,
           testTicketDetails
         );
         customerTicketing.verifyPaginationExist();
         let totalNumberOfTicketsCreated =
-          numberOfTicketToCreateInitially +
-          numberOfTicketToCraeteForOnePagePagination;
+          numberOfTicketsToCreateInitially +
+          numberOfTicketsToCreateForOnePagination;
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
           totalNumberOfTicketsCreated
         );
 
         customerTicketing.createMultipleTickets(
-          numberOfTicketToCreateForMultipagePagination,
+          numberOfTicketsToCreateForMultipagePagination,
           testTicketDetails
         );
         totalNumberOfTicketsCreated +=
-          numberOfTicketToCreateForMultipagePagination;
+          numberOfTicketsToCreateForMultipagePagination;
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
           totalNumberOfTicketsCreated
         );
