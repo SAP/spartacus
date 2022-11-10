@@ -359,16 +359,18 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call getAddressCardContent(address)', () => {
-    const card = component.getAddressCardContent(mockAddress, 'P', 'M');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  it('should call getAddressCardContent(address)', (done) => {
+    component.getAddressCardContent(mockAddress).subscribe((card) => {
+      expect(card?.textBold).toEqual('John Doe');
+      expect(card?.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+      done();
+    });
   });
 
   it('should call toggleSameAsDeliveryAddress()', () => {

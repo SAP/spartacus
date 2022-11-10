@@ -204,39 +204,31 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
-  createCard(address: Address): void {
-    combineLatest([
+  getAddressCardContent(address: Address): Observable<Card> {
+    return combineLatest([
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
-    ]).subscribe(([textPhone, textMobile]) => {
-      if (address) {
-        this.getAddressCardContent(address, textPhone, textMobile);
-      }
-    });
-  }
+    ]).pipe(
+      map(([textPhone, textMobile]) => {
+        let region = '';
+        if (address.region && address.region.isocode) {
+          region = address.region.isocode + ', ';
+        }
+        let numbers: string | undefined;
+        numbers = getAddressNumbers(address, textPhone, textMobile);
 
-  getAddressCardContent(
-    address: Address,
-    textPhone: string,
-    textMobile: string
-  ): Card {
-    let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
-    }
-    let numbers: string | undefined;
-    numbers = getAddressNumbers(address, textPhone, textMobile);
-
-    return {
-      textBold: address.firstName + ' ' + address.lastName,
-      text: [
-        address.line1,
-        address.line2,
-        address.town + ', ' + region + address.country?.isocode,
-        address.postalCode,
-        numbers,
-      ],
-    } as Card;
+        return {
+          textBold: address.firstName + ' ' + address.lastName,
+          text: [
+            address.line1,
+            address.line2,
+            address.town + ', ' + region + address.country?.isocode,
+            address.postalCode,
+            numbers,
+          ],
+        } as Card;
+      })
+    );
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.

@@ -184,7 +184,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected createCards(): Observable<CardWithAddress[]> {
-    const $addresses = combineLatest([
+    const addresses$ = combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
     ]);
@@ -198,7 +198,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
 
-    return combineLatest([$addresses, translations]).pipe(
+    return combineLatest([addresses$, translations]).pipe(
       tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),
