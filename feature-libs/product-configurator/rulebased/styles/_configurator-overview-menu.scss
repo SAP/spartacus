@@ -1,18 +1,20 @@
 %cx-configurator-overview-menu {
   margin-inline-start: 20px;
-  margin-inline-end: 25px;
+  border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    border-radius: 2px;
 
   .cx-title {
     text-decoration: underline;
     font-weight: bold;
+    margin-inline-start: 20px;
   }
 
   .cx-group {
     padding-inline-start: 0px;
     padding-inline-end: 0px;
     padding-block-start: 5px;
-    padding-block-end: 5px;
-    margin-inline-start: 25px;
-    margin-inline-end: 30px;
+    margin-inline-start: 20px;
   }
 }

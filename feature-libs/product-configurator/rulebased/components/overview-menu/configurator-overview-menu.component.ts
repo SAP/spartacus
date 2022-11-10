@@ -43,4 +43,14 @@ export class ConfiguratorOverviewMenuComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
+
+  /**
+   * Retrieves the styling for the group levels.
+   *
+   * @param {number} level - Group level. 1 is top level.
+   * @return {string} - corresponding style classes
+   */
+  getGroupLevelStyleClasses(level: number): string {
+    return 'cx-group' + ' groupLevel' + level;
+  }
 }

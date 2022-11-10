@@ -116,4 +116,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       ConfigurationTestData.ov_group_description
     );
   });
+  describe('getGroupLevelStyleClasses', () => {
+    it('should return style class according to level', () => {
+      const styleClass = component.getGroupLevelStyleClasses(4);
+
+      expect(styleClass).toBe('cx-group groupLevel4');
+    });
+  });
 });

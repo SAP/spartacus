@@ -2,9 +2,40 @@
   <span class="cx-title">{{
     'configurator.overviewMenu.title' | cxTranslate
   }}</span>
-  <ng-container *ngFor="let group of ovGroups">
-    <div class="cx-group" title="{{ group.groupDescription }}">
-      {{ group.groupDescription }}
+  <ng-container
+    *ngTemplateOutlet="
+      groups;
+      context: {
+        overviewGroups: ovGroups,
+        level: 1
+      }
+    "
+  ></ng-container>
+</ng-container>
+
+<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+  <ng-container *ngFor="let group of overviewGroups">
+    <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
+      <span class="cx-visually-hidden">
+        {{
+          'configurator.a11y.group'
+            | cxTranslate
+              : {
+                  group: group.groupDescription
+                }
+        }}
+      </span>
+      <div>
+        <span>{{ group.groupDescription }}</span>
+      </div>
+      <ng-container *ngIf="group.subGroups?.length > 0">
+        <ng-container
+          *ngTemplateOutlet="
+            groups;
+            context: { overviewGroups: group.subGroups, level: level + 1 }
+          "
+        ></ng-container>
+      </ng-container>
     </div>
   </ng-container>
-</ng-container>
+</ng-template>
