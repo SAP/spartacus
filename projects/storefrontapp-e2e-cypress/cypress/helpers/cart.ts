@@ -250,13 +250,6 @@ export function registerDeleteCartItemRoute() {
   ).as('delete_cart_item');
 }
 
-export function registerAddProductToCart() {
-  cy.intercept(
-    'POST',
-    `${getOccUrlPrefix()}/users/*/carts/*/entries/*?lang=en&curr=USD`
-  ).as('add_to_cart');
-}
-
 export function registerSaveCartRoute() {
   cy.intercept(
     'PATCH',
@@ -360,7 +353,6 @@ export function addProducts() {
   const prods = products.slice(0, 3);
   prods.forEach((product, index) => {
     cy.visit(`/product/${product.code}`);
-    registerAddProductToCart();
     clickAddToCart();
     checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
@@ -396,6 +388,7 @@ export function addProductAsAnonymous() {
   cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   checkAddedToCartDialog();
+  closeAddedToCartDialog();
 }
 
 export function getClearCartDialog() {
