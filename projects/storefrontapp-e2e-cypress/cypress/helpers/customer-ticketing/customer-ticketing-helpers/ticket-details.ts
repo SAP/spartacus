@@ -1,6 +1,4 @@
-
-
- export function verifyFileAttachedToMessage(filename: string){
+export function verifyFileAttachedToMessage(filename: string) {
   cy.get('cx-messaging').contains(filename);
 }
 
@@ -10,7 +8,6 @@ export function clickCloseRequestButton() {
 
 export function typeCloseTicketRequestMessage(message: string) {
   cy.get('textarea').last().type(message);
-
 }
 
 export function closeTicketRequest(message: string) {
@@ -22,7 +19,7 @@ export function closeTicketRequest(message: string) {
   });
 }
 
-export function sendMessage(message: string){
+export function sendMessage(message: string) {
   cy.get('.form-control').type(message);
   cy.get('button').contains('Send').click();
   cy.wait(1000);

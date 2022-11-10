@@ -1,10 +1,11 @@
-import { viewportContext } from "../../../helpers/viewport-context";
+import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import {TestTicketDetails, TestCategory} from '../../../helpers/customer-ticketing/customer-ticketing';
+import {
+  TestTicketDetails,
+  TestCategory,
+} from '../../../helpers/customer-ticketing/customer-ticketing';
 
-
-
-describe('ticketing', () => {
+describe('ticket listing', () => {
   viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
       before(() => {
@@ -13,10 +14,9 @@ describe('ticketing', () => {
         });
       });
       it('visit the ticket listing page and see if tickets exist', () => {
-
         const testTicketDetails: TestTicketDetails = {
-          subject: "something to mindful",
-          message: "nothing to worry about",
+          subject: 'something to mindful',
+          message: 'nothing to worry about',
           category: TestCategory.complaint,
         };
 
@@ -24,18 +24,18 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyTicketListingTableContent();
         let numberOfTickets = customerTicketing.getNumberOfTickets();
-        customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTickets);
+        customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(
+          numberOfTickets
+        );
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.shouldHaveNumberOfTicketsListed(++numberOfTickets);
         customerTicketing.verifyTicketListingTableContent();
       });
 
-
-      it("should still show the ticket in the list when status is not open", () => {
-
+      it('should still show the ticket in the list when status is not open', () => {
         const testTicketDetails: TestTicketDetails = {
-          subject: "changing status",
-          message: "status will change",
+          subject: 'changing status',
+          message: 'status will change',
           category: TestCategory.complaint,
         };
 
@@ -43,14 +43,14 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow();
-        customerTicketing.closeTicketRequest("thank you");
+        customerTicketing.closeTicketRequest('thank you');
         customerTicketing.verifyStatusOfTicketInList();
       });
 
-      it("should create 6 tickets" ,() => {
+      it('should create 6 tickets', () => {
         const testTicketDetails: TestTicketDetails = {
-          subject: "Creating tickets for pagination ",
-          message: "Creating tickets for pagination ",
+          subject: 'Creating tickets for pagination ',
+          message: 'Creating tickets for pagination ',
           category: TestCategory.complaint,
         };
 
@@ -61,29 +61,44 @@ describe('ticketing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationDoesNotExist();
-        customerTicketing.createMultipleTickets(numberOfTicketToCreateInitially, testTicketDetails);
+        customerTicketing.createMultipleTickets(
+          numberOfTicketToCreateInitially,
+          testTicketDetails
+        );
         customerTicketing.verifyPaginationDoesNotExist();
-        customerTicketing.createMultipleTickets(numberOfTicketToCraeteForOnePagePagination, testTicketDetails);
+        customerTicketing.createMultipleTickets(
+          numberOfTicketToCraeteForOnePagePagination,
+          testTicketDetails
+        );
         customerTicketing.verifyPaginationExists();
-        let totalNumberOfTicketCreated = (numberOfTicketToCreateInitially + numberOfTicketToCraeteForOnePagePagination);
-        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
+        let totalNumberOfTicketsCreated =
+          numberOfTicketToCreateInitially +
+          numberOfTicketToCraeteForOnePagePagination;
+        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
+          totalNumberOfTicketsCreated
+        );
 
-        customerTicketing.createMultipleTickets(numberOfTicketToCreateForMultipagePagination, testTicketDetails);
-        totalNumberOfTicketCreated += numberOfTicketToCreateForMultipagePagination;
-        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
+        customerTicketing.createMultipleTickets(
+          numberOfTicketToCreateForMultipagePagination,
+          testTicketDetails
+        );
+        totalNumberOfTicketsCreated +=
+          numberOfTicketToCreateForMultipagePagination;
+        customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
+          totalNumberOfTicketsCreated
+        );
       });
 
       it('should sort ticket listing', () => {
-
         const firstTicket: TestTicketDetails = {
-          subject: "first ticket",
-          message: "first ticket",
+          subject: 'first ticket',
+          message: 'first ticket',
           category: TestCategory.complaint,
         };
 
         const secondTicket: TestTicketDetails = {
-          subject: "secondoo",
-          message: "no uno",
+          subject: 'secondoo',
+          message: 'no uno',
           category: TestCategory.complaint,
         };
 
@@ -93,25 +108,26 @@ describe('ticketing', () => {
         customerTicketing.createTicket(secondTicket);
         customerTicketing.openTicketOnSepcifiedRowNumber(2);
         cy.wait(1000);
-        customerTicketing.sendMessage("hello, world");
+        customerTicketing.sendMessage('hello, world');
         cy.go('back');
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
         customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
-        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.changedOn);
+        customerTicketing.selectSortBy(
+          customerTicketing.TestSortingTypes.changedOn
+        );
         customerTicketing.verifyCreatedTicketDetails(firstTicket);
-
       });
 
       it('should put the ticket on top when Changed On is selected as the sort', () => {
         const otherTickets: TestTicketDetails = {
-          subject: "Creating tickets for pagination ",
-          message: "Creating tickets for pagination ",
+          subject: 'Creating tickets for pagination ',
+          message: 'Creating tickets for pagination ',
           category: TestCategory.complaint,
         };
 
         const ticketToSort: TestTicketDetails = {
-          subject: "This will go from bottom of the list to the top ",
-          message: "This will go from bottom of the list to the top ",
+          subject: 'This will go from bottom of the list to the top ',
+          message: 'This will go from bottom of the list to the top ',
           category: TestCategory.complaint,
         };
 
@@ -121,13 +137,17 @@ describe('ticketing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(ticketToSort);
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
-        customerTicketing.createMultipleTickets(numberOfOtherTickets, otherTickets);
-        customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTickets+1);
-        customerTicketing.sendMessage("adding to top");
+        customerTicketing.createMultipleTickets(
+          numberOfOtherTickets,
+          otherTickets
+        );
+        customerTicketing.openTicketOnSepcifiedRowNumber(
+          numberOfOtherTickets + 1
+        );
+        customerTicketing.sendMessage('adding to top');
         cy.go('back');
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
       });
-
     });
   });
 });

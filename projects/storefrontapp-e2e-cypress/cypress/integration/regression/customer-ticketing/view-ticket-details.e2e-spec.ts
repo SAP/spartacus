@@ -1,7 +1,7 @@
-import { viewportContext } from "../../../helpers/viewport-context";
+import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe('ticketing', () => {
+describe('ticket details', () => {
   viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
       before(() => {
@@ -14,7 +14,11 @@ describe('ticketing', () => {
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
         customerTicketing.verifyTicketListingPageVisit();
-        customerTicketing.createTicket({subject: "ticket details", message: "ticket details", category: customerTicketing.TestCategory.complaint});
+        customerTicketing.createTicket({
+          subject: 'ticket details',
+          message: 'ticket details',
+          category: customerTicketing.TestCategory.complaint,
+        });
         customerTicketing.clickTicketInRow();
         customerTicketing.verifyTicketDetailsPageVisit();
       });

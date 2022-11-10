@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 export * from './customer-ticketing-helpers/customer-ticketing-commons';
 export * from './customer-ticketing-helpers/ticket-listing';
 export * from './customer-ticketing-helpers/create-tickets';
