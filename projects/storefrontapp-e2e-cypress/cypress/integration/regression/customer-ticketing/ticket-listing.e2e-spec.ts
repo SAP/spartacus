@@ -25,7 +25,6 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketListingTableContent();
         let numberOfTickets = customerTicketing.getNumberOfTicket();
         customerTicketing.verifyPaginationExistBasedOnTheNumberOfTicketsCreated(numberOfTickets);
-
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.shouldHaveNumberOfTicketsListed(++numberOfTickets);
         customerTicketing.verifyTicketListingTableContent();
@@ -74,7 +73,6 @@ describe('ticketing', () => {
         customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTicket(totalNumberOfTicketCreated);
       });
 
-
       it('should sort ticket listing', () => {
 
         const fistTicket: TestTicketDetails = {
@@ -88,18 +86,15 @@ describe('ticketing', () => {
           message: "no uno",
           category: TestCategory.complaint,
         };
+
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(fistTicket);
         customerTicketing.createTicket(secondTicket);
-
         customerTicketing.openTicketOnSepcifiedRowNumber(2);
         cy.wait(1000);
         customerTicketing.sendMessage("hello, world");
         cy.go('back');
-
-
-
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
         customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.changedOn);

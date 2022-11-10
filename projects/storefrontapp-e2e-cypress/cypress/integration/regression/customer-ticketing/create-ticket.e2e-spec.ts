@@ -24,7 +24,7 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
 
       });
@@ -42,7 +42,7 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.addFile(testTicketDetails.filename);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
         customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
       });
@@ -92,7 +92,7 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.addFile(testTicketDetails.filename);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
         customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
       });
@@ -108,7 +108,7 @@ describe('ticketing', () => {
         customerTicketing.openCreateTicketPopup();
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyRequestCompleted();
+        customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
         customerTicketing.visitApparelUKTicketListingPage();
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
