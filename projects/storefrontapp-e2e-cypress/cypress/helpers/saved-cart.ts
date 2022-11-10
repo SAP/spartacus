@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { tabbingOrderConfig as config } from '../helpers/accessibility/tabbing-order.config';
 import * as alerts from '../helpers/global-message';
 import * as sampleData from '../sample-data/saved-cart';
