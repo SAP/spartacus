@@ -1,4 +1,4 @@
-<div id="cx-unit-level-order-history-filter-nav" #filterNav class="cx-filter"
+<div #filterNav class="cx-filter"
      [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
   <div class="cx-filter-list">
     <span>{{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}</span>
@@ -64,7 +64,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation" id="buyerPresentationMobileDiv"
+        <div #buyerPresentationMobile role="presentation"
              (mousedown)="formSearchMobile()"
              (keydown.enter)="formSearchMobile()" style="color: lightgray;">
           <cx-icon [type]="iconTypes.SEARCH" style="display: block; padding: 10px; padding-top: 15px;"></cx-icon>
@@ -97,7 +97,7 @@
       </button>
 
       <label>
-        <input id="cx-unit-level-order-history-filter-sub-nav-unit"
+        <input
                #queryInputUnitMobile
                formControlName="inputFilterUnit"
                class="form-control"
@@ -152,7 +152,6 @@
             <button #buyerButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
                     (mousedown)="clearBuyer(queryInputBuyer)"
-                    (keydown.enter)="clearBuyer(queryInputBuyer)"
                     class="reset mucustombutonnn"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -183,7 +182,6 @@
             <button #unitButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
                     (mousedown)="clearUnit(queryInputUnit)"
-                    (keydown.enter)="clearUnit(queryInputUnit)"
                     class="reset mucustombutonnn"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
