@@ -44,7 +44,7 @@ describe('ticketing', () => {
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow();
         customerTicketing.closeTicketRequest("thank you");
-        customerTicketing.verifyClosedTicketIsStillInTicketListing();
+        customerTicketing.verifyStatusOfTicketInList();
       });
 
       it("should create 6 tickets" ,() => {

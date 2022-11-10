@@ -43,9 +43,35 @@ export interface TestTicketDetails {
   filename?: string;
 }
 
+/*####################
+ ##### COMMONS ######
+ ###################*/
+
 export function loginRegisteredUser() {
   login();
 }
+
+export function visitPage(page: string, alias?: string){
+  cy.intercept(page).as(alias? alias : page);
+  cy.visit(page);
+  cy.wait(`@${alias? alias : page}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
+}
+
+export function visitElectronicTicketListingPage() {
+  visitPage('/my-account/support-tickets', 'ticketListingPage');
+}
+
+
+export function verifyGlobalMessage(globalMessage = 'Request created.'){
+  cy.get('cx-global-message').contains(globalMessage);
+  cy.get('cx-global-message').contains(globalMessage).should('not.exist', { timeout: 10000 });
+}
+
+
+export function visitApparelUKTicketListingPage(){
+  visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
+}
+
 
 export function clickMyAccountMenuOption(){
   cy.visit('/');
@@ -71,70 +97,21 @@ export function verifyTicketDetailsPageVisit(){
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
 
-export function visitPage(page: string, alias?: string){
-  cy.intercept(page).as(alias? alias : page);
-  cy.visit(page);
-  cy.wait(`@${alias? alias : page}`).its('response.statusCode').should('eq', HTTP_STATUS_OK);
-}
 
-export function visitElectronicTicketListingPage() {
-  visitPage('/my-account/support-tickets', 'ticketListingPage');
-}
 
-export function openCreateTicketPopup() {
-  cy.get('cx-customer-ticketing-list').should('exist');
-  cy.get('cx-customer-ticketing-create button').click();
-  cy.get('cx-customer-ticketing-create-dialog').contains('Add New Request');
-}
 
-export function fillTicketDetails(ticketDetails: TestTicketDetails){
-  const CATEGORY_SELECT = 0;
 
-  cy.get('cx-customer-ticketing-create-dialog').within(() => {
-    cy.get('.cx-customer-ticket-form-container').should('contain', 'Add New Request');
-    cy.get('textarea').first().type(ticketDetails.subject);
-    cy.contains('.cx-customer-ticket-label', 'Category').get('select').eq(CATEGORY_SELECT).select(ticketDetails.category);
-    cy.get('textarea').last().type(ticketDetails.message);
-    cy.get('cx-form-errors').should('not.be.visible');
-  });
-}
 
-export function addFile(filename: string){
-  cy.get('cx-file-upload input[type="file"]').attachFile({filePath: '../helpers/customer-ticketing/files-to-upload/' + filename}, { allowEmpty: true });
-  cy.get('p').contains(filename);
-}
 
-export function verifyFileAttachedToMessage(filename: string){
-  cy.get('cx-messaging').contains(filename);
-}
 
-export function clickSubmit(){
-  cy.contains('[type="button"]', 'Submit').click();
-}
 
-export function verifyGlobalMessage(globalMessage = 'Request created.'){
-  cy.get('cx-global-message').contains(globalMessage);
-  cy.get('cx-global-message').contains(globalMessage).should('not.exist', { timeout: 10000 });
-}
 
-export function clickCancel(){
-  cy.contains('[type="button"]', 'Cancel').click();
-}
 
-export function clickClose(){
-  cy.get('cx-customer-ticketing-create-dialog').within(() => {
-    cy.get('.cx-customer-ticket-form-container').should('contain', 'Add New Request');
-    cy.get('button[aria-label="Close"]').click();
-  });
-}
+/*##########################
+ ##### TICKET LISTING ######
+ ##########################*/
 
-export function verifyFileTooLargeErrorIsShown(){
-  cy.get('cx-form-errors').should('be.visible');
-  cy.get('cx-form-errors').get('p').contains('File size should not exceed 10 MB');
-
-}
-
-export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST){
+ export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST){
   cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber).click();
 }
 
@@ -147,11 +124,6 @@ export function verifyCreatedTicketDetails(ticketDetails: TestTicketDetails, row
    row.click();
    cy.get('cx-messaging').contains(ticketDetails.message);
 }
-
-export function verifyFieldValidationErrorShown(){
-  cy.get('cx-form-errors').should('be.visible');
-}
-
 
 export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
   cy.get('cx-customer-ticketing-list').then( ticketListingElement => {
@@ -166,10 +138,6 @@ export function verifyTicketDoesNotExist(ticketDetails: TestTicketDetails) {
       cy.get('cx-customer-ticketing-list').find('h3').contains("You don't have any request");
     }
   });
-}
-
-export function visitApparelUKTicketListingPage(){
-  visitPage('apparel-uk-spa/en/GBP/my-account/support-tickets', 'apparelTicketListingPage');
 }
 
 export function verifyTicketListingTableContent(){
@@ -197,19 +165,6 @@ export function getNumberOfTicket(): number {
   return numberOfTikcets;
 }
 
-export function createTicket(ticketDetails: TestTicketDetails){
-  openCreateTicketPopup();
-  fillTicketDetails(ticketDetails);
-  clickSubmit();
-  verifyGlobalMessage();
-}
-
-export function createMultipleTickets(numberOfTicket: number, ticketDetails: TestTicketDetails){
-  for (let i = 0; i < numberOfTicket; i++){
-    createTicket(ticketDetails);
-  }
-}
-
 export function shouldHaveNumberOfTicketsListed(expectedNumberOfTickets: number) {
   cy.get('cx-customer-ticketing-list').get('tbody').should('have.length', expectedNumberOfTickets);
 }
@@ -219,26 +174,7 @@ export function openTicketOnSepcifiedRowNumber(rowNumber: number) {
   row.click();
 }
 
-
-export function clickCloseRequestButton() {
-  cy.get('cx-customer-ticketing-close').click();
-}
-
-export function typeCloseTicketRequestMessage(message: string) {
-  cy.get('textarea').last().type(message);
-
-}
-
-export function closeTicketRequest(message: string) {
-  const SUBMIT_BUTTON_INDEX = 2;
-  clickCloseRequestButton();
-  cy.get('form').within(() => {
-    typeCloseTicketRequestMessage(message);
-    cy.get('button').eq(SUBMIT_BUTTON_INDEX).click();
-  });
-}
-
-export function verifyClosedTicketIsStillInTicketListing(rowNumber = FIRST_ROW_TICKET_LIST, status = TestStatus.closed) {
+export function verifyStatusOfTicketInList(rowNumber = FIRST_ROW_TICKET_LIST, status = TestStatus.closed) {
   const row = cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber);
   row.get('td').eq(STATUS_COLUMN).contains(status);
 }
@@ -281,12 +217,6 @@ export function selectSortBy(sort: TestSortingTypes) {
   });
 }
 
-export function sendMessage(message: string){
-  cy.get('.form-control').type(message);
-  cy.get('button').contains('Send').click();
-  cy.wait(1000);
-}
-
 export function verifyCertainNumberOfTicketsSortedById(numberOfTicketsToVerify: number){
   for(let row = 1; row < numberOfTicketsToVerify; row++) {
     getIdInRow(row).then(id => {
@@ -298,4 +228,123 @@ export function verifyCertainNumberOfTicketsSortedById(numberOfTicketsToVerify: 
 
 function getIdInRow(rowNumber: number){
   return cy.get('cx-customer-ticketing-list').get('tbody').get('tr').eq(rowNumber).find('td').eq(ID_COLUMN).find('a');
+}
+
+
+
+
+
+
+
+
+/*#########################
+ ##### CREATE TICKET ######
+ ########################*/
+
+
+ export function openCreateTicketPopup() {
+  cy.get('cx-customer-ticketing-list').should('exist');
+  cy.get('cx-customer-ticketing-create button').click();
+  cy.get('cx-customer-ticketing-create-dialog').contains('Add New Request');
+}
+
+
+export function fillTicketDetails(ticketDetails: TestTicketDetails){
+  const CATEGORY_SELECT = 0;
+
+  cy.get('cx-customer-ticketing-create-dialog').within(() => {
+    cy.get('.cx-customer-ticket-form-container').should('contain', 'Add New Request');
+    cy.get('textarea').first().type(ticketDetails.subject);
+    cy.contains('.cx-customer-ticket-label', 'Category').get('select').eq(CATEGORY_SELECT).select(ticketDetails.category);
+    cy.get('textarea').last().type(ticketDetails.message);
+    cy.get('cx-form-errors').should('not.be.visible');
+  });
+}
+
+
+export function addFile(filename: string){
+  cy.get('cx-file-upload input[type="file"]').attachFile({filePath: '../helpers/customer-ticketing/files-to-upload/' + filename}, { allowEmpty: true });
+  cy.get('p').contains(filename);
+}
+
+export function clickSubmit(){
+  cy.contains('[type="button"]', 'Submit').click();
+}
+
+export function clickCancel(){
+  cy.contains('[type="button"]', 'Cancel').click();
+}
+
+export function clickClose(){
+  cy.get('cx-customer-ticketing-create-dialog').within(() => {
+    cy.get('.cx-customer-ticket-form-container').should('contain', 'Add New Request');
+    cy.get('button[aria-label="Close"]').click();
+  });
+}
+
+export function verifyFileTooLargeErrorIsShown(){
+  cy.get('cx-form-errors').should('be.visible');
+  cy.get('cx-form-errors').get('p').contains('File size should not exceed 10 MB');
+
+}
+
+
+export function verifyFieldValidationErrorShown(){
+  cy.get('cx-form-errors').should('be.visible');
+}
+
+
+export function createTicket(ticketDetails: TestTicketDetails){
+  openCreateTicketPopup();
+  fillTicketDetails(ticketDetails);
+  clickSubmit();
+  verifyGlobalMessage();
+}
+
+export function createMultipleTickets(numberOfTicket: number, ticketDetails: TestTicketDetails){
+  for (let i = 0; i < numberOfTicket; i++){
+    createTicket(ticketDetails);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*##########################
+ ##### TICKET DETAILS ######
+ #########################*/
+
+ export function verifyFileAttachedToMessage(filename: string){
+  cy.get('cx-messaging').contains(filename);
+}
+
+export function clickCloseRequestButton() {
+  cy.get('cx-customer-ticketing-close').click();
+}
+
+export function typeCloseTicketRequestMessage(message: string) {
+  cy.get('textarea').last().type(message);
+
+}
+
+export function closeTicketRequest(message: string) {
+  const SUBMIT_BUTTON_INDEX = 2;
+  clickCloseRequestButton();
+  cy.get('form').within(() => {
+    typeCloseTicketRequestMessage(message);
+    cy.get('button').eq(SUBMIT_BUTTON_INDEX).click();
+  });
+}
+
+export function sendMessage(message: string){
+  cy.get('.form-control').type(message);
+  cy.get('button').contains('Send').click();
+  cy.wait(1000);
 }
