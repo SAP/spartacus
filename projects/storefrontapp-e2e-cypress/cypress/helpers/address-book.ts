@@ -44,7 +44,6 @@ export const assertAddressForm = (
       .should('contain', `${address.address.city}, ${state}`);
     cy.get('.cx-card-label').eq(3).should('contain', address.address.postal);
     cy.get('.cx-card-label').eq(4).should('contain', address.phone);
-    cy.get('.cx-card-label').eq(4).should('contain', address.cellphone);
   });
 };
 
