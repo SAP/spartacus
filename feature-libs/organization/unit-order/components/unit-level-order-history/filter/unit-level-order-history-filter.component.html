@@ -59,6 +59,7 @@
         <button #buyerButtonMobile
                 [attr.aria-label]="'common.reset' | cxTranslate"
                 (mousedown)="clearBuyerMobile(queryInputBuyerMobile)"
+                (keydown.enter)="clearBuyerMobile(queryInputBuyerMobile)"
                 class="reset mucustombutonnn"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -108,6 +109,7 @@
         <button #unitButtonMobile
                 [attr.aria-label]="'common.reset' | cxTranslate"
                 (mousedown)="clearUnitMobile(queryInputUnitMobile)"
+                (keydown.enter)="clearUnitMobile(queryInputUnitMobile)"
                 class="reset mucustombutonnn"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -152,6 +154,7 @@
             <button #buyerButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
                     (mousedown)="clearBuyer(queryInputBuyer)"
+                    (keydown.enter)="clearBuyer(queryInputBuyer)"
                     class="reset mucustombutonnn"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -182,6 +185,7 @@
             <button #unitButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
                     (mousedown)="clearUnit(queryInputUnit)"
+                    (keydown.enter)="clearUnit(queryInputUnit)"
                     class="reset mucustombutonnn"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
