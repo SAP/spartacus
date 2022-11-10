@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthRedirectService,
@@ -111,7 +111,7 @@ describe('UpdatePasswordComponentService', () => {
     });
   });
 
-  describe('save', () => {
+  describe('updatePassword', () => {
     describe('success', () => {
       beforeEach(() => {
         oldPassword.setValue('Old123!');
@@ -137,26 +137,42 @@ describe('UpdatePasswordComponentService', () => {
         );
       });
 
-      it('should reroute to the login page', () => {
+      it('should reroute to the login page', fakeAsync(() => {
         service.updatePassword();
 
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-      });
+        tick();
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      }));
 
-      it('reset()', () => {
+      it('should reset the form', () => {
         spyOn(service.form, 'reset').and.callThrough();
         service.updatePassword();
         expect(service.form.reset).toHaveBeenCalled();
       });
+
+      it('should call logout', () => {
+        service.updatePassword();
+
+        expect(authService.coreLogout).toHaveBeenCalled();
+      });
+
+      it('should set the redirect url to homepage', () => {
+        service.updatePassword();
+
+        expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
+          routingService.getUrl({ cxRoute: 'home' })
+        );
+      });
     });
 
     describe('error', () => {
-      it('should not save invalid email', () => {
-        newPassword.setValue('diff@sap.com');
+      it('should not update the password', () => {
+        newPassword.setValue('testpassword123');
         service.updatePassword();
         expect(userPasswordFacade.update).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
       });
     });
   });
