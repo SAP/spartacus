@@ -13,12 +13,14 @@ export function openCreateTicketPopup() {
 
 export function fillTicketDetails(ticketDetails: TestTicketDetails){
   const CATEGORY_SELECT = 0;
+  const SUBJECT_CONTROL = 'subject';
+  const MESSAGE_CONTROL = 'message';
 
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get('.cx-customer-ticket-form-container').should('contain', 'Add New Request');
-    cy.get('textarea').first().type(ticketDetails.subject);
+    cy.get(`textarea[formcontrolname="${SUBJECT_CONTROL}"]`).type(ticketDetails.subject);
     cy.contains('.cx-customer-ticket-label', 'Category').get('select').eq(CATEGORY_SELECT).select(ticketDetails.category);
-    cy.get('textarea').last().type(ticketDetails.message);
+    cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).type(ticketDetails.message);
     cy.get('cx-form-errors').should('not.be.visible');
   });
 }

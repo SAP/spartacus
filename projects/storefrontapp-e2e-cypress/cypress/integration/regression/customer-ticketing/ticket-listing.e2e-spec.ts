@@ -75,9 +75,9 @@ describe('ticketing', () => {
 
       it('should sort ticket listing', () => {
 
-        const fistTicket: TestTicketDetails = {
+        const firstTicket: TestTicketDetails = {
           subject: "first ticket",
-          message: "fisrt ticket",
+          message: "first ticket",
           category: TestCategory.complaint,
         };
 
@@ -89,7 +89,7 @@ describe('ticketing', () => {
 
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
-        customerTicketing.createTicket(fistTicket);
+        customerTicketing.createTicket(firstTicket);
         customerTicketing.createTicket(secondTicket);
         customerTicketing.openTicketOnSepcifiedRowNumber(2);
         cy.wait(1000);
@@ -98,7 +98,7 @@ describe('ticketing', () => {
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
         customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.changedOn);
-        customerTicketing.verifyCreatedTicketDetails(fistTicket);
+        customerTicketing.verifyCreatedTicketDetails(firstTicket);
 
       });
 
@@ -115,14 +115,14 @@ describe('ticketing', () => {
           category: TestCategory.complaint,
         };
 
-        const numberOfOtherTicket = 2;
+        const numberOfOtherTickets = 2;
 
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(ticketToSort);
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
-        customerTicketing.createMultipleTickets(numberOfOtherTicket, otherTickets);
-        customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTicket+1);
+        customerTicketing.createMultipleTickets(numberOfOtherTickets, otherTickets);
+        customerTicketing.openTicketOnSepcifiedRowNumber(numberOfOtherTickets+1);
         customerTicketing.sendMessage("adding to top");
         cy.go('back');
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
