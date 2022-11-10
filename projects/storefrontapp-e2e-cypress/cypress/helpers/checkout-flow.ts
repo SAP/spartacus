@@ -252,6 +252,9 @@ export function fillPaymentForm(
     .find('.cx-summary-amount')
     .should('not.be.empty');
   fillPaymentDetails(paymentDetailsData, billingAddress);
+
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 export function verifyReviewOrderPage() {
