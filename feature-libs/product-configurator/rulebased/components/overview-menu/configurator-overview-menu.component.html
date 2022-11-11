@@ -25,9 +25,15 @@
                 }
         }}
       </span>
-      <div>
-        <span>{{ group.groupDescription }}</span>
-      </div>
+      <a
+        class="link cx-action-link"
+        (click)="navigateToGroup(group.id)"
+        [attr.aria-label]="
+          'configurator.a11y.todoCHHI' | cxTranslate: { attribute: group.id }
+        "
+      >
+        {{ group.groupDescription }}
+      </a>
       <ng-container *ngIf="group.subGroups?.length > 0">
         <ng-container
           *ngTemplateOutlet="

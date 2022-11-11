@@ -15,6 +15,7 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-menu',
@@ -41,7 +42,8 @@ export class ConfiguratorOverviewMenuComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
   /**
@@ -52,5 +54,14 @@ export class ConfiguratorOverviewMenuComponent {
    */
   getGroupLevelStyleClasses(level: number): string {
     return 'cx-group' + ' groupLevel' + level;
+  }
+
+  /**
+   * Navigates to group in OV form
+   *
+   * @param {string} id - Group id
+   */
+  navigateToGroup(id: string): void {
+    console.log('CHHI navigate: ' + id);
   }
 }
