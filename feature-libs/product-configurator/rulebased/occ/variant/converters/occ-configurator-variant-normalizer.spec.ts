@@ -193,6 +193,7 @@ const configuration: OccConfigurator.Configuration = {
   complete: true,
   consistent: true,
   rootProduct: 'CONF_PRODUCT',
+  hideBasePriceAndSelectedOptions: true,
   groups: [
     {
       attributes: [occAttributeWithValues],
@@ -349,6 +350,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('convert', () => {
+    it('should convert "hideBasePriceAndSelectedOptions" setting', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.hideBasePriceAndSelectedOptions).toBe(true);
+    });
+
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);
