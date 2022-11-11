@@ -8,8 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
+
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-form',
@@ -37,7 +39,9 @@ export class ConfiguratorOverviewFormComponent {
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    //TODO CHHI breaking change
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
   /**
@@ -136,5 +140,19 @@ export class ConfiguratorOverviewFormComponent {
       styleClass += ' subgroupLevel' + level;
     }
     return styleClass;
+  }
+
+  /**
+   * Retrieves the ids for the overview group headers
+   *
+   * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
+   * @param {string} groupId - local group id
+   * @return {string} - unique group id
+   */
+  getGroupId(idPrefix: string, groupId: string): string {
+    return this.configuratorStorefrontUtilsService.createOvGroupId(
+      idPrefix,
+      groupId
+    );
   }
 }

@@ -61,7 +61,13 @@ export class ConfiguratorOverviewMenuComponent {
    *
    * @param {string} id - Group id
    */
-  navigateToGroup(id: string): void {
-    console.log('CHHI navigate: ' + id);
+  navigateToGroup(prefix: string, id: string): void {
+    const ovGroupId = this.configuratorStorefrontUtilsService.createOvGroupId(
+      prefix,
+      id
+    );
+    this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
+      '#' + ovGroupId
+    );
   }
 }

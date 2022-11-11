@@ -7,13 +7,19 @@
       groups;
       context: {
         overviewGroups: ovGroups,
-        level: 1
+        level: 1,
+        idPrefix: ''
       }
     "
   ></ng-container>
 </ng-container>
 
-<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+<ng-template
+  #groups
+  let-overviewGroups="overviewGroups"
+  let-level="level"
+  let-idPrefix="idPrefix"
+>
   <ng-container *ngFor="let group of overviewGroups">
     <div [ngClass]="getGroupLevelStyleClasses(level)">
       <span class="cx-visually-hidden">
@@ -27,7 +33,7 @@
       </span>
       <a
         class="link cx-action-link"
-        (click)="navigateToGroup(group.id)"
+        (click)="navigateToGroup(idPrefix, group.id)"
         [attr.aria-label]="
           'configurator.a11y.todoCHHI' | cxTranslate: { attribute: group.id }
         "
@@ -38,7 +44,11 @@
         <ng-container
           *ngTemplateOutlet="
             groups;
-            context: { overviewGroups: group.subGroups, level: level + 1 }
+            context: {
+              overviewGroups: group.subGroups,
+              level: level + 1,
+              idPrefix: idPrefix + group.id
+            }
           "
         ></ng-container>
       </ng-container>

@@ -17,12 +17,17 @@ import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/co
 
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { Type } from '@angular/core';
 
 const MOCK_ROUTER_STATE: any = ConfigurationTestData.mockRouterState;
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 const CONFIG_ID = '1234-56-7890';
+const GROUP_PREFIX = 'prefix';
+const GROUP_ID_LOCAL = 'id';
+const OV_GROUP_ID = GROUP_PREFIX + GROUP_ID_LOCAL;
 const CONFIGURATION: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   overview: ConfigurationTestData.productConfiguration.overview,
@@ -62,9 +67,17 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  scrollToConfigurationElement(): void {}
+  createOvGroupId(): string {
+    return OV_GROUP_ID;
+  }
+}
+
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
+let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(
@@ -84,6 +97,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
         ],
       }).compileComponents();
     })
@@ -99,6 +116,17 @@ describe('ConfigurationOverviewMenuComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'createOvGroupId'
+    ).and.callThrough();
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'scrollToConfigurationElement'
+    ).and.callThrough();
   });
 
   it('should create component', () => {
@@ -119,8 +147,23 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
       const styleClass = component.getGroupLevelStyleClasses(4);
-
       expect(styleClass).toBe('cx-group groupLevel4');
+    });
+  });
+
+  describe('navigateToGroup', () => {
+    it('should invoke utils service for determining group id', () => {
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
+    });
+
+    it('should invoke utils service for scrolling', () => {
+      component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledWith('#' + OV_GROUP_ID);
     });
   });
 });
