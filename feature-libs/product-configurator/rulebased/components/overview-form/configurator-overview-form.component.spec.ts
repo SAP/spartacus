@@ -30,7 +30,7 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
-const OV_GROUP_ID = 'uniqueGroupId';
+const OV_GROUP_ID = 'AB-ovGroup';
 
 const configCreate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
@@ -306,6 +306,12 @@ describe('ConfigurationOverviewFormComponent', () => {
   describe('getGroupId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
+      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
+    });
+
+    it('should cope with utils service not present', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
       expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
     });
   });
