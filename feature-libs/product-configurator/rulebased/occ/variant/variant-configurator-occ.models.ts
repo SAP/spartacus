@@ -29,6 +29,7 @@ export namespace OccConfigurator {
     rootProduct: string;
     kbKey?: KB;
     pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
   }
 
   export interface KB {
