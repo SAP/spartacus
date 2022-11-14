@@ -188,9 +188,11 @@
             (enabled)="captchaEnabled($event)"
             (confirmed)="captchaConfirmed($event)"
           ></cx-captcha>
+          {{isCaptchaConfirmed}}
           <button
             type="submit"
             class="btn btn-block btn-primary"
+            [disabled]="!isCaptchaConfirmed"
           >
             {{ 'register.register' | cxTranslate }}
           </button>

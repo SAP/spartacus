@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isLoading$ = new BehaviorSubject(false);
 
   protected isCaptchaEnabled = false;
-  protected isCaptchaConfirmed = false;
+  protected isCaptchaConfirmed = true;
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
@@ -218,6 +218,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   captchaEnabled(status: boolean) {
     this.isCaptchaEnabled = status;
+    this.isCaptchaConfirmed = false;
   }
 
   captchaConfirmed(status: boolean) {

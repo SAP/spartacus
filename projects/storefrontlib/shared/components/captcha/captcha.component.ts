@@ -47,7 +47,7 @@ export class CaptchaComponent implements AfterViewInit {
         this.captchaService.renderCaptcha(
           this.captchaRef.nativeElement,
           captchaConfig.publicKey,
-          () => this.confirmed.emit()
+          () => this.confirmed.emit(true)
         );
       } else {
         this.enabled.emit(false);
