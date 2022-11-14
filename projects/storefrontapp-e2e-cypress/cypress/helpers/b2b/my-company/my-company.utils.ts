@@ -44,9 +44,8 @@ export function waitForData(
  * Login as user with organization administration powers.
  */
 export function loginAsMyCompanyAdmin(): void {
-  var minWait = 750;
-  var maxWait = 1500;
-  cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
+  const maxWait = 1500;
+  cy.wait(maxWait);
   cy.requireLoggedIn(myCompanyAdminUser);
 }
 

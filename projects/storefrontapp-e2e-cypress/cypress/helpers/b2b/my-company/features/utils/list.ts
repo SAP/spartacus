@@ -134,7 +134,7 @@ export function checkRows(rows): void {
                   }
                 });
               } else {
-                cy.get('td').eq(i).contains(row.text[i]);
+                cy.get('td').eq(i).should('contain.text', row.text[i]);
               }
             }
           }
