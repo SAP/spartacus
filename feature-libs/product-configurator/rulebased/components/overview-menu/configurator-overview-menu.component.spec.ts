@@ -32,6 +32,10 @@ const CONFIGURATION: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
+const CONFIGURATION_WO_OVERVIEW: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
+  overview: undefined,
+};
 
 let routerStateObservable: any;
 let defaultRouterStateObservable: any;
@@ -79,6 +83,24 @@ let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
+function initialize() {
+  fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
+  htmlElem = fixture.nativeElement;
+  component = fixture.componentInstance;
+  fixture.detectChanges();
+  configuratorStorefrontUtilsService = TestBed.inject(
+    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+  );
+  spyOn(
+    configuratorStorefrontUtilsService,
+    'createOvGroupId'
+  ).and.callThrough();
+  spyOn(
+    configuratorStorefrontUtilsService,
+    'scrollToConfigurationElement'
+  ).and.callThrough();
+}
+
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(
     waitForAsync(() => {
@@ -111,41 +133,35 @@ describe('ConfigurationOverviewMenuComponent', () => {
     overviewObservable = null;
     defaultRouterStateObservable = of(MOCK_ROUTER_STATE);
     defaultConfigObservable = of(CONFIGURATION);
-
-    fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
-    htmlElem = fixture.nativeElement;
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'createOvGroupId'
-    ).and.callThrough();
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'scrollToConfigurationElement'
-    ).and.callThrough();
   });
 
   it('should create component', () => {
+    initialize();
     expect(component).toBeDefined();
   });
 
   it('should provide the overview groups', () => {
+    initialize();
     component.ovGroups$.subscribe((ovGroups) => {
       expect(ovGroups?.length).toBe(2);
     });
   });
 
   it('should render group descriptions', () => {
+    initialize();
     expect(htmlElem.innerHTML).toContain(
       ConfigurationTestData.ov_group_description
     );
   });
+
+  it('should render ghost menu as long as the data is not ready', () => {
+    defaultConfigObservable = of(CONFIGURATION_WO_OVERVIEW);
+    initialize();
+    expect(htmlElem.innerHTML).toContain('cx-ghost-group-menu');
+  });
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
+      initialize();
       const styleClass = component.getGroupLevelStyleClasses(4);
       expect(styleClass).toBe('cx-group groupLevel4');
     });
@@ -153,6 +169,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   describe('navigateToGroup', () => {
     it('should invoke utils service for determining group id', () => {
+      initialize();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.createOvGroupId
@@ -160,6 +177,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should invoke utils service for scrolling', () => {
+      initialize();
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
