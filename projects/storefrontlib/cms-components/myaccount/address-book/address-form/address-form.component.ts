@@ -37,6 +37,7 @@ import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-address-form',
@@ -98,7 +99,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected fb: UntypedFormBuilder,
-    protected userService: UserService,
+    protected userService: UserProfileFacade,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,

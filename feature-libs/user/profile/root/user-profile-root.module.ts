@@ -5,12 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  provideDefaultConfigFactory,
-  UserProfileFacadeTransitionalToken,
-} from '@spartacus/core';
-import { UserProfileFacade } from './facade/user-profile.facade';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import {
   USER_PROFILE_CORE_FEATURE,
   USER_PROFILE_FEATURE,
@@ -39,12 +34,6 @@ export function defaultUserProfileComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  providers: [
-    provideDefaultConfigFactory(defaultUserProfileComponentsConfig),
-    {
-      provide: UserProfileFacadeTransitionalToken,
-      useExisting: UserProfileFacade,
-    },
-  ],
+  providers: [provideDefaultConfigFactory(defaultUserProfileComponentsConfig)],
 })
 export class UserProfileRootModule {}
