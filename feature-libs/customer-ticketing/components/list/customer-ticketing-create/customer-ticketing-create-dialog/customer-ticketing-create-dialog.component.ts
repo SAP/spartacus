@@ -17,7 +17,7 @@ import {
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CustomerTicketingDialogComponent } from '../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
+import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',

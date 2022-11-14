@@ -127,7 +127,7 @@ describe('CustomerTicketingEventListener', () => {
       );
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'customerTicketing.requestReopened' },
+        { key: 'customerTicketingDetails.requestReopened' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });

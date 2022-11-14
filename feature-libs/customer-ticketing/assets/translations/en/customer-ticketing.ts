@@ -12,19 +12,21 @@ export const customerTicketing = {
     createdOn: 'Created On',
     changedOn: 'Changed On',
     status: 'Status',
-    reopenRequest: 'Reopen Request',
-    closeRequest: 'Close Request',
     message: 'Message',
     cancel: 'Cancel',
     submit: 'Submit',
     uploadFile: 'Upload File',
     fileSizeLimit: 'File size limit: {{count}}MB',
     maximumAttachment: 'Maximum of one attachment per message',
-    attachments: 'Attachments',
-    requestReopened: 'Request Reopened.',
-    requestClosed: 'Request closed, you may reopen if needed.',
     errorMessage: 'Something went wrong.',
     charactersLeft: 'characters left: {{count}}',
+  },
+
+  customerTicketingDetails: {
+    requestReopened: 'Request Reopened.',
+    requestClosed: 'Request closed, you may reopen if needed.',
+    reopenRequest: 'Reopen Request',
+    closeRequest: 'Close Request',
   },
 
   customerTicketingList: {

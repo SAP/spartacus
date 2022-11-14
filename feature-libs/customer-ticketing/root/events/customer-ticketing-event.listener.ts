@@ -102,14 +102,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
         if (status === STATUS.CLOSED) {
           this.globalMessageService.add(
             {
-              key: 'customerTicketing.requestClosed',
+              key: 'customerTicketingDetails.requestClosed',
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         } else if (status === STATUS.INPROCESS || status === STATUS.OPEN) {
           this.globalMessageService.add(
             {
-              key: 'customerTicketing.requestReopened',
+              key: 'customerTicketingDetails.requestReopened',
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
