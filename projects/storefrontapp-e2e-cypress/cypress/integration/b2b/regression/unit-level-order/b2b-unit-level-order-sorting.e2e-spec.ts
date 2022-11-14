@@ -1,4 +1,4 @@
-import * as unitLevelOrderDetails from '../../../../helpers/b2b/b2b-order-details';
+import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
 
 
 
@@ -6,18 +6,20 @@ import * as unitLevelOrderDetails from '../../../../helpers/b2b/b2b-order-detail
 describe('B2B - Unit-Level Order Details Page', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
-    unitLevelOrderDetails.addorder();
-    unitLevelOrderDetails.loginB2bCommonUser()
-    unitLevelOrderDetails.addorder();
-    unitLevelOrderDetails.loginB2bUnitOrderViewer();
-    unitLevelOrderDetails.addorder();
+
+    unitLevelOrderHistory.loginB2bUnitOrderViewer2();
+    unitLevelOrderHistory.addOrder();
+    unitLevelOrderHistory.loginB2bCommonUser();
+    unitLevelOrderHistory.addOrder();
+    unitLevelOrderHistory.loginB2bUnitOrderViewer();
+    unitLevelOrderHistory.addOrder();
 
   });
 
   describe('Check unit level orders page sorting by Buyer (Ascending) ', () => {
-    it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-      unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+    it('should display nit level orders page sorted by Buyer (Ascending)', () => {
+
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Buyer (Ascending)').click();
@@ -35,8 +37,8 @@ describe('B2B - Unit-Level Order Details Page', () => {
   });
 
   describe('Check unit level orders page sorting by Buyer (Descending)', () => {
-    it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-      unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+    it('should display nit level orders page sorted by Buyer  (Descending)', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Buyer (Descending)').click();
@@ -54,8 +56,8 @@ describe('B2B - Unit-Level Order Details Page', () => {
   });
 
   describe('Check unit level orders page Order of sorting option ', () => {
-    it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-      unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+    it('should display unit level orders page drop down menu with sorting options', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
 
@@ -69,7 +71,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
 
   describe('Check unit level orders page sorting by Unit (Ascending)', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-      unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Unit (Ascending)').click();
@@ -88,7 +90,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
 
   describe('Check unit level orders page sorting by Unit (Descending)', () => {
     it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-      unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
       cy.get('[class=ng-option-label]').contains('Unit (Descending)').click();
@@ -104,7 +106,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
 
     describe('Check unit level orders page email  ', () => {
       it('should display buyer and unit on order details page for unit-level-viewer user', () => {
-        unitLevelOrderDetails.loginB2bUnitOrderViewerAdmin();
+        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
         cy.visit(`/my-account/unitLevelOrders`);
         cy.get('.cx-unit-level-order-history-value').contains('mark.rivers@rustic-hw.com');
 
