@@ -6,11 +6,11 @@
 
 import { NgSetupOptions } from '@nguniversal/express-engine';
 import { Request, Response } from 'express';
+import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
 import {
-  OptimizedSsrEngine,
   SsrCallbackFn,
-} from '../optimized-engine/optimized-ssr-engine';
-import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
+  SsrOptimizationOptions,
+} from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (

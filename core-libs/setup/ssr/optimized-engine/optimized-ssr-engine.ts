@@ -11,7 +11,9 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';
 import {
+  RenderingErrorsHandler,
   RenderingStrategy,
+  SsrCallbackFn,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
@@ -19,17 +21,6 @@ import {
  * Returns the full url for the given SSR Request.
  */
 export const getDefaultRenderKey = getRequestUrl;
-
-export type SsrCallbackFn = (
-  /**
-   * Error that might've occurred while rendering.
-   */
-  err?: Error | null | undefined,
-  /**
-   * HTML response.
-   */
-  html?: string | undefined
-) => void;
 
 /**
  * The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
@@ -236,11 +227,25 @@ export class OptimizedSsrEngine {
     }
 
     const renderingKey = this.getRenderingKey(request);
-    const renderCallback: SsrCallbackFn = (err, html): void => {
+    const renderCallback: SsrCallbackFn = (
+      /**
+       * Error may appear in 2 cases:
+       * 1. thrown from the original Angular Universal express engine,
+       *    i.e. when error is emitted from the `renderModule()` (or its equivalent)
+       *     of the `@angular/platform-server`, in particular when an error is emitted
+       *     from some `APP_INITIALIZER` hook.
+       * or
+       * 2. when an app during the rendering encountered some errors, which were intercepted by Spartacus
+       *     and transferred to the ExpressJS engine. In such case, the Error object contains
+       *     a property `cause.cxRenderingErrors` which is an array of errors intercepted during the rendering.
+       */
+      err,
+      html
+    ): void => {
       this.renderingCache.clear(renderingKey); // under the hood, it sets the `isRendering` flag to false
 
       const isRequestWaitingForResponse = requestTimeout !== undefined;
-      const hasRenderingErrors = this.getRenderingErrors(response).length !== 0;
+      const hasRenderingErrors = !!(err as any)?.cause?.cxRenderingErrors;
 
       if (isRequestWaitingForResponse) {
         // turn off the timeout logic for this request:
@@ -258,10 +263,7 @@ export class OptimizedSsrEngine {
           return;
         }
 
-        this.log(
-          `CSR fallback: Encountered rendering errors (${request?.originalUrl})`
-        );
-        this.fallbackToCsr(response, filePath, callback);
+        this.renderingErrorsHandler(err, html, filePath, options, callback);
         return;
       }
 
@@ -419,9 +421,28 @@ export class OptimizedSsrEngine {
       this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
+      const renderingErrors = this.getRenderingErrors(options.res);
+
+      if (renderingErrors.length) {
+        const resultError = new Error(
+          `Encountered rendering errors (${options.request?.originalUrl}`
+        );
+        (resultError as any)['cause'] = { cxRenderingErrors: renderingErrors };
+        err = err ?? resultError;
+      }
+
       renderCallback(err, html);
     });
   }
+
+  private renderingErrorsHandler: RenderingErrorsHandler =
+    this.ssrOptions?.renderingErrorsHandler ??
+    ((_error, _html, filePath, options, callback) => {
+      this.log(
+        `CSR fallback: Encountered rendering errors (${options.req?.originalUrl})`
+      );
+      this.fallbackToCsr(options.res, filePath, callback);
+    });
 
   /**
    * Tells whether the rendering for the response encountered errors.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 export interface SsrOptimizationOptions {
   /**
@@ -106,6 +106,12 @@ export interface SsrOptimizationOptions {
   reuseCurrentRendering?: boolean;
 
   /**
+   * Handler function executed in case of encountering errors during the rendering.
+   * By default, it fallbacks to CSR.
+   */
+  renderingErrorsHandler?: RenderingErrorsHandler;
+
+  /**
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
@@ -116,3 +122,25 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
+
+export type RenderingErrorsHandler = (
+  error: unknown | undefined,
+  html: string | undefined,
+  filePath: string,
+  options: { req: Request; res: Response },
+  callback: SsrCallbackFn
+) => void;
+
+/**
+ * ExpressJS callback function
+ */
+export type SsrCallbackFn = (
+  /**
+   * Error that might've occurred while rendering.
+   */
+  err?: Error | null | undefined,
+  /**
+   * HTML response.
+   */
+  html?: string | undefined
+) => void;

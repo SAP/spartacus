@@ -3,9 +3,10 @@ import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
+import { OptimizedSsrEngine } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
+  SsrCallbackFn,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
 
