@@ -197,6 +197,7 @@ export class VariantConfiguratorOccAdapter
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
+    const expMode = this.getExpModeRequested();
     const url = this.occEndpointsService.buildUrl(
       'readVariantConfigurationForCartEntry',
       {
@@ -205,11 +206,15 @@ export class VariantConfiguratorOccAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
+        queryParams: { expMode },
       }
     );
 
     return this.http.get<OccConfigurator.Configuration>(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+      tap((resultConfiguration) => {
+        this.setExpModeActive(resultConfiguration.kbKey !== undefined);
+      }),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
