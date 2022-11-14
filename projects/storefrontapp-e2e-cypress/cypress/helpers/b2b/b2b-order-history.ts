@@ -30,14 +30,14 @@ export function addOrder() {
   cy.get('input[id="paymentType-ACCOUNT"]').click({force:true});
   cy.wait(100);
   cy.contains('Continue').should('be.visible').click({force:true});
-  cy.wait(100);
   cy.wait(1000);
   cy.contains('Continue').should('be.visible').click();
-  cy.wait(100);
-  cy.get('div.col-md-12>button').eq(1).should('be.visible').click();
   cy.wait(1000);
+  cy.get('div.col-md-12>button').eq(1).should('be.visible').click();
+  cy.wait(100);
   cy.get('input[ng-reflect-name=termsAndConditions]').should('be.visible').click({force:true});
   cy.wait(100);
   cy.get('form.cx-place-order-form>button').should('be.visible').click({force:true});
   cy.wait(100);
 }
+
