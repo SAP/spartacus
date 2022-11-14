@@ -75,9 +75,14 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   resetForm(): void {
-    this.filterForm.reset();
-    this.filterFormMobile.reset();
-    this.formSearch();
+    let user = this.filterForm.get('userFilter')?.value;
+    let unit = this.filterForm.get('unitFilter')?.value;
+
+    if(user || unit){
+      this.filterForm.reset();
+      this.filterFormMobile.reset();
+      this.formSearch();
+    }
 
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
