@@ -22,4 +22,32 @@
     font-size: 14px;
     min-height: 0px;
   }
+  .cx-ghost-group-menu {
+    margin-inline-start: 20px;
+
+    .cx-ghost-menu-item {
+      padding-block-end: 10px;
+
+      .cx-ghost-item-title {
+        height: 25px;
+        background-color: var(--cx-color-ghost);
+      }
+
+      .cx-ghost-item-title-sub-l1 {
+        margin-inline-start: 20px;
+      }
+
+      .cx-ghost-item-title-sub-l2 {
+        margin-inline-start: 40px;
+      }
+
+      .cx-ghost-item-title-sub-l3 {
+        margin-inline-start: 60px;
+      }
+
+      .cx-ghost-item-title-sub-l4 {
+        margin-inline-start: 80px;
+      }
+    }
+  }
 }
