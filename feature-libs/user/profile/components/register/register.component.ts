@@ -38,6 +38,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   isLoading$ = new BehaviorSubject(false);
 
+  protected isCaptchaEnabled = false;
+  protected isCaptchaConfirmed = false;
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
@@ -212,6 +214,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.anonymousConsentsService.withdrawConsent(registerConsent);
       }
     }
+  }
+
+  captchaEnabled(status: boolean) {
+    this.isCaptchaEnabled = status;
+  }
+
+  captchaConfirmed(status: boolean) {
+    this.isCaptchaConfirmed = status;
   }
 
   ngOnDestroy() {

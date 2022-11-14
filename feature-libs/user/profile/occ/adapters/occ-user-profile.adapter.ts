@@ -12,6 +12,7 @@ import {
   normalizeHttpError,
   Occ,
   OccEndpointsService,
+  USE_CAPTCHA_TOKEN,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
@@ -25,13 +26,15 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { CaptchaService } from '@spartacus/storefront';
 
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected captchaService: CaptchaService
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
@@ -51,6 +54,12 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    if (this.captchaService.getToken()) {
+      headers = headers.append(
+        USE_CAPTCHA_TOKEN,
+        this.captchaService.getToken()
+      );
+    }
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
@@ -65,6 +74,12 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    if (this.captchaService.getToken()) {
+      headers = headers.append(
+        USE_CAPTCHA_TOKEN,
+        this.captchaService.getToken()
+      );
+    }
 
     const httpParams: HttpParams = new HttpParams()
       .set('guid', guid)

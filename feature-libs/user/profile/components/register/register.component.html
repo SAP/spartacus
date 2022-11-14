@@ -184,7 +184,14 @@
               </label>
             </div>
           </div>
-          <button type="submit" class="btn btn-block btn-primary">
+          <cx-captcha
+            (enabled)="captchaEnabled($event)"
+            (confirmed)="captchaConfirmed($event)"
+          ></cx-captcha>
+          <button
+            type="submit"
+            class="btn btn-block btn-primary"
+          >
             {{ 'register.register' | cxTranslate }}
           </button>
           <a

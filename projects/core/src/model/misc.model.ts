@@ -121,4 +121,10 @@ export interface BaseSite {
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
+  captchaConfig?: CaptchaConfig;
+}
+
+export interface CaptchaConfig {
+  enabled: boolean;
+  publicKey?: string;
 }
