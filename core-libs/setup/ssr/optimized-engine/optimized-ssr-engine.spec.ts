@@ -1279,11 +1279,7 @@ describe('OptimizedSsrEngine', () => {
         flush();
       }));
 
-      // SPIKE TODO: this unit test is currently failing, which is a good catch
-      // we need to fix the problem in the code
-      // A the moment, only the first requests gets CSR fallback, but other requests
-      // get the malformed HTML result from the first request.
-      fit('should fallback to CSR all pending requests for the same rendering key, if their shared render encountered errors', fakeAsync(() => {
+      it('should fallback to CSR all pending requests for the same rendering key, if their shared render encountered errors', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           reuseCurrentRendering: true,
           timeout: 200,
