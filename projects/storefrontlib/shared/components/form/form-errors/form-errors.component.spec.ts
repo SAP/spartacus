@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsComponent } from './form-errors.component';
@@ -11,7 +11,7 @@ const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
   let fixture: ComponentFixture<FormErrorsComponent>;
-  let control: FormControl;
+  let control: UntypedFormControl;
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
@@ -27,7 +27,7 @@ describe('FormErrors', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
     component = fixture.componentInstance;
-    control = new FormControl('exampleControl');
+    control = new UntypedFormControl('exampleControl');
 
     component.control = control;
   });

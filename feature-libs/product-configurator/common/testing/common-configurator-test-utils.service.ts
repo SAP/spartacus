@@ -31,6 +31,29 @@ export class CommonConfiguratorTestUtilsService {
   }
 
   /**
+   * Helper function for proving whether the expected number of elements is present in the DOM tree.
+   *
+   * @param expect - Expectation for a spec.
+   * @param htmlElement - HTML element.
+   * @param querySelector - Query selector
+   * @param numberOfElements - Number of elements
+   */
+  static expectNumberOfElementsPresent(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    numberOfElements: number
+  ) {
+    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+      numberOfElements,
+      "expected elements identified by selector '" +
+        querySelector +
+        "' to be present, but it is NOT! innerHtml: " +
+        htmlElement.innerHTML
+    );
+  }
+
+  /**
    * Helper function for proving whether the element contains text.
    *
    * @param expect - Expectation for a spec.
@@ -42,9 +65,15 @@ export class CommonConfiguratorTestUtilsService {
     expect: any,
     htmlElement: Element,
     querySelector: string,
-    expectedText: string
+    expectedText: string,
+    index?: number
   ) {
-    const text = htmlElement.querySelector(querySelector)?.textContent;
+    let text;
+    if (index) {
+      text = htmlElement.querySelectorAll(querySelector)[index]?.textContent;
+    } else {
+      text = htmlElement.querySelector(querySelector)?.textContent;
+    }
     expect(text ? text.trim() : '').toBe(expectedText);
   }
 
@@ -98,7 +127,7 @@ export class CommonConfiguratorTestUtilsService {
     tagClass?: string,
     tagIndex?: number
   ): Element | undefined {
-    let foundElement: Element[] = [];
+    const foundElement: Element[] = [];
     const elements = htmlElements.getElementsByTagName(tag);
     if (!tagClass) {
       return !tagIndex ? elements[0] : elements[tagIndex];

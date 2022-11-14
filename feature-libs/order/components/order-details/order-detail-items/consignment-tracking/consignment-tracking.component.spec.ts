@@ -1,13 +1,21 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  DebugElement,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
-import { ModalService, SpinnerModule } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
-import createSpy = jasmine.createSpy;
 
 const consignmentStatus: string[] = [
   'DELIVERING',
@@ -30,25 +38,21 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockModalRef {
-  get componentInstance() {
-    return {
-      tracking$: null,
-      shipDate: null,
-      consignmentCode: null,
-    };
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
   }
-}
-
-class MockModalService {
-  open = createSpy('open').and.returnValue(new MockModalRef());
 }
 
 describe('ConsignmentTrackingComponent', () => {
   let component: ConsignmentTrackingComponent;
   let fixture: ComponentFixture<ConsignmentTrackingComponent>;
   let el: DebugElement;
-  let modalService: ModalService;
+  let launchDialogService: LaunchDialogService;
 
   const arrayEqyals = (array1: string[], array2: string[]) => {
     let equals = false;
@@ -70,10 +74,10 @@ describe('ConsignmentTrackingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule, SpinnerModule, I18nTestingModule],
+      imports: [SpinnerModule, I18nTestingModule],
       declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: ModalService, useClass: MockModalService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: OrderHistoryFacade, useValue: userOrderService },
       ],
     }).compileComponents();
@@ -81,7 +85,7 @@ describe('ConsignmentTrackingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
-    modalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     userOrderService.getConsignmentTracking.and.returnValue(
       of({ trackingID: '1234567890' })
     );
@@ -148,6 +152,7 @@ describe('ConsignmentTrackingComponent', () => {
   });
 
   it('should be able to open dialog', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
     mockConsignment.status = consignmentStatus[0];
     fixture.detectChanges();
 
@@ -157,6 +162,6 @@ describe('ConsignmentTrackingComponent', () => {
       component.orderCode,
       mockConsignment.code
     );
-    expect(modalService.open).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalled();
   });
 });

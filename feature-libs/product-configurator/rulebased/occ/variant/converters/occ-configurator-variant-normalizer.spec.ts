@@ -5,7 +5,7 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -53,6 +53,7 @@ const occAttribute: OccConfigurator.Attribute = {
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
+  visible: true,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
   key: groupKey,
@@ -192,6 +193,7 @@ const configuration: OccConfigurator.Configuration = {
   complete: true,
   consistent: true,
   rootProduct: 'CONF_PRODUCT',
+  hideBasePriceAndSelectedOptions: true,
   groups: [
     {
       attributes: [occAttributeWithValues],
@@ -211,6 +213,12 @@ const configuration: OccConfigurator.Configuration = {
       id: '2',
     },
   ],
+  kbKey: {
+    kbName: 'CONF_PRODUCT_KB',
+    kbLogsys: 'RR5CLNT910',
+    kbVersion: '1',
+    kbBuildNumber: '2',
+  },
 };
 
 const group: OccConfigurator.Group = {
@@ -342,6 +350,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('convert', () => {
+    it('should convert "hideBasePriceAndSelectedOptions" setting', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.hideBasePriceAndSelectedOptions).toBe(true);
+    });
+
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);
@@ -379,6 +392,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attribute.required).toBe(requiredFlag);
       expect(attribute.selectedSingleValue).toBe(valueKey2);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
+      expect(attribute.visible).toBeTruthy();
       const values = attribute.values;
       expect(values?.length).toBe(2);
     });
@@ -398,6 +412,35 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(target.interactionState).toBe(
         targetFromPredecessor.interactionState
       );
+    });
+
+    it('should convert a configuration with kb key', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeDefined();
+      expect(result.kbKey?.kbName).toEqual(configuration.kbKey?.kbName);
+      expect(result.kbKey?.kbLogsys).toEqual(configuration.kbKey?.kbLogsys);
+      expect(result.kbKey?.kbVersion).toEqual(configuration.kbKey?.kbVersion);
+      expect(result.kbKey?.kbBuildNumber).toEqual(
+        configuration.kbKey?.kbBuildNumber
+      );
+    });
+
+    it('should convert a configuration with undefined kb key', () => {
+      configuration.kbKey = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeUndefined();
+    });
+
+    it('should convert flag that indicates that pricing is enabled', () => {
+      configuration.pricingEnabled = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(false);
+    });
+
+    it('should state that pricing is supported if backend does not support that attribute', () => {
+      configuration.pricingEnabled = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.pricingEnabled).toBe(true);
     });
   });
 
@@ -844,36 +887,55 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.ImageFormatType.ATTRIBUTE_IMAGE);
   });
 
-  it('should convert image with media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = 'https://mediaBackendBaseUrl/';
+  describe('convertImage', () => {
+    it('should convert image with media URL configured', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      if (media) {
+        media.baseUrl = 'https://mediaBackendBaseUrl/';
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe(
+          'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+        );
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
-      expect(images.length).toBe(2);
-    }
-  });
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+        expect(images.length).toBe(2);
+      }
+    });
 
-  it('should convert image with no media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = undefined;
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    it('should convert image with no media URL configured', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      if (media) {
+        media.baseUrl = undefined;
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
-    }
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe(
+          'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+        );
+      }
+    });
+
+    it('should convert image with no URL configuration at all', () => {
+      const images: Configurator.Image[] = [];
+      const media = occConfig?.backend?.media;
+      expect(media).toBeDefined();
+      const occ = occConfig?.backend?.occ;
+      if (media && occ) {
+        media.baseUrl = undefined;
+        occ.baseUrl = undefined;
+        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+        expect(images.length).toBe(1);
+        expect(images[0].url).toBe('media?This%20%is%20%a%20%URL');
+      }
+    });
   });
 
   describe('check the setting of incomplete', () => {

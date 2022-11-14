@@ -44,6 +44,7 @@ export class CpqConfiguratorNormalizer
       interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
+      pricingEnabled: true,
     };
     source.tabs?.forEach((tab) =>
       this.convertGroup(
@@ -69,7 +70,7 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    let numberOfIssues: number =
+    const numberOfIssues: number =
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
       (source.invalidMessages?.length ?? 0) +
@@ -180,6 +181,7 @@ export class CpqConfiguratorNormalizer
       hasConflicts: sourceAttribute.hasConflict,
       selectedSingleValue: undefined,
       images: [],
+      visible: true,
     };
 
     if (

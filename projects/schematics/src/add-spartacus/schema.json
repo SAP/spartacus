@@ -33,6 +33,7 @@
           "Administration",
           "Order-Approval",
           "Organization-User-Registration",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
           "Product-Variants",
@@ -136,8 +137,13 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+
             "value": "Organization-User-Registration",
             "label": "Organization - User Registration (b2b feature)"
+},{
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+
           },
           {
             "value": "Bulk-Pricing",
@@ -223,13 +229,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",
