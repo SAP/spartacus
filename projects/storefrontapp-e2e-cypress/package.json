@@ -2,7 +2,7 @@
   "name": "storefrontapp-e2e-cypress",
   "version": "3.0.0",
   "main": "index.js",
-  "author": "SAP, Spartacus teams",
+  "author": "SAP, Spartacus team",
   "license": "Apache-2.0",
   "scripts": {
     "cy:open": "cypress open",
