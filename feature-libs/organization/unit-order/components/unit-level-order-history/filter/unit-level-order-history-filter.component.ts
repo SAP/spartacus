@@ -19,13 +19,13 @@ export class UnitLevelOrderHistoryFilterComponent {
   encodedFilter: string;
 
   filterForm: FormGroup = new FormGroup({
-    userFilter: new FormControl(),
-    unitFilter: new FormControl(),
+    userFilter: new FormControl('', {updateOn: 'submit'}),
+    unitFilter: new FormControl('', {updateOn: 'submit'}),
   });
 
   filterFormMobile: FormGroup = new FormGroup({
-    inputFilterBuyer: new FormControl(),
-    inputFilterUnit: new FormControl(),
+    inputFilterBuyer: new FormControl('', {updateOn: 'submit'}),
+    inputFilterUnit: new FormControl('', {updateOn: 'submit'}),
   });
 
   @ViewChild('unitButton', {read: ElementRef}) unitButton: ElementRef;
@@ -52,10 +52,12 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   formSearch(): void {
-    let user = this.filterForm.get('userFilter')?.value;
-    let unit = this.filterForm.get('unitFilter')?.value;
-    this.filterFormMobile.setValue({'inputFilterBuyer': user, 'inputFilterUnit': unit});
-    this.emitFilterEvent(user, unit);
+    this.filterForm.valueChanges.subscribe(() => {
+      let user = this.filterForm.get('userFilter')?.value;
+      let unit = this.filterForm.get('unitFilter')?.value;
+      this.filterFormMobile.setValue({'inputFilterBuyer': user, 'inputFilterUnit': unit})
+      this.emitFilterEvent(user, unit);
+    })
   }
 
   emitFilterEvent(user: string, unit: string): void {
@@ -94,11 +96,12 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   formSearchMobile(): void {
-    let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
-    let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
-    this.filterForm.setValue({'userFilter': user, 'unitFilter': unit});
-
-    this.emitFilterEvent(user, unit);
+    this.filterFormMobile.valueChanges.subscribe(() => {
+      let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
+      let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
+      this.filterForm.setValue({'userFilter': user, 'unitFilter': unit});
+      this.emitFilterEvent(user, unit);
+    })
 
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
