@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<form [formGroup]="filterFormMobile" (keydown.enter)="formSearchMobile()" >
+<form [formGroup]="filterFormMobile" (keydown.enter)="formSearchMobile()">
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" #filterNavBuyer class="cx-filter-nav"
        [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate" (keydown.enter)="formSearchMobile()">
     <div class="cx-filter-nav-div">
@@ -58,8 +58,8 @@
 
         <button #buyerButtonMobile
                 [attr.aria-label]="'common.reset' | cxTranslate"
-                (mousedown)="clearBuyerMobile(queryInputBuyerMobile)"
-                (keydown.enter)="clearBuyerMobile(queryInputBuyerMobile)"
+                (mousedown)="clearBuyerMobile()"
+                (keydown.enter)="clearBuyerMobile()"
                 class="reset cx-unit-level-order-history-filter-reset-button"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -78,7 +78,7 @@
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="clearBuyerMobile(queryInputBuyerMobile)"
+        (click)="clearBuyerMobile()"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
@@ -99,17 +99,17 @@
 
       <label>
         <input
-               #queryInputUnitMobile
-               formControlName="inputFilterUnit"
-               class="form-control"
-               (input)="searchUnitMobile(queryInputUnitMobile)"
-               [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
-               placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
+          #queryInputUnitMobile
+          formControlName="inputFilterUnit"
+          class="form-control"
+          (input)="searchUnitMobile(queryInputUnitMobile)"
+          [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
+          placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />
         <button #unitButtonMobile
                 [attr.aria-label]="'common.reset' | cxTranslate"
-                (mousedown)="clearUnitMobile(queryInputUnitMobile)"
-                (keydown.enter)="clearUnitMobile(queryInputUnitMobile)"
+                (mousedown)="clearUnitMobile()"
+                (keydown.enter)="clearUnitMobile()"
                 class="reset cx-unit-level-order-history-filter-reset-button"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -126,7 +126,7 @@
       <button
         class="cx-action-link clear-btn"
         type="button"
-        (click)="clearUnitMobile(queryInputUnitMobile)"
+        (click)="clearUnitMobile()"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
@@ -153,8 +153,8 @@
             />
             <button #buyerButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
-                    (mousedown)="clearBuyer(queryInputBuyer)"
-                    (keydown.enter)="clearBuyer(queryInputBuyer)"
+                    (mousedown)="clearBuyer()"
+                    (keydown.enter)="clearBuyer()"
                     class="reset cx-unit-level-order-history-filter-reset-button"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -184,8 +184,8 @@
             />
             <button #unitButton
                     [attr.aria-label]="'common.reset' | cxTranslate"
-                    (mousedown)="clearUnit(queryInputUnit)"
-                    (keydown.enter)="clearUnit(queryInputUnit)"
+                    (mousedown)="clearUnit()"
+                    (keydown.enter)="clearUnit()"
                     class="reset cx-unit-level-order-history-filter-reset-button"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>

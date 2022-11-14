@@ -28,11 +28,6 @@ export class UnitLevelOrderHistoryFilterComponent {
     inputFilterUnit: new FormControl(),
   });
 
-  @ViewChild('queryInputBuyer') queryInputBuyer: ElementRef;
-  @ViewChild('queryInputUnit') queryInputUnit: ElementRef;
-  @ViewChild('queryInputBuyerMobile') queryInputBuyerMobile: ElementRef;
-  @ViewChild('queryInputUnitMobile') queryInputUnitMobile: ElementRef;
-
   @ViewChild('unitButton', {read: ElementRef}) unitButton: ElementRef;
   @ViewChild('buyerButton', {read: ElementRef}) buyerButton: ElementRef;
   @ViewChild('unitButtonMobile', {read: ElementRef}) unitButtonMobile: ElementRef;
@@ -57,20 +52,18 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   formSearch(): void {
-    let filters: string[] = [];
-    let user = this.queryInputBuyer?.nativeElement?.value;
-    let unit = this.queryInputUnit?.nativeElement?.value;
+    let user = this.filterForm.get('userFilter')?.value;
+    let unit = this.filterForm.get('unitFilter')?.value;
+    this.filterFormMobile.setValue({'inputFilterBuyer': user, 'inputFilterUnit': unit});
+    this.emitFilterEvent(user, unit);
+  }
 
-    this.queryInputBuyerMobile.nativeElement.value = user;
-    this.queryInputUnitMobile.nativeElement.value = unit;
+  emitFilterEvent(user: string, unit: string): void {
+    let filters: string[] = [];
 
     user?.length ? filters.push('user:' + user) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
-    this.emitFilterEvent(filters);
-  }
-
-  emitFilterEvent(filters: string[]): void {
     this.encodedFilter = filters.join(':');
 
     this.filterListEvent.emit({
@@ -95,32 +88,17 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
   }
 
-  refresh(user: string, unit: string): void {
-    let filters: string[] = [];
-    user?.length ? filters.push('user:' + user) : '';
-    unit?.length ? filters.push('unit:' + unit) : '';
-    filters.unshift(filters.length ? ':' : '');
-
-    this.encodedFilter = filters.join(':');
-  }
-
   launch(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
   }
 
   formSearchMobile(): void {
-    let filters: string[] = [];
-    let user = this.queryInputBuyerMobile?.nativeElement?.value;
-    let unit = this.queryInputUnitMobile?.nativeElement?.value;
+    let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
+    let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
+    this.filterForm.setValue({'userFilter': user, 'unitFilter': unit});
 
-    this.queryInputBuyer.nativeElement.value = user;
-    this.queryInputUnit.nativeElement.value = unit;
-
-    user?.length ? filters.push('user:' + user) : '';
-    unit?.length ? filters.push('unit:' + unit) : '';
-    filters.unshift(filters.length ? ':' : '');
-    this.emitFilterEvent(filters);
+    this.emitFilterEvent(user, unit);
 
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
@@ -153,33 +131,29 @@ export class UnitLevelOrderHistoryFilterComponent {
     }
   }
 
-  clearUnit(inputElement: HTMLInputElement): void {
-    inputElement.value = '';
-    inputElement.focus();
+  clearUnit(): void {
+    this.filterForm.get('unitFilter')?.reset();
     this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'block');
     this.formSearch();
   }
 
-  clearBuyer(inputElement: HTMLInputElement): void {
-    inputElement.value = '';
-    inputElement.focus();
+  clearBuyer(): void {
+    this.filterForm.get('userFilter')?.reset();
     this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
     this.formSearch();
   }
 
-  clearUnitMobile(inputElement: HTMLInputElement): void {
-    inputElement.value = '';
-    inputElement.focus();
+  clearUnitMobile(): void {
+    this.filterFormMobile.get('inputFilterUnit')?.reset();
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
     this.formSearchMobile();
   }
 
-  clearBuyerMobile(inputElement: HTMLInputElement): void {
-    inputElement.value = '';
-    inputElement.focus();
+  clearBuyerMobile(): void {
+    this.filterFormMobile.get('inputFilterBuyer')?.reset();
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
     this.formSearchMobile();
@@ -188,7 +162,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchBuyer(inputElement: HTMLInputElement): void {
     const value = inputElement.value;
     if (!value || value === '') {
-      this.clearBuyer(inputElement);
+      this.clearBuyer();
       return;
     }
     this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'block');
@@ -198,7 +172,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchUnit(inputElement: HTMLInputElement): void {
     const value = inputElement.value;
     if (!value || value === '') {
-      this.clearUnit(inputElement);
+      this.clearUnit();
       return;
     }
     this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'block');
@@ -208,7 +182,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchBuyerMobile(inputElement: HTMLInputElement): void {
     const value = inputElement.value;
     if (!value || value === '') {
-      this.clearBuyer(inputElement);
+      this.clearBuyer();
       return;
     }
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'block');
@@ -218,7 +192,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchUnitMobile(inputElement: HTMLInputElement): void {
     const value = inputElement.value;
     if (!value || value === '') {
-      this.clearUnit(inputElement);
+      this.clearUnit();
       return;
     }
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'block');
