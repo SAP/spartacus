@@ -21,14 +21,6 @@ export const customerTicketing = {
     errorMessage: 'Something went wrong.',
     charactersLeft: 'characters left: {{count}}',
   },
-
-  customerTicketingDetails: {
-    requestReopened: 'Request Reopened.',
-    requestClosed: 'Request closed, you may reopen if needed.',
-    reopenRequest: 'Reopen Request',
-    closeRequest: 'Close Request',
-  },
-
   customerTicketingList: {
     subject: 'Subject',
     ticketCategory: 'Category',
@@ -50,5 +42,11 @@ export const customerTicketing = {
     ticketCreated: 'Request created.',
     optionallySelectAssociatedObject: 'Select Option',
     selectCategory: 'Select a Category',
+  },
+  customerTicketingDetails: {
+    requestReopened: 'Request Reopened.',
+    requestClosed: 'Request closed, you may reopen if needed.',
+    reopenRequest: 'Reopen Request',
+    closeRequest: 'Close Request',
   },
 };
