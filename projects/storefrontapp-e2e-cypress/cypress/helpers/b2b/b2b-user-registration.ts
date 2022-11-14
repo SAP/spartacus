@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SampleUser } from '../../sample-data/checkout-flow';
 import { clickHamburger } from '../homepage';
 import * as alerts from '../global-message';
