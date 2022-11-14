@@ -263,7 +263,7 @@ export class OptimizedSsrEngine {
           return;
         }
 
-        this.renderingErrorsHandler(err, html, filePath, options, callback);
+        this.handleRenderingErrors(err, html, filePath, options, callback);
         return;
       }
 
@@ -435,7 +435,7 @@ export class OptimizedSsrEngine {
     });
   }
 
-  private renderingErrorsHandler: RenderingErrorsHandler =
+  private handleRenderingErrors: RenderingErrorsHandler =
     this.ssrOptions?.renderingErrorsHandler ??
     ((_error, _html, filePath, options, callback) => {
       this.log(
