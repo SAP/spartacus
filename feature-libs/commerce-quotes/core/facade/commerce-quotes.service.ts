@@ -15,6 +15,7 @@ import {
   QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
+  QuotesStateParams,
   QuoteStarter,
 } from '@spartacus/commerce-quotes/root';
 import {
@@ -43,9 +44,6 @@ import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {
-  protected currentPage$ = new BehaviorSubject<number>(0);
-  protected sortBy$ = new BehaviorSubject<string>('byCode');
-
   /**
    * Indicator whether an action is currently performing.
    */
@@ -206,24 +204,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       }
     );
 
-  protected quotesState$: Query<QuoteList, unknown[]> =
-    this.queryService.create<QuoteList>(
-      () =>
-        this.userIdService.takeUserId().pipe(
-          withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) =>
-            this.commerceQuotesConnector.getQuotes(userId, {
-              currentPage,
-              sort,
-              pageSize: this.config.view?.defaultPageSize,
-            })
-          )
-        ),
-      {
-        reloadOn: [CommerceQuotesListReloadQueryEvent],
-      }
-    );
-
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(
       () =>
@@ -238,6 +218,63 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       }
     );
 
+  protected getQuotesStateQuery = ({
+    currentPage$,
+    sort$,
+  }: QuotesStateParams) => {
+    // this.queryService.create<QuoteList>(
+    //   () =>
+    //     this.userIdService.takeUserId().pipe(
+    //       withLatestFrom(currentPage$, sort$),
+    //       switchMap(([userId, currentPage, sort]) =>
+    //         this.commerceQuotesConnector.getQuotes(userId, {
+    //           currentPage,
+    //           sort,
+    //           pageSize: this.config.view?.defaultPageSize,
+    //         })
+    //       )
+    //     ),
+    //   {
+    //     reloadOn: [CommerceQuotesListReloadQueryEvent, currentPage$, sort$],
+    //     resetOn: [LoginEvent, NavigationEvent],
+    //   }
+    console.log('getQuotesStateQuery()');
+
+    if (!window['spikeInFactory']) {
+      window['spikeInFactory'] = [];
+    }
+    window['spikeInFactory'].push({
+      currentPage$,
+      sort$,
+    });
+    return this.queryService.create<QuoteList>(
+      () => {
+        console.log('quote created');
+        return combineLatest([
+          this.userIdService.takeUserId(),
+          currentPage$.pipe(
+            tap((currentPage) => console.log('inner', { currentPage }))
+          ),
+          sort$.pipe(tap((sort) => console.log('inner', { sort }))),
+        ]).pipe(
+          switchMap(([userId, currentPage, sort]) => {
+            console.log('switchMap', { userId, currentPage, sort });
+            debugger;
+            return this.commerceQuotesConnector.getQuotes(userId, {
+              currentPage,
+              sort,
+              pageSize: this.config.view?.defaultPageSize,
+            });
+          })
+        );
+      },
+      {
+        reloadOn: [CommerceQuotesListReloadQueryEvent],
+        resetOn: [LoginEvent],
+      }
+    );
+  };
+
   constructor(
     protected userIdService: UserIdService,
     protected commerceQuotesConnector: CommerceQuotesConnector,
@@ -249,20 +286,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected routingService: RoutingService,
     protected multiCartService: MultiCartFacade
   ) {}
-
-  setCurrentPage(page: number): void {
-    this.currentPage$.next(page);
-    this.eventService.dispatch({}, CommerceQuotesListReloadQueryEvent);
-  }
-
-  setSort(sort: string): void {
-    this.sortBy$.next(sort);
-    this.eventService.dispatch({}, CommerceQuotesListReloadQueryEvent);
-  }
-
-  getQuotesState(): Observable<QueryState<QuoteList | undefined>> {
-    return this.quotesState$.getState();
-  }
 
   createQuote(
     quoteMetadata: QuoteMetadata,
@@ -297,6 +320,13 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   requote(quoteCode: string): Observable<Quote> {
     return this.requoteCommand.execute({ quoteStarter: { quoteCode } });
+  }
+
+  getQuotesState(
+    params: QuotesStateParams
+  ): Observable<QueryState<QuoteList | undefined>> {
+    console.log('getQuotesState()');
+    return this.getQuotesStateQuery(params).getState();
   }
 
   getQuoteDetails(): Observable<QueryState<Quote | undefined>> {

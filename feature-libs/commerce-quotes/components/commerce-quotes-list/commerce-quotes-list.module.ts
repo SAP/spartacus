@@ -14,7 +14,12 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule, ViewConfig } from '@spartacus/storefront';
+import {
+  ListNavigationModule,
+  SpinnerModule,
+  ViewConfig,
+} from '@spartacus/storefront';
+import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
 import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
 
 @NgModule({
@@ -24,6 +29,7 @@ import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
     UrlModule,
     RouterModule,
     ListNavigationModule,
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>{
@@ -39,6 +45,7 @@ import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
         },
       },
     }),
+    CommerceQuotesListComponentService,
   ],
   declarations: [CommerceQuotesListComponent],
   exports: [CommerceQuotesListComponent],

@@ -1,3 +1,6 @@
+<h1><a routerLink="/my-account/quotes">Quotes</a></h1>
+<h1><a routerLink="/my-account/update-profile">Update profile</a></h1>
+
 <ng-template [cxOutlet]="StorefrontOutlets.STOREFRONT" cxPageTemplateStyle>
   <ng-template cxOutlet="cx-header">
     <header
@@ -8,7 +11,7 @@
       (keydown.escape)="collapseMenu()"
       (click)="collapseMenuIfClickOutside($event)"
     >
-      <cx-page-layout section="header"></cx-page-layout>
+      <cx-page-layout section="header"></cx-page-layout>c
       <cx-page-layout section="navigation"></cx-page-layout>
     </header>
     <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>

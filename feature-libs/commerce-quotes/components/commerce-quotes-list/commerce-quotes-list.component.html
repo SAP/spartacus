@@ -3,7 +3,7 @@
   <div>
     <h3 id="header">{{ 'commerceQuotes.list.header' | cxTranslate }}</h3>
   </div>
-  <ng-container *ngIf="quotesState.data">
+  <ng-container *ngIf="quotesState.data; else loading">
     <ng-container
       *ngIf="quotesState.data.quotes.length > 0; else emptyQuoteList"
     >
@@ -14,7 +14,7 @@
           </span>
           <cx-sorting
             [sortOptions]="sorts"
-            [sortLabels]="getSortLabels() | async"
+            [sortLabels]="sortLabels$ | async"
             (sortListEvent)="changeSortCode($event)"
             [selectedOption]="quotesState.data.pagination.sort"
             placeholder="{{ 'commerceQuotes.list.sortBy' | cxTranslate }}"
@@ -22,7 +22,12 @@
             ariaControls="commerce-quotes-list"
           ></cx-sorting>
         </label>
-        <div *ngIf="quotesState.data?.pagination.totalPages > 1">
+        <div
+          *ngIf="
+            quotesState.data.pagination.totalPages &&
+            quotesState.data.pagination.totalPages > 1
+          "
+        >
           <cx-pagination
             [pagination]="quotesState.data.pagination"
             (viewPageEvent)="changePage($event)"
@@ -110,7 +115,12 @@
         </tbody>
       </table>
       <div class="cx-commerce-quotes-list-sort bottom">
-        <div *ngIf="quotesState.data?.pagination.totalPages > 1">
+        <div
+          *ngIf="
+            quotesState.data.pagination.totalPages &&
+            quotesState.data.pagination.totalPages > 1
+          "
+        >
           <cx-pagination
             [pagination]="quotesState.data.pagination"
             (viewPageEvent)="changePage($event)"
@@ -120,6 +130,12 @@
     </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
 
 <ng-template #emptyQuoteList>
   <div class="cx-commerce-quotes-list-empty">

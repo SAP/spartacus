@@ -86,7 +86,9 @@ export class QueryService implements OnDestroy {
         }
       }),
       switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
+      // switchMap(() => loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
+        console.log('data', data);
         state$.next({ loading: false, error: false, data });
       }),
       catchError((error, sourceStream$) => {

@@ -5,17 +5,17 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
+  Comment,
   Quote,
   QuoteActionType,
   QuoteDiscount,
   QuoteList,
   QuoteMetadata,
   QuoteStarter,
-  Comment,
 } from '@spartacus/commerce-quotes/root';
+import { PaginationModel } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
 
 @Injectable()
@@ -26,6 +26,7 @@ export class CommerceQuotesConnector {
     userId: string,
     pagination: PaginationModel
   ): Observable<QuoteList> {
+    console.log('connector getQuotes', { userId, pagination });
     return this.adapter.getQuotes(userId, pagination);
   }
 
