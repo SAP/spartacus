@@ -158,13 +158,19 @@ export function verifyCreateTicketPopupIsClosed(){
 }
 
 export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit(){
+  const SUBJECT_CONTROL = 'subject';
+  const MESSAGE_CONTROL = 'message';
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
-    cy.get('textarea').first().invoke('text').then((text) => {
+    cy.get(`textarea[formcontrolname="${SUBJECT_CONTROL}"]`).invoke('text').then((text) => {
       expect(text.length).to.be.lte(TICKET_SUBJECT_MAX_LENGTH);
     });
-    cy.get('textarea').last().invoke('text').then((text) => {
+    cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).invoke('text').then((text) => {
       expect(text.length).to.be.lte(TICKET_MESSAGE_MAX_LENGTH);
     });
     cy.get('cx-form-errors').should('not.be.visible');
   });
+}
+
+export function generateDummyStringOfLength(length: number): string {
+  return new Array(length).join('a');
 }

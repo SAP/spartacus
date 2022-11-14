@@ -150,7 +150,7 @@ describe('ticketing', () => {
       it('should not create ticket if subject exceeds 255 character limit', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
         const testTicketDetails: TestTicketDetails = {
-          subject: new Array(TICKET_SUBJECT_MAX_LENGTH + 1).join('a'),
+          subject: customerTicketing.generateDummyStringOfLength(TICKET_SUBJECT_MAX_LENGTH+1),
           message: 'Exceeding character limit',
           category: TestCategory.complaint,
         };
@@ -166,7 +166,7 @@ describe('ticketing', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
         const testTicketDetails: TestTicketDetails = {
           subject: 'Exceeding character limit',
-          message: new Array(TICKET_MESSAGE_MAX_LENGTH + 1).join('a'),
+          message: customerTicketing.generateDummyStringOfLength(TICKET_MESSAGE_MAX_LENGTH+1),
           category: TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
