@@ -259,7 +259,7 @@ export class OptimizedSsrEngine {
         }
 
         this.log(
-          `CSR fallback: Rendering encountered errors (${request?.originalUrl})`
+          `CSR fallback: Encountered rendering errors (${request?.originalUrl})`
         );
         this.fallbackToCsr(response, filePath, callback);
         return;
@@ -427,6 +427,6 @@ export class OptimizedSsrEngine {
    * Tells whether the rendering for the response encountered errors.
    */
   private getRenderingErrors(response: Response): unknown[] {
-    return response.locals['cxRenderingErrors'] ?? [];
+    return response.locals?.['cxRenderingErrors'] ?? [];
   }
 }
