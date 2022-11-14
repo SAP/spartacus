@@ -25,7 +25,6 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-
         "enum": [
           "Administration",
           "Order-Approval",
@@ -38,11 +37,6 @@
         "Order-Approval",
         "Organization-User-Registration"
       ],
-
-        "enum": ["Administration", "Order-Approval", "Account-Summary"],
-        "type": "string"
-      },
-      "default": ["Administration", "Order-Approval", "Account-Summary"],
 
       "x-prompt": {
         "message": "Which Organization features would you like to set up?",
@@ -57,13 +51,12 @@
             "label": "Order Approval (b2b feature)"
           },
           {
-
             "value": "User-Registration",
             "label": "User Registration (b2b feature)"
-
+          },
+          {
             "value": "Account-Summary",
             "label": "Account Summary (b2b feature, requires Organization - Administration)"
-
           }
         ]
       }

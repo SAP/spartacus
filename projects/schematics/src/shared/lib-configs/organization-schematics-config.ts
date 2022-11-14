@@ -116,7 +116,6 @@ export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: SchematicConfig = {
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME, ORDER_FEATURE_NAME],
 };
 
-
 export const ORGANIZATION_USER_REGISTRATION_MODULE =
   'OrganizationUserRegistrationModule';
 export const ORGANIZATION_USER_REGISTRATION_MODULE_NAME =
@@ -163,7 +162,7 @@ export const ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG: SchematicConfig =
     },
     dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
   };
-=======
+
 export const ORGANIZATION_ACCOUNT_SUMMARY_MODULE_NAME =
   'organizationAccountSummary';
 export const ACCOUNT_SUMMARY_MODULE = 'AccountSummaryModule';
@@ -206,4 +205,3 @@ export const ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG: SchematicConfig = {
   },
   dependencyFeatures: [ORGANIZATION_ADMINISTRATION_FEATURE_NAME],
 };
-

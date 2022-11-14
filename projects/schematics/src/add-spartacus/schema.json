@@ -137,13 +137,12 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
-
             "value": "Organization-User-Registration",
             "label": "Organization - User Registration (b2b feature)"
-},{
+          },
+          {
             "value": "Account-Summary",
             "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
-
           },
           {
             "value": "Bulk-Pricing",
