@@ -145,6 +145,28 @@ const getCurrentConcurrency = (
   };
 };
 
+/**
+ * Puts rendering errors into the `res.locals` object, similar to what happens
+ * in the real Spartacus app in case of rendering errors.
+ */
+function mockRenderingErrors(errors: unknown[], res: Response): void {
+  res.locals = {
+    ...res.locals,
+    cxRenderingErrors: errors,
+  };
+}
+
+/**
+ * Simulates that the given rendering errors happen in the app during the rendering.
+ */
+function renderWithErrors(
+  errors: unknown[]
+): ({ req, res }: { req: Request; res: Response }) => void {
+  return (options: { res: Response }) => {
+    mockRenderingErrors(errors, options.res);
+  };
+}
+
 describe('OptimizedSsrEngine', () => {
   describe('timeout option', () => {
     it('should fallback to CSR if rendering exceeds timeout', fakeAsync(() => {
@@ -154,15 +176,6 @@ describe('OptimizedSsrEngine', () => {
     }));
 
     it('should return timed out render in the followup request', fakeAsync(() => {
-      const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
-      tick(200);
-      expect(engineRunner.renders).toEqual(['']);
-
-      engineRunner.request('a');
-      expect(engineRunner.renders[1]).toEqual('a-0');
-    }));
-
-    it('should note return timed out render in the followup request, if the render contained errors', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
       tick(200);
       expect(engineRunner.renders).toEqual(['']);
@@ -200,10 +213,88 @@ describe('OptimizedSsrEngine', () => {
         currentConcurrency: 0,
       });
     }));
+
+    it('should not return a timed out render if it encountered errors', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout: 50 });
+
+      engineRunner.request('a', {
+        renderTime: 200,
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+      expect(engineRunner.renders).toEqual(['']);
+
+      engineRunner.request('a', { renderTime: 100 });
+      tick(100);
+      expect(engineRunner.renders[1]).not.toEqual('a-0');
+      expect(engineRunner.renders[1]).toEqual('');
+    }));
+
+    it('should return new render, if previous timed out render encountered errors, also when timeout is set to 0', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout: 0 });
+
+      engineRunner.request('a', {
+        renderTime: 200,
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+      expect(engineRunner.renders).toEqual(['']);
+
+      engineRunner.request('a', { renderTime: 100 });
+      tick(100);
+      expect(engineRunner.renders[1]).not.toEqual('a-0');
+      expect(engineRunner.renders[1]).toEqual('');
+    }));
+  });
+
+  describe('when errors happen during the rendering', () => {
+    it('should fallback to CSR', fakeAsync(() => {
+      const requestUrl = 'a';
+      const engineRunner = new TestEngineRunner({ timeout: 200 });
+      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+      engineRunner.request(requestUrl, {
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        `CSR fallback: Encountered rendering errors (${requestUrl})`
+      );
+
+      expect(engineRunner.renderCount).toEqual(1);
+      expect(engineRunner.renders).toEqual(['']);
+    }));
+
+    it('should fallback to CSR only the errored renders', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({
+        timeout: 200,
+        reuseCurrentRendering: false,
+      });
+
+      engineRunner.request('a');
+      tick(200);
+
+      engineRunner.request('a', {
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+
+      engineRunner.request('a');
+      tick(200);
+
+      engineRunner.request('a', {
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+
+      expect(engineRunner.renderCount).toEqual(4);
+      expect(engineRunner.renders).toEqual(['a-0', '', 'a-2', '']);
+    }));
   });
 
   describe('no-store cache control header', () => {
-    it('should be applied for a fallback', () => {
+    it('should be applied for a fallback to CSR due to a timeout', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
       expect(engineRunner.renders).toEqual(['']);
       expect(engineRunner.responsesHeaders).toEqual([
@@ -218,7 +309,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.responsesHeaders).toEqual([{}]);
     }));
 
-    it('should not be applied for a render served with next response', fakeAsync(() => {
+    it('should not be applied for a render served with next response after timed out render', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
       tick(200);
       engineRunner.request('a');
@@ -228,50 +319,104 @@ describe('OptimizedSsrEngine', () => {
         {},
       ]);
     }));
+
+    it('should be applied for a fallback to CSR due to rendering errors', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout: 200 }).request('a', {
+        renderLogic: renderWithErrors(['test error']),
+      });
+
+      tick(200);
+
+      expect(engineRunner.renders).toEqual(['']);
+      expect(engineRunner.responsesHeaders).toEqual([
+        { 'Cache-Control': 'no-store' },
+      ]);
+    }));
+
+    it('should not be applied for a render served with next response after the errored render', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({ timeout: 200 }).request('a', {
+        renderLogic: renderWithErrors(['test error']),
+      });
+      tick(200);
+
+      engineRunner.request('a');
+      tick(200);
+
+      expect(engineRunner.renders).toEqual(['', 'a-1']);
+      expect(engineRunner.responsesHeaders).toEqual([
+        { 'Cache-Control': 'no-store' },
+        {},
+      ]);
+    }));
   });
 
   describe('cache option', () => {
-    it('should not cache requests if disabled', fakeAsync(() => {
-      const engineRunner = new TestEngineRunner({
-        cache: false,
-        timeout: 200,
-      }).request('a');
+    describe('when disabled', () => {
+      it('should not cache renders', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          cache: false,
+          timeout: 200,
+        }).request('a');
 
-      tick(200);
-      engineRunner.request('a');
-      tick(200);
-      engineRunner.request('a');
-      tick(200);
-      expect(engineRunner.renders).toEqual(['a-0', 'a-1', 'a-2']);
-    }));
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        expect(engineRunner.renders).toEqual(['a-0', 'a-1', 'a-2']);
+      }));
+    });
 
-    it('should cache requests if enabled', fakeAsync(() => {
-      const engineRunner = new TestEngineRunner({
-        cache: true,
-        timeout: 200,
-      }).request('a');
-      expect(getCurrentConcurrency(engineRunner)).toEqual({
-        currentConcurrency: 1,
-      });
+    describe('when enabled', () => {
+      it('should cache renders', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          cache: true,
+          timeout: 200,
+        }).request('a');
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 1,
+        });
 
-      tick(200);
+        tick(200);
 
-      engineRunner.request('a');
-      expect(getCurrentConcurrency(engineRunner)).toEqual({
-        currentConcurrency: 0,
-      });
+        engineRunner.request('a');
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 0,
+        });
 
-      tick(200);
+        tick(200);
 
-      engineRunner.request('a');
-      expect(getCurrentConcurrency(engineRunner)).toEqual({
-        currentConcurrency: 0,
-      });
+        engineRunner.request('a');
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 0,
+        });
 
-      tick(200);
+        tick(200);
 
-      expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
-    }));
+        expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
+      }));
+
+      it('should not cache renders, if they encountered errors', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          cache: true,
+          timeout: 200,
+        }).request('a', { renderLogic: renderWithErrors(['test error']) });
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 1,
+        });
+
+        tick(200);
+
+        engineRunner.request('a');
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 1,
+        });
+
+        tick(200);
+
+        expect(engineRunner.renders).toEqual(['', 'a-1']);
+      }));
+    });
   });
 
   describe('concurrency option', () => {
@@ -1131,6 +1276,40 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['', '']);
 
         flush();
+      }));
+
+      // SPIKE TODO: this unit test is currently failing, which is a good catch
+      // we need to fix the problem in the code
+      // A the moment, only the first requests gets CSR fallback, but other requests
+      // get the malformed HTML result from the first request.
+      fit('should fallback to CSR all pending requests for the same rendering key, if their shared render encountered errors', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          reuseCurrentRendering: true,
+          timeout: 200,
+        });
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(requestUrl, {
+          renderLogic: renderWithErrors(['test error']),
+        });
+        engineRunner.request(requestUrl);
+
+        expect(getCurrentConcurrency(engineRunner)).toEqual({
+          currentConcurrency: 1,
+        });
+
+        tick(200);
+
+        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          `CSR fallback: Encountered rendering errors (${requestUrl})`
+        );
+
+        expect(engineRunner.renderCount).toEqual(1);
+        expect(engineRunner.renders).toEqual(['', '']);
+        expect(engineRunner.responsesHeaders).toEqual([
+          { 'Cache-Control': 'no-store' },
+          { 'Cache-Control': 'no-store' },
+        ]);
       }));
     });
   });
