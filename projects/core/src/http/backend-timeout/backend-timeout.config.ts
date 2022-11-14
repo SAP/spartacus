@@ -7,6 +7,8 @@
 import { HttpContextToken } from '@angular/common/http';
 import { BackendTimeoutConfig } from '../../occ/config/backend-timeout.config';
 
+// SPIKE TODO: rename BackendTimeoutConfig to HttpTimeoutConfig - here and in other files (backend -> http)
+
 /**
  * Configuration for timeout of HTTP request.
  *
