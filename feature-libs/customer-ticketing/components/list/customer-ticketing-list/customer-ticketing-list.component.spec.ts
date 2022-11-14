@@ -188,7 +188,7 @@ describe('CustomerTicketingListComponent', () => {
     const TWO_TICKETS = '(2)';
 
     const ticketsCount = fixture.debugElement.query(
-      By.css('.cx-ticketing-list-title-count')
+      By.css('.cx-ticketing-list-title-text')
     );
 
     expect(ticketsCount.nativeElement.textContent).toContain(TWO_TICKETS);
