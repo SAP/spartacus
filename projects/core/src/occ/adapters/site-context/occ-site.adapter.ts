@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -87,10 +87,7 @@ export class OccSiteAdapter implements SiteAdapter {
 
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }),
-        {
-          headers: new HttpHeaders().set('Authorization', 'flo'),
-        }
+        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
       )
       .pipe(
         map((siteList) => {
@@ -103,10 +100,10 @@ export class OccSiteAdapter implements SiteAdapter {
     console.log('loadBaseSites');
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }),
-        {
-          headers: new HttpHeaders({ Authorization: 'empty' }),
-        }
+        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
+        // {
+        //   headers: new HttpHeaders({ Authorization: 'empty' }),
+        // }
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),
