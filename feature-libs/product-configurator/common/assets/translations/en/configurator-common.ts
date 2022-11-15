@@ -76,6 +76,12 @@ export const configurator = {
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
     },
+    icon: {
+      groupComplete: 'Complete',
+      groupIncomplete: 'Incomplete',
+      groupConflict: 'Conflict',
+      subgroup: 'Sub-group',
+    },
     priceSummary: {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
