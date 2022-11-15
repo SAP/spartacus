@@ -331,12 +331,6 @@ export class OptimizedSsrEngine {
     }
 
     const renderingKey = this.getRenderingKey(request);
-
-    console.log({
-      renderingKey,
-      renderingCallbacksLength: this.renderCallbacks.get(renderingKey)?.length,
-    }); // SPIKE TODO REMOVE
-
     if (!this.renderCallbacks.has(renderingKey)) {
       this.renderCallbacks.set(renderingKey, []);
     }
@@ -435,6 +429,14 @@ export class OptimizedSsrEngine {
     });
   }
 
+  /**
+   * Handles the errors that were encountered during the rendering
+   * for a given request.
+   *
+   * By default, it fallbacks the request to the CSR app.
+   * But if configured the option `renderingErrorsHandler` in `SsrOptimizationOptions`,
+   * it delegates the handling to the configured handler.
+   */
   private handleRenderingErrors: RenderingErrorsHandler =
     this.ssrOptions?.renderingErrorsHandler ??
     ((_error, _html, filePath, options, callback) => {
