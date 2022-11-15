@@ -6,6 +6,7 @@
 
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 export interface OccQuote {
   allowedActions?: QuoteActionType[];
@@ -104,3 +105,8 @@ export interface QuoteStarter {
 }
 
 export type QuoteActionsByState = { [key in QuoteState]: QuoteActionType[] };
+
+export interface QuotesStateParams {
+  currentPage$: Observable<number>;
+  sort$: Observable<string>;
+}
