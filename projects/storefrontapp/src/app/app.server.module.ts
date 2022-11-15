@@ -22,9 +22,7 @@ import { AppModule } from './app.module';
   bootstrap: [StorefrontComponent],
   providers: [
     ...provideSsrAndPrerendering({
-      serverRequestOrigin:
-        process.env['SERVER_REQUEST_ORIGIN'] ??
-        `http://localhost:${process.env['PORT'] || 4200}`,
+      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
   ],
 })
