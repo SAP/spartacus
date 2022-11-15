@@ -87,7 +87,9 @@ export class AuthStorageService extends OAuthStorage {
     this.getToken()
       .subscribe((currentToken) => (token = currentToken))
       .unsubscribe();
-    return this.decode(key, token?.[key]);
+      const val = token?.[key];
+      console.log('token val', val);
+      return this.decode(key, val);
   }
 
   /**
