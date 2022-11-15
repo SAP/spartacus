@@ -72,7 +72,6 @@ export function provideSsrAndPrerendering(options?: {
       ): string => {
         // SSR / express server mode
         if (expressRequestUrl) {
-          console.log('SSR Mode');
           /**
            * The options.serverRequestOrigin takes precedence
            * over the request URL resolved in the getRequestUrl()
