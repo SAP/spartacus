@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Inject,
-  Injectable,
-  NgZone,
-  PLATFORM_ID,
-  Renderer2,
-  RendererFactory2,
-} from '@angular/core';
+import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   BaseSiteService,
   CmsService,
@@ -42,8 +35,7 @@ export class SmartEditService {
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SmartEditConfig,
-    protected scriptLoader: ScriptLoader,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    protected scriptLoader: ScriptLoader
   ) {
     // load webApplicationInjector.js first
     this.loadScript();

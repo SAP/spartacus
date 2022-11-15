@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
@@ -47,11 +47,23 @@ export class CmsService {
     };
   } = {};
 
+  // TODO: make events and platformId as required dependencies
+  constructor(
+    store: Store<StateWithCms>,
+    routingService: RoutingService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    events: EventService,
+    platformId: Object
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(store: Store<StateWithCms>, routingService: RoutingService);
   constructor(
     protected store: Store<StateWithCms>,
     protected routingService: RoutingService,
-    protected events: EventService,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Optional() protected events?: EventService,
+    @Optional() @Inject(PLATFORM_ID) protected platformId?: Object
   ) {}
 
   /**
@@ -284,6 +296,8 @@ export class CmsService {
     if (
       pageContext.id === SMART_EDIT_CONTEXT &&
       pageContext.type === PageType.CONTENT_PAGE &&
+      this.events &&
+      this.platformId &&
       isPlatformBrowser(this.platformId)
     ) {
       return this.events.get(ModuleInitializedEvent).pipe(

@@ -5,9 +5,10 @@
  */
 
 import { isPlatformBrowser, Location } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { FeatureModulesService } from '@spartacus/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { FeatureConfigService, FeatureModulesService } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
+import { SMART_EDIT_FEATURE } from '../feature-name';
 
 /**
  * The SmartEditLauncherService is used to check whether Spartacus is launched inside Smart Edit;
@@ -23,11 +24,29 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
+  // TODO: make platformId as required dependency and remove featureConfigService
+  constructor(
+    config: SmartEditConfig,
+    location: Location,
+    featureModules: FeatureModulesService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    platformId: Object,
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    config: SmartEditConfig,
+    location: Location,
+    featureModules: FeatureModulesService
+  );
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
     protected featureModules: FeatureModulesService,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Optional() @Inject(PLATFORM_ID) protected platformId?: Object,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
@@ -36,11 +55,15 @@ export class SmartEditLauncherService {
   load(): void {
     if (
       this.isLaunchedInSmartEdit() &&
-      this.featureModules.isConfigured('smartEdit')
+      this.featureModules.isConfigured(SMART_EDIT_FEATURE)
     ) {
-      if (isPlatformBrowser(this.platformId)) {
-        // we don't want to process smartedit when doing SSR
-        this.featureModules.resolveFeature('smartEdit').subscribe();
+      if (this.featureConfigService?.isLevel('5.1')) {
+        if (this.platformId && isPlatformBrowser(this.platformId)) {
+          // we don't want to process smartedit when doing SSR
+          this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+        }
+      } else {
+        this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
       }
     }
   }
