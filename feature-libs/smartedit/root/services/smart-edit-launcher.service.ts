@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FeatureModulesService } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
@@ -26,7 +26,8 @@ export class SmartEditLauncherService {
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected featureModules: FeatureModulesService
+    protected featureModules: FeatureModulesService,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   /**
@@ -37,8 +38,10 @@ export class SmartEditLauncherService {
       this.isLaunchedInSmartEdit() &&
       this.featureModules.isConfigured('smartEdit')
     ) {
-      console.log('smartedit module loading');
-      this.featureModules.resolveFeature('smartEdit').subscribe();
+      if (isPlatformBrowser(this.platformId)) {
+        // we don't want to process smartedit when doing SSR
+        this.featureModules.resolveFeature('smartEdit').subscribe();
+      }
     }
   }
 

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import {
   Inject,
   Injectable,
@@ -67,12 +66,6 @@ export class SmartEditService {
   }
 
   public processCmsPage(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      console.log('--- processCmsPage: csr');
-    }
-    if (isPlatformServer(this.platformId)) {
-      console.log('--- processCmsPage: ssr');
-    }
     this.baseSiteService
       .get()
       .pipe(
@@ -193,7 +186,6 @@ export class SmartEditService {
     properties: any
   ): void {
     if (properties) {
-      console.log('addSmartEditContract: ', properties);
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) => {
         const name = 'data-' + group + '-';
