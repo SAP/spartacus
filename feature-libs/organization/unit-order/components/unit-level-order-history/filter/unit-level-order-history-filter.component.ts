@@ -19,14 +19,17 @@ export class UnitLevelOrderHistoryFilterComponent {
   encodedFilter: string;
 
   filterForm: FormGroup = new FormGroup({
-    userFilter: new FormControl('', {updateOn: 'submit'}),
+    buyerFilter: new FormControl('', {updateOn: 'submit'}),
     unitFilter: new FormControl('', {updateOn: 'submit'}),
   });
 
   filterFormMobile: FormGroup = new FormGroup({
-    inputFilterBuyer: new FormControl('', {updateOn: 'submit'}),
-    inputFilterUnit: new FormControl('', {updateOn: 'submit'}),
+    BuyerFilterMobile: new FormControl('', {updateOn: 'submit'}),
+    unitFilterMobile: new FormControl('', {updateOn: 'submit'}),
   });
+
+  filterByBuyer = 'filterByBuyer';
+  filterByUnit = 'filterByUnit';
 
   @ViewChild('unitButton', {read: ElementRef}) unitButton: ElementRef;
   @ViewChild('buyerButton', {read: ElementRef}) buyerButton: ElementRef;
@@ -51,11 +54,11 @@ export class UnitLevelOrderHistoryFilterComponent {
   ) {
   }
 
-  formSearch(): void {
+  SearchUnitLevelOrders(): void {
     this.filterForm.valueChanges.subscribe(() => {
-      let user = this.filterForm.get('userFilter')?.value;
+      let user = this.filterForm.get('buyerFilter')?.value;
       let unit = this.filterForm.get('unitFilter')?.value;
-      this.filterFormMobile.setValue({'inputFilterBuyer': user, 'inputFilterUnit': unit})
+      this.filterFormMobile.setValue({'BuyerFilterMobile': user, 'unitFilterMobile': unit})
       this.emitFilterEvent(user, unit);
     })
   }
@@ -74,14 +77,14 @@ export class UnitLevelOrderHistoryFilterComponent {
     });
   }
 
-  resetForm(): void {
-    let user = this.filterForm.get('userFilter')?.value;
+  clearAll(): void {
+    let user = this.filterForm.get('buyerFilter')?.value;
     let unit = this.filterForm.get('unitFilter')?.value;
 
     if(user || unit){
       this.filterForm.reset();
       this.filterFormMobile.reset();
-      this.formSearch();
+      this.SearchUnitLevelOrders();
     }
 
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
@@ -95,16 +98,16 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
   }
 
-  launch(): void {
+  launchMobileFilters(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
   }
 
-  formSearchMobile(): void {
+  SearchUnitLevelOrdersForMobile(): void {
     this.filterFormMobile.valueChanges.subscribe(() => {
-      let user = this.filterFormMobile.get('inputFilterBuyer')?.value;
-      let unit = this.filterFormMobile.get('inputFilterUnit')?.value;
-      this.filterForm.setValue({'userFilter': user, 'unitFilter': unit});
+      let user = this.filterFormMobile.get('BuyerFilterMobile')?.value;
+      let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
+      this.filterForm.setValue({'buyerFilter': user, 'unitFilter': unit});
       this.emitFilterEvent(user, unit);
     })
 
@@ -113,17 +116,17 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
   }
 
-  closeNav(): void {
+  closeFilterNav(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
   }
 
-  closeSubNav(): void {
+  closeFilterSubNav(): void {
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
   }
 
-  backSubNav(): void {
+  backFilterSubNav(): void {
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
@@ -132,9 +135,9 @@ export class UnitLevelOrderHistoryFilterComponent {
   launchSubNav(option: string): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
 
-    if (option === 'filterByUnit') {
+    if (option === this.filterByUnit) {
       this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'block');
-    } else if (option === 'filterByBuyer') {
+    } else if (option === this.filterByBuyer) {
       this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'block');
     }
   }
@@ -143,28 +146,28 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterForm.get('unitFilter')?.reset();
     this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'block');
-    this.formSearch();
+    this.SearchUnitLevelOrders();
   }
 
   clearBuyer(): void {
-    this.filterForm.get('userFilter')?.reset();
+    this.filterForm.get('buyerFilter')?.reset();
     this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
-    this.formSearch();
+    this.SearchUnitLevelOrders();
   }
 
   clearUnitMobile(): void {
-    this.filterFormMobile.get('inputFilterUnit')?.reset();
+    this.filterFormMobile.get('unitFilterMobile')?.reset();
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
-    this.formSearchMobile();
+    this.SearchUnitLevelOrdersForMobile();
   }
 
   clearBuyerMobile(): void {
-    this.filterFormMobile.get('inputFilterBuyer')?.reset();
+    this.filterFormMobile.get('BuyerFilterMobile')?.reset();
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
-    this.formSearchMobile();
+    this.SearchUnitLevelOrdersForMobile();
   }
 
   searchBuyer(inputElement: HTMLInputElement): void {
