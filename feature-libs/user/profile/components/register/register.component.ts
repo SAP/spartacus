@@ -38,8 +38,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   isLoading$ = new BehaviorSubject(false);
 
-  protected isCaptchaEnabled = false;
-  protected isCaptchaConfirmed = true;
+  private isCaptchaEnabled = false;
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
@@ -71,6 +70,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
+
+  captchaControl = new UntypedFormControl(null, [Validators.required]);
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -141,10 +142,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-    if (this.registerForm.valid) {
-      this.registerUser();
-    } else {
+    let isAllValid = true;
+    if (this.isCaptchaEnabled && !this.captchaControl.valid) {
+      this.captchaControl.markAsTouched();
+      isAllValid = false;
+    }
+
+    if (!this.registerForm.valid) {
       this.registerForm.markAllAsTouched();
+      isAllValid = false;
+    }
+
+    if (isAllValid) {
+      this.registerUser();
     }
   }
 
@@ -218,11 +228,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   captchaEnabled(status: boolean) {
     this.isCaptchaEnabled = status;
-    this.isCaptchaConfirmed = false;
   }
 
   captchaConfirmed(status: boolean) {
-    this.isCaptchaConfirmed = status;
+    this.captchaControl.setValue(status);
   }
 
   ngOnDestroy() {
