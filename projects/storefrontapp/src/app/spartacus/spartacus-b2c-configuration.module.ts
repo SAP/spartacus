@@ -16,7 +16,6 @@ import {
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
-  'powertools-spa',
   'electronics-spa',
   'electronics',
   'apparel-de',
