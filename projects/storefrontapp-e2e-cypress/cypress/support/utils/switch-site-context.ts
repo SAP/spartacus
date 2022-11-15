@@ -7,6 +7,7 @@
 export function switchSiteContext(option: string, label: string) {
   cy.get('.SiteContext label')
     .contains(label)
+    .should('exist')
     .parent()
     .children('select')
     .select(option);
