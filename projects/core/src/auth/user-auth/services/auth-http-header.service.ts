@@ -166,7 +166,9 @@ export class AuthHttpHeaderService implements OnDestroy {
   protected createAuthorizationHeader(
     token?: AuthToken
   ): { Authorization: string } | {} {
+    console.log('createAuthorizationHeader');
     if (token?.access_token) {
+      console.log('createAuthorizationHeader1', token?.access_token);
       return {
         Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
       };
@@ -178,6 +180,7 @@ export class AuthHttpHeaderService implements OnDestroy {
       .unsubscribe();
 
     if (currentToken?.access_token) {
+      console.log('createAuthorizationHeader2', currentToken?.access_token);
       return {
         Authorization: `${currentToken.token_type || 'Bearer'} ${
           currentToken.access_token
@@ -247,7 +250,9 @@ export class AuthHttpHeaderService implements OnDestroy {
         ([_, refreshInProgress, logoutInProgress]) =>
           !refreshInProgress && !logoutInProgress
       ),
-      switchMap(() => this.token$)
+      tap(() => console.log('getStableToken1')),
+      switchMap(() => this.token$),
+      tap(() => console.log('getStableToken2'))
     );
   }
 
