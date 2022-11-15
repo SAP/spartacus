@@ -6,9 +6,9 @@
 
 export * from './adapters/index';
 export * from './base-occ.module';
-export * from './config/backend-timeout.config'; // SPIKE TODO: move it to some other backend folder
 export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
+export * from './config/http-timeout.config'; // SPIKE TODO: move it to some other backend folder
 export * from './config/meta-tag-config.module';
 export * from './config/occ-config';
 export * from './config/occ-config-validator';

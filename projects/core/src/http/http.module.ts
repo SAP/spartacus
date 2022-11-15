@@ -5,10 +5,10 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { BackendTimeoutModule } from './backend-timeout/backend-timeout.module';
+import { HttpTimeoutModule } from './http-timeout/http-timeout.module';
 
 @NgModule({
-  imports: [BackendTimeoutModule],
+  imports: [HttpTimeoutModule],
 })
 export class HttpModule {
   static forRoot(): ModuleWithProviders<HttpModule> {

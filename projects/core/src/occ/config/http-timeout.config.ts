@@ -7,7 +7,7 @@
 /**
  * Configuration for timeout of HTTP requests
  */
-export abstract class BackendTimeoutConfig {
+export abstract class HttpTimeoutConfig {
   /**
    * Timeout in milliseconds for backend requests made in a server.
    */

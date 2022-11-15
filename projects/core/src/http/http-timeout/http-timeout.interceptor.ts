@@ -17,15 +17,15 @@ import { Injectable } from '@angular/core';
 import { OccConfig, WindowRef } from '@spartacus/core';
 import { NEVER, Observable, of, throwError, TimeoutError } from 'rxjs';
 import { catchError, startWith, switchMap, timeout } from 'rxjs/operators';
-import { BACKEND_TIMEOUT_CONFIG } from './backend-timeout.config';
+import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
 
 /**
  * Timeouts requests that take longer than the specified timeout, by throwing
- * an error of type `HttpErrorResponse` with http code 504.
+ * an error of type `HttpErrorResponse` with http code `504` (Gateway Timeout).
  */
 @Injectable({ providedIn: 'root' })
-export class BackendTimeoutInterceptor implements HttpInterceptor {
-  // SPIKE TODO: change OccConfig to BackendTimeoutConfig!
+export class HttpTimeoutInterceptor implements HttpInterceptor {
+  // SPIKE TODO: change OccConfig to HttpTimeoutConfig!
   constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
 
   /**
@@ -73,7 +73,7 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
    * Depending on the platform (browser or server), the configured timeout value can be different.
    */
   protected getTimeoutValue(request: HttpRequest<unknown>): number | undefined {
-    const localTimeoutConfig = request.context.get(BACKEND_TIMEOUT_CONFIG);
+    const localTimeoutConfig = request.context.get(HTTP_TIMEOUT_CONFIG);
     const globalTimeoutConfig = this.config?.backend?.timeout;
     const timeoutConfig = localTimeoutConfig ?? globalTimeoutConfig ?? {};
     if (this.windowRef.isBrowser()) {
@@ -111,14 +111,14 @@ export class BackendTimeoutInterceptor implements HttpInterceptor {
   /**
    * Returns the error message to be used in the `HttpErrorResponse` object, in case of timeout.
    */
-  getHttpErrorMessage(timeoutValue: number): string {
+  protected getHttpErrorMessage(timeoutValue: number): string {
     return `[Spartacus] request timeout: ${timeoutValue} ms`;
   }
 
   /**
    * Returns the HTTP status code 504 to be used in the `HttpErrorResponse` object, in case of timeout.
    */
-  getHttpErrorStatus(): HttpStatusCode {
+  protected getHttpErrorStatus(): HttpStatusCode {
     return HttpStatusCode.GatewayTimeout;
   }
 }

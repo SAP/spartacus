@@ -12,9 +12,6 @@ import {
   SERVER_ERROR_COLLECTOR,
 } from './server-error.collector';
 
-// SPIKE TODO: rethink naming Transfer - as is suggests transferring to the client
-// maybe just ServerErrorService or RenderingErrorsService?
-
 /**
  * Transfers errors that happened during the server side rendering
  * to the context of the server response object.
