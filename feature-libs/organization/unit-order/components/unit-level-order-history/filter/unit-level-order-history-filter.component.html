@@ -67,8 +67,8 @@
 
         <div #buyerPresentationMobile role="presentation"
              (mousedown)="SearchUnitLevelOrdersForMobile()"
-             (keydown.enter)="SearchUnitLevelOrdersForMobile()" style="color: lightgray;">
-          <cx-icon [type]="iconTypes.SEARCH" style="display: block; padding: 10px; padding-top: 15px;"></cx-icon>
+             (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+          <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
         </div>
       </label>
       <br>
@@ -116,8 +116,8 @@
         </button>
 
         <div #unitPresentationMobile role="presentation" (mousedown)="SearchUnitLevelOrdersForMobile()"
-             (keydown.enter)="SearchUnitLevelOrdersForMobile()" style="color: lightgray;">
-          <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+             (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+          <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
         </div>
       </label>
       <br>
@@ -138,7 +138,7 @@
   <div>
     <div class="cx-unit-level-order-history-filter-div-wrapper">
       <div>
-        <span style="font-weight: 600;">
+        <span>
           {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
         </span>
         <div role="search" class="cx-unit-level-order-history-filter-label-wrapper">
@@ -161,15 +161,15 @@
             </button>
 
             <div #buyerPresentation role="presentation" class="search-icon" (mousedown)="SearchUnitLevelOrders()"
-                 (keydown.enter)="SearchUnitLevelOrders()" style="color: lightgray;">
-              <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+                 (keydown.enter)="SearchUnitLevelOrders()">
+              <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
           </label>
         </div>
       </div>
 
       <div>
-        <span style="font-weight: 600;">
+        <span>
           {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
         </span>
         <div class="cx-unit-level-order-history-filter-label-wrapper">
@@ -192,8 +192,8 @@
             </button>
 
             <div #unitPresentation role="presentation" class="search-icon" (mousedown)="SearchUnitLevelOrders()"
-                 (keydown.enter)="SearchUnitLevelOrders()" style="color: lightgray;">
-              <cx-icon [type]="iconTypes.SEARCH" style="padding: 10px; padding-top: 15px;"></cx-icon>
+                 (keydown.enter)="SearchUnitLevelOrders()">
+              <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
           </label>
         </div>

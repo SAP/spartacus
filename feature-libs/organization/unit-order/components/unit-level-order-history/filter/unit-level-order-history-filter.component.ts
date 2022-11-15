@@ -81,7 +81,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     let user = this.filterForm.get('buyerFilter')?.value;
     let unit = this.filterForm.get('unitFilter')?.value;
 
-    if(user || unit){
+    if (user || unit) {
       this.filterForm.reset();
       this.filterFormMobile.reset();
       this.SearchUnitLevelOrders();

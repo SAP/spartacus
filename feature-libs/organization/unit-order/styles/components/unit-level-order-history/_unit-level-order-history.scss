@@ -44,6 +44,10 @@
     @include media-breakpoint-down(sm) {
       display: none;
     }
+
+    span {
+      font-weight: var(--cx-font-weight-semi);
+    }
   }
 
   .cx-unit-level-order-history-table {
@@ -342,7 +346,7 @@
     padding-top: 33px;
     display: none;
     flex-direction: column;
-    font-weight: 600;
+    font-weight: var(--cx-font-weight-semi);
   }
 
   .filter-list-border {
@@ -358,12 +362,19 @@
     justify-content: flex-end;
   }
 
-  #cx-unit-level-order-history-filter-nav-sub-unit{
+  #cx-unit-level-order-history-filter-nav-sub-unit {
     display: none;
   }
 
-  #cx-unit-level-order-history-filter-nav-sub-buyer{
+  #cx-unit-level-order-history-filter-nav-sub-buyer {
     display: none;
+  }
+
+  .search-icon-filter {
+    display: block;
+    padding: 10px;
+    padding-top: 15px;
+    color: lightgray;
   }
 
   .cx-filter-nav {
