@@ -69,6 +69,13 @@ export function provideSsrAndPrerendering(options?: {
       ): string => {
         // SSR mode
         if (serverRequestUrl) {
+          if (options?.serverRequestOrigin) {
+            return serverRequestUrl.replace(
+              serverRequestOrigin,
+              options.serverRequestOrigin
+            );
+          }
+
           return serverRequestUrl;
         }
 
