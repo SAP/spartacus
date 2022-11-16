@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { KeyValuePair } from '../../asm-customer-360.model';
-
 export interface CustomerTableColumn {
   text: string;
   i18nTextKey?: string;
@@ -17,5 +15,5 @@ export interface CustomerTableColumn {
 }
 
 export interface TableEntry {
-  [key: string]: string | Array<KeyValuePair> | number | undefined;
+  [key: string]: string | number | undefined;
 }

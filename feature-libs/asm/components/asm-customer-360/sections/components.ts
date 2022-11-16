@@ -15,5 +15,3 @@ export { AsmCustomerProductReviewsComponent } from './asm-customer-product-revie
 export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';
 
 export { AsmCustomerPromotionsComponent } from './asm-customer-promotions/asm-customer-promotions.component';
-
-export { AsmCustomerSupportTicketsComponent } from './asm-customer-support-tickets/asm-customer-support-tickets.component';

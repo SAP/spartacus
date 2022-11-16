@@ -18,7 +18,6 @@ import {
   byComparison,
   byNullish,
   byString,
-  Comparator,
   isBoolean,
   isNumber,
   isString,
@@ -29,7 +28,6 @@ import {
 } from 'feature-libs/asm/core/utils/sort';
 import { BehaviorSubject } from 'rxjs';
 
-import { KeyValuePair } from '../../asm-customer-360.model';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
 
 @Component({
@@ -126,8 +124,7 @@ export class AsmCustomerTableComponent implements OnChanges {
               byNullish(SortOrder.DESC),
               whenType(isString, byString(sortOrder)),
               whenType(isNumber, byComparison(sortOrder)),
-              whenType(isBoolean, byBoolean(sortOrder)),
-              whenType(this.isKeyValuePair, this.keValuePairComparator())
+              whenType(isBoolean, byBoolean(sortOrder))
             )
           )
         )
@@ -135,15 +132,5 @@ export class AsmCustomerTableComponent implements OnChanges {
     } else {
       return [];
     }
-  }
-
-  private isKeyValuePair(object: unknown): object is KeyValuePair[] {
-    return Array.isArray(object);
-  }
-
-  private keValuePairComparator(): Comparator<KeyValuePair[]> {
-    return (_, __) => {
-      return 0;
-    };
   }
 }

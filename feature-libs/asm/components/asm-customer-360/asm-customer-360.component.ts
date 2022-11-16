@@ -8,36 +8,39 @@ import {
   ChangeDetectionStrategy,
   Component,
   Injector,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { AsmConfig, getAsmDialogActionEvent } from '@spartacus/asm/core';
 import {
   Asm360Facade,
   AsmCustomer360Data,
+  AsmCustomer360Response,
   AsmCustomer360TabConfig,
   AsmDialogActionEvent,
   AsmDialogActionType,
 } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
 })
-export class AsmCustomer360Component implements OnInit {
-  iconTypes = ICON_TYPE;
-  loading = false;
+export class AsmCustomer360Component implements OnDestroy, OnInit {
+  readonly closeIcon = ICON_TYPE.CLOSE;
   tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;
   currentTab: AsmCustomer360TabConfig;
 
   customer: User;
 
-  customer360Tab$: Observable<Array<AsmCustomer360Data | undefined>>;
+  customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
+
+  protected subscription = new Subscription();
 
   constructor(
     protected asmConfig: AsmConfig,
@@ -50,13 +53,19 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.launchDialogService.data$.subscribe((data) => {
-      const customer: User = data.customer;
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe((data) => {
+        const customer: User = data.customer;
 
-      this.customer = customer;
-    });
+        this.customer = customer;
+      })
+    );
 
     this.setTabData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   selectTab(selectedTab: any): void {
@@ -67,13 +76,15 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   getAvatar(): string {
-    return (
-      (this.customer.firstName?.charAt(0) || '') +
-      (this.customer.lastName?.charAt(0) || '')
-    );
+    const customer = this.customer ?? {};
+    const { firstName = '', lastName = '' } = customer;
+
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
   }
 
-  // method to navigate screen and close dialog
+  /**
+   * If there is a link within the modal, use this method to redirect the user and close the modal.
+   */
   navigateTo(route: UrlCommand): void {
     let event: AsmDialogActionEvent;
     event = getAsmDialogActionEvent(
@@ -89,21 +100,18 @@ export class AsmCustomer360Component implements OnInit {
   }
 
   protected setTabData(): void {
-    this.customer360Tab$ = this.asm360Facade.get360Data(this.activeTab).pipe(
+    this.customer360Tabs$ = this.asm360Facade.get360Data(this.activeTab).pipe(
+      filter((response) => Boolean(response)),
       map((response) => {
-        if (response) {
-          return this.currentTab.components.map((component) => {
-            const requestData = component.requestData;
+        return this.currentTab.components.map((component) => {
+          const requestData = component.requestData;
 
-            if (requestData) {
-              return response.value.find(
-                (data) => data.type === requestData.customer360Type
-              );
-            }
-          });
-        } else {
-          return [];
-        }
+          if (requestData) {
+            return (response as AsmCustomer360Response).value.find(
+              (data) => data.type === requestData.customer360Type
+            );
+          }
+        });
       })
     );
   }
