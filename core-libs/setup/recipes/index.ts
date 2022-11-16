@@ -5,4 +5,3 @@
  */
 
 export * from './b2b/index';
-export * from './server/index'; // SPIKE TODO: move it to some other entry point
