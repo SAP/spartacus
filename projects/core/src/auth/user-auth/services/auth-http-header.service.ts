@@ -6,6 +6,7 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { OCC_HTTP_TOKEN } from '@spartacus/core';
 import {
   combineLatest,
   defer,
@@ -103,7 +104,10 @@ export class AuthHttpHeaderService implements OnDestroy {
   protected tokenToRetryRequest$ = using(
     () => this.refreshToken$.subscribe(),
     () => this.getStableToken()
-  ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
+  ).pipe(
+    tap(() => console.log('tokenToRetryRequest')),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
 
   protected subscriptions = new Subscription();
 
@@ -144,7 +148,11 @@ export class AuthHttpHeaderService implements OnDestroy {
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl) {
+    if (
+      !hasAuthorizationHeader &&
+      isOccUrl &&
+      !this.skipAuthorizationHeader(request)
+    ) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -158,6 +166,17 @@ export class AuthHttpHeaderService implements OnDestroy {
     return url.includes(this.occEndpoints.getBaseUrl());
   }
 
+  protected skipAuthorizationHeader(request: HttpRequest<any>): boolean {
+    const context = request.context.get(OCC_HTTP_TOKEN);
+    if (context?.skipAuthorization) {
+      console.log('skipAuthorizationHeader true');
+      return true;
+    }
+    return false;
+  }
+
+  // flag to decide tob add/ignore Authorization key
+  // httpContext key/value
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
     const rawValue = request.headers.get('Authorization');
     return rawValue;

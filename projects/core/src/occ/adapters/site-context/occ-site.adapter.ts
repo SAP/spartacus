@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OCC_HTTP_TOKEN } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Country, CountryType, Region } from '../../../model/address.model';
@@ -98,11 +99,16 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadBaseSites(): Observable<BaseSite[]> {
     console.log('loadBaseSites');
+
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      skipAuthorization: true,
+    });
+
     return this.http
       .get<{ baseSites: BaseSite[] }>(
         this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }),
         {
-          headers: new HttpHeaders({ Authorization: 'empty' }),
+          context,
         }
       )
       .pipe(
