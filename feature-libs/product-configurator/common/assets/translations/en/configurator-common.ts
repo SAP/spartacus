@@ -80,7 +80,7 @@ export const configurator = {
       groupComplete: 'Complete',
       groupIncomplete: 'Incomplete',
       groupConflict: 'Conflict',
-      subgroup: 'Sub-group',
+      subgroup: 'has sub-groups',
     },
     priceSummary: {
       basePrice: 'Base Price',
