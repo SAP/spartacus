@@ -135,7 +135,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
 
     this.busy$.next(true);
-    this.doneAutoSelect = true;
 
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
@@ -151,7 +150,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         },
         error: () => {
           this.onError();
-          this.doneAutoSelect = false;
         },
       });
   }

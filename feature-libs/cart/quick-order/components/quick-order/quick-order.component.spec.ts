@@ -7,8 +7,6 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -161,11 +159,7 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MessageComponentModule,
-        FeaturesConfigModule,
-      ],
+      imports: [I18nTestingModule, MessageComponentModule],
       declarations: [
         QuickOrderComponent,
         MockQuickOrderFormComponent,
@@ -183,12 +177,6 @@ describe('QuickOrderComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.1' },
-          },
         },
       ],
     }).compileComponents();
@@ -212,12 +200,6 @@ describe('QuickOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display header', () => {
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'quickOrderList.header'
-    );
   });
 
   it('should call service method clearDeletedEntries on component destroy', () => {

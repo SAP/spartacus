@@ -2,8 +2,6 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
@@ -41,7 +39,7 @@ const mockPayment: PaymentDetails = {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
+  @Input() type;
 }
 
 class MockUserPaymentService {
@@ -65,7 +63,7 @@ describe('PaymentMethodsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FeaturesConfigModule],
+        imports: [I18nTestingModule],
         declarations: [
           PaymentMethodsComponent,
           MockCxSpinnerComponent,
@@ -75,12 +73,6 @@ describe('PaymentMethodsComponent', () => {
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
         ],
       }).compileComponents();
     })
@@ -95,13 +87,6 @@ describe('PaymentMethodsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display header', () => {
-    fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'paymentMethods.paymentMethods'
-    );
   });
 
   it('should show basic information', () => {

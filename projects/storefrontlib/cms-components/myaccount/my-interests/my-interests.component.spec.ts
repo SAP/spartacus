@@ -11,8 +11,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   ImageType,
@@ -208,19 +206,13 @@ describe('MyInterestsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         providers: [
           { provide: OccConfig, useValue: MockOccModuleConfig },
           { provide: LayoutConfig, useValue: MockLayoutConfig },
           { provide: UserInterestsService, useValue: productInterestService },
           { provide: ProductService, useValue: productService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
         ],
         declarations: [
           MyInterestsComponent,
@@ -257,13 +249,6 @@ describe('MyInterestsComponent', () => {
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  });
-
-  it('should display header', () => {
-    fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-      'myInterests.header'
-    );
   });
 
   it('should show loading spinner when data is loading', () => {

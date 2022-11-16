@@ -205,6 +205,6 @@ export function checkoutNextStep(url: string) {
   cy.get('.btn.btn-block.btn-primary')
     .filter(':not(:disabled)')
     .first()
-    .click();
-  cy.wait(`@${nextStep}`).its('response.statusCode').should('eq', 200);
+    .click({ force: true });
+  cy.wait(`@${nextStep}`);
 }

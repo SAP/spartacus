@@ -259,7 +259,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   it('should be able to add address', () => {
     component.addAddress({});
-    expect(component.doneAutoSelect).toBeTruthy();
     expect(
       checkoutDeliveryAddressFacade.createAndSetAddress
     ).toHaveBeenCalledWith({});
