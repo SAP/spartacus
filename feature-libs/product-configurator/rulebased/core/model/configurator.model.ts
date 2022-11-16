@@ -97,6 +97,7 @@ export namespace Configurator {
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
   }
 
   export interface InteractionState {
