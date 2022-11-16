@@ -45,7 +45,7 @@ module.exports = function (config) {
       webpackConfig: {
         resolve: {
           fallback: {
-            // mocked native nodejs packages, used in OptimizedSsrEngine:
+            // used in OptimizedSsrEngine:
             fs: false,
             util: false,
 
