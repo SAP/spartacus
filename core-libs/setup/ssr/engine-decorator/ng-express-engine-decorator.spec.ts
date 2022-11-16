@@ -1,10 +1,10 @@
-import { SERVER_REQUEST_URL } from '@spartacus/core';
 import {
   decorateExpressEngine,
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
 } from './ng-express-engine-decorator';
+import { EXPRESS_SERVER_REQUEST_URL } from './tokens';
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
@@ -62,12 +62,12 @@ describe('NgExpressEngineDecorator', () => {
       );
     });
 
-    it(`should add SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
+    it(`should add EXPRESS_SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
       expect(originalEngine).toHaveBeenCalledWith(
         jasmine.objectContaining({
           providers: jasmine.arrayContaining([
             jasmine.objectContaining({
-              provide: SERVER_REQUEST_URL,
+              provide: EXPRESS_SERVER_REQUEST_URL,
             }),
           ]),
         })
@@ -146,12 +146,12 @@ describe('decorateExpressEngine', () => {
       );
     });
 
-    it(`should add SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
+    it(`should add EXPRESS_SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
       expect(originalEngine).toHaveBeenCalledWith(
         jasmine.objectContaining({
           providers: jasmine.arrayContaining([
             jasmine.objectContaining({
-              provide: SERVER_REQUEST_URL,
+              provide: EXPRESS_SERVER_REQUEST_URL,
             }),
           ]),
         })
@@ -214,12 +214,12 @@ describe('decorateExpressEngine', () => {
       );
     });
 
-    it(`should add SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
+    it(`should add EXPRESS_SERVER_REQUEST_URL to providers in the setup options passed to the original engine`, () => {
       expect(originalEngine).toHaveBeenCalledWith(
         jasmine.objectContaining({
           providers: jasmine.arrayContaining([
             jasmine.objectContaining({
-              provide: SERVER_REQUEST_URL,
+              provide: EXPRESS_SERVER_REQUEST_URL,
             }),
           ]),
         })
