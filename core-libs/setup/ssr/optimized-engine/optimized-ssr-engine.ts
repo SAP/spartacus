@@ -415,11 +415,11 @@ export class OptimizedSsrEngine {
       this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
-      const renderingErrors = this.getRenderingErrors(options.res);
+      const renderingErrors = this.getRenderingErrors(options.req.res);
 
       if (renderingErrors.length) {
         const resultError = new Error(
-          `Encountered rendering errors (${options.request?.originalUrl}`
+          `Encountered rendering errors (${options.req.originalUrl}`
         );
         (resultError as any)['cause'] = { cxRenderingErrors: renderingErrors };
         err = err ?? resultError;
@@ -443,7 +443,7 @@ export class OptimizedSsrEngine {
       this.log(
         `CSR fallback: Encountered rendering errors (${options.req?.originalUrl})`
       );
-      this.fallbackToCsr(options.res, filePath, callback);
+      this.fallbackToCsr(options.req.res as Response, filePath, callback);
     });
 
   /**

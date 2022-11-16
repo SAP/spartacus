@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 export interface SsrOptimizationOptions {
   /**
@@ -127,7 +127,7 @@ export type RenderingErrorsHandler = (
   error: unknown | undefined,
   html: string | undefined,
   filePath: string,
-  options: { req: Request; res: Response },
+  options: { req: Request },
   callback: SsrCallbackFn
 ) => void;
 

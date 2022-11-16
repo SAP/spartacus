@@ -54,13 +54,14 @@ class TestEngineRunner {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
-      options: { req: Request; res: Response },
+      options: { req: Request },
       callback: SsrCallbackFn
     ) => {
       const renderLogic =
-        options.res.locals?._cxTestingContext?.renderLogic ?? noop;
+        options.req.res?.locals?._cxTestingContext?.renderLogic ?? noop;
       const renderTime =
-        options.res.locals?._cxTestingContext?.renderTime ?? this.renderTime;
+        options.req.res?.locals?._cxTestingContext?.renderTime ??
+        this.renderTime;
 
       setTimeout(() => {
         renderLogic(options);
@@ -93,7 +94,7 @@ class TestEngineRunner {
       /**
        * Mock function executed during the render, that can operate on the `Request` and `Response` objects.
        */
-      renderLogic?: ({ req, res }: { req: Request; res: Response }) => void;
+      renderLogic?: ({ req }: { req: Request }) => void;
     }
   ): TestEngineRunner {
     const responseHeaders: { [key: string]: string } = {};
@@ -106,7 +107,7 @@ class TestEngineRunner {
           true,
     };
 
-    const optionsMock: { req: Request; res: Response } = {
+    const optionsMock: { req: Request } = {
       req: <Request>{
         protocol: 'https',
         originalUrl: url,
@@ -116,16 +117,17 @@ class TestEngineRunner {
         },
         app,
         connection: <Partial<Socket>>{},
-      },
-      res: <Response>{
-        set: (key: string, value: any) => (responseHeaders[key] = value),
-        locals: {
-          // used to pass custom context to the test engine
-          _cxTestingContext: {
-            renderLogic: params?.renderLogic,
-            renderTime: params?.renderTime,
-          },
-        } as Record<string, any>,
+
+        res: <Response>{
+          set: (key: string, value: any) => (responseHeaders[key] = value),
+          locals: {
+            // used to pass custom context to the test engine
+            _cxTestingContext: {
+              renderLogic: params?.renderLogic,
+              renderTime: params?.renderTime,
+            },
+          } as Record<string, any>,
+        },
       },
     };
 
@@ -162,9 +164,9 @@ function mockRenderingErrors(errors: unknown[], res: Response): void {
  */
 function renderWithErrors(
   errors: unknown[]
-): ({ req, res }: { req: Request; res: Response }) => void {
-  return (options: { res: Response }) => {
-    mockRenderingErrors(errors, options.res);
+): ({ req }: { req: Request }) => void {
+  return (options: { req: Request }) => {
+    mockRenderingErrors(errors, options.req?.res as Response);
   };
 }
 

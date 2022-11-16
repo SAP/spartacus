@@ -5,7 +5,7 @@
  */
 
 import { NgSetupOptions } from '@nguniversal/express-engine';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
 import {
   SsrCallbackFn,
@@ -15,7 +15,7 @@ import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
   filePath: string,
-  options: { req: Request; res: Response },
+  options: { req: Request },
   callback: SsrCallbackFn
 ) => void;
 
