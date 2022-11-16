@@ -426,9 +426,14 @@ export class OptimizedSsrEngine {
       }
 
       const withErrorsString = err ? ' with errors' : '';
+
+      // SPIKE TODO: polish it:
+      // fallback for the case of unit tests, where `utils` Node package is empty
+      const inspectFn = inspect ?? ((x) => x);
+
       const errorDetails = err
         ? `\n  ${err.message}\n  [\n${renderingErrors
-            .map((e) => inspect(e))
+            .map((e) => inspectFn(e))
             .join(',\n')}\n  ]`
         : '';
       this.log(

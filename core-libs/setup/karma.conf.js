@@ -45,7 +45,13 @@ module.exports = function (config) {
       webpackConfig: {
         resolve: {
           fallback: {
+            // mocked native nodejs packages, used in OptimizedSsrEngine:
             fs: false,
+            util: false,
+
+            // needed, when importing anything from package `@angular/platform-server`,
+            // because under the hood it imports the `url` package from native nodejs
+            url: false,
           },
         },
       },
