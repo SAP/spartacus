@@ -5,8 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   Product,
   ProductInterestEntryRelation,
@@ -49,8 +48,6 @@ export class AsmCustomerOverviewComponent implements OnInit {
   showMoreInterests = false;
 
   constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected savedCartFacade: SavedCartFacade,
     protected breakpointService: BreakpointService,
     protected interestsService: UserInterestsService,
     protected productService: ProductService,
@@ -60,15 +57,13 @@ export class AsmCustomerOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.numberofColumns$ = this.getNumberofColumns();
     // getting Active Cart
-    this.activeCart$ = this.activeCartFacade
-      .getActive()
-      .pipe(map((carts) => (carts?.entries?.length ? carts : undefined)));
+    this.activeCart$ = this.sectionContext.activeCart$.pipe(
+      map((carts) => (carts?.entries?.length ? carts : undefined))
+    );
 
-    // getting Last Saved Cart
-    this.savedCart$ = this.savedCartFacade
-      .getList()
-      .pipe(map((carts) => carts?.[0]));
-    this.savedCartFacade.loadSavedCarts();
+    this.savedCart$ = this.sectionContext.savedCarts$.pipe(
+      map((carts) => carts?.[0])
+    );
 
     // getting Interests
     this.interestProducts$ = this.interestsService

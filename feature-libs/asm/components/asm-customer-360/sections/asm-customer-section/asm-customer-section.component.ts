@@ -12,7 +12,9 @@ import {
   Output,
 } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, Subscription } from 'rxjs';
 
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
@@ -48,6 +50,21 @@ export class AsmCustomerSectionComponent implements OnDestroy {
     this.source.data$.next(data);
   }
 
+  @Input()
+  set savedCarts(carts: Array<Cart>) {
+    this.source.savedCarts$.next(carts);
+  }
+
+  @Input()
+  set activeCart(cart: Cart) {
+    this.source.activeCart$.next(cart);
+  }
+
+  @Input()
+  set orderHistory(orderHistory: OrderHistoryList) {
+    this.source.orderHistory$.next(orderHistory);
+  }
+
   @Output()
   navigate: EventEmitter<UrlCommand> = new EventEmitter();
 
@@ -57,6 +74,16 @@ export class AsmCustomerSectionComponent implements OnDestroy {
     this.subscription.add(
       source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );
+
+    this.subscription.add(() => {
+      this.source.activeCart$.complete();
+      this.source.config$.complete();
+      this.source.customer$.complete();
+      this.source.data$.complete();
+      this.source.orderHistory$.complete();
+      this.source.savedCarts$.complete();
+      this.source.navigate$.complete();
+    });
   }
 
   ngOnDestroy(): void {

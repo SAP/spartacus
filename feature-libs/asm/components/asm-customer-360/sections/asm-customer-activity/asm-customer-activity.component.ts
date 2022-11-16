@@ -6,10 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { TranslationService, UrlCommand } from '@spartacus/core';
-import { OrderHistoryFacade } from '@spartacus/order/root';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
@@ -23,7 +20,6 @@ import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
 })
 export class AsmCustomerActivityComponent implements OnInit {
   private PAGE_SIZE = 10;
-  private ORDER_LIMIT = 100;
 
   pageSize: number;
   entries$: Observable<Array<GeneralEntry>>;
@@ -67,9 +63,6 @@ export class AsmCustomerActivityComponent implements OnInit {
 
   constructor(
     protected asmConfig: AsmConfig,
-    protected activeCartFacade: ActiveCartFacade,
-    protected savedCartFacade: SavedCartFacade,
-    protected orderHistoryFacade: OrderHistoryFacade,
     protected translationService: TranslationService,
     protected sectionContext: Customer360SectionContext<void>
   ) {}
@@ -81,9 +74,9 @@ export class AsmCustomerActivityComponent implements OnInit {
 
     this.entries$ = combineLatest([
       this.sectionContext.config$,
-      this.orderHistoryFacade.getOrderHistoryList(this.ORDER_LIMIT),
-      this.activeCartFacade.getActive(),
-      this.savedCartFacade.getList(),
+      this.sectionContext.orderHistory$,
+      this.sectionContext.activeCart$,
+      this.sectionContext.savedCarts$,
     ]).pipe(
       switchMap(([config, orderHistory, activeCart, savedCarts]) => {
         this.pageSize = config.pageSize || this.PAGE_SIZE;
@@ -137,7 +130,7 @@ export class AsmCustomerActivityComponent implements OnInit {
           });
         }
         // Notes: order history order doesn't have totalItems
-        if (orderHistory?.orders?.length) {
+        if (orderHistory.orders?.length) {
           orderHistory.orders.forEach((order) => {
             entries.push({
               typeId: 'orderHistory',
@@ -169,7 +162,6 @@ export class AsmCustomerActivityComponent implements OnInit {
         );
       })
     );
-    this.savedCartFacade.loadSavedCarts();
   }
 
   itemSelected(entry: GeneralEntry | undefined): void {

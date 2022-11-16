@@ -15,19 +15,61 @@
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
       <div class="header-content">
-        <div class="cx-avatar">
-          {{ getAvatar() }}
+        <div class="header-profile-details">
+          <div class="cx-avatar">
+            {{ getAvatar() }}
+          </div>
+          <div class="cx-customer-info ml-3">
+            <div class="cx-customer-name">
+              {{
+                'asm.customer360.header.subTitle'
+                  | cxTranslate: { name: customer.firstName }
+              }}
+            </div>
+            <div class="cx-customer-email">
+              {{ customer.uid }}
+            </div>
+          </div>
         </div>
-        <div class="cx-customer-info ml-3">
-          <div class="cx-customer-name">
+        <div class="header-account-details">
+          <span *ngIf="activeCart$ | async as activeCart">
+            <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
             {{
-              'asm.customer360.header.subTitle'
-                | cxTranslate: { name: customer.firstName }
+              'asm.customer360.header.activeCartLabel'
+                | cxTranslate: { cartSize: activeCart.totalItems }
             }}
-          </div>
-          <div class="cx-customer-email">
-            {{ customer.uid }}
-          </div>
+            <a
+              tabindex="0"
+              [attr.aria-label]="
+                'asm.customer360.aria.activeCartCode'
+                  | cxTranslate: { code: activeCart.code }
+              "
+              role="link"
+              class="cx-overview-title-link"
+              (click)="navigateTo({ cxRoute: 'cart' })"
+            >
+              {{ activeCart.code }}
+            </a>
+          </span>
+          <span *ngIf="(orderHistory$ | async)?.orders?.[0] as recentOrder">
+            <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
+            {{
+              'asm.customer360.header.recentOrderLabel'
+                | cxTranslate: { price: recentOrder.total.formattedValue }
+            }}
+            <a
+              tabindex="0"
+              [attr.aria-label]="
+                'asm.customer360.aria.recentOrderCode'
+                  | cxTranslate: { code: recentOrder.code }
+              "
+              role="link"
+              class="cx-overview-title-link"
+              (click)="navigateTo({ cxRoute: 'orders' })"
+            >
+              {{ recentOrder.code }} </a
+            >, {{ recentOrder.placed | date: 'MM-dd-yyyy' }}
+          </span>
         </div>
       </div>
     </div>
@@ -51,6 +93,9 @@
             [component]="config.component"
             [config]="config.config"
             [data]="customer360Tabs?.[i]"
+            [savedCarts]="savedCarts$ | async"
+            [activeCart]="activeCart$ | async"
+            [orderHistory]="orderHistory$ | async"
             (navigate)="navigateTo($event)"
           ></cx-asm-customer-section>
         </ng-container>

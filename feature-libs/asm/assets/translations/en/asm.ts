@@ -8,10 +8,11 @@ export const customer360 = {
   header: {
     title: 'Customer Profile',
     subTitle: '{{name}} Customer 360\xB0 View',
+    activeCartLabel: '{{cartSize}} item added to cart',
+    recentOrderLabel: 'Last order {{price}}',
   },
   overview: {
     activeCart: 'Active Cart',
-    activeCartCode: 'Active Cart {{code}}',
     totalNoItems: 'Total No. Items {{count}}',
     totalPrice: 'Total Price {{price}}',
     noActiveCart: 'There are currently no Active Cart Items',
@@ -60,6 +61,10 @@ export const customer360 = {
   feedbackTab: 'Feedback',
   promotionsTab: 'Promotion',
   mapsTab: 'Maps',
+  aria: {
+    activeCartCode: 'Active Cart {{code}}',
+    recentOrderCode: 'Last Order {{code}}',
+  },
 };
 
 export const asm = {

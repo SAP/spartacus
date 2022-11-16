@@ -6,7 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, Observer } from 'rxjs';
 
 @Injectable()
@@ -18,4 +20,10 @@ export abstract class Customer360SectionContext<Data> {
   readonly navigate$: Observer<UrlCommand>;
 
   readonly data$: Observable<Data>;
+
+  readonly savedCarts$: Observable<Array<Cart>>;
+
+  readonly activeCart$: Observable<Cart>;
+
+  readonly orderHistory$: Observable<OrderHistoryList>;
 }

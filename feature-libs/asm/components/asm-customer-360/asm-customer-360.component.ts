@@ -20,10 +20,13 @@ import {
   AsmDialogActionEvent,
   AsmDialogActionType,
 } from '@spartacus/asm/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UrlCommand, User } from '@spartacus/core';
+import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, shareReplay } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +34,10 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './asm-customer-360.component.html',
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
+  readonly cartIcon = ICON_TYPE.CART;
   readonly closeIcon = ICON_TYPE.CLOSE;
+  readonly orderIcon = ICON_TYPE.ORDER;
+
   tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;
   currentTab: AsmCustomer360TabConfig;
@@ -40,16 +46,30 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
 
   customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
+  activeCart$: Observable<Cart>;
+  savedCarts$: Observable<Array<Cart>>;
+  orderHistory$: Observable<OrderHistoryList>;
+
+  protected readonly ORDER_LIMIT = 100;
   protected subscription = new Subscription();
 
   constructor(
     protected asmConfig: AsmConfig,
     protected asm360Facade: Asm360Facade,
     protected injector: Injector,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected savedCartFacade: SavedCartFacade
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
+
+    this.activeCart$ = this.activeCartFacade.getActive();
+    this.orderHistory$ = this.orderHistoryFacade
+      .getOrderHistoryList(this.ORDER_LIMIT)
+      .pipe(map((orderHistory) => orderHistory ?? {}));
+    this.savedCarts$ = this.savedCartFacade.getList().pipe(shareReplay(1));
   }
 
   ngOnInit(): void {

@@ -6,7 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { Customer360SectionConfig } from '@spartacus/asm/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { ReplaySubject, Subject } from 'rxjs';
 
 import { Customer360SectionContext } from './customer-360-section-context.model';
@@ -22,4 +24,10 @@ export class Customer360SectionContextSource<
   readonly navigate$: Subject<UrlCommand> = new Subject();
 
   readonly data$ = new ReplaySubject<Data>(1);
+
+  readonly savedCarts$ = new ReplaySubject<Array<Cart>>();
+
+  readonly activeCart$ = new ReplaySubject<Cart>();
+
+  readonly orderHistory$ = new ReplaySubject<OrderHistoryList>();
 }

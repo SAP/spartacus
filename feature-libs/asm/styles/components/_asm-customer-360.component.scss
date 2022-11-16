@@ -1,5 +1,11 @@
 %cx-asm-customer-360 {
   height: 100%;
+  .cx-overview-title-link {
+    text-decoration: none;
+    cursor: pointer;
+    color: $asmLinkColor;
+    margin-left: 8px;
+  }
   .cx-modal-content {
     overflow-y: hidden;
   }
@@ -17,32 +23,55 @@
     }
     .header-content {
       width: 100%;
-      margin: 37px 0 0 0;
-      display: flex;
-      .login-info {
-        font-size: 0.875rem;
-        font-weight: var(--cx-font-weight-normal);
-        color: $asmMainSecondaryTextColor;
-      }
-      .cx-avatar {
-        font-size: 18px;
-        width: 48px;
-        height: 48px;
-        line-height: 48px;
-        border-radius: 50%;
-        color: #fff;
-        text-align: center;
-        background: #9259cd;
-        text-transform: uppercase;
-      }
-      .cx-customer-info {
-        .cx-customer-name {
-          color: $asmMainTextColor;
-          font-weight: var(--cx-font-weight-bold);
-        }
-        .cx-customer-email {
-          color: $asmVisualFocusColor;
+      margin-top: 37px;
+      .header-profile-details {
+        display: flex;
+        margin-bottom: 36px;
+        .login-info {
           font-size: 0.875rem;
+          font-weight: var(--cx-font-weight-normal);
+          color: $asmMainSecondaryTextColor;
+        }
+        .cx-avatar {
+          font-size: 18px;
+          width: 48px;
+          height: 48px;
+          line-height: 48px;
+          border-radius: 50%;
+          color: #fff;
+          text-align: center;
+          background: #9259cd;
+          text-transform: uppercase;
+        }
+        .cx-customer-info {
+          .cx-customer-name {
+            color: $asmMainTextColor;
+            font-weight: var(--cx-font-weight-bold);
+          }
+          .cx-customer-email {
+            color: $asmVisualFocusColor;
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .header-account-details {
+        padding-left: 18px;
+
+        > span {
+          align-items: center;
+          color: #747881;
+          display: inline-flex;
+
+          &:nth-of-type(n + 2) {
+            margin-left: 36px;
+          }
+        }
+
+        .account-icon {
+          color: #0070f2;
+          font-size: 18px;
+          margin-right: 14px;
         }
       }
     }
