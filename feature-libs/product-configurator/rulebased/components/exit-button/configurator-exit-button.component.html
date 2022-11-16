@@ -3,7 +3,7 @@
     class="cx-config-exit-button"
     tabindex="0"
     (click)="exitConfiguration()"
-    [attr.aria-label]="
+    [attr.title]="
       container.routerData.isOwnerCartEntry
         ? ('configurator.button.cancelConfiguration' | cxTranslate)
         : ('configurator.button.exit' | cxTranslate)
