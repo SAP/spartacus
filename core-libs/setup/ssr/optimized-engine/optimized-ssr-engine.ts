@@ -7,6 +7,7 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
+import { inspect } from 'util';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';
@@ -412,18 +413,27 @@ export class OptimizedSsrEngine {
       }
       clearTimeout(maxRenderTimeout);
 
-      this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
       const renderingErrors = this.getRenderingErrors(options.req.res);
 
       if (renderingErrors.length) {
         const resultError = new Error(
-          `Encountered rendering errors (${options.req.originalUrl}`
+          `Encountered rendering errors (${options.req.originalUrl})`
         );
         (resultError as any)['cause'] = { cxRenderingErrors: renderingErrors };
         err = err ?? resultError;
       }
+
+      const withErrorsString = err ? ' with errors' : '';
+      const errorDetails = err
+        ? `\n  ${err.message}\n  [\n${renderingErrors
+            .map((e) => inspect(e))
+            .join(',\n')}\n  ]`
+        : '';
+      this.log(
+        `Rendering completed${withErrorsString} (${request?.originalUrl})${errorDetails}`
+      );
 
       renderCallback(err, html);
     });
