@@ -4,10 +4,10 @@
     tabindex="0"
     (click)="exitConfiguration()"
     [attr.aria-label]="
-    container.routerData.isOwnerCartEntry
-      ? ('configurator.button.cancelConfiguration' | cxTranslate)
-      : ('configurator.button.exit' | cxTranslate)
-  "
+      container.routerData.isOwnerCartEntry
+        ? ('configurator.button.cancelConfiguration' | cxTranslate)
+        : ('configurator.button.exit' | cxTranslate)
+    "
   >
     <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
       <ng-container *ngIf="isDesktop() | async">
