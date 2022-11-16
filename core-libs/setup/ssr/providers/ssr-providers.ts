@@ -4,14 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Optional, StaticProvider } from '@angular/core';
+import { Optional, SkipSelf, StaticProvider } from '@angular/core';
 import { INITIAL_CONFIG, PlatformConfig } from '@angular/platform-server';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
-import {
-  EXPRESS_SERVER_REQUEST_ORIGIN,
-  EXPRESS_SERVER_REQUEST_URL,
-} from '../engine-decorator/tokens';
 import { getRequestOrigin } from '../util/request-origin';
 import { getRequestUrl } from '../util/request-url';
 
@@ -28,13 +24,15 @@ export function provideSsrAndPrerendering(options?: {
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useFactory: (expressRequestOrigin?: string): string => {
-        if (options?.serverRequestOrigin) {
-          return options.serverRequestOrigin;
+      useFactory: (serverRequestOrigin?: string): string => {
+        // SSR mode
+        if (serverRequestOrigin) {
+          return serverRequestOrigin;
         }
 
-        if (expressRequestOrigin) {
-          return expressRequestOrigin;
+        // likely prerendering mode
+        if (options?.serverRequestOrigin) {
+          return options.serverRequestOrigin;
         }
 
         throw new Error(
@@ -60,29 +58,18 @@ export function provideSsrAndPrerendering(options?: {
           export class AppServerModule {}`
         );
       },
-      deps: [[new Optional(), EXPRESS_SERVER_REQUEST_ORIGIN]],
+      deps: [[new Optional(), new SkipSelf(), SERVER_REQUEST_ORIGIN]],
     },
     {
       provide: SERVER_REQUEST_URL,
       useFactory: (
         platformConfig: PlatformConfig,
         serverRequestOrigin: string,
-        expressServerRequestOrigin?: string,
-        expressRequestUrl?: string
+        serverRequestUrl?: string
       ): string => {
-        // SSR / express server mode
-        if (expressRequestUrl) {
-          /**
-           * The options.serverRequestOrigin takes precedence
-           * over the request URL resolved in the getRequestUrl()
-           */
-          if (options?.serverRequestOrigin) {
-            return expressRequestUrl.replace(
-              expressServerRequestOrigin ?? '',
-              options.serverRequestOrigin
-            );
-          }
-          return expressRequestUrl;
+        // SSR mode
+        if (serverRequestUrl) {
+          return serverRequestUrl;
         }
 
         // prerendering mode (no express server)
@@ -91,8 +78,7 @@ export function provideSsrAndPrerendering(options?: {
       deps: [
         INITIAL_CONFIG,
         SERVER_REQUEST_ORIGIN,
-        [new Optional(), EXPRESS_SERVER_REQUEST_ORIGIN],
-        [new Optional(), EXPRESS_SERVER_REQUEST_URL],
+        [new Optional(), new SkipSelf(), SERVER_REQUEST_URL],
       ],
     },
   ];
@@ -106,12 +92,12 @@ export function provideSsrAndPrerendering(options?: {
 export function getServerRequestProviders(): StaticProvider[] {
   return [
     {
-      provide: EXPRESS_SERVER_REQUEST_ORIGIN,
+      provide: SERVER_REQUEST_ORIGIN,
       useFactory: getRequestOrigin,
       deps: [REQUEST],
     },
     {
-      provide: EXPRESS_SERVER_REQUEST_URL,
+      provide: SERVER_REQUEST_URL,
       useFactory: getRequestUrl,
       deps: [REQUEST],
     },
