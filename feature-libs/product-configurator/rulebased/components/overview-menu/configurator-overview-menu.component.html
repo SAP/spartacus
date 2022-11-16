@@ -31,13 +31,13 @@
                 }
         }}
       </span>
-      <a
-        class="link cx-action-link"
+      <button
+        class="cx-menu-item"
+        role="tab"
         (click)="navigateToGroup(idPrefix, group.id)"
-        [attr.aria-label]="'configurator.a11y.ovGroup' | cxTranslate"
       >
         {{ group.groupDescription }}
-      </a>
+      </button>
       <ng-container *ngIf="group.subGroups?.length > 0">
         <ng-container
           *ngTemplateOutlet="
