@@ -13,7 +13,7 @@ describe('ticketing', () => {
         });
       });
 
-      it('clicking add should open create new ticket popup', () => {
+      it('should open create new ticket popup when clicking add button', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.openCreateTicketPopup();
