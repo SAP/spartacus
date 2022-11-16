@@ -19,19 +19,22 @@ export function loginAsNonAdmin() {
   cy.requireLoggedIn(standardUser);
 }
 
-export function visitAccountSummaryDetailsPage(unitId: string) {
+export function setupIntercepts() {
   cy.intercept({
     method: 'GET',
     path: `**/users/current/orgUnits/**/accountSummary/**`,
   }).as('getSummary');
   cy.intercept({
     method: 'GET',
-    path: `**/users/current/orgUnits/**/orgDocuments/**`,
+    path: `**/users/current/orgUnits/**/orgDocuments**`,
   }).as('getDocuments');
   cy.intercept({
     method: 'GET',
     path: `**/users/current/orgUnits/**/attachments/**`,
   }).as('getAttachments');
+}
+
+export function visitAccountSummaryDetailsPage(unitId: string) {
   cy.visit(
     `${FULL_BASE_URL_EN_USD}/organization/account-summary/details/${unitId}`
   );
@@ -86,6 +89,7 @@ export function checkTableData(
     status?: string;
   }>
 ) {
+  cy.wait('@getDocuments').its('response.statusCode').should('eq', 200);
   cy.get('.cx-account-summary-document-row')
     .its('length')
     .should('eq', rows.length);

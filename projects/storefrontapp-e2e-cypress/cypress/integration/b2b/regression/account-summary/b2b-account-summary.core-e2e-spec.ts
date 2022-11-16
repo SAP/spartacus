@@ -31,6 +31,7 @@ describe(`My Company - Account Summary`, () => {
 
       beforeEach(() => {
         cy.restoreLocalStorage();
+        b2bAccountSummary.setupIntercepts();
       });
 
       afterEach(() => {
@@ -42,13 +43,13 @@ describe(`My Company - Account Summary`, () => {
       });
 
       it('Should validate documents', () => {
-        // Check the default data
-        b2bAccountSummary.checkTableData(sampleData.documentsDefault);
-
         // Sort by Document Number Descending
         b2bAccountSummary.sortDocuments(
           sampleData.sortByDocumentNumberDescending
         );
+
+        // Check the initial data
+        b2bAccountSummary.checkTableData(sampleData.documentsInitial);
 
         // Set filter by Document Number Range (POCR-0000001 - POCR-0000005)
         b2bAccountSummary.filterByDocumentNumberRange(
