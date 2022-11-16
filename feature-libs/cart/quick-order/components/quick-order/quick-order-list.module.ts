@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -42,6 +43,7 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
