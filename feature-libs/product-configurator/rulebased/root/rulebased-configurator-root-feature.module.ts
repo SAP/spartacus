@@ -23,6 +23,7 @@ const cmsComponents: string[] = [
   'ConfiguratorExitButton',
   'ConfiguratorVariantCarousel',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
+  'ConfiguratorOverviewFilterButton',
 ];
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
