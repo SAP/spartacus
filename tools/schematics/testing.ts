@@ -61,8 +61,6 @@ type Command = typeof commands[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 
-let currentVersion: semver.SemVer | null;
-
 function startVerdaccio(): ChildProcess {
   console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
@@ -84,16 +82,16 @@ function beforeExit(): void {
   }
 }
 
+let newVersion: string | undefined;
 function publishLibs(reload = false): void {
-  if (!currentVersion || reload) {
-    currentVersion = semver.parse(
+  if (!newVersion || reload) {
+    newVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
-    );
+    )?.version;
   }
-
   // Bump version to publish
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  semver.inc(currentVersion!, 'patch');
+  newVersion = semver.inc(newVersion ?? '', 'patch') ?? '';
+
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -104,18 +102,14 @@ function publishLibs(reload = false): void {
   [...files, ...distFiles].forEach((packagePath) => {
     // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    content.version = currentVersion!.version;
+    content.version = newVersion;
     fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        currentVersion!.version
-      } --registry=http://localhost:4873/ --no-git-tag-version`,
+      `yarn publish --cwd ${dir} --new-version ${newVersion} --registry=http://localhost:4873/ --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
