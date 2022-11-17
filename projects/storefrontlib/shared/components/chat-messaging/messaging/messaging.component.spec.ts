@@ -63,6 +63,21 @@ describe('MessagingComponent', () => {
     component.form.get('message')?.setValue('mockMessage');
     component.onSend();
 
-    expect(component.send.emit).toHaveBeenCalled();
+    expect(component.send.emit).toHaveBeenCalledWith({
+      files: '' as unknown as File,
+      message: 'mockMessage',
+    });
+  });
+
+  it('should emit trigger downloadAttachment event', () => {
+    spyOn(component.downloadAttachment, 'emit');
+    component.form.get('message')?.setValue('mockMessage');
+    component.triggerDownload('mockCode', 'mockId', 'mockName');
+
+    expect(component.downloadAttachment.emit).toHaveBeenCalledWith({
+      messageCode: 'mockCode',
+      attachmentId: 'mockId',
+      fileName: 'mockName',
+    });
   });
 });
