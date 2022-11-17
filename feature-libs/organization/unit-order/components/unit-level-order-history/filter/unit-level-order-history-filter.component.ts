@@ -76,7 +76,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchUnitLevelOrders(): void {
     let buyer = this.filterForm.get('buyerFilter')?.value;
     let unit = this.filterForm.get('unitFilter')?.value;
-    this.filterFormMobile.setValue({ buyer, unit });
+    this.filterFormMobile.setValue({ buyerFilterMobile: buyer, unitFilterMobile: unit });
     this.emitFilterEvent(buyer, unit);
   }
 
@@ -155,7 +155,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   searchUnitLevelOrdersForMobile(): void {
     let buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
     let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
-    this.filterForm.setValue({ buyer, unit });
+    this.filterForm.setValue({ buyerFilter: buyer, unitFilter: unit });
     this.emitFilterEvent(buyer, unit);
 
     if (buyer || unit) {
