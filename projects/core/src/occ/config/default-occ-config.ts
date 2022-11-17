@@ -12,10 +12,5 @@ export const defaultOccConfig: OccConfig = {
       prefix: '/occ/v2/',
     },
     media: {},
-
-    // TODO [BREAKING CHANGE]: uncomment it only in the next major (v6.0?):
-    timeout: {
-      server: 10_000,
-    },
   },
 };

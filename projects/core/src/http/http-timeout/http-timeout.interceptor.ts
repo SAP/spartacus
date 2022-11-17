@@ -25,7 +25,6 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
  */
 @Injectable({ providedIn: 'root' })
 export class HttpTimeoutInterceptor implements HttpInterceptor {
-  // SPIKE TODO: change OccConfig to HttpTimeoutConfig!
   constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
 
   /**
@@ -76,10 +75,9 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
     const localTimeoutConfig = request.context.get(HTTP_TIMEOUT_CONFIG);
     const globalTimeoutConfig = this.config?.backend?.timeout;
     const timeoutConfig = localTimeoutConfig ?? globalTimeoutConfig ?? {};
-    if (this.windowRef.isBrowser()) {
-      return timeoutConfig?.browser;
-    }
-    return timeoutConfig?.server;
+    return this.windowRef.isBrowser()
+      ? timeoutConfig?.browser
+      : timeoutConfig?.server;
   }
 
   /**
