@@ -55,6 +55,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log('site-context.interceptor', request);
     if (request.url.includes(this.occEndpoints.getBaseUrl())) {
       request = request.clone({
         setParams: {

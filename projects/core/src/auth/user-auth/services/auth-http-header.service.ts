@@ -6,7 +6,8 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { OCC_HTTP_TOKEN } from '@spartacus/core';
+import { OCC_HTTP_TOKEN } from '../../../../src/occ/utils';
+
 import {
   combineLatest,
   defer,

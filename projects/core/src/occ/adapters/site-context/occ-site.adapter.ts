@@ -6,7 +6,6 @@
 
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OCC_HTTP_TOKEN } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Country, CountryType, Region } from '../../../model/address.model';
@@ -22,6 +21,7 @@ import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
