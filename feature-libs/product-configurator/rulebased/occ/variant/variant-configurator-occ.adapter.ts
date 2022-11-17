@@ -332,6 +332,36 @@ export class VariantConfiguratorOccAdapter
       );
   }
 
+  updateConfigurationOverview(
+    ovInput: Configurator.Overview
+  ): Observable<Configurator.Overview> {
+    const url = this.occEndpointsService.buildUrl(
+      'getVariantConfigurationOverview',
+      { urlParams: { configId: ovInput.configId } }
+    );
+
+    const occOverview: OccConfigurator.Overview = {
+      id: ovInput.configId,
+      productCode: ovInput.productCode,
+      attributeFilters: ovInput.attributeFilters,
+      groupFilters: ovInput.groupFilters,
+    };
+    return this.http
+      .patch<OccConfigurator.Overview>(url, occOverview, {
+        context: this.indicateSendUserForAsm(),
+      })
+      .pipe(
+        this.converterService.pipeable(
+          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+        ),
+        map((overview) => ({
+          ...overview,
+          attributeFilters: ovInput.attributeFilters,
+          groupFilters: ovInput.groupFilters,
+        }))
+      );
+  }
+
   searchVariants(configId: string): Observable<Configurator.Variant[]> {
     const url = this.occEndpointsService.buildUrl(
       'searchConfiguratorVariants',

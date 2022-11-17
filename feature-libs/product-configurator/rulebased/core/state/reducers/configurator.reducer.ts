@@ -55,10 +55,10 @@ export function configuratorReducer(
       return setInitialCurrentGroup(takeOverPricingChanges(action, state));
     }
 
-    case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
+    case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS:
+    case ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
-
-      const result: Configurator.Configuration = {
+      return {
         ...state,
         overview: content,
         priceSummary: content.priceSummary,
@@ -67,8 +67,6 @@ export function configuratorReducer(
           issueNavigationDone: false,
         },
       };
-
-      return result;
     }
     case ConfiguratorActions.SEARCH_VARIANTS_SUCCESS: {
       return {

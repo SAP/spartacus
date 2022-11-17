@@ -401,6 +401,24 @@ describe('Configurator reducer', () => {
     });
   });
 
+  describe('UpdateConfigurationOverviewSuccess action', () => {
+    it('should put configuration overview into the state', () => {
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+      };
+      const action = new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+        {
+          ownerKey: configuration.owner.key,
+          overview: overview,
+        }
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
+    });
+  });
+
   describe('ReadOrderEntryConfigurationSuccess action', () => {
     it('should put configuration overview into the state', () => {
       const overview: Configurator.Overview = {
