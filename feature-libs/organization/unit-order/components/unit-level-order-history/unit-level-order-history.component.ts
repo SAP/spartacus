@@ -12,18 +12,18 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
 
-
 @Component({
   selector: 'cx-unit-level-order-history',
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
   // Contains the initial query parameters and will be updated with current state of filters
-  _queryParams: OrderHistoryQueryParams = {
+  queryParams: OrderHistoryQueryParams = {
     currentPage: 0,
     sortCode: '',
     filters: '',
@@ -41,7 +41,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
-          this._queryParams.sortCode = this.sortType;
+          this.queryParams.sortCode = this.sortType;
         }
       })
     );
@@ -58,14 +58,14 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
       ...newFilters,
       currentPage: 0,
     });
-    this.fetchOrders(this._queryParams);
+    this.fetchOrders(this.queryParams);
   }
 
 
   private updateQueryParams(partialParams: OrderHistoryQueryParams) {
     // Overwrite each value present in partialParams to _queryParams
     Object.entries(partialParams).forEach(
-      (param) => ((this._queryParams as any)[param[0]] = param[1])
+      (param) => ((this.queryParams as any)[param[0]] = param[1])
     );
   }
 
@@ -75,14 +75,14 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
       currentPage: 0,
     });
     this.sortType = sortCode;
-    this.fetchOrders(this._queryParams);
+    this.fetchOrders(this.queryParams);
   }
 
   pageChange(page: number): void {
     this.updateQueryParams({
       currentPage: page,
     });
-    this.fetchOrders(this._queryParams);
+    this.fetchOrders(this.queryParams);
   }
 
   goToOrderDetail(order: Order): void {

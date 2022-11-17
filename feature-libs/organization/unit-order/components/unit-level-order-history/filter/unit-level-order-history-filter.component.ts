@@ -24,8 +24,8 @@ export class UnitLevelOrderHistoryFilterComponent {
   });
 
   filterFormMobile: FormGroup = new FormGroup({
-    buyerFilterMobile: new FormControl('', {updateOn: 'submit'}),
-    unitFilterMobile: new FormControl('', {updateOn: 'submit'}),
+    buyerFilterMobile: new FormControl(),
+    unitFilterMobile: new FormControl(),
   });
 
   filterByBuyer = 'filterByBuyer';
@@ -59,16 +59,16 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   SearchUnitLevelOrders(): void {
-    let user = this.filterForm.get('buyerFilter')!.value;
+    let buyer = this.filterForm.get('buyerFilter')!.value;
     let unit = this.filterForm.get('unitFilter')!.value;
-    this.filterFormMobile.setValue({'buyerFilterMobile': user, 'unitFilterMobile': unit})
-    this.emitFilterEvent(user, unit);
+    this.filterFormMobile.setValue({'buyerFilterMobile': buyer, 'unitFilterMobile': unit})
+    this.emitFilterEvent(buyer, unit);
   }
 
-  emitFilterEvent(user: string, unit: string): void {
+  emitFilterEvent(buyer: string, unit: string): void {
     let filters: string[] = [];
 
-    user?.length ? filters.push('user:' + user) : '';
+    buyer?.length ? filters.push('user:' + buyer) : '';
     unit?.length ? filters.push('unit:' + unit) : '';
     filters.unshift(filters.length ? ':' : '');
     this.encodedFilter = filters.join(':');
@@ -80,12 +80,12 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   clearAll(): void {
-    let user = this.filterForm.get('buyerFilter')?.value;
+    let buyer = this.filterForm.get('buyerFilter')?.value;
     let unit = this.filterForm.get('unitFilter')?.value;
-    let userMobile = this.buyerFilterMobileId?.nativeElement.value;
+    let buyerMobile = this.buyerFilterMobileId?.nativeElement.value;
     let unitMobile = this.unitFilterMobileId?.nativeElement.value;
 
-    if (user || unit || userMobile || unitMobile) {
+    if (buyer || unit || buyerMobile || unitMobile) {
       this.filterForm.reset();
       this.filterFormMobile.reset();
       this.SearchUnitLevelOrders();
@@ -108,15 +108,17 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
   }
 
-  SearchUnitLevelOrdersForMobile(): void {
-    this.filterFormMobile.valueChanges.subscribe(() => {
-      let user = this.filterFormMobile.get('buyerFilterMobile')?.value;
-      let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
-      this.filterForm.setValue({'buyerFilter': user, 'unitFilter': unit});
-      this.emitFilterEvent(user, unit);
+  searchUnitLevelOrdersForMobile(): void {
+    let buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
+    let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
+    this.filterForm.setValue({'buyerFilter': buyer, 'unitFilter': unit});
+    this.emitFilterEvent(buyer, unit);
 
+    if (buyer || unit) {
       this.renderer.setStyle(this.removeAppliedFilters.nativeElement, 'display', 'flex');
-    })
+    } else {
+      this.renderer.setStyle(this.removeAppliedFilters.nativeElement, 'display', 'none');
+    }
 
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
@@ -167,14 +169,14 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterFormMobile.get('unitFilterMobile')?.reset();
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
-    this.SearchUnitLevelOrdersForMobile();
+    this.searchUnitLevelOrdersForMobile();
   }
 
   clearBuyerMobile(): void {
     this.filterFormMobile.get('buyerFilterMobile')!.reset();
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
-    this.SearchUnitLevelOrdersForMobile();
+    this.searchUnitLevelOrdersForMobile();
   }
 
   searchBuyer(inputElement: HTMLInputElement): void {

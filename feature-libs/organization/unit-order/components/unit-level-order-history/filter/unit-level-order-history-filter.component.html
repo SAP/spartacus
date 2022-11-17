@@ -33,9 +33,9 @@
   </div>
 </div>
 
-<form [formGroup]="filterFormMobile" (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+<form [formGroup]="filterFormMobile" (keydown.enter)="searchUnitLevelOrdersForMobile()">
   <div id="cx-unit-level-order-history-filter-nav-sub-buyer" #filterNavBuyer class="cx-filter-nav"
-       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate" (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+       [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate">
     <div class="cx-filter-nav-div">
       <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
@@ -65,9 +65,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation"
-             (mousedown)="SearchUnitLevelOrdersForMobile()"
-             (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+        <div #buyerPresentationMobile role="presentation">
           <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
         </div>
       </label>
@@ -115,8 +113,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation" (mousedown)="SearchUnitLevelOrdersForMobile()"
-             (keydown.enter)="SearchUnitLevelOrdersForMobile()">
+        <div #unitPresentationMobile role="presentation">
           <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
         </div>
       </label>
@@ -160,9 +157,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #buyerPresentation role="presentation" class="search-icon"
-                 (mousedown)="SearchUnitLevelOrders()"
-                 (keydown.enter)="SearchUnitLevelOrders()">
+            <div #buyerPresentation role="presentation" class="search-icon">
               <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
           </label>
@@ -192,9 +187,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #unitPresentation role="presentation" class="search-icon"
-                 (mousedown)="SearchUnitLevelOrders()"
-                 (keydown.enter)="SearchUnitLevelOrders()">
+            <div #unitPresentation role="presentation" class="search-icon">
               <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
           </label>
