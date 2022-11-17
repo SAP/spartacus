@@ -27,7 +27,7 @@
     border: none;
     color: lightgray;
     background: white;
-    padding-right: 10px;
+    padding-inline-end: 10px;
   }
 
   .cx-unit-level-order-history-filter-label {
@@ -411,11 +411,9 @@
       display: flex;
       align-content: stretch;
       background: white;
-      margin-bottom: 0;
       padding-bottom: 0;
       border: 1px solid lightgray;
-      margin-left: 1rem;
-      margin-right: 1rem;
+      margin: 0 1rem 0 1rem;
     }
 
     input {
@@ -445,7 +443,7 @@
       background-color: var(--cx-color-background);
 
       span {
-        padding-left: 12px;
+        padding-inline-start: 12px;
       }
     }
   }
