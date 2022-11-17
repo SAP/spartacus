@@ -28,6 +28,7 @@
         "enum": [
           "Administration",
           "Order-Approval",
+          "Account-Summary",
           "Organization-User-Registration"
         ],
         "type": "string"
@@ -35,6 +36,7 @@
       "default": [
         "Administration",
         "Order-Approval",
+        "Account-Summary",
         "Organization-User-Registration"
       ],
 
@@ -51,12 +53,12 @@
             "label": "Order Approval (b2b feature)"
           },
           {
-            "value": "User-Registration",
-            "label": "User Registration (b2b feature)"
-          },
-          {
             "value": "Account-Summary",
             "label": "Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
+            "value": "User-Registration",
+            "label": "User Registration (b2b feature)"
           }
         ]
       }

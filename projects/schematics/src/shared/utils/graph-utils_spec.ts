@@ -166,6 +166,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Administration",
           "Account-Summary",
+          "Organization-User-Registration",
           "Order-Approval",
           "EPD-Visualization",
           "Digital-Payments",
@@ -177,9 +178,6 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Organization-User-Registration",
-          "Order-Approval",
-          "Administration",
           "ASM",
         ]
       `);

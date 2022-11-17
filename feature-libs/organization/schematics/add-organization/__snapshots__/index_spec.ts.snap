@@ -642,7 +642,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
 }"
 `;
 
-exports[`Spartacus Organization schematics: ng-add Organization user registration feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Organization schematics: ng-add User registration feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { OrganizationUserRegistrationModule } from \\"@spartacus/organization/user-registration\\";
@@ -666,7 +666,7 @@ export class OrganizationUserRegistrationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Organization user registration feature general setup b2b features configuration should be added 1`] = `
+exports[`Spartacus Organization schematics: ng-add User registration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
@@ -684,10 +684,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -704,7 +701,7 @@ export class SpartacusConfigurationModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Organization user registration feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Organization schematics: ng-add User registration feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { organizationUserRegistrationTranslationChunksConfig, organizationUserRegistrationTranslations } from \\"@spartacus/organization/user-registration/assets\\";
@@ -735,9 +732,9 @@ export class OrganizationUserRegistrationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Organization schematics: ng-add Organization user registration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+exports[`Spartacus Organization schematics: ng-add User registration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
 
-exports[`Spartacus Organization schematics: ng-add Organization user registration feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Organization schematics: ng-add User registration feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -748,9 +745,6 @@ exports[`Spartacus Organization schematics: ng-add Organization user registratio
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
-        },
-        \\"@schematics/angular:application\\": {
-          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -858,7 +852,6 @@ exports[`Spartacus Organization schematics: ng-add Organization user registratio
         }
       }
     }
-  },
-  \\"defaultProject\\": \\"schematics-test\\"
+  }
 }"
 `;

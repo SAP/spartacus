@@ -125,7 +125,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not install administration, order-approval and account-summary features', () => {
+    it('should not install administration, order-approval, account-summary and user registration features', () => {
       expect(
         appTree.exists(organizationAdministrationFeatureModulePath)
       ).toBeFalsy();
