@@ -137,6 +137,8 @@ class MockCustomerTicketingConnector
     of(mockTicketAssociatedObjects)
   );
   getTicketCategories = createSpy().and.returnValue(of(mockCategories));
+  uploadAttachment = createSpy().and.returnValue(of(`uploadAttachment`));
+  downloadAttachment = createSpy().and.returnValue(of(`downloadAttachment`));
 }
 
 describe('CustomerTicketingService', () => {
@@ -330,24 +332,35 @@ describe('CustomerTicketingService', () => {
     });
   });
 
-  describe('createTicketEvent', () => {
-    it('should call customerTicketingConnector.createTicketEvent', (done) => {
-      const mockTicketEvent: TicketEvent = {
-        toStatus: {
-          id: 'mockTicket',
-          name: 'mockTicket',
-        },
-      };
+  describe('uploadAttachment', () => {
+    it('should call customerTicketingConnector.uploadAttachment', (done) => {
       service
-        .createTicketEvent(mockTicketEvent)
+        .uploadAttachment('' as unknown as File, 'mockCode', 'mockId')
         .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.createTicketEvent).toHaveBeenCalledWith(
+        .subscribe(() => {
+          expect(connector.uploadAttachment).toHaveBeenCalledWith(
             mockUserId,
-            mockRoutingParams.ticketCode,
-            mockTicketEvent
+            'mockId',
+            'mockCode',
+            '' as unknown as File
           );
-          expect(data).toEqual(mockCreateEventResponse);
+          done();
+        });
+    });
+  });
+
+  describe('downloadAttachment', () => {
+    it('should call customerTicketingConnector.downloadAttachment', (done) => {
+      service
+        .downloadAttachment('mockCode', 'mockId')
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(connector.downloadAttachment).toHaveBeenCalledWith(
+            mockUserId,
+            '1',
+            'mockCode',
+            'mockId'
+          );
           done();
         });
     });

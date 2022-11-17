@@ -93,7 +93,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onSend() {
+  onSend(): void {
     if (this.form.valid) {
       this.send.emit({
         files: this.form.get('file')?.value,
@@ -102,12 +102,16 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  resetForm() {
+  resetForm(): void {
     this.form.reset();
     this.fileUploadComponent.removeFile();
   }
 
-  triggerDownload(messageCode: string, attachmentId: string, fileName: string) {
+  triggerDownload(
+    messageCode: string,
+    attachmentId: string,
+    fileName: string
+  ): void {
     this.downloadAttachment.emit({
       messageCode: messageCode,
       attachmentId: attachmentId,
@@ -115,7 +119,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  protected buildForm() {
+  protected buildForm(): void {
     const form = new FormGroup({});
     form.setControl(
       'message',
