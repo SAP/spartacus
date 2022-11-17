@@ -154,8 +154,13 @@ export namespace OccConfigurator {
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode: string;
-    attributeFilters?: OverviewFilter[];
+    appliedCsticFilter?: OverviewFilter[];
     groupFilters?: string[];
+  }
+
+  export interface OverviewFilter {
+    key: string;
+    selected?: boolean;
   }
 
   export interface GroupOverview {
@@ -216,7 +221,7 @@ export namespace OccConfigurator {
     GALLERY = 'GALLERY',
   }
 
-  export enum OverviewFilter {
+  export enum OverviewFilterEnum {
     VISIBLE = 'PRIMARY',
     USER_INPUT = 'USER_INPUT',
     PRICE_RELEVANT = 'PRICE_RELEVANT',
