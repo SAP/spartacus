@@ -133,7 +133,7 @@
   </div>
 </form>
 
-<form [formGroup]="filterForm" (keydown.enter)="SearchUnitLevelOrders()">
+<form [formGroup]="filterForm" (keydown.enter)="searchUnitLevelOrders()">
   <div>
     <div class="cx-unit-level-order-history-filter-div-wrapper">
       <div>
@@ -205,7 +205,7 @@
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
-      <button class="btn btn-primary unit-level-order-history-search" (click)="SearchUnitLevelOrders()">
+      <button class="btn btn-primary unit-level-order-history-search" (click)="searchUnitLevelOrders()">
         {{ 'unitLevelOrderHistory.search' | cxTranslate }}
       </button>
     </div>

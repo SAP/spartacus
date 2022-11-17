@@ -58,7 +58,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   ) {
   }
 
-  SearchUnitLevelOrders(): void {
+  searchUnitLevelOrders(): void {
     let buyer = this.filterForm.get('buyerFilter')!.value;
     let unit = this.filterForm.get('unitFilter')!.value;
     this.filterFormMobile.setValue({'buyerFilterMobile': buyer, 'unitFilterMobile': unit})
@@ -88,7 +88,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     if (buyer || unit || buyerMobile || unitMobile) {
       this.filterForm.reset();
       this.filterFormMobile.reset();
-      this.SearchUnitLevelOrders();
+      this.searchUnitLevelOrders();
     }
 
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
@@ -158,14 +158,14 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterForm.get('unitFilter')?.reset();
     this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentation.nativeElement, 'display', 'block');
-    this.SearchUnitLevelOrders();
+    this.searchUnitLevelOrders();
   }
 
   clearBuyer(): void {
     this.filterForm.get('buyerFilter')?.reset();
     this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentation.nativeElement, 'display', 'block');
-    this.SearchUnitLevelOrders();
+    this.searchUnitLevelOrders();
   }
 
   clearUnitMobile(): void {
