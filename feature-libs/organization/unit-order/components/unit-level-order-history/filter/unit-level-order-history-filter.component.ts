@@ -19,12 +19,12 @@ export class UnitLevelOrderHistoryFilterComponent {
   encodedFilter: string;
 
   filterForm: FormGroup = new FormGroup({
-    buyerFilter: new FormControl('', {updateOn: 'submit'}),
-    unitFilter: new FormControl('', {updateOn: 'submit'}),
+    buyerFilter: new FormControl(),
+    unitFilter: new FormControl(),
   });
 
   filterFormMobile: FormGroup = new FormGroup({
-    BuyerFilterMobile: new FormControl('', {updateOn: 'submit'}),
+    buyerFilterMobile: new FormControl('', {updateOn: 'submit'}),
     unitFilterMobile: new FormControl('', {updateOn: 'submit'}),
   });
 
@@ -45,6 +45,10 @@ export class UnitLevelOrderHistoryFilterComponent {
   @ViewChild('filterNavUnit', {read: ElementRef}) filterNavUnit: ElementRef;
   @ViewChild('filterNavBuyer', {read: ElementRef}) filterNavBuyer: ElementRef;
 
+  @ViewChild('buyerFilterMobileId', {read: ElementRef}) buyerFilterMobileId: ElementRef;
+  @ViewChild('unitFilterMobileId', {read: ElementRef}) unitFilterMobileId: ElementRef;
+  @ViewChild('removeAppliedFilters', {read: ElementRef}) removeAppliedFilters: ElementRef;
+
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
 
@@ -55,12 +59,10 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   SearchUnitLevelOrders(): void {
-    this.filterForm.valueChanges.subscribe(() => {
-      let user = this.filterForm.get('buyerFilter')?.value;
-      let unit = this.filterForm.get('unitFilter')?.value;
-      this.filterFormMobile.setValue({'BuyerFilterMobile': user, 'unitFilterMobile': unit})
-      this.emitFilterEvent(user, unit);
-    })
+    let user = this.filterForm.get('buyerFilter')!.value;
+    let unit = this.filterForm.get('unitFilter')!.value;
+    this.filterFormMobile.setValue({'buyerFilterMobile': user, 'unitFilterMobile': unit})
+    this.emitFilterEvent(user, unit);
   }
 
   emitFilterEvent(user: string, unit: string): void {
@@ -80,8 +82,10 @@ export class UnitLevelOrderHistoryFilterComponent {
   clearAll(): void {
     let user = this.filterForm.get('buyerFilter')?.value;
     let unit = this.filterForm.get('unitFilter')?.value;
+    let userMobile = this.buyerFilterMobileId?.nativeElement.value;
+    let unitMobile = this.unitFilterMobileId?.nativeElement.value;
 
-    if (user || unit) {
+    if (user || unit || userMobile || unitMobile) {
       this.filterForm.reset();
       this.filterFormMobile.reset();
       this.SearchUnitLevelOrders();
@@ -91,6 +95,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
+    this.renderer.setStyle(this.removeAppliedFilters.nativeElement, 'display', 'none');
 
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
@@ -105,10 +110,12 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   SearchUnitLevelOrdersForMobile(): void {
     this.filterFormMobile.valueChanges.subscribe(() => {
-      let user = this.filterFormMobile.get('BuyerFilterMobile')?.value;
+      let user = this.filterFormMobile.get('buyerFilterMobile')?.value;
       let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
       this.filterForm.setValue({'buyerFilter': user, 'unitFilter': unit});
       this.emitFilterEvent(user, unit);
+
+      this.renderer.setStyle(this.removeAppliedFilters.nativeElement, 'display', 'flex');
     })
 
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
@@ -164,7 +171,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   clearBuyerMobile(): void {
-    this.filterFormMobile.get('BuyerFilterMobile')?.reset();
+    this.filterFormMobile.get('buyerFilterMobile')!.reset();
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
     this.SearchUnitLevelOrdersForMobile();

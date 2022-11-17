@@ -48,10 +48,10 @@
 
       <label>
         <input
-          #queryInputBuyerMobile
-          formControlName="BuyerFilterMobile"
+          #buyerFilterMobileId
+          formControlName="buyerFilterMobile"
           class="form-control"
-          (input)="searchBuyerMobile(queryInputBuyerMobile)"
+          (input)="searchBuyerMobile(buyerFilterMobileId)"
           [attr.aria-label]="'unitLevelOrderHistory.searchByBuyer' | cxTranslate"
           placeholder="{{ 'unitLevelOrderHistory.searchByBuyer' | cxTranslate }}"
         />
@@ -99,10 +99,10 @@
 
       <label>
         <input
-          #queryInputUnitMobile
+          #unitFilterMobileId
           formControlName="unitFilterMobile"
           class="form-control"
-          (input)="searchUnitMobile(queryInputUnitMobile)"
+          (input)="searchUnitMobile(unitFilterMobileId)"
           [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
           placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />
@@ -144,10 +144,10 @@
         <div role="search" class="cx-unit-level-order-history-filter-label-wrapper">
           <label class="cx-unit-level-order-history-filter-label">
             <input
-              #queryInputBuyer
+              #buyerFilterId
               formControlName="buyerFilter"
               class="form-control cx-unit-level-order-history-filter-input"
-              (input)="searchBuyer(queryInputBuyer)"
+              (input)="searchBuyer(buyerFilterId)"
               [attr.aria-label]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
               placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
             />
@@ -160,7 +160,8 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #buyerPresentation role="presentation" class="search-icon" (mousedown)="SearchUnitLevelOrders()"
+            <div #buyerPresentation role="presentation" class="search-icon"
+                 (mousedown)="SearchUnitLevelOrders()"
                  (keydown.enter)="SearchUnitLevelOrders()">
               <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
@@ -175,10 +176,10 @@
         <div class="cx-unit-level-order-history-filter-label-wrapper">
           <label class="cx-unit-level-order-history-filter-label">
             <input
-              #queryInputUnit
+              #unitFilterId
               formControlName="unitFilter"
               class="form-control cx-unit-level-order-history-filter-input"
-              (input)="searchUnit(queryInputUnit)"
+              (input)="searchUnit(unitFilterId)"
               [attr.aria-label]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
               placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
             />
@@ -191,7 +192,8 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #unitPresentation role="presentation" class="search-icon" (mousedown)="SearchUnitLevelOrders()"
+            <div #unitPresentation role="presentation" class="search-icon"
+                 (mousedown)="SearchUnitLevelOrders()"
                  (keydown.enter)="SearchUnitLevelOrders()">
               <cx-icon class="search-icon-filter" [type]="iconTypes.SEARCH"></cx-icon>
             </div>
@@ -213,11 +215,20 @@
       </button>
     </div>
   </div>
-  <div class="cx-unit-level-order-history-filter-form-mobile">
-    <button class="btn btn-action btn-block dialog-trigger" (click)="launchMobileFilters()">
-      <cx-icon [type]="iconTypes.FILTER"></cx-icon>
-      {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+</form>
+
+<div class="cx-unit-level-order-history-filter-form-mobile">
+  <button class="btn btn-action btn-block dialog-trigger" (click)="launchMobileFilters()">
+    <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+    {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+  </button>
+  <div #removeAppliedFilters class="cx-clear-filter">
+    <button
+      class="cx-action-link clear-btn"
+      type="button"
+      (click)="clearAll()"
+    >
+      {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
     </button>
   </div>
-
-</form>
+</div>

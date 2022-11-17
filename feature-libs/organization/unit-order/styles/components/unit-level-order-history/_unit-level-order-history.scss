@@ -284,6 +284,14 @@
     flex-flow: row wrap;
     justify-content: flex-start;
 
+    .cx-clear-filter{
+      flex-basis: 100%;
+      justify-content: flex-end;
+      display: none;
+      flex-direction: row;
+      margin-top: 2rem;
+    }
+
     @include media-breakpoint-down(sm) {
       flex-basis: 100%;
       padding: 0.5rem;

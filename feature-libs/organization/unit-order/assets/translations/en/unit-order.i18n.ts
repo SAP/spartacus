@@ -33,7 +33,8 @@ export const unitOrder = {
     searchByUnit: 'Search by Unit',
     filterByUnitLabel: 'Unit name',
     search: 'Search',
-    clearAll: 'Clear All'
+    clearAll: 'Clear All',
+    removeAppliedFilters: 'Remove Applied Filters'
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',
