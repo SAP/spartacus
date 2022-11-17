@@ -4,33 +4,43 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  EventService,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
 import {
   STATUS,
   TEXT_COLOR_CLASS,
   TicketDetails,
   DATE_FORMAT,
   CustomerTicketingFacade,
+  GetTicketQueryReloadEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomerTicketingDetailsComponent {
+export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;
+  subscription = new Subscription();
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
   constructor(
     protected translation: TranslationService,
-    protected customerTicketingFacade: CustomerTicketingFacade
-  ) {}
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected routingService: RoutingService,
+    protected eventService: EventService
+  ) {
+    this.reloadOnRedirection();
+  }
 
   prepareCardContent(
     entity: string,
@@ -53,5 +63,25 @@ export class CustomerTicketingDetailsComponent {
       : id === STATUS.CLOSED
       ? TEXT_COLOR_CLASS.GREY
       : '';
+  }
+
+  protected reloadOnRedirection() {
+    this.subscription = combineLatest([
+      this.ticketDetails$,
+      this.routingService.getParams().pipe(map((params) => params.ticketCode)),
+    ])
+      .pipe(
+        take(1),
+        tap(([ticket, ticketCode]) => {
+          if (ticketCode !== ticket?.id) {
+            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
