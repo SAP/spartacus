@@ -11,6 +11,7 @@
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
   </div>
+
   <div class="cx-filter-list filter-list-border" (click)="launchSubNav(filterByBuyer)">
     <span>{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}</span>
     <button
@@ -21,6 +22,7 @@
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
   </div>
+
   <div class="cx-filter-list filter-list-border" (click)="launchSubNav(filterByUnit)">
     <span>{{ 'unitLevelOrderHistory.unit' | cxTranslate }}</span>
     <button
@@ -40,8 +42,8 @@
       <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
-
       </button>
+
       <button class="clear-btn" [attr.aria-label]="'common.close' | cxTranslate" (click)="closeFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>

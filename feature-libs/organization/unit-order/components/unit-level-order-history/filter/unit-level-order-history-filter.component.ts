@@ -106,6 +106,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   launchMobileFilters(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '100%');
+    this.renderer.setStyle(document.body, 'overflow', 'hidden');
   }
 
   searchUnitLevelOrdersForMobile(): void {
@@ -128,11 +129,13 @@ export class UnitLevelOrderHistoryFilterComponent {
   closeFilterNav(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
+    this.renderer.setStyle(document.body, 'overflow', '');
   }
 
   closeFilterSubNav(): void {
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavBuyer.nativeElement, 'display', 'none');
+    this.renderer.setStyle(document.body, 'overflow', '');
   }
 
   backFilterSubNav(): void {
