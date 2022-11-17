@@ -74,6 +74,10 @@ export const defaultAsmConfig: AsmConfig = {
           components: [
             {
               component: 'AsmCustomer360CustomerActivityComponent',
+              config: { pageSize: 5 },
+            },
+            {
+              component: 'AsmCustomer360ProductReviewsComponent',
               requestData: {
                 customer360Type: AsmCustomer360Type.REVIEW_LIST,
               },

@@ -6,12 +6,16 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/root';
-import { SemanticPathService } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 import { combineStrings, formatEpochTime } from '../../asm-customer-360.utils';
-import { CustomerTableColumn } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
+import {
+  CustomerTableColumn,
+  TableEntry,
+} from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { ReviewEntry } from './asm-customer-product-reviews.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,20 +24,18 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
 })
 export class AsmCustomerProductReviewsComponent implements OnDestroy {
   reviewColumns: Array<CustomerTableColumn> = [
-    { property: 'item', text: 'item' },
+    { property: 'item', text: 'item', navigatable: true },
     { property: 'dateAndStatus', text: 'DATE / STATUS' },
     { property: 'rating', text: 'rate', renderAsStarRating: true },
     { property: 'reviewText', text: 'review' },
   ];
 
-  reviewEntries: Array<any>;
+  reviewEntries: Array<ReviewEntry>;
 
   protected subscription = new Subscription();
 
   constructor(
-    protected context: Customer360SectionContext<AsmCustomer360ReviewList>,
-    /** TODO: Importing this seems questionable. */
-    protected semanticPathService: SemanticPathService
+    protected context: Customer360SectionContext<AsmCustomer360ReviewList>
   ) {
     this.subscription.add(
       context.data$.subscribe((data) => {
@@ -47,7 +49,6 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy {
             entry.reviewStatus,
             ' / '
           ),
-          // productUrl: this.semanticPathService.transform({ cxRoute: 'product', params: { code: entry.productCode, slug: entry.productName } }),
         }));
       })
     );
@@ -55,5 +56,13 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  navigateTo(entry: TableEntry): void {
+    const params: Product = {
+      name: entry.productName as string,
+      code: entry.productCode as string,
+    };
+    this.context.navigate$.next({ cxRoute: 'product', params });
   }
 }
