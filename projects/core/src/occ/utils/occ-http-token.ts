@@ -15,6 +15,7 @@ export interface OccHttpContext {
    * @see feature-libs/asm/root/interceptors/user-id-http-header.interceptor.ts
    */
   sendUserIdAsHeader?: string | boolean;
+  skipAuthorizationHeader?: boolean;
 }
 
 export const OCC_HTTP_TOKEN = new HttpContextToken<OccHttpContext>(() => ({}));

@@ -6,6 +6,8 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { OCC_HTTP_TOKEN } from '../../../../src/occ/utils';
+
 import {
   combineLatest,
   defer,
@@ -144,7 +146,11 @@ export class AuthHttpHeaderService implements OnDestroy {
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl) {
+    if (
+      !hasAuthorizationHeader &&
+      isOccUrl &&
+      !this.skipAuthorizationHeader(request)
+    ) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -156,6 +162,15 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseUrl());
+  }
+
+  protected skipAuthorizationHeader(request: HttpRequest<any>): boolean {
+    const context = request.context.get(OCC_HTTP_TOKEN);
+    if (context?.skipAuthorizationHeader) {
+      console.log('skipAuthorizationHeader true');
+      return true;
+    }
+    return false;
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
