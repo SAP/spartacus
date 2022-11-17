@@ -13,11 +13,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -31,7 +27,7 @@ import { debounceTime } from 'rxjs/operators';
   },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
-  customerSelectionForm: UntypedFormGroup;
+  customerSelectionForm: FormGroup;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -44,7 +40,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
-    protected fb: UntypedFormBuilder,
+    protected fb: FormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig
   ) {}

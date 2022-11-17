@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   LoadStatus,
@@ -16,9 +16,9 @@ class MockRoutingService {
   go() {}
 }
 
-const form = new UntypedFormGroup({});
-form.addControl('name', new UntypedFormControl('foo bar'));
-form.addControl('uid', new UntypedFormControl('unitUid'));
+const form = new FormGroup({});
+form.addControl('name', new FormControl('foo bar'));
+form.addControl('uid', new FormControl('unitUid'));
 
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 

@@ -133,7 +133,7 @@ export class OccCmsPageNormalizer
             comp.flexType = component.typeCode;
           }
           if (slot.position) {
-            const targetSlot = target.page?.slots?.[slot.position];
+            let targetSlot = target.page?.slots?.[slot.position];
             if (targetSlot) {
               if (!targetSlot.components) {
                 targetSlot.components = [];

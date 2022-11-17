@@ -22,7 +22,6 @@ describe('Cart', () => {
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
-        cart.registerCartRefreshRoute();
 
         cart.addProductWhenLoggedIn(false);
 
@@ -31,7 +30,7 @@ describe('Cart', () => {
         cart.logOutAndNavigateToEmptyCart();
         cart.addProductAsAnonymous();
         cart.verifyMergedCartWhenLoggedIn();
-        cart.logOutAndNavigateToEmptyCart();
+        cart.logOutAndEmptyCart();
       });
 
       it('should add product and manipulate cart quantity', () => {
@@ -63,8 +62,6 @@ describe('Cart', () => {
       it('should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
-        cart.registerCartRefreshRoute();
-
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
         cy.window().then((window) => {
@@ -179,7 +176,7 @@ describe('Cart', () => {
 
         cart.removeCartItem(cart.products[0]);
 
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+        cy.wait('@refresh_cart');
 
         cart.removeCartItem(cart.products[1]);
         cart.validateEmptyCart();
@@ -236,31 +233,26 @@ describe('Cart', () => {
       });
 
       it('should use existing cart when adding new entries', () => {
-        cart.registerCartRefreshRoute();
-
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
         cart.clickAddToCart();
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
         cart.checkAddedToCartDialog();
         cy.visit(`/product/${cart.products[1].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[1].name);
         cart.clickAddToCart();
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
         cart.checkAddedToCartDialog(2);
 
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
         cart.checkProductInCart(cart.products[1]);
 
+        // cleanup
+        cart.registerCartRefreshRoute();
         cart.removeCartItem(cart.products[0]);
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
-
-        // flakes due to button still being disabled.
-        cy.wait(3000);
+        cy.wait('@refresh_cart');
 
         cart.removeCartItem(cart.products[1]);
-        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+        cy.wait('@refresh_cart');
 
         cart.validateEmptyCart();
       });

@@ -1,14 +1,13 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
   <ng-container *ngIf="currentGroup$ | async as currentGroup">
     <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
-      <ng-container *ngIf="displayConflictDescription(currentGroup)">
+      <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
         <cx-configurator-conflict-description
           [currentGroup]="currentGroup"
         ></cx-configurator-conflict-description>
       </ng-container>
       <div
         class="cx-group-attribute"
-        [class.cx-hidden]="!attribute.visible"
         *ngFor="
           let attribute of currentGroup.attributes;
           let indexOfAttribute = index
@@ -27,7 +26,6 @@
             [owner]="configuration.owner"
             [groupId]="currentGroup.id"
             [groupType]="currentGroup.groupType"
-            [expMode]="expMode | async"
           >
           </cx-configurator-attribute-header>
           <!-- Single Selection Radio Button -->
@@ -40,7 +38,6 @@
             [ownerKey]="configuration.owner.key"
             [ownerType]="configuration.owner.type"
             [language]="activeLanguage"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-radio-button>
 
@@ -80,7 +77,6 @@
             [ownerKey]="configuration.owner.key"
             [ownerType]="configuration.owner.type"
             [language]="activeLanguage"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-drop-down>
           <cx-configurator-attribute-input-field
@@ -109,7 +105,6 @@
             [attribute]="attribute"
             [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-checkbox-list>
           <cx-configurator-attribute-checkbox
@@ -117,27 +112,23 @@
             [attribute]="attribute"
             [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-checkbox>
           <cx-configurator-attribute-read-only
             *ngIf="attribute.uiType === uiType.READ_ONLY"
             [attribute]="attribute"
             [group]="currentGroup.id"
-            [expMode]="expMode | async"
           ></cx-configurator-attribute-read-only>
           <cx-configurator-attribute-multi-selection-image
             *ngIf="attribute.uiType === uiType.MULTI_SELECTION_IMAGE"
             [attribute]="attribute"
             [ownerKey]="configuration.owner.key"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-multi-selection-image>
           <cx-configurator-attribute-single-selection-image
             *ngIf="attribute.uiType === uiType.SINGLE_SELECTION_IMAGE"
             [attribute]="attribute"
             [ownerKey]="configuration.owner.key"
-            [expMode]="expMode | async"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-single-selection-image>
 

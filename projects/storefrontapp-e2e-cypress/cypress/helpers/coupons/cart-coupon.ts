@@ -351,7 +351,7 @@ export function getCouponItemOrderSummary(couponCode: string) {
 }
 
 export function verifyProductInCart(productCode: string) {
-  cy.get('.cx-table-item-container').within(() => {
+  cy.get('cx-cart-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
   });
 }

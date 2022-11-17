@@ -9,11 +9,6 @@
   .cx-btn-group {
     button {
       min-width: 100%;
-      text-transform: lowercase;
-      &:first-line {
-        text-transform: capitalize;
-      }
-
       &:first-child {
         margin-inline-end: 1em;
       }

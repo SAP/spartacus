@@ -5,11 +5,7 @@
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -20,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './checkout-login.component.html',
 })
 export class CheckoutLoginComponent implements OnDestroy {
-  checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(
+  checkoutLoginForm: FormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       emailConfirmation: ['', [Validators.required]],
@@ -35,7 +31,7 @@ export class CheckoutLoginComponent implements OnDestroy {
   sub: Subscription;
 
   constructor(
-    protected formBuilder: UntypedFormBuilder,
+    protected formBuilder: FormBuilder,
     protected authRedirectService: AuthRedirectService,
     protected activeCartFacade: ActiveCartFacade
   ) {}

@@ -22,7 +22,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    fallback: {
+    alias: {
       '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
       '@spartacus/user': path.join(__dirname, 'feature-libs/user'),
       '@spartacus/organization': path.join(

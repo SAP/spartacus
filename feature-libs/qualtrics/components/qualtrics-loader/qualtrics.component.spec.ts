@@ -1,4 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  TestBedStatic,
+} from '@angular/core/testing';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
@@ -18,7 +22,7 @@ describe('QualtricsComponent', () => {
   let fixture: ComponentFixture<QualtricsComponent>;
   let service: QualtricsLoaderService;
 
-  function configureTestingModule(): TestBed {
+  function configureTestingModule(): TestBedStatic {
     return TestBed.configureTestingModule({
       declarations: [QualtricsComponent],
       providers: [

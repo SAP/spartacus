@@ -1,12 +1,6 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EventService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -28,7 +22,6 @@ export abstract class CustomerTicketingDialogComponent {
   iconTypes = ICON_TYPE;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
-  inputCharactersForSubject: number = this.getInputCharactersForSubject;
   isDataLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
@@ -43,13 +36,6 @@ export abstract class CustomerTicketingDialogComponent {
   get messagesCharacterLeft(): number {
     return (
       this.inputCharactersLimit - (this.form.get('message')?.value?.length || 0)
-    );
-  }
-
-  get subjectCharacterLeft(): number {
-    return (
-      this.inputCharactersForSubject -
-      (this.form.get('subject')?.value?.length || 0)
     );
   }
 
@@ -79,6 +65,13 @@ export abstract class CustomerTicketingDialogComponent {
     );
   }
 
+  get maxEntries(): number {
+    return (
+      this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
+        ?.maxEntries ?? MAX_ENTRIES_FOR_ATTACHMENT
+    );
+  }
+
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
@@ -92,8 +85,7 @@ export abstract class CustomerTicketingDialogComponent {
     protected customerTicketingConfig: CustomerTicketingConfig,
     protected filesFormValidators: FilesFormValidators,
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected eventService: EventService
+    protected routingService: RoutingService
   ) {}
 
   protected buildForm(): void {
@@ -109,8 +101,7 @@ export abstract class CustomerTicketingDialogComponent {
       'file',
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
-        this.filesFormValidators.maxEntries(MAX_ENTRIES_FOR_ATTACHMENT),
-        this.filesFormValidators.allowedTypes(this.allowedTypes),
+        this.filesFormValidators.maxEntries(this.maxEntries),
       ])
     );
     this.form = form;

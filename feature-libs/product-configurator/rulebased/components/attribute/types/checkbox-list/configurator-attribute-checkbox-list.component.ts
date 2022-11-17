@@ -11,7 +11,7 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -27,7 +27,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit
 {
-  attributeCheckBoxForms = new Array<UntypedFormControl>();
+  attributeCheckBoxForms = new Array<FormControl>();
 
   @Input() group: string;
 
@@ -45,12 +45,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
       let attributeCheckBoxForm;
 
       if (value.selected) {
-        attributeCheckBoxForm = new UntypedFormControl({
+        attributeCheckBoxForm = new FormControl({
           value: true,
           disabled: disabled,
         });
       } else {
-        attributeCheckBoxForm = new UntypedFormControl(false);
+        attributeCheckBoxForm = new FormControl(false);
       }
       this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }

@@ -10,6 +10,7 @@ import { loginRegisteredUser as login } from '../../cart';
 export const HTTP_STATUS_OK = 200;
 export const COLUMN_HEADER_TICKET_LIST = 0;
 export const FIRST_ROW_TICKET_LIST = 1;
+export const FIRST_TICKET_COLUMN_INDEX = 1;
 export const ID_COLUMN = 0;
 export const SUBJECT_COLUMN = 1;
 export const CATEGORY_COLUMN = 2;
@@ -18,6 +19,8 @@ export const CHANGED_ON_COLUMN = 4;
 export const STATUS_COLUMN = 5;
 export const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 export const MAX_TICKETS_PER_PAGE = 5;
+export const TICKET_SUBJECT_MAX_LENGTH = 255;
+export const TICKET_MESSAGE_MAX_LENGTH = 5000;
 
 export enum TestSortingTypes {
   changedOn = 'Changed On',
@@ -99,4 +102,8 @@ export function verifyTicketListingPageVisit() {
 export function verifyTicketDetailsPageVisit() {
   cy.url().should('match', /http:\/\/.+\/my\-account\/support\-ticket\/[0-9]+/);
   cy.get('cx-customer-ticketing-messages').should('exist');
+}
+
+export function generateDummyStringOfLength(length: number): string {
+  return new Array(length).join('a');
 }

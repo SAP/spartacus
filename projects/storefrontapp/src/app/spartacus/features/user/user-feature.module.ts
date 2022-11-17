@@ -24,15 +24,14 @@ import {
 } from '@spartacus/user/profile/root';
 
 @NgModule({
+  declarations: [],
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('./user-account-wrapper.module').then(
-              (m) => m.UserAccountWrapperModule
-            ),
+            import('@spartacus/user/account').then((m) => m.UserAccountModule),
         },
       },
     }),
@@ -47,9 +46,7 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('./user-profile-wrapper.module').then(
-              (m) => m.UserProfileWrapperModule
-            ),
+            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
         },
       },
     }),

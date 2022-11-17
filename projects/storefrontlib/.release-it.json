@@ -1,0 +1,42 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "storefront-${version}",
+    "commitMessage": "Bumping storefront version to ${version}",
+    "tagAnnotation": "Bumping storefront version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/storefrontlib"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build storefrontlib --configuration production"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.1905.zip",
+      "../../spartacussampledataaddon.1905.tar.gz",
+      "../../spartacussampledata.2005.zip",
+      "../../spartacussampledata.2005.tar.gz",
+      "../../spartacussampledata.2011.zip",
+      "../../spartacussampledata.2011.tar.gz",
+      "../../spartacussampledata.2105.zip",
+      "../../spartacussampledata.2105.tar.gz"
+    ],
+    "releaseName": "@spartacus/storefront@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib storefront --to storefront-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": "peerDependencies.@spartacus/core"
+        }
+      ]
+    }
+  }
+}

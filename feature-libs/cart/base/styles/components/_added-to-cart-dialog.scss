@@ -1,6 +1,4 @@
 %cx-added-to-cart-dialog {
-  background-color: rgba(0, 0, 0, 0.5);
-
   .cx-dialog-header {
     padding-top: 2rem;
     padding-inline-end: 1.75rem;
@@ -16,7 +14,7 @@
   }
 
   .cx-dialog-body {
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     @include media-breakpoint-down(sm) {
       padding: 0;
       background-color: var(--cx-color-inverse);

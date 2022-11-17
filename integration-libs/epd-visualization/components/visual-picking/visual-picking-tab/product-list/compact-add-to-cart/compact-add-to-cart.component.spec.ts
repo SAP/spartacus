@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  ElementRef,
-  Input,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -16,8 +10,7 @@ import {
   CmsComponentData,
   CurrentProductService,
   IconModule,
-  LaunchDialogService,
-  LAUNCH_CALLER,
+  ModalService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
@@ -71,17 +64,6 @@ class MockCurrentProductService {
   }
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
-  ) {
-    return of();
-  }
-  closeDialog(_reason: string): void {}
-}
-
 @Component({
   template: '',
   selector: 'cx-item-counter',
@@ -117,8 +99,8 @@ describe('CompactAddToCartComponent', () => {
         declarations: [CompactAddToCartComponent, MockItemCounterComponent],
         providers: [
           {
-            provide: LaunchDialogService,
-            useValue: MockLaunchDialogService,
+            provide: ModalService,
+            useValue: { open: () => ({ componentInstance: {} }) },
           },
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   Budget,
@@ -64,12 +64,12 @@ describe('UnitChildItemService', () => {
 
   it('should create item with parentUnitUid', () => {
     spyOn(unitService, 'create').and.callThrough();
-    const form = new UntypedFormGroup({});
-    form.setControl('name', new UntypedFormControl('Child Unit Name'));
+    const form = new FormGroup({});
+    form.setControl('name', new FormControl('Child Unit Name'));
     form.setControl(
       'parentOrgUnit',
-      new UntypedFormGroup({
-        uid: new UntypedFormControl('child-unit-uid'),
+      new FormGroup({
+        uid: new FormControl('child-unit-uid'),
       })
     );
     form.get('parentOrgUnit').disable();

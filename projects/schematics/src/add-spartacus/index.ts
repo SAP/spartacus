@@ -103,10 +103,10 @@ function installStyles(options: SpartacusOptions): Rule {
       '\n' +
       `$styleVersion: ${
         options.featureLevel || getSpartacusCurrentFeatureLevel()
-      };\n@import '@spartacus/styles/index';\n`;
+      };\n@import '~@spartacus/styles/index';\n`;
 
     if (options?.theme) {
-      insertion += `\n@import '@spartacus/styles/scss/theme/${options.theme}';\n`;
+      insertion += `\n@import '~@spartacus/styles/scss/theme/${options.theme}';\n`;
     }
 
     if (htmlContent.includes(insertion)) {
@@ -252,11 +252,9 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
-export function createStylePreprocessorOptions(
-  options?: SpartacusOptions
-): Rule {
+function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    if (options?.debug) {
+    if (options.debug) {
       context.logger.info(`⌛️ Updating style preprocessor...`);
     }
 
@@ -307,7 +305,7 @@ export function createStylePreprocessorOptions(
     };
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
-    if (options?.debug) {
+    if (options.debug) {
       context.logger.info(`✅ Style preprocessor update complete.`);
     }
     return tree;

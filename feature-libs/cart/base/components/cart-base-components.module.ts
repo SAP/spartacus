@@ -6,6 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/base/root';
 import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { ClearCartModule } from './clear-cart/clear-cart-button/clear-cart.module';
@@ -21,6 +22,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
 @NgModule({
   imports: [
     CommonModule,
+    NgbModule,
     CartDetailsModule,
     CartProceedToCheckoutModule,
     CartTotalsModule,

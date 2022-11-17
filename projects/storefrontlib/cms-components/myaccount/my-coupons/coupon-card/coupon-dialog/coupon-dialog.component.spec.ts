@@ -1,11 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponDialogComponent } from './coupon-dialog.component';
+import { ModalService } from '../../../../../shared/components/modal/index';
 import { By } from '@angular/platform-browser';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { Input, Component, DebugElement } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { LaunchDialogService } from '../../../../../layout/index';
-import { Observable, of } from 'rxjs';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -25,36 +24,27 @@ const mockCoupon: CustomerCoupon = {
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  get data$(): Observable<any> {
-    return of(undefined);
-  }
-
-  closeDialog(_reason: string): void {}
-}
 
 describe('CouponDialogComponent', () => {
   let component: CouponDialogComponent;
   let fixture: ComponentFixture<CouponDialogComponent>;
-  let el: DebugElement;
-  let launchDialogService: LaunchDialogService;
+  const modalService = jasmine.createSpyObj('ModalService', [
+    'dismissActiveModal',
+  ]);
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CouponDialogComponent, MockCxIconComponent],
         imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
+        providers: [{ provide: ModalService, useValue: modalService }],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);
-    el = fixture.debugElement;
     component = fixture.componentInstance;
-    launchDialogService = TestBed.inject(LaunchDialogService);
+    modalService.dismissActiveModal.and.stub();
     component.coupon = mockCoupon;
   });
 
@@ -96,23 +86,9 @@ describe('CouponDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
     fixture.detectChanges();
     const closeBtn = fixture.debugElement.query(By.css('button'));
     closeBtn.nativeElement.click();
-    expect(launchDialogService.closeDialog).toHaveBeenCalled();
-  });
-
-  it('should emit handleClick event', () => {
-    spyOn(component, 'handleClick').and.callThrough();
-    spyOn(component, 'close');
-
-    expect(component.handleClick).toHaveBeenCalledTimes(0);
-
-    el.nativeElement.click();
-    fixture.detectChanges();
-
-    expect(component.handleClick).toHaveBeenCalledTimes(1);
-    expect(component.close).toHaveBeenCalledWith('Cross click');
+    expect(modalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

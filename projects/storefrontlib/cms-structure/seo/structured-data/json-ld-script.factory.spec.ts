@@ -39,19 +39,17 @@ describe('JsonLdScriptFactory', () => {
       expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-2"}]`);
     });
 
-    describe('security', () => {
+    describe('sanitized', () => {
       beforeEach(() => {
         spyOn(console, 'warn').and.stub();
       });
-      it('should escape html tags within malicious code', () => {
+      it('should sanitize malicious code', () => {
         service.build([{ foo: 'bar-2<script>alert()</script>' }]);
         const scriptElement = winRef.document.getElementById('json-ld');
-        expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":"bar-2&lt;script&gt;alert()&lt;/script&gt;"}]`
-        );
+        expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-2"}]`);
       });
 
-      it('should escape html tags within deep nested malicious code', () => {
+      it('should sanitize deep nested malicious code', () => {
         service.build([
           {
             foo: { bar: { deep: 'before <script>alert()</script>and after' } },
@@ -59,11 +57,11 @@ describe('JsonLdScriptFactory', () => {
         ]);
         const scriptElement = winRef.document.getElementById('json-ld');
         expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":{"bar":{"deep":"before &lt;script&gt;alert()&lt;/script&gt;and after"}}}]`
+          `[{"foo":{"bar":{"deep":"before and after"}}}]`
         );
       });
 
-      it('should escape html tags everywhere', () => {
+      it('should sanitize everywhere', () => {
         service.build([
           {
             foo: 'clean up <script>alert()</script>please',
@@ -72,7 +70,7 @@ describe('JsonLdScriptFactory', () => {
         ]);
         const scriptElement = winRef.document.getElementById('json-ld');
         expect(scriptElement.innerHTML).toEqual(
-          `[{"foo":"clean up &lt;script&gt;alert()&lt;/script&gt;please","bar":"and here &lt;script&gt;alert()&lt;/script&gt;as well"}]`
+          `[{"foo":"clean up please","bar":"and here as well"}]`
         );
       });
     });

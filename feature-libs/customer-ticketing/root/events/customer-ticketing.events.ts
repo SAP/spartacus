@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { CxEvent } from '@spartacus/core';
 
 export class GetTicketQueryResetEvent extends CxEvent {
@@ -12,14 +6,6 @@ export class GetTicketQueryResetEvent extends CxEvent {
 
 export class GetTicketQueryReloadEvent extends CxEvent {
   static readonly type = 'GetTicketQueryReloadEvent';
-}
-
-export class GetTicketsQueryResetEvents extends CxEvent {
-  static readonly type = 'GetTicketsQueryResetEvents';
-}
-
-export class GetTicketsQueryReloadEvents extends CxEvent {
-  static readonly type = 'GetTicketsQueryReloadEvents';
 }
 
 export class TicketEventCreatedEvent extends CxEvent {
@@ -41,10 +27,4 @@ export class GetTicketAssociatedObjectsQueryResetEvent extends CxEvent {
 
 export class GetTicketAssociatedObjectsQueryReloadEvent extends CxEvent {
   static readonly type = 'GetTicketAssociatedObjectsQueryReloadEvent';
-}
-export class TicketCreatedEvent extends CxEvent {
-  static readonly type = 'TicketCreatedEvent';
-}
-export class CreateEvent extends CxEvent {
-  static readonly type = 'CreateEvent';
 }

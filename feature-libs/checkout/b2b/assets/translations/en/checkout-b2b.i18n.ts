@@ -24,6 +24,5 @@ export const checkoutB2B = {
     progress: {
       methodOfPayment: 'Method of Payment',
     },
-    invalidCostCenter: 'Invalid cost center.',
   },
 };

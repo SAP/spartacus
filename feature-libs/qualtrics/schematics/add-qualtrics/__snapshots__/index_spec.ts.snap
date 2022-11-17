@@ -52,6 +52,9 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -159,6 +162,7 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;

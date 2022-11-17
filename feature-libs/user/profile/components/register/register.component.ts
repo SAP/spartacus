@@ -6,9 +6,9 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -24,10 +24,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  Title,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { RegisterComponentService } from './register-component.service';
 
 @Component({
   selector: 'cx-register',
@@ -45,7 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
-  registerForm: UntypedFormGroup = this.fb.group(
+  registerForm: FormGroup = this.fb.group(
     {
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -56,7 +59,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
-      newsletter: new UntypedFormControl({
+      newsletter: new FormControl({
         value: false,
         disabled: this.isConsentRequired(),
       }),
@@ -71,17 +74,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
+    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
+    protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.registerComponentService.getTitles().pipe(
+    this.titles$ = this.userRegister.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
@@ -148,12 +151,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.registerComponentService
+    this.userRegister
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
-        error: () => this.isLoading$.next(false),
       });
   }
 
@@ -190,14 +192,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  protected onRegisterUserSuccess(): void {
+  private onRegisterUserSuccess(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
     }
-    this.registerComponentService.postRegisterMessage();
+    this.globalMessageService.add(
+      { key: 'register.postRegisterMessage' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   toggleAnonymousConsent(): void {

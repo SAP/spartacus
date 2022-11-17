@@ -42,7 +42,10 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {},
+    context: {
+      currency: ['USD'],
+      language: ['en'],
+    },
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -103,6 +106,9 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -210,7 +216,8 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;
 
@@ -282,6 +289,9 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -389,7 +399,8 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;
 
@@ -461,6 +472,9 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -568,6 +582,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;

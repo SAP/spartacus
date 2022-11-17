@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CmsComponent, CmsService } from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 import { defer, EMPTY, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';
@@ -32,7 +32,7 @@ export class ComponentDataProvider {
    * merged into the component data. The static data is complemented and
    * overridden with data retrieved from the cms service.
    */
-  get<T extends CmsComponent>(uid: string, type?: string): Observable<T> {
+  get<T>(uid: string, type?: string): Observable<T> {
     return defer(() => {
       let staticComponentData: T | undefined;
 

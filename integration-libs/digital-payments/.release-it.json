@@ -1,0 +1,36 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "digital-payments-${version}",
+    "commitMessage": "Bumping Digital Payments version to ${version}",
+    "tagAnnotation": "Bumping Digital Payments version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/digital-payments"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:digital-payments"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/digital-payments@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib digital-payments --to digital-payments-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/checkout",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

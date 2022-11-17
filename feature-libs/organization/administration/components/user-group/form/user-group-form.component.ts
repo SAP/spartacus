@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -30,7 +30,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
 })
 export class UserGroupFormComponent implements OnInit {
-  form: UntypedFormGroup | null = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   // getList ???
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService

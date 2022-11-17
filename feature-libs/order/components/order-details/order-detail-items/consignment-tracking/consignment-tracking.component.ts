@@ -4,29 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   Consignment,
   ConsignmentTracking,
   OrderHistoryFacade,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { TrackingEventsComponent } from './tracking-events/tracking-events.component';
 
 @Component({
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentStatus: string[] = [
@@ -36,7 +26,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
     'DELIVERY_REJECTED',
     'DELIVERING',
   ];
-  @ViewChild('element') element: ElementRef;
+  modalRef: ModalRef;
 
   @Input()
   consignment: Consignment;
@@ -45,9 +35,8 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentTracking$: Observable<ConsignmentTracking>;
 
   constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    private orderHistoryFacade: OrderHistoryFacade,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -62,21 +51,16 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
         consignment.code
       );
     }
-    let modalInstanceData = {
-      tracking$: this.consignmentTracking$,
-      shipDate: consignment.statusDate,
-    };
+    let modalInstance: any;
+    this.modalRef = this.modalService.open(TrackingEventsComponent, {
+      centered: true,
+      size: 'lg',
+    });
 
-    const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.CONSIGNMENT_TRACKING,
-      this.element,
-      this.vcr,
-      modalInstanceData
-    );
-
-    if (dialog) {
-      dialog.pipe(take(1)).subscribe();
-    }
+    modalInstance = this.modalRef.componentInstance;
+    modalInstance.tracking$ = this.consignmentTracking$;
+    modalInstance.shipDate = consignment.statusDate;
+    modalInstance.consignmentCode = consignment.code;
   }
 
   ngOnDestroy(): void {

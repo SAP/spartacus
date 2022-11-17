@@ -32,11 +32,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
 
   cart$: Observable<Cart>;
 
-  /**
-   * Whether to show the "Save cart for later" button. Contingent on whether there are actual entries to save.
-   */
-  disableSaveCartForLater$: Observable<boolean>;
-
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected authService: AuthService,
@@ -52,10 +47,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     ]).pipe(
       tap(([_, loggedIn]) => (this.loggedIn = loggedIn)),
       map(([activeCart]) => activeCart)
-    );
-
-    this.disableSaveCartForLater$ = this.cart$.pipe(
-      map((cart) => !cart.entries?.length)
     );
   }
 

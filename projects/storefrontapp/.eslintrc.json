@@ -4,8 +4,7 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@angular-eslint/component-selector": "off",
-        "@spartacus-eslint/use-default-provide-config": "off"
+        "@angular-eslint/component-selector": "off"
       }
     }
   ]

@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -19,26 +15,26 @@ import { FormService } from '../../shared/form/form.service';
 })
 export class CostCenterFormService extends FormService<CostCenter> {
   protected build() {
-    const form = new UntypedFormGroup({});
+    const form = new FormGroup({});
     form.setControl(
       'code',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new UntypedFormControl('', Validators.required));
+    form.setControl('name', new FormControl('', Validators.required));
 
     form.setControl(
       'currency',
-      new UntypedFormGroup({
-        isocode: new UntypedFormControl(undefined, Validators.required),
+      new FormGroup({
+        isocode: new FormControl(undefined, Validators.required),
       })
     );
     form.setControl(
       'unit',
-      new UntypedFormGroup({
-        uid: new UntypedFormControl(undefined, Validators.required),
+      new FormGroup({
+        uid: new FormControl(undefined, Validators.required),
       })
     );
     this.form = form;

@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 
@@ -16,7 +16,7 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   host: { class: 'user-form' },
 })
 export class ResetPasswordComponent {
-  form: UntypedFormGroup = this.service.form;
+  form: FormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   token$: Observable<string> = this.service.resetToken$;

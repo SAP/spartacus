@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
@@ -58,12 +58,12 @@ describe('ChildUnitItemService', () => {
 
   it('should create item with unitUid', () => {
     spyOn(userService, 'create').and.callThrough();
-    const form = new UntypedFormGroup({});
-    form.setControl('name', new UntypedFormControl('User name'));
+    const form = new FormGroup({});
+    form.setControl('name', new FormControl('User name'));
     form.setControl(
       'orgUnit',
-      new UntypedFormGroup({
-        uid: new UntypedFormControl('unit-uid'),
+      new FormGroup({
+        uid: new FormControl('unit-uid'),
       })
     );
     form.get('orgUnit').disable();

@@ -4,11 +4,7 @@ import {
   DebugElement,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -32,10 +28,10 @@ const isBusySubject = new BehaviorSubject(false);
 class MockUpdatePasswordService
   implements Partial<UpdatePasswordComponentService>
 {
-  form: UntypedFormGroup = new UntypedFormGroup({
-    oldPassword: new UntypedFormControl(),
-    newPassword: new UntypedFormControl(),
-    newPasswordConfirm: new UntypedFormControl(),
+  form: FormGroup = new FormGroup({
+    oldPassword: new FormControl(),
+    newPassword: new FormControl(),
+    newPasswordConfirm: new FormControl(),
   });
   isUpdating$ = isBusySubject;
   updatePassword = createSpy().and.stub();

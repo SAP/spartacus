@@ -6,24 +6,30 @@
 
 import { Injectable } from '@angular/core';
 import {
+  Breadcrumb,
+  ConverterService,
+  PageContext,
   PageType,
   ProductSearchService,
   RoutingService,
-  ProductSearchPage,
 } from '@spartacus/core';
-import { FacetService, FacetList } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
   startWith,
   switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
-  ProfileTagEventService,
-  ProfileTagLifecycleService,
-} from '../../profiletag';
-import { MerchandisingUserContext } from '../model';
+  MERCHANDISING_FACET_NORMALIZER,
+  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
+} from '../connectors/strategy/converters';
+import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
+import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
+import { ProfileTagLifecycleService } from '../../profiletag/services';
+import { ConsentChangedPushEvent } from '../../profiletag/model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,44 +38,41 @@ export class CdsMerchandisingUserContextService {
   constructor(
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
+    private converterService: ConverterService,
     private profileTagEventService: ProfileTagEventService,
-    private profileTagLifecycleService: ProfileTagLifecycleService,
-    private facetService: FacetService
+    private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
     return combineLatest([
       this.getConsentReferenceContext(),
-      this.getPageContext(),
-      this.getSearchContext(),
+      merge(
+        this.getCategoryAndFacetContext(),
+        this.getProductNavigationContext()
+      ).pipe(startWith({})),
     ]).pipe(
-      map(([consentContext, pageContext, searchContext]) => {
-        const result = {
-          ...consentContext,
-          ...pageContext,
-        };
+      map(([consentReferenceContext, userContext]) => ({
+        ...consentReferenceContext,
+        ...userContext,
+      }))
+    );
+  }
 
-        if (!pageContext.products) {
-          result['facets'] = searchContext.facets;
-          result['searchPhrase'] = searchContext.searchPhrase;
-        }
-
-        return result;
-      }),
-      distinctUntilChanged(
-        (prev, curr) =>
-          prev.facets === curr.facets &&
-          prev.searchPhrase === curr.searchPhrase &&
-          prev.consentReference === curr.consentReference &&
-          prev.category === curr.category &&
-          prev.products === curr.products
-      )
+  private getCategoryAndFacetContext(): Observable<MerchandisingUserContext> {
+    return combineLatest([
+      this.getCategoryNavigationContext(),
+      this.getFacetsContext(),
+    ]).pipe(
+      map(([categoryContext, facetsContext]) => ({
+        ...categoryContext,
+        ...facetsContext,
+      }))
     );
   }
 
   private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
     return this.profileTagLifecycleService.consentChanged().pipe(
-      switchMap((changed) => {
+      switchMap((changed: ConsentChangedPushEvent) => {
         if (changed.data.granted) {
           return this.profileTagEventService
             .getConsentReference()
@@ -82,42 +85,69 @@ export class CdsMerchandisingUserContextService {
     );
   }
 
-  private getPageContext(): Observable<MerchandisingUserContext> {
-    return this.routingService.getPageContext().pipe(
-      map((pageContext) => {
-        const result = {} as MerchandisingUserContext;
-
-        if (pageContext.type === PageType.PRODUCT_PAGE) {
-          result.products = [pageContext.id];
-        } else if (pageContext.type === PageType.CATEGORY_PAGE) {
-          result.category = pageContext.id;
-        }
-        return result;
-      })
+  private getFacetsContext(): Observable<MerchandisingUserContext> {
+    return this.searchResultChangeEvent().pipe(
+      withLatestFrom(this.routingService.getPageContext()),
+      filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
+      map(([facets, pageContext]) =>
+        facets.filter((facet) =>
+          this.filterFacetByCurrentPage(facet, pageContext)
+        )
+      ),
+      this.converterService.pipeable(MERCHANDISING_FACET_NORMALIZER),
+      this.converterService.pipeable(
+        MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
+      ),
+      distinctUntilChanged(),
+      map((facets) => ({
+        facets,
+      }))
     );
   }
 
-  private getSearchContext(): Observable<MerchandisingUserContext> {
-    return combineLatest([
-      this.productSearchService
-        .getResults()
-        .pipe(startWith({} as ProductSearchPage)),
-      this.facetService.facetList$.pipe(startWith({} as FacetList)),
-    ]).pipe(
-      map(([searchResult, facetList]) => {
-        const facets = facetList?.activeFacets
-          ?.map((facet) => `${facet.facetCode}:${facet.facetValueCode}`)
-          .join(':');
-
-        return {
-          facets: facets || undefined,
-          searchPhrase: searchResult.freeTextSearch || undefined,
-        } as MerchandisingUserContext;
-      }),
-      distinctUntilChanged(
-        (prev, curr) =>
-          prev.facets === curr.facets && prev.searchPhrase === curr.searchPhrase
-      )
+  private searchResultChangeEvent(): Observable<Breadcrumb[]> {
+    return this.productSearchService.getResults().pipe(
+      map((searchResults) =>
+        searchResults.breadcrumbs ? searchResults.breadcrumbs : []
+      ),
+      filter((facets) => !!facets)
     );
+  }
+
+  private isFacetPage(pageContext: PageContext): boolean {
+    return (
+      pageContext.type === PageType.CATEGORY_PAGE || pageContext.id === 'search'
+    );
+  }
+
+  private getProductNavigationContext(): Observable<MerchandisingUserContext> {
+    return this.routingService.getPageContext().pipe(
+      filter((pageContext) => pageContext.type === PageType.PRODUCT_PAGE),
+      map((context) => context.id),
+      distinctUntilChanged(),
+      map((productId) => ({
+        products: [productId],
+      }))
+    );
+  }
+
+  private getCategoryNavigationContext(): Observable<MerchandisingUserContext> {
+    return this.routingService.getPageContext().pipe(
+      map((context) =>
+        context.type === PageType.CATEGORY_PAGE ? context.id : undefined
+      ),
+      distinctUntilChanged(),
+      map((category) => ({ category }))
+    );
+  }
+
+  private filterFacetByCurrentPage(
+    facet: Breadcrumb,
+    currentPageContext: PageContext
+  ): boolean {
+    if (currentPageContext.type !== PageType.CATEGORY_PAGE) {
+      return false;
+    }
+    return facet.facetValueCode !== currentPageContext.id;
   }
 }

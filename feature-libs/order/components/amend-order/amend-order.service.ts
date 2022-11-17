@@ -8,8 +8,8 @@ import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
 import {
   AbstractControl,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -34,7 +34,7 @@ function ValidateQuantityToCancel(control: AbstractControl) {
 @Injectable()
 export abstract class OrderAmendService {
   protected amendType: AmendOrderType;
-  protected form: UntypedFormGroup;
+  protected form: FormGroup;
 
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
@@ -72,7 +72,7 @@ export abstract class OrderAmendService {
   /**
    * returns the form with form data at runtime
    */
-  getForm(): Observable<UntypedFormGroup> {
+  getForm(): Observable<FormGroup> {
     return this.getOrder().pipe(
       tap((order) => {
         if (!this.form || this.form.get('orderCode')?.value !== order.code) {
@@ -84,10 +84,10 @@ export abstract class OrderAmendService {
   }
 
   private buildForm(order: Order): void {
-    this.form = new UntypedFormGroup({});
-    this.form.addControl('orderCode', new UntypedFormControl(order.code));
+    this.form = new FormGroup({});
+    this.form.addControl('orderCode', new FormControl(order.code));
 
-    const entryGroup = new UntypedFormGroup(
+    const entryGroup = new FormGroup(
       {},
       { validators: [ValidateQuantityToCancel] }
     );
@@ -97,7 +97,7 @@ export abstract class OrderAmendService {
       const key = entry?.entryNumber?.toString() ?? '';
       entryGroup.addControl(
         key,
-        new UntypedFormControl(0, {
+        new FormControl(0, {
           validators: [
             Validators.min(0),
             Validators.max(this.getMaxAmendQuantity(entry)),
@@ -107,11 +107,8 @@ export abstract class OrderAmendService {
     });
   }
 
-  protected getFormControl(
-    form: UntypedFormGroup,
-    entry: OrderEntry
-  ): UntypedFormControl {
-    return <UntypedFormControl>(
+  protected getFormControl(form: FormGroup, entry: OrderEntry): FormControl {
+    return <FormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );
   }

@@ -46,13 +46,7 @@
         <table
           id="replenishment-order-history-table"
           class="table cx-replenishment-order-history-table"
-          role="table"
         >
-          <caption *cxFeatureLevel="'5.1'" class="cx-visually-hidden">
-            {{
-              'orderHistory.orderHistory' | cxTranslate
-            }}
-          </caption>
           <thead class="cx-replenishment-order-history-thead-mobile">
             <th scope="col">
               <span class="cx-replenishment-order-history-ellipses">
@@ -84,22 +78,14 @@
                 {{ 'orderHistory.total' | cxTranslate }}
               </span>
             </th>
-            <th scope="col">
-              <span
-                *cxFeatureLevel="'5.1'"
-                class="cx-replenishment-order-history-ellipses"
-              >
-                {{ 'orderHistory.actions' | cxTranslate }}
-              </span>
-            </th>
+            <th scope="col"></th>
           </thead>
           <tbody>
             <tr
-              role="row"
               *ngFor="let order of replenishmentOrders.replenishmentOrders"
               (click)="goToOrderDetail(order)"
             >
-              <td class="cx-replenishment-order-history-code" role="cell">
+              <td class="cx-replenishment-order-history-code">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </div>
@@ -115,7 +101,7 @@
                   {{ order?.replenishmentOrderCode }}</a
                 >
               </td>
-              <td role="cell">
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
                 </div>
@@ -138,7 +124,7 @@
                   }}
                 </a>
               </td>
-              <td role="cell">
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.startOn' | cxTranslate }}
                 </div>
@@ -154,7 +140,7 @@
                   {{ order?.firstDate | cxDate: 'M/d/yyyy' }}</a
                 >
               </td>
-              <td class="cx-replenishment-order-history-frequency" role="cell">
+              <td class="cx-replenishment-order-history-frequency">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.frequency' | cxTranslate }}
                 </div>
@@ -170,7 +156,7 @@
                   {{ order?.trigger.displayTimeTable | slice: 0:-12 }}
                 </a>
               </td>
-              <td role="cell">
+              <td>
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </div>
@@ -209,7 +195,7 @@
                   {{ order?.totalPriceWithTax.formattedValue }}</a
                 >
               </td>
-              <td class="cx-replenishment-order-history-cancel" role="cell">
+              <td class="cx-replenishment-order-history-cancel">
                 <div
                   class="d-md-none cx-replenishment-order-history-label"
                 ></div>

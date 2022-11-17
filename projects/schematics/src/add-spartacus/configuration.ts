@@ -121,18 +121,12 @@ function addCommonConfiguration(
 }
 
 function createSiteContextConfig(options: SpartacusOptions): string {
+  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
+  const language = parseCSV(options.language, ['en']).toLowerCase();
   let contextConfig = `
-      context: {`;
-
-  if (options.currency) {
-    const currency = parseCSV(options.currency).toUpperCase();
-    contextConfig += `\ncurrency: [${currency}],`;
-  }
-
-  if (options.language) {
-    const language = parseCSV(options.language).toLowerCase();
-    contextConfig += `\nlanguage: [${language}],`;
-  }
+      context: {
+        currency: [${currency}],
+        language: [${language}],`;
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);

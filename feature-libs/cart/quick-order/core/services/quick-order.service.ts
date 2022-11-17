@@ -345,11 +345,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
-      const quantity = entries[entryIndex].quantity;
+      let quantity = entries[entryIndex].quantity;
 
       if (quantity && entry.quantity) {
         entries[entryIndex].quantity = quantity + entry?.quantity;
-        const newQuantity = entries[entryIndex].quantity;
+        let newQuantity = entries[entryIndex].quantity;
 
         if (newQuantity && entryStockLevel && newQuantity > entryStockLevel) {
           entries[entryIndex].quantity = entryStockLevel;

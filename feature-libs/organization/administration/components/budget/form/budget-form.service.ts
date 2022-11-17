@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormControl,
+  FormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -24,18 +24,18 @@ export class BudgetFormService extends FormService<Budget> {
   }
 
   protected build() {
-    const form = new UntypedFormGroup({});
+    const form = new FormGroup({});
     form.setControl(
       'code',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new UntypedFormControl('', Validators.required));
+    form.setControl('name', new FormControl('', Validators.required));
     form.setControl(
       'startDate',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
           this.datePickerService.isValidFormat(date)
@@ -44,7 +44,7 @@ export class BudgetFormService extends FormService<Budget> {
     );
     form.setControl(
       'endDate',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
           this.datePickerService.isValidFormat(date)
@@ -53,7 +53,7 @@ export class BudgetFormService extends FormService<Budget> {
     );
     form.setControl(
       'budget',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.mustBePositive,
       ])
@@ -61,14 +61,14 @@ export class BudgetFormService extends FormService<Budget> {
 
     form.setControl(
       'currency',
-      new UntypedFormGroup({
-        isocode: new UntypedFormControl(undefined, Validators.required),
+      new FormGroup({
+        isocode: new FormControl(undefined, Validators.required),
       })
     );
     form.setControl(
       'orgUnit',
-      new UntypedFormGroup({
-        uid: new UntypedFormControl(undefined, Validators.required),
+      new FormGroup({
+        uid: new FormControl(undefined, Validators.required),
       })
     );
     form.setValidators(

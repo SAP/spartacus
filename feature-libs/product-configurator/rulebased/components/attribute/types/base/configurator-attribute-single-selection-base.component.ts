@@ -5,7 +5,7 @@
  */
 
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -25,7 +25,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Input() language: string;
   @Input() ownerType: string;
-  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
@@ -99,7 +98,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: any, form?: UntypedFormControl): void {
+  onChangeQuantity(eventObject: any, form?: FormControl): void {
     if (!eventObject) {
       if (form) {
         form.setValue('0');
@@ -110,7 +109,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     }
   }
 
-  protected getInitialQuantity(form?: UntypedFormControl): number {
+  protected getInitialQuantity(form?: FormControl): number {
     const quantity: number = this.attribute.quantity ?? 0;
     if (form) {
       return form.value !== '0' ? quantity : 0;
@@ -126,7 +125,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    form?: UntypedFormControl
+    form?: FormControl
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(
@@ -197,9 +196,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
-      const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {
       return ariaLabel;

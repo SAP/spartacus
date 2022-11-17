@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -24,18 +20,18 @@ export class UserChangePasswordFormService extends FormService<any> {
    * so that the customerId can be used during persistent.
    */
   protected build() {
-    const form = new UntypedFormGroup({});
-    form.setControl('customerId', new UntypedFormControl(''));
+    const form = new FormGroup({});
+    form.setControl('customerId', new FormControl(''));
     form.setControl(
       'password',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ])
     );
     form.setControl(
       'confirmPassword',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ])
@@ -46,7 +42,7 @@ export class UserChangePasswordFormService extends FormService<any> {
     this.form = form;
   }
 
-  getForm(item?: User): UntypedFormGroup | null {
+  getForm(item?: User): FormGroup | null {
     // we need do cleanup, to avoid have filled form after next open of that
     this.form = null;
     return super.getForm(item);

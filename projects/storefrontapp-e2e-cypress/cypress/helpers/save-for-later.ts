@@ -178,7 +178,7 @@ export function testLoggedInUserSaveForLater() {
         addProductToCart(products[2]);
         moveItem(products[2], ItemList.SaveForLater);
         validateCart(0, 1);
-        cart.logOutAndNavigateToEmptyCart();
+        cart.logOutAndEmptyCart();
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login');
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);

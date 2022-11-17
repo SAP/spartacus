@@ -11,6 +11,7 @@
     <div class="col-2 cx-image-container">
       <a
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+        cxModal="dismiss"
         tabindex="0"
       >
         <cx-media
@@ -30,6 +31,7 @@
               [routerLink]="
                 { cxRoute: 'product', params: item.product } | cxUrl
               "
+              cxModal="dismiss"
               ><h3>{{ item.product?.name }}</h3></a
             >
           </div>

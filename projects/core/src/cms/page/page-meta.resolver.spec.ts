@@ -9,13 +9,9 @@ const mockContentPage: Page = {
 };
 
 const mockContentPageWithTemplate: Page = {
-  ...mockContentPage,
+  type: PageType.CONTENT_PAGE,
   template: 'any-template',
-};
-
-const mockContentPageWithTemplateAndPageId: Page = {
-  ...mockContentPageWithTemplate,
-  pageId: 'any-uid',
+  slots: {},
 };
 
 describe('PageMetaResolver', () => {
@@ -63,19 +59,5 @@ describe('PageMetaResolver', () => {
     service.pageType = PageType.CONTENT_PAGE;
     service.pageTemplate = 'any-template';
     expect(service.getScore(mockContentPageWithTemplate)).toEqual(2);
-  });
-
-  it('should score 12 for ContentPage with page template and page id', () => {
-    service.pageType = PageType.CONTENT_PAGE;
-    service.pageTemplate = 'any-template';
-    service.pageUid = 'any-uid';
-    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(12);
-  });
-
-  it('should score -8 for ContentPage with page template and wrong page id', () => {
-    service.pageType = PageType.CONTENT_PAGE;
-    service.pageTemplate = 'any-template';
-    service.pageUid = 'wrong-uid';
-    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(-8);
   });
 });

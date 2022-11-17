@@ -1,8 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -36,9 +36,9 @@ const mockFormConfig: FormConfig = {
   `,
 })
 class MockFormComponent {
-  form: UntypedFormGroup = new UntypedFormGroup({
-    password: new UntypedFormControl(),
-    passwordConfirm: new UntypedFormControl(),
+  form: FormGroup = new FormGroup({
+    password: new FormControl(),
+    passwordConfirm: new FormControl(),
   });
 }
 

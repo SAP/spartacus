@@ -1,0 +1,32 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "core-${version}",
+    "commitMessage": "Bumping core version to ${version}",
+    "tagAnnotation": "Bumping core version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/core"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build core --configuration production"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.1905.zip",
+      "../../spartacussampledataaddon.1905.tar.gz",
+      "../../spartacussampledata.2005.zip",
+      "../../spartacussampledata.2005.tar.gz",
+      "../../spartacussampledata.2011.zip",
+      "../../spartacussampledata.2011.tar.gz",
+      "../../spartacussampledata.2105.zip",
+      "../../spartacussampledata.2105.tar.gz"
+    ],
+    "releaseName": "@spartacus/core@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib core --to core-${version}"
+  }
+}

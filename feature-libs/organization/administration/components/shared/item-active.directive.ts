@@ -15,9 +15,7 @@ import { BaseItem } from './organization.model';
 @Directive({
   selector: '[cxOrgItemActive]',
 })
-export class ItemActiveDirective<T extends BaseItem = BaseItem>
-  implements OnInit, OnDestroy
-{
+export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription: Subscription;
 
   constructor(

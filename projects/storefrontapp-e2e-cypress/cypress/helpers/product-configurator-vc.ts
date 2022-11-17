@@ -20,11 +20,10 @@ const conflictHeaderGroupSelector =
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(shopName: string, productId: string) {
-  //TODO: remove registerConfigurationRoute
-  //registerConfigurationRoute();
+  registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  //cy.wait('@configure_product');
+  cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
 }
 
@@ -242,7 +241,7 @@ function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('.link')
+      cy.get('.cx-conflict-msg')
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();

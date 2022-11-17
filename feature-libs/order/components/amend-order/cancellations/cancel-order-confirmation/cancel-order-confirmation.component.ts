@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class CancelOrderConfirmationComponent {
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
-  submit(form: UntypedFormGroup) {
+  submit(form: FormGroup) {
     if (form.valid) {
       this.orderAmendService.save();
     } else {

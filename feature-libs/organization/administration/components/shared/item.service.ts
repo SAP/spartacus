@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
@@ -44,10 +44,7 @@ export abstract class ItemService<T> {
     switchMap((key) => this.currentItemService.getError(key))
   );
 
-  save(
-    form: UntypedFormGroup,
-    key?: string
-  ): Observable<OrganizationItemStatus<T>> {
+  save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
@@ -91,7 +88,7 @@ export abstract class ItemService<T> {
    */
   protected abstract getDetailsRoute(): string;
 
-  getForm(item?: T): UntypedFormGroup | null {
+  getForm(item?: T): FormGroup | null {
     return this.formService.getForm(item);
   }
 

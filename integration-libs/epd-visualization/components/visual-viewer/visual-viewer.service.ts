@@ -1409,7 +1409,7 @@ export class VisualViewerService implements OnDestroy {
           return of(visualizationLoadInfo);
         }),
         catchError(() => {
-          const visualizationLoadInfo = {
+          let visualizationLoadInfo = {
             lookupResult: VisualizationLookupResult.UnexpectedError,
             loadStatus: VisualizationLoadStatus.NotStarted,
           };

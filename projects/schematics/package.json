@@ -16,25 +16,20 @@
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^14.2.3",
-    "@nguniversal/express-engine": "^14.0.0",
+    "@angular/pwa": "^13.3.0",
+    "@nguniversal/express-engine": "^13.1.1",
     "semver": "^7.3.5",
     "ts-morph": "^9.1.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^14.2.3",
-    "@angular-devkit/schematics": "^14.2.3",
-    "@angular/compiler": "^14.2.3",
-    "@schematics/angular": "^14.2.3",
+    "@angular-devkit/core": "^13.3.0",
+    "@angular-devkit/schematics": "^13.3.0",
+    "@angular/compiler": "^13.3.0",
+    "@schematics/angular": "^13.3.0",
     "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "^4.7.2"
-  },
-  "peerDependenciesMeta": {
-    "canvas": {
-      "optional": true
-    }
+    "typescript": "^4.6.4"
   },
   "ng-add": {
     "save": "devDependencies"
@@ -45,24 +40,23 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
+      "@spartacus/user",
+      "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/setup",
-      "@spartacus/asm",
-      "@spartacus/cart",
-      "@spartacus/checkout",
-      "@spartacus/order",
       "@spartacus/organization",
       "@spartacus/product",
-      "@spartacus/product-configurator",
-      "@spartacus/qualtrics",
-      "@spartacus/smartedit",
       "@spartacus/storefinder",
-      "@spartacus/tracking",
-      "@spartacus/user",
+      "@spartacus/checkout",
+      "@spartacus/asm",
+      "@spartacus/smartedit",
+      "@spartacus/qualtrics",
       "@spartacus/cdc",
-      "@spartacus/cds",
+      "@spartacus/tracking",
+      "@spartacus/cart",
+      "@spartacus/order",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
+      "@spartacus/setup",
       "@spartacus/customer-ticketing"
     ]
   },

@@ -11,6 +11,9 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -116,7 +119,8 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;
 
@@ -131,6 +135,9 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -248,7 +255,8 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;
 

@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { defaultTableConfig } from './config/default-table.config';
 import { TableDataCellModule } from './table-data-cell/table-data-cell.module';
@@ -25,6 +25,6 @@ import { TableComponent } from './table.component';
   ],
   declarations: [TableComponent],
   exports: [TableComponent],
-  providers: [provideDefaultConfig(defaultTableConfig)],
+  providers: [provideConfig(defaultTableConfig)],
 })
 export class TableModule {}

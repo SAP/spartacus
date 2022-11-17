@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -14,7 +14,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   templateUrl: './store-finder-search.component.html',
 })
 export class StoreFinderSearchComponent {
-  searchBox: UntypedFormControl = new UntypedFormControl();
+  searchBox: FormControl = new FormControl();
   iconTypes = ICON_TYPE;
 
   constructor(private routingService: RoutingService) {}

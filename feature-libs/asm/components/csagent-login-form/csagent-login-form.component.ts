@@ -5,18 +5,14 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
 })
 export class CSAgentLoginFormComponent implements OnInit {
-  csAgentLoginForm: UntypedFormGroup;
+  csAgentLoginForm: FormGroup;
 
   @Input()
   csAgentTokenLoading = false;
@@ -24,7 +20,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(protected fb: UntypedFormBuilder) {}
+  constructor(protected fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

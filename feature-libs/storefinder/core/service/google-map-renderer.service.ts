@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/// <reference types="@types/google.maps" />
+/// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';

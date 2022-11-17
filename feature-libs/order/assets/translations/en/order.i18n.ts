@@ -114,7 +114,6 @@ export const order = {
     emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
-    PONumber: 'P.O. Number',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
     noReplenishmentOrders:
@@ -125,7 +124,6 @@ export const order = {
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
     purchaseOrderNumber: 'PO #',
-    costCenter: 'Cost Center',
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
@@ -133,7 +131,6 @@ export const order = {
     cancelled: 'Cancelled',
     replenishmentHistory: 'Replenishment History',
     notFound: 'No Orders Found',
-    actions: 'Actions',
   },
   AccountOrderHistoryTabContainer: {
     tabs: {

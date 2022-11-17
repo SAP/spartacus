@@ -10,11 +10,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
@@ -42,7 +38,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  mode: UntypedFormGroup = this.fb.group({
+  mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
   });
 
@@ -61,7 +57,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected fb: UntypedFormBuilder,
+    protected fb: FormBuilder,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,

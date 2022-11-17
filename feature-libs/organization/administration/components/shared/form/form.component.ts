@@ -11,7 +11,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
@@ -46,7 +46,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    */
   i18n: string;
 
-  form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
+  form$: Observable<FormGroup | null> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);
 
@@ -71,7 +71,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     protected messageService: MessageService
   ) {}
 
-  save(form: UntypedFormGroup): void {
+  save(form: FormGroup): void {
     this.itemService.key$
       .pipe(
         first(),

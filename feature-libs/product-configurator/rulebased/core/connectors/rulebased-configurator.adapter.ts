@@ -26,7 +26,6 @@ export abstract class RulebasedConfiguratorAdapter {
    *
    * @param configId configuration id
    * @param groupId group id
-   * @param configurationOwner configuration owner
    */
   abstract readConfiguration(
     configId: string,

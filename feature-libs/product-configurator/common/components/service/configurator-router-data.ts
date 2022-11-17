@@ -18,6 +18,5 @@ export namespace ConfiguratorRouter {
     forceReload?: boolean;
     resolveIssues?: boolean;
     skipConflicts?: boolean;
-    expMode?: boolean;
   }
 }

@@ -23,13 +23,6 @@
     .cx-map-col {
       height: 70vh;
     }
-
-    .cx-nav-item {
-      button {
-        background: none;
-        color: var(--cx-color-primary);
-      }
-    }
   }
   .cx-address-col {
     height: 100%;
@@ -120,8 +113,8 @@
     }
   }
 
-  .cx-nav {
-    border-bottom: 1px solid var(--cx-color-light);
+  ul.nav {
+    border-bottom: 1px solid #dee2e6;
     justify-content: center;
   }
 }

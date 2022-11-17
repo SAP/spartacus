@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
@@ -24,7 +24,6 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
-import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
 export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
   'Entry number is required in addToCart response';
@@ -139,27 +138,11 @@ export class ConfiguratorCartEffects {
         return this.configuratorCommonsConnector
           .readConfigurationForCartEntry(parameters)
           .pipe(
-            switchMap((result: Configurator.Configuration) => {
-              const updatePriceSummaryAction = this
-                .configuratorBasicEffectService
-                ? new ConfiguratorActions.UpdatePriceSummary({
-                    ...result,
-                    interactionState: {
-                      currentGroup:
-                        this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                          result
-                        ),
-                    },
-                  })
-                : new ConfiguratorActions.UpdatePriceSummary(result);
-              return [
-                new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-                  result
-                ),
-                updatePriceSummaryAction,
-                new ConfiguratorActions.SearchVariants(result),
-              ];
-            }),
+            switchMap((result: Configurator.Configuration) => [
+              new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
+              new ConfiguratorActions.UpdatePriceSummary(result),
+              new ConfiguratorActions.SearchVariants(result),
+            ]),
             catchError((error) => [
               new ConfiguratorActions.ReadCartEntryConfigurationFail({
                 ownerKey: action.payload.owner.key,
@@ -276,35 +259,11 @@ export class ConfiguratorCartEffects {
     )
   );
 
-  //TODO(CXSPA-1014): make ConfiguratorBasicEffectService a required dependency
-  constructor(
-    actions$: Actions,
-    configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    commonConfigUtilsService: CommonConfiguratorUtilsService,
-    configuratorGroupUtilsService: ConfiguratorUtilsService,
-    store: Store<StateWithConfigurator>,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorBasicEffectService: ConfiguratorBasicEffectService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    actions$: Actions,
-    configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    commonConfigUtilsService: CommonConfiguratorUtilsService,
-    configuratorGroupUtilsService: ConfiguratorUtilsService,
-    store: Store<StateWithConfigurator>
-  );
-
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfigurator>,
-    @Optional()
-    protected configuratorBasicEffectService?: ConfiguratorBasicEffectService
+    protected store: Store<StateWithConfigurator>
   ) {}
 }

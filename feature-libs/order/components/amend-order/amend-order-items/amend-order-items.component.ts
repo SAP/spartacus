@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -20,18 +20,18 @@ export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() isConfirmation = false;
 
-  form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
+  form$: Observable<FormGroup> = this.orderAmendService.getForm();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
-  getControl(form: UntypedFormGroup, entry: OrderEntry): UntypedFormControl {
-    const control = <UntypedFormControl>(
+  getControl(form: FormGroup, entry: OrderEntry): FormControl {
+    const control = <FormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );
     return control;
   }
 
-  setAll(form: UntypedFormGroup): void {
+  setAll(form: FormGroup): void {
     this.entries.forEach((entry) =>
       this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
     );

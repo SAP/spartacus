@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
@@ -113,7 +113,7 @@ describe('CmsComponentConnector', () => {
     });
   });
 
-  function configureTestingModule(): TestBed {
+  function configureTestingModule(): TestBedStatic {
     return TestBed.configureTestingModule({
       providers: [
         { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },

@@ -7,13 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  HostListener,
+  Input,
   OnInit,
 } from '@angular/core';
 import { Address } from '@spartacus/core';
-import { take } from 'rxjs/operators';
-import { FocusConfig, LaunchDialogService } from '../../../../../layout';
+import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 
 @Component({
@@ -23,44 +21,23 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
-  focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
-  };
+
+  constructor(protected modalService: ModalService) {}
+
+  @Input()
+  suggestedAddresses: Address[];
+  @Input()
+  enteredAddress: Address;
 
   selectedAddress: Address;
 
-  data$ = this.launchDialogService.data$;
-
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.closeModal('Cross click');
-    }
-  }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
-
   ngOnInit(): void {
-    this.data$.pipe(take(1)).subscribe((data) => this.setSelectedAddress(data));
+    this.selectedAddress = this.suggestedAddresses.length
+      ? this.suggestedAddresses[0]
+      : this.enteredAddress;
   }
 
   closeModal(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
-  }
-
-  setSelectedAddress(data: {
-    suggestedAddresses: Address[];
-    enteredAddress: Address;
-  }): void {
-    this.selectedAddress = data.suggestedAddresses?.length
-      ? data.suggestedAddresses[0]
-      : data.enteredAddress;
-    console.log(this.selectedAddress);
+    this.modalService.closeActiveModal(reason);
   }
 }

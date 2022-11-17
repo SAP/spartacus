@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUnit } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -24,20 +20,20 @@ export class UnitFormService extends FormService<B2BUnit> {
   }
 
   protected build() {
-    const form = new UntypedFormGroup({});
+    const form = new FormGroup({});
     form.setControl(
       'uid',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new UntypedFormControl('', Validators.required));
+    form.setControl('name', new FormControl('', Validators.required));
 
     form.setControl(
       'approvalProcess',
-      new UntypedFormGroup({
-        code: new UntypedFormControl(null),
+      new FormGroup({
+        code: new FormControl(null),
       })
     );
 
@@ -51,8 +47,8 @@ export class UnitFormService extends FormService<B2BUnit> {
     } else if (!this.form?.get('parentOrgUnit')) {
       this.form?.setControl(
         'parentOrgUnit',
-        new UntypedFormGroup({
-          uid: new UntypedFormControl(null, Validators.required),
+        new FormGroup({
+          uid: new FormControl(null, Validators.required),
         })
       );
     }

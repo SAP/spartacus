@@ -1,0 +1,21 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "assets-${version}",
+    "commitMessage": "Bumping assets version to ${version}",
+    "tagAnnotation": "Bumping assets version to ${version}"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/assets@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib assets --to assets-${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/assets"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:assets"
+  }
+}

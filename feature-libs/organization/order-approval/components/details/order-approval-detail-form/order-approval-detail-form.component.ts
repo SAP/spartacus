@@ -5,11 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -28,7 +24,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
-  approvalForm: UntypedFormGroup = this.fb.group({
+  approvalForm: FormGroup = this.fb.group({
     comment: [''],
   });
 
@@ -60,7 +56,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
     protected orderApprovalService: OrderApprovalService,
-    private fb: UntypedFormBuilder
+    private fb: FormBuilder
   ) {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }

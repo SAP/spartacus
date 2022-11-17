@@ -25,12 +25,16 @@ declare global {
 }
 
 Cypress.Commands.add('waitForCarouselEvent', (eventSchema: string) => {
-  cy.wait(`@${carouselEventRequestAlias}-${eventSchema}`)
+  cy.wait(`@${carouselEventRequestAlias}`)
     .its('response.statusCode')
     .should('eq', 201);
 
-  cy.get<Cypress.WaitXHR>(`@${carouselEventRequestAlias}-${eventSchema}`).then(
+  cy.get<Cypress.WaitXHR>(`@${carouselEventRequestAlias}`).then(
     ({ request }) => {
+      if (request.headers['hybris-schema'] !== eventSchema) {
+        return cy.waitForCarouselEvent(eventSchema);
+      }
+
       return cy.wrap(request.body);
     }
   );

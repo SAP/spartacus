@@ -4,29 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
-  CartUiEventAddToCart,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -40,9 +27,8 @@ import {
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddedToCartDialogComponent implements OnInit, OnDestroy {
+export class AddedToCartDialogComponent {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -52,60 +38,25 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
+  modalIsOpen = false;
 
-  form: UntypedFormGroup = new UntypedFormGroup({});
+  @ViewChild('dialog', { read: ElementRef })
+  dialog: ElementRef;
 
-  focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
-  };
+  form: FormGroup = new FormGroup({});
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.dismissModal('Cross click');
-    }
-  }
-
-  protected quantityControl$: Observable<UntypedFormControl>;
-
-  protected subscription = new Subscription();
+  protected quantityControl$: Observable<FormControl>;
 
   constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected routingService: RoutingService,
-    protected el: ElementRef
+    protected modalService: ModalService,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.launchDialogService.data$.subscribe(
-        (dialogData: CartUiEventAddToCart) => {
-          this.init(
-            dialogData.productCode,
-            dialogData.quantity,
-            dialogData.numberOfEntriesBeforeAdd
-          );
-        }
-      )
-    );
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .pipe(filter((state) => !!state.nextState))
-        .subscribe(() => this.dismissModal('dismiss'))
-    );
-  }
-
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.
    * The quantity can be set to zero in order to remove the entry.
    */
-  getQuantityControl(): Observable<UntypedFormControl> {
+  getQuantityControl(): Observable<FormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
@@ -129,7 +80,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             })
           )
         ),
-        map(() => <UntypedFormControl>this.form.get('quantity')),
+        map(() => <FormControl>this.form.get('quantity')),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -164,28 +115,22 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry?: OrderEntry): UntypedFormControl {
+  protected getQuantityFormControl(entry?: OrderEntry): FormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new UntypedFormControl(entry?.quantity, {
-        updateOn: 'blur',
-      });
+      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new UntypedFormControl(entry?.entryNumber);
+      const entryNumber = new FormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     } else {
       // set the real quantity added to cart
       this.form.get('quantity')?.setValue(entry?.quantity);
     }
 
-    return <UntypedFormControl>this.form.get('quantity');
+    return <FormControl>this.form.get('quantity');
   }
 
   dismissModal(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.modalService.dismissActiveModal(reason);
   }
 }

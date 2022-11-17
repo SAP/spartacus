@@ -5,19 +5,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class FormService<T> {
-  protected form: UntypedFormGroup | null;
+  protected form: FormGroup | null;
 
   /**
    * Builds the form structure.
    */
   protected abstract build(item?: T): void;
 
-  getForm(item?: T): UntypedFormGroup | null {
+  getForm(item?: T): FormGroup | null {
     if (this.form && !!item) {
       this.patchData(item);
       return this.form;

@@ -11,11 +11,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   isNotNullable,
   Product,
@@ -48,7 +44,7 @@ export class ProductReviewsComponent {
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems: number;
-  reviewForm: UntypedFormGroup;
+  reviewForm: FormGroup;
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
@@ -69,7 +65,7 @@ export class ProductReviewsComponent {
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     protected cd: ChangeDetectorRef
   ) {}
 

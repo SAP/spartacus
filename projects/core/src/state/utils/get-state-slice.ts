@@ -30,7 +30,7 @@ export function createShellObject<T, E>(
   }
 
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
-    return { [previous]: acc } as unknown as NonNullable<T>;
+    return { [previous]: acc } as unknown as T;
   }, value);
   return handleExclusions(key, excludeKeys, shell);
 }

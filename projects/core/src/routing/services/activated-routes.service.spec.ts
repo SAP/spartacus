@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
   RouterEvent,
+  RouterState,
 } from '@angular/router';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -64,7 +65,7 @@ describe('ActivatedRoutesService', () => {
     });
 
     it('should emit array of activated routes', async () => {
-      const mockRouterState: any = {
+      const mockRouterState: RouterState = <RouterState>{
         snapshot: {
           root: {
             component: null,

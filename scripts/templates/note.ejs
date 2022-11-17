@@ -1,0 +1,18 @@
+<li>
+<%= content %>
+<%
+      for (const reference of commit.references) {
+        if (!reference.action || !reference.issue) {
+          continue;
+        }
+
+        const issue = reference.issue;
+        const owner = reference.owner || 'SAP';
+        const repository = reference.repository || 'spartacus';
+        %>
+<br />
+<a href="https://github.com/<%= owner %>/<%= repository %>/issues/<%= issue %>">
+  #<%= issue %>
+</a>
+  <% } %>
+</li>

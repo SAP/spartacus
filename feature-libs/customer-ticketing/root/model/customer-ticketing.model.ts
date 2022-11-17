@@ -1,10 +1,4 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { PaginationModel, SortModel } from '@spartacus/core';
+import { SortModel, PaginationModel } from '@spartacus/core';
 
 export const enum TEXT_COLOR_CLASS {
   GREY = 'cx-text-grey',
@@ -65,7 +59,7 @@ export interface TicketEvent {
   toStatus?: Status;
   code?: string;
   addedByAgent?: boolean;
-  ticketEventAttachments?: Array<Attachment>;
+  attachments?: Array<Attachment>;
 }
 
 export interface Attachment {
@@ -83,12 +77,4 @@ export interface TicketSearchConfig {
   pageSize?: number;
   currentPage?: number;
   sort?: string;
-}
-
-export interface TicketStarter {
-  associatedTo?: AssociatedObject;
-  message?: string;
-  subject?: string;
-  ticketCategory?: Category;
-  attachments?: Array<Attachment>;
 }

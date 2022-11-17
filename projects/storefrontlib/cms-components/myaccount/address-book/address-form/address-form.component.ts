@@ -7,19 +7,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   Address,
   AddressValidation,
@@ -34,9 +28,13 @@ import {
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../shared/components/modal/index';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -74,11 +72,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Output()
   backToAddress = new EventEmitter<any>();
 
-  @ViewChild('submit') element: ElementRef;
+  addressVerifySub: Subscription;
+  regionsSub: Subscription;
+  suggestedAddressModalRef: ModalRef | null;
 
-  subscription: Subscription = new Subscription();
-
-  addressForm: UntypedFormGroup = this.fb.group({
+  addressForm: FormGroup = this.fb.group({
     country: this.fb.group({
       isocode: [null, Validators.required],
     }),
@@ -97,12 +95,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected fb: UntypedFormBuilder,
+    protected fb: FormBuilder,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService
+    protected modalService: ModalService,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit() {
@@ -203,7 +201,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   verifyAddress(): void {
     if (this.addressForm.valid) {
       if (this.addressForm.get('region')?.value.isocode) {
-        this.regions$.pipe(take(1)).subscribe((regions) => {
+        this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
           const obj = regions.find(
             (region) =>
               region.isocode ===
@@ -216,13 +214,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.addressForm.dirty) {
-        this.subscription.add(
-          this.userAddressService
-            .verifyAddress(this.addressForm.value)
-            .subscribe((value) => {
-              this.handleAddressVerificationResults(value);
-            })
-        );
+        this.userAddressService
+          .verifyAddress(this.addressForm.value)
+          .subscribe((result) => {
+            this.handleAddressVerificationResults(result);
+          });
       } else {
         // address form value not changed
         // ignore duplicate address
@@ -234,32 +230,51 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   openSuggestedAddress(results: AddressValidation): void {
-    this.launchDialogService.openDialogAndSubscribe(
-      LAUNCH_CALLER.SUGGESTED_ADDRESSES,
-      this.element,
-      {
-        enteredAddress: this.addressForm.value,
-        suggestedAddresses: results.suggestedAddresses,
-      }
-    );
-    this.subscription.add(
-      this.launchDialogService.dialogClose
-        .pipe(filter((result) => Boolean(result)))
-        .subscribe((result) => {
-          if (typeof result === 'object') {
-            const address = {
-              ...result,
-              titleCode: this.addressForm.value.titleCode,
-              phone: this.addressForm.value.phone,
-              selected: true,
-            };
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: 'lg' }
+      );
+      this.suggestedAddressModalRef.componentInstance.enteredAddress =
+        this.addressForm.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result
+        .then((address) => {
+          if (address) {
+            address = Object.assign(
+              {
+                titleCode: this.addressForm.value.titleCode,
+                phone: this.addressForm.value.phone,
+                selected: true,
+              },
+              address
+            );
             this.submitAddress.emit(address);
           }
+          this.suggestedAddressModalRef = null;
         })
-    );
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          const address = Object.assign(
+            {
+              selected: true,
+            },
+            this.addressForm.value
+          );
+          this.submitAddress.emit(address);
+          this.suggestedAddressModalRef = null;
+        });
+    }
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
+
+    if (this.regionsSub) {
+      this.regionsSub.unsubscribe();
+    }
   }
 }

@@ -15,7 +15,7 @@ import { OnNavigateService } from './on-navigate.service';
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
-      initialNavigation: 'enabledBlocking',
+      initialNavigation: 'enabled',
     }),
   ],
   providers: [

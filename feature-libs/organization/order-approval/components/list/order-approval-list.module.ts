@@ -11,7 +11,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -34,7 +33,6 @@ import { OrderApprovalListComponent } from './order-approval-list.component';
     RouterModule,
     ListNavigationModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   declarations: [OrderApprovalListComponent],
   exports: [OrderApprovalListComponent],

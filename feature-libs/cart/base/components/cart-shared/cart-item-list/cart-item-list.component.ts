@@ -13,7 +13,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -60,7 +60,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
-  form: UntypedFormGroup = new UntypedFormGroup({});
+  form: FormGroup = new FormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
@@ -181,9 +181,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           control.patchValue({ quantity: item.quantity }, { emitEvent: false });
         }
       } else {
-        const group = new UntypedFormGroup({
-          entryNumber: new UntypedFormControl(item.entryNumber),
-          quantity: new UntypedFormControl(item.quantity, { updateOn: 'blur' }),
+        const group = new FormGroup({
+          entryNumber: new FormControl(item.entryNumber),
+          quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
         });
         this.form.addControl(controlName, group);
       }
@@ -215,7 +215,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {
+  getControl(item: OrderEntry): Observable<FormGroup> | undefined {
     return this.form.get(this.getControlName(item))?.valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
@@ -241,7 +241,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
         }
       }),
-      map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
+      map(() => <FormGroup>this.form.get(this.getControlName(item)))
     );
   }
 

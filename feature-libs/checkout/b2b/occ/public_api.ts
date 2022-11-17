@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './adapters/index';
-export * from './checkout-b2b-occ.module';
-export * from './model/index';
+export * from './index';

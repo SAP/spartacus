@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 export const customerTicketing = {
   customerTicketing: {
     mainLogoLabel: 'SAP',
@@ -12,15 +6,26 @@ export const customerTicketing = {
     createdOn: 'Created On',
     changedOn: 'Changed On',
     status: 'Status',
+    reopenRequest: 'Reopen Request',
+    closeRequest: 'Close Request',
     message: 'Message',
     cancel: 'Cancel',
     submit: 'Submit',
+    charactersLeft: 'Characters Left: {{count}}',
     uploadFile: 'Upload File',
-    fileSizeLimit: 'File size limit: {{count}}MB',
+    fileSizeLimit: 'File Size Limit: {{count}}MB',
     maximumAttachment: 'Maximum of one attachment per message',
+    createNewTicket: 'Add',
+    addNewRequest: 'Add New Request',
+    subject: 'Subject',
+    category: 'Category',
+    associateTo: 'Associate To',
+    attachments: 'Attachments',
+    requestReopened: 'Request Reopened.',
+    requestClosed: 'Request closed, you may reopen if needed.',
     errorMessage: 'Something went wrong.',
-    charactersLeft: 'characters left: {{count}}',
   },
+
   customerTicketingList: {
     subject: 'Subject',
     ticketCategory: 'Category',
@@ -32,21 +37,5 @@ export const customerTicketing = {
     mobile: {
       ticketIdFull: 'Ticket ID',
     },
-  },
-  createCustomerTicket: {
-    createNewTicket: 'Add',
-    addNewRequest: 'Add New Request',
-    subject: 'Subject',
-    category: 'Category',
-    associateTo: 'Associate To',
-    ticketCreated: 'Request created.',
-    optionallySelectAssociatedObject: 'Select Option',
-    selectCategory: 'Select a Category',
-  },
-  customerTicketingDetails: {
-    requestReopened: 'Request Reopened.',
-    requestClosed: 'Request closed, you may reopen if needed.',
-    reopenRequest: 'Reopen Request',
-    closeRequest: 'Close Request',
   },
 };

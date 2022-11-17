@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AuthRedirectService,
   AuthService,
@@ -38,14 +34,14 @@ export class UpdateEmailComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: UntypedFormGroup = new UntypedFormGroup(
+  form: FormGroup = new FormGroup(
     {
-      email: new UntypedFormControl('', [
+      email: new FormControl('', [
         Validators.required,
         CustomFormValidators.emailValidator,
       ]),
-      confirmEmail: new UntypedFormControl('', [Validators.required]),
-      password: new UntypedFormControl('', [Validators.required]),
+      confirmEmail: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     },
     {
       validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail'),

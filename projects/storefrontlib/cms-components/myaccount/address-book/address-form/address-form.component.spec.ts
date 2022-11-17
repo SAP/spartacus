@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -14,12 +14,38 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../layout';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { ModalService } from '../../../../shared/components/modal/index';
 import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
+
+class MockUserService {
+  getTitles(): Observable<Title[]> {
+    return of();
+  }
+
+  loadTitles(): void {}
+}
+
+class MockUserAddressService {
+  getDeliveryCountries(): Observable<Country[]> {
+    return of();
+  }
+
+  loadDeliveryCountries(): void {}
+
+  getRegions(): Observable<Region[]> {
+    return of();
+  }
+
+  getAddresses(): Observable<Address[]> {
+    return of([]);
+  }
+  verifyAddress(): Observable<AddressValidation> {
+    return of({});
+  }
+}
 
 const mockTitles: Title[] = [
   {
@@ -71,52 +97,30 @@ const mockAddress: Address = {
   defaultAddress: false,
 };
 
-class MockUserService {
-  getTitles(): Observable<Title[]> {
-    return of();
-  }
+const mockSuggestedAddressModalRef: any = {
+  componentInstance: {
+    enteredAddress: '',
+    suggestedAddresses: '',
+  },
+  result: new Promise((resolve) => {
+    return resolve(true);
+  }),
+};
 
-  loadTitles(): void {}
-}
-
-class MockUserAddressService {
-  getDeliveryCountries(): Observable<Country[]> {
-    return of();
-  }
-
-  loadDeliveryCountries(): void {}
-
-  getRegions(): Observable<Region[]> {
-    return of();
-  }
-
-  getAddresses(): Observable<Address[]> {
-    return of([]);
-  }
-  verifyAddress(): Observable<AddressValidation> {
-    return of({});
-  }
-}
-const dialogClose$ = new BehaviorSubject<any>('');
-
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe() {
-    return of();
-  }
-  get dialogClose() {
-    return dialogClose$.asObservable();
+class MockModalService {
+  open(): any {
+    return mockSuggestedAddressModalRef;
   }
 }
 
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
-  let controls: UntypedFormGroup['controls'];
+  let controls: FormGroup['controls'];
 
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
-  let launchDialogService: LaunchDialogService;
 
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
@@ -136,10 +140,11 @@ describe('AddressFormComponent', () => {
         ],
         declarations: [AddressFormComponent],
         providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          { provide: ModalService, useValue: { open: () => {} } },
           { provide: UserService, useClass: MockUserService },
           { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+          { provide: ModalService, useClass: MockModalService },
         ],
       })
         .overrideComponent(AddressFormComponent, {
@@ -149,7 +154,6 @@ describe('AddressFormComponent', () => {
 
       userService = TestBed.inject(UserService);
       userAddressService = TestBed.inject(UserAddressService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
     })
   );
 
@@ -237,7 +241,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should display error message on address verification result "reject"', () => {
+  it('should dispplay error message on address verification result "reject"', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
@@ -259,7 +263,7 @@ describe('AddressFormComponent', () => {
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
   });
 
-  it('should open suggested address dialog with address verification result "review"', () => {
+  it('should open suggested address with address verification result "review"', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
@@ -268,9 +272,7 @@ describe('AddressFormComponent', () => {
       decision: 'REVIEW',
     };
 
-    spyOn(component, 'openSuggestedAddress').and.callThrough();
-    spyOn(launchDialogService, 'openDialogAndSubscribe');
-
+    spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     component['handleAddressVerificationResults'](
       mockAddressVerificationResult
@@ -278,20 +280,6 @@ describe('AddressFormComponent', () => {
     expect(component.openSuggestedAddress).toHaveBeenCalledWith(
       mockAddressVerificationResult
     );
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
-  });
-
-  it('should emit submitAddress if dialog was closed with selected address as parameter', () => {
-    const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REVIEW',
-    };
-    dialogClose$.next(mockAddress);
-
-    component.openSuggestedAddress(mockAddressVerificationResult);
-
-    component.submitAddress.pipe(take(1)).subscribe((address) => {
-      expect(address).toEqual(mockAddress);
-    });
   });
 
   it('should call verifyAddress() when address has some changes', () => {
@@ -437,9 +425,10 @@ describe('AddressFormComponent', () => {
   });
 
   it('should unsubscribe from any subscriptions when destroyed', () => {
-    spyOn(component.subscription, 'unsubscribe');
+    component.regionsSub = new Subscription();
+    spyOn(component.regionsSub, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
   });
 
   it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {

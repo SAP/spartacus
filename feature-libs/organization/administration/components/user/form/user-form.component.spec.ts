@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormArray,
+  FormControl,
+  FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -21,18 +21,18 @@ import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
 
-const mockForm = new UntypedFormGroup({
-  name: new UntypedFormControl(),
+const mockForm = new FormGroup({
+  name: new FormControl(),
 
-  orgUnit: new UntypedFormGroup({
-    uid: new UntypedFormControl(),
+  orgUnit: new FormGroup({
+    uid: new FormControl(),
   }),
-  titleCode: new UntypedFormControl(),
-  firstName: new UntypedFormControl(),
-  lastName: new UntypedFormControl(),
-  email: new UntypedFormControl(),
-  isAssignedToApprovers: new UntypedFormControl(),
-  roles: new UntypedFormArray([]),
+  titleCode: new FormControl(),
+  firstName: new FormControl(),
+  lastName: new FormControl(),
+  email: new FormControl(),
+  isAssignedToApprovers: new FormControl(),
+  roles: new FormArray([]),
 });
 
 const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);

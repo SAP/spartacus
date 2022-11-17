@@ -4,30 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CustomerCoupon } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  ModalRef,
+  ModalService,
+} from '../../../../shared/components/modal/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { CouponDialogComponent } from './coupon-dialog/coupon-dialog.component';
 
 @Component({
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;
   @Input() couponSubscriptionLoading$: Observable<boolean>;
+  modalRef: ModalRef;
 
   @Output()
   notificationChanged = new EventEmitter<{
@@ -35,12 +29,9 @@ export class CouponCardComponent {
     notification: boolean;
   }>();
 
-  @ViewChild('element') element: ElementRef;
-
   constructor(
-    protected myCouponsComponentService: MyCouponsComponentService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected modalService: ModalService,
+    protected myCouponsComponentService: MyCouponsComponentService
   ) {}
 
   onSubscriptionChange(): void {
@@ -51,16 +42,14 @@ export class CouponCardComponent {
   }
 
   readMore() {
-    const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.COUPON,
-      this.element,
-      this.vcr,
-      { coupon: this.coupon }
-    );
+    let modalInstance: any;
+    this.modalRef = this.modalService.open(CouponDialogComponent, {
+      centered: true,
+      size: 'lg',
+    });
 
-    if (dialog) {
-      dialog.pipe(take(1)).subscribe();
-    }
+    modalInstance = this.modalRef.componentInstance;
+    modalInstance.coupon = this.coupon;
   }
 
   findProducts(): void {

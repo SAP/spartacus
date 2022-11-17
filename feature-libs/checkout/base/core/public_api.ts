@@ -4,7 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './checkout-core.module';
-export * from './connectors/index';
-export * from './facade/index';
-export * from './services/index';
+export * from './index';

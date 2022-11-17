@@ -34,6 +34,9 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -149,7 +152,8 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
         }
       }
     }
-  }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
 }"
 `;
 

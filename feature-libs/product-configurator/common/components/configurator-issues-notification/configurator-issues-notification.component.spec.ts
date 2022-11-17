@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   CartItemContext,
@@ -46,7 +46,7 @@ class MockConfigureCartEntryComponent {
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.ActiveCart
   );
@@ -71,7 +71,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       entryNumber: 0,
     });
     mockCartItemContext.readonly$?.next(testData.readOnly);
-    mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
+    mockCartItemContext.quantityControl$?.next(new FormControl());
   }
   describe('with cart item context', () => {
     beforeEach(
@@ -117,7 +117,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
 
     it('should expose quantityControl$', (done) => {
-      const quantityControl = new UntypedFormControl();
+      const quantityControl = new FormControl();
       component.quantityControl$.pipe(take(1)).subscribe((value) => {
         expect(value).toBe(quantityControl);
         done();
@@ -184,7 +184,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
     describe('shouldShowButton', () => {
       beforeEach(() => {
-        const quantityControl = new UntypedFormControl();
+        const quantityControl = new FormControl();
 
         mockCartItemContext.quantityControl$?.next(quantityControl);
         mockCartItemContext.item$?.next({

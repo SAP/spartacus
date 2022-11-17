@@ -1,0 +1,17 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "schematics-${version}",
+    "commitMessage": "Bumping schematics version to ${version}",
+    "tagAnnotation": "Bumping schematics version to ${version}"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "@spartacus/schematics@${version}",
+    "releaseNotes": "cd ../.. && ts-node ./scripts/changelog.ts --verbose --lib schematics --to schematics-${version}"
+  },
+  "hooks": {
+    "after:version:bump": "yarn build"
+  }
+}

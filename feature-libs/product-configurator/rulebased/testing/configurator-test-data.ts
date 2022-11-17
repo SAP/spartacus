@@ -146,15 +146,14 @@ export const attributeRadioButton: Configurator.Attribute = {
     },
   ],
 };
-export const attributeCheckboxCode = 123;
-export const attributeCheckboxGroupId = '1';
+
 export const attributeCheckbox: Configurator.Attribute = {
   name: 'ATTRIBUTE_2_RADIOBUTTON',
   uiType: Configurator.UiType.RADIOBUTTON,
   required: false,
   incomplete: false,
-  groupId: attributeCheckboxGroupId,
-  attrCode: attributeCheckboxCode,
+  groupId: '1',
+  attrCode: 123,
   values: [
     {
       name: VALUE_01,
@@ -434,7 +433,6 @@ export const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_1,
       configurable: true,
       description: 'Description for ' + GROUP_ID_1,
-      name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [attributeCheckbox],
       subGroups: [],
@@ -605,14 +603,12 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
       id: GROUP_ID_CONFLICT_HEADER,
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       attributes: [],
-      description: GROUP_ID_CONFLICT_HEADER,
       subGroups: [
         {
           id: GROUP_ID_CONFLICT_3,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
           attributes: undefined,
-          description: GROUP_ID_CONFLICT_3,
         },
         {
           id: GROUP_ID_CONFLICT_1,

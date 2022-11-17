@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AuthService,
   GlobalMessageService,
@@ -40,12 +36,12 @@ export class LoginFormComponentService {
     })
   );
 
-  form: UntypedFormGroup = new UntypedFormGroup({
-    userId: new UntypedFormControl('', [
+  form: FormGroup = new FormGroup({
+    userId: new FormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
     ]),
-    password: new UntypedFormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   login() {

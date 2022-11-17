@@ -37,28 +37,8 @@ export function listenForCustomerSearchRequest(): string {
   );
 }
 
-export function listenForCustomerListsRequest(): string {
-  return interceptGet(
-    'customerLists',
-    '/assistedservicewebservices/customerlists?*',
-    false
-  );
-}
-
-export function listenForUserDetailsRequest(b2b = false): string {
-  if (b2b) {
-    return interceptGet('userDetails', '/orgUsers/*');
-  } else {
-    return interceptGet('userDetails', '/users/*');
-  }
-}
-
-export function listenForCartBindingRequest(): string {
-  return interceptPost(
-    'cartBinding',
-    '/assistedservicewebservices/bind-cart?*',
-    false
-  );
+export function listenForUserDetailsRequest(): string {
+  return interceptGet('userDetails', '/users/*');
 }
 
 export function listenForListOfAddressesRequest(): string {
@@ -86,117 +66,9 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
-export function asmOpenCustomerList(): void {
-  cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
-  cy.get('cx-customer-list').should('exist');
-  cy.get('cx-customer-list h2').should('exist');
-}
-
-export function asmCustomerLists(): void {
-  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
-  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest();
-
-  cy.log('--> Starting customer list');
-  asm.asmOpenCustomerList();
-
-  cy.wait(customerListsRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  cy.get('cx-customer-list table').should('exist');
-
-  cy.log('--> checking customer list pagination');
-  cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
-  cy.get('cx-customer-list .cx-btn-next').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-  cy.get('cx-customer-list .cx-btn-previous').should('not.be.disabled');
-  cy.get('cx-customer-list .cx-btn-previous').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-
-  cy.log('--> checking customer list sorting');
-  cy.get('cx-customer-list .sort-selector').then((selects) => {
-    let select = selects[0];
-    cy.wrap(select)
-      .click()
-      .get('ng-dropdown-panel')
-      .get('.ng-option')
-      .eq(1)
-      .then((item) => {
-        cy.wrap(item).click();
-        cy.wait(customerSearchRequestAlias)
-          .its('response.statusCode')
-          .should('eq', 200);
-      });
-  });
-  cy.log('--> checking customer list group');
-  cy.get('cx-customer-list ng-select.customer-list-selector').then(
-    (selects) => {
-      let select = selects[0];
-      cy.wrap(select)
-        .click()
-        .get('ng-dropdown-panel')
-        .get('.ng-option')
-        .eq(1)
-        .then((item) => {
-          cy.wrap(item).click();
-          cy.wait(customerSearchRequestAlias)
-            .its('response.statusCode')
-            .should('eq', 200);
-        });
-    }
-  );
-
-  cy.get('cx-customer-list button.close').click();
-  cy.get('cx-customer-list').should('not.exist');
-
-  cy.log('--> start emulation by click name');
-  asm.asmOpenCustomerList();
-
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  cy.get('cx-customer-list')
-    .find('.cx-btn-cell')
-    .not('[aria-label="Order"]')
-    .then(($rows) => {
-      expect($rows.length).to.eq(5);
-      cy.wrap($rows[0]).click();
-      cy.get('cx-customer-list').should('not.exist');
-    });
-  cy.wait(userDetailsRequestAlias);
-
-  cy.get('cx-customer-emulation').should('exist');
-
-  cy.log('--> start emulation by click order');
-  asm.asmOpenCustomerList();
-  cy.get('cx-customer-list')
-    .find('.cx-btn-cell')
-    .filter('[aria-label="Order"]')
-    .then(($rows) => {
-      expect($rows.length).to.eq(5);
-      cy.wrap($rows[0]).click();
-      cy.get('cx-customer-list').should('not.exist');
-      cy.get('cx-order-history').should('exist');
-    });
-}
-
-export function startCustomerEmulation(customer, b2b = false): void {
+export function startCustomerEmulation(customer): void {
   const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest(b2b);
+  const userDetailsRequestAlias = listenForUserDetailsRequest();
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
@@ -214,13 +86,12 @@ export function startCustomerEmulation(customer, b2b = false): void {
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('cx-customer-selection button[type="submit"]').click();
+  cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
-    'contain',
-    customer.fullName
-  );
+  cy.get('cx-customer-emulation input')
+    .invoke('attr', 'placeholder')
+    .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-customer-emulation').should('be.visible');
@@ -309,9 +180,7 @@ export function testCustomerEmulation() {
     consent.giveConsent();
 
     cy.log('--> Stop customer emulation');
-    cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
-      .click();
+    cy.get('cx-customer-emulation button').click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -332,9 +201,7 @@ export function testCustomerEmulation() {
     cy.log(
       '--> Stop customer emulation using the end session button in the ASM UI'
     );
-    cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
-      .click();
+    cy.get('cx-customer-emulation button').click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -394,12 +261,4 @@ export function testCustomerEmulation() {
 
     checkout.signOutUser();
   });
-}
-
-export function bindCart() {
-  const bindingRequest = listenForCartBindingRequest();
-  //click button
-  cy.findByText(/Assign Cart to Customer/i).click();
-  //make call
-  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }

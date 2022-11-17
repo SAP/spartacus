@@ -4,5 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cdc-components.module';
-export * from './gigya-raas/index';
+/*
+ * Public API Surface for CDC
+ */
+export * from './index';

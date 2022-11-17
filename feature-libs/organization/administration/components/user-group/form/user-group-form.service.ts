@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserGroup } from '@spartacus/organization/administration/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -19,19 +15,19 @@ import { FormService } from '../../shared/form/form.service';
 })
 export class UserGroupFormService extends FormService<UserGroup> {
   protected build() {
-    const form = new UntypedFormGroup({});
+    const form = new FormGroup({});
     form.setControl(
       'uid',
-      new UntypedFormControl('', [
+      new FormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new UntypedFormControl('', Validators.required));
+    form.setControl('name', new FormControl('', Validators.required));
     form.setControl(
       'orgUnit',
-      new UntypedFormGroup({
-        uid: new UntypedFormControl(undefined, Validators.required),
+      new FormGroup({
+        uid: new FormControl(undefined, Validators.required),
       })
     );
     this.form = form;

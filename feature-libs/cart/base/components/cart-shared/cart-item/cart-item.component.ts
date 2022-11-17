@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   CartItemContext,
@@ -28,7 +28,7 @@ export class CartItemComponent implements OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
-  @Input() quantityControl: UntypedFormControl;
+  @Input() quantityControl: FormControl;
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 

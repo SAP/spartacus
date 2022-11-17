@@ -63,10 +63,6 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.update.emit(files);
   }
 
-  removeFile(): void {
-    this.fileInput.nativeElement.value = '';
-  }
-
   get selectedFiles(): File[] | undefined {
     if (this.fileInput.nativeElement.files) {
       return Array.from(this.fileInput.nativeElement.files);

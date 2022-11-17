@@ -1,11 +1,10 @@
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntryFailEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ModalService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 
@@ -17,17 +16,6 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
-  ) {
-    return of();
-  }
-  closeDialog(_reason: string): void {}
-}
-
 const mockEvent = new CartUiEventAddToCart();
 mockEvent.productCode = 'test';
 mockEvent.quantity = 3;
@@ -36,9 +24,33 @@ mockEvent.numberOfEntriesBeforeAdd = 1;
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};
 
+const mockInstance = {
+  entry$: of({}),
+  cart$: of({}),
+  loaded$: of({}),
+  addedEntryWasMerged$: of({}),
+  quantity: 0,
+  init: (
+    _productCode: string,
+    _quantity: number,
+    _numberOfEntriesBeforeAdd: number
+  ) => {},
+  dismissModal: (_reason?: any) => {},
+};
+
+const mockModalRef = { componentInstance: mockInstance };
+class MockModalService {
+  open() {
+    return mockModalRef;
+  }
+  getActiveModal() {
+    return mockModalRef;
+  }
+}
+
 describe('AddToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
-  let launchDialogService: LaunchDialogService;
+  let modalService: ModalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,14 +61,14 @@ describe('AddToCartDialogEventListener', () => {
           useClass: MockEventService,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+          provide: ModalService,
+          useClass: MockModalService,
         },
       ],
     });
 
     listener = TestBed.inject(AddedToCartDialogEventListener);
-    launchDialogService = TestBed.inject(LaunchDialogService);
+    modalService = TestBed.inject(ModalService);
   });
 
   describe('onAddToCart', () => {
@@ -75,17 +87,34 @@ describe('AddToCartDialogEventListener', () => {
 
   describe('openModal', () => {
     it('Should open the add to cart dialog', () => {
-      spyOn(launchDialogService, 'openDialog').and.callThrough();
+      spyOn(modalService, 'open').and.callThrough();
+      spyOn(mockInstance, 'init').and.stub();
       listener['openModal'](mockEvent);
-      expect(launchDialogService.openDialog).toHaveBeenCalled();
+      expect(modalService.open).toHaveBeenCalled();
+      expect(mockInstance.init).toHaveBeenCalledWith(
+        mockEvent.productCode,
+        mockEvent.quantity,
+        mockEvent.numberOfEntriesBeforeAdd
+      );
     });
   });
 
   describe('closeModal', () => {
     it('Should close the add to cart dialog', () => {
-      spyOn(launchDialogService, 'closeDialog').and.stub();
-      listener['closeModal']('reason');
-      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
+      spyOn(mockInstance, 'dismissModal').and.stub();
+      listener['closeModal'](mockFailEvent);
+      expect(mockInstance.dismissModal).toHaveBeenCalledWith(
+        mockFailEvent.error
+      );
+    });
+
+    it('Should do nothing if the active modal is not the cart dialog', () => {
+      spyOn(modalService, 'getActiveModal').and.returnValue(null);
+      spyOn(mockInstance, 'dismissModal').and.stub();
+      listener['closeModal'](mockFailEvent);
+      expect(mockInstance.dismissModal).not.toHaveBeenCalledWith(
+        mockFailEvent.error
+      );
     });
   });
 });

@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './feature-name';
-export * from './models/index';
-export * from './product-image-zoom-root.module';
+export * from './index';

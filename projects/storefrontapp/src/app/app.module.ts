@@ -83,9 +83,8 @@ if (!environment.production) {
       },
     }),
     provideConfig(<FeaturesConfig>{
-      // For the development environment and CI, feature level is always the highest.
       features: {
-        level: '*',
+        level: '4.2',
       },
     }),
   ],

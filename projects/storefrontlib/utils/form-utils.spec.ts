@@ -1,17 +1,17 @@
-import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { FormUtils } from './form-utils';
 
 describe('FormUtils', () => {
-  let fb: UntypedFormBuilder;
+  let fb: FormBuilder;
 
   beforeEach(() => {
-    fb = new UntypedFormBuilder();
+    fb = new FormBuilder();
   });
 
   describe('deepUpdateValueAndValidity', () => {
     describe('for any form control', () => {
       it('should call #updateValueAndValidity', () => {
-        const control = new UntypedFormControl();
+        const control = new FormControl();
         spyOn(control, 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control);
@@ -23,7 +23,7 @@ describe('FormUtils', () => {
       });
 
       it('should call #updateValueAndValidity with `emitEvent` false', () => {
-        const control = new UntypedFormControl();
+        const control = new FormControl();
         spyOn(control, 'updateValueAndValidity');
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });

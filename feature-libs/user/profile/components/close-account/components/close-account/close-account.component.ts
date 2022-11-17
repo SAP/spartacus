@@ -4,15 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { take } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ModalService } from '@spartacus/storefront';
+import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
 @Component({
   selector: 'cx-close-account',
@@ -20,20 +14,12 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountComponent {
-  @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  modal: any;
+  constructor(protected modalService: ModalService) {}
 
   openModal(): void {
-    const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.CLOSE_ACCOUNT,
-      this.element,
-      this.vcr
-    );
-
-    dialog?.pipe(take(1)).subscribe();
+    this.modal = this.modalService.open(CloseAccountModalComponent, {
+      centered: true,
+    }).componentInstance;
   }
 }

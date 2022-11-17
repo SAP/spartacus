@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   OrderEntry,
@@ -44,7 +44,7 @@ describe('CartItemContextSource', () => {
   });
 
   it('should replay latest value of "quantityControl"', (done) => {
-    const quantityControl = new UntypedFormControl();
+    const quantityControl = new FormControl();
     contextSource.quantityControl$.next(quantityControl);
     contextSource.quantityControl$.subscribe((value) => {
       expect(value).toBe(quantityControl);

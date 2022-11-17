@@ -67,8 +67,6 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   @Input() key = this.service.key();
 
-  @Input() hideAddButton = false;
-
   /**
    * Returns the total number of items.
    */

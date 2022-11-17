@@ -48,7 +48,6 @@ export const orderApprovalList = {
   total: 'Total',
   none: 'None',
   emptyList: 'There are no orders to approve at this time.',
-  orderApprovalList: 'Order Approval List',
 };
 
 export const orderApprovalGlobal = {

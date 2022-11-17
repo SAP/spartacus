@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   LoadStatus,
@@ -27,8 +23,8 @@ class MockCurrentItemService {
   error$ = of(false);
 }
 
-const mockForm = new UntypedFormGroup({});
-mockForm.addControl('name', new UntypedFormControl('foo bar'));
+const mockForm = new FormGroup({});
+mockForm.addControl('name', new FormControl('foo bar'));
 
 class MockFormService {
   getForm() {
@@ -103,8 +99,8 @@ describe('ItemService', () => {
     describe('handle valid form data', () => {
       it('should create new item', () => {
         spyOn(service, 'create').and.callThrough();
-        const form = new UntypedFormGroup({});
-        form.addControl('name', new UntypedFormControl('foo bar'));
+        const form = new FormGroup({});
+        form.addControl('name', new FormControl('foo bar'));
         expect(service.save(form)).toEqual(mockItemStatus);
         expect(service.create).toHaveBeenCalledWith({
           name: 'foo bar',
@@ -114,8 +110,8 @@ describe('ItemService', () => {
 
       it('should update existing item', () => {
         spyOn(service, 'update').and.callThrough();
-        const form = new UntypedFormGroup({});
-        form.addControl('name', new UntypedFormControl('foo bar'));
+        const form = new FormGroup({});
+        form.addControl('name', new FormControl('foo bar'));
 
         expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
         expect(service.update).toHaveBeenCalledWith('existingCode', {
@@ -128,10 +124,10 @@ describe('ItemService', () => {
     describe('handle invalid form data', () => {
       it('should not create invalid existing item', () => {
         spyOn(service, 'create').and.callThrough();
-        const form = new UntypedFormGroup({});
+        const form = new FormGroup({});
         form.addControl(
           undefined,
-          new UntypedFormControl(undefined, Validators.required)
+          new FormControl(undefined, Validators.required)
         );
         service.save(form);
         expect(service.create).not.toHaveBeenCalled();
@@ -141,10 +137,10 @@ describe('ItemService', () => {
 
       it('should not update invalid existing item', () => {
         spyOn(service, 'update').and.callThrough();
-        const form = new UntypedFormGroup({});
+        const form = new FormGroup({});
         form.addControl(
           'name',
-          new UntypedFormControl(undefined, Validators.required)
+          new FormControl(undefined, Validators.required)
         );
         service.save(form, 'existingCode');
         expect(service.update).not.toHaveBeenCalled();

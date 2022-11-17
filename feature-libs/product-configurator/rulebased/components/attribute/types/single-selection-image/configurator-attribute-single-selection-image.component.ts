@@ -12,7 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -27,11 +27,10 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  attributeRadioButtonForm = new UntypedFormControl('');
+  attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
-  @Input() expMode: boolean;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 

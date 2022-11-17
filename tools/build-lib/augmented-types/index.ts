@@ -82,7 +82,7 @@ async function augmentableTypesPostStep(
  * @param ngPackagerFile
  */
 async function getNgPackgrLibOutputPath(ngPackagerFile: string) {
-  const ngPackageData = JSON.parse(await fs.readFile(ngPackagerFile, 'utf8'));
+  let ngPackageData = JSON.parse(await fs.readFile(ngPackagerFile, 'utf8'));
   return path.join(path.dirname(ngPackagerFile), ngPackageData.dest);
 }
 
@@ -99,7 +99,7 @@ async function propagateAugmentableTypes(
   for (const packageJsonFile of files) {
     try {
       // get typings file from package.json
-      const packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
+      let packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
       const typingsFile = packageData.typings;
 
       if (!typingsFile) {

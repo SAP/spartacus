@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   CurrencySetEvent,
@@ -21,11 +15,9 @@ import {
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
-  GetTicketsQueryReloadEvents,
-  GetTicketsQueryResetEvents,
-  TicketCreatedEvent,
   TicketEventCreatedEvent,
 } from './customer-ticketing.events';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,44 +29,18 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     this.onGetTicketQueryReload();
-    this.onGetTicketsQueryReload();
     this.onLoginAndLogoutEvent();
-    this.onTicketCreatedEvent();
     this.onTicketEventCreated();
-  }
-
-  onTicketCreatedEvent() {
-    this.subscriptions.add(
-      this.eventService.get(TicketCreatedEvent).subscribe(() => {
-        this.globalMessageService.add(
-          {
-            key: 'createCustomerTicket.ticketCreated',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
-      })
-    );
   }
 
   protected onGetTicketQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
+        this.eventService.get(CurrencySetEvent),
+        this.eventService.get(TicketEventCreatedEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
-    );
-  }
-
-  protected onGetTicketsQueryReload(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
       })
     );
   }
@@ -86,7 +52,6 @@ export class CustomerTicketingEventListener implements OnDestroy {
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
-        this.eventService.dispatch({}, GetTicketsQueryResetEvents);
         this.eventService.dispatch({}, GetTicketCategoryQueryResetEvent);
         this.eventService.dispatch(
           {},
@@ -99,21 +64,15 @@ export class CustomerTicketingEventListener implements OnDestroy {
   protected onTicketEventCreated(): void {
     this.subscriptions.add(
       this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
-        if (status === STATUS.CLOSED) {
-          this.globalMessageService.add(
-            {
-              key: 'customerTicketingDetails.requestClosed',
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        } else if (status === STATUS.INPROCESS || status === STATUS.OPEN) {
-          this.globalMessageService.add(
-            {
-              key: 'customerTicketingDetails.requestReopened',
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        }
+        this.globalMessageService.add(
+          {
+            key:
+              status === STATUS.CLOSED
+                ? 'customerTicketing.requestClosed'
+                : 'customerTicketing.requestReopened',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
       })
     );
   }

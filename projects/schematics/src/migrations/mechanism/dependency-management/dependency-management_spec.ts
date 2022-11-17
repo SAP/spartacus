@@ -17,6 +17,7 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from '../../../shared/libs-constants';
@@ -44,7 +45,7 @@ describe('dependency management migrations', () => {
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
-          lib: ['es2020'],
+          lib: ['es2015'],
         },
       })
     );
@@ -113,8 +114,8 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
-              rxjs: '^10.0.0',
+              [SPARTACUS_STYLES]: '3.0.0',
+              bootstrap: '^5.0.0',
             },
           })
         );
@@ -124,9 +125,9 @@ describe('dependency management migrations', () => {
 
         const packageJson = appTree.readContent('/package.json');
         const updatedVersion: string =
-          JSON.parse(packageJson).dependencies.rxjs;
+          JSON.parse(packageJson).dependencies.bootstrap;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/storefront'].rxjs
+          collectedDependencies['@spartacus/styles'].bootstrap
         );
       });
     });
@@ -140,8 +141,8 @@ describe('dependency management migrations', () => {
             name: 'xxx',
             version: '3.0.0',
             dependencies: {
-              [SPARTACUS_STOREFRONTLIB]: '3.0.0',
-              rxjs: '^3.0.0',
+              [SPARTACUS_STYLES]: '3.0.0',
+              bootstrap: '^3.0.0',
             },
           })
         );
@@ -151,9 +152,9 @@ describe('dependency management migrations', () => {
 
         const packageJson = appTree.readContent('/package.json');
         const updatedVersion: string =
-          JSON.parse(packageJson).dependencies.rxjs;
+          JSON.parse(packageJson).dependencies.bootstrap;
         expect(updatedVersion).toEqual(
-          collectedDependencies['@spartacus/storefront'].rxjs
+          collectedDependencies['@spartacus/styles'].bootstrap
         );
       });
     });

@@ -14,7 +14,7 @@ import {
   KeyValueDiffer,
   KeyValueDiffers,
 } from '@angular/core';
-import { AbstractControl, UntypedFormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -39,7 +39,7 @@ export class FormErrorsComponent implements DoCheck {
     protected keyValueDiffers: KeyValueDiffers
   ) {}
 
-  _control: UntypedFormControl | AbstractControl;
+  _control: FormControl | AbstractControl;
 
   /**
    * Emits an array of errors, each represented by a tuple:
@@ -61,7 +61,7 @@ export class FormErrorsComponent implements DoCheck {
   translationParams: { [key: string]: string | null };
 
   @Input()
-  set control(control: AbstractControl | UntypedFormControl | null) {
+  set control(control: AbstractControl | FormControl | null) {
     if (!control) {
       return;
     }
@@ -79,7 +79,7 @@ export class FormErrorsComponent implements DoCheck {
     );
   }
 
-  get control(): UntypedFormControl | AbstractControl {
+  get control(): FormControl | AbstractControl {
     return this._control;
   }
 

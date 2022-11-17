@@ -12,7 +12,6 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
-      require('karma-junit-reporter'),
     ],
     parallelOptions: {
       executors: 2,
@@ -24,12 +23,7 @@ module.exports = function (config) {
         random: false,
       },
     },
-    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
-    junitReporter: {
-      outputFile: 'unit-test-core.xml',
-      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
-      useBrowserName: false,
-    },
+    reporters: ['progress', 'kjhtml', 'dots'],
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/core'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],

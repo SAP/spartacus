@@ -242,7 +242,7 @@ describe('ConfiguratorCommonsService', () => {
   it('should get pending changes from store', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(true));
 
-    let hasPendingChanges = false;
+    let hasPendingChanges = null;
     serviceUnderTest
       .hasPendingChanges(OWNER_PRODUCT)
       .subscribe((pendingChanges) => {
@@ -257,7 +257,7 @@ describe('ConfiguratorCommonsService', () => {
         of(configurationState.configurations.entities[OWNER_PRODUCT.key])
     );
 
-    let isLoading = false;
+    let isLoading = null;
     serviceUnderTest
       .isConfigurationLoading(OWNER_PRODUCT)
       .subscribe((loading) => {
@@ -562,16 +562,6 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
-    });
-  });
-
-  describe('removeProductBoundConfigurations', () => {
-    it('should call matching action on removeProductBoundConfigurations', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.removeProductBoundConfigurations();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.RemoveProductBoundConfigurations()
-      );
     });
   });
 });

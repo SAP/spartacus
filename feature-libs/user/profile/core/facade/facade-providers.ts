@@ -15,6 +15,7 @@ import {
   UserRegisterFacade,
 } from '@spartacus/user/profile/root';
 import { Provider } from '@angular/core';
+
 export const facadeProviders: Provider[] = [
   UserEmailService,
   UserPasswordService,

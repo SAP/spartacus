@@ -1,5 +1,9 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  TestBedStatic,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -120,7 +124,7 @@ describe('AddToCartComponent', () => {
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  function configureTestingModule(): TestBed {
+  function configureTestingModule(): TestBedStatic {
     return TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

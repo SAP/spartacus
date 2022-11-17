@@ -13,7 +13,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from 'feature-libs/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -43,14 +43,13 @@ class MockCxIconComponent {
 let DEBOUNCE_TIME: number;
 
 const userInput = '345.00';
-const NUMBER_DECIMAL_PLACES = 2;
 
 const attribute: Configurator.Attribute = {
   name: 'attributeName',
   label: 'attributeName',
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
-  numDecimalPlaces: NUMBER_DECIMAL_PLACES,
+  numDecimalPlaces: 2,
   numTotalLength: 10,
   negativeAllowed: false,
 };
@@ -83,17 +82,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
-  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
-    ...defaultConfiguratorUISettingsConfig,
-    productConfigurator: {
-      ...defaultConfiguratorUISettingsConfig.productConfigurator,
-    },
-  };
 
   beforeEach(
     waitForAsync(() => {
-      configuratorUISettingsConfig.productConfigurator =
-        defaultConfiguratorUISettingsConfig.productConfigurator;
       mockLanguageService = {
         getAll: () => of([]),
         getActive: jasmine.createSpy().and.returnValue(of(locale)),
@@ -110,7 +101,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorUISettingsConfig,
-            useValue: configuratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -179,7 +170,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       expect(
         configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
       ).toHaveBeenCalledWith(
-        NUMBER_DECIMAL_PLACES,
+        component.attribute.numDecimalPlaces,
         component.attribute.numTotalLength,
         component.attribute.negativeAllowed,
         'en'
@@ -278,15 +269,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
-    component.attributeInputForm.setValue('123');
-    fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
-  it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', fakeAsync(() => {
-    configuratorUISettingsConfig.productConfigurator = undefined;
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(component.inputChange.emit).not.toHaveBeenCalled();

@@ -9,12 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import {
-  FeaturesConfigModule,
-  GlobalMessageService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
@@ -84,12 +79,7 @@ describe('CustomerSelectionComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          FeaturesConfigModule.forRoot(),
-        ],
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
@@ -139,7 +129,6 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    // TODO: (CXSPA-1291) Change div.spinner to use cx-dot-spinner component
     expect(el.query(By.css('div.spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });

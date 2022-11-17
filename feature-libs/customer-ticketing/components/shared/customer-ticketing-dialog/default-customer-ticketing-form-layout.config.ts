@@ -1,13 +1,7 @@
-/*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { CustomerTicketingCloseDialogComponent } from '../../details/customer-ticketing-close';
-import { CustomerTicketingCreateDialogComponent } from '../../list/customer-ticketing-create';
-import { CustomerTicketingReopenDialogComponent } from '../../details/customer-ticketing-reopen';
+import { CustomerTicketingCloseDialogComponent } from '../../customer-ticketing-close';
+import { CustomerTicketingCreateDialogComponent } from '../../customer-ticketing-create';
+import { CustomerTicketingReopenDialogComponent } from '../../customer-ticketing-reopen';
 
 export const defaultCustomerTicketingFormLayoutConfig: LayoutConfig = {
   launch: {

@@ -1,0 +1,35 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "asm-${version}",
+    "commitMessage": "Bumping asm version to ${version}",
+    "tagAnnotation": "Bumping asm version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/asm"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:asm"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/asm@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib asm --to asm-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

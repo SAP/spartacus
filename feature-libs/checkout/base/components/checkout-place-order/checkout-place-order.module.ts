@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -30,7 +31,7 @@ import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spin
     ReactiveFormsModule,
   ],
   providers: [
-    provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
+    provideConfig(defaultPlaceOrderSpinnerLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {

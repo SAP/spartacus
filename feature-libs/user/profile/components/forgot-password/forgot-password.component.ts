@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 
@@ -17,7 +17,7 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
 export class ForgotPasswordComponent {
   constructor(protected service: ForgotPasswordComponentService) {}
 
-  form: UntypedFormGroup = this.service.form;
+  form: FormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {

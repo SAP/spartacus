@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UserAddressService,
@@ -18,7 +17,6 @@ import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressFormModule } from './address-form/address-form.module';
-import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
 @NgModule({
   imports: [
@@ -27,7 +25,6 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     AddressFormModule,
     SpinnerModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
@@ -40,7 +37,6 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
         },
       },
     }),
-    provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
     UserAddressService,
   ],
 })

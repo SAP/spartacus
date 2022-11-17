@@ -4,61 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  ChangeDetectionStrategy,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { CustomerCoupon } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 
 @Component({
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CouponDialogComponent implements OnDestroy, OnInit {
-  private subscription = new Subscription();
+export class CouponDialogComponent {
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
 
-  focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
-  };
+  @ViewChild('dialog', { read: ElementRef })
+  dialog: ElementRef;
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
-    }
-  }
+  constructor(protected modalService: ModalService) {}
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.launchDialogService.data$.subscribe((data) => {
-        this.coupon = data.coupon;
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  close(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
+  dismissModal(reason?: any): void {
+    this.modalService.dismissActiveModal(reason);
   }
 }

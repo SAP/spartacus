@@ -11,7 +11,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  UntypedFormControl,
+  FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -20,6 +20,7 @@ import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -29,6 +30,13 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
 }
 @Directive({
   selector: '[cxOutlet]',
@@ -115,6 +123,7 @@ describe('CartItemComponent', () => {
           MockPromotionsComponent,
           MockUrlPipe,
           MockFeatureLevelDirective,
+          MockModalDirective,
           MockOutletDirective,
         ],
         providers: [
@@ -135,7 +144,7 @@ describe('CartItemComponent', () => {
       product: mockProduct,
       updateable: true,
     };
-    cartItemComponent.quantityControl = new UntypedFormControl('1');
+    cartItemComponent.quantityControl = new FormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
     spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
@@ -198,7 +207,7 @@ describe('CartItemComponent', () => {
 
     it('should push change of input "quantityControl" to context', () => {
       spyOn(cartItemContextSource.quantityControl$, 'next');
-      cartItemComponent.quantityControl = new UntypedFormControl(2);
+      cartItemComponent.quantityControl = new FormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
           currentValue: cartItemComponent.quantityControl,

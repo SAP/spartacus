@@ -5,11 +5,7 @@
  */
 
 import { Component, Input, OnDestroy } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
@@ -24,7 +20,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
   @Input() email: string;
 
   subscription: Subscription;
-  guestRegisterForm: UntypedFormGroup = this.fb.group(
+  guestRegisterForm: FormGroup = this.fb.group(
     {
       password: [
         '',
@@ -44,7 +40,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected userRegisterFacade: UserRegisterFacade,
     protected routingService: RoutingService,
     protected authService: AuthService,
-    protected fb: UntypedFormBuilder
+    protected fb: FormBuilder
   ) {}
 
   submit() {

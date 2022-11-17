@@ -5,11 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -42,13 +38,13 @@ export class ResetPasswordComponentService {
       map((routerState: RouterState) => routerState.state.queryParams['token'])
     );
 
-  form: UntypedFormGroup = new UntypedFormGroup(
+  form: FormGroup = new FormGroup(
     {
-      password: new UntypedFormControl('', [
+      password: new FormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ]),
-      passwordConfirm: new UntypedFormControl('', Validators.required),
+      passwordConfirm: new FormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -72,7 +68,7 @@ export class ResetPasswordComponentService {
 
     this.busy$.next(true);
 
-    const password = (this.form.get('password') as UntypedFormControl).value;
+    const password = (this.form.get('password') as FormControl).value;
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),

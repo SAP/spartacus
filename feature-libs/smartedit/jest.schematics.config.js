@@ -5,7 +5,7 @@ module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/test-jest.ts'],
   transform: {
-    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
+    '^.+\\.ts?$': 'ts-jest',
   },
   globals: {
     'ts-jest': {

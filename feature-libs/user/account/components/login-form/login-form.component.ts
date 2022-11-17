@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -17,7 +17,7 @@ import { LoginFormComponentService } from './login-form-component.service';
 export class LoginFormComponent {
   constructor(protected service: LoginFormComponentService) {}
 
-  form: UntypedFormGroup = this.service.form;
+  form: FormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   @HostBinding('class.user-form') style = true;

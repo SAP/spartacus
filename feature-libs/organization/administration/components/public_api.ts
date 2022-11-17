@@ -12,7 +12,3 @@ export * from './shared/index';
 export * from './unit/index';
 export * from './user-group/index';
 export * from './user/index';
-
-/** AUGMENTABLE_TYPES_START */
-export { OrganizationTableType } from './shared/organization.model';
-/** AUGMENTABLE_TYPES_END */

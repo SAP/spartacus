@@ -4,7 +4,7 @@ describe('CDC', () => {
   Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
   });
-  describe('Register with Screenset', () => {
+  describe('Register', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
@@ -16,44 +16,20 @@ describe('CDC', () => {
     });
   });
 
-  describe('Register with Native UI', () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-    });
-
-    it('should register and redirect to home page', () => {
-      cdc.registerUserWithoutScreenSet();
-      cdc.verifyLoginOrRegistrationSuccess();
-    });
-  });
-
-  describe('Login existing Customer with Screenset', () => {
+  describe('Login existing Customer', () => {
     before(() => {
       cy.visit('/cdc/login');
     });
 
     it('should login and redirect to home page', () => {
-      cdc.loginUser();
+      cdc.login();
       cdc.verifyLoginOrRegistrationSuccess();
     });
   });
-
-  describe('Login existing Customer with Native UI', () => {
-    before(() => {
-      cy.visit('/login');
-    });
-
-    it('should login and redirect to home page', () => {
-      cdc.loginWithoutScreenSet();
-      cdc.verifyLoginOrRegistrationSuccess();
-    });
-  });
-
   describe('Update profile', () => {
     before(() => {
       cy.visit('/cdc/login');
-      cdc.loginUser();
+      cdc.login();
     });
 
     it('should update profile', () => {

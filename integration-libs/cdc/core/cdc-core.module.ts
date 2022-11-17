@@ -7,10 +7,9 @@
 import { NgModule } from '@angular/core';
 import { CdcAuthModule } from './auth/cdc-auth.module';
 import { facadeProviders } from './auth/facade/facade-providers';
-import { CdcEventModule } from './events/cdc-event.module';
 
 @NgModule({
-  imports: [CdcAuthModule, CdcEventModule],
+  imports: [CdcAuthModule],
   providers: [...facadeProviders],
 })
 export class CdcCoreModule {}

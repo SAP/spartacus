@@ -12,7 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -29,7 +29,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 {
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
-  @Input() expMode: boolean;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
@@ -39,17 +38,17 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     super();
   }
 
-  attributeCheckBoxForms = new Array<UntypedFormControl>();
+  attributeCheckBoxForms = new Array<FormControl>();
 
   ngOnInit() {
     const values = this.attribute.values;
     if (values) {
       for (const value of values) {
-        let attributeCheckBoxForm: UntypedFormControl;
+        let attributeCheckBoxForm: FormControl;
         if (value.selected) {
-          attributeCheckBoxForm = new UntypedFormControl(true);
+          attributeCheckBoxForm = new FormControl(true);
         } else {
-          attributeCheckBoxForm = new UntypedFormControl(false);
+          attributeCheckBoxForm = new FormControl(false);
         }
         this.attributeCheckBoxForms.push(attributeCheckBoxForm);
       }

@@ -26,10 +26,6 @@ export const configurator = {
       reviewWarnings: 'Review these warnings',
       multipleErrors: 'There are multiple errors.',
       reviewErrors: 'Review these errors',
-      kbKeyName: 'Kb name',
-      kbKeyLogsys: 'Kb logical system',
-      kbKeyVersion: 'Kb version',
-      kbKeyBuildNr: 'Kb build number',
     },
     tabBar: {
       configuration: 'Configuration',
@@ -59,7 +55,6 @@ export const configurator = {
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
       noOptionSelectedMsg: 'No option selected',
-      notVisibleAttributeMsg: 'This attribute is not visible to the user',
     },
     button: {
       previous: 'Previous',
@@ -186,10 +181,6 @@ export const configurator = {
       productName: 'Product Name',
       productCode: 'Product Code',
       productDescription: 'Product description',
-      kbKeyName: 'Kb name {{name}}',
-      kbKeyLogsys: 'Kb logical system {{logsys}}',
-      kbKeyVersion: 'Kb version {{version}}',
-      kbKeyBuildNr: 'Kb build number {{number}}',
       configurationPage: 'You are on the configuration page.',
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage:

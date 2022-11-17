@@ -13,7 +13,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit, OnDestroy
 {
-  attributeInputForm = new UntypedFormControl('');
+  attributeInputForm = new FormControl('');
   protected sub: Subscription;
 
   @Input() ownerType: CommonConfigurator.OwnerType;

@@ -7,7 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, CmsConfig } from '@spartacus/core';
+import {
+  provideConfig,
+  I18nModule,
+  provideDefaultConfig,
+  CmsConfig,
+} from '@spartacus/core';
 import {
   CarouselModule,
   IconModule,
@@ -34,7 +39,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     RouterModule,
   ],
   providers: [
-    provideDefaultConfig(defaultProductImageZoomLayoutConfig),
+    provideConfig(defaultProductImageZoomLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductImagesComponent: {

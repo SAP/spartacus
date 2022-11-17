@@ -5,13 +5,14 @@
  */
 
 import deepEqual from 'deep-equal';
-import * as common from './common';
+import * as fs from 'fs';
+import stringifyObject from 'stringify-object';
 
 /**
  * This script generated the constructor deprecation schematics entries.
  *
- * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the major version config.`
- * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a ts file that contains migration data ready to be imported by the schematics.
+ * Input: A breaking changes file, likely `./data/breaking-changes.json`
+ * Output: A file, `generate-constructors.out.ts`, that contains a ConstructorDeprecation[] array to paste over in the migration schematics code.
  *
  * Some use cases need a manual review/fixing after the generation.
  *
@@ -31,10 +32,16 @@ import * as common from './common';
  * Main logic
  * -----------
  */
-const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/constructor-deprecations/data/generated-constructor.migration.ts`;
-const OUTPUT_FILE_TEMPLATE_PATH = `generate-constructors.out.template`;
 
-const breakingChangesData = common.readBreakingChangeFile();
+const breakingChangesFile = process.argv[2];
+
+const breakingChangesData = JSON.parse(
+  fs.readFileSync(breakingChangesFile, 'utf-8')
+);
+
+console.log(
+  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
+);
 
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {
@@ -67,12 +74,11 @@ apiElementsWithConstructorChanges.forEach((apiElement: any) => {
 console.log(
   `Generated ${constructorSchematics.length} constructor schematics entries.`
 );
-
-common.writeSchematicsDataOutput(
-  OUTPUT_FILE_PATH,
-  OUTPUT_FILE_TEMPLATE_PATH,
-  constructorSchematics
+fs.writeFileSync(
+  `generate-constructors.out.ts`,
+  stringifyObject(constructorSchematics)
 );
+
 /**
  * -----------
  * Functions
@@ -92,11 +98,11 @@ function getSchematicsData(apiElement: any, constructorChanges: any): any {
   schematicsData.class = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
   schematicsData.deprecatedParams =
-    constructorChanges.old.parameters.map(toSchematicsParam);
+    constructorChanges.details.oldParams.map(toSchematicsParam);
   schematicsData.removeParams =
-    constructorChanges.old.parameters.map(toSchematicsParam);
+    constructorChanges.details.oldParams.map(toSchematicsParam);
   schematicsData.addParams =
-    constructorChanges.new.parameters.map(toSchematicsParam);
+    constructorChanges.details.newParams.map(toSchematicsParam);
 
   return schematicsData;
 }
@@ -110,7 +116,7 @@ function toSchematicsParam(param: any) {
 
 function schematicsParamsAreEqual(constructorChanges: any): boolean {
   return deepEqual(
-    constructorChanges.old.parameters.map(toSchematicsParam),
-    constructorChanges.new.parameters.map(toSchematicsParam)
+    constructorChanges.details.oldParams.map(toSchematicsParam),
+    constructorChanges.details.newParams.map(toSchematicsParam)
   );
 }

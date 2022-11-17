@@ -10,11 +10,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -46,7 +42,7 @@ import { UserItemService } from '../services/user-item.service';
   ],
 })
 export class UserFormComponent implements OnInit {
-  form: UntypedFormGroup | null = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   /**
    * Initialize the business unit for the user.
@@ -88,17 +84,17 @@ export class UserFormComponent implements OnInit {
   updateRoles(event: MouseEvent) {
     const { checked, value } = event.target as HTMLInputElement;
     if (checked) {
-      this.roles.push(new UntypedFormControl(value));
+      this.roles.push(new FormControl(value));
     } else {
       this.roles.removeAt(this.roles.value.indexOf(value));
     }
   }
 
-  get roles(): UntypedFormArray {
-    return this.form?.get('roles') as UntypedFormArray;
+  get roles(): FormArray {
+    return this.form?.get('roles') as FormArray;
   }
 
-  get isAssignedToApprovers(): UntypedFormControl {
-    return this.form?.get('isAssignedToApprovers') as UntypedFormControl;
+  get isAssignedToApprovers(): FormControl {
+    return this.form?.get('isAssignedToApprovers') as FormControl;
   }
 }

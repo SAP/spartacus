@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsComponent } from '../../../model/cms.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
@@ -15,7 +14,7 @@ export const initialState: ComponentsContext = {
   pageContext: {},
 };
 
-function componentExistsReducer<T extends CmsComponent>(
+function componentExistsReducer<T>(
   state: boolean | undefined,
   action: CmsActions.CmsComponentAction<T>
 ): boolean | undefined {
@@ -30,7 +29,7 @@ function componentExistsReducer<T extends CmsComponent>(
   return state;
 }
 
-export function reducer<T extends CmsComponent>(
+export function reducer<T>(
   state = initialState,
   action: CmsActions.CmsComponentAction<T>
 ): ComponentsContext {

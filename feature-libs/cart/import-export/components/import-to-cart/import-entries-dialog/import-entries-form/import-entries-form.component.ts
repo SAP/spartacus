@@ -12,11 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import {
@@ -35,7 +31,7 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntriesFormComponent implements OnInit {
-  form: UntypedFormGroup;
+  form: FormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
 
@@ -97,11 +93,11 @@ export class ImportEntriesFormComponent implements OnInit {
     }
   }
 
-  protected buildForm(): UntypedFormGroup {
-    const form = new UntypedFormGroup({});
+  protected buildForm(): FormGroup {
+    const form = new FormGroup({});
     form.setControl(
       'file',
-      new UntypedFormControl(
+      new FormControl(
         '',
         [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [

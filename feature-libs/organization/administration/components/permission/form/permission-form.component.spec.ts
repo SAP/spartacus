@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -26,18 +22,18 @@ import { PermissionFormComponent } from './permission-form.component';
 
 import createSpy = jasmine.createSpy;
 
-const mockForm = new UntypedFormGroup({
-  code: new UntypedFormControl(),
-  periodRange: new UntypedFormControl(),
-  threshold: new UntypedFormControl(),
-  orderApprovalPermissionType: new UntypedFormGroup({
-    code: new UntypedFormControl(),
+const mockForm = new FormGroup({
+  code: new FormControl(),
+  periodRange: new FormControl(),
+  threshold: new FormControl(),
+  orderApprovalPermissionType: new FormGroup({
+    code: new FormControl(),
   }),
-  currency: new UntypedFormGroup({
-    isocode: new UntypedFormControl(),
+  currency: new FormGroup({
+    isocode: new FormControl(),
   }),
-  orgUnit: new UntypedFormGroup({
-    uid: new UntypedFormControl(),
+  orgUnit: new FormGroup({
+    uid: new FormControl(),
   }),
 });
 

@@ -5,11 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -29,7 +25,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
-  couponForm: UntypedFormGroup;
+  couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
@@ -43,7 +39,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   constructor(
     protected cartVoucherService: CartVoucherFacade,
-    protected formBuilder: UntypedFormBuilder,
+    protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
     protected activeCartService: ActiveCartFacade
   ) {}

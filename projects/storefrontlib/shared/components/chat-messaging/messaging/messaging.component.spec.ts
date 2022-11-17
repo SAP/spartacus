@@ -41,7 +41,6 @@ describe('MessagingComponent', () => {
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
     component.messageEvents$ = of(mockMessageEvents);
-    component.messagingConfigs = { displayAddMessageSection: of(true) };
     fixture.detectChanges();
   });
 
@@ -63,21 +62,6 @@ describe('MessagingComponent', () => {
     component.form.get('message')?.setValue('mockMessage');
     component.onSend();
 
-    expect(component.send.emit).toHaveBeenCalledWith({
-      files: '' as unknown as File,
-      message: 'mockMessage',
-    });
-  });
-
-  it('should emit trigger downloadAttachment event', () => {
-    spyOn(component.downloadAttachment, 'emit');
-    component.form.get('message')?.setValue('mockMessage');
-    component.triggerDownload('mockCode', 'mockId', 'mockName');
-
-    expect(component.downloadAttachment.emit).toHaveBeenCalledWith({
-      messageCode: 'mockCode',
-      attachmentId: 'mockId',
-      fileName: 'mockName',
-    });
+    expect(component.send.emit).toHaveBeenCalled();
   });
 });

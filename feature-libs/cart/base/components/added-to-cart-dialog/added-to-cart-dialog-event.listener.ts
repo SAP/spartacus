@@ -10,9 +10,9 @@ import {
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +20,11 @@ import { take } from 'rxjs/operators';
 export class AddedToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
+  protected modalRef: ModalRef;
+
   constructor(
     protected eventService: EventService,
-    protected launchDialogService: LaunchDialogService
+    protected modalService: ModalService
   ) {
     this.onAddToCart();
   }
@@ -42,26 +44,23 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   }
 
   protected openModal(event: CartUiEventAddToCart): void {
-    const addToCartData = {
-      productCode: event.productCode,
-      quantity: event.quantity,
-      numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
-    };
-
-    const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.ADDED_TO_CART,
-      undefined,
-      undefined,
-      addToCartData
+    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
+      centered: true,
+      size: 'lg',
+    });
+    const modalInstance = this.modalRef.componentInstance;
+    modalInstance.init(
+      event.productCode,
+      event.quantity,
+      event.numberOfEntriesBeforeAdd
     );
-
-    if (dialog) {
-      dialog.pipe(take(1)).subscribe();
-    }
   }
 
-  protected closeModal(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
+  protected closeModal(event: CartAddEntryFailEvent): void {
+    if (this.modalService.getActiveModal() === this.modalRef) {
+      const modalInstance = this.modalRef.componentInstance;
+      modalInstance.dismissModal(event.error);
+    }
   }
 
   ngOnDestroy(): void {

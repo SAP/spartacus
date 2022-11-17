@@ -3,7 +3,6 @@
 # compiled output
 /dist
 /tmp
-/temp
 /out-tsc
 /documentation
 
@@ -44,9 +43,6 @@ scripts/install/config.sh
 
 # Coverage reports
 **/coverage
-
-# Unit test reports
-**/unit-tests-reports
 
 # misc
 /.angular/cache

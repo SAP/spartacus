@@ -21,7 +21,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
-  private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
+  private _dialogClose = new BehaviorSubject<string | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
   get data$(): Observable<any> {
@@ -126,11 +126,11 @@ export class LaunchDialogService {
     }
   }
 
-  get dialogClose(): Observable<any | undefined> {
+  get dialogClose(): Observable<string | undefined> {
     return this._dialogClose.asObservable();
   }
 
-  closeDialog(reason: any) {
+  closeDialog(reason: string) {
     this._dialogClose.next(reason);
   }
 

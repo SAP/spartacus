@@ -31,14 +31,6 @@ export class ConfiguratorTextfieldService {
     protected userIdService: UserIdService
   ) {}
 
-  protected ensureConfigurationDefined: (
-    value?: ConfiguratorTextfield.Configuration
-  ) => ConfiguratorTextfield.Configuration = (configuration) =>
-    configuration ?? {
-      configurationInfos: [],
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
-
   /**
    * Creates a default textfield configuration for a product specified by the configuration owner.
    *
@@ -69,7 +61,13 @@ export class ConfiguratorTextfieldService {
       map((configurationState) => configurationState.loaderState.value),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
       //save to assume configuration is defined, see previous filter
-      map(this.ensureConfigurationDefined)
+      map(
+        (configuration) =>
+          configuration ?? {
+            configurationInfos: [],
+            owner: ConfiguratorModelUtils.createInitialOwner(),
+          }
+      )
     );
   }
 
@@ -208,7 +206,14 @@ export class ConfiguratorTextfieldService {
               (configuration) => !this.isConfigurationInitial(configuration)
             ),
             //save to assume that the configuration exists, see previous filter
-            map(this.ensureConfigurationDefined)
+            map((configuration) =>
+              configuration
+                ? configuration
+                : {
+                    configurationInfos: [],
+                    owner: ConfiguratorModelUtils.createInitialOwner(),
+                  }
+            )
           )
       )
     );
@@ -240,7 +245,14 @@ export class ConfiguratorTextfieldService {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationContent),
       filter((configuration) => !this.isConfigurationInitial(configuration)),
-      map(this.ensureConfigurationDefined)
+      map((configuration) =>
+        configuration
+          ? configuration
+          : {
+              configurationInfos: [],
+              owner: ConfiguratorModelUtils.createInitialOwner(),
+            }
+      )
     );
   }
   /**

@@ -10,6 +10,9 @@
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
+ *
+ * To do:
+ * - sonar cloud configuration
  */
 
 import chalk from 'chalk';
@@ -55,7 +58,7 @@ function logViolation(
   violation: string,
   [help, ...extraHelp]: string[]
 ): void {
-  const minLength = 76;
+  let minLength = 76;
   console.log(`
 ${chalk.gray(
   `--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`
@@ -243,8 +246,8 @@ const repository = librariesPaths
     const ngPackageFilesPaths = glob.sync(`${directory}/**/${NG_PACKAGE_JSON}`);
     const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
       const ngPackageFileContent = readJsonFile(ngPackagePath);
-      const pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
-      const pathWithoutNgPackage = pathWithoutLibDirectory.substring(
+      let pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
+      let pathWithoutNgPackage = pathWithoutLibDirectory.substring(
         0,
         pathWithoutLibDirectory.length - `/${NG_PACKAGE_JSON}`.length
       );

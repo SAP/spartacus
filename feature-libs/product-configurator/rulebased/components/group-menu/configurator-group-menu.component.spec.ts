@@ -38,8 +38,6 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -203,7 +201,6 @@ let isConflictGroupType: boolean;
 let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
-let configExpertModeService: ConfiguratorExpertModeService;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -234,6 +231,7 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
+
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -287,10 +285,6 @@ describe('ConfigurationGroupMenuComponent', () => {
       DirectionService as Type<DirectionService>
     );
     spyOn(directionService, 'getDirection').and.callThrough();
-
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
   });
 
   it('should create component', () => {
@@ -1519,61 +1513,6 @@ describe('ConfigurationGroupMenuComponent', () => {
         'aria-label',
         'configurator.a11y.iconComplete'
       );
-    });
-  });
-
-  describe('getGroupMenuTitle', () => {
-    it('should return only group description as title when expert mode is off', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
-      );
-      initialize();
-
-      expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
-      ).toEqual(mockProductConfiguration.groups[0].description);
-    });
-
-    it('should return group description and name as title when expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      initialize();
-
-      const groupMenuTitle =
-        mockProductConfiguration.groups[0].description +
-        ' / [' +
-        mockProductConfiguration.groups[0].name +
-        ']';
-      expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
-      ).toEqual(groupMenuTitle);
-    });
-
-    it('should return only conflict header group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
-      initialize();
-
-      expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
-        configForExpMode.groups[0].description
-      );
-    });
-
-    it('should return only conflict group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
-      initialize();
-
-      expect(
-        component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0])
-      ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
 });

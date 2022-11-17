@@ -1,0 +1,36 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "organization-${version}",
+    "commitMessage": "Bumping organization version to ${version}",
+    "tagAnnotation": "Bumping organization version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/organization"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:organization"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/organization@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib organization --to organization-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/user"
+          ]
+        }
+      ]
+    }
+  }
+}

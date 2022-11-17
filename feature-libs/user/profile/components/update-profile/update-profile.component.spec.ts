@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -29,11 +25,11 @@ class MockUpdateProfileService
 {
   user$ = of({});
   titles$ = of([]);
-  form: UntypedFormGroup = new UntypedFormGroup({
-    customerId: new UntypedFormControl(),
-    titleCode: new UntypedFormControl(),
-    firstName: new UntypedFormControl(),
-    lastName: new UntypedFormControl(),
+  form: FormGroup = new FormGroup({
+    customerId: new FormControl(),
+    titleCode: new FormControl(),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
   });
   isUpdating$ = isBusySubject;
   updateProfile = createSpy().and.stub();

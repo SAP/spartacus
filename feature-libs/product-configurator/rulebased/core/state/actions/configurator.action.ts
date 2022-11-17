@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Action } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
@@ -55,9 +54,6 @@ export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
-
-export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
-  '[Configurator] Remove product bound configurations';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -273,13 +269,6 @@ export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class RemoveProductBoundConfigurations implements Action {
-  readonly type = REMOVE_PRODUCT_BOUND_CONFIGURATIONS;
-  constructor() {
-    // Intentional Empty Constructor
-  }
-}
-
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -304,5 +293,4 @@ export type ConfiguratorAction =
   | SetInteractionState
   | SetMenuParentGroup
   | SetCurrentGroup
-  | SetGroupsVisited
-  | RemoveProductBoundConfigurations;
+  | SetGroupsVisited;

@@ -11,7 +11,7 @@ class MockAsmService {
     return of(mockAsmUi);
   }
 
-  updateAsmUiState(_asmUi: unknown): void {}
+  updateAsmUiState(_asmUi): void {}
 }
 
 const mockAsmUi: AsmUi = {

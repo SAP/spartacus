@@ -232,7 +232,7 @@ describe('add-spartacus', () => {
     });
 
     describe('currency', () => {
-      it('should set no currency when not provided', async () => {
+      it('should set the default currency when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -246,7 +246,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`currency: `)).toBe(false);
+        expect(appModule.includes(`currency: ['USD']`)).toBe(true);
       });
       it('should set the single currency', async () => {
         const tree = await schematicRunner
@@ -284,7 +284,7 @@ describe('add-spartacus', () => {
       });
     });
     describe('language', () => {
-      it('should set no language when not provided', async () => {
+      it('should set the default language when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -298,7 +298,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: `)).toBe(false);
+        expect(appModule.includes(`language: ['en']`)).toBe(true);
       });
       it('should set the single language', async () => {
         const tree = await schematicRunner
@@ -413,7 +413,7 @@ describe('add-spartacus', () => {
     const stylesFile = tree.readContent(
       '/projects/schematics-test/src/styles.scss'
     );
-    expect(stylesFile.includes(`@import '@spartacus/styles/index';`)).toBe(
+    expect(stylesFile.includes(`@import '~@spartacus/styles/index';`)).toBe(
       true
     );
   });
@@ -430,7 +430,7 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/styles.scss'
     );
     expect(
-      stylesFile.includes(`@import '@spartacus/styles/scss/theme/santorini';`)
+      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
     ).toBe(true);
   });
 

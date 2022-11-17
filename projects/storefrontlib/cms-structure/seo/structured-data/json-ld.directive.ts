@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 
 /**
@@ -26,24 +27,25 @@ export class JsonLdDirective {
    * Writes the schema data to a json-ld script element.
    */
   @Input() set cxJsonLd(schema: string | {}) {
-    this.generateJsonLdScript(schema);
+    this.jsonLD = this.generateJsonLdScript(schema);
   }
 
+  @HostBinding('innerHTML') jsonLD: SafeHtml | undefined;
+
   constructor(
-    protected renderer: Renderer2,
     protected jsonLdScriptFactory: JsonLdScriptFactory,
-    protected element: ElementRef
+    protected sanitizer: DomSanitizer
   ) {}
 
   /**
-   * attach the json-ld script tag to DOM with the schema data secured by encoding html tags (aka escaping)
+   * Returns the json-ld script tag with the schema data. The script is
+   * _bypassing_ sanitization explicitly.
    */
-  protected generateJsonLdScript(schema: string | {}): void {
+  protected generateJsonLdScript(schema: string | {}): SafeHtml | undefined {
     if (schema && this.jsonLdScriptFactory.isJsonLdRequired()) {
-      const script: HTMLScriptElement = this.renderer.createElement('script');
-      script.type = 'application/ld+json';
-      script.textContent = this.jsonLdScriptFactory.escapeHtml(schema);
-      this.renderer.appendChild(this.element.nativeElement, script);
+      const sanitizedSchema = this.jsonLdScriptFactory.sanitize(schema);
+      const html = `<script type="application/ld+json">${sanitizedSchema}</script>`;
+      return this.sanitizer.bypassSecurityTrustHtml(html);
     }
   }
 }
