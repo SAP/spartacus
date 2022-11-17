@@ -74,6 +74,7 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
+    customer360Button: '360 Customer View',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
