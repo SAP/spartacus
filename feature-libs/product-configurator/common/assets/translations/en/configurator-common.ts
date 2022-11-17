@@ -97,6 +97,9 @@ export const configurator = {
     overviewMenu: {
       title: 'Menu',
     },
+    overviewFilter: {
+      title: 'Filter',
+    },
     group: {
       general: 'General',
       conflictHeader: 'Resolve conflicts',

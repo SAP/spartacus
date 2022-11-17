@@ -76,6 +76,8 @@ class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(): string {
     return OV_GROUP_ID;
   }
+  getElement(): void {}
+  changeStyling(): void {}
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -99,6 +101,8 @@ function initialize() {
     configuratorStorefrontUtilsService,
     'scrollToConfigurationElement'
   ).and.callThrough();
+  spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
+  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.callThrough();
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -157,13 +161,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should render ghost menu as long as the data is not ready', () => {
     defaultConfigObservable = of(CONFIGURATION_WO_OVERVIEW);
     initialize();
-    expect(htmlElem.innerHTML).toContain('cx-ghost-group-menu');
+    expect(htmlElem.innerHTML).toContain('cx-ghost-menu');
   });
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
       initialize();
       const styleClass = component.getGroupLevelStyleClasses(4);
-      expect(styleClass).toBe('cx-group groupLevel4');
+      expect(styleClass).toBe('cx-menu-group groupLevel4');
     });
   });
 

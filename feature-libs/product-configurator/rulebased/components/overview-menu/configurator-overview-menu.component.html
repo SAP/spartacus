@@ -1,17 +1,25 @@
 <ng-container *ngIf="ovGroups$ | async as ovGroups; else ghostMenu">
-  <span class="cx-title">{{
-    'configurator.overviewMenu.title' | cxTranslate
-  }}</span>
-  <ng-container
-    *ngTemplateOutlet="
-      groups;
-      context: {
-        overviewGroups: ovGroups,
-        level: 1,
-        idPrefix: ''
-      }
-    "
-  ></ng-container>
+  <div class="cx-sticky-menu">
+    <div class="cx-menu-bar">
+      <button role="tab" class="active">
+        {{ 'configurator.overviewMenu.title' | cxTranslate }}
+      </button>
+
+      <button role="tab">
+        {{ 'configurator.overviewFilter.title' | cxTranslate }}
+      </button>
+    </div>
+    <ng-container
+      *ngTemplateOutlet="
+        groups;
+        context: {
+          overviewGroups: ovGroups,
+          level: 1,
+          idPrefix: ''
+        }
+      "
+    ></ng-container>
+  </div>
 </ng-container>
 
 <ng-template
@@ -36,7 +44,9 @@
         role="tab"
         (click)="navigateToGroup(idPrefix, group.id)"
       >
-        {{ group.groupDescription }}
+        <span title="{{ group.groupDescription }}">
+          {{ group.groupDescription }}</span
+        >
       </button>
       <ng-container *ngIf="group.subGroups?.length > 0">
         <ng-container
@@ -55,30 +65,51 @@
 </ng-template>
 
 <ng-template #ghostMenu>
-  <div class="cx-ghost-group-menu">
-    <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l1 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0, 1, 2]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l2 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l3 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0, 1, 2, 3]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l4 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l1 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title-sub-l2 cx-ghost-item-title"></div>
-    </div>
-    <div *ngFor="let number of [0]" class="cx-ghost-menu-item">
-      <div class="cx-ghost-item-title"></div>
-    </div>
+  <div class="cx-ghost-menu">
+    <div class="cx-ghost-menu-bar ghost"></div>
+    <ng-container *ngFor="let number of [0, 1]">
+      <ng-container *ngFor="let number of [0, 1, 2]; let i = index">
+        <div class="cx-ghost-menu-level1">
+          <div class="cx-ghost-menu-item">
+            <div class="cx-ghost-menu-item-title ghost"></div>
+          </div>
+
+          <ng-container *ngIf="i == 0">
+            <div class="cx-ghost-menu-level2">
+              <div
+                *ngFor="let number of [0, 1, 2, 3]"
+                class="cx-ghost-menu-item"
+              >
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="i == 1">
+            <div class="cx-ghost-menu-level2">
+              <div *ngFor="let number of [0, 1, 2]" class="cx-ghost-menu-item">
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+              <div class="cx-ghost-menu-level3">
+                <div
+                  *ngFor="let number of [0, 1, 2]"
+                  class="cx-ghost-menu-item"
+                >
+                  <div class="cx-ghost-menu-item-title ghost"></div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="i == 2">
+            <div class="cx-ghost-menu-level1">
+              <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </ng-template>
