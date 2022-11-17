@@ -332,6 +332,17 @@ export class VariantConfiguratorOccAdapter
       );
   }
 
+  //TODO CHHI introduce serializer
+  protected convertCsticFilters(
+    ov: Configurator.Overview
+  ): OccConfigurator.OverviewFilter[] {
+    const result: OccConfigurator.OverviewFilter[] = [];
+    ov.attributeFilters?.forEach((filter) => {
+      result.push({ key: filter, selected: true });
+    });
+    return result;
+  }
+
   updateConfigurationOverview(
     ovInput: Configurator.Overview
   ): Observable<Configurator.Overview> {
@@ -343,7 +354,7 @@ export class VariantConfiguratorOccAdapter
     const occOverview: OccConfigurator.Overview = {
       id: ovInput.configId,
       productCode: ovInput.productCode,
-      attributeFilters: ovInput.attributeFilters,
+      appliedCsticFilter: this.convertCsticFilters(ovInput),
       groupFilters: ovInput.groupFilters,
     };
     return this.http
