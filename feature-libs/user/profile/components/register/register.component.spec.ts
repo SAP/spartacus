@@ -18,8 +18,13 @@ import {
   OAuthFlow,
   RoutingService,
   Title,
+  BaseSite,
+  SiteAdapter,
+  BaseSiteService,
+  LanguageService,
 } from '@spartacus/core';
 import {
+  CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
@@ -112,6 +117,30 @@ class MockRegisterComponentService
   postRegisterMessage = createSpy();
 }
 
+class MockSiteAdapter {
+  public loadBaseSite(siteUid?: string): Observable<BaseSite> {
+    return of<BaseSite>({
+      uid: siteUid,
+      captchaConfig: {
+        enabled: true,
+        publicKey: 'mock-key',
+      },
+    });
+  }
+}
+
+class MockBaseSiteService {
+  getActive(): Observable<string> {
+    return of('mock-site');
+  }
+}
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('mock-lang');
+  }
+}
+
 describe('RegisterComponent', () => {
   let controls: any;
   let component: RegisterComponent;
@@ -135,6 +164,7 @@ describe('RegisterComponent', () => {
           NgSelectModule,
           PasswordVisibilityToggleModule,
           NgSelectA11yModule,
+          CaptchaModule,
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [
@@ -162,6 +192,9 @@ describe('RegisterComponent', () => {
             provide: AuthConfigService,
             useClass: MockAuthConfigService,
           },
+          { provide: SiteAdapter, useClass: MockSiteAdapter },
+          { provide: BaseSiteService, useClass: MockBaseSiteService },
+          { provide: LanguageService, useClass: MockLanguageService },
         ],
       }).compileComponents();
     })
@@ -338,6 +371,42 @@ describe('RegisterComponent', () => {
       spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
+    });
+  });
+
+  describe('captcha', () => {
+    let captchaComponent;
+    beforeEach(() => {
+      captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
+      spyOn(component, 'registerUser').and.callThrough();
+      component.registerForm.patchValue(mockRegisterFormData);
+    });
+
+    it('should create captcha component', () => {
+      expect(captchaComponent).toBeTruthy();
+    });
+
+    it('should enable captcha', () => {
+      spyOn(component, 'captchaEnabled').and.callThrough();
+
+      captchaComponent.triggerEventHandler('enabled', true);
+      component.submitForm();
+
+      expect(component.captchaEnabled).toHaveBeenCalledWith(true);
+      expect(component.captchaControl.valid).toEqual(false);
+      expect(component.registerUser).toHaveBeenCalledTimes(0);
+    });
+
+    it('should confirm captcha', () => {
+      spyOn(component, 'captchaConfirmed').and.callThrough();
+
+      captchaComponent.triggerEventHandler('enabled', true);
+      captchaComponent.triggerEventHandler('confirmed', true);
+      component.submitForm();
+
+      expect(component.captchaConfirmed).toHaveBeenCalledWith(true);
+      expect(component.captchaControl.valid).toEqual(true);
+      expect(component.registerUser).toHaveBeenCalledTimes(1);
     });
   });
 });

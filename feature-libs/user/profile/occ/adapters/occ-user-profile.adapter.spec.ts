@@ -5,11 +5,13 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
+  CaptchaConfig,
   ConverterService,
   DynamicAttributes,
   Occ,
   OccConfig,
   OccEndpointsService,
+  USE_CAPTCHA_TOKEN,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import {
@@ -19,6 +21,8 @@ import {
 } from '@spartacus/user/profile/core';
 import { UserSignUp } from '@spartacus/user/profile/root';
 import { OccUserProfileAdapter } from './occ-user-profile.adapter';
+import { Observable, of } from 'rxjs';
+import { CaptchaService } from '@spartacus/storefront';
 
 export const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -63,6 +67,20 @@ const user: User = {
   displayUid: password,
 };
 
+const mockToken = 'mock-token';
+class MockCaptchaService {
+  getCaptchaConfig(): Observable<CaptchaConfig> {
+    return of({
+      enabled: true,
+      publicKey: 'mock-key',
+    });
+  }
+
+  getToken(): string {
+    return mockToken;
+  }
+}
+
 describe('OccUserProfileAdapter', () => {
   let occUserAdapter: OccUserProfileAdapter;
   let httpMock: HttpTestingController;
@@ -79,6 +97,7 @@ describe('OccUserProfileAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: CaptchaService, useClass: MockCaptchaService },
       ],
     });
 
@@ -152,6 +171,7 @@ describe('OccUserProfileAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.headers.get(USE_CAPTCHA_TOKEN)).toEqual(mockToken);
       expect(mockReq.request.body).toEqual(userSignUp);
       mockReq.flush(userSignUp);
     });
