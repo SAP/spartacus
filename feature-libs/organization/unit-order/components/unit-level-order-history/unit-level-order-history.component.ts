@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model'
+import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
@@ -17,7 +17,6 @@ import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
@@ -60,7 +59,6 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     });
     this.fetchOrders(this.queryParams);
   }
-
 
   private updateQueryParams(partialParams: OrderHistoryQueryParams) {
     // Overwrite each value present in partialParams to _queryParams

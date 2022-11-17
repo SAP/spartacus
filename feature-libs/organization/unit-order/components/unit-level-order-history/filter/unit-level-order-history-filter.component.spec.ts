@@ -8,9 +8,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UnitLevelOrderHistoryFilterComponent ]
-    })
-    .compileComponents();
+      declarations: [UnitLevelOrderHistoryFilterComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;

@@ -34,7 +34,7 @@ export const unitOrder = {
     filterByUnitLabel: 'Unit name',
     search: 'Search',
     clearAll: 'Clear All',
-    removeAppliedFilters: 'Remove Applied Filters'
+    removeAppliedFilters: 'Remove Applied Filters',
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',

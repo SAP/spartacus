@@ -141,8 +141,8 @@
   }
 
   .cx-unit-level-order-history-unit
-  .cx-unit-level-order-history-buyer
-  .cx-unit-level-order-history-status {
+    .cx-unit-level-order-history-buyer
+    .cx-unit-level-order-history-status {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -423,13 +423,13 @@
     }
 
     input:focus {
-      background-color: white
+      background-color: white;
     }
 
     input::placeholder {
       color: lightgray;
       font-weight: $font-weight-light;
-      font-size: var(--cx-font-size, 1rem);;
+      font-size: var(--cx-font-size, 1rem);
     }
 
     .filter-button {

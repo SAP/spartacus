@@ -59,7 +59,12 @@ export class UnitOrderService implements UnitOrderFacade {
    * @param currentPage current page
    * @param sort sort
    */
-  loadOrderList(pageSize: number, currentPage?: number, filters?: string, sort?: string): void {
+  loadOrderList(
+    pageSize: number,
+    currentPage?: number,
+    filters?: string,
+    sort?: string
+  ): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         this.store.dispatch(
