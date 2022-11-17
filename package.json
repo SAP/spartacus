@@ -184,6 +184,7 @@
     "postcss-scss": "^3.0.4",
     "prettier": "~2.4.1",
     "rimraf": "^3.0.2",
+    "sass-true": "^6.1.0",
     "semver": "^7.3.5",
     "shelljs": "^0.8.5",
     "stylelint": "^13.13.1",

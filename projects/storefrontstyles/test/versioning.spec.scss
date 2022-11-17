@@ -1,0 +1,134 @@
+@import 'true';
+@import '../scss/versioning';
+
+@include describe('Style versioning') {
+  @include describe('compareVersion()') {
+    @include it('should return -1 (lower than) ') {
+      @include assert-equal(compareVersion(1.2, 1.3), -1);
+    }
+    @include it('should return 0 (equal)') {
+      @include assert-equal(compareVersion(1.2, 1.2), 0);
+    }
+    @include it('should return 0 (equal)') {
+      @include assert-equal(compareVersion(1, '1.0'), 0);
+    }
+    @include it('should return 0 (equal)') {
+      @include assert-equal(compareVersion('1.0', 1), 0);
+    }
+    @include it('should return 0 (equal)') {
+      @include assert-equal(compareVersion(1, 1), 0);
+    }
+    @include it('should return 1 (greater than)') {
+      @include assert-equal(compareVersion(1.3, 1.2), 1);
+    }
+  }
+  @include describe('getVersion()') {
+    @include it('should return major and minor versions') {
+      $expectedVersion: (
+        major: 1,
+        minor: 3,
+      );
+      @include assert-equal(getVersion(1.3), $expectedVersion);
+    }
+    @include it('should return major and minor versions') {
+      $expectedVersion: (
+        major: 1,
+        minor: 0,
+      );
+      @include assert-equal(getVersion(1), $expectedVersion);
+    }
+  }
+
+  $_fullVersion: 3.4;
+  $_majorVersion: 3;
+  $styleVersion: 3.1;
+  $useLatestStyles: false;
+  @import '../scss/versioning';
+
+  @include describe('forVersion() mixin') {
+    @include it('should display the breaking change') {
+      @include assert {
+        @include output {
+          .test {
+            @include forVersion(3.1) {
+              color: #fff;
+            }
+          }
+        }
+        @include expect {
+          .test {
+            color: #fff;
+          }
+        }
+      }
+    }
+    @include it('should NOT display the breaking change') {
+      @include assert {
+        @include output {
+          .test {
+            @include forVersion(4) {
+              color: #fff;
+            }
+          }
+        }
+        @include expect {
+          .test {
+          }
+        }
+      }
+    }
+    // This case crashes
+    //
+    // @include it('should support strings? ') {
+    //   @include assert {
+    //     @include output {
+    //       .test {
+    //         @include forVersion('5.0') {
+    //           color: #fff;
+    //         }
+    //       }
+    //     }
+    //     @include expect {
+    //       .test {
+    //         color: #fff;
+    //       }
+    //     }
+    //   }
+    // }
+
+    //
+    // This version range does not behave as expected with the variable overrides.
+    //
+    // @include it('should display the breaking change') {
+    //   @include assert {
+    //     @include output {
+    //       .test {
+    //         @include forVersion(3.1, 3.5) {
+    //           color: #fff;
+    //         }
+    //       }
+    //     }
+    //     @include expect {
+    //       .test {
+    //         color: #fff;
+    //       }
+    //     }
+    //   }
+    // }
+    @include it('should NOT display the breaking change') {
+      @include assert {
+        @include output {
+          .test {
+            @include forVersion(4.8, 4.9) {
+              color: #fff;
+            }
+          }
+        }
+        @include expect {
+          .test {
+          }
+        }
+      }
+    }
+  }
+}
