@@ -3,28 +3,23 @@
 // PROXY SERVER FOR DELAYING SOME OCC BACKEND RESPONSES
 // ONLY FOR TESTING PURPOSES
 
-var httpProxy = require('http-proxy');
-var http = require('http');
+const httpProxy = require('http-proxy');
+const http = require('http');
 
-var proxy = httpProxy.createProxyServer({ secure: false });
+const proxy = httpProxy.createProxyServer({ secure: false });
+
+const ENDPOINT_FOR_DELAY = 'components';
+const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
+const DELAY = 6_000;
 
 /** custom predicate, whether we should delay a request */
-var shouldDelay = (req) => {
-  // Note: Usually there are 2 requests: preflight (OPTIONS) and actual request (GET).
-  //
-  // The OPTIONS request can return an `etag` header. If it matches
-  // with an `etag` remembered in the past by the browser, the actual
-  // GET request is not made, but it's instantly "replayed" by the browser
-  // based on the disk cache.
-  //
-  // Because the actual GET request might not happen, we delay the OPTIONS
-  // request.
+const shouldDelay = (req) => {
+  // Note: In browser there are 2 requests: preflight (OPTIONS) and actual request (GET).
 
-  return req.url.includes(ENDPOINT_FOR_DELAY) && req.method === 'OPTIONS';
+  const result = req.url.includes(ENDPOINT_FOR_DELAY);
+  result && console.log({ delay: DELAY, url: req.url });
+  return result;
 };
-const BACKEND_BASE_URL = 'https://40.76.109.9:9002';
-const DELAY = 10_000;
-const ENDPOINT_FOR_DELAY = '/components';
 
 http
   .createServer(function (req, res) {
