@@ -145,12 +145,9 @@ export class AuthHttpHeaderService implements OnDestroy {
     token?: AuthToken
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
+    const skipAuthorizationHeader = this.skipAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (
-      !hasAuthorizationHeader &&
-      isOccUrl &&
-      !this.skipAuthorizationHeader(request)
-    ) {
+    if (!hasAuthorizationHeader && isOccUrl && !skipAuthorizationHeader) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -165,12 +162,9 @@ export class AuthHttpHeaderService implements OnDestroy {
   }
 
   protected skipAuthorizationHeader(request: HttpRequest<any>): boolean {
-    const context = request.context.get(OCC_HTTP_TOKEN);
-    if (context?.skipAuthorizationHeader) {
-      console.log('skipAuthorizationHeader true');
-      return true;
-    }
-    return false;
+    return request.context.get(OCC_HTTP_TOKEN)?.skipAuthorizationHeader
+      ? true
+      : false;
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
