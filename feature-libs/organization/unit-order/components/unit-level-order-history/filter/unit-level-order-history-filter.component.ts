@@ -173,6 +173,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.unitButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.unitPresentationMobile.nativeElement, 'display', 'block');
     this.searchUnitLevelOrdersForMobile();
+    this.renderer.setStyle(document.body, 'overflow', '');
   }
 
   clearBuyerMobile(): void {
@@ -180,6 +181,7 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.buyerButtonMobile.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.buyerPresentationMobile.nativeElement, 'display', 'block');
     this.searchUnitLevelOrdersForMobile();
+    this.renderer.setStyle(document.body, 'overflow', '');
   }
 
   searchBuyer(inputElement: HTMLInputElement): void {
