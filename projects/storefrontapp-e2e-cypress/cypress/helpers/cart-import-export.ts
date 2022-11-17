@@ -200,6 +200,8 @@ export function verifyCart(config: ImportConfig) {
         }
       });
   }
+
+  cy.get('cx-cart-item-list .cx-remove-btn').should('be.enabled');
 }
 
 /**
@@ -285,7 +287,6 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   cy.requireLoggedIn();
-  cy.visit(config.importButtonPath);
 
   const cartPage = waitForPage(
     config.importButtonPath,
