@@ -189,13 +189,13 @@ export function assignmentsTest(config: MyCompanyConfig) {
                 cy.get('[type="checkbox"]')
                   .as('checkbox')
                   .invoke('is', ':checked')
-                  .then((isChecked) =>{
-                    if(isChecked){
+                  .then((isChecked) => {
+                    if (isChecked) {
                       cy.get('@checkbox').uncheck();
-                    }else{
+                    } else {
                       cy.get('@checkbox').check();
                     }
-                  })
+                  });
               });
           });
           cy.get('cx-org-notification').should('not.exist');
