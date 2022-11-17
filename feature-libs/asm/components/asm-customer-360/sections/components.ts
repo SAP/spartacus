@@ -13,5 +13,3 @@ export { AsmCustomerOverviewComponent } from './asm-customer-overview/asm-custom
 export { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews/asm-customer-product-reviews.component';
 
 export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';
-
-export { AsmCustomerPromotionsComponent } from './asm-customer-promotions/asm-customer-promotions.component';

@@ -12,7 +12,6 @@ import { AsmCustomerMapComponentModule } from './sections/asm-customer-map/asm-c
 import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
 import { AsmCustomerOverviewModule } from './sections/asm-customer-overview/asm-customer-overview.module';
 import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
-import { AsmCustomerPromotionsModule } from './sections/asm-customer-promotions/asm-customer-promotions.module';
 import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
 import {
   IconModule,
@@ -38,7 +37,6 @@ import {
     AsmCustomerOverviewModule,
     AsmCustomerProfileModule,
     AsmCustomerActivityModule,
-    AsmCustomerPromotionsModule,
     AsmCustomerMapComponentModule,
     AsmCustomerProductReviewsComponentModule,
   ],
