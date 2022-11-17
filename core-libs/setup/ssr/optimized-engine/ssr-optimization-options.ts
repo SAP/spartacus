@@ -127,7 +127,7 @@ export type RenderingErrorsHandler = (
   error: unknown | undefined,
   html: string | undefined,
   filePath: string,
-  options: { req: Request },
+  options: { [key: string]: any; req: Request },
   callback: SsrCallbackFn
 ) => void;
 

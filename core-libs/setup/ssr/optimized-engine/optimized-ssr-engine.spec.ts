@@ -295,6 +295,11 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(4);
       expect(engineRunner.renders).toEqual(['a-0', '', 'a-2', '']);
     }));
+
+    // SPIKE TODO: add unit tests for extending the errorHandling hook
+    it('should execute custom `renderingErrorsHandler` hook, if provided in the config', fakeAsync(() => {
+      //
+    }));
   });
 
   describe('no-store cache control header', () => {

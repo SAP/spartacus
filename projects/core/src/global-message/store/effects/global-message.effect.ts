@@ -72,12 +72,7 @@ export class GlobalMessageEffect {
   hideAfterDelay$:
     | Observable<GlobalMessageActions.RemoveMessage>
     | (() => Observable<never>) = createEffect(() =>
-    // SPIKE TODO REMOVE
-    true
-      ? () => EMPTY
-      : // SPIKE TODO REMOVE end
-
-      isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+    isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
       ? this.actions$.pipe(
           ofType(GlobalMessageActions.ADD_MESSAGE),
           pluck('payload'),
