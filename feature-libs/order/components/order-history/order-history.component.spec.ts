@@ -163,12 +163,7 @@ describe('OrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
           OrderHistoryComponent,
           MockUrlPipe,
