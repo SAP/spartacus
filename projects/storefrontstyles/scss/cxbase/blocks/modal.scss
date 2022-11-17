@@ -50,26 +50,6 @@ $modal-min-width-asm: 95% !important;
   margin: auto;
   height: 100%;
   overflow-y: auto;
-}
-
-.modal.asm-customer-360 {
-  padding: 20px 10%;
-  .modal-dialog {
-    display: flex;
-    width: 100%;
-    max-height: 100%;
-    min-height: unset;
-    min-width: unset !important;
-    max-width: unset !important;
-    margin: unset;
-    .modal-body {
-      padding-top: 0;
-    }
-  }
-}
-
-.modal-xl,
-.modal-lg {
   max-width: $modal-max-width;
   min-width: $modal-min-width;
 

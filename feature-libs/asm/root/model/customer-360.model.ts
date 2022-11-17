@@ -58,7 +58,6 @@ export interface AsmCustomer360Response {
 }
 
 export enum AsmDialogActionType {
-  START_SESSION = 'START_SESSION',
   NAVIGATE = 'NAVIGATE',
 }
 
