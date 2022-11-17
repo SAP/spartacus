@@ -6,8 +6,8 @@
 
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
-import * as fs from 'fs';
-import { inspect } from 'util';
+import * as fs from 'fs'; // native NodeJS module
+import { inspect } from 'util'; // native NodeJS module
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';

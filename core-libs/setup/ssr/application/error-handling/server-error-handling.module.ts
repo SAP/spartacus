@@ -5,9 +5,11 @@
  */
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
+import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 import { SERVER_ERROR_COLLECTOR } from './server-error.collector';
 import { ServerErrorInterceptor } from './server-error.interceptor';
+import { TransferServerErrors } from './transfer-server-errors';
 
 @NgModule({
   providers: [
@@ -19,6 +21,14 @@ import { ServerErrorInterceptor } from './server-error.interceptor';
     {
       provide: SERVER_ERROR_COLLECTOR,
       useExisting: ServerErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: BEFORE_APP_SERIALIZED,
+      useFactory: () => {
+        const transferServerErrors = inject(TransferServerErrors);
+        return () => transferServerErrors.transferErrors();
+      },
       multi: true,
     },
   ],

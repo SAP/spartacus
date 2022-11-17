@@ -6,4 +6,4 @@
 
 export * from './base-server.module';
 export * from './error-handling/index';
-export * from './server-response.service';
+export * from './server-response/index';

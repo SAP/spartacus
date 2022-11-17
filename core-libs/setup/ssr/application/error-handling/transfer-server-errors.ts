@@ -6,19 +6,19 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { ServerResponseService } from '../server-response.service';
+import { ServerResponseService } from '../server-response/server-response.service';
 import {
   ServerErrorCollector,
   SERVER_ERROR_COLLECTOR,
 } from './server-error.collector';
 
 /**
- * Transfers errors that happened during the server side rendering
- * to the context of the server response object.
+ * Transfers errors that happened during rendering on the platform server
+ * to the context of the rendered server Response.
  *
  * Thanks to that, e.g. an ExpressJS middleware can intercept those errors
  * and handle appropriately (e.g. avoid caching the rendered HTML,
- * because it might be malformed due to the errors, and send a CSR fallback
+ * because it might be malformed due to the errors; and send a CSR fallback
  * in response to the client).
  */
 @Injectable({ providedIn: 'root' })
@@ -36,7 +36,7 @@ export class TransferServerErrors {
   protected readonly CX_RENDERING_ERRORS_KEY = 'cxRenderingErrors';
 
   /**
-   * Returns all errors collected during the server side rendering.
+   * Returns all errors collected during the rendering on the platform server.
    */
   protected collectErrors(): unknown[] {
     return this.ssrErrorsCollectors
@@ -45,8 +45,8 @@ export class TransferServerErrors {
   }
 
   /**
-   * Transfers errors that happened during the server side rendering
-   * to the context of the server response object.
+   * Transfers errors that happened during the rendering on the platform server
+   * to the context of the server Response.
    */
   transferErrors(): void {
     const errors = this.collectErrors();

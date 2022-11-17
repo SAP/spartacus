@@ -50,7 +50,7 @@ module.exports = function (config) {
             util: false,
 
             // needed, when importing anything from package `@angular/platform-server`,
-            // because under the hood it imports the `url` package from native nodejs
+            // because under the hood it imports the native NodeJS module: `url`
             url: false,
           },
         },

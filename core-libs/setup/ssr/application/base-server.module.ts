@@ -5,11 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { TRANSFER_SERVER_ERRORS_PROVIDERS } from './error-handling/providers';
 import { ServerErrorHandlingModule } from './error-handling/server-error-handling.module';
+import { ServerResponseModule } from './server-response/server-response.module';
 
 @NgModule({
-  imports: [ServerErrorHandlingModule],
-  providers: [...TRANSFER_SERVER_ERRORS_PROVIDERS],
+  imports: [ServerErrorHandlingModule, ServerResponseModule],
 })
 export class BaseServerModule {}

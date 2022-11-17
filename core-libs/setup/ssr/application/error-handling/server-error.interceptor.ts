@@ -17,7 +17,10 @@ import { catchError } from 'rxjs/operators';
 import { ServerErrorCollector } from './server-error.collector';
 
 /**
- * In SSR, it collects http errors and them and exposes as a `ServerErrorCollector`.
+ * When running in platform server (e.g. SSR or prerendering), it collects all http errors.
+ *
+ * It needs to be provided as the first interceptor in the chain,
+ * to be able to also collect errors thrown explicitly from other http interceptors.
  */
 @Injectable({ providedIn: 'root' })
 export class ServerErrorInterceptor
@@ -26,7 +29,7 @@ export class ServerErrorInterceptor
   constructor(protected windowRef: WindowRef) {}
 
   /**
-   * Errors collected during the server side rendering.
+   * Errors collected during the rendering on the platform server.
    */
   protected readonly errors: unknown[] = [];
 
@@ -46,10 +49,19 @@ export class ServerErrorInterceptor
     );
   }
 
+  /**
+   * Adds an error to the collection.
+   *
+   * It's a potential good extension point for excluding some errors
+   * from being collected.
+   */
   protected collectError(error: unknown) {
     this.errors.push(error);
   }
 
+  /**
+   * Returns all the collected errors.
+   */
   public getErrors() {
     return this.errors;
   }
