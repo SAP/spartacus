@@ -5,18 +5,27 @@
  */
 
 import { FULL_BASE_URL_EN_USD } from '../site-context-selector';
-import { loginAsMyCompanyAdmin } from './my-company/my-company.utils';
-import { standardUser } from '../../sample-data/shared-users';
+import {
+  myCompanyAdminUser,
+  standardUser,
+} from '../../sample-data/shared-users';
+import {
+  AccountData,
+  RegistrationData,
+} from '../../support/require-logged-in.commands';
 
 export function loginAsAdmin() {
-  loginAsMyCompanyAdmin();
+  const linda = 'linda.wolf@pronto-hw.com';
+  const registrationData: RegistrationData = {
+    ...myCompanyAdminUser.registrationData,
+    email: linda,
+  };
+  const adminUser = { user: linda, registrationData };
+  login(adminUser);
 }
 
 export function loginAsNonAdmin() {
-  const minWait = 750;
-  const maxWait = 1500;
-  cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
-  cy.requireLoggedIn(standardUser);
+  login(standardUser);
 }
 
 export function setupIntercepts() {
@@ -121,9 +130,21 @@ export function checkTableData(
   });
 }
 
-export function downloadFistAttachment() {
+export function downloadFirstAttachment() {
   cy.get('.cx-account-summary-document-row button').first().click();
   cy.wait('@getAttachments').its('response.statusCode').should('eq', 200);
+}
+
+export function resetSearch() {
+  cy.get('button').contains('Clear All').click();
+  cy.wait('@getDocuments').its('response.statusCode').should('eq', 200);
+}
+
+function login(user: AccountData) {
+  const minWait = 750;
+  const maxWait = 1500;
+  cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
+  cy.requireLoggedIn(user);
 }
 
 function pressSearch() {

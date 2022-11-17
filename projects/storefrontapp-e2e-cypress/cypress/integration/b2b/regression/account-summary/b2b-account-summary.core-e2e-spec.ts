@@ -25,7 +25,7 @@ describe(`My Company - Account Summary`, () => {
       before(() => {
         b2bAccountSummary.loginAsAdmin();
         b2bAccountSummary.visitAccountSummaryDetailsPage(
-          sampleData.rusticUnitId
+          sampleData.prontoUnitId
         );
       });
 
@@ -39,7 +39,9 @@ describe(`My Company - Account Summary`, () => {
       });
 
       it('Should validate header details', () => {
-        b2bAccountSummary.validateHeaderDetails(sampleData.headerDetailTiles);
+        b2bAccountSummary.validateHeaderDetails(
+          sampleData.headerDetailTilesPronto
+        );
       });
 
       it('Should validate documents', () => {
@@ -69,9 +71,9 @@ describe(`My Company - Account Summary`, () => {
         b2bAccountSummary.checkTableData(sampleData.documentsFilteredAll);
       });
 
-      // X this test because there are no attachments for this admin user
-      xit('Should download attachment', () => {
-        b2bAccountSummary.downloadFistAttachment();
+      it('Should download attachment', () => {
+        b2bAccountSummary.resetSearch();
+        b2bAccountSummary.downloadFirstAttachment();
       });
     });
 
