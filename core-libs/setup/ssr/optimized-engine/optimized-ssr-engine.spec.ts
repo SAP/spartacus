@@ -25,7 +25,7 @@ const noop = () => {};
  * 3. Examine renders property for the renders
  */
 class TestEngineRunner {
-  /** Mock time in milliseconds before engine returns rendering. */
+  /** Mock delay time in milliseconds until the engine returns rendering. */
   private readonly renderTime: number;
 
   /** Accumulates html output for engine runs */
@@ -43,16 +43,14 @@ class TestEngineRunner {
     {
       renderTime,
     }: {
-      /**
-       * Mock time in milliseconds before engine returns rendering.
-       */
+      /** Mock delay time in milliseconds until the engine returns rendering. */
       renderTime?: number;
     } = {}
   ) {
     this.renderTime = renderTime ?? DEFAULT_RENDER_TIME;
 
     // mocked engine instance that will render test output in 100 milliseconds
-    const engineInstanceMock = (
+    const engineInstanceMock: NgExpressEngineInstance = (
       filePath: string,
       options: { req: Request },
       callback: SsrCallbackFn
@@ -84,15 +82,18 @@ class TestEngineRunner {
       httpHeaders?: IncomingHttpHeaders;
 
       /**
-       * For the current request, mock time in milliseconds before engine returns rendering.
+       * For the current request, mock delay time in milliseconds until the engine returns rendering.
        *
-       * If not specified, it fallbacks to the renderTime specified at the
+       * If not specified, it fallbacks to the `renderTime` specified at the
        * creation of the `TestEngineRunner`.
        */
       renderTime?: number;
 
       /**
-       * Mock function executed during the render, that can operate on the `Request` and `Response` objects.
+       * Custom logic executed during the render.
+       *
+       * Can be used to simulate an interaction of the Angular application
+       * with the Request/Response objects of ExpressJS.
        */
       renderLogic?: ({ req }: { req: Request }) => void;
     }

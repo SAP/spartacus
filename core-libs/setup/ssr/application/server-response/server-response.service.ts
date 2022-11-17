@@ -10,6 +10,14 @@ import { SERVER_RESPONSE_SERVICES } from './server-response.tokens';
 
 /**
  * Wrapper service for the server Response.
+ *
+ * Allows for setting additional information for the server's Response
+ * besides the rendered HTML, e.g. http headers, http status code, etc.
+ *
+ * There can be provided many implementations of this wrapper service, that
+ * depend on various technologies for the server, e.g. Express, prerendering, Scully, etc.
+ * But only the one implementation that is compatible with the current server technology
+ * will be used.
  */
 @Injectable({
   providedIn: 'root',

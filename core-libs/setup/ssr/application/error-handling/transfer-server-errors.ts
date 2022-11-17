@@ -9,7 +9,7 @@ import { WindowRef } from '@spartacus/core';
 import { ServerResponseService } from '../server-response/server-response.service';
 import {
   ServerErrorCollector,
-  SERVER_ERROR_COLLECTOR,
+  SERVER_ERROR_COLLECTORS,
 } from './server-error.collector';
 
 /**
@@ -24,8 +24,8 @@ import {
 @Injectable({ providedIn: 'root' })
 export class TransferServerErrors {
   constructor(
-    @Inject(SERVER_ERROR_COLLECTOR)
-    protected ssrErrorsCollectors: ServerErrorCollector<unknown>[],
+    @Inject(SERVER_ERROR_COLLECTORS)
+    protected serverErrorCollectors: ServerErrorCollector<unknown>[],
     protected windowRef: WindowRef,
     protected serverResponse: ServerResponseService
   ) {}
@@ -39,7 +39,7 @@ export class TransferServerErrors {
    * Returns all errors collected during the rendering on the platform server.
    */
   protected collectErrors(): unknown[] {
-    return this.ssrErrorsCollectors
+    return this.serverErrorCollectors
       .map((collector) => collector.getErrors())
       .flat();
   }

@@ -5,7 +5,7 @@ import { ServerResponseService } from './server-response.service';
  * Various implementations of `ServerResponseService`.
  *
  * Only one implementation can be active at a time, the one that
- * is Applicable in the current server context.
+ * is Applicable with the current server technology.
  */
 export const SERVER_RESPONSE_SERVICES = new InjectionToken<
   ServerResponseService[]

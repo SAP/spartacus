@@ -11,9 +11,10 @@ import { inspect } from 'util'; // Native NodeJS module
 import { ServerResponseService } from './server-response.service';
 
 /**
- * Wrapper service for the server Response, throwing errors when used.
+ * Wrapper service for the server Response, throwing errors on calling it's methods.
  *
- * Used when there is no Response object to communicate to.
+ * It should be used only when no other implementation of `ServerResponseService`
+ * is applicable in the current server context.
  */
 @Injectable({ providedIn: 'root' })
 export class FallbackServerResponseService extends ServerResponseService {

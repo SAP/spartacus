@@ -15,7 +15,7 @@ import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
   filePath: string,
-  options: { req: Request },
+  options: { [key: string]: any; req: Request },
   callback: SsrCallbackFn
 ) => void;
 
