@@ -123,13 +123,13 @@ export enum RenderingStrategy {
   ALWAYS_SSR = 1,
 }
 
-export type RenderingErrorsHandler = (
-  error: unknown | undefined,
-  html: string | undefined,
-  filePath: string,
-  options: { [key: string]: any; req: Request },
-  callback: SsrCallbackFn
-) => void;
+export type RenderingErrorsHandler = (params: {
+  error: Error | null | undefined;
+  html: string | undefined;
+  filePath: string;
+  options: { [key: string]: any; req: Request };
+  callback: SsrCallbackFn;
+}) => void;
 
 /**
  * ExpressJS callback function

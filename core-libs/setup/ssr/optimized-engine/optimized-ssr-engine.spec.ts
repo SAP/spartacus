@@ -5,6 +5,7 @@ import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine } from './optimized-ssr-engine';
 import {
+  RenderingErrorsHandler,
   RenderingStrategy,
   SsrCallbackFn,
   SsrOptimizationOptions,
@@ -296,10 +297,54 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renders).toEqual(['a-0', '', 'a-2', '']);
     }));
 
-    // SPIKE TODO: add unit tests for extending the errorHandling hook
-    it('should execute custom `renderingErrorsHandler` hook, if provided in the config', fakeAsync(() => {
-      //
-    }));
+    describe('when `renderingErrorsHandler` is configured', () => {
+      // SPIKE TODO: add unit tests for extending the errorHandling hook
+      it('should execute `renderingErrorsHandler` instead of fallback to CSR', fakeAsync(() => {
+        const requestUrl = 'a';
+
+        // custom handler that sends to a client a simple string: test 500 error page
+        const renderingErrorsHandler: RenderingErrorsHandler = jasmine
+          .createSpy('renderingErrorsHandler')
+          .and.callFake((({ callback }) => {
+            callback(null, 'test 500 error page');
+          }) as RenderingErrorsHandler);
+
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          renderingErrorsHandler,
+        });
+        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+
+        engineRunner.request(requestUrl, {
+          renderLogic: renderWithErrors(['test error']),
+        });
+        tick(200);
+
+        expect(renderingErrorsHandler).toHaveBeenCalledWith({
+          error: jasmine.objectContaining({
+            cause: { cxRenderingErrors: ['test error'] },
+          }) as any,
+          html: 'a-0',
+          filePath: 'a',
+          options: jasmine.objectContaining({
+            req: jasmine.any(Object),
+          }) as any,
+          callback: jasmine.any(Function) as any,
+        });
+
+        expect(engineRunner.optimizedSsrEngine['log']).not.toHaveBeenCalledWith(
+          `CSR fallback: Encountered rendering errors (${requestUrl})`
+        );
+        expect(engineRunner.responsesHeaders[0]).not.toEqual(
+          jasmine.objectContaining({
+            'Cache-Control': 'no-store',
+          })
+        );
+
+        expect(engineRunner.renderCount).toEqual(1);
+        expect(engineRunner.renders).toEqual(['test 500 error page']);
+      }));
+    });
   });
 
   describe('no-store cache control header', () => {

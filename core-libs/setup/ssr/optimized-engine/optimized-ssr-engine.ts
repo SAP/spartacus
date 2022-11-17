@@ -240,13 +240,13 @@ export class OptimizedSsrEngine {
        *     and transferred to the ExpressJS engine. In such case, the Error object contains
        *     a property `cause.cxRenderingErrors` which is an array of errors intercepted during the rendering.
        */
-      err,
+      error,
       html
     ): void => {
       this.renderingCache.clear(renderingKey); // under the hood, it sets the `isRendering` flag to false
 
       const isRequestWaitingForResponse = requestTimeout !== undefined;
-      const hasRenderingErrors = !!(err as any)?.cause?.cxRenderingErrors;
+      const hasRenderingErrors = !!(error as any)?.cause?.cxRenderingErrors;
 
       if (isRequestWaitingForResponse) {
         // turn off the timeout logic for this request:
@@ -254,24 +254,30 @@ export class OptimizedSsrEngine {
         requestTimeout = undefined;
 
         if (!hasRenderingErrors) {
-          callback(err, html); // send the rendered result
+          callback(error, html); // send the rendered result
           this.log(
             `Request is resolved with the SSR rendering result (${request?.originalUrl})`
           );
           if (this.ssrOptions?.cache) {
-            this.renderingCache.store(renderingKey, err, html);
+            this.renderingCache.store(renderingKey, error, html);
           }
           return;
         }
 
-        this.handleRenderingErrors(err, html, filePath, options, callback);
+        this.handleRenderingErrors({
+          error,
+          html,
+          filePath,
+          options,
+          callback,
+        });
         return;
       }
 
       if (!hasRenderingErrors) {
         // If request did timeout, but we rendered HTML without errors,
         // store the rendered result for future use
-        this.renderingCache.store(renderingKey, err, html);
+        this.renderingCache.store(renderingKey, error, html);
       }
     };
 
@@ -454,7 +460,7 @@ export class OptimizedSsrEngine {
    */
   private handleRenderingErrors: RenderingErrorsHandler =
     this.ssrOptions?.renderingErrorsHandler ??
-    ((_error, _html, filePath, options, callback) => {
+    (({ filePath, options, callback }) => {
       this.log(
         `CSR fallback: Encountered rendering errors (${options.req?.originalUrl})`
       );
