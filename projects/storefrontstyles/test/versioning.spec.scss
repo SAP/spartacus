@@ -41,7 +41,7 @@
 
   $_fullVersion: 3.4;
   $_majorVersion: 3;
-  $styleVersion: 3.1;
+  $styleVersion: 3.2;
   $useLatestStyles: false;
   @import '../scss/versioning';
 
@@ -120,6 +120,21 @@
         @include output {
           .test {
             @include forVersion(4.8, 4.9) {
+              color: #fff;
+            }
+          }
+        }
+        @include expect {
+          .test {
+          }
+        }
+      }
+    }
+    @include it('should NOT display the breaking change') {
+      @include assert {
+        @include output {
+          .test {
+            @include forVersion(3.11) {
               color: #fff;
             }
           }
