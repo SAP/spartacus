@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 
 let component: ConfiguratorOverviewFilterButtonComponent;
@@ -12,10 +13,11 @@ function initialize() {
   fixture.detectChanges();
 }
 
-describe('ConfigurationOverviewFormComponent', () => {
+describe('ConfigurationOverviewFilterButtonComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
         declarations: [ConfiguratorOverviewFilterButtonComponent],
       }).compileComponents();
     })
