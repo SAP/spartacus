@@ -53,7 +53,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
             },
           },
           lg: {
-            slots: [               
+            slots: [
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
