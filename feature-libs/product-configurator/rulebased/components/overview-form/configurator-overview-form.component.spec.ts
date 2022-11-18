@@ -30,7 +30,7 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
-const OV_GROUP_ID = 'AB-ovGroup';
+const OV_GROUP_ID = 'idAB-ovGroup';
 
 const configCreate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
