@@ -155,7 +155,7 @@ export namespace OccConfigurator {
     pricing?: PriceSummary;
     productCode: string;
     appliedCsticFilter?: OverviewFilter[];
-    groupFilters?: string[];
+    groupFilterList?: OverviewFilter[];
   }
 
   export interface OverviewFilter {

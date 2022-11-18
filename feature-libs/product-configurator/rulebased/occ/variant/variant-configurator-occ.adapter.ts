@@ -28,6 +28,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -332,17 +333,6 @@ export class VariantConfiguratorOccAdapter
       );
   }
 
-  //TODO CHHI introduce serializer
-  protected convertCsticFilters(
-    ov: Configurator.Overview
-  ): OccConfigurator.OverviewFilter[] {
-    const result: OccConfigurator.OverviewFilter[] = [];
-    ov.attributeFilters?.forEach((filter) => {
-      result.push({ key: filter, selected: true });
-    });
-    return result;
-  }
-
   updateConfigurationOverview(
     ovInput: Configurator.Overview
   ): Observable<Configurator.Overview> {
@@ -351,12 +341,11 @@ export class VariantConfiguratorOccAdapter
       { urlParams: { configId: ovInput.configId } }
     );
 
-    const occOverview: OccConfigurator.Overview = {
-      id: ovInput.configId,
-      productCode: ovInput.productCode,
-      appliedCsticFilter: this.convertCsticFilters(ovInput),
-      groupFilters: ovInput.groupFilters,
-    };
+    const occOverview = this.converterService.convert(
+      ovInput,
+      VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER
+    );
+
     return this.http
       .patch<OccConfigurator.Overview>(url, occOverview, {
         context: this.indicateSendUserForAsm(),
