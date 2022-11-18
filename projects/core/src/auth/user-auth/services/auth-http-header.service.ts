@@ -6,7 +6,6 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { OCC_HTTP_TOKEN } from '../../../../src/occ/utils';
 
 import {
   combineLatest,
@@ -145,9 +144,9 @@ export class AuthHttpHeaderService implements OnDestroy {
     token?: AuthToken
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
-    const skipAuthorizationHeader = this.skipAuthorizationHeader(request);
+    const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl && !skipAuthorizationHeader) {
+    if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -161,8 +160,10 @@ export class AuthHttpHeaderService implements OnDestroy {
     return url.includes(this.occEndpoints.getBaseUrl());
   }
 
-  protected skipAuthorizationHeader(request: HttpRequest<any>): boolean {
-    return request.context.get(OCC_HTTP_TOKEN)?.skipAuthorizationHeader
+  protected isBaseSitesRequest(request: HttpRequest<any>): boolean {
+    return request.url.includes(
+      this.occEndpoints.getRawEndpointValue('baseSites')
+    )
       ? true
       : false;
   }

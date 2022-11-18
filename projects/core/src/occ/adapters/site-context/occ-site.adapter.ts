@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,6 @@ import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
@@ -98,17 +97,9 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadBaseSites(): Observable<BaseSite[]> {
-    // make the request always public
-    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
-      skipAuthorizationHeader: true,
-    });
-
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false }),
-        {
-          context,
-        }
+        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),
