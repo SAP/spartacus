@@ -75,6 +75,7 @@ export const configurator = {
       exitMobile: 'Exit',
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
+      filterOverview: 'Filter',
     },
     icon: {
       groupComplete: 'Complete',

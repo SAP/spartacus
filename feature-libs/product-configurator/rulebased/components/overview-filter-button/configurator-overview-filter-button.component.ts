@@ -10,4 +10,6 @@ import { Component } from '@angular/core';
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
 })
-export class ConfiguratorOverviewFilterButtonComponent {}
+export class ConfiguratorOverviewFilterButtonComponent {
+  openFilterModal() {}
+}
