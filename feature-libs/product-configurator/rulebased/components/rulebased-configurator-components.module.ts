@@ -22,6 +22,7 @@ import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-bu
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
 import { ConfiguratorOverviewFilterButtonModule } from './overview-filter-button/configurator-overview-filter-button.module';
 import { ConfiguratorOverviewFilterModule } from './overview-filter/configurator-overview-filter.module';
+import { ConfiguratorOverviewFilterDialogModule } from './overview-filter-dialog/configurator-overview-filter-dialog.module';
 
 @NgModule({
   imports: [
@@ -40,8 +41,9 @@ import { ConfiguratorOverviewFilterModule } from './overview-filter/configurator
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
     ConfiguratorVariantCarouselModule,
-    ConfiguratorOverviewFilterButtonModule,
     ConfiguratorOverviewFilterModule,
+    ConfiguratorOverviewFilterButtonModule,
+    ConfiguratorOverviewFilterDialogModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
