@@ -19,6 +19,7 @@ import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Type } from '@angular/core';
+import { ConfiguratorGroupsService } from '@spartacus/product-configurator/rulebased';
 
 const MOCK_ROUTER_STATE: any = ConfigurationTestData.mockRouterState;
 const OWNER: CommonConfigurator.Owner =
@@ -59,6 +60,7 @@ class MockConfiguratorCommonsService {
       : defaultConfigObservable;
     return obs;
   }
+
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -71,38 +73,40 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
 }
 
-class MockConfiguratorStorefrontUtilsService {
-  scrollToConfigurationElement(): void {}
-  createOvGroupId(): string {
-    return OV_GROUP_ID;
-  }
-  getElement(): void {}
-  changeStyling(): void {}
+class MockConfiguratorGroupsService {
+  setGroupStatusVisited() {}
 }
 
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+let configuratorGroupsService: ConfiguratorGroupsService;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   fixture.detectChanges();
+
+  configuratorGroupsService = TestBed.inject(
+    ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+  );
+  spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
   );
-  spyOn(
-    configuratorStorefrontUtilsService,
-    'createOvGroupId'
-  ).and.callThrough();
+  spyOn(configuratorStorefrontUtilsService, 'createOvGroupId').and.returnValue(
+    OV_GROUP_ID
+  );
   spyOn(
     configuratorStorefrontUtilsService,
     'scrollToConfigurationElement'
   ).and.callThrough();
+
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.callThrough();
+  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -124,8 +128,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
             useClass: MockConfiguratorCommonsService,
           },
           {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
+          },
+          {
             provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
           },
         ],
       }).compileComponents();
@@ -163,6 +170,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     initialize();
     expect(htmlElem.innerHTML).toContain('cx-ghost-menu');
   });
+
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
       initialize();
@@ -186,6 +194,57 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledWith('#' + OV_GROUP_ID);
+    });
+  });
+
+  describe('setHeight', () => {
+    beforeEach(() => {
+      initialize();
+    });
+    it('should not set menu height because form is not defined', () => {
+      component['setHeight']();
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not set menu height because form height is not defined', () => {
+      const ovForm = document.createElement('cx-configurator-overview-form');
+
+      document.querySelector = jasmine
+        .createSpy('ovForm')
+        .and.returnValue(ovForm);
+
+      component['setHeight']();
+
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should set menu height', () => {
+      const ovForm = document.createElement('cx-configurator-overview-form');
+      spyOn(ovForm, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 1200, 500, 1200)
+      );
+
+      document.querySelector = jasmine
+        .createSpy('ovForm')
+        .and.returnValue(ovForm);
+
+      component['setHeight']();
+
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalled();
+
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalledWith(
+        'cx-configurator-overview-menu',
+        'height',
+        ovForm.getBoundingClientRect().height + 'px'
+      );
     });
   });
 });

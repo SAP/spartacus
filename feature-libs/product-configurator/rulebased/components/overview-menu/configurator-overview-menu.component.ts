@@ -50,7 +50,10 @@ export class ConfiguratorOverviewMenuComponent {
     const ovForm = this.configuratorStorefrontUtilsService.getElement(
       'cx-configurator-overview-form'
     );
-    const formHeight = ovForm?.offsetHeight;
+
+    const formHeight = ovForm?.getBoundingClientRect()?.height
+      ? Math.round(ovForm?.getBoundingClientRect()?.height)
+      : 0;
 
     if (formHeight) {
       this.configuratorStorefrontUtilsService.changeStyling(
