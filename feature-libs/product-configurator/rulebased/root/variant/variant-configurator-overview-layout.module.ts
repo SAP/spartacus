@@ -53,12 +53,11 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
             },
           },
           lg: {
-            slots: [
-              //refers to 'position' of ContentSlotForTemplate in CMS
+            slots: [               
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
-              'VariantConfigOverviewMenu',
+              'VariantConfigOverviewSidebar',
               'VariantConfigOverviewBottombar',
             ],
           },
