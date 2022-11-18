@@ -4,10 +4,6 @@
       <button role="tab" class="active">
         {{ 'configurator.overviewMenu.title' | cxTranslate }}
       </button>
-
-      <button role="tab">
-        {{ 'configurator.overviewFilter.title' | cxTranslate }}
-      </button>
     </div>
     <ng-container
       *ngTemplateOutlet="
@@ -74,7 +70,7 @@
             <div class="cx-ghost-menu-item-title ghost"></div>
           </div>
 
-          <ng-container *ngIf="i == 0">
+          <ng-container *ngIf="i === 0">
             <div class="cx-ghost-menu-level2">
               <div
                 *ngFor="let number of [0, 1, 2, 3]"
@@ -85,7 +81,7 @@
             </div>
           </ng-container>
 
-          <ng-container *ngIf="i == 1">
+          <ng-container *ngIf="i === 1">
             <div class="cx-ghost-menu-level2">
               <div *ngFor="let number of [0, 1, 2]" class="cx-ghost-menu-item">
                 <div class="cx-ghost-menu-item-title ghost"></div>
@@ -101,7 +97,7 @@
             </div>
           </ng-container>
 
-          <ng-container *ngIf="i == 2">
+          <ng-container *ngIf="i === 2">
             <div class="cx-ghost-menu-level1">
               <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
                 <div class="cx-ghost-menu-item-title ghost"></div>
