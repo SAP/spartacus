@@ -162,9 +162,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   protected isBaseSitesRequest(request: HttpRequest<any>): boolean {
     return request.url.includes(
       this.occEndpoints.getRawEndpointValue('baseSites')
-    )
-      ? true
-      : false;
+    );
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
