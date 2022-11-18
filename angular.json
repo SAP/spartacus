@@ -80,6 +80,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-opf.scss",
+                "bundleName": "opf"
               }
             ],
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
@@ -605,6 +609,43 @@
             "lintFilePatterns": [
               "integration-libs/epd-visualization/**/*.ts",
               "integration-libs/epd-visualization/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "opf": {
+      "projectType": "library",
+      "root": "integration-libs/opf",
+      "sourceRoot": "integration-libs/opf",
+      "prefix": "cx-opf",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "integration-libs/opf/tsconfig.lib.json",
+            "project": "integration-libs/opf/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/opf/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/opf/test.ts",
+            "tsConfig": "integration-libs/opf/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/opf/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "integration-libs/opf/**/*.ts",
+              "integration-libs/opf/**/*.html"
             ]
           }
         }
