@@ -38,6 +38,7 @@ describe('OrderHistoryConnector', () => {
       'user3',
       undefined,
       undefined,
+      undefined,
       undefined
     );
   });

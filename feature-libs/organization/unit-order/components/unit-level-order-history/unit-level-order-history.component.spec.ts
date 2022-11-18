@@ -68,6 +68,7 @@ class MockPaginationComponent {
   @Input() pagination: PaginationModel;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
+
 @Component({
   template: '',
   selector: 'cx-sorting',
@@ -91,26 +92,34 @@ class MockUnitLevelOrdersFacade implements UnitOrderFacade {
   getOrderDetails(): Observable<Order> {
     throw new Error('Method not implemented.');
   }
+
   loadOrderDetails(_orderCode: string): void {
     throw new Error('Method not implemented.');
   }
+
   clearOrderDetails(): void {
     throw new Error('Method not implemented.');
   }
+
   mockOrderHistoryListSubject = new BehaviorSubject<
     OrderHistoryList | undefined
   >(mockOrderList);
+
   getOrderHistoryList(): Observable<OrderHistoryList | undefined> {
     return this.mockOrderHistoryListSubject.asObservable();
   }
+
   getOrderHistoryListLoaded(): Observable<boolean> {
     return of(true);
   }
+
   loadOrderList(
     _pageSize: number,
     _currentPage?: number,
+    _filters?: string,
     _sort?: string
   ): void {}
+
   clearOrderList() {}
 }
 
@@ -193,6 +202,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
     expect(unitOrderFacade.loadOrderList).toHaveBeenCalledWith(
       5,
       0,
+      '',
       'byOrderNumber'
     );
   });
@@ -200,10 +210,15 @@ describe('UnitLevelOrderHistoryComponent', () => {
   it('should set correctly page', () => {
     spyOn(unitOrderFacade, 'loadOrderList').and.stub();
 
-    component.sortType = 'byDate';
+    component.changeSortCode('byDate');
     component.pageChange(1);
 
-    expect(unitOrderFacade.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
+    expect(unitOrderFacade.loadOrderList).toHaveBeenCalledWith(
+      5,
+      1,
+      '',
+      'byDate'
+    );
   });
 
   it('should display pagination', () => {

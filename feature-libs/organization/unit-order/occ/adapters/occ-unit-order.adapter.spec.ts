@@ -64,9 +64,10 @@ describe('OccUnitOrderAdapter', () => {
       const PAGE_SIZE = 5;
       const currentPage = 1;
       const sort = 'byDate';
+      const filters = '';
 
       occOrderHistoryAdapter
-        .loadUnitOrderHistory(userId, PAGE_SIZE, currentPage, sort)
+        .loadUnitOrderHistory(userId, PAGE_SIZE, currentPage, filters, sort)
         .subscribe();
       httpMock.expectOne((req: HttpRequest<void>) => {
         return req.method === 'GET';

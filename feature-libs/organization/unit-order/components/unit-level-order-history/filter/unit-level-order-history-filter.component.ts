@@ -12,7 +12,6 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -68,10 +67,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
 
-  constructor(
-    protected translation: TranslationService,
-    protected renderer: Renderer2
-  ) {}
+  constructor(protected renderer: Renderer2) {}
 
   searchUnitLevelOrders(): void {
     let buyer = this.filterForm.get('buyerFilter')?.value;
