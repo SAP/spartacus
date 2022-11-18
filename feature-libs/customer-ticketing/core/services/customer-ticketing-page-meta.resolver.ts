@@ -16,9 +16,12 @@ import {
   PageTitleResolver,
   PageType,
   TranslationService,
+  PageBreadcrumbResolver,
+  BreadcrumbMeta,
+  SemanticPathService,
 } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -28,15 +31,23 @@ export class CustomerTicketingPageMetaResolver
   extends PageMetaResolver
   implements
     PageHeadingResolver,
+    PageBreadcrumbResolver,
     PageTitleResolver,
     PageDescriptionResolver,
     PageRobotsResolver
 {
+  protected readonly CUSTOMER_SERVICE_TRANSLATION_KEY =
+    'customerTicketing.customerService';
+
+  protected readonly CUSTOMER_SERVICE_SEMANTIC_ROUTE = 'supportTickets';
+
   constructor(
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected basePageMetaResolver: BasePageMetaResolver,
-    protected customerTicketingFacade: CustomerTicketingFacade
+    protected customerTicketingFacade: CustomerTicketingFacade,
+    protected translation: TranslationService,
+    protected semanticPath: SemanticPathService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -66,4 +77,26 @@ export class CustomerTicketingPageMetaResolver
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver.resolveRobots();
   }
+
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+    return combineLatest([
+      this.customeServiceBreadCrumb$,
+      this.basePageMetaResolver.resolveBreadcrumbs(),
+    ]).pipe(
+      map(([customeServiceBreadCrumb, breadcrumbs = []]) => {
+        const [home, ...restBreadcrumbs] = breadcrumbs;
+        return [home, ...customeServiceBreadCrumb, ...restBreadcrumbs];
+      })
+    );
+  }
+
+  protected customeServiceBreadCrumb$: Observable<BreadcrumbMeta[]> =
+    this.translation.translate(this.CUSTOMER_SERVICE_TRANSLATION_KEY).pipe(
+      map((label) => [
+        {
+          label,
+          link: this.semanticPath.get(this.CUSTOMER_SERVICE_SEMANTIC_ROUTE),
+        },
+      ])
+    );
 }
