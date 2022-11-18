@@ -15,3 +15,9 @@ declare module '@spartacus/product-configurator/common' {
       ProductConfiguratorMessageConfig,
       ProductConfiguratorCoreConfig {}
 }
+
+declare module '@spartacus/storefront' {
+  const enum LAUNCH_CALLER {
+    CONFIGURATOR_OV_FILTER = 'CONFIGURATOR_OV_FILTER',
+  }
+}
