@@ -1,6 +1,6 @@
 import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
 
-describe('B2B - Unit-Level Order Details Page', () => {
+describe('B2B - Unit-Level Order History Page - Sorting', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
 
@@ -13,7 +13,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   });
 
   describe('Check unit level orders page sorting by Buyer', () => {
-    it('should display nit level orders page sorted by Buyer (Ascending)', () => {
+    it('should display unit level orders page sorted by Buyer (Ascending)', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
@@ -21,7 +21,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
       checkIfItemsAreSorted('.cx-unit-level-order-history-buyer');
     });
 
-    it('should display nit level orders page sorted by Buyer  (Descending)', () => {
+    it('should display unit level orders page sorted by Buyer (Descending)', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.ng-input').click();
@@ -49,7 +49,7 @@ describe('B2B - Unit-Level Order Details Page', () => {
   });
 
   describe('Check unit level orders page contains email', () => {
-    it('email address should be displayed in  buyer column under the name of the buyer ', () => {
+    it('email address should be displayed in buyer column under the name of the buyer ', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit(`/my-account/unitLevelOrders`);
       cy.get('.cx-unit-level-order-history-value').contains(
