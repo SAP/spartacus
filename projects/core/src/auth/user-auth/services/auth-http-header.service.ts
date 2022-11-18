@@ -6,7 +6,6 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-
 import {
   combineLatest,
   defer,

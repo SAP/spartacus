@@ -158,7 +158,7 @@ describe('AuthHttpHeaderService', () => {
     });
   });
 
-  fdescribe('alterRequest', () => {
+  describe('alterRequest', () => {
     it('should add Authorization header for occ calls that do not have this header', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/occ/cart')
