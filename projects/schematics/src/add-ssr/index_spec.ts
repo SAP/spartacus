@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -90,13 +90,19 @@ describe('add-ssr', () => {
     });
 
     it('should contain additional build scripts', async () => {
-      const buffer = appTree.read('package.json');
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const packageJsonFileObject = JSON.parse(buffer.toString(UTF_8));
-        expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
-        expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
-      }
+      const packageJson = appTree.readContent('package.json');
+
+      const packageJsonFileObject = JSON.parse(packageJson);
+      expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
+      expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
+      expect(packageJsonFileObject.scripts['dev:ssr']).toBeTruthy();
+    });
+  });
+
+  describe('server.ts', () => {
+    it('should be configured properly', async () => {
+      const serverTs = appTree.readContent('/server.ts');
+      expect(serverTs).toMatchSnapshot();
     });
   });
 
@@ -114,14 +120,8 @@ describe('add-ssr', () => {
         'index.html',
         '/src'
       )[0];
-      const buffer = appTree.read(indexHtmlPath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const indexHtmlFile = buffer.toString(UTF_8);
-        expect(
-          indexHtmlFile.includes('meta name="occ-backend-base-url"')
-        ).toBeTruthy();
-      }
+      const indexHtml = appTree.readContent(indexHtmlPath);
+      expect(indexHtml).toMatchSnapshot();
     });
   });
 });

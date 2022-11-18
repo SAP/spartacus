@@ -53,7 +53,7 @@ const DEPENDENCY_NAMES: string[] = [
   'ts-loader',
 ];
 
-function modifyAppServerModuleFile(): Rule {
+export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
@@ -78,11 +78,9 @@ function modifyAppServerModuleFile(): Rule {
       tree,
       appServerModulePath,
       `
-   ...provideSsrAndPrerendering({
-    serverRequestOrigin:
-      process.env['SERVER_REQUEST_ORIGIN'] ??
-      \`http://localhost:\${process.env['PORT'] || 4200}\`,
-    }),`
+     ...provideSsrAndPrerendering({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),`
     );
     const changes = [importChange, ...providerChanges];
     commitChanges(tree, appServerModulePath, changes);
