@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { COMMERCE_QUOTES_FEATURE } from '../feature-name';
-import { Injectable } from '@angular/core';
 import {
+  Comment,
   Quote,
+  QuoteActionType,
   QuoteList,
   QuoteMetadata,
-  Comment,
-  QuoteActionType,
+  QuotesStateParams,
 } from '../model/commerce-quotes.model';
 
 @Injectable({
@@ -34,21 +35,12 @@ import {
 })
 export abstract class CommerceQuotesFacade {
   /**
-   * Set Qoery List current page
-   * @param page number
-   */
-  abstract setCurrentPage(page: number): void;
-
-  /**
-   * Set Query List orting key
-   * @param sort string
-   */
-  abstract setSort(sort: string): void;
-
-  /**
    * Returns the query list state.
+   * @param params QueryStateParams
    */
-  abstract getQuotesState(): Observable<QueryState<QuoteList | undefined>>;
+  abstract getQuotesState(
+    params: QuotesStateParams
+  ): Observable<QueryState<QuoteList | undefined>>;
 
   /**
    * Create quote with name and comment.

@@ -3,11 +3,11 @@ import { Params } from '@angular/router';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
-  CommerceQuotesListReloadQueryEvent,
   Quote,
   QuoteActionType,
   QuoteList,
   QuoteMetadata,
+  QuotesStateParams,
 } from '@spartacus/commerce-quotes/root';
 import {
   EventService,
@@ -29,10 +29,12 @@ import createSpy = jasmine.createSpy;
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
+const mockCurrentPage = 0;
+const mockSort = 'byCode';
 const mockPagination: PaginationModel = {
-  currentPage: 0,
+  currentPage: mockCurrentPage,
   pageSize: 5,
-  sort: 'byCode',
+  sort: mockSort,
 };
 const mockQuote: Quote = {
   allowedActions: [mockAction],
@@ -55,6 +57,10 @@ const mockMetadata: QuoteMetadata = {
 };
 const mockComment: Comment = {
   text: 'test comment',
+};
+const mockQuotesStateParams: QuotesStateParams = {
+  sort$: of(mockSort),
+  currentPage$: of(mockCurrentPage),
 };
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -143,7 +149,7 @@ describe('CommerceQuotesService', () => {
 
   it('should return quotes after calling commerceQuotesConnector.getQuotes', () => {
     service
-      .getQuotesState()
+      .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
         expect(connector.getQuotes).toHaveBeenCalledWith(
@@ -164,7 +170,7 @@ describe('CommerceQuotesService', () => {
 
     //then
     service
-      .getQuotesState()
+      .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
       .subscribe((state) => {
         expect(connector.getQuotes).toHaveBeenCalledWith(mockUserId, {
@@ -177,52 +183,6 @@ describe('CommerceQuotesService', () => {
           data: mockQuoteList,
         });
       });
-  });
-
-  it('should set current page and dispatch CommerceQuotesListReloadQueryEvent', () => {
-    //given
-    const currentPage = 10;
-
-    //when
-    service.setCurrentPage(currentPage);
-
-    //then
-    service
-      .getQuotesState()
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(mockUserId, {
-          ...mockPagination,
-          currentPage,
-        });
-      });
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {},
-      CommerceQuotesListReloadQueryEvent
-    );
-  });
-
-  it('should set sort and dispatch CommerceQuotesListReloadQueryEvent', () => {
-    //given
-    const sort = 'byDate';
-
-    //when
-    service.setSort(sort);
-
-    //then
-    service
-      .getQuotesState()
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(connector.getQuotes).toHaveBeenCalledWith(mockUserId, {
-          ...mockPagination,
-          sort,
-        });
-      });
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {},
-      CommerceQuotesListReloadQueryEvent
-    );
   });
 
   it('should return quote details after calling commerceQuotesConnector.getQuote', () => {
@@ -278,7 +238,7 @@ describe('CommerceQuotesService', () => {
       });
   });
 
-  it('should call performQuoteAcion command', (done) => {
+  it('should call performQuoteAction command', (done) => {
     service
       .performQuoteAction(mockQuote.code, mockAction.type)
       .subscribe(() => {

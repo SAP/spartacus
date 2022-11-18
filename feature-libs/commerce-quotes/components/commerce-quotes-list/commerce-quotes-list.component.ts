@@ -5,13 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CommerceQuotesFacade,
-  QuoteList,
-} from '@spartacus/commerce-quotes/root';
-import { QueryState, SortModel, TranslationService } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
 
 @Component({
   selector: 'cx-commerce-quotes-list',
@@ -19,74 +13,20 @@ import { map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommerceQuotesListComponent {
-  sorts: SortModel[];
-  sortType: string;
+  sorts = this.quoteListService.sorts;
+  sortLabels$ = this.quoteListService.sortLabels$;
+  quotesState$ = this.quoteListService.quotesState$;
 
-  quotesState$: Observable<QueryState<QuoteList | undefined>> =
-    this.commerceQuotesFacade.getQuotesState().pipe(
-      tap((quotesState: QueryState<QuoteList | undefined>) => {
-        if (quotesState.data?.pagination?.sort) {
-          this.sortType = quotesState.data.pagination.sort;
-        }
-        this.setSortModel(quotesState.data);
-      })
-    );
-
-  constructor(
-    protected commerceQuotesFacade: CommerceQuotesFacade,
-    protected translationService: TranslationService
-  ) {}
-
-  getSortLabels(): Observable<{ [key: string]: string }> {
-    return combineLatest([
-      this.translationService.translate('sorting.date'),
-      this.translationService.translate('sorting.quoteId'),
-      this.translationService.translate('sorting.name'),
-      this.translationService.translate('sorting.status'),
-    ]).pipe(
-      map(
-        ([
-          textByQuoteUpdatedDate,
-          textByQuoteCode,
-          textByQuoteName,
-          textByQuoteStatus,
-        ]) => {
-          return {
-            byDate: textByQuoteUpdatedDate,
-            byCode: textByQuoteCode,
-            byName: textByQuoteName,
-            byState: textByQuoteStatus,
-          };
-        }
-      )
-    );
+  constructor(protected quoteListService: CommerceQuotesListComponentService) {
+    this.changePage(0);
+    this.changeSortCode('byCode');
   }
 
   changeSortCode(sortCode: string): void {
-    this.commerceQuotesFacade.setSort(sortCode);
+    this.quoteListService.setSort(sortCode);
   }
 
   changePage(page: number): void {
-    this.commerceQuotesFacade.setCurrentPage(page);
-  }
-
-  //TODO: temporary solution caused by gaps in the API
-  private setSortModel(data: QuoteList | undefined): void {
-    try {
-      if (data?.sorts) {
-        throw new Error();
-      }
-    } catch {
-      console.warn(
-        'Quote list sorts has been received from the API, but static values are still in used'
-      );
-    } finally {
-      this.sorts = [
-        { code: 'byDate' },
-        { code: 'byCode' },
-        { code: 'byName' },
-        { code: 'byState' },
-      ];
-    }
+    this.quoteListService.setCurrentPage(page);
   }
 }

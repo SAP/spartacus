@@ -10,20 +10,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  I18nTestingModule,
-  PaginationModel,
-  QueryState,
-  SortModel,
-  TranslationService,
-} from '@spartacus/core';
-import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import {
   Quote,
   QuoteActionType,
   QuoteList,
 } from '@spartacus/commerce-quotes/root';
+import {
+  I18nTestingModule,
+  PaginationModel,
+  QueryState,
+  SortModel,
+} from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
 import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -54,10 +52,6 @@ const mockSorts = [
   { code: 'byName' },
   { code: 'byState' },
 ];
-const mockListWithSorts: QueryState<QuoteList> = {
-  ...mockQuoteListState,
-  data: { ...mockQuoteList, sorts: mockSorts },
-};
 const mockQuoteListState$ = new BehaviorSubject(mockQuoteListState);
 
 @Component({
@@ -88,26 +82,27 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
-  getQuotesState(): Observable<QueryState<QuoteList>> {
-    return mockQuoteListState$.asObservable();
-  }
+class MockCommerceQuotesListComponentService
+  implements Partial<CommerceQuotesListComponentService>
+{
+  sorts?: SortModel[] | undefined = mockSorts;
+  sortLabels$ = of({
+    byDate: 'sorting.date',
+    byCode: 'sorting.quoteId',
+    byName: 'sorting.name',
+    byState: 'sorting.status',
+  });
+  quotesState$ = mockQuoteListState$.asObservable();
+  sort = new BehaviorSubject('byCode');
+  currentPage = new BehaviorSubject(0);
   setSort = createSpy();
   setCurrentPage = createSpy();
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string): Observable<string> {
-    return of(key);
-  }
 }
 
 describe('CommerceQuotesListComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesListComponent>;
   let component: CommerceQuotesListComponent;
-
-  let translationService: TranslationService;
-  let facade: CommerceQuotesFacade;
+  let componentService: CommerceQuotesListComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -120,10 +115,9 @@ describe('CommerceQuotesListComponent', () => {
       ],
       providers: [
         {
-          provide: CommerceQuotesFacade,
-          useClass: MockCommerceQuotesFacade,
+          provide: CommerceQuotesListComponentService,
+          useClass: MockCommerceQuotesListComponentService,
         },
-        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
   });
@@ -132,43 +126,10 @@ describe('CommerceQuotesListComponent', () => {
     fixture = TestBed.createComponent(CommerceQuotesListComponent);
     component = fixture.componentInstance;
 
-    translationService = TestBed.inject(TranslationService);
-    facade = TestBed.inject(CommerceQuotesFacade);
+    componentService = TestBed.inject(CommerceQuotesListComponentService);
   });
 
-  it('should read quote list', (done) => {
-    component.quotesState$.pipe(take(1)).subscribe((state) => {
-      expect(state.data).toEqual(mockQuoteList);
-      expect(component.sortType).toEqual(mockPagination.sort);
-    });
-    done();
-  });
-
-  it('should get translated sort labels', (done) => {
-    //given
-    const labels: { [key: string]: string } = {
-      byDate: 'sorting.date',
-      byCode: 'sorting.quoteId',
-      byName: 'sorting.name',
-      byState: 'sorting.status',
-    };
-    const translateSpy: jasmine.Spy = spyOn(
-      translationService,
-      'translate'
-    ).and.callThrough();
-
-    //then
-    component.getSortLabels().subscribe((result) => {
-      expect(result).toEqual(labels);
-      expect(translateSpy).toHaveBeenCalledTimes(4);
-      Object.keys(labels).forEach((key, index) => {
-        expect(translateSpy.calls.argsFor(index)).toEqual([labels[key]]);
-      });
-    });
-    done();
-  });
-
-  it('should call facade if sort changed', () => {
+  it('should call service if sort changed', () => {
     //given
     const sortCode = 'byDate';
 
@@ -176,10 +137,10 @@ describe('CommerceQuotesListComponent', () => {
     component.changeSortCode(sortCode);
 
     //then
-    expect(facade.setSort).toHaveBeenCalledWith(sortCode);
+    expect(componentService.setSort).toHaveBeenCalledWith(sortCode);
   });
 
-  it('should call facade if page changed', () => {
+  it('should call service if page changed', () => {
     //given
     const page = 5;
 
@@ -187,24 +148,10 @@ describe('CommerceQuotesListComponent', () => {
     component.changePage(page);
 
     //then
-    expect(facade.setCurrentPage).toHaveBeenCalledWith(page);
+    expect(componentService.setCurrentPage).toHaveBeenCalledWith(page);
   });
 
-  //TODO: remove after fix in OCC
-  it('should console warning if sorts are received from API', (done) => {
-    //given
-    mockQuoteListState$.next(mockListWithSorts);
-    const warnSpy = spyOn(console, 'warn');
-
-    //then
-    component.quotesState$.pipe(take(1)).subscribe(() => {
-      expect(warnSpy).toHaveBeenCalledTimes(1);
-      expect(component.sorts).toEqual(mockSorts);
-    });
-    done();
-  });
-
-  it('should displaty table and sorting if quote list is not empty', () => {
+  it('should display table and sorting if quote list is not empty', () => {
     //given
     mockQuoteListState$.next(mockQuoteListState);
 

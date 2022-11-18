@@ -15,6 +15,7 @@ import {
   QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
+  QuotesStateParams,
   QuoteStarter,
 } from '@spartacus/commerce-quotes/root';
 import {
@@ -27,12 +28,14 @@ import {
   QueryService,
   QueryState,
   RoutingService,
+  uniteLatest,
   UserIdService,
 } from '@spartacus/core';
-import { ViewConfig } from '@spartacus/storefront';
+import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
   concatMap,
+  distinctUntilChanged,
   map,
   switchMap,
   take,
@@ -43,9 +46,6 @@ import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {
-  protected currentPage$ = new BehaviorSubject<number>(0);
-  protected sortBy$ = new BehaviorSubject<string>('byCode');
-
   /**
    * Indicator whether an action is currently performing.
    */
@@ -206,24 +206,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       }
     );
 
-  protected quotesState$: Query<QuoteList, unknown[]> =
-    this.queryService.create<QuoteList>(
-      () =>
-        this.userIdService.takeUserId().pipe(
-          withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) =>
-            this.commerceQuotesConnector.getQuotes(userId, {
-              currentPage,
-              sort,
-              pageSize: this.config.view?.defaultPageSize,
-            })
-          )
-        ),
-      {
-        reloadOn: [CommerceQuotesListReloadQueryEvent],
-      }
-    );
-
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(
       () =>
@@ -238,6 +220,34 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       }
     );
 
+  protected getQuotesStateQuery = ({
+    currentPage$,
+    sort$,
+  }: QuotesStateParams) =>
+    this.queryService.create<QuoteList>(
+      () =>
+        this.userIdService.takeUserId().pipe(
+          //use withLatestFrom and reloadOn to get full functionality of query
+          withLatestFrom(currentPage$, sort$),
+          distinctUntilChanged(),
+          switchMap(([userId, currentPage, sort]) => {
+            console.log(userId, currentPage, sort);
+            return this.commerceQuotesConnector.getQuotes(userId, {
+              currentPage,
+              sort,
+              pageSize: this.config.view?.defaultPageSize,
+            });
+          })
+        ),
+      {
+        reloadOn: [
+          CommerceQuotesListReloadQueryEvent,
+          uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
+        ],
+        resetOn: [LoginEvent, NavigationEvent],
+      }
+    );
+
   constructor(
     protected userIdService: UserIdService,
     protected commerceQuotesConnector: CommerceQuotesConnector,
@@ -249,20 +259,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected routingService: RoutingService,
     protected multiCartService: MultiCartFacade
   ) {}
-
-  setCurrentPage(page: number): void {
-    this.currentPage$.next(page);
-    this.eventService.dispatch({}, CommerceQuotesListReloadQueryEvent);
-  }
-
-  setSort(sort: string): void {
-    this.sortBy$.next(sort);
-    this.eventService.dispatch({}, CommerceQuotesListReloadQueryEvent);
-  }
-
-  getQuotesState(): Observable<QueryState<QuoteList | undefined>> {
-    return this.quotesState$.getState();
-  }
 
   createQuote(
     quoteMetadata: QuoteMetadata,
@@ -297,6 +293,12 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   requote(quoteCode: string): Observable<Quote> {
     return this.requoteCommand.execute({ quoteStarter: { quoteCode } });
+  }
+
+  getQuotesState(
+    params: QuotesStateParams
+  ): Observable<QueryState<QuoteList | undefined>> {
+    return this.getQuotesStateQuery(params).getState();
   }
 
   getQuoteDetails(): Observable<QueryState<Quote | undefined>> {
