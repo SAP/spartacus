@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 
@@ -22,6 +23,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorOverviewFilterDialogComponent],
+        imports: [I18nTestingModule],
         providers: [
           { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         ],

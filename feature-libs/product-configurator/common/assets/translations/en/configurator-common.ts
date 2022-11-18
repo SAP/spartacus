@@ -226,5 +226,8 @@ export const configurator = {
     variantCarousel: {
       title: 'Pre-configured Versions',
     },
+    overviewFilter: {
+      title: 'Select Refinements',
+    },
   },
 };

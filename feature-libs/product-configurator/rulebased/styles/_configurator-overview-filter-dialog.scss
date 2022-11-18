@@ -1,0 +1,34 @@
+%cx-configurator-overview-filter-dialog {
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.85rem;
+    padding-inline-start: 1.75rem;
+    display: flex;
+
+    .cx-dialog-title {
+      @include type('3');
+      align-self: flex-start;
+    }
+  }
+
+  .cx-dialog-body {
+    padding: 0;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .cx-modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-block-start: 15px;
+    padding-inline-start: 16px;
+    padding-inline-end: 16px;
+    padding-block-start: 16px;
+    padding-block-end: 16px;
+  }
+
+}
