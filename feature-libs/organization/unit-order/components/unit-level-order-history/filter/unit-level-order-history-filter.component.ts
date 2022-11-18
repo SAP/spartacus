@@ -258,7 +258,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       'display',
       'block'
     );
-    this.searchUnitLevelOrdersForMobile();
     this.renderer.setStyle(document.body, 'overflow', '');
   }
 
@@ -274,7 +273,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       'display',
       'block'
     );
-    this.searchUnitLevelOrdersForMobile();
     this.renderer.setStyle(document.body, 'overflow', '');
   }
 
