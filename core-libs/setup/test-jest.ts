@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// empty, for now
+import 'zone.js';
+import 'zone.js/testing';
