@@ -53,6 +53,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
+              'VariantConfigOverviewSidebar',
               'VariantConfigOverviewBottombar',
             ],
           },

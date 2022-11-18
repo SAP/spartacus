@@ -21,6 +21,7 @@ import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-confl
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
 import { ConfiguratorOverviewFilterButtonModule } from './overview-filter-button/configurator-overview-filter-button.module';
+import { ConfiguratorOverviewFilterModule } from './overview-filter/configurator-overview-filter.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { ConfiguratorOverviewFilterButtonModule } from './overview-filter-button
     ConfiguratorExitButtonModule,
     ConfiguratorVariantCarouselModule,
     ConfiguratorOverviewFilterButtonModule,
+    ConfiguratorOverviewFilterModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
