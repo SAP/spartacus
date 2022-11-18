@@ -353,7 +353,7 @@ There are couple of required changes to make sure schematics will work properly
 
 If your library is an integration library (that requires a separate integration servers), a separate toggle flag should be implemented in the Installation Script.
 
-In the following examples please replace `TODO` and `todo` with the your appropriate library name:
+In the following examples please replace `TODO` and `todo` with your appropriate library name:
 
 - In `scripts/install/config.default.ts` add a new flag `ADD_TODO=false` (similar to `ADD_CDC=false`)
 
