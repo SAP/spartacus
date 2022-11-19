@@ -80,17 +80,17 @@ export class CustomerTicketingPageMetaResolver
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
-      this.customeServiceBreadCrumb$,
+      this.customerServiceBreadCrumb$,
       this.basePageMetaResolver.resolveBreadcrumbs(),
     ]).pipe(
-      map(([customeServiceBreadCrumb, breadcrumbs = []]) => {
+      map(([customerServiceBreadCrumb, breadcrumbs = []]) => {
         const [home, ...restBreadcrumbs] = breadcrumbs;
-        return [home, ...customeServiceBreadCrumb, ...restBreadcrumbs];
+        return [home, ...customerServiceBreadCrumb, ...restBreadcrumbs];
       })
     );
   }
 
-  protected customeServiceBreadCrumb$: Observable<BreadcrumbMeta[]> =
+  protected customerServiceBreadCrumb$: Observable<BreadcrumbMeta[]> =
     this.translation.translate(this.CUSTOMER_SERVICE_TRANSLATION_KEY).pipe(
       map((label) => [
         {
