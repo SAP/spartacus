@@ -32,4 +32,7 @@ export const unitOrder = {
     orgUnit: 'Unit (Ascending)',
     orgUnitDesc: 'Unit (Descending)',
   },
+  unitLevelOrderDetails: {
+    buyer: 'Buyer',
+  },
 };
