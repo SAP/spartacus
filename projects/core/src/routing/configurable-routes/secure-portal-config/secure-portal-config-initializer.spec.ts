@@ -6,7 +6,6 @@ import { SecurePortalConfigInitializer } from './secure-portal-config-initialize
 import { SiteContextConfig } from '../../../site-context/config/site-context-config';
 import { ConfigInitializerService } from '../../../config';
 
-
 const mockBaseSites = [
   {
     uid: 'test',
@@ -79,7 +78,7 @@ describe(`SecurePortalConfigInitializer`, () => {
     });
 
     it(`should throw error when the basesite is not found`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of([{ uid: 'test1'}]));
+      spyOn(baseSiteService, 'getAll').and.returnValue(of([{ uid: 'test1' }]));
 
       let message = false;
       try {
