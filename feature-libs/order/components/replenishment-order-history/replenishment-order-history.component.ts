@@ -109,7 +109,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       replenishmentOrderCode
     );
 
-    /* istanbul ignore if */
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }

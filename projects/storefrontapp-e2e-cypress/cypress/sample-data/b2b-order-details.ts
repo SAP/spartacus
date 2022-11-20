@@ -10,8 +10,6 @@ export const ORDER_CODE = '00000001';
 export const ORDER_STATUS = 'Approved';
 export const ORDER_DATE = 'Aug 30, 2022';
 
-
-
 export const b2bUnitOrderViewerManager = {
   name: 'Hanna Schmidt',
   uid: 'hanna.schmidt@rustic-hw.com',
@@ -474,4 +472,3 @@ export const unitLevelOrder = {
   ...unitLevelOrder_raw,
   code: ORDER_CODE,
 };
-

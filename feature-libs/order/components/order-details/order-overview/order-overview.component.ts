@@ -4,23 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import {
-  Address,
-  B2BUser,
-  B2BUserRight,
-  CostCenter,
-  TranslationService,
-} from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { Address, CostCenter, TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { User } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -29,29 +16,15 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderOverviewComponent implements OnInit {
+export class OrderOverviewComponent {
   order: any;
 
   @Input('order')
   set setOrder(order: any) {
     this.order = order;
   }
-  isUserOrgUnitViewer: Observable<boolean | undefined>;
 
-  constructor(
-    protected translation: TranslationService,
-    protected userAccountFacade: UserAccountFacade
-  ) {}
-
-  ngOnInit(): void {
-    this.isUserOrgUnitViewer = this.userAccountFacade
-      .get()
-      .pipe(
-        map((user: User | undefined) =>
-          user?.roles?.includes(B2BUserRight.UNITORDERVIEWER)
-        )
-      );
-  }
+  constructor(protected translation: TranslationService) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -254,29 +227,6 @@ export class OrderOverviewComponent implements OnInit {
             ],
           } as Card)
       )
-    );
-  }
-
-  getBuyerNameCardContent(customer: B2BUser): Observable<Card> {
-    return this.translation.translate('orderDetails.buyer').pipe(
-      filter(() => Boolean(customer)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            text: [customer?.name, `(${customer?.email})`],
-          } as Card)
-      )
-    );
-  }
-
-  getUnitNameCardContent(orgUnit: string): Observable<Card> {
-    return this.translation.translate('orderDetails.unit').pipe(
-      filter(() => Boolean(orgUnit)),
-      map((textTitle) => ({
-        title: textTitle,
-        text: [orgUnit],
-      }))
     );
   }
 
