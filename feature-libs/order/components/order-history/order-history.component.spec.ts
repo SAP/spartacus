@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
+  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
@@ -181,6 +182,12 @@ describe('OrderHistoryComponent', () => {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
           },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
         ],
       }).compileComponents();
 
@@ -196,6 +203,13 @@ describe('OrderHistoryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a row tag in the table header', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history-table thead tr'))
+    ).toBeTruthy();
   });
 
   it('should read order list', () => {
