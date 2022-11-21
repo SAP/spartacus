@@ -76,7 +76,7 @@ function startVerdaccio(): ChildProcess {
   } catch (_e) {
     console.log(
       chalk.red(
-        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: $ npm i -g verdaccio@4`
+        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
       )
     );
     process.exit(1);
