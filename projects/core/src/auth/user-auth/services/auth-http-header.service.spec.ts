@@ -59,10 +59,9 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
     return 'some-server/occ';
   }
   getRawEndpointValue(endpoint: string): string {
-    if (endpoint === 'baseSites') {
-      return 'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)';
-    }
-    return '';
+    return endpoint === 'baseSites'
+      ? 'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)'
+      : '';
   }
 }
 
