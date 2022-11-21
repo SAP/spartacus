@@ -213,3 +213,29 @@ export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByCompari
     });
   };
 }
+
+export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds(){
+  getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
+    const smallerId = parseInt(id.text(), 10);
+    clickPageOnPagination("last");
+    getIdInRow(FIRST_ROW_TICKET_LIST)
+      .invoke('text')
+      .then(parseFloat)
+      .should('be.lt', smallerId);
+  });
+}
+
+export function clickPageOnPagination(pageName: string){
+  cy.get(`aria-label="${pageName} page"`).click();
+}
+
+export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
+  getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
+    const smallerId = parseInt(id.text(), 10);
+    clickPageOnPagination("first");
+    getIdInRow(FIRST_ROW_TICKET_LIST)
+      .invoke('text')
+      .then(parseFloat)
+      .should('be.lt', smallerId);
+  });
+}

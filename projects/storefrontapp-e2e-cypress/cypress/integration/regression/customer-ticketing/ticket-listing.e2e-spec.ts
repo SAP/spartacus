@@ -168,12 +168,29 @@ describe('ticket listing', () => {
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
       });
 
-      it('numbers on pagination should take you to the corresponding page', () => {
+      it('should take you to the corresponding page when clicking the page number on pagination', () => {
         customerTicketing.loginAsAdminLindaWolf();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationExist();
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
         customerTicketing.verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds();
+      });
+
+      it('should take you to the last page when the last button is clicked on pagination', () => {
+        customerTicketing.loginAsAdminLindaWolf();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
+        customerTicketing.verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds();
+      });
+
+      it('should take you to the first page when the first button is clicked on pagination', () => {
+        customerTicketing.loginAsAdminLindaWolf();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
+        customerTicketing.clickPageOnPagination("last");
+        customerTicketing.verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds();
       });
     });
   });
