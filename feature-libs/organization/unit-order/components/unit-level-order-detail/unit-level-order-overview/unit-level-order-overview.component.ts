@@ -202,7 +202,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
   }
 
   getBuyerNameCardContent(customer: B2BUser | undefined): Observable<Card> {
-    return this.translation.translate('orderDetails.buyer').pipe(
+    return this.translation.translate('unitLevelOrderDetails.buyer').pipe(
       filter(() => Boolean(customer)),
       map(
         (textTitle) =>
