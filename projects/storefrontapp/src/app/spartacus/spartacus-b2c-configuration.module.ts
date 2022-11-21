@@ -13,18 +13,17 @@ import {
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
-import { environment } from '../../environments/environment';
 
-const defaultBaseSite = [
-  'electronics-spa',
-  'electronics',
-  'apparel-de',
-  'apparel-uk',
-  'apparel-uk-spa',
-];
-const baseSite = environment.epdVisualization
-  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
-  : defaultBaseSite;
+// const defaultBaseSite = [
+//   'electronics-spa',
+//   'electronics',
+//   'apparel-de',
+//   'apparel-uk',
+//   'apparel-uk-spa',
+// ];
+// const baseSite = environment.epdVisualization
+//   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
+//   : defaultBaseSite;
 
 @NgModule({
   providers: [
@@ -34,7 +33,7 @@ const baseSite = environment.epdVisualization
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: baseSite,
+        // baseSite: baseSite,
       },
     }),
     provideConfig(<PWAModuleConfig>{

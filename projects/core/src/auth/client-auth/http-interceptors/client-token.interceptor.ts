@@ -13,7 +13,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -46,11 +46,13 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
     return this.getClientToken(isClientTokenRequest).pipe(
       take(1),
+      tap(() => console.log('intercept getClientToken:', request)),
       switchMap((token: ClientToken | undefined) => {
         if (
           token?.access_token &&
           request.url.includes(this.occEndpoints.getBaseUrl())
         ) {
+          console.log('add token:');
           request = request.clone({
             setHeaders: {
               Authorization: `${token.token_type || 'Bearer'} ${
@@ -84,6 +86,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
   protected getClientToken(
     isClientTokenRequest: boolean
   ): Observable<ClientToken | undefined> {
+    console.log('getClientToken');
     if (isClientTokenRequest) {
       return this.clientTokenService.getClientToken();
     }
