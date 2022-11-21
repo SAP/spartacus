@@ -8,17 +8,16 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
   ImageType,
   Product,
   TranslationService,
 } from '@spartacus/core';
-import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AsmCustomerTableComponent } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -122,21 +121,6 @@ describe('AsmCustomerActivityComponent', () => {
   };
   const mockCarts: Cart[] = [mockCart1, mockCart2];
 
-  class MockSavedCartFacade implements Partial<SavedCartFacade> {
-    getList(): Observable<Cart[]> {
-      return of(mockCarts);
-    }
-    loadSavedCarts(): void {}
-  }
-
-  const cart$ = new BehaviorSubject<Cart>(mockCart1);
-
-  class MockActiveCartService implements Partial<ActiveCartFacade> {
-    getActive(): Observable<Cart> {
-      return cart$.asObservable();
-    }
-  }
-
   @Pipe({
     name: 'cxTranslate',
   })
@@ -170,25 +154,6 @@ describe('AsmCustomerActivityComponent', () => {
     sorts: [{ code: 'byDate', selected: true }],
   };
 
-  const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(
-    mockOrders
-  );
-
-  class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
-    getOrderHistoryList(): Observable<OrderHistoryList> {
-      return mockOrderHistoryList$.asObservable();
-    }
-    getOrderHistoryListLoaded(): Observable<boolean> {
-      return of(true);
-    }
-    loadOrderList(
-      _pageSize: number,
-      _currentPage?: number,
-      _sort?: string
-    ): void {}
-    clearOrderList() {}
-  }
-
   class MockTranslationService {
     translate(): Observable<string> {
       return of('test');
@@ -197,10 +162,7 @@ describe('AsmCustomerActivityComponent', () => {
   let component: AsmCustomerActivityComponent;
   let fixture: ComponentFixture<AsmCustomerActivityComponent>;
   let el: DebugElement;
-  let activeCartFacade: ActiveCartFacade;
   let sectionContext: Customer360SectionContext<void>;
-  let orderHistoryFacade: OrderHistoryFacade;
-  let savedCartFacade: SavedCartFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -212,9 +174,6 @@ describe('AsmCustomerActivityComponent', () => {
         AsmCustomerTableComponent,
       ],
       providers: [
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: TranslationService, useClass: MockTranslationService },
         Customer360SectionContextSource,
         {
@@ -234,11 +193,11 @@ describe('AsmCustomerActivityComponent', () => {
     contextSource.config$.next({
       pageSize: 5,
     });
+    contextSource.activeCart$.next(mockCart1);
+    contextSource.orderHistory$.next(mockOrders);
+    contextSource.savedCarts$.next(mockCarts);
 
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
-    savedCartFacade = TestBed.inject(SavedCartFacade);
     sectionContext = TestBed.inject(Customer360SectionContext);
-    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
   });
 
   it('should create', () => {
@@ -247,27 +206,13 @@ describe('AsmCustomerActivityComponent', () => {
   });
 
   it('should get data from services', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
-    spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
-    spyOn(orderHistoryFacade, 'getOrderHistoryList').and.returnValue(
-      of(mockOrders)
-    );
-
     fixture.detectChanges();
 
-    expect(activeCartFacade.getActive).toHaveBeenCalled();
-    expect(savedCartFacade.getList).toHaveBeenCalled();
-    expect(orderHistoryFacade.getOrderHistoryList).toHaveBeenCalled();
     expect(component.columns.length).toBe(6);
   });
 
   describe('table', () => {
     beforeEach(() => {
-      spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
-      spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
-      spyOn(orderHistoryFacade, 'getOrderHistoryList').and.returnValue(
-        of(mockOrders)
-      );
       fixture.detectChanges();
     });
 

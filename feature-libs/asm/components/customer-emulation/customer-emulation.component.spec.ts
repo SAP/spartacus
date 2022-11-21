@@ -2,26 +2,37 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
-class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get(): Observable<User> {
-    return of({});
-  }
-}
-
-class MockAsmComponentService {
-  logoutCustomer(): void {}
-  isCustomerEmulationSessionInProgress(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 describe('CustomerEmulationComponent', () => {
+  class MockUserAccountFacade implements Partial<UserAccountFacade> {
+    get(): Observable<User> {
+      return of({});
+    }
+  }
+
+  class MockAsmComponentService {
+    logoutCustomer(): void {}
+    isCustomerEmulationSessionInProgress(): Observable<boolean> {
+      return of(true);
+    }
+  }
+
+  const dialogClose$ = new BehaviorSubject<any>('');
+  class MockLaunchDialogService implements Partial<LaunchDialogService> {
+    openDialogAndSubscribe() {
+      return of();
+    }
+    get dialogClose() {
+      return dialogClose$.asObservable();
+    }
+  }
+
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userAccountFacade: UserAccountFacade;
@@ -36,6 +47,7 @@ describe('CustomerEmulationComponent', () => {
         providers: [
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
     })

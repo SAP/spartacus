@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
+import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews.component';
 
 describe('AsmCustomerProductReviewsComponent', () => {
@@ -9,6 +11,13 @@ describe('AsmCustomerProductReviewsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AsmCustomerProductReviewsComponent],
+      providers: [
+        Customer360SectionContextSource,
+        {
+          provide: Customer360SectionContext,
+          useExisting: Customer360SectionContextSource,
+        },
+      ],
     }).compileComponents();
   });
 

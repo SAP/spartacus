@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
   ImageType,
@@ -218,20 +217,6 @@ describe('AsmCustomerOverviewComponent', () => {
     pagination: {},
   };
 
-  class MockSavedCartFacade implements Partial<SavedCartFacade> {
-    getList(): Observable<Cart[]> {
-      return of(mockCarts);
-    }
-    loadSavedCarts(): void {}
-  }
-
-  const cart$ = new BehaviorSubject<Cart>(mockCart1);
-
-  class MockActiveCartService implements Partial<ActiveCartFacade> {
-    getActive(): Observable<Cart> {
-      return cart$.asObservable();
-    }
-  }
   class MockBreakpointService {
     get breakpoint$(): Observable<BREAKPOINT> {
       return of(BREAKPOINT.xl);
@@ -268,10 +253,9 @@ describe('AsmCustomerOverviewComponent', () => {
   let component: AsmCustomerOverviewComponent;
   let fixture: ComponentFixture<AsmCustomerOverviewComponent>;
   let el: DebugElement;
-  let activeCartFacade: ActiveCartFacade;
   let breakpointService: BreakpointService;
-  let savedCartFacade: SavedCartFacade;
   let sectionContext: Customer360SectionContext<void>;
+  let contextSource: Customer360SectionContextSource<void>;
 
   const productInterestService = jasmine.createSpyObj('UserInterestsService', [
     'loadProductInterests',
@@ -290,17 +274,16 @@ describe('AsmCustomerOverviewComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
-        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: UserInterestsService, useValue: productInterestService },
         { provide: ProductService, useValue: productService },
+        Customer360SectionContextSource,
         {
           provide: Customer360SectionContext,
-          useClass: Customer360SectionContextSource,
+          useExisting: Customer360SectionContextSource,
         },
       ],
     }).compileComponents();
@@ -312,8 +295,11 @@ describe('AsmCustomerOverviewComponent', () => {
     el = fixture.debugElement;
 
     breakpointService = TestBed.inject(BreakpointService);
-    savedCartFacade = TestBed.inject(SavedCartFacade);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
+
+    contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource.activeCart$.next(mockCart1);
+    contextSource.savedCarts$.next(mockCarts);
+
     sectionContext = TestBed.inject(Customer360SectionContext);
 
     productInterestService.getAndLoadProductInterests.and.returnValue(
@@ -329,13 +315,11 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should return active cart and not show more button', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.lg)
     );
     fixture.detectChanges();
 
-    expect(activeCartFacade.getActive).toHaveBeenCalled();
     expect(el.queryAll(By.css('.cx-asm-overview-active-item')).length).toEqual(
       2
     );
@@ -347,7 +331,6 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should link to cart page when click cart id', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.lg)
     );
@@ -365,24 +348,21 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should show empty active cart section', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(undefined));
+    contextSource.activeCart$.next(undefined);
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.lg)
     );
     fixture.detectChanges();
 
-    expect(activeCartFacade.getActive).toHaveBeenCalled();
     expect(el.query(By.css('.cx-asm-overview-empty'))).toBeTruthy();
   });
 
   it('should show more button for active cart', () => {
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(mockCart1));
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.md)
     );
     fixture.detectChanges();
 
-    expect(activeCartFacade.getActive).toHaveBeenCalled();
     expect(el.queryAll(By.css('.cx-asm-overview-active-item')).length).toEqual(
       1
     );
@@ -396,14 +376,12 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should return saved cart and not show more button', () => {
-    spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
     spyOn(sectionContext.navigate$, 'next').and.stub();
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.xl)
     );
     fixture.detectChanges();
 
-    expect(savedCartFacade.getList).toHaveBeenCalled();
     expect(el.queryAll(By.css('.cx-asm-overview-saved-item')).length).toEqual(
       2
     );
@@ -414,7 +392,6 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should link to saved cart detail page', () => {
-    spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
     spyOn(sectionContext.navigate$, 'next').and.stub();
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.xl)
@@ -432,13 +409,11 @@ describe('AsmCustomerOverviewComponent', () => {
   });
 
   it('should return saved cart and show more button', () => {
-    spyOn(savedCartFacade, 'getList').and.returnValue(of(mockCarts));
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       of(BREAKPOINT.md)
     );
     fixture.detectChanges();
 
-    expect(savedCartFacade.getList).toHaveBeenCalled();
     expect(el.queryAll(By.css('.cx-asm-overview-saved-item')).length).toEqual(
       1
     );
