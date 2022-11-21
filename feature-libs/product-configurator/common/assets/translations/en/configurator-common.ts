@@ -227,7 +227,11 @@ export const configurator = {
       title: 'Pre-configured Versions',
     },
     overviewFilter: {
-      title: 'Select Refinements',
+      title: 'Select Filters',
+      byOption: 'Filter by Option',
+      byGroup: 'Filter by Group',
+      byPrice: 'Price-Relevant Options',
+      mySelections: 'My Selections',
     },
   },
 };
