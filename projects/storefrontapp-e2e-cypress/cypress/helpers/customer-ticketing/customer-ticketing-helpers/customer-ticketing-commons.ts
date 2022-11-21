@@ -16,8 +16,13 @@ export const CATEGORY_COLUMN = 2;
 export const CREATED_ON_COLUMN = 3;
 export const CHANGED_ON_COLUMN = 4;
 export const STATUS_COLUMN = 5;
+export const ID_IN_HEADER = 0;
+export const STATUS_IN_HEADER = 3;
 export const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 export const MAX_TICKETS_PER_PAGE = 5;
+export const ID_DELIMITER = 11;
+export const SUBJECT_DELIMITER = 10;
+export const STATUS_DELIMITER = 9;
 
 export enum TestSortingTypes {
   changedOn = 'Changed On',
@@ -27,6 +32,7 @@ export enum TestSortingTypes {
 export enum TestStatus {
   closed = 'Closed',
   open = 'Open',
+  in_process = 'In Process'
 }
 
 export enum TestCategory {
@@ -41,6 +47,8 @@ export interface TestTicketDetails {
   category: TestCategory;
   associatedTo?: string;
   filename?: string;
+  id?: string;
+  status?: string;
 }
 
 export function loginRegisteredUser() {
@@ -99,4 +107,8 @@ export function verifyTicketListingPageVisit() {
 export function verifyTicketDetailsPageVisit() {
   cy.url().should('match', /http:\/\/.+\/my\-account\/support\-ticket\/[0-9]+/);
   cy.get('cx-customer-ticketing-messages').should('exist');
+}
+
+export function navigateBackToPreviousPage(){
+  cy.go('back');
 }
