@@ -173,7 +173,7 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationExist();
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
-
+        customerTicketing.verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds();
       });
     });
   });

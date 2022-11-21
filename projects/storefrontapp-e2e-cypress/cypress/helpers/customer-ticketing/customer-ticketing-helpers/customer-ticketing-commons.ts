@@ -11,6 +11,7 @@ import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 export const HTTP_STATUS_OK = 200;
 export const COLUMN_HEADER_TICKET_LIST = 0;
 export const FIRST_ROW_TICKET_LIST = 1;
+export const FIFTH_ROW_TICKET_LIST = 5;
 export const ID_COLUMN = 0;
 export const SUBJECT_COLUMN = 1;
 export const CATEGORY_COLUMN = 2;

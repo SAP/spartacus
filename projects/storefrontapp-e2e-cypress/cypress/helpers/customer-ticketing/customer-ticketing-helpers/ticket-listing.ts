@@ -17,6 +17,7 @@ import {
   CREATED_ON_COLUMN,
   CHANGED_ON_COLUMN,
   MAX_TICKETS_PER_PAGE,
+  FIFTH_ROW_TICKET_LIST,
 } from './customer-ticketing-commons';
 
 export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST) {
@@ -198,6 +199,17 @@ function getIdInRow(rowNumber: number) {
     .find('a');
 }
 
-export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPage(){
-
+export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds(){
+  const TOTAL_NUMBER_OF_PAGES_TO_VISIT = 3;
+  for(let page = 1; page < TOTAL_NUMBER_OF_PAGES_TO_VISIT; page++){
+    getIdInRow(FIFTH_ROW_TICKET_LIST).then((id) => {
+      const smallerId = parseInt(id.text(), 10);
+      var next_page = page+1;
+      cy.get(`aria-label="page ${next_page}"`).click();
+      getIdInRow(FIFTH_ROW_TICKET_LIST)
+        .invoke('text')
+        .then(parseFloat)
+        .should('be.lt', smallerId);
+    });
+  };
 }
