@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -19,16 +19,18 @@ import {
 import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '../../core/guards';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
+import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
+    ReactiveFormsModule,
     NgSelectModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,
+    UnitLevelOrderHistoryFilterModule,
   ],
   declarations: [UnitLevelOrderHistoryComponent],
   exports: [UnitLevelOrderHistoryComponent],

@@ -23,6 +23,18 @@ export const unitOrder = {
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
     notFound: 'No Orders Found',
+    //--------------------
+    applyFilter: 'Apply',
+    filterBy: 'Filter by',
+    filterByBuyer: 'Filter by Buyer',
+    searchByBuyer: 'Search by Buyer',
+    filterByBuyerLabel: 'Buyer name',
+    filterByUnit: 'Filter by Unit',
+    searchByUnit: 'Search by Unit',
+    filterByUnitLabel: 'Unit name',
+    search: 'Search',
+    clearAll: 'Clear All',
+    removeAppliedFilters: 'Remove Applied Filters',
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',

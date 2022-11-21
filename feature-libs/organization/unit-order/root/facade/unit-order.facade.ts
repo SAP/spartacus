@@ -48,11 +48,13 @@ export abstract class UnitOrderFacade {
    * Retrieves an order list
    * @param pageSize page size
    * @param currentPage current page
+   * @param filters filters values for buyer and unit given in format '::user:<userFilter>:unit:<unitFilter>'
    * @param sort sort
    */
   abstract loadOrderList(
     pageSize: number,
     currentPage?: number,
+    filters?: string,
     sort?: string
   ): void;
 

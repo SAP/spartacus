@@ -1,0 +1,290 @@
+<div
+  #filterNav
+  class="cx-filter"
+  [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
+>
+  <div class="cx-filter-list">
+    <span>{{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}</span>
+    <button
+      type="button"
+      class="clear-btn"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="closeFilterNav()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+
+  <div
+    class="cx-filter-list filter-list-border"
+    (click)="launchSubNav(filterByBuyer)"
+  >
+    <span>{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}</span>
+    <button
+      type="button"
+      class="clear-btn"
+      [attr.aria-label]="
+        'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
+      "
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    </button>
+  </div>
+
+  <div
+    class="cx-filter-list filter-list-border"
+    (click)="launchSubNav(filterByUnit)"
+  >
+    <span>{{ 'unitLevelOrderHistory.unit' | cxTranslate }}</span>
+    <button
+      type="button"
+      class="clear-btn"
+      [attr.aria-label]="
+        'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate
+      "
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    </button>
+  </div>
+</div>
+
+<form
+  [formGroup]="filterFormMobile"
+  (keydown.enter)="searchUnitLevelOrdersForMobile()"
+>
+  <div
+    id="cx-unit-level-order-history-filter-nav-sub-buyer"
+    #filterNavBuyer
+    class="cx-filter-nav"
+    [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
+  >
+    <div class="cx-filter-nav-div">
+      <button class="filter-button" (click)="backFilterSubNav()">
+        <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+        <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
+      </button>
+
+      <button
+        class="clear-btn"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="closeFilterSubNav()"
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+      </button>
+
+      <label>
+        <input
+          #buyerFilterMobileId
+          formControlName="buyerFilterMobile"
+          class="form-control"
+          (input)="searchBuyerMobile(buyerFilterMobileId)"
+          [attr.aria-label]="
+            'unitLevelOrderHistory.searchByBuyer' | cxTranslate
+          "
+          placeholder="{{
+            'unitLevelOrderHistory.searchByBuyer' | cxTranslate
+          }}"
+        />
+
+        <button
+          #buyerButtonMobile
+          [attr.aria-label]="'common.reset' | cxTranslate"
+          (mousedown)="clearBuyerMobile()"
+          (keydown.enter)="clearBuyerMobile()"
+          class="reset cx-unit-level-order-history-filter-reset-button"
+        >
+          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        </button>
+
+        <div #buyerPresentationMobile role="presentation">
+          <cx-icon
+            class="search-icon-filter"
+            [type]="iconTypes.SEARCH"
+          ></cx-icon>
+        </div>
+      </label>
+      <br />
+    </div>
+
+    <div>
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="clearBuyerMobile()"
+      >
+        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="cx-unit-level-order-history-filter-nav-sub-unit"
+    #filterNavUnit
+    class="cx-filter-nav"
+    [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
+  >
+    <div class="cx-filter-nav-div">
+      <button class="filter-button" (click)="backFilterSubNav()">
+        <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+        <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
+      </button>
+
+      <button
+        class="clear-btn"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="closeFilterSubNav()"
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+      </button>
+
+      <label>
+        <input
+          #unitFilterMobileId
+          formControlName="unitFilterMobile"
+          class="form-control"
+          (input)="searchUnitMobile(unitFilterMobileId)"
+          [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
+          placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
+        />
+        <button
+          #unitButtonMobile
+          [attr.aria-label]="'common.reset' | cxTranslate"
+          (mousedown)="clearUnitMobile()"
+          (keydown.enter)="clearUnitMobile()"
+          class="reset cx-unit-level-order-history-filter-reset-button"
+        >
+          <cx-icon [type]="iconTypes.RESET"></cx-icon>
+        </button>
+
+        <div #unitPresentationMobile role="presentation">
+          <cx-icon
+            class="search-icon-filter"
+            [type]="iconTypes.SEARCH"
+          ></cx-icon>
+        </div>
+      </label>
+      <br />
+    </div>
+    <div class="cx-unit-level-order-history-filter-nav-button-block">
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="clearUnitMobile()"
+      >
+        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="filterForm" (keydown.enter)="searchUnitLevelOrders()">
+  <div>
+    <div class="cx-unit-level-order-history-filter-div-wrapper">
+      <div>
+        <span>
+          {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+        </span>
+        <div
+          role="search"
+          class="cx-unit-level-order-history-filter-label-wrapper"
+        >
+          <label class="cx-unit-level-order-history-filter-label">
+            <input
+              #buyerFilterId
+              formControlName="buyerFilter"
+              class="form-control cx-unit-level-order-history-filter-input"
+              (input)="searchBuyer(buyerFilterId)"
+              [attr.aria-label]="
+                'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
+              "
+              placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
+            />
+            <button
+              #buyerButton
+              [attr.aria-label]="'common.reset' | cxTranslate"
+              (mousedown)="clearBuyer()"
+              (keydown.enter)="clearBuyer()"
+              class="reset cx-unit-level-order-history-filter-reset-button"
+            >
+              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+            </button>
+
+            <div #buyerPresentation role="presentation" class="search-icon">
+              <cx-icon
+                class="search-icon-filter"
+                [type]="iconTypes.SEARCH"
+              ></cx-icon>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <span>
+          {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+        </span>
+        <div class="cx-unit-level-order-history-filter-label-wrapper">
+          <label class="cx-unit-level-order-history-filter-label">
+            <input
+              #unitFilterId
+              formControlName="unitFilter"
+              class="form-control cx-unit-level-order-history-filter-input"
+              (input)="searchUnit(unitFilterId)"
+              [attr.aria-label]="
+                'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate
+              "
+              placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
+            />
+            <button
+              #unitButton
+              [attr.aria-label]="'common.reset' | cxTranslate"
+              (mousedown)="clearUnit()"
+              (keydown.enter)="clearUnit()"
+              class="reset cx-unit-level-order-history-filter-reset-button"
+            >
+              <cx-icon [type]="iconTypes.RESET"></cx-icon>
+            </button>
+
+            <div #unitPresentation role="presentation" class="search-icon">
+              <cx-icon
+                class="search-icon-filter"
+                [type]="iconTypes.SEARCH"
+              ></cx-icon>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-unit-level-order-history-filter-form-button-block">
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="clearAll()"
+      >
+        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+      </button>
+      <button
+        class="btn btn-primary unit-level-order-history-search"
+        (click)="searchUnitLevelOrders()"
+      >
+        {{ 'unitLevelOrderHistory.search' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="cx-unit-level-order-history-filter-form-mobile">
+  <button
+    class="btn btn-action btn-block dialog-trigger"
+    (click)="launchMobileFilters()"
+  >
+    <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+    {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
+  </button>
+  <div #removeAppliedFilters class="cx-clear-filter">
+    <button class="cx-action-link clear-btn" type="button" (click)="clearAll()">
+      {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
+    </button>
+  </div>
+</div>
