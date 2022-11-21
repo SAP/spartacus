@@ -1,6 +1,6 @@
 import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
 import * as sampleData from '../../../../sample-data/b2b-order-history';
-import { doPlaceOrder } from '../../../../helpers/order-history';
+import { doPlaceB2BOrder } from '../../../../helpers/b2b/b2b-order-history';
 
 describe('B2B - Unit-Level Order History Filtering', () => {
   const buyerGiSun = 'Gi Sun';
@@ -19,14 +19,14 @@ describe('B2B - Unit-Level Order History Filtering', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     unitLevelOrderHistory.loginB2bCommonUser();
-    doPlaceOrder(sampleData.product1);
-    doPlaceOrder(sampleData.product2);
+    doPlaceB2BOrder(sampleData.product1);
+    doPlaceB2BOrder(sampleData.product2);
     unitLevelOrderHistory.loginB2bUnitOrderViewer();
-    doPlaceOrder(sampleData.product3);
-    doPlaceOrder(sampleData.product4);
+    doPlaceB2BOrder(sampleData.product3);
+    doPlaceB2BOrder(sampleData.product4);
     unitLevelOrderHistory.loginB2bUnitOrderViewer2();
-    doPlaceOrder(sampleData.product5);
-    doPlaceOrder(sampleData.product6);
+    doPlaceB2BOrder(sampleData.product5);
+    doPlaceB2BOrder(sampleData.product6);
     unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
     cy.visit(`/my-account/unitLevelOrders`).wait(500);
   });
