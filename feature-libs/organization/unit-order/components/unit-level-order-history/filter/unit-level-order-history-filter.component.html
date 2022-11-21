@@ -289,11 +289,12 @@
       class="cx-selected-filters"
       *ngIf="unitFilterMobileId.value || buyerFilterMobileId.value"
     >
-      Your Filters:
+      {{ 'unitLevelOrderHistory.yourFilters' | cxTranslate }}
       <span *ngIf="unitFilterMobileId.value"
         >"{{ unitFilterMobileId.value }}"</span
-      ><span *ngIf="unitFilterMobileId.value && buyerFilterMobileId.value"
-        >&nbsp;and&nbsp;</span
+      ><span *ngIf="unitFilterMobileId.value && buyerFilterMobileId.value">{{
+        'unitLevelOrderHistory.and' | cxTranslate
+      }}</span
       ><span *ngIf="buyerFilterMobileId.value"
         >"{{ buyerFilterMobileId.value }}"</span
       >
