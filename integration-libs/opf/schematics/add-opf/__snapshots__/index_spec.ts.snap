@@ -40,7 +40,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/opf-.scss\\"
+              \\"src/styles/spartacus/opf.scss\\"
             ],
             \\"scripts\\": [],
             \\"stylePreprocessorOptions\\": {
@@ -114,7 +114,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/opf-.scss\\"
+              \\"src/styles/spartacus/opf.scss\\"
             ],
             \\"scripts\\": [],
             \\"stylePreprocessorOptions\\": {

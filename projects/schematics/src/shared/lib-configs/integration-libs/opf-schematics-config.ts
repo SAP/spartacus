@@ -12,9 +12,9 @@ import {
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
 
-export const OPF_FOLDER_NAME = 'opf-';
+export const OPF_FOLDER_NAME = 'opf';
 export const OPF_MODULE_NAME = 'Opf';
-export const OPF_SCSS_FILE_NAME = 'opf-.scss';
+export const OPF_SCSS_FILE_NAME = 'opf.scss';
 
 export const OPF_FEATURE_NAME_CONSTANT =
   'OPF_FEATURE';

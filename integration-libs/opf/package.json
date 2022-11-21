@@ -1,7 +1,7 @@
 {
     "name": "@spartacus/opf",
     "version": "4.1.0-next.0",
-    "description": "SAP Enterprise Product Development Visualization integration library for Spartacus",
+    "description": "SAP Open Payment Framework integration library for Spartacus",
     "keywords": [
       "spartacus",
       "framework",
