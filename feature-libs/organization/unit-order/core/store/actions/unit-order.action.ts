@@ -27,6 +27,7 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
       userId: string;
       pageSize?: number;
       currentPage?: number;
+      filters?: string;
       sort?: string;
     }
   ) {

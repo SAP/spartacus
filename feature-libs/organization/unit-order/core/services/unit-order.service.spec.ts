@@ -105,13 +105,14 @@ describe('UnitOrderService', () => {
   });
 
   it('should be able to load unit order list data', () => {
-    unitOrderService.loadOrderList(10, 1, 'byDate');
+    unitOrderService.loadOrderList(10, 1, '', 'byDate');
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new UnitOrderActions.LoadUnitOrders({
         userId: OCC_USER_ID_CURRENT,
         pageSize: 10,
         currentPage: 1,
+        filters: '',
         sort: 'byDate',
       })
     );

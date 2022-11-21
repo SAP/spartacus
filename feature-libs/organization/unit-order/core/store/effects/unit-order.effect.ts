@@ -31,6 +31,7 @@ export class UnitOrderEffect {
               payload.userId,
               payload.pageSize,
               payload.currentPage,
+              payload.filters,
               payload.sort
             )
             .pipe(
