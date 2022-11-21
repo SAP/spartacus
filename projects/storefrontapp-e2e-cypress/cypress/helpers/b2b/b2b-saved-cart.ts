@@ -61,27 +61,27 @@ export function verifyDetailsTabbingOrder() {
 }
 
 export function interceptSaveCartEndpoint(cartCode: string) {
-  SavedCart.interceptSaveCartEndpoint(cartCode);
+  return SavedCart.interceptSaveCartEndpoint(cartCode);
 }
 
 export function interceptGetAllSavedCartEndpoint() {
-  SavedCart.interceptGetAllSavedCartEndpoint();
+  return SavedCart.interceptGetAllSavedCartEndpoint();
 }
 
 export function interceptRestoreSavedCartEndpoint(cartCode: string) {
-  SavedCart.interceptRestoreSavedCartEndpoint(cartCode);
+  return SavedCart.interceptRestoreSavedCartEndpoint(cartCode);
 }
 
 export function interceptGetSavedCartEndpoint(cartCode: string) {
-  SavedCart.interceptGetSavedCartEndpoint(cartCode);
+  return SavedCart.interceptGetSavedCartEndpoint(cartCode);
 }
 
 export function interceptDeleteCartEndpoint(cartCode: string) {
-  SavedCart.interceptDeleteCartEndpoint(cartCode);
+  return SavedCart.interceptDeleteCartEndpoint(cartCode);
 }
 
 export function interceptCloneSavedCartEndpoint(cartCode: string) {
-  SavedCart.interceptCloneSavedCartEndpoint(cartCode);
+  return SavedCart.interceptCloneSavedCartEndpoint(cartCode);
 }
 
 export function clickOn(position: any): void {
