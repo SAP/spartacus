@@ -3,6 +3,7 @@ import * as customerTicketing from '../../../helpers/customer-ticketing/customer
 import {
   TestTicketDetails,
   TestCategory,
+  TestStatus
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
@@ -45,6 +46,24 @@ describe('ticket listing', () => {
         customerTicketing.clickTicketInRow();
         customerTicketing.closeTicketRequest('thank you');
         customerTicketing.verifyStatusOfTicketInList();
+      });
+
+      it('should still show the ticket in the list when status is In Process', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'changing status',
+          message: 'status will change',
+          category: TestCategory.complaint,
+        };
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickTicketInRow();
+        customerTicketing.closeTicketRequest('thank you');
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.clickTicketInRow();
+        customerTicketing.reopenTicketRequest('Reopening ticket');
+        customerTicketing.verifyStatusOfTicketInList(TestStatus.in_process);
       });
 
       it('should create 6 tickets', () => {
@@ -147,6 +166,14 @@ describe('ticket listing', () => {
         customerTicketing.sendMessage('adding to top');
         cy.go('back');
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
+      });
+
+      it('numbers on pagination should take you to the corresponding page', () => {
+        customerTicketing.loginAsAdminLindaWolf();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
+
       });
     });
   });

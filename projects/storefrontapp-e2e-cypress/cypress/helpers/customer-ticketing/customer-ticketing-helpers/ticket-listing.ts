@@ -197,3 +197,7 @@ function getIdInRow(rowNumber: number) {
     .eq(ID_COLUMN)
     .find('a');
 }
+
+export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPage(){
+
+}

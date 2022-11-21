@@ -6,6 +6,7 @@
 
 import { clickHamburger } from '../../checkout-flow';
 import { loginRegisteredUser as login } from '../../cart';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 
 export const HTTP_STATUS_OK = 200;
 export const COLUMN_HEADER_TICKET_LIST = 0;
@@ -45,6 +46,11 @@ export interface TestTicketDetails {
 
 export function loginRegisteredUser() {
   login();
+}
+
+export function loginAsAdminLindaWolf() {
+  cy.requireLoggedIn(myCompanyAdminUser);
+  cy.reload();
 }
 
 export function visitPage(page: string, alias?: string) {
