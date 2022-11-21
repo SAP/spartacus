@@ -198,10 +198,8 @@
           border: solid 1px var(--cx-color-light);
           background-color: var(--cx-color-background);
 
-          @include forVersion(5.1) {
-            @include media-breakpoint-down(sm) {
-              position: sticky;
-            }
+          @include media-breakpoint-down(sm) {
+            position: sticky;
           }
 
           span {
