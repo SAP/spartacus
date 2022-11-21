@@ -282,9 +282,31 @@
     <cx-icon [type]="iconTypes.FILTER"></cx-icon>
     {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
   </button>
-  <div #removeAppliedFilters class="cx-clear-filter">
-    <button class="cx-action-link clear-btn" type="button" (click)="clearAll()">
-      {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
-    </button>
+
+  <div class="cx-unit-level-order-history-filters-show-and-remove">
+    <div
+      #showSelectedFilters
+      class="cx-selected-filters"
+      *ngIf="unitFilterMobileId.value || buyerFilterMobileId.value"
+    >
+      Your Filters:
+      <span *ngIf="unitFilterMobileId.value"
+        >"{{ unitFilterMobileId.value }}"</span
+      ><span *ngIf="unitFilterMobileId.value && buyerFilterMobileId.value"
+        >&nbsp;and&nbsp;</span
+      ><span *ngIf="buyerFilterMobileId.value"
+        >"{{ buyerFilterMobileId.value }}"</span
+      >
+    </div>
+
+    <div #removeAppliedFilters class="cx-clear-filter">
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="clearAll()"
+      >
+        {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
+      </button>
+    </div>
   </div>
 </div>

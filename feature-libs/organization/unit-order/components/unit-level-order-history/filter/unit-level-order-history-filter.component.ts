@@ -63,6 +63,8 @@ export class UnitLevelOrderHistoryFilterComponent {
   unitFilterMobileId: ElementRef;
   @ViewChild('removeAppliedFilters', { read: ElementRef })
   removeAppliedFilters: ElementRef;
+  @ViewChild('showSelectedFilters', { read: ElementRef })
+  showSelectedFilters: ElementRef;
 
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
@@ -122,6 +124,11 @@ export class UnitLevelOrderHistoryFilterComponent {
       'display',
       'none'
     );
+    this.renderer.setStyle(
+      this.showSelectedFilters.nativeElement,
+      'display',
+      'none'
+    );
 
     this.renderer.setStyle(
       this.unitPresentationMobile.nativeElement,
@@ -163,9 +170,19 @@ export class UnitLevelOrderHistoryFilterComponent {
         'display',
         'flex'
       );
+      this.renderer.setStyle(
+        this.showSelectedFilters.nativeElement,
+        'display',
+        'block'
+      );
     } else {
       this.renderer.setStyle(
         this.removeAppliedFilters.nativeElement,
+        'display',
+        'none'
+      );
+      this.renderer.setStyle(
+        this.showSelectedFilters.nativeElement,
         'display',
         'none'
       );
