@@ -15,7 +15,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { CaptchaService } from 'projects/storefrontlib/shared/components/captcha/captcha.service';
+import { CaptchaService } from '@spartacus/storefront';
 import { CaptchaApiConfig } from './config/captcha-api-config';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -40,13 +40,14 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit(): void {
-    if (this.config?.fields) {
-      Object.keys(this.config.fields).forEach((key) => {
-        if (this.config.fields[key]) {
+    const fields = this.config?.fields;
+    if (fields) {
+      Object.keys(fields).forEach((key) => {
+        if (fields[key]) {
           this.renderer.setAttribute(
             this.captchaRef.nativeElement,
             key,
-            this.config.fields[key]
+            fields[key]
           );
         }
       });
