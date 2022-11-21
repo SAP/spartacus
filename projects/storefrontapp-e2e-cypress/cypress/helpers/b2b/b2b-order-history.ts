@@ -23,6 +23,25 @@ export function loginB2bCommonUser() {
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
 
+export function doPlaceB2BOrder(productData?: any) {
+  let stateAuth: any;
+
+  return cy
+    .window()
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      stateAuth = token;
+      return cy.requireProductAddedToCart(stateAuth, productData);
+    })
+    .then(({ cartId }) => {
+      cy.requirePaymentTypeSelected(stateAuth, cartId);
+      cy.requireCostCenterAddressSelected(stateAuth, cartId);
+      cy.requireDeliveryMethodSelected(stateAuth, cartId);
+
+      return cy.requirePlacedOrder(stateAuth, cartId);
+    });
+}
+
 export function addOrder() {
   quickOrder.visitQuickOrderPage();
   quickOrder.addProductToTheList('3881074');
