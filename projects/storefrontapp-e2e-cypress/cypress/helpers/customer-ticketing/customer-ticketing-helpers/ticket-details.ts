@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { ID_IN_HEADER, STATUS_IN_HEADER, TestStatus, TestTicketDetails } from './customer-ticketing-commons';
 const TICKET_HEADER = '.cx-card-label';
 
