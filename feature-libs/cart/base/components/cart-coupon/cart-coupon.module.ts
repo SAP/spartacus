@@ -8,7 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { FormErrorsModule, IconModule } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
@@ -24,6 +29,7 @@ import { CartCouponComponent } from './cart-coupon.component';
     I18nModule,
     IconModule,
     FormErrorsModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
