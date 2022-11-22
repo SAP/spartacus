@@ -70,9 +70,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(
-          lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
+        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
+          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
+        ),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
@@ -164,15 +164,35 @@ function handleSchematicsConfigs(
   libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
 ): void {
-  const targetPaths = {
-    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'],
-  };
   if (options.fix) {
     reportProgress('Updating tsconfig.schematics.json files');
   } else {
     reportProgress('Checking tsconfig.schematics.json files');
   }
   let showAllGood = true;
+
+  const entryPoints = Object.values(libraries)
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          // We need relative paths, which is why we are adding `../..`
+          acc[entryPoint.entryPoint] = [
+            joinPaths(
+              '../..',
+              curr.directory,
+              entryPoint.directory,
+              entryPoint.entryFile
+            ),
+          ];
+        });
+        return acc;
+      },
+      { [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'] } as {
+        [key: string]: [string];
+      }
+    );
+
   Object.values(libraries).forEach((library) => {
     const schematicsTsConfigPaths = glob.sync(
       `${library.directory}/tsconfig.schematics.json`
@@ -182,7 +202,7 @@ function handleSchematicsConfigs(
       library.spartacusDependencies.includes(SPARTACUS_SCHEMATICS)
     ) {
       const hadErrors = handleConfigUpdate(
-        targetPaths,
+        entryPoints,
         schematicsTsConfigPaths[0],
         options
       );
@@ -191,13 +211,14 @@ function handleSchematicsConfigs(
       }
     }
   });
+
   if (showAllGood) {
     success();
   }
 }
 
 /**
- * Adds paths to spartacus dependencies in `tsconfig.lib.json` files.
+ * Adds paths to spartacus dependencies in `tsconfig.lib.json` and `tsconfig.schematics.json` files.
  * We grab all spartacus dependencies and add for all of them all entry points.
  */
 function handleLibConfigs(

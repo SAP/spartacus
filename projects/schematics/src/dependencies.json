@@ -107,6 +107,7 @@
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
@@ -117,13 +118,15 @@
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
@@ -135,25 +138,29 @@
     "@spartacus/styles": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/product": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/product-configurator": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
@@ -165,30 +172,36 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/storefinder": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
@@ -196,21 +209,25 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/tracking": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/user": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/store": "^14.3.0",
@@ -218,13 +235,15 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/cdc": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
@@ -234,12 +253,14 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ngrx/store": "^14.3.0",
     "@spartacus/cart": "4.1.0-next.0",
@@ -248,13 +269,15 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/tracking": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/digital-payments": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ng-select/ng-select": "^9.0.2",
     "@spartacus/cart": "4.1.0-next.0",
@@ -262,13 +285,15 @@
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "@spartacus/epd-visualization": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@sapui5/ts-types-esm": "1.98.0",
     "@spartacus/cart": "4.1.0-next.0",
@@ -277,7 +302,8 @@
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "storefrontapp": {
     "@angular/animations": "^14.2.3",
