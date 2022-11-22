@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as infiniteScroll from '../../../helpers/infinite-scroll';
 import { searchUrlPrefix } from '../../../helpers/product-search';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
