@@ -1,8 +1,7 @@
-import { Config } from 'jest';
-import { pathsToModuleNameMapper } from 'ts-jest';
-import { compilerOptions } from './tsconfig.spec.json';
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { compilerOptions } = require('./tsconfig.spec.json');
 
-const jestConfig: Config = {
+module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globalSetup: 'jest-preset-angular/global-setup',
@@ -22,5 +21,3 @@ const jestConfig: Config = {
     },
   },
 };
-
-export default jestConfig;
