@@ -1,37 +1,35 @@
-<div class="cx-overview-filter-header">
-  {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
-</div>
+<ng-container *ngIf="ovGroups$ | async as groups">
+  <div class="cx-overview-filter-header">
+    {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
+  </div>
 
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" [value]="1" />
-    <label class="form-check-label">
-      {{ 'configurator.overviewFilter.byPrice' | cxTranslate }}</label
-    >
+  <div class="cx-overview-filter-option">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" [value]="1" />
+      <label class="form-check-label">
+        {{ 'configurator.overviewFilter.byPrice' | cxTranslate }}</label
+      >
+    </div>
   </div>
-</div>
 
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" [value]="1" />
-    <label class="form-check-label">
-      {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
-    >
+  <div class="cx-overview-filter-option">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" [value]="1" />
+      <label class="form-check-label">
+        {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
+      >
+    </div>
   </div>
-</div>
 
-<div class="cx-overview-filter-header">
-  {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
-</div>
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" [value]="1" />
-    <label class="form-check-label"> DUMMY GROUP 1</label>
+  <div class="cx-overview-filter-header">
+    {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
   </div>
-</div>
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" [value]="1" />
-    <label class="form-check-label">DUMMY GROUP 2</label>
-  </div>
-</div>
+  <ng-container *ngFor="let group of groups">
+    <div class="cx-overview-filter-option">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" [value]="1" />
+        <label class="form-check-label">{{group.groupDescription}}</label>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

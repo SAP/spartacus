@@ -1,4 +1,9 @@
 %cx-configurator-overview-filter {
+  &:not(:empty) {
+    padding-block-start: 10px;
+    padding-inline-start: 30px;
+  }
+
   .cx-overview-filter-header {
     font-weight: bold;
     background-color: var(--cx-color-background);
