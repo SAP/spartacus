@@ -1,3 +1,3 @@
-test-jest.ts
-jest.config.js
+setup-jest.ts
+jest.config.ts
 tsconfig.spec.json
