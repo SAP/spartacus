@@ -22,6 +22,7 @@ This document can also serve as the guideline for the future schematic that can 
   - [Schematics](#schematics)
     - [Configuring Schematics](#configuring-schematics)
     - [Testing Schematics](#testing-schematics)
+  - [Installation script](#installation-script)
 
 ## Naming conventions
 
@@ -289,10 +290,10 @@ Replace `TODO:` with the appropriate name.
 
 ### Sample data release entry ONLY if applicable
 
-If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then following is applicable to you.
+If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
 
   1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script
-  2. `publish-sample-data.sh` - add one entry that utilize downloading the assets (zip/tar) like the `download_sample_data` function.
+  2. `publish-sample-data.sh` - add one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
 
 Note: make sure the derived sample data includes the  name `spartacussampledata` within the string.
 
