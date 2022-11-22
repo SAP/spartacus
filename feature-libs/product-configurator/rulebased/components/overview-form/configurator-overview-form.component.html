@@ -5,7 +5,8 @@
         groups;
         context: {
           overviewGroups: configuration.overview.groups,
-          level: 1
+          level: 1,
+          idPrefix: ''
         }
       "
     ></ng-container>
@@ -20,7 +21,12 @@
   </div>
 </ng-template>
 
-<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+<ng-template
+  #groups
+  let-overviewGroups="overviewGroups"
+  let-level="level"
+  let-idPrefix="idPrefix"
+>
   <span class="cx-visually-hidden">
     {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
   </span>
@@ -77,7 +83,11 @@
         <ng-container
           *ngTemplateOutlet="
             groups;
-            context: { overviewGroups: group.subGroups, level: level + 1 }
+            context: {
+              overviewGroups: group.subGroups,
+              level: level + 1,
+              idPrefix: idPrefix + group.id
+            }
           "
         ></ng-container>
       </ng-container>
@@ -96,7 +106,7 @@
                   }
           }}
         </span>
-        <h2 aria-hidden="true">
+        <h2 aria-hidden="true" id="{{ getGroupId(idPrefix, group.id) }}">
           <span>{{ group.groupDescription }}</span>
         </h2>
 
@@ -132,7 +142,11 @@
           <ng-container
             *ngTemplateOutlet="
               groups;
-              context: { overviewGroups: group.subGroups, level: level + 1 }
+              context: {
+                overviewGroups: group.subGroups,
+                level: level + 1,
+                idPrefix: idPrefix + group.id
+              }
             "
           ></ng-container>
         </ng-container>

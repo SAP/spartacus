@@ -356,3 +356,58 @@ There are couple of required changes to make sure schematics will work properly
 - Build all libs (if it is first time, if not just build your new lib)
 - Publish
 - Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa
+
+## Installation script
+
+[Installation Script for Spartacus](https://github.com/SAP/spartacus/blob/develop/scripts/install/README.md)
+
+If your library is an integration library (that requires a separate integration servers), a separate toggle flag should be implemented in the Installation Script.
+
+In the following examples please replace `TODO` and `todo` with your appropriate library name:
+
+- In `scripts/install/config.default.ts` add a new flag `ADD_TODO=false` (similar to `ADD_CDC=false`)
+
+In `scripts/install/functions.ts`:
+- add a switch-case inside the `function parseInstallArgs` (similar to the case `cdc)`):
+  ```bash
+  function parseInstallArgs {
+    ...
+
+    todo)
+        ADD_TODO=true
+        echo "➖ Added TODO"   
+        shift
+        ;;
+  ```
+
+- create a new function `add_todo` for installing your library (similar to `function add_cdc`):
+  ```bash
+  function add_todo {
+    if [ "$ADD_TODO" = true ] ; then
+          ng add @spartacus/todo@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+      fi
+  }
+  ```
+
+- invoke your installation function `add_todo` in 3 other functions (similar to `add_cdc`):
+  - CSR installation:
+      ```bash
+      function install_spartacus_csr {
+          ...
+          add_todo
+      }
+      ```
+  - SSR installation:
+      ```bash
+      function install_spartacus_ssr {
+          ...
+          add_todo
+      }
+      ```
+  - SSR PWA installation:
+      ```bash
+      function add_spartacus_ssr_pwa {
+          ...
+          add_todo
+      }
+      ```
