@@ -254,7 +254,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
-    return prefix + groupId + '-ovGroup';
+    return 'id' + prefix + groupId + '-ovGroup';
   }
 
   /**
