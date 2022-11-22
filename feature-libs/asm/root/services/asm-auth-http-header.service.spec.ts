@@ -53,7 +53,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
     return 'some-server/occ';
   }
   getRawEndpointValue(): string {
-    return 'end-point';
+    return 'some-endpoint';
   }
 }
 
