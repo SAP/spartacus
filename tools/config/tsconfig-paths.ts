@@ -81,6 +81,7 @@ export function manageTsConfigs(
     }, {});
 
   handleSchematicsConfigs(libraries, options);
+  handleSetupConfigs(libraries, options);
   handleLibConfigs(libraries, options);
   handleRootConfigs(libraries, options);
   handleAppConfigs(libraries, options);
@@ -211,6 +212,58 @@ function handleSchematicsConfigs(
       }
     }
   });
+
+  if (showAllGood) {
+    success();
+  }
+}
+
+/**
+ * Setup library's tsconfig.spec.json's paths need to be up to date
+ * in order for tests to compile successfully.
+ */
+function handleSetupConfigs(
+  libraries: Record<string, LibraryWithSpartacusDeps>,
+  options: ProgramOptions
+): void {
+  if (options.fix) {
+    reportProgress(`Updating setup's tsconfig.spec.json file`);
+  } else {
+    reportProgress(`Checking setup's tsconfig.spec.json file`);
+  }
+  let showAllGood = true;
+
+  const entryPoints = Object.values(libraries)
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
+    .filter((lib) => lib.name !== `@spartacus/setup`)
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          // We need relative paths, which is why we are adding `../..`
+          acc[entryPoint.entryPoint] = [
+            joinPaths(
+              '../..',
+              curr.directory,
+              entryPoint.directory,
+              entryPoint.entryFile
+            ),
+          ];
+        });
+        return acc;
+      },
+      {} as {
+        [key: string]: [string];
+      }
+    );
+
+  const hadErrors = handleConfigUpdate(
+    entryPoints,
+    'core-libs/setup/tsconfig.spec.json',
+    options
+  );
+  if (hadErrors) {
+    showAllGood = false;
+  }
 
   if (showAllGood) {
     success();
