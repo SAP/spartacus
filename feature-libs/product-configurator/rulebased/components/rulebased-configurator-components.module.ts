@@ -11,6 +11,7 @@ import { ConfiguratorGroupMenuModule } from './group-menu/configurator-group-men
 import { ConfiguratorGroupTitleModule } from './group-title/configurator-group-title.module';
 import { ConfiguratorOverviewAttributeModule } from './overview-attribute/configurator-overview-attribute.module';
 import { ConfiguratorOverviewFormModule } from './overview-form/configurator-overview-form.module';
+import { ConfiguratorOverviewMenuModule } from './overview-menu/configurator-overview-menu.module';
 import { ConfiguratorOverviewNotificationBannerModule } from './overview-notification-banner/configurator-overview-notification-banner.module';
 import { ConfiguratorPreviousNextButtonsModule } from './previous-next-buttons/configurator-previous-next-buttons.module';
 import { ConfiguratorPriceSummaryModule } from './price-summary/configurator-price-summary.module';
@@ -34,6 +35,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorPreviousNextButtonsModule,
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
+    ConfiguratorOverviewMenuModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
