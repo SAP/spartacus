@@ -5,7 +5,7 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
-import * as securePortal from '../../../helpers/b2b/b2b-secure-portal';
+import * as securePortal from '../../../../helpers/b2b/b2b-secure-portal';
 
 context('B2B - Secure Portal', () => {
   let config: RoutingConfig;
