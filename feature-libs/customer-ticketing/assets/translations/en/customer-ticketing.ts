@@ -20,6 +20,7 @@ export const customerTicketing = {
     maximumAttachment: 'Maximum of one attachment per message',
     errorMessage: 'Something went wrong.',
     charactersLeft: 'characters left: {{count}}',
+    customerService: 'Customer Service',
   },
   customerTicketingList: {
     subject: 'Subject',
