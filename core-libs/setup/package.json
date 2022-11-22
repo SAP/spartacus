@@ -13,7 +13,7 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
   "license": "Apache-2.0",
   "scripts": {
-    "test": "../../node_modules/.bin/jest --config ./jest.config.js"
+    "test": "../../node_modules/.bin/jest --config ./jest.config.ts"
   },
   "dependencies": {
     "tslib": "^2.4.0"

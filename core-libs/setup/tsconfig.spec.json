@@ -1,13 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "../../out-tsc/spec",
-    "baseUrl": ".",
     "strict": false,
-    "target": "es2020",
-    "module": "es2020",
-    "types": ["jest", "node"]
+    "module": "CommonJs",
+    "types": ["jest"],
+    "paths": {
+      "@spartacus/core": ["../../projects/core/public_api"]
+    }
   },
-  "files": ["test.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "include": ["ssr/**/*.spec.ts", "ssr/**/*.d.ts"]
 }
