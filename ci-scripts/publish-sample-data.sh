@@ -56,7 +56,7 @@ download_sample_data $SAMPLE_DATA_PREVIOUS $PREVIOUS_RELEASE_SPARTACUS_VERSION_N
 echo "-----"
 echo "Move assets to single folder"
 rm -rf $SAMPLE_DATA_ASSETS_FOLDER
-mkdir $SAMPLE_DATA_ASSETS_FOLDER && mv $STOREFRONT_FILE_NAME* $SAMPLE_DATA_ASSETS_FOLDER
+mkdir $SAMPLE_DATA_ASSETS_FOLDER && mv *$STOREFRONT_FILE_NAME* $SAMPLE_DATA_ASSETS_FOLDER
 
 echo "-----"
 echo "Deleting tag on the remote repository to remove any tied releases"

@@ -15,6 +15,7 @@ This document can also serve as the guideline for the future schematic that can 
   - [Aligning with the other libs](#aligning-with-the-other-libs)
     - [Modifying the generated files](#modifying-the-generated-files)
     - [Additional changes to existing files](#additional-changes-to-existing-files)
+    - [Sample data release entry ONLY if applicable](#sample-data-release-entry-only-if-applicable)
   - [Multi-entry point library](#multi-entry-point-library)
     - [Process](#process)
   - [Testing](#testing)
@@ -285,6 +286,15 @@ fi
 ```
 
 Replace `TODO:` with the appropriate name.
+
+### Sample data release entry ONLY if applicable
+
+If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then following is applicable to you.
+
+  1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script
+  2. `publish-sample-data.sh` - add one entry that utilize downloading the assets (zip/tar) like the `download_sample_data` function.
+
+Note: make sure the derived sample data includes the  name `spartacussampledata` within the string.
 
 ## Multi-entry point library
 
