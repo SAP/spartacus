@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule, Type } from '@angular/core';
 import { CDCUserAccountModule } from '@spartacus/cdc/user-account';
 import { UserAccountModule } from '@spartacus/user/account';
