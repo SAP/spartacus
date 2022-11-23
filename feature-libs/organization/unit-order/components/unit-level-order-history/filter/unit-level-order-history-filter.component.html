@@ -48,7 +48,7 @@
   </div>
 </div>
 
-<form
+<form id="filterFormMobileId"
   [formGroup]="filterFormMobile"
   (keydown.enter)="searchUnitLevelOrdersForMobile()"
 >
@@ -264,8 +264,8 @@
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
-      <button
-        class="btn btn-primary unit-level-order-history-search"
+      <button id="searchUnitLevelOrdersBtn"
+        class="btn btn-primary unit-level-order-history-search" type="button"
         (click)="searchUnitLevelOrders()"
       >
         {{ 'unitLevelOrderHistory.search' | cxTranslate }}
@@ -275,7 +275,7 @@
 </form>
 
 <div class="cx-unit-level-order-history-filter-form-mobile">
-  <button
+  <button id="filterByBtn" type="button"
     class="btn btn-action btn-block dialog-trigger"
     (click)="launchMobileFilters()"
   >
