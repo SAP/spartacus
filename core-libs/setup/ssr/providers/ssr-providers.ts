@@ -14,7 +14,7 @@ import { getRequestUrl } from '../util/request-url';
 /**
  * Returns the providers used for SSR and pre-rendering processes.
  */
-export function provideSsrAndPrerendering(options?: {
+export function provideServer(options?: {
   /**
    * Specify a domain (origin) from which the HTTP requests are being made.
    * Should be without the trailing slash, e.g. "https://my.domain.com"
@@ -43,14 +43,14 @@ export function provideSsrAndPrerendering(options?: {
           > SERVER_REQUEST_ORIGIN=http://localhost:4200 yarn serve:ssr
           
           
-          Alternatively, you can pass it as an argument to provideSsrAndPrerendering
+          Alternatively, you can pass it as an argument to provideServer
           function, but beware it will be used for server-side rendering as well.
           
           E.g.
           @NgModule({
             // ...
             providers: [
-              provideSsrAndPrerendering({
+              provideServer({
                 serverRequestOrigin: 'https://my.domain.com',
               }),
             ],

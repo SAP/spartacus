@@ -70,7 +70,7 @@ export function modifyAppServerModuleFile(): Rule {
     const importChange = insertImport(
       getTsSourceFile(tree, appServerModulePath),
       appServerModulePath,
-      `provideSsrAndPrerendering`,
+      `provideServer`,
       `@spartacus/setup/ssr`,
       false
     );
@@ -78,7 +78,7 @@ export function modifyAppServerModuleFile(): Rule {
       tree,
       appServerModulePath,
       `
-     ...provideSsrAndPrerendering({
+     ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
       }),`
     );
