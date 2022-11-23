@@ -152,7 +152,7 @@ describe('B2B - Unit-Level Order History Filtering', () => {
     dataCellSelector: string,
     ascending: boolean = true
   ) {
-    cy.get(dataCellSelector, { timeout: 500 }).then((items) => {
+    cy.get(dataCellSelector).then((items) => {
       const unsortedItems = items
         .map((_index, html) => Cypress.$(html.lastChild.firstChild).text())
         .get();
