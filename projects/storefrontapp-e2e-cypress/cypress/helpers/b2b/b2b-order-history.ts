@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as sampleData from '../../sample-data/b2b-order-details';
+import * as sampleData from '../../sample-data/b2b-order-history';
 import * as quickOrder from './b2b-quick-order';
 
 export function loginB2bUnitOrderViewer() {
@@ -16,11 +16,11 @@ export function loginB2bUnitOrderViewer2() {
 }
 
 export function loginB2bUnitOrderViewerManager() {
-  cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccountManager);
+  cy.requireLoggedIn(sampleData.b2bUnitOrderViewerManagerAccount);
 }
 
 export function loginB2bCommonUser() {
-  cy.requireLoggedIn(sampleData.b2bUserAccount);
+  cy.requireLoggedIn(sampleData.b2bCommonUserAccount);
 }
 
 export function doPlaceB2BOrder(productData?: any) {
