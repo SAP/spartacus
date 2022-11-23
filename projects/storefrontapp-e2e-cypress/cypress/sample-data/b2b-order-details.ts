@@ -10,19 +10,9 @@ export const ORDER_CODE = '00000001';
 export const ORDER_STATUS = 'Approved';
 export const ORDER_DATE = 'Aug 30, 2022';
 
-export const b2bUnitOrderViewerManager = {
-  name: 'Hanna Schmidt',
-  uid: 'hanna.schmidt@rustic-hw.com',
-};
-
 export const b2bUnitOrderViewer = {
   name: 'Gi Sun',
   uid: 'gi.sun@rustic-hw.com',
-};
-
-export const b2bUnitOrderViewer2 = {
-  name: 'Mark Rivers',
-  uid: 'mark.rivers@rustic-hw.com',
 };
 
 export const b2bUser = {
@@ -49,28 +39,6 @@ export const b2bUnitOrderViewerAccount: AccountData = {
     password: 'pw4all',
     titleCode: 'mr',
     email: b2bUnitOrderViewer.uid,
-  },
-};
-
-export const b2bUnitOrderViewerAccount2: AccountData = {
-  user: '',
-  registrationData: {
-    firstName: '',
-    lastName: '',
-    password: 'pw4all',
-    titleCode: 'mr',
-    email: b2bUnitOrderViewer2.uid,
-  },
-};
-
-export const b2bUnitOrderViewerAccountManager: AccountData = {
-  user: '',
-  registrationData: {
-    firstName: '',
-    lastName: '',
-    password: 'pw4all',
-    titleCode: 'mr',
-    email: b2bUnitOrderViewerManager.uid,
   },
 };
 
