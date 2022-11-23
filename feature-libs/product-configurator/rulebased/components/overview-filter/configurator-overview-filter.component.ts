@@ -7,13 +7,12 @@
 import { Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
-import { OperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import {
   distinctUntilKeyChanged,
   filter,
-  map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -32,7 +31,7 @@ export class ConfiguratorOverviewFilterComponent {
   mySelectionsFilter = new UntypedFormControl('');
   groupFilters = new Array<UntypedFormControl>();
 
-  overview$: Observable<Configurator.Overview> =
+  config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
@@ -45,15 +44,61 @@ export class ConfiguratorOverviewFilterComponent {
           configuration
         )
       ),
-      map((configuration) => configuration.overview),
       // filter nullish 'strict null checks' safe
-      filter((ov) => ov != null) as OperatorFunction<
-        Configurator.Overview | undefined,
-        Configurator.Overview
-      >
+      filter((configuration) => configuration.overview != null),
+      tap((configuration) => {
+        this.groupFilters = [];
+        configuration.overview?.groups?.forEach(() => {
+          this.groupFilters.push(new UntypedFormControl(''));
+        });
+      })
     );
 
-  onPriceFilter() {}
-  onMySelectionFilter() {}
-  onGroupFilter() {}
+  onFilter(config: Configurator.Configuration) {
+    let inputConfig = this.createInputConfig(
+      config,
+      this.collectAttrFilters(),
+      this.collectGroupFilters()
+    );
+    this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
+  }
+
+  protected collectGroupFilters(): string[] {
+    let filters: string[] = [];
+    this.groupFilters.forEach((groupFilter) => {
+      if (groupFilter.value) {
+        //filters.push(groupFilter.)
+      }
+    });
+    return filters;
+  }
+
+  protected collectAttrFilters(): Configurator.OverviewFilter[] {
+    let filters: Configurator.OverviewFilter[] = [];
+    if (this.priceFilter.value) {
+      filters.push(Configurator.OverviewFilter.PRICE_RELEVANT);
+    }
+    if (this.mySelectionsFilter.value) {
+      filters.push(Configurator.OverviewFilter.USER_INPUT);
+    }
+    return filters;
+  }
+
+  protected createInputConfig(
+    config: Configurator.Configuration,
+    attrFilters: Configurator.OverviewFilter[],
+    groupFilers: string[]
+  ): Configurator.Configuration {
+    return {
+      ...config,
+      overview: {
+        configId: config.configId,
+        productCode: config.productCode,
+        attributeFilters: attrFilters,
+        groupFilters: groupFilers,
+      },
+    };
+  }
 }
+
+
