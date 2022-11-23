@@ -44,12 +44,31 @@ export class ConfiguratorOverviewFilterComponent {
           configuration
         )
       ),
-      // filter nullish 'strict null checks' safe
       filter((configuration) => configuration.overview != null),
       tap((configuration) => {
+        if (configuration.overview?.attributeFilters) {
+          let isSelected =
+            configuration.overview.attributeFilters.indexOf(
+              Configurator.OverviewFilter.PRICE_RELEVANT
+            ) >= 0;
+          this.priceFilter.setValue(isSelected);
+
+          isSelected =
+            configuration.overview.attributeFilters.indexOf(
+              Configurator.OverviewFilter.USER_INPUT
+            ) >= 0;
+          this.mySelectionsFilter.setValue(isSelected);
+        }
+
         this.groupFilters = [];
-        configuration.overview?.groups?.forEach(() => {
-          this.groupFilters.push(new UntypedFormControl(''));
+
+        configuration.overview?.groups?.forEach((group) => {
+          let isSelected = false;
+          if (configuration.overview?.groupFilters) {
+            isSelected =
+              configuration.overview.groupFilters.indexOf(group.id) >= 0;
+          }
+          this.groupFilters.push(new UntypedFormControl(isSelected));
         });
       })
     );
@@ -58,17 +77,21 @@ export class ConfiguratorOverviewFilterComponent {
     let inputConfig = this.createInputConfig(
       config,
       this.collectAttrFilters(),
-      this.collectGroupFilters()
+      this.collectGroupFilters(config.overview)
     );
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
-  protected collectGroupFilters(): string[] {
+  protected collectGroupFilters(
+    overview: Configurator.Overview | undefined
+  ): string[] {
     let filters: string[] = [];
+    let idx = 0;
     this.groupFilters.forEach((groupFilter) => {
-      if (groupFilter.value) {
-        //filters.push(groupFilter.)
+      if (groupFilter.value && overview?.groups) {
+        filters.push(overview.groups[idx].id);
       }
+      idx++;
     });
     return filters;
   }
@@ -100,5 +123,3 @@ export class ConfiguratorOverviewFilterComponent {
     };
   }
 }
-
-
