@@ -14,6 +14,7 @@ import {
   DynamicAttributes,
   OccEndpointsService,
   TranslationService,
+  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -61,6 +62,7 @@ class MockTranslationService {
 }
 
 const productCode = 'CONF_LAPTOP';
+const kbLogSys = 'RR5CLNT910';
 let expMode = true;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
@@ -85,6 +87,13 @@ const configuration: Configurator.Configuration = {
 const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
   rootProduct: productCode,
+};
+
+const kbKeyOcc: OccConfigurator.KB = {
+  kbName: productCode + '_KB',
+  kbLogsys: kbLogSys,
+  kbVersion: '1',
+  kbBuildNumber: '2',
 };
 
 const pricesOcc: OccConfigurator.Prices =
@@ -167,6 +176,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    productConfigurationOcc.kbKey = undefined;
   });
 
   afterEach(() => {
@@ -207,22 +217,24 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     mockReq.flush(productConfigurationOcc);
   });
 
   it('should call createConfiguration endpoint for expert mode', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
+    productConfigurationOcc.kbKey = kbKeyOcc;
 
     occConfiguratorVariantAdapter
       .createConfiguration(configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
+
+        //check if expert mode data has been transferred to model
+        expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
+
         done();
       });
 
@@ -247,6 +259,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     mockReq.flush(productConfigurationOcc);
   });
 
@@ -276,6 +291,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -284,17 +302,16 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfiguration endpoint for expert mode', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
+    productConfigurationOcc.kbKey = kbKeyOcc;
 
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
+
+        //check if expert mode data has been transferred to model
+        expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
+
         done();
       });
 
@@ -312,6 +329,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -346,6 +366,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -358,17 +381,15 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call updateConfiguration endpoint for expert mode', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = {
-      kbName: productCode + '_KB',
-      kbLogsys: 'RR5CLNT910',
-      kbVersion: '1',
-      kbBuildNumber: '2',
-    };
+    productConfigurationOcc.kbKey = kbKeyOcc;
 
     occConfiguratorVariantAdapter
       .updateConfiguration(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
+        //check if expert mode data has been transferred to model
+        expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
+
         done();
       });
 
@@ -388,6 +409,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_NORMALIZER
     );
@@ -457,15 +481,17 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_PRICE_NORMALIZER
     );
 
     mockReq.flush(pricesOcc);
   });
-
-  it('should call readConfigurationForCartEntry endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  describe('readConfigurationForCartEntry', () => {
+    const expMode = false;
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
         owner: configuration.owner,
@@ -473,37 +499,85 @@ describe('OccConfigurationVariantAdapter', () => {
         cartId: documentId,
         cartEntryNumber: documentEntryNumber,
       };
-    occConfiguratorVariantAdapter
-      .readConfigurationForCartEntry(params)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-        done();
+    it('should call readConfigurationForCartEntry endpoint', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .readConfigurationForCartEntry(params)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          expect(resultConfiguration.kbKey).toBeUndefined();
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url === 'readVariantConfigurationForCartEntry'
+        );
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url === 'readVariantConfigurationForCartEntry'
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'readVariantConfigurationForCartEntry',
+        {
+          urlParams: {
+            userId,
+            cartId: documentId,
+            cartEntryNumber: documentEntryNumber,
+          },
+          queryParams: { expMode },
+        }
       );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_NORMALIZER
+      );
+      mockReq.flush(productConfigurationOcc);
     });
 
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'readVariantConfigurationForCartEntry',
-      {
-        urlParams: {
-          userId,
-          cartId: documentId,
-          cartEntryNumber: documentEntryNumber,
-        },
-      }
-    );
+    it('should try to activate expert mode if requested', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+      configExpertModeService.setExpModeRequested(true);
+      productConfigurationOcc.kbKey = kbKeyOcc;
+      occConfiguratorVariantAdapter
+        .readConfigurationForCartEntry(params)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
 
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    mockReq.flush(productConfigurationOcc);
+          //check if expert mode data has been transferred to model
+          expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
+
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url === 'readVariantConfigurationForCartEntry'
+        );
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'readVariantConfigurationForCartEntry',
+        {
+          urlParams: {
+            userId,
+            cartId: documentId,
+            cartEntryNumber: documentEntryNumber,
+          },
+          queryParams: { expMode: true },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_NORMALIZER
+      );
+      mockReq.flush(productConfigurationOcc);
+    });
   });
 
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', (done) => {
@@ -672,6 +746,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
     expect(converterService.pipeable).toHaveBeenCalledWith(
       VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
@@ -701,6 +778,9 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
 
     mockReq.flush(variantSearchResult);
   });

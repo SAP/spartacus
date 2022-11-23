@@ -23,12 +23,14 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
+const OV_GROUP_ID = 'idAB-ovGroup';
 
 const configCreate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
@@ -87,6 +89,12 @@ class MockConfiguratorCommonsService {
   }
 
   removeConfiguration(): void {}
+}
+
+class MockConfiguratorStorefrontUtilsService {
+  createOvGroupId(): string {
+    return OV_GROUP_ID;
+  }
 }
 
 function initialize() {
@@ -151,6 +159,10 @@ describe('ConfigurationOverviewFormComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
           },
           {
             provide: FeaturesConfig,
@@ -288,6 +300,19 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toBe(true);
       result = component.isSameAttribute(attributes, 1);
       expect(result).toBe(true);
+    });
+  });
+
+  describe('getGroupId', () => {
+    it('should dispatch request to utils service', () => {
+      initialize();
+      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
+    });
+
+    it('should cope with utils service not present', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
     });
   });
 

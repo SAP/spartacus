@@ -4,13 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
 import { Injectable, Optional } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
-import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  OccEndpointsService,
+  OCC_HTTP_TOKEN,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -88,7 +92,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
           queryParams: { expMode },
-        })
+        }),
+        { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -115,7 +120,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
           urlParams: { configId },
           queryParams: { groupId, expMode },
-        })
+        }),
+        { context: this.indicateSendUserForAsm() }
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -149,7 +155,9 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .patch<OccConfigurator.Configuration>(url, occConfiguration)
+      .patch<OccConfigurator.Configuration>(url, occConfiguration, {
+        context: this.indicateSendUserForAsm(),
+      })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         tap((resultConfiguration) => {
@@ -189,6 +197,7 @@ export class VariantConfiguratorOccAdapter
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
+    const expMode = this.getExpModeRequested();
     const url = this.occEndpointsService.buildUrl(
       'readVariantConfigurationForCartEntry',
       {
@@ -197,11 +206,15 @@ export class VariantConfiguratorOccAdapter
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
         },
+        queryParams: { expMode },
       }
     );
 
     return this.http.get<OccConfigurator.Configuration>(url).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+      tap((resultConfiguration) => {
+        this.setExpModeActive(resultConfiguration.kbKey !== undefined);
+      }),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
@@ -289,7 +302,7 @@ export class VariantConfiguratorOccAdapter
       }
     );
 
-    return this.http.get(url).pipe(
+    return this.http.get(url, { context: this.indicateSendUserForAsm() }).pipe(
       this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
       map((configResult) => {
         const result: Configurator.Configuration = {
@@ -311,7 +324,9 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get<OccConfigurator.Overview>(url)
+      .get<OccConfigurator.Overview>(url, {
+        context: this.indicateSendUserForAsm(),
+      })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );
@@ -324,6 +339,24 @@ export class VariantConfiguratorOccAdapter
     );
     //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
     //variant representation
-    return this.http.get<Configurator.Variant[]>(url);
+    return this.http.get<Configurator.Variant[]>(url, {
+      context: this.indicateSendUserForAsm(),
+    });
+  }
+
+  /**
+   * Prepares http context indicating that emulated user has to be added to the request in ASM mode
+   *
+   * The actual calls to the commerce backend will only be changed if the ASM setting
+   * userIdHttpHeader:{
+   *  enable:true
+   * },
+   * is active
+   * @returns http context indicating that emulated user has to be added to the request in ASM mode
+   */
+  protected indicateSendUserForAsm(): HttpContext {
+    return new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
   }
 }

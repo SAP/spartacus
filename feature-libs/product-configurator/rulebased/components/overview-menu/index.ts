@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-declare module 'semver-extra';
-declare module 'npm-package-versions';
+export * from './configurator-overview-menu.component';
+export * from './configurator-overview-menu.module';

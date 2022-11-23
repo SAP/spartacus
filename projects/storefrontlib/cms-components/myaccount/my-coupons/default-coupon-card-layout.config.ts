@@ -10,7 +10,7 @@ import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog
 export const defaultCouponLayoutConfig: LayoutConfig = {
   launch: {
     COUPON: {
-      inline: true,
+      inlineRoot: true,
       component: CouponDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
