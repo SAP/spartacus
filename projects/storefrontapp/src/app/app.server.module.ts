@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-import { provideSsrAndPrerendering } from '@spartacus/setup/ssr';
+import { provideServer } from '@spartacus/setup/ssr';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
 
@@ -21,7 +21,7 @@ import { AppModule } from './app.module';
   // imported AppModule, it needs to be repeated here.
   bootstrap: [StorefrontComponent],
   providers: [
-    ...provideSsrAndPrerendering({
+    ...provideServer({
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
   ],
