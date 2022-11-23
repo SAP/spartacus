@@ -108,18 +108,22 @@ describe('B2B - Unit-level order history page', () => {
   });
 
   describe('Check order details page', () => {
-    it('should display buyer and unit on order details page for unit-level-viewer user', () => {
+    it('should display buyer and unit on order details page for user with right to view Unit-Level Orders', () => {
       unitLevelOrderDetails.loginB2bUnitOrderViewer();
       unitLevelOrderDetails.getStubbedUnitLevelOrderDetails();
-      cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
+      cy.visit(`/my-account/unitLevelOrderDetails/${sampleData.ORDER_CODE}`);
       assertUnitLevelOrderDetails(sampleData.unitLevelOrder);
     });
 
-    it('should not display buyer and unit on order details page for ordinal user', () => {
+    it('should not display order details page for user without right to view Unit-Level Orders', () => {
       unitLevelOrderDetails.loginB2bCommonUser();
       unitLevelOrderDetails.getStubbedUnitLevelOrderDetails();
-      cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-      assertCommonUserOrderDetails(sampleData.unitLevelOrder);
+      cy.visit(`/my-account/unitLevelOrderDetails/${sampleData.ORDER_CODE}`);
+      assertExistenceOfNoPermissionMessage();
+      cy.location('pathname').should(
+        'not.contain',
+        '/my-account/unitLevelOrderDetails/'
+      );
     });
   });
 });
@@ -155,11 +159,11 @@ function assertClickOrderDetailsPage(order) {
   cy.contains('Order Number').parent().should('contain', order.code);
 }
 
-function assertCommonUserOrderDetails(order) {
-  assertCommonFieldsOfOrderDetails(order);
-  const buyerNameAndEmail = `${order.orgCustomer.name}  (${order.orgCustomer.uid})`;
-  cy.get('cx-order-overview cx-card').should('not.contain', buyerNameAndEmail);
-  cy.get('cx-order-overview cx-card').should('not.contain', order.orgUnit.name);
+function assertExistenceOfNoPermissionMessage() {
+  cy.get('cx-global-message').should(
+    'contain',
+    'No sufficient permissions to access this page'
+  );
 }
 
 function assertCommonFieldsOfOrderDetails(order) {
@@ -190,5 +194,7 @@ function assertCommonFieldsOfOrderDetails(order) {
 }
 
 function assertOrderDetailsCard(index: number, value: string) {
-  cy.get('cx-order-overview cx-card').eq(index).should('contain', value);
+  cy.get('cx-unit-level-order-overview cx-card')
+    .eq(index)
+    .should('contain', value);
 }

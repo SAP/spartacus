@@ -372,6 +372,7 @@ const unitLevelOrder_raw = JSON.parse(`
       },
       "customerId" : "ab3f7a08-690a-4616-b1fe-4f0847fcb79f",
       "displayUid" : "gi.sun@rustic-hw.com",
+      "email" : "gi.sun@rustic-hw.com",
       "firstName" : "Gi",
       "lastName" : "Sun",
       "orgUnit" : {
