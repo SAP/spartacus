@@ -81,6 +81,7 @@ export const organization = {
       b2bapprovergroup: 'Approver',
       b2bmanagergroup: 'Manager',
       b2badmingroup: 'Admin',
+      unitorderviewergroup: 'Unit order viewer',
     },
 
     breadcrumb: 'Organization',

@@ -126,6 +126,7 @@ export function checkRows(rows): void {
               b2bmanagergroup: 'Manager',
               b2bapprovergroup: 'Approver',
               b2badmingroup: 'Admin',
+              unitorderviewergroup: 'Unit order viewer',
             };
 
             // Used in user roles array
