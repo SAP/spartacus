@@ -254,7 +254,22 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
-    return 'id' + prefix + groupId + '-ovGroup';
+    //return 'id' + prefix + groupId + '-ovGroup';
+    return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
+  }
+
+  /**
+   * Generates a unique overview group ID from the local group ID
+   * and a prefix that reflects the parent groups in the group hierarchy
+   *
+   * @param {string} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - generated group ID
+   */
+  createOvMenuItemId(prefix: string, groupId: string): string {
+    return prefix
+      ? prefix + '--' + groupId + '-ovMenuItem'
+      : groupId + '-ovMenuItem';
   }
 
   /**
@@ -295,6 +310,14 @@ export class ConfiguratorStorefrontUtilsService {
       return this.windowRef.document.querySelector(
         querySelector
       ) as HTMLElement;
+    }
+  }
+
+  getElements(querySelector: string): NodeListOf<HTMLElement> | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.querySelectorAll(
+        querySelector
+      ) as NodeListOf<HTMLElement>;
     }
   }
 }

@@ -4,6 +4,7 @@
       <button role="tab" class="active">
         {{ 'configurator.overviewMenu.title' | cxTranslate }}
       </button>
+      <button role="tab">Filter</button>
     </div>
     <ng-container
       *ngTemplateOutlet="
@@ -27,6 +28,7 @@
   <ng-container *ngFor="let group of overviewGroups">
     <div [ngClass]="getGroupLevelStyleClasses(level)">
       <button
+        id="{{ getMenuItemId(idPrefix, group.id) }}"
         class="cx-menu-item"
         role="tab"
         [attr.aria-label]="
@@ -44,7 +46,7 @@
             context: {
               overviewGroups: group.subGroups,
               level: level + 1,
-              idPrefix: idPrefix + group.id
+              idPrefix: idPrefix ? idPrefix + '--' + group.id : group.id
             }
           "
         ></ng-container>

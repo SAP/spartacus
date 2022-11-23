@@ -94,7 +94,9 @@
           color: var(--cx-color-text);
           border: none;
           background-color: transparent;
+          transition: all 50ms ease-in-out 50ms; /*This small transition makes setting of the active state smooth */
 
+          &.active,
           &:hover {
             cursor: pointer;
             color: var(--cx-color-primary);

@@ -171,6 +171,10 @@ export class ConfiguratorOverviewFormComponent {
           idPrefix,
           groupId
         )
-      : 'id' + idPrefix + groupId + '-ovGroup';
+      : // : 'id' + idPrefix + groupId + '-ovGroup';
+
+      idPrefix
+      ? idPrefix + '--' + groupId + '-ovGroup'
+      : groupId + '-ovGroup';
   }
 }

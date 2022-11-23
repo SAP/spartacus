@@ -224,7 +224,7 @@ describe('ConfigUtilsService', () => {
 
   describe('createOvGroupId', () => {
     it('should create a group id from its 2 parameters', () => {
-      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('idAB-ovGroup');
+      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('A--B-ovGroup');
     });
   });
 
