@@ -129,15 +129,17 @@ export function checkRows(rows): void {
             };
 
             // should to be filtered out, as we don't show them
-            const RIGHTS = ["unitorderviewergroup"];
+            const RIGHTS = ['unitorderviewergroup'];
 
             // Used in user roles and rights array
             // Because we can't use translate pipe, have to check per case
-            row.text[columnIndex].filter((text: string) => !RIGHTS.includes(text)).forEach((text) => {
-              cy.get(
-                `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
-              ).should('include.text', ROLES[text]);
-            });
+            row.text[columnIndex]
+              .filter((text: string) => !RIGHTS.includes(text))
+              .forEach((text) => {
+                cy.get(
+                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+                ).should('include.text', ROLES[text]);
+              });
           } else {
             cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
               'include.text',
