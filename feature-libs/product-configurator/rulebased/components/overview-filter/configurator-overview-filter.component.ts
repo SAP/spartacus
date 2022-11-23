@@ -5,6 +5,7 @@
  */
 
 import { Component } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { OperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
@@ -27,7 +28,11 @@ export class ConfiguratorOverviewFilterComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 
-  ovGroups$: Observable<Configurator.GroupOverview[]> =
+  priceFilter = new UntypedFormControl('');
+  mySelectionsFilter = new UntypedFormControl('');
+  groupFilters = new Array<UntypedFormControl>();
+
+  overview$: Observable<Configurator.Overview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
@@ -40,11 +45,15 @@ export class ConfiguratorOverviewFilterComponent {
           configuration
         )
       ),
-      map((configuration) => configuration.overview?.groups),
+      map((configuration) => configuration.overview),
       // filter nullish 'strict null checks' safe
-      filter((groups) => groups !== undefined) as OperatorFunction<
-        Configurator.GroupOverview[] | undefined,
-        Configurator.GroupOverview[]
+      filter((ov) => ov != null) as OperatorFunction<
+        Configurator.Overview | undefined,
+        Configurator.Overview
       >
     );
+
+  onPriceFilter() {}
+  onMySelectionFilter() {}
+  onGroupFilter() {}
 }

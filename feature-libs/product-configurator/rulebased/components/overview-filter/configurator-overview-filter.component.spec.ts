@@ -121,17 +121,6 @@ describe('ConfigurationOverviewFilterComponent', () => {
     );
   });
 
-  it('should not render any options if overview (groups) is undefined', () => {
-    if (ovConfig.overview) ovConfig.overview.groups = undefined;
-    initTestComponent();
-
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-overview-filter-option, .cx-overview-filter-header'
-    );
-  });
-
   it('should not render anything if nothing has been emitted', () => {
     asSpy(mockConfigCommonsService.getOrCreateConfiguration).and.returnValue(
       NEVER
