@@ -49,7 +49,7 @@ export class LaunchDialogService {
     openElement?: ElementRef,
     vcr?: ViewContainerRef,
     data?: any
-  ): Observable<ComponentRef<any> | undefined> | undefined {
+  ): Observable<any> | undefined {
     const component = this.launch(caller, vcr, data);
 
     if (component) {
@@ -64,7 +64,6 @@ export class LaunchDialogService {
       );
     }
   }
-
   /**
    * Render the element based on the strategy from the launch configuration
    *
