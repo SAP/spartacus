@@ -8,6 +8,7 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -119,6 +120,35 @@ const mockCreateEventResponse: TicketEvent = {
   message: 'mock message',
 };
 
+const mockCreatedTicketResponse: TicketDetails = {
+  availableStatusTransitions: [
+    {
+      id: 'CLOSED',
+      name: 'Closed',
+    },
+  ],
+  createdAt: '2022-11-09T14:19:40+0000',
+  id: '00001362',
+  modifiedAt: '2022-11-09T14:19:40+0000',
+  status: {
+    id: 'OPEN',
+    name: 'Open',
+  },
+  subject: 'Test',
+  ticketCategory: {
+    id: 'ENQUIRY',
+    name: 'Enquiry',
+  },
+  ticketEvents: [
+    {
+      author: 'Mark Rivers',
+      code: '000001CI',
+      createdAt: '2022-11-09T14:19:40+0000',
+      message: 'Test',
+    },
+  ],
+};
+
 class MockUserIdService implements Partial<UserIdService> {
   getUserId = createSpy().and.returnValue(of(mockUserId));
 }
@@ -139,6 +169,7 @@ class MockCustomerTicketingConnector
   getTicketCategories = createSpy().and.returnValue(of(mockCategories));
   uploadAttachment = createSpy().and.returnValue(of(`uploadAttachment`));
   downloadAttachment = createSpy().and.returnValue(of(`downloadAttachment`));
+  createTicket = createSpy().and.returnValue(of(mockCreatedTicketResponse));
 }
 
 describe('CustomerTicketingService', () => {
@@ -361,6 +392,30 @@ describe('CustomerTicketingService', () => {
             'mockCode',
             'mockId'
           );
+          done();
+        });
+    });
+  });
+
+  describe('createTicket', () => {
+    it('should call customerTicketingConnector.createTicket', (done) => {
+      const mockTicketStarter: TicketStarter = {
+        message: 'Test',
+        subject: 'Test',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+      };
+      service
+        .createTicket(mockTicketStarter)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.createTicket).toHaveBeenCalledWith(
+            mockUserId,
+            mockTicketStarter
+          );
+          expect(data).toEqual(mockCreatedTicketResponse);
           done();
         });
     });

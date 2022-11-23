@@ -8,8 +8,10 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import {
+  CUSTOMER_TICKETING_CREATE_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
 } from 'feature-libs/customer-ticketing/core';
@@ -27,6 +29,10 @@ const MockOccModuleConfig: OccConfig = {
           'users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments',
         downloadAttachment:
           'users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments/${attachmentId}',
+        createTicket: 'users/${customerId}/tickets',
+        getTicketCategories: '/ticketCategories',
+        getTicketAssociatedObjects:
+          'users/${customerId}/ticketAssociatedObjects',
       } as OccEndpoints,
     },
   },
@@ -302,6 +308,72 @@ describe('OccCustomerTicketingAdapter', () => {
       mockReq.flush(attachmentResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_FILE_NORMALIZER
+      );
+    });
+  });
+
+  describe('createTicket', () => {
+    it('should create ticket', (done) => {
+      const mockTicketStarter: TicketStarter = {
+        message: 'Test',
+        subject: 'Test',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+      };
+
+      const mockCreatedTicketResponse: TicketDetails = {
+        availableStatusTransitions: [
+          {
+            id: 'CLOSED',
+            name: 'Closed',
+          },
+        ],
+        createdAt: '2022-11-09T14:19:40+0000',
+        id: '00001362',
+        modifiedAt: '2022-11-09T14:19:40+0000',
+        status: {
+          id: 'OPEN',
+          name: 'Open',
+        },
+        subject: 'Test',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+        ticketEvents: [
+          {
+            author: 'Mark Rivers',
+            code: '000001CI',
+            createdAt: '2022-11-09T14:19:40+0000',
+            message: 'Test',
+          },
+        ],
+      };
+
+      service
+        .createTicket(mockCustomerId, mockTicketStarter)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockCreatedTicketResponse);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'POST' && req.url === `users/${mockCustomerId}/tickets`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockCreatedTicketResponse);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_TICKETING_CREATE_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        mockTicketStarter,
+        CUSTOMER_TICKETING_CREATE_NORMALIZER
       );
     });
   });

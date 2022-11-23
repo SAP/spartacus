@@ -9,6 +9,7 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
 describe('CustomerTicketingCreateComponent', () => {
   let component: CustomerTicketingCreateComponent;
   let fixture: ComponentFixture<CustomerTicketingCreateComponent>;
+  let launchDialogService: LaunchDialogService;
 
   class MockLaunchDialogService implements Partial<LaunchDialogService> {
     openDialog(
@@ -28,6 +29,7 @@ describe('CustomerTicketingCreateComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
+    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   beforeEach(() => {
@@ -38,5 +40,15 @@ describe('CustomerTicketingCreateComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should trigger create new ticket dialog', () => {
+    spyOn(launchDialogService, 'openDialog');
+    component.openCreateNewTicketDialog();
+
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.CUSTOMER_TICKETING_CREATE,
+      component.element,
+      component['vcr']
+    );
   });
 });
