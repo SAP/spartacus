@@ -121,20 +121,22 @@ export function checkRows(rows): void {
       for (let columnIndex = 0; columnIndex < row.text.length; columnIndex++) {
         if (row.text[columnIndex]) {
           if (Array.isArray(row.text[columnIndex])) {
-            const ROLES_AND_RIGHTS = {
+            const ROLES = {
               b2bcustomergroup: 'Customer',
               b2bmanagergroup: 'Manager',
               b2bapprovergroup: 'Approver',
               b2badmingroup: 'Admin',
-              unitorderviewergroup: 'View Unit-Level Orders',
             };
+
+            // should to be filtered out, as we don't show them
+            const RIGHTS = ["unitorderviewergroup"];
 
             // Used in user roles and rights array
             // Because we can't use translate pipe, have to check per case
-            row.text[columnIndex].forEach((text) => {
+            row.text[columnIndex].filter((text: string) => !RIGHTS.includes(text)).forEach((text) => {
               cy.get(
                 `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
-              ).should('include.text', ROLES_AND_RIGHTS[text]);
+              ).should('include.text', ROLES[text]);
             });
           } else {
             cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
