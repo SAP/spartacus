@@ -95,15 +95,25 @@ function beforeExit(): void {
   }
 }
 
-let newVersion: string | undefined;
+function getCurrentVersion(): string {
+  const result = semver.parse(
+    JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
+  )?.version;
+  if (!result) {
+    throw new Error(
+      `File 'projects/core/package.json' doesn't contain a valid field "version"`
+    );
+  }
+  return result;
+}
+let newVersion = getCurrentVersion();
+
 function publishLibs(reload = false): void {
-  if (!newVersion || reload) {
-    newVersion = semver.parse(
-      JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
-    )?.version;
+  if (reload) {
+    newVersion = getCurrentVersion();
   }
   // Bump version to publish
-  newVersion = semver.inc(newVersion ?? '', 'patch') ?? '';
+  newVersion = semver.inc(newVersion, 'patch') ?? '';
 
   // Packages released from it's source directory
   const files = [
