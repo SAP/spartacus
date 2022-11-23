@@ -18,7 +18,7 @@ describe('B2B - Unit-Level Order History Filtering', () => {
   const filterBuyer = '[formcontrolname="buyerFilter"]';
   const filterUnit = '[formcontrolname="unitFilter"]';
 
-  const orderHistoryPageUrl = '/orgUsers/current/orgUnits/orders?pageSize=5&*';
+  const orderHistoryPageUrl = '/orgUsers/current/orgUnits/orders?pageSize=*';
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
