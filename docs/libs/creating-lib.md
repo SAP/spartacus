@@ -298,8 +298,6 @@ If you have your own sample data that derives from our spartacussampledata, such
      2. create one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
      3. add a note for the `gh release` that mentions what that zip is. For example, if the zip is called spartacussampledata-TODO.zip, then make sure it mentions what that TODO is.
 
-Note: make sure the derived sample data includes the  name `spartacussampledata` within the string.
-
 ## Multi-entry point library
 
 Sources:
