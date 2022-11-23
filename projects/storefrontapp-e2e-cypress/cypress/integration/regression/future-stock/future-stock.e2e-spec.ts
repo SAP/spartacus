@@ -3,6 +3,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../helpers/auth-forms';
 
 // 3318057
+// 4567181
 const productIdWithFutureStock = '3318057';
 // 3881014
 // 3755219
@@ -14,7 +15,7 @@ const b2bUser = {
 };
 
 describe('Future Stock', () => {
-	viewportContext(['mobile', 'desktop'], () => {
+	viewportContext(['desktop'], () => {
 		before(() => {
 			cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -52,7 +53,7 @@ describe('Future Stock', () => {
 
 		it('should contain proper quantity', () => {
 			cy.get('cx-future-stock-accordion button').click();
-			cy.contains('cx-future-stock-accordion', '10/11/2020 - Qty 15');
+			cy.contains('cx-future-stock-accordion', '3/10/18 - Qty 50');
 		});
 
 		it('when choosing other product, future stock dropdown should contain no information', () => {
@@ -71,7 +72,7 @@ describe('Future Stock', () => {
 
 			cy.get('cx-future-stock').should('be.visible');
 			cy.get('cx-future-stock-accordion button').click();
-			cy.contains('cx-future-stock-accordion', 'No information');
+			cy.contains('cx-future-stock-accordion', 'This product has no future availability information');
 		});
 	});
 });
