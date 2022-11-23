@@ -10,7 +10,10 @@ import {
   HostListener,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { IntersectionService } from '@spartacus/storefront';
+import {
+  IntersectionOptions,
+  IntersectionService,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -22,7 +25,6 @@ import {
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { IntersectionOptions } from '../../../../../projects/storefrontlib/layout';
 
 @Component({
   selector: 'cx-configurator-overview-menu',
