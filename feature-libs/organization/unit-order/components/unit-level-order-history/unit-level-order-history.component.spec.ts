@@ -51,20 +51,6 @@ const mockOrderList: OrderHistoryList | undefined = {
       statusDisplay: 'test2',
       total: { formattedValue: '2' },
     },
-    {
-      code: '3',
-      placed: new Date('2022-01-02'),
-      orgCustomer: {
-        email: 'gi.sun@rustic-hw.com',
-        uid: 'gi.sun@rustic-hw.com',
-        firstName: 'gi',
-        lastName: 'sun',
-      },
-      orgUnit: { name: 'Service West', uid: 'Service West' },
-
-      statusDisplay: 'test3',
-      total: { formattedValue: '3' },
-    },
   ],
   pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }],
@@ -314,14 +300,14 @@ describe('UnitLevelOrderHistoryComponent', () => {
     let orderHistoryQueryParam: OrderHistoryQueryParams = {
       currentPage: 0,
       sortCode: 'byDate',
-      filters: '::user:gi:unit:services'
+      filters: '::user:mark:unit:custom'
     }
     component.filterChange(orderHistoryQueryParam);
 
     expect(unitOrderFacade.loadOrderList).toHaveBeenCalledWith(
       5,
       0,
-      '::user:gi:unit:services',
+      '::user:mark:unit:custom',
       'byDate'
     );
   });

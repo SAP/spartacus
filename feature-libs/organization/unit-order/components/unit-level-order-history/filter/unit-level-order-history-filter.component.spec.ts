@@ -99,6 +99,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
   });
 
   it('clearAll clears all the filtered values', () => {
+    fixture.detectChanges();
     const spy = spyOn(component, 'clearAll').and.callThrough();
     const clearbtn = fixture.debugElement.query(By.css("button#clearAllBtn"));
     const form = component.filterForm;
@@ -112,5 +113,19 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     expect(form.get('buyerFilter').value).toBeNull();
     expect(form.get('unitFilter').value).toBeNull();
   });
-
+  it('click on Remove Applied Filters removes all the filtered values', () => {
+    fixture.detectChanges();
+    const spy = spyOn(component, 'clearAll').and.callThrough();
+    const clearbtn = fixture.debugElement.query(By.css("button#removeAppliedFiltersbtn"));
+    const form = component.filterFormMobile;
+    form.patchValue({
+      'buyerFilterMobile': 'gi',
+      'unitFilterMobile': 'services'
+    });
+    clearbtn.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.buyerFilterMobileId.nativeElement.value).toBe('');
+    expect(component.unitFilterMobileId.nativeElement.value).toBe('');
+  });
 });
