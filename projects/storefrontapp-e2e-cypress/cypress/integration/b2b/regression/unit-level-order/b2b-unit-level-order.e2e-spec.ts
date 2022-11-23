@@ -23,9 +23,6 @@ describe('B2B - Unit-level order history page', () => {
     unitLevelOrderHistory.loginB2bUnitOrderViewer2();
     doPlaceB2BOrder(b2bProduct).then((resp) => (order2 = resp.body));
 
-    // Hanna Schmidt - Rustic
-    unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-
     unitLevelOrderDetails.loginB2bUnitOrderViewer();
     cy.visit('/my-account/unitLevelOrders');
   });
