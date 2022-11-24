@@ -8,7 +8,7 @@ import { normalize, strings, virtualFs } from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
@@ -23,6 +23,7 @@ export const cartBaseFeatureModulePath =
   'src/app/spartacus/features/cart/cart-base-feature.module.ts';
 export const cartWrapperModulePath =
   'src/app/spartacus/features/cart/cart-base-wrapper.module.ts';
+export const customerTicketingFeatureModulePath = 'src/app/spartacus/features/customer-ticketing/customer-ticketing-feature.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
