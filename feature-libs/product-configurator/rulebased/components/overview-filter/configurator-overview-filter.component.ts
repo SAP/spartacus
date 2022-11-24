@@ -7,6 +7,7 @@
 import { Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
+import { OperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import {
   distinctUntilKeyChanged,
@@ -16,6 +17,10 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+
+export interface ConfigurationNonNullOv extends Configurator.Configuration {
+  overview: Configurator.Overview;
+}
 
 @Component({
   selector: 'cx-configurator-overview-filter',
@@ -44,32 +49,13 @@ export class ConfiguratorOverviewFilterComponent {
           configuration
         )
       ),
-      filter((configuration) => configuration.overview != null),
-      tap((configuration) => {
-        if (configuration.overview?.attributeFilters) {
-          let isSelected =
-            configuration.overview.attributeFilters.indexOf(
-              Configurator.OverviewFilter.PRICE_RELEVANT
-            ) >= 0;
-          this.priceFilter.setValue(isSelected);
-
-          isSelected =
-            configuration.overview.attributeFilters.indexOf(
-              Configurator.OverviewFilter.USER_INPUT
-            ) >= 0;
-          this.mySelectionsFilter.setValue(isSelected);
-        }
-
-        this.groupFilters = [];
-
-        configuration.overview?.groups?.forEach((group) => {
-          let isSelected = false;
-          if (configuration.overview?.groupFilters) {
-            isSelected =
-              configuration.overview.groupFilters.indexOf(group.id) >= 0;
-          }
-          this.groupFilters.push(new UntypedFormControl(isSelected));
-        });
+      // filter 'strict null check safe'
+      filter(
+        (configuration) => configuration.overview != null
+      ) as OperatorFunction<Configurator.Configuration, ConfigurationNonNullOv>,
+      tap((configuration: ConfigurationNonNullOv) => {
+        this.extractAttrFilterState(configuration);
+        this.extractGroupFilterState(configuration);
       })
     );
 
@@ -80,6 +66,33 @@ export class ConfiguratorOverviewFilterComponent {
       this.collectGroupFilters(config.overview)
     );
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
+  }
+
+  protected extractGroupFilterState(configuration: ConfigurationNonNullOv) {
+    this.groupFilters = [];
+    configuration.overview.groups?.forEach((group) => {
+      let isSelected = false;
+      if (configuration.overview.groupFilters) {
+        isSelected = configuration.overview.groupFilters.indexOf(group.id) >= 0;
+      }
+      this.groupFilters.push(new UntypedFormControl(isSelected));
+    });
+  }
+
+  protected extractAttrFilterState(configuration: ConfigurationNonNullOv) {
+    if (configuration.overview.attributeFilters) {
+      let isSelected =
+        configuration.overview.attributeFilters.indexOf(
+          Configurator.OverviewFilter.PRICE_RELEVANT
+        ) >= 0;
+      this.priceFilter.setValue(isSelected);
+
+      isSelected =
+        configuration.overview.attributeFilters.indexOf(
+          Configurator.OverviewFilter.USER_INPUT
+        ) >= 0;
+      this.mySelectionsFilter.setValue(isSelected);
+    }
   }
 
   protected collectGroupFilters(
