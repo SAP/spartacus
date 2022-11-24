@@ -231,11 +231,11 @@ export function clickPageOnPagination(pageName: string){
 
 export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
   getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
-    const smallerId = parseInt(id.text(), 10);
+    const biggerId = parseInt(id.text(), 10);
     clickPageOnPagination("first");
     getIdInRow(FIRST_ROW_TICKET_LIST)
       .invoke('text')
       .then(parseFloat)
-      .should('be.lt', smallerId);
+      .should('be.gt', biggerId);
   });
 }

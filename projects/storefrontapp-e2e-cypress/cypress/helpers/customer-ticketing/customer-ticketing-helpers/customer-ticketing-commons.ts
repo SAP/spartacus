@@ -11,6 +11,7 @@ import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 export const HTTP_STATUS_OK = 200;
 export const COLUMN_HEADER_TICKET_LIST = 0;
 export const FIRST_ROW_TICKET_LIST = 1;
+export const SECOND_ROW_TICKET_LIST = 2;
 export const FIFTH_ROW_TICKET_LIST = 5;
 export const ID_COLUMN = 0;
 export const SUBJECT_COLUMN = 1;
@@ -22,8 +23,8 @@ export const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 export const MAX_TICKETS_PER_PAGE = 5;
 
 export enum TestSortingTypes {
-  changedOn = 'Changed On',
-  id = 'ID',
+  byChangedOn = 'Changed On',
+  byId = 'ID',
 }
 
 export enum TestStatus {
@@ -49,7 +50,7 @@ export function loginRegisteredUser() {
   login();
 }
 
-export function loginAsAdminLindaWolf() {
+export function loginAsAdmin() {
   cy.requireLoggedIn(myCompanyAdminUser);
   cy.reload();
 }
