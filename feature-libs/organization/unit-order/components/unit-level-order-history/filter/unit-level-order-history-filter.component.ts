@@ -229,7 +229,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       'display',
       'block'
     );
-    this.buyerFilterMobileValue = null;
     this.searchUnitLevelOrders();
   }
 
