@@ -38,7 +38,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
+describe('UnitLevelOrderHistoryFilterComponent', () => {
   let component: UnitLevelOrderHistoryFilterComponent;
   let fixture: ComponentFixture<UnitLevelOrderHistoryFilterComponent>;
 
@@ -85,6 +85,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(form.get('unitFilter').value).toBe('');
       expect(orderHistoryQueryParams.filters).toBe('::user:mark');
     });
+
     it('should emit unit when filtered by unit', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
       const searchBtn = fixture.debugElement.query(
@@ -133,7 +134,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
     });
 
-    it('clearAll clears all the filtered values', () => {
+    it('should clear all of the filtered values when clearAll button is clicked', () => {
       fixture.detectChanges();
       const spy = spyOn(component, 'clearAll').and.callThrough();
       const clearbtn = fixture.debugElement.query(By.css('button#clearAllBtn'));
@@ -149,7 +150,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(form.get('unitFilter').value).toBeNull();
     });
 
-    it('should clear unit when clicked on x button in unit input', () => {
+    it('should clear the unit value when x button in the unit-input field is clicked', () => {
       const spy = spyOn(component, 'clearUnit').and.callThrough();
       const form = component.filterForm;
       form.patchValue({
@@ -177,7 +178,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
         expect(orderHistoryQueryParams.filters).toBe('::user:gi');
       });
     });
-    it('should clear buyer when clicked on x button in buyer input', () => {
+    it('should clear the buyer value when x button in the buyer-input field is clicked', () => {
       const spy = spyOn(component, 'clearBuyer').and.callThrough();
       const form = component.filterForm;
       form.patchValue({
@@ -215,7 +216,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       );
     });
 
-    it('should emit buyer when filtered by buyer for mobile', () => {
+    it('should emit a buyer view when filtered by a buyer for mobile view', () => {
       const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
       const form = component.filterFormMobile;
       form.patchValue({
@@ -239,7 +240,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       });
     });
 
-    it('should emit unit when filtered by unit for mobile', () => {
+    it('should emit a unit when filtered by a unit  for mobile view', () => {
       const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
       const form = component.filterFormMobile;
       form.patchValue({
@@ -264,7 +265,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       });
     });
 
-    it('should emit a buyer and a unit when filtered by buyer and unit for mobile', () => {
+    it('should emit a buyer and a unit when filtered by buyer and unit for mobile view', () => {
       const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
       const form = component.filterFormMobile;
       form.patchValue({
@@ -288,7 +289,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       });
     });
 
-    it('click on Remove Applied Filters removes all the filtered values', () => {
+    it('should remove all of the filtered values when clicked on Remove Applied Filter button', () => {
       fixture.detectChanges();
       const spy = spyOn(component, 'clearAll').and.callThrough();
       const clearbtn = fixture.debugElement.query(
@@ -306,7 +307,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(component.unitFilterMobileId.nativeElement.value).toBe('');
     });
 
-    it('should clear unit when clicked on x button in unit input for mobile view', () => {
+    it('should clear unit value when clicked on x button in the searchByUnit field', () => {
       const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
       const form = component.filterForm;
       form.patchValue({
@@ -335,7 +336,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       });
     });
 
-    it('should clear buyer when clicked on x button in buyer input for mobile view', () => {
+    it('should clear buyer value when clicked on x button in the searchByBuyer field', () => {
       const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
       const form = component.filterForm;
       form.patchValue({
@@ -364,7 +365,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       });
     });
 
-    it('should invoke launchMobileFilters when filterBy button is clicked', () => {
+    it('should call launchMobileFilters when filterBy button is clicked', () => {
       const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
       fixture.detectChanges();
       const filterByBtn = fixture.debugElement.query(
@@ -374,7 +375,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    it('should invoke closeFilterNav when close button is clicked on nav', () => {
+    it('should call closeFilterNav when close button is clicked on nav', () => {
       const spy = spyOn(component, 'closeFilterNav').and.callThrough();
       fixture.detectChanges();
       const closeFilterNavBtn = fixture.debugElement.query(
