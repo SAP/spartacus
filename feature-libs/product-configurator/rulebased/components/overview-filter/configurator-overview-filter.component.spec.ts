@@ -220,6 +220,12 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
     });
 
+    it('on filter should emit filter update event', () => {
+      spyOn(component.filterChange, 'emit');
+      component.onFilter(ovConfig);
+      expect(component.filterChange.emit).toHaveBeenCalled();
+    });
+
     it('should create input config', () => {
       let inputConfig = component['createInputConfig'](
         config,

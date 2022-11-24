@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { OperatorFunction } from 'rxjs';
@@ -17,6 +17,7 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { OverviewFilterUpdateEvent } from './configurator-overview-filter.event';
 
 export interface ConfigurationNonNullOv extends Configurator.Configuration {
   overview: Configurator.Overview;
@@ -31,6 +32,8 @@ export class ConfiguratorOverviewFilterComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
+
+  @Output() filterChange = new EventEmitter<OverviewFilterUpdateEvent>();
 
   priceFilter = new UntypedFormControl('');
   mySelectionsFilter = new UntypedFormControl('');
@@ -65,6 +68,7 @@ export class ConfiguratorOverviewFilterComponent {
       this.collectAttrFilters(),
       this.collectGroupFilters(config.overview)
     );
+    this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
