@@ -9,7 +9,10 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
-import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
+import {
+  CheckoutB2BRootModule,
+  defaultB2BCheckoutConfig,
+} from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
@@ -18,6 +21,16 @@ import {
   CheckoutRootModule,
   CHECKOUT_FEATURE,
 } from '@spartacus/checkout/base/root';
+import {
+  opfTranslationChunksConfig,
+  opfTranslations,
+} from '@spartacus/checkout/opf/assets';
+import {
+  defaultB2BOPFCheckoutConfig,
+  defaultOPFCheckoutConfig,
+  OPFRootModule,
+  OPF_FEATURE,
+} from '@spartacus/checkout/opf/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
   checkoutScheduledReplenishmentTranslations,
@@ -50,6 +63,37 @@ if (environment.b2b) {
         chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     })
+  );
+  if (!environment.opf) {
+    extensionProviders.push(provideConfig(defaultB2BCheckoutConfig));
+  }
+}
+
+if (environment.opf) {
+  extensionModules.push(OPFRootModule);
+
+  extensionProviders.push(
+    provideConfig({
+      i18n: {
+        resources: opfTranslations,
+        chunks: opfTranslationChunksConfig,
+      },
+    })
+  );
+  extensionProviders.push(
+    provideConfig({
+      featureModules: {
+        [OPF_FEATURE]: {
+          module: () =>
+            import('@spartacus/checkout/opf').then((m) => m.OPFModule),
+        },
+      },
+    })
+  );
+  extensionProviders.push(
+    environment.b2b
+      ? provideConfig(defaultB2BOPFCheckoutConfig)
+      : provideConfig(defaultOPFCheckoutConfig)
   );
 }
 

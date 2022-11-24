@@ -179,6 +179,18 @@
       "@spartacus/checkout": [
         "feature-libs/checkout/public_api"
       ],
+      "@spartacus/checkout/opf/assets": [
+        "feature-libs/checkout/opf/assets/public_api"
+      ],
+      "@spartacus/checkout/opf/components": [
+        "feature-libs/checkout/opf/components/public_api"
+      ],
+      "@spartacus/checkout/opf": [
+        "feature-libs/checkout/opf/public_api"
+      ],
+      "@spartacus/checkout/opf/root": [
+        "feature-libs/checkout/opf/root/public_api"
+      ],
       "@spartacus/checkout/scheduled-replenishment/assets": [
         "feature-libs/checkout/scheduled-replenishment/assets/public_api"
       ],

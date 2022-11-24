@@ -14,4 +14,5 @@ export interface Environment {
   cpq: boolean;
   digitalPayments: boolean;
   epdVisualization: boolean;
+  opf: boolean;
 }
