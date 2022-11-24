@@ -246,6 +246,18 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Generates a unique overview group ID from the local group ID
+   * and a prefix that reflects the parent groups in the group hierarchy
+   *
+   * @param {string} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - generated group ID
+   */
+  createOvGroupId(prefix: string, groupId: string): string {
+    return 'id' + prefix + groupId + '-ovGroup';
+  }
+
+  /**
    * Persist the keyboard focus state for the given key.
    * The focus is stored globally or for the given group.
    *

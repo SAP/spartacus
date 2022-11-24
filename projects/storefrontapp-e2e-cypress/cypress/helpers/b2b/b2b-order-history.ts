@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as sampleData from '../../sample-data/b2b-order-details';
+import * as sampleData from '../../sample-data/b2b-order-history';
 import * as quickOrder from './b2b-quick-order';
 
 export function loginB2bUnitOrderViewer() {
@@ -16,11 +16,30 @@ export function loginB2bUnitOrderViewer2() {
 }
 
 export function loginB2bUnitOrderViewerManager() {
-  cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccountManager);
+  cy.requireLoggedIn(sampleData.b2bUnitOrderViewerManagerAccount);
 }
 
 export function loginB2bCommonUser() {
-  cy.requireLoggedIn(sampleData.b2bUserAccount);
+  cy.requireLoggedIn(sampleData.b2bCommonUserAccount);
+}
+
+export function doPlaceB2BOrder(productData?: any) {
+  let stateAuth: any;
+
+  return cy
+    .window()
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      stateAuth = token;
+      return cy.requireProductAddedToCart(stateAuth, productData);
+    })
+    .then(({ cartId }) => {
+      cy.requirePaymentTypeSelected(stateAuth, cartId);
+      cy.requireCostCenterAddressSelected(stateAuth, cartId);
+      cy.requireDeliveryMethodSelected(stateAuth, cartId);
+
+      return cy.requirePlacedOrder(stateAuth, cartId);
+    });
 }
 
 export function addOrder() {

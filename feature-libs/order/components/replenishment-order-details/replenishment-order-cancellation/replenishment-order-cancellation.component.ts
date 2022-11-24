@@ -44,7 +44,6 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
       this.vcr
     );
 
-    /* istanbul ignore if */
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
