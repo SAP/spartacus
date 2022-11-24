@@ -208,7 +208,7 @@ export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByCompari
       cy.get(`aria-label="page ${next_page}"`).click();
       getIdInRow(FIFTH_ROW_TICKET_LIST)
         .invoke('text')
-        .then(parseFloat)
+        .then(parseInt)
         .should('be.lt', smallerId);
     });
   };
@@ -220,7 +220,7 @@ export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingI
     clickPageOnPagination("last");
     getIdInRow(FIRST_ROW_TICKET_LIST)
       .invoke('text')
-      .then(parseFloat)
+      .then(parseInt)
       .should('be.lt', smallerId);
   });
 }
@@ -235,7 +235,7 @@ export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingI
     clickPageOnPagination("first");
     getIdInRow(FIRST_ROW_TICKET_LIST)
       .invoke('text')
-      .then(parseFloat)
+      .then(parseInt)
       .should('be.gt', biggerId);
   });
 }
