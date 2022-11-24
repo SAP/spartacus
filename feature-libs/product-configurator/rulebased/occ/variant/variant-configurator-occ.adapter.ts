@@ -358,6 +358,7 @@ export class VariantConfiguratorOccAdapter
           ...overview,
           attributeFilters: ovInput.attributeFilters,
           groupFilters: ovInput.groupFilters,
+          possibleGroups: ovInput.possibleGroups,
         }))
       );
   }

@@ -59,6 +59,7 @@ export class ConfiguratorOverviewFilterComponent {
       tap((configuration: ConfigurationNonNullOv) => {
         this.extractAttrFilterState(configuration);
         this.extractGroupFilterState(configuration);
+        console.log(configuration.overview);
       })
     );
 
@@ -74,7 +75,7 @@ export class ConfiguratorOverviewFilterComponent {
 
   protected extractGroupFilterState(configuration: ConfigurationNonNullOv) {
     this.groupFilters = [];
-    configuration.overview.groups?.forEach((group) => {
+    configuration.overview.possibleGroups?.forEach((group) => {
       let isSelected = false;
       if (configuration.overview.groupFilters) {
         isSelected = configuration.overview.groupFilters.indexOf(group.id) >= 0;
@@ -105,8 +106,8 @@ export class ConfiguratorOverviewFilterComponent {
     let filters: string[] = [];
     let idx = 0;
     this.groupFilters.forEach((groupFilter) => {
-      if (groupFilter.value && overview?.groups) {
-        filters.push(overview.groups[idx].id);
+      if (groupFilter.value && overview?.possibleGroups) {
+        filters.push(overview.possibleGroups[idx].id);
       }
       idx++;
     });
@@ -129,6 +130,7 @@ export class ConfiguratorOverviewFilterComponent {
     attrFilters: Configurator.OverviewFilter[],
     groupFilers: string[]
   ): Configurator.Configuration {
+    console.log(config.overview?.possibleGroups);
     return {
       ...config,
       overview: {
@@ -136,6 +138,7 @@ export class ConfiguratorOverviewFilterComponent {
         productCode: config.productCode,
         attributeFilters: attrFilters,
         groupFilters: groupFilers,
+        possibleGroups: config.overview?.possibleGroups,
       },
     };
   }

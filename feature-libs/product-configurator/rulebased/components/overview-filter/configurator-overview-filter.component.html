@@ -36,7 +36,7 @@
     <div class="cx-overview-filter-header">
       {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
     </div>
-    <ng-container *ngFor="let group of config.overview.groups; let i = index">
+    <ng-container *ngFor="let group of config.overview.possibleGroups; let i = index">
       <div class="cx-overview-filter-option">
         <div class="form-check">
           <input

@@ -55,9 +55,25 @@ export function configuratorReducer(
       return setInitialCurrentGroup(takeOverPricingChanges(action, state));
     }
 
-    case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS:
+    case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
+      const content = {
+        ...action.payload.overview,
+        possibleGroups: action.payload.overview.groups,
+      };
+      return {
+        ...state,
+        overview: content,
+        priceSummary: content.priceSummary,
+        interactionState: {
+          ...state.interactionState,
+          issueNavigationDone: false,
+        },
+      };
+    }
     case ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS: {
-      const content = { ...action.payload.overview };
+      const content = {
+        ...action.payload.overview,
+      };
       return {
         ...state,
         overview: content,

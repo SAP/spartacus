@@ -38,6 +38,7 @@ function initTestData() {
     ...config,
     overview: ConfigurationTestData.productConfiguration.overview,
   });
+  ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
 }
 
 function initMocks() {
@@ -114,7 +115,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render always default options', () => {
-      if (ovConfig.overview) ovConfig.overview.groups = [];
+      if (ovConfig.overview) ovConfig.overview.possibleGroups = [];
       initTestComponent();
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
@@ -166,7 +167,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should extract group filters state when no group is available', () => {
-      ovConfig.overview.groups = [];
+      ovConfig.overview.possibleGroups = [];
       component['extractGroupFilterState'](ovConfig);
       expect(component.groupFilters.length).toBe(0);
     });
@@ -210,12 +211,13 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       expect(
         mockConfigCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith({
-        ...config,
+        ...ovConfig,
         overview: {
-          configId: config.configId,
-          productCode: config.productCode,
+          configId: ovConfig.configId,
+          productCode: ovConfig.productCode,
           attributeFilters: [Configurator.OverviewFilter.USER_INPUT],
           groupFilters: ['2'],
+          possibleGroups: ovConfig.overview.possibleGroups,
         },
       });
     });
@@ -228,17 +230,18 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     it('should create input config', () => {
       let inputConfig = component['createInputConfig'](
-        config,
+        ovConfig,
         [Configurator.OverviewFilter.PRICE_RELEVANT],
         ['3', '5']
       );
       expect(inputConfig).toEqual({
-        ...config,
+        ...ovConfig,
         overview: {
-          configId: config.configId,
-          productCode: config.productCode,
+          configId: ovConfig.configId,
+          productCode: ovConfig.productCode,
           attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
           groupFilters: ['3', '5'],
+          possibleGroups: ovConfig.overview.possibleGroups,
         },
       });
     });

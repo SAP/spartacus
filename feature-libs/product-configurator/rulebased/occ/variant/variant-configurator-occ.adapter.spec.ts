@@ -797,6 +797,7 @@ describe('OccConfigurationVariantAdapter', () => {
       productCode: productCode,
       groupFilters: ['A'],
       attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
+      possibleGroups: [{ id: '1' }, { id: '2' }],
     };
     it('should call overview endpoint and build url', (done) => {
       spyOn(converterService, 'pipeable').and.callThrough();
@@ -842,6 +843,25 @@ describe('OccConfigurationVariantAdapter', () => {
             overviewInput.attributeFilters
           );
           expect(resultOv.groupFilters).toEqual(overviewInput.groupFilters);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+      mockReq.flush(overviewOcc);
+    });
+
+    it('should return possible groups like provided as input', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.possibleGroups).toEqual(overviewInput.possibleGroups);
           done();
         });
 

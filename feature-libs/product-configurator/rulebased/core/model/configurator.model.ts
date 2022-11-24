@@ -119,6 +119,7 @@ export namespace Configurator {
     productCode: string;
     attributeFilters?: OverviewFilter[];
     groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
