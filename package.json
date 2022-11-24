@@ -162,7 +162,6 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "faker": "^4.1.0",
     "fs-extra": "^9.0.1",
-    "gh-pages": "^2.2.0",
     "glob": "^7.1.6",
     "http-server": "^14.1.0",
     "i18n-lint": "^1.0.0",
