@@ -217,8 +217,8 @@ export function extractTicketDetailsFromFirstRowInTicketListingPage(): TestTicke
      cy.get('td').eq(SUBJECT_COLUMN).invoke('text').then(subject => {
         testTicketDetails.subject = subject.substring(SUBJECT_DELIMITER);
      });
-     cy.get('td').eq(STATUS_COLUMN).invoke('text').then((x) => {
-        testTicketDetails.status = x.substring(STATUS_DELIMITER);
+     cy.get('td').eq(STATUS_COLUMN).invoke('text').then((status) => {
+        testTicketDetails.status = status.substring(STATUS_DELIMITER);
      });
  });
 
