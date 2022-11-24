@@ -39,7 +39,9 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       this.globalMessageService.add(
         {
-          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          key: `httpHandlers.badRequest.${this.createErrorTranslationKey(
+            response.error?.error_description
+          )}`,
           params: {
             errorMessage:
               response.error.error_description || response.message || '',
@@ -124,7 +126,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error || []).filter(
       (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }

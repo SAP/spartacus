@@ -44,6 +44,10 @@ export abstract class HttpErrorHandler implements Applicable {
     return errorResponse.status === this.responseStatus;
   }
 
+  createErrorTranslationKey(reason: string): string {
+    return reason.toLowerCase().replace(/ /g, '_');
+  }
+
   abstract getPriority?(): Priority;
 
   /**
