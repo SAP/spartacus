@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorModel, OccHttpErrorType, OccHttpErrorReason } from '@spartacus/core';
+import {
+  ErrorModel,
+  OccHttpErrorType,
+  OccHttpErrorReason,
+} from '@spartacus/core';
 
 /**
  * Check if the returned error is of type notFound.
