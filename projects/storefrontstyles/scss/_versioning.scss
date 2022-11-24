@@ -53,6 +53,10 @@ $useLatestStyles: false !default;
 // The version related content is only created if the user opt-in for breaking changes.
 
 @mixin forVersion($from, $to: 0) {
+  // convert $from and $to to the version map
+  $from: getVersion($from);
+  $to: getVersion($to);
+
   // We never create content that is part of future releases, this should not really happen.
   @if (compareVersion($from, $_fullVersion) <= 0) {
     @if (
@@ -67,17 +71,25 @@ $useLatestStyles: false !default;
 @function getVersion($value) {
   $major: 0;
   $minor: 0;
+  $patch: 0;
 
   $string: toString($value);
   $i: str-index($string, '.');
   @if $i != null {
     $major: toNumber(str-slice($string, 1, $i - 1));
-    $minor: toNumber(str-slice($string, $i + 1));
+    $remaining: str-slice($string, $i + 1);
+    $d: str-index($remaining, '.');
+    @if $d != null {
+      $minor: toNumber(str-slice($remaining, 1, $d - 1));
+      $patch: toNumber(str-slice($remaining, $d + 1));
+    } @else {
+      $minor: toNumber($remaining);
+    }
   } @else {
     $major: toNumber($string);
   }
 
-  @return (major: $major, minor: $minor);
+  @return (major: $major, minor: $minor, patch: $patch);
 }
 
 @function toString($value) {
@@ -86,6 +98,15 @@ $useLatestStyles: false !default;
   } @else if type-of($value) == 'string' {
     @return $value;
   } @else if type-of($value) == 'list' {
+    // 1.2.3 will become list [1.2, 0.3]
+    // $p is the second item in list, e.g. 0.3
+    $p: toString(nth($value, 2));
+    $i: str-index($p, '.');
+    @if $i != null {
+      @return toString(nth($value, 1)) + '.' + str-slice($p, $i + 1);
+    } @else {
+      @return toString(nth($value, 1));
+    }
     @return toString(nth($value, 1));
   } @else {
     @error 'Input #{$value} is invalid';
@@ -113,22 +134,32 @@ $useLatestStyles: false !default;
   }
   $v1Major: map-get($v1, major);
   $v1Minor: map-get($v1, minor);
+  $v1Patch: map-get($v1, patch);
 
   $v2Major: map-get($v2, major);
   $v2Minor: map-get($v2, minor);
+  $v2Patch: map-get($v2, patch);
 
-  @if ($v1Major > $v2Major) {
+  $compareMajor: compareNumber($v1Major, $v2Major);
+  @if ($compareMajor == 0) {
+    $compareMinor: compareNumber($v1Minor, $v2Minor);
+    @if ($compareMinor == 0) {
+      @return compareNumber($v1Patch, $v2Patch);
+    } @else {
+      @return $compareMinor;
+    }
+  } @else {
+    @return $compareMajor;
+  }
+}
+
+@function compareNumber($n1, $n2) {
+  @if ($n1 > $n2) {
     @return 1;
-  } @else if ($v1Major < $v2Major) {
+  } @else if ($n1 < $n2) {
     @return -1;
   } @else {
-    @if ($v1Minor > $v2Minor) {
-      @return 1;
-    } @else if ($v1Minor < $v2Minor) {
-      @return -1;
-    } @else {
-      @return 0;
-    }
+    @return 0;
   }
 }
 
@@ -139,9 +170,10 @@ $useLatestStyles: false !default;
 // - from 1.1 to 1.2 is not valid for version 2
 @function isStableVersion($from, $to: 0) {
   @if ($to == 0) {
-    @return $from <= $_majorVersion;
+    @return compareVersion($from, $_majorVersion) <= 0;
   } @else {
-    @return $from <= $_majorVersion and $to >= $_majorVersion;
+    @return compareVersion($from, $_majorVersion) <= 0 and
+      compareVersion($to, $_majorVersion) >=0;
   }
 }
 
