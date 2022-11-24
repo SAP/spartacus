@@ -53,9 +53,8 @@ $useLatestStyles: false !default;
 // The version related content is only created if the user opt-in for breaking changes.
 
 @mixin forVersion($from, $to: 0) {
-  // convert $from and $to to the version map
+  // convert variable to version map {major: number, minor: number, patch: number}
   $from: getVersion($from);
-  $to: getVersion($to);
 
   // We never create content that is part of future releases, this should not really happen.
   @if (compareVersion($from, $_fullVersion) <= 0) {
