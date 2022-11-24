@@ -13,7 +13,7 @@ import {
   HttpResponseStatus,
   Priority,
   RoutingService,
-  GlobalMessageService
+  GlobalMessageService,
 } from '@spartacus/core';
 import { isTicketNotFoundError } from '../../utils/utils';
 @Injectable({
@@ -25,9 +25,9 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: Object,
-  ){
-    super(globalMessageService,platformId);
+    @Inject(PLATFORM_ID) protected platformId?: Object
+  ) {
+    super(globalMessageService, platformId);
   }
 
   getPriority(): Priority {
@@ -61,6 +61,6 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []);
+    return response.error?.errors || [];
   }
 }
