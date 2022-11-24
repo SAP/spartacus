@@ -242,7 +242,7 @@ function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('.cx-conflict-msg')
+      cy.get('.link')
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();

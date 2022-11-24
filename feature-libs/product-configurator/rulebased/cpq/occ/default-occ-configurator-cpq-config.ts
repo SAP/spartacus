@@ -11,7 +11,7 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          getCpqAccessData: 'users/current/access/cpqconfigurator',
+          getCpqAccessData: 'users/${userId}/access/cpqconfigurator',
           addCpqConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
           readCpqConfigurationForCartEntry:
