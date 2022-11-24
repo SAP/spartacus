@@ -71,18 +71,3 @@ export const product3: SampleProduct = {
   code: '5888798',
   name: 'HGTK01-SB',
 };
-
-export const product4: SampleProduct = {
-  code: '4567133',
-  name: 'PSM 80 A',
-};
-
-export const product5: SampleProduct = {
-  code: '3793682',
-  name: 'BT-HS 12',
-};
-
-export const product6: SampleProduct = {
-  code: '3755207',
-  name: 'IXO',
-};
