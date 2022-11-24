@@ -58,6 +58,11 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getBaseUrl() {
     return 'some-server/occ';
   }
+  getRawEndpointValue(endpoint: string): string {
+    return endpoint === 'baseSites'
+      ? 'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)'
+      : 'some-endpoint';
+  }
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -180,6 +185,16 @@ describe('AuthHttpHeaderService', () => {
     it('should not add the header to not occ urls', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/non-occ/cart')
+      );
+      expect(request.headers.has('Authorization')).toBe(false);
+    });
+
+    it('should not add the header for occ basesites call', () => {
+      const request = service.alterRequest(
+        new HttpRequest(
+          'GET',
+          'some-server/occ/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)'
+        )
       );
       expect(request.headers.has('Authorization')).toBe(false);
     });
