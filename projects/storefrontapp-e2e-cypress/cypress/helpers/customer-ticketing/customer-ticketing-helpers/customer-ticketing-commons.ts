@@ -21,6 +21,7 @@ export const CHANGED_ON_COLUMN = 4;
 export const STATUS_COLUMN = 5;
 export const CUSTOMER_SUPPORT_MENU_OPTION_INDEX = 14;
 export const MAX_TICKETS_PER_PAGE = 5;
+export const LAST_PAGE = "last";
 
 export enum TestSortingTypes {
   byChangedOn = 'Changed On',

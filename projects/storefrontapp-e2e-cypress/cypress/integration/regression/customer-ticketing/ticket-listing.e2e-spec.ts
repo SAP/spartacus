@@ -5,7 +5,8 @@ import {
   TestCategory,
   TestStatus,
   FIRST_ROW_TICKET_LIST,
-  SECOND_ROW_TICKET_LIST
+  SECOND_ROW_TICKET_LIST,
+  LAST_PAGE
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
@@ -191,7 +192,7 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyPaginationExist();
         customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
-        customerTicketing.clickPageOnPagination("last");
+        customerTicketing.clickPageOnPagination(LAST_PAGE);
         customerTicketing.verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds();
       });
     });
