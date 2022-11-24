@@ -1,4 +1,35 @@
 <ng-container *ngIf="config$ | async as config">
+  <div class="cx-overview-filter-applied-filter-bar">
+    <ng-container
+      *ngFor="let filter of config.overview.attributeFilters; let i = index"
+    >
+      <button
+        class="cx-overview-filter-applied"
+        title="{{ filter }}"
+        (click)="onAttrFilterRemove(config, filter)"
+      >
+        {{ filter }}
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </ng-container>
+
+    <ng-container
+      *ngFor="let groupId of config.overview.groupFilters; let i = index"
+    >
+      <button
+        class="cx-overview-filter-applied"
+        title="{{ groupId + '# group' }}"
+        (click)="onGroupFilterRemove(config, groupId)"
+      >
+        {{ groupId + '# group' }}
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </ng-container>
+  </div>
   <div class="cx-overview-filter-header">
     {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
   </div>
@@ -36,7 +67,9 @@
     <div class="cx-overview-filter-header">
       {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
     </div>
-    <ng-container *ngFor="let group of config.overview.possibleGroups; let i = index">
+    <ng-container
+      *ngFor="let group of config.overview.possibleGroups; let i = index"
+    >
       <div class="cx-overview-filter-option">
         <div class="form-check">
           <input
@@ -44,7 +77,7 @@
             class="form-check-input"
             [formControl]="groupFilters[i]"
             (change)="onFilter(config)"
-            name="{{'config-overview-group-filter--'+group.id}}"
+            name="{{ 'config-overview-group-filter--' + group.id }}"
           />
           <label class="form-check-label">{{ group.groupDescription }}</label>
         </div>

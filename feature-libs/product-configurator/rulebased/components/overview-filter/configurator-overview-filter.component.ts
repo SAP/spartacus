@@ -6,6 +6,7 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { OperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
@@ -39,6 +40,8 @@ export class ConfiguratorOverviewFilterComponent {
   mySelectionsFilter = new UntypedFormControl('');
   groupFilters = new Array<UntypedFormControl>();
 
+  iconTypes = ICON_TYPE;
+
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
@@ -59,7 +62,6 @@ export class ConfiguratorOverviewFilterComponent {
       tap((configuration: ConfigurationNonNullOv) => {
         this.extractAttrFilterState(configuration);
         this.extractGroupFilterState(configuration);
-        console.log(configuration.overview);
       })
     );
 
@@ -71,6 +73,20 @@ export class ConfiguratorOverviewFilterComponent {
     );
     this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
+  }
+
+  onAttrFilterRemove(config: Configurator.Configuration, filter: string) {
+    if (filter === Configurator.OverviewFilter.PRICE_RELEVANT) {
+      this.priceFilter.setValue(false);
+    }
+    if (filter === Configurator.OverviewFilter.USER_INPUT) {
+      this.mySelectionsFilter.setValue(false);
+    }
+    this.onFilter(config);
+  }
+
+  onGroupFilterRemove(groupId: string) {
+    console.log(groupId + '#group clicked');
   }
 
   protected extractGroupFilterState(configuration: ConfigurationNonNullOv) {
@@ -130,7 +146,6 @@ export class ConfiguratorOverviewFilterComponent {
     attrFilters: Configurator.OverviewFilter[],
     groupFilers: string[]
   ): Configurator.Configuration {
-    console.log(config.overview?.possibleGroups);
     return {
       ...config,
       overview: {
