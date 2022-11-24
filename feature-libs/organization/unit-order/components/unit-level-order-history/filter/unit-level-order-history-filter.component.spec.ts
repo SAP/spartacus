@@ -61,7 +61,14 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('desktop', () => {
+  describe('desktop view', () => {
+    let orderHistoryQueryParams: OrderHistoryQueryParams;
+    beforeEach(() => {
+      component.filterListEvent.subscribe(
+        (value) => (orderHistoryQueryParams = value)
+      );
+      fixture.detectChanges();
+    });
     it('should emit buyer when filtered by buyer', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
       const searchBtn = fixture.debugElement.query(
@@ -72,10 +79,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         buyerFilter: 'mark',
         unitFilter: '',
       });
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       searchBtn.nativeElement.click();
       fixture.detectChanges();
@@ -83,6 +86,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       expect(form.get('buyerFilter').value).toBe('mark');
       expect(form.get('unitFilter').value).toBe('');
+      expect(component.filterFormMobile.get('buyerFilterMobile').value).toBe(
+        'mark'
+      );
+      expect(component.filterFormMobile.get('unitFilterMobile').value).toBe('');
       expect(orderHistoryQueryParams.filters).toBe('::user:mark');
     });
 
@@ -96,10 +103,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         buyerFilter: '',
         unitFilter: 'services',
       });
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       searchBtn.nativeElement.click();
       fixture.detectChanges();
@@ -107,6 +110,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       expect(form.get('buyerFilter').value).toBe('');
       expect(form.get('unitFilter').value).toBe('services');
+      expect(component.filterFormMobile.get('buyerFilterMobile').value).toBe(
+        ''
+      );
+      expect(component.filterFormMobile.get('unitFilterMobile').value).toBe(
+        'services'
+      );
       expect(orderHistoryQueryParams.filters).toBe('::unit:services');
     });
 
@@ -120,10 +129,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         buyerFilter: 'gi',
         unitFilter: 'services',
       });
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       searchBtn.nativeElement.click();
       fixture.detectChanges();
@@ -131,6 +136,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       expect(form.get('buyerFilter').value).toBe('gi');
       expect(form.get('unitFilter').value).toBe('services');
+      expect(component.filterFormMobile.get('buyerFilterMobile').value).toBe(
+        'gi'
+      );
+      expect(component.filterFormMobile.get('unitFilterMobile').value).toBe(
+        'services'
+      );
       expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
     });
 
@@ -158,11 +169,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         unitFilter: 'services',
       });
 
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
-
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearUnitBtn')
       );
@@ -186,11 +192,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         unitFilter: 'services',
       });
 
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
-
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearBuyerBtn')
       );
@@ -203,12 +204,18 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         expect(spy).toHaveBeenCalled();
         expect(form.get('buyerFilter').value).toBeNull();
         expect(form.get('unitFilter').value).toBe('services');
+        expect(
+          component.filterFormMobile.get('buyerFilterMobile').value
+        ).toBeNull();
+        expect(component.filterFormMobile.get('unitFilterMobile').value).toBe(
+          'services'
+        );
         expect(orderHistoryQueryParams.filters).toBe('::unit:services');
       });
     });
   });
 
-  describe('mobile', () => {
+  describe('mobile view', () => {
     let mobileFormElement;
     beforeEach(() => {
       mobileFormElement = fixture.debugElement.query(
