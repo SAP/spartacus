@@ -16,7 +16,7 @@ export const customerTicketing = {
     cancel: 'Cancel',
     submit: 'Submit',
     uploadFile: 'Upload File',
-    fileSizeLimit: 'File size limit: {{count}}MB',
+    fileSizeLimit: 'File size limit: {{count}} MB',
     maximumAttachment: 'Maximum of one attachment per message',
     errorMessage: 'Something went wrong.',
     charactersLeft: 'characters left: {{count}}',
@@ -42,7 +42,7 @@ export const customerTicketing = {
     associateTo: 'Associate To',
     ticketCreated: 'Request created.',
     optionallySelectAssociatedObject: 'Select Option',
-    selectCategory: 'Select a Category',
+    selectCategory: 'Select Category',
   },
   customerTicketingDetails: {
     requestReopened: 'Request Reopened.',
