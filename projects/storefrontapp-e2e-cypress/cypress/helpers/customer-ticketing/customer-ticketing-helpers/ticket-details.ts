@@ -54,7 +54,7 @@ export function verifyMessageWasPosted(message: string){
   cy.get(".cx-message-left-align-text").eq(POSITION_OF_LAST_POSTED_MESSAGE).contains(message);
 }
 
-export function verifyTicketDetailsByComparingTicketHeaderToExtractedDetails(ticketDetails: TestTicketDetails){
+export function verifyTicketDetailsAreDisplayedInTicketHeader(ticketDetails: TestTicketDetails){
   cy.get(TICKET_HEADER).eq(ID_IN_HEADER).then((id) => cy.wrap(id).should('include.text', ticketDetails.id));
   cy.get(TICKET_HEADER).eq(STATUS_IN_HEADER).then((status) => cy.wrap(status).should('include.text', ticketDetails.status));
 }
