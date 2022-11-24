@@ -155,7 +155,9 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   cy.wait('@cart_page').its('response.statusCode').should('eq', 200);
 
-  checkProductInCart(products[0]);
+  return checkProductInCart(
+    products.find((product) => product.code === productCode)
+  );
 }
 
 export function checkBasicCart() {
