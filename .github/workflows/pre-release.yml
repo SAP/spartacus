@@ -19,7 +19,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Generate and publish compodocs
         if: ${{ github.event.inputs.compodoc == 'true' }}
-        run: yarn generate:publish:docs
+        run: | 
+          git config --global user.email ${{ secrets.GHT_EMAIL }}
+          git config --global user.name ${{ secrets.GHT_USER }}
+
+          yarn generate:publish:docs
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
@@ -40,22 +44,17 @@ jobs:
         run: |
           git tag ${{ github.event.inputs.what_version }}
           git push origin --tags
-
-
-  # publish_sample_data: 
-  #   name: Publishing Spartacus Sample Data
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         persist-credentials: false
-  #     - name: create release with sample data assets
-  #       env:
-  #         SAMPLE_DATA_UNRELEASED: ${{ github.event.inputs.unreleased_sample_branch }}
-  #         SAMPLE_DATA_CURRENT: ${{ github.event.inputs.current_sample_branch }}
-  #         SAMPLE_DATA_PREVIOUS: ${{ github.event.inputs.previous_sample_branch }}
-  #         GHT_USER: ${{ secrets.GHT_USER }}
-  #         GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-  #         GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
-  #       run: |
-  #         ci-scripts/publish-sample-data.sh
+  publish_sample_data: 
+    name: Publishing Spartacus Sample Data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: create release with sample data assets
+        env:
+          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+        run: |
+          ci-scripts/publish-sample-data.sh
