@@ -195,8 +195,9 @@ export class ConfiguratorOverviewMenuComponent {
       prefix,
       id
     );
+
     this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
-      '#' + ovGroupId
+      '#' + ovGroupId + ' h2'
     );
   }
 

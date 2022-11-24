@@ -193,7 +193,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledWith('#' + OV_GROUP_ID);
+      ).toHaveBeenCalledWith('#' + OV_GROUP_ID + ' h2');
     });
   });
 
