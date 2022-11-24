@@ -57,6 +57,8 @@ describe('ticket details', () => {
       it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitTicketDetailsPageForNonExistingTicket();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.verifyGlobalMessage("Ticket not found.");
       });
     });
   });

@@ -33,6 +33,4 @@ export function sendMessage(message: string) {
 
 export function visitTicketDetailsPageForNonExistingTicket(){
   cy.visit('/my-account/support-ticket/XYZ01234');
-  cy.get('cx-global-message .alert-error', { timeout: 10000 }).should('be.visible');
-  cy.url().should('include','/my-account/support-ticket');
 }
