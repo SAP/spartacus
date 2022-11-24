@@ -89,6 +89,8 @@
         />
 
         <button
+          id="clearBuyerMobileBtn"
+          type="button"
           #buyerButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
@@ -149,6 +151,8 @@
           placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />
         <button
+          id="clearUnitMobileBtn"
+          type="button"
           #unitButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
@@ -202,6 +206,8 @@
               placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
             />
             <button
+              id="clearBuyerBtn"
+              type="button"
               #buyerButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearBuyer()"

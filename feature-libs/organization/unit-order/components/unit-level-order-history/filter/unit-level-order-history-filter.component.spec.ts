@@ -148,6 +148,63 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(form.get('buyerFilter').value).toBeNull();
       expect(form.get('unitFilter').value).toBeNull();
     });
+
+    it('should clear unit when clicked on x button in unit input', () => {
+      const spy = spyOn(component, 'clearUnit').and.callThrough();
+      const form = component.filterForm;
+      form.patchValue({
+        buyerFilter: 'gi',
+        unitFilter: 'services',
+      });
+
+      let orderHistoryQueryParams: OrderHistoryQueryParams;
+      component.filterListEvent.subscribe(
+        (value) => (orderHistoryQueryParams = value)
+      );
+
+      let buttonElement = fixture.debugElement.query(
+        By.css('button#clearUnitBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+        expect(form.get('buyerFilter').value).toBe('gi');
+        expect(form.get('unitFilter').value).toBeNull();
+        expect(orderHistoryQueryParams.filters).toBe('::user:gi');
+      });
+    });
+    it('should clear buyer when clicked on x button in buyer input', () => {
+      const spy = spyOn(component, 'clearBuyer').and.callThrough();
+      const form = component.filterForm;
+      form.patchValue({
+        buyerFilter: 'gi',
+        unitFilter: 'services',
+      });
+
+      let orderHistoryQueryParams: OrderHistoryQueryParams;
+      component.filterListEvent.subscribe(
+        (value) => (orderHistoryQueryParams = value)
+      );
+
+      let buttonElement = fixture.debugElement.query(
+        By.css('button#clearBuyerBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+        expect(form.get('buyerFilter').value).toBeNull();
+        expect(form.get('unitFilter').value).toBe('services');
+        expect(orderHistoryQueryParams.filters).toBe('::unit:services');
+      });
+    });
   });
 
   describe('mobile', () => {
@@ -249,6 +306,64 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       expect(component.unitFilterMobileId.nativeElement.value).toBe('');
     });
 
+    it('should clear unit when clicked on x button in unit input for mobile view', () => {
+      const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
+      const form = component.filterForm;
+      form.patchValue({
+        buyerFilterMobile: 'gi',
+        unitFilterMobile: 'services',
+      });
+
+      let orderHistoryQueryParams: OrderHistoryQueryParams;
+      component.filterListEvent.subscribe(
+        (value) => (orderHistoryQueryParams = value)
+      );
+
+      let buttonElement = fixture.debugElement.query(
+        By.css('button#clearUnitMobileBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+        expect(form.get('buyerFilterMobile').value).toBe('gi');
+        expect(form.get('unitFilterMobile').value).toBeNull();
+        expect(orderHistoryQueryParams.filters).toBe('::user:gi');
+      });
+    });
+
+    it('should clear buyer when clicked on x button in buyer input for mobile view', () => {
+      const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
+      const form = component.filterForm;
+      form.patchValue({
+        buyerFilterMobile: 'gi',
+        unitFilterMobile: 'services',
+      });
+
+      let orderHistoryQueryParams: OrderHistoryQueryParams;
+      component.filterListEvent.subscribe(
+        (value) => (orderHistoryQueryParams = value)
+      );
+
+      let buttonElement = fixture.debugElement.query(
+        By.css('button#clearBuyerMobileBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(spy).toHaveBeenCalled();
+        expect(form.get('buyerFilterMobile').value).toBeNull();
+        expect(form.get('unitFilterMobile').value).toBe('services');
+        expect(orderHistoryQueryParams.filters).toBe('::unit:services');
+      });
+    });
+
     it('should invoke launchMobileFilters when filterBy button is clicked', () => {
       const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
       fixture.detectChanges();
@@ -258,6 +373,7 @@ describe('UnitLevelOrderHistoryFilterComponent: desktop', () => {
       filterByBtn.nativeElement.click();
       expect(spy).toHaveBeenCalled();
     });
+
     it('should invoke closeFilterNav when close button is clicked on nav', () => {
       const spy = spyOn(component, 'closeFilterNav').and.callThrough();
       fixture.detectChanges();
