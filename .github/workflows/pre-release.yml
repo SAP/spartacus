@@ -1,29 +1,25 @@
 on:
   workflow_dispatch:
     inputs:
-      unreleased_sample_branch:
-        description: Unreleased sample data branch or tag
-        default: release/2105/next
-        required: true
-      current_sample_branch:
-        description: current release sample data branch or tag
-        default: 2105-4.3.7
-        required: true
-      previous_sample_branch:
-        description: previous release sample data branch or tag
-        default: 2105-3.4.8
-        required: true
+      compodoc:
+        description: 'Build and deploy compodoc?'
+        required: false
+        type: boolean
 
 name: Pre-release for Spartacus
+
 jobs:
   publish_compodoc:
+    name: Deploy compodocs to github
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: test again which branch am I in
-        run: |
-          git branch
-          git status
+      - uses: actions/checkout@v3
+      - name: Generate and publish compodocs
+        if: ${{ github.event.inputs.compodoc == 'true' }}
+        run: yarn generate:publish:docs
+
+
+        
   # publish_sample_data: 
   #   name: Publishing Spartacus Sample Data
   #   runs-on: ubuntu-latest
