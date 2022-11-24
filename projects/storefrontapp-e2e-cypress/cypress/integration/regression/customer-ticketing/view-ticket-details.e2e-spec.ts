@@ -3,7 +3,8 @@ import * as customerTicketing from '../../../helpers/customer-ticketing/customer
 import {
   TestTicketDetails,
   TestCategory,
-  TestStatus
+  TestStatus,
+  FIRST_ROW_TICKET_LIST
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket details', () => {
@@ -24,7 +25,7 @@ describe('ticket details', () => {
           message: 'ticket details',
           category: customerTicketing.TestCategory.complaint,
         });
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
@@ -48,8 +49,8 @@ describe('ticket details', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyTicketListingPageVisit();
         let ticketDetails = customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
-        customerTicketing.clickTicketInRow();
-        customerTicketing.verifyTicketDetailsByComparingTicketHeaderToExtractedDetails(ticketDetails);
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+        customerTicketing.verifyTicketDetailsAreDisplayedInTicketHeader(ticketDetails);
       });
 
       it('closing a ticket should not let user interact with the ticket anymore', () => {
@@ -61,13 +62,13 @@ describe('ticket details', () => {
           message: 'First ticket',
           category: TestCategory.complaint,
         });
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.open);
         customerTicketing.closeTicketRequest("Closing ticket");
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.verifyStatusOfTicketInList();
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyMessageBoxIsDisabled();
       });
 
@@ -83,7 +84,7 @@ describe('ticket details', () => {
         customerTicketing.closeTicketRequest("Closing ticket");
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.verifyStatusOfTicketInList();
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.closed);
         customerTicketing.reopenTicketRequest("Reopening ticket");
         customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.in_process);
@@ -103,7 +104,7 @@ describe('ticket details', () => {
         customerTicketing.navigateBackToPreviousPage();
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.verifyMessageWasPosted("Update ticket with comments");
       });
