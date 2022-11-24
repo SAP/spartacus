@@ -56,15 +56,19 @@ describe('B2B - Unit-Level Orders History', () => {
   });
 
   describe('User with right', () => {
+    let ordersToLoadAlias;
+
     beforeEach(() => {
       cy.wrap(order0).as('order0');
       cy.wrap(order1).as('order1');
       cy.wrap(order2).as('order2');
+      ordersToLoadAlias = registerReloadOrdersAlias(orderHistoryPageUrl);
     });
 
     it('can see own placed orders', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewer();
       cy.visit('/my-account/unitLevelOrders');
+      cy.wait(ordersToLoadAlias);
 
       cy.get('@order0').then((order) => {
         assertNoUnitLevelOrderDisplayed(order);
@@ -80,6 +84,7 @@ describe('B2B - Unit-Level Orders History', () => {
     it('can see all placed orders from unit', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewer2();
       cy.visit('/my-account/unitLevelOrders');
+      cy.wait(ordersToLoadAlias);
 
       cy.get('@order0').then((order) => {
         assertUnitLevelOrderDisplayed(order);
@@ -95,6 +100,7 @@ describe('B2B - Unit-Level Orders History', () => {
     it('can see all placed orders from subunits', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit('/my-account/unitLevelOrders');
+      cy.wait(ordersToLoadAlias);
 
       cy.get('@order0').then((order) => {
         assertUnitLevelOrderDisplayed(order);
@@ -118,6 +124,7 @@ describe('B2B - Unit-Level Orders History', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
 
       cy.visit('/my-account/unitLevelOrders');
+      cy.wait(ordersToLoadAlias);
       assertClickOrderDetailsPage(order0);
     });
   });
