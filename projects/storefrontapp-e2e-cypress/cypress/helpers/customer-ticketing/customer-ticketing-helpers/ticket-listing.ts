@@ -225,8 +225,8 @@ export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingI
   });
 }
 
-export function clickPageOnPagination(pageName: string){
-  cy.get(`aria-label="${pageName} page"`).click();
+export function clickPageOnPagination(pageLabel: string){
+  cy.get(`aria-label="${pageLabel} page"`).click();
 }
 
 export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
