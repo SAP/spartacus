@@ -45,6 +45,7 @@ function initMocks() {
   mockConfigCommonsService = jasmine.createSpyObj([
     'getOrCreateConfiguration',
     'getConfigurationWithOverview',
+    'updateConfigurationOverview',
   ]);
   asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
     of(ConfigurationTestData.mockRouterState)
@@ -170,12 +171,12 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       expect(component.groupFilters.length).toBe(0);
     });
 
-    it('should collect attribute filters nothing selected', () => {
+    it('should collect attribute filters when nothing selected', () => {
       let attrFilters = component['collectAttrFilters']();
       expect(attrFilters).toEqual([]);
     });
 
-    it('should collect attribute filters all selected', () => {
+    it('should collect attribute filters when all selected', () => {
       component.priceFilter.setValue(true);
       component.mySelectionsFilter.setValue(true);
       let attrFilters = component['collectAttrFilters']();
@@ -185,18 +186,38 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       ]);
     });
 
-    it('should collect group filters nothing selected', () => {
+    it('should collect group filters when nothing selected', () => {
       let groupFilters = component['collectGroupFilters'](ovConfig.overview);
       expect(groupFilters).toEqual([]);
     });
 
-    it('should collect group filters one selected', () => {
+    it('should collect group filters when one selected', () => {
       component.groupFilters = [
         new UntypedFormControl(false),
         new UntypedFormControl(true),
       ];
       let groupFilters = component['collectGroupFilters'](ovConfig.overview);
       expect(groupFilters).toEqual(['2']);
+    });
+
+    it('on filter should call common configuration service', () => {
+      component.mySelectionsFilter.setValue(true);
+      component.groupFilters = [
+        new UntypedFormControl(false),
+        new UntypedFormControl(true),
+      ];
+      component.onFilter(ovConfig);
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledWith({
+        ...config,
+        overview: {
+          configId: config.configId,
+          productCode: config.productCode,
+          attributeFilters: [Configurator.OverviewFilter.USER_INPUT],
+          groupFilters: ['2'],
+        },
+      });
     });
 
     it('should create input config', () => {
