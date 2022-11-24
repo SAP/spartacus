@@ -20,205 +20,203 @@ describe('B2B - Unit-Level Orders History', () => {
 
   const orderHistoryPageUrl = '/orgUsers/current/orgUnits/orders?pageSize=*';
 
-  describe('Check unit-level orders display', () => {
-    let order0;
-    let order1;
-    let order2;
+  let order0;
+  let order1;
+  let order2;
 
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
+  before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
+    unitLevelOrderHistory.loginB2bCommonUser();
+    doPlaceB2BOrder(sampleData.product1).then((resp) => (order0 = resp.body));
+    unitLevelOrderHistory.loginB2bUnitOrderViewer();
+    doPlaceB2BOrder(sampleData.product2).then((resp) => (order1 = resp.body));
+    unitLevelOrderHistory.loginB2bUnitOrderViewer2();
+    doPlaceB2BOrder(sampleData.product3).then((resp) => (order2 = resp.body));
+
+    unitLevelOrderHistory.loginB2bUnitOrderViewer();
+    cy.visit('/my-account/unitLevelOrders');
+  });
+
+  describe('User without right', () => {
+    it('is not allowed to access unit-level orders page', () => {
       unitLevelOrderHistory.loginB2bCommonUser();
-      doPlaceB2BOrder(sampleData.product1).then((resp) => (order0 = resp.body));
-      unitLevelOrderHistory.loginB2bUnitOrderViewer();
-      doPlaceB2BOrder(sampleData.product2).then((resp) => (order1 = resp.body));
-      unitLevelOrderHistory.loginB2bUnitOrderViewer2();
-      doPlaceB2BOrder(sampleData.product3).then((resp) => (order2 = resp.body));
 
+      cy.visit('/my-account/unitLevelOrders');
+
+      cy.location('pathname').should(
+        'eq',
+        `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+          'BASE_CURRENCY'
+        )}/`
+      );
+      cy.get('.alert')
+        .should('be.visible')
+        .and('contain.text', 'No sufficient permissions');
+    });
+  });
+
+  describe('User with right', () => {
+    beforeEach(() => {
+      cy.wrap(order0).as('order0');
+      cy.wrap(order1).as('order1');
+      cy.wrap(order2).as('order2');
+    });
+
+    it('can see own placed orders', () => {
       unitLevelOrderHistory.loginB2bUnitOrderViewer();
       cy.visit('/my-account/unitLevelOrders');
-    });
 
-    describe('User without right', () => {
-      it('is not allowed to access unit-level orders page', () => {
-        unitLevelOrderHistory.loginB2bCommonUser();
-
-        cy.visit('/my-account/unitLevelOrders');
-
-        cy.location('pathname').should(
-          'eq',
-          `/${Cypress.env('BASE_SITE')}/${Cypress.env(
-            'BASE_LANG'
-          )}/${Cypress.env('BASE_CURRENCY')}/`
-        );
-        cy.get('.alert')
-          .should('be.visible')
-          .and('contain.text', 'No sufficient permissions');
+      cy.get('@order0').then((order) => {
+        assertNoUnitLevelOrderDisplayed(order);
+      });
+      cy.get('@order1').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
+      });
+      cy.get('@order2').then((order) => {
+        assertNoUnitLevelOrderDisplayed(order);
       });
     });
 
-    describe('User with right', () => {
-      beforeEach(() => {
-        cy.wrap(order0).as('order0');
-        cy.wrap(order1).as('order1');
-        cy.wrap(order2).as('order2');
+    it('can see all placed orders from unit', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewer2();
+      cy.visit('/my-account/unitLevelOrders');
+
+      cy.get('@order0').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
       });
-
-      it('can see own placed orders', () => {
-        unitLevelOrderHistory.loginB2bUnitOrderViewer();
-        cy.visit('/my-account/unitLevelOrders');
-
-        cy.get('@order0').then((order) => {
-          assertNoUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order1').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order2').then((order) => {
-          assertNoUnitLevelOrderDisplayed(order);
-        });
+      cy.get('@order1').then((order) => {
+        assertNoUnitLevelOrderDisplayed(order);
       });
-
-      it('can see all placed orders from unit', () => {
-        unitLevelOrderHistory.loginB2bUnitOrderViewer2();
-        cy.visit('/my-account/unitLevelOrders');
-
-        cy.get('@order0').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order1').then((order) => {
-          assertNoUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order2').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-      });
-
-      it('can see all placed orders from subunits', () => {
-        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-        cy.visit('/my-account/unitLevelOrders');
-
-        cy.get('@order0').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order1').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-        cy.get('@order2').then((order) => {
-          assertUnitLevelOrderDisplayed(order);
-        });
-      });
-
-      it('can see email in buyer column under the name of the buyer', () => {
-        cy.get('.cx-unit-level-order-history-value').should(
-          'contain',
-          '@rustic-hw.com'
-        );
-      });
-
-      it("can go to order details page of someone else's orders", () => {
-        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-
-        cy.visit('/my-account/unitLevelOrders');
-        assertClickOrderDetailsPage(order0);
+      cy.get('@order2').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
       });
     });
 
-    describe('User who wants to sort order history', () => {
-      before(() => {
-        const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
-        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-        cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
-      });
+    it('can see all placed orders from subunits', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
+      cy.visit('/my-account/unitLevelOrders');
 
-      it('can choose from six different sorting options', () => {
-        cy.get('.ng-input').first().click();
-        cy.get('.ng-option')
-          .then(($items) => {
-            return $items.map((_index, html) => Cypress.$(html).text()).get();
-          })
-          .should('have.all', [
-            'Date',
-            'Order Number',
-            'Buyer (Ascending)',
-            'Buyer (Descending)',
-            'Unit (Ascending)',
-            'Unit (Descending)',
-          ]);
-        cy.get('.ng-input').first().click();
+      cy.get('@order0').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
       });
-
-      it("can select 'Buyer (Ascending)' to see the list sorted ascending by buyer name", () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cy.get('.ng-input').first().click();
-        cy.get('.ng-option-label').contains('Buyer (Ascending)').click();
-        cy.wait(ordersToReload);
-        checkThatOrdersAreSorted(fieldBuyer);
+      cy.get('@order1').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
       });
-
-      it("can select 'Buyer (Descending)' to see the list sorted descending by unit name", () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cy.get('.ng-input').last().click();
-        cy.get('.ng-option-label').contains('Buyer (Descending)').click();
-        cy.wait(ordersToReload);
-        checkThatOrdersAreSorted(fieldBuyer, false);
-      });
-
-      it("can select 'Unit (Ascending)' to see the list sorted ascending by unit name", () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cy.get('.ng-input').first().click();
-        cy.get('.ng-option-label').contains('Unit (Ascending)').click();
-        cy.wait(ordersToReload);
-        checkThatOrdersAreSorted(fieldUnit);
-      });
-
-      it("can select 'Unit (Descending)' to see the list sorted descending by unit name", () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cy.get('.ng-input').last().click();
-        cy.get('.ng-option-label').contains('Unit (Descending)').click();
-        cy.wait(ordersToReload);
-        checkThatOrdersAreSorted(fieldUnit, false);
+      cy.get('@order2').then((order) => {
+        assertUnitLevelOrderDisplayed(order);
       });
     });
 
-    describe('User who wants to filter order history', () => {
-      before(() => {
-        const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
-        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-        cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
-      });
+    it('can see email in buyer column under the name of the buyer', () => {
+      cy.get('.cx-unit-level-order-history-value').should(
+        'contain',
+        '@rustic-hw.com'
+      );
+    });
 
-      it('can use a Buyer filter that limits orders to a specific buyer', () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cleanFilter(filterUnit).wait(ordersToReload);
-        setFilter(filterBuyer, buyerGiSun).wait(ordersToReload);
-        checkThatOrdersAreFilteredBy(fieldBuyer, buyerGiSun);
-        setFilter(filterBuyer, buyerMarkRivers).wait(ordersToReload);
-        checkThatOrdersAreFilteredBy(fieldBuyer, buyerMarkRivers);
-        setFilter(filterBuyer, buyerWilliamHunter).wait(ordersToReload);
-        checkThatOrdersAreFilteredBy(fieldBuyer, buyerWilliamHunter);
-      });
+    it('can go to order details page', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
 
-      it('can use a Unit filter that limits orders to a specific unit', () => {
-        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-        cleanFilter(filterBuyer).wait(ordersToReload);
-        setFilter(filterUnit, unitCustomRetail).wait(ordersToReload);
-        checkThatOrdersAreFilteredBy(fieldUnit, unitCustomRetail);
-        setFilter(filterUnit, unitServicesWest).wait(ordersToReload);
-        checkThatOrdersAreFilteredBy(fieldUnit, unitServicesWest);
-      });
+      cy.visit('/my-account/unitLevelOrders');
+      assertClickOrderDetailsPage(order0);
+    });
+  });
 
-      it('should see an empty list when setting mutually exclusive filter values', () => {
-        setMutuallyExclusiveFilterValues();
-        checkThatOrderListIsEmpty();
-      });
+  describe('User who wants to sort order history', () => {
+    before(() => {
+      const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
+      cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
+    });
 
-      it('can reset the filter by pressing the reset icon', () => {
-        resetFilter(filterBuyer);
-        resetFilter(filterUnit);
-        checkThatFilterIsCleaned(filterBuyer);
-        checkThatFilterIsCleaned(filterUnit);
-        checkThatOrdersListIsNotEmpty();
-      });
+    it('can choose from six different sorting options', () => {
+      cy.get('.ng-input').first().click();
+      cy.get('.ng-option')
+        .then(($items) => {
+          return $items.map((_index, html) => Cypress.$(html).text()).get();
+        })
+        .should('have.all', [
+          'Date',
+          'Order Number',
+          'Buyer (Ascending)',
+          'Buyer (Descending)',
+          'Unit (Ascending)',
+          'Unit (Descending)',
+        ]);
+      cy.get('.ng-input').first().click();
+    });
+
+    it("can select 'Buyer (Ascending)' to see the list sorted ascending by buyer name", () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cy.get('.ng-input').first().click();
+      cy.get('.ng-option-label').contains('Buyer (Ascending)').click();
+      cy.wait(ordersToReload);
+      checkThatOrdersAreSorted(fieldBuyer);
+    });
+
+    it("can select 'Buyer (Descending)' to see the list sorted descending by unit name", () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cy.get('.ng-input').last().click();
+      cy.get('.ng-option-label').contains('Buyer (Descending)').click();
+      cy.wait(ordersToReload);
+      checkThatOrdersAreSorted(fieldBuyer, false);
+    });
+
+    it("can select 'Unit (Ascending)' to see the list sorted ascending by unit name", () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cy.get('.ng-input').first().click();
+      cy.get('.ng-option-label').contains('Unit (Ascending)').click();
+      cy.wait(ordersToReload);
+      checkThatOrdersAreSorted(fieldUnit);
+    });
+
+    it("can select 'Unit (Descending)' to see the list sorted descending by unit name", () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cy.get('.ng-input').last().click();
+      cy.get('.ng-option-label').contains('Unit (Descending)').click();
+      cy.wait(ordersToReload);
+      checkThatOrdersAreSorted(fieldUnit, false);
+    });
+  });
+
+  describe('User who wants to filter order history', () => {
+    before(() => {
+      const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
+      cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
+    });
+
+    it('can use a Buyer filter that limits orders to a specific buyer', () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cleanFilter(filterUnit).wait(ordersToReload);
+      setFilter(filterBuyer, buyerGiSun).wait(ordersToReload);
+      checkThatOrdersAreFilteredBy(fieldBuyer, buyerGiSun);
+      setFilter(filterBuyer, buyerMarkRivers).wait(ordersToReload);
+      checkThatOrdersAreFilteredBy(fieldBuyer, buyerMarkRivers);
+      setFilter(filterBuyer, buyerWilliamHunter).wait(ordersToReload);
+      checkThatOrdersAreFilteredBy(fieldBuyer, buyerWilliamHunter);
+    });
+
+    it('can use a Unit filter that limits orders to a specific unit', () => {
+      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+      cleanFilter(filterBuyer).wait(ordersToReload);
+      setFilter(filterUnit, unitCustomRetail).wait(ordersToReload);
+      checkThatOrdersAreFilteredBy(fieldUnit, unitCustomRetail);
+      setFilter(filterUnit, unitServicesWest).wait(ordersToReload);
+      checkThatOrdersAreFilteredBy(fieldUnit, unitServicesWest);
+    });
+
+    it('should see an empty list when setting mutually exclusive filter values', () => {
+      setMutuallyExclusiveFilterValues();
+      checkThatOrderListIsEmpty();
+    });
+
+    it('can reset the filter by pressing the reset icon', () => {
+      resetFilter(filterBuyer);
+      resetFilter(filterUnit);
+      checkThatFilterIsCleaned(filterBuyer);
+      checkThatFilterIsCleaned(filterUnit);
+      checkThatOrdersListIsNotEmpty();
     });
   });
 
