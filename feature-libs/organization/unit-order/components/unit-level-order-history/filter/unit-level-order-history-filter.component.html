@@ -6,6 +6,7 @@
   <div class="cx-filter-list">
     <span>{{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}</span>
     <button
+      id="closeFilterNavBtn"
       type="button"
       class="clear-btn"
       [attr.aria-label]="'common.close' | cxTranslate"
@@ -48,7 +49,8 @@
   </div>
 </div>
 
-<form id="filterFormMobileId"
+<form
+  id="filterFormMobileId"
   [formGroup]="filterFormMobile"
   (keydown.enter)="searchUnitLevelOrdersForMobile()"
 >
@@ -236,6 +238,8 @@
               placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
             />
             <button
+              id="clearUnitBtn"
+              type="button"
               #unitButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearUnit()"
@@ -257,15 +261,18 @@
     </div>
 
     <div class="cx-unit-level-order-history-filter-form-button-block">
-      <button id="clearAllBtn"
+      <button
+        id="clearAllBtn"
         class="cx-action-link clear-btn"
         type="button"
         (click)="clearAll()"
       >
         {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
       </button>
-      <button id="searchUnitLevelOrdersBtn"
-        class="btn btn-primary unit-level-order-history-search" type="button"
+      <button
+        id="searchUnitLevelOrdersBtn"
+        class="btn btn-primary unit-level-order-history-search"
+        type="button"
         (click)="searchUnitLevelOrders()"
       >
         {{ 'unitLevelOrderHistory.search' | cxTranslate }}
@@ -275,7 +282,9 @@
 </form>
 
 <div class="cx-unit-level-order-history-filter-form-mobile">
-  <button id="filterByBtn" type="button"
+  <button
+    id="filterByBtn"
+    type="button"
     class="btn btn-action btn-block dialog-trigger"
     (click)="launchMobileFilters()"
   >
@@ -283,7 +292,12 @@
     {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
   </button>
   <div #removeAppliedFilters class="cx-clear-filter">
-    <button id="removeAppliedFiltersbtn" class="cx-action-link clear-btn" type="button" (click)="clearAll()">
+    <button
+      id="removeAppliedFiltersbtn"
+      class="cx-action-link clear-btn"
+      type="button"
+      (click)="clearAll()"
+    >
       {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
     </button>
   </div>
