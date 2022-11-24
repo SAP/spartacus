@@ -105,7 +105,11 @@ export const configurator = {
       title: 'Menu',
     },
     overviewFilter: {
-      title: 'Filter',
+      title: 'Select Filters',
+      byOption: 'Filter by Option',
+      byGroup: 'Filter by Group',
+      byPrice: 'Price-Relevant Options',
+      mySelections: 'My Selections',
     },
     group: {
       general: 'General',
@@ -231,13 +235,6 @@ export const configurator = {
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
-    },
-    overviewFilter: {
-      title: 'Select Filters',
-      byOption: 'Filter by Option',
-      byGroup: 'Filter by Group',
-      byPrice: 'Price-Relevant Options',
-      mySelections: 'My Selections',
     },
   },
 };
