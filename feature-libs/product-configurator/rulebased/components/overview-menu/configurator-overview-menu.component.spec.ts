@@ -247,4 +247,68 @@ describe('ConfigurationOverviewMenuComponent', () => {
       );
     });
   });
+
+  describe('collectAllMenuItems', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    function getParentLevel(element: HTMLElement): number {
+      let level = 0;
+      element?.parentElement?.classList.forEach((className) => {
+        if (className.indexOf('groupLevel') !== -1) {
+          level = Number(className.replace('groupLevel', ''));
+        }
+      });
+      return level;
+    }
+
+    it('should not return any menu items', () => {
+      const menuItems = component['collectAllMenuItems'](undefined);
+      expect(menuItems.length).toEqual(0);
+    });
+
+    it('should return all collected menu items', () => {
+      const items =
+        fixture.debugElement.nativeElement.querySelectorAll('button');
+      //Get the last item
+      const item: HTMLElement = items[items.length - 1];
+      let level = getParentLevel(item);
+      const menuItems = component['collectAllMenuItems'](item);
+      expect(menuItems.length).toEqual(level);
+    });
+  });
+
+  describe('makeAllMenuItemsActive', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should make all collected menu items active', () => {
+      const items =
+        fixture.debugElement.nativeElement.querySelectorAll('button');
+      //Get the last item
+      const item: HTMLElement = items[items.length - 1];
+      let menuItems = component['collectAllMenuItems'](item);
+      //Check whether menu items do not have active class
+      menuItems.forEach((item) => {
+        expect(item?.classList?.contains('active')).toBe(false);
+      });
+
+      component['makeAllMenuItemsActive'](item);
+      menuItems = component['collectAllMenuItems'](item);
+      //Check whether menu items have active class
+      menuItems.forEach((item) => {
+        expect(item?.classList?.contains('active')).toBe(true);
+      });
+    });
+  });
+
+  describe('onScroll', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('', () => {});
+  });
 });

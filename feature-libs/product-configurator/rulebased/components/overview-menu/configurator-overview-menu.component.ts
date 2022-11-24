@@ -79,11 +79,13 @@ export class ConfiguratorOverviewMenuComponent {
           const querySelector = '#' + id;
           let groupItem =
             this.configuratorStorefrontUtilsService.getElement(querySelector);
+
+          //TODO: do we want to set a setting which defines where the top is => Ask Christoph
           if (
             entry.intersectionRatio > 0 &&
             entry.target.getBoundingClientRect().top <= 25
           ) {
-            this.makeAllButtonsActive(groupItem);
+            this.makeAllMenuItemsActive(groupItem);
           } else {
             groupItem?.classList.remove('active');
           }
@@ -100,25 +102,25 @@ export class ConfiguratorOverviewMenuComponent {
     }
   }
 
-  protected collectAllButtons(element: HTMLElement | undefined): Element[] {
-    let nodes: Element[] = [];
+  protected collectAllMenuItems(element: HTMLElement | undefined): Element[] {
+    let menuItems: Element[] = [];
     if (element) {
       while (element?.parentElement?.classList?.contains('cx-menu-group')) {
         const child = element?.parentElement?.querySelector('.cx-menu-item');
         if (child) {
-          if (nodes.indexOf(child) === -1) {
-            nodes.unshift(child);
+          if (menuItems.indexOf(child) === -1) {
+            menuItems.unshift(child);
           }
         }
         element = element?.parentElement;
       }
     }
-    return nodes;
+    return menuItems;
   }
 
-  protected makeAllButtonsActive(element: HTMLElement | undefined) {
+  protected makeAllMenuItemsActive(element: HTMLElement | undefined) {
     if (element) {
-      this.collectAllButtons(element).forEach((node) => {
+      this.collectAllMenuItems(element).forEach((node) => {
         if (!node?.classList.contains('active')) {
           node?.classList.add('active');
         }

@@ -198,10 +198,10 @@ describe('ConfigurationOverviewFormComponent', () => {
     defaultConfigObservable = of(configCreate2);
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(2);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(10);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      3
+      11
     );
   });
 
