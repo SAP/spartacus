@@ -279,10 +279,11 @@ describe('B2B - Unit-Level Orders History', () => {
   ) {
     cy.get(dataCellSelector)
       .should('have.length.at.least', 1)
-      .each((element) => {
-        expect(
-          element.children('.cx-unit-level-order-history-value').text()
-        ).to.contains(expectedValue);
+      .and(($items) => {
+        let items = $items.get();
+        for (let item of items) {
+          expect(item).to.contain(expectedValue);
+        }
       });
   }
 
