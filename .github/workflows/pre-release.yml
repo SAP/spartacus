@@ -17,13 +17,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TEMPORARY_TOKEN }}
       - name: Generate and publish compodocs
         if: ${{ github.event.inputs.compodoc == 'true' }}
         run: | 
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-          yarn generate:publish:doc
+          yarn generate:publish:docs
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
