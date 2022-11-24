@@ -11,7 +11,7 @@ import { AnonymousConsentDialogComponent } from '../../shared/components/anonymo
 export const defaultAnonymousConsentLayoutConfig: LayoutConfig = {
   launch: {
     ANONYMOUS_CONSENT: {
-      inline: true,
+      inlineRoot: true,
       component: AnonymousConsentDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
