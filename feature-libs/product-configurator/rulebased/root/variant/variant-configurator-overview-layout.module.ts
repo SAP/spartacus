@@ -39,15 +39,6 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
-          xs: {
-            slots: [
-              'VariantConfigOverviewHeader',
-              'VariantConfigOverviewBanner',
-              'VariantConfigOverviewFilterButton',
-              'VariantConfigOverviewContent',
-              'VariantConfigOverviewBottombar',
-            ],
-          },
           lg: {
             slots: [
               'VariantConfigOverviewHeader',
@@ -57,6 +48,12 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               'VariantConfigOverviewBottombar',
             ],
           },
+          slots: [
+            'VariantConfigOverviewHeader',
+            'VariantConfigOverviewBanner',
+            'VariantConfigOverviewContent',
+            'VariantConfigOverviewBottombar',
+          ],
         },
       },
     }),
