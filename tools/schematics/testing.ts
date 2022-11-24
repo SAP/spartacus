@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
@@ -60,22 +61,34 @@ const commands = [
 type Command = typeof commands[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
+const verdaccioUrl = 'http://localhost:4873/';
+const npmUrl = 'https://registry.npmjs.org/';
 
 let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
-  console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
+
+  console.log('Waiting for verdaccio to boot...');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
+  try {
+    execSync(`npx wait-on ${verdaccioUrl} --timeout 10000`);
+  } catch (_e) {
+    console.log(
+      chalk.red(
+        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
+      )
+    );
+    process.exit(1);
+  }
   console.log('Pointing npm to verdaccio');
-  execSync(`npm config set @spartacus:registry http://localhost:4873/`);
-  execSync(`npx wait-on http://localhost:4873/`);
+  execSync(`npm config set @spartacus:registry ${verdaccioUrl}`);
   return res;
 }
 
 function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
-  execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
+  execSync(`npm config set @spartacus:registry ${npmUrl}`);
   if (verdaccioProcess) {
     try {
       console.log('Killing verdaccio');
@@ -115,7 +128,7 @@ function publishLibs(reload = false): void {
       `yarn publish --cwd ${dir} --new-version ${
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         currentVersion!.version
-      } --registry=http://localhost:4873/ --no-git-tag-version`,
+      } --registry=${verdaccioUrl} --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });

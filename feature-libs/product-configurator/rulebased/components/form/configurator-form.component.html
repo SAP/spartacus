@@ -1,7 +1,7 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
   <ng-container *ngIf="currentGroup$ | async as currentGroup">
     <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
-      <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+      <ng-container *ngIf="displayConflictDescription(currentGroup)">
         <cx-configurator-conflict-description
           [currentGroup]="currentGroup"
         ></cx-configurator-conflict-description>

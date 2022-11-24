@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 export * from './asm-bind-cart/asm-bind-cart.component';
 export * from './asm-components.module';
 export * from './asm-main-ui/asm-main-ui.component';
