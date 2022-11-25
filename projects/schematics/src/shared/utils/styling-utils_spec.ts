@@ -10,7 +10,7 @@ const project = { sourceRoot } as WorkspaceProject;
 describe.only('Styling utils', () => {
   describe('getStylesConfigFilePath', () => {
     it('should provide the path of the styles config file in the project source root.', () => {
-      const stylesConfigFilePath = getStylesConfigFilePath(project);
+      const stylesConfigFilePath = getStylesConfigFilePath(sourceRoot);
       expect(stylesConfigFilePath).toEqual(`${sourceRoot}/styles-config.scss`);
     });
   });

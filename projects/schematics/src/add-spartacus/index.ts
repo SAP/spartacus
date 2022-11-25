@@ -60,16 +60,16 @@ import { setupStoreModules } from './store';
 function createStylesConfig(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const project = getProjectFromWorkspace(tree, options);
-    const stylConfigFilePath = getStylesConfigFilePath(project);
+    const styleConfigFilePath = getStylesConfigFilePath(project.sourceRoot);
     const styleConfigContent = `$styleVersion: ${
       options.featureLevel || getSpartacusCurrentFeatureLevel()
     }`;
-    if (tree.exists(stylConfigFilePath)) {
+    if (tree.exists(styleConfigFilePath)) {
       context.logger.warn(
-        `Skipping styles config file creation. File ${stylConfigFilePath} already exists.`
+        `Skipping styles config file creation. File ${styleConfigFilePath} already exists.`
       );
     } else {
-      tree.create(stylConfigFilePath, styleConfigContent);
+      tree.create(styleConfigFilePath, styleConfigContent);
     }
     return tree;
   };
