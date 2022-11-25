@@ -1,0 +1,31 @@
+<ng-container *ngIf="config?.overview">
+  <ng-container
+    *ngFor="let filter of config.overview.attributeFilters; let i = index"
+  >
+    <button
+      class="cx-overview-filter-applied"
+      title="{{ filter }}"
+      (click)="onAttrFilterRemove(config, filter)"
+    >
+      {{ filter }}
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </ng-container>
+
+  <ng-container
+    *ngFor="let groupId of config.overview.groupFilters; let i = index"
+  >
+    <button
+      class="cx-overview-filter-applied"
+      title="{{ groupId + '# group' }}"
+      (click)="onGroupFilterRemove(config, groupId)"
+    >
+      {{ groupId + '# group' }}
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </ng-container>
+</ng-container>

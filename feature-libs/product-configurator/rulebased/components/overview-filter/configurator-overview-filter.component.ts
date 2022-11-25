@@ -6,7 +6,6 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { OperatorFunction } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
@@ -40,8 +39,6 @@ export class ConfiguratorOverviewFilterComponent {
   mySelectionsFilter = new UntypedFormControl('');
   groupFilters = new Array<UntypedFormControl>();
 
-  iconTypes = ICON_TYPE;
-
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
@@ -65,7 +62,7 @@ export class ConfiguratorOverviewFilterComponent {
       })
     );
 
-  onFilter(config: Configurator.Configuration) {
+  onFilter(config: ConfigurationNonNullOv) {
     let inputConfig = this.createInputConfig(
       config,
       this.collectAttrFilters(),
@@ -75,14 +72,15 @@ export class ConfiguratorOverviewFilterComponent {
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
-  onAttrFilterRemove(config: Configurator.Configuration, filter: string) {
-    if (filter === Configurator.OverviewFilter.PRICE_RELEVANT) {
-      this.priceFilter.setValue(false);
-    }
-    if (filter === Configurator.OverviewFilter.USER_INPUT) {
-      this.mySelectionsFilter.setValue(false);
-    }
-    this.onFilter(config);
+  onAttrFilterRemove(config: ConfigurationNonNullOv, filter: string) {
+    let attrFilters = config.overview.attributeFilters ?? [];
+    let groupFilters = config.overview.groupFilters ?? [];
+    attrFilters = attrFilters.filter((attrFilter) => filter !== attrFilter);
+
+    this.filterChange.emit({});
+    this.configuratorCommonsService.updateConfigurationOverview(
+      this.createInputConfig(config, attrFilters, groupFilters)
+    );
   }
 
   onGroupFilterRemove(groupId: string) {
@@ -116,9 +114,7 @@ export class ConfiguratorOverviewFilterComponent {
     }
   }
 
-  protected collectGroupFilters(
-    overview: Configurator.Overview | undefined
-  ): string[] {
+  protected collectGroupFilters(overview: Configurator.Overview): string[] {
     let filters: string[] = [];
     let idx = 0;
     this.groupFilters.forEach((groupFilter) => {
@@ -142,10 +138,10 @@ export class ConfiguratorOverviewFilterComponent {
   }
 
   protected createInputConfig(
-    config: Configurator.Configuration,
+    config: ConfigurationNonNullOv,
     attrFilters: Configurator.OverviewFilter[],
     groupFilers: string[]
-  ): Configurator.Configuration {
+  ): ConfigurationNonNullOv {
     return {
       ...config,
       overview: {

@@ -1,35 +1,7 @@
 <ng-container *ngIf="config$ | async as config">
-  <div class="cx-overview-filter-applied-filter-bar">
-    <ng-container
-      *ngFor="let filter of config.overview.attributeFilters; let i = index"
-    >
-      <button
-        class="cx-overview-filter-applied"
-        title="{{ filter }}"
-        (click)="onAttrFilterRemove(config, filter)"
-      >
-        {{ filter }}
-        <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-        </span>
-      </button>
-    </ng-container>
-
-    <ng-container
-      *ngFor="let groupId of config.overview.groupFilters; let i = index"
-    >
-      <button
-        class="cx-overview-filter-applied"
-        title="{{ groupId + '# group' }}"
-        (click)="onGroupFilterRemove(config, groupId)"
-      >
-        {{ groupId + '# group' }}
-        <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-        </span>
-      </button>
-    </ng-container>
-  </div>
+  <cx-configurator-overview-filter-bar
+    [config]="config"
+  ></cx-configurator-overview-filter-bar>
   <div class="cx-overview-filter-header">
     {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
   </div>
