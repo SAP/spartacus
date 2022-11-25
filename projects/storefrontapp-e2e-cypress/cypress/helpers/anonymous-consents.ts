@@ -311,6 +311,7 @@ export function showAnonymousConfigTest() {
     navigateToConsentPage();
     checkConsentsInConsentPage();
     signOutUser();
+    seeBannerAsAnonymous();
   });
 
   it('should not display the legal in the dialog', () => {

@@ -32,7 +32,7 @@ export function getStubbedUnitLevelOrderDetails() {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/orders/*`,
+      )}/orgUsers/current/orgUnits/orders/*`,
     },
     { body: unitLevelOrder }
   );

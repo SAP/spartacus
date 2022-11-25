@@ -11,6 +11,7 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 const cmsComponents: string[] = [
   'ConfiguratorForm',
   'ConfiguratorOverviewForm',
+  'ConfiguratorOverviewMenu',
   'ConfiguratorUpdateMessage',
   'ConfiguratorAddToCartButton',
   'ConfiguratorMenu',

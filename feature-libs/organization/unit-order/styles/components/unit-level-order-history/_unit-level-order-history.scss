@@ -6,6 +6,50 @@
     }
   }
 
+  .cx-unit-level-order-history-filter-label-wrapper {
+    width: 200px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+  }
+
+  .cx-unit-level-order-history-filter-input {
+    border: none;
+    height: 100%;
+    margin-bottom: 0;
+  }
+
+  .cx-unit-level-order-history-filter-input:focus {
+    background: white;
+  }
+
+  .cx-unit-level-order-history-filter-reset-button {
+    display: none;
+    border: none;
+    color: lightgray;
+    background: white;
+    padding-inline-end: 10px;
+  }
+
+  .cx-unit-level-order-history-filter-label {
+    display: flex;
+    align-content: stretch;
+    margin-bottom: 0;
+  }
+
+  .cx-unit-level-order-history-filter-div-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 3rem;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    span {
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
+
   .cx-unit-level-order-history-table {
     padding: 1.5rem 0 1.125rem 0;
     margin-bottom: 0;
@@ -232,6 +276,175 @@
 
     .btn {
       margin: 1.25rem 0;
+    }
+  }
+
+  .cx-unit-level-order-history-filter-form-mobile {
+    display: none;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    .cx-clear-filter {
+      flex-basis: 100%;
+      justify-content: flex-end;
+      display: none;
+      flex-direction: row;
+      margin-top: 2rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0.5rem;
+      display: flex;
+    }
+  }
+
+  .cx-unit-level-order-history-filter-form-button-block {
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-inline-end: 0.5rem;
+    margin-bottom: 2rem;
+    align-self: center;
+
+    display: flex;
+    flex-direction: row;
+
+    .clear-btn {
+      margin-inline-end: 1rem;
+      border: none;
+      background-color: inherit;
+      font-size: var(--cx-font-size, 1rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .cx-unit-level-order-history-filter-form-item {
+    flex-direction: column;
+    flex-basis: 25%;
+    padding: 0.5rem;
+
+    @include media-breakpoint-down(md) {
+      flex-basis: 50%;
+      padding: 0.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0.5rem;
+      display: none;
+    }
+  }
+
+  .cx-filter-list {
+    margin: 1px 11px 1px 11px;
+  }
+
+  .cx-filter {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: var(--cx-color-background);
+    overflow-x: hidden;
+    top: 0;
+    padding-top: 33px;
+    display: none;
+    flex-direction: column;
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .filter-list-border {
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .clear-btn {
+    margin-inline-end: 1rem;
+    border: none;
+    background-color: inherit;
+    font-size: var(--cx-font-size, 1rem);
+    float: right;
+    justify-content: flex-end;
+  }
+
+  #cx-unit-level-order-history-filter-nav-sub-unit {
+    display: none;
+  }
+
+  #cx-unit-level-order-history-filter-nav-sub-buyer {
+    display: none;
+  }
+
+  .search-icon-filter {
+    display: block;
+    padding: 10px;
+    padding-top: 15px;
+    color: lightgray;
+  }
+
+  .cx-filter-nav {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: var(--cx-color-background);
+    overflow-x: hidden;
+    padding-top: 33px;
+    top: 0;
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+
+    .cx-filter-nav-div {
+      box-shadow: 0 4px 2px -2px lightgray;
+    }
+
+    label {
+      display: flex;
+      align-content: stretch;
+      background: white;
+      padding-bottom: 0;
+      border: 1px solid lightgray;
+      margin: 0 1rem 0 1rem;
+    }
+
+    input {
+      border: none;
+      height: 100%;
+      margin: 0px 11px 1px 11px;
+    }
+
+    input:focus {
+      background-color: white;
+    }
+
+    input::placeholder {
+      color: lightgray;
+      font-weight: $font-weight-light;
+      font-size: var(--cx-font-size, 1rem);
+    }
+
+    .filter-button {
+      border: none;
+      align-content: stretch;
+      flex-basis: 100%;
+      justify-content: flex-end;
+      margin-inline-end: 0.5rem;
+      margin-bottom: 1rem;
+      align-self: center;
+      background-color: var(--cx-color-background);
+
+      span {
+        padding-inline-start: 12px;
+      }
     }
   }
 }

@@ -7,6 +7,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
+import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
@@ -20,6 +21,13 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
+  // Contains the initial query parameters and will be updated with current state of filters
+  queryParams: OrderHistoryQueryParams = {
+    currentPage: 0,
+    sortCode: '',
+    filters: '',
+  };
+
   constructor(
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
@@ -32,6 +40,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
+          this.queryParams.sortCode = this.sortType;
         }
       })
     );
@@ -43,21 +52,35 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     this.unitOrdersFacade.clearOrderList();
   }
 
-  changeSortCode(sortCode: string): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode,
+  filterChange(newFilters: OrderHistoryQueryParams): void {
+    this.updateQueryParams({
+      ...newFilters,
       currentPage: 0,
-    };
+    });
+    this.fetchOrders(this.queryParams);
+  }
+
+  private updateQueryParams(partialParams: OrderHistoryQueryParams) {
+    // Overwrite each value present in partialParams to _queryParams
+    Object.entries(partialParams).forEach(
+      (param) => ((this.queryParams as any)[param[0]] = param[1])
+    );
+  }
+
+  changeSortCode(sortCode: string): void {
+    this.updateQueryParams({
+      sortCode: sortCode,
+      currentPage: 0,
+    });
     this.sortType = sortCode;
-    this.fetchOrders(event);
+    this.fetchOrders(this.queryParams);
   }
 
   pageChange(page: number): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode: this.sortType,
+    this.updateQueryParams({
       currentPage: page,
-    };
-    this.fetchOrders(event);
+    });
+    this.fetchOrders(this.queryParams);
   }
 
   goToOrderDetail(order: Order): void {
@@ -98,11 +121,12 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     );
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
+  private fetchOrders(queryParam: OrderHistoryQueryParams): void {
     this.unitOrdersFacade.loadOrderList(
       this.PAGE_SIZE,
-      event.currentPage,
-      event.sortCode
+      queryParam.currentPage,
+      queryParam.filters,
+      queryParam.sortCode
     );
   }
 }

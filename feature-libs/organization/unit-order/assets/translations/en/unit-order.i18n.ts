@@ -14,7 +14,7 @@ export const unitOrder = {
     buyer: 'Buyer',
     unit: 'Unit',
     total: 'Total',
-    noOrders: 'We have no order records for your unit.',
+    noOrders: 'We have no matching order records for your unit.',
     startShopping: 'Start Shopping',
     sortBy: 'Sort by',
     sortOrders: 'Sort orders',
@@ -23,6 +23,18 @@ export const unitOrder = {
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
     notFound: 'No Orders Found',
+    //--------------------
+    applyFilter: 'Apply',
+    filterBy: 'Filter by',
+    filterByBuyer: 'Filter by Buyer',
+    searchByBuyer: 'Search by Buyer',
+    filterByBuyerLabel: 'Buyer name',
+    filterByUnit: 'Filter by Unit',
+    searchByUnit: 'Search by Unit',
+    filterByUnitLabel: 'Unit name',
+    search: 'Search',
+    clearAll: 'Clear All',
+    removeAppliedFilters: 'Remove Applied Filters',
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',
@@ -31,5 +43,8 @@ export const unitOrder = {
     buyerDesc: 'Buyer (Descending)',
     orgUnit: 'Unit (Ascending)',
     orgUnitDesc: 'Unit (Descending)',
+  },
+  unitLevelOrderDetails: {
+    buyer: 'Buyer',
   },
 };

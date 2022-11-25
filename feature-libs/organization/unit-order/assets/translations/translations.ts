@@ -11,7 +11,11 @@ export const unitOrderTranslations: TranslationResources = {
   en,
 };
 
-// expose all translation chunk mapping for orderApproval feature
+// expose all translation chunk mapping for Unit-Level Order feature
 export const unitOrderTranslationChunksConfig: TranslationChunksConfig = {
-  unitOrder: ['unitLevelOrderHistory', 'unitLevelOrderHistorySorting'],
+  unitOrder: [
+    'unitLevelOrderHistory',
+    'unitLevelOrderHistorySorting',
+    'unitLevelOrderDetails',
+  ],
 };
