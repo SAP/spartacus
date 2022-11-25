@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   BasePageMetaResolver,
+  BreadcrumbMeta,
   I18nTestingModule,
   PageMetaResolver,
   PageMetaService,
   PageRobotsMeta,
+  SemanticPathService,
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
@@ -24,6 +26,10 @@ const mockTicket: TicketDetails = {
   subject: 'mock subject',
 };
 
+const testCustomerServiceUrl = '/customer-service';
+
+const testHomeBreadcrumb: BreadcrumbMeta = { label: 'Test Home', link: '/' };
+
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockCart));
 }
@@ -32,10 +38,15 @@ class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveDescription = createSpy().and.returnValue(of());
   resolveRobots = createSpy().and.returnValue(of());
   resolveTitle = createSpy().and.returnValue(of());
+  resolveBreadcrumbs = createSpy().and.returnValue(of([testHomeBreadcrumb]));
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   getTicket = () => of(mockTicket);
+}
+
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = jasmine.createSpy('get').and.returnValue(testCustomerServiceUrl);
 }
 
 describe('CustomerTicketingPageMetaResolver', () => {
@@ -61,6 +72,7 @@ describe('CustomerTicketingPageMetaResolver', () => {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
         },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
@@ -132,5 +144,19 @@ describe('CustomerTicketingPageMetaResolver', () => {
 
     expect(result).toContain(PageRobotsMeta.NOFOLLOW);
     expect(result).toContain(PageRobotsMeta.NOINDEX);
+  });
+
+  it('should resolve breadcrumbs for customer ticketing details page', () => {
+    const resultBreadcrumbs = [
+      testHomeBreadcrumb,
+      {
+        label: 'customerTicketing.customerService',
+        link: testCustomerServiceUrl,
+      },
+    ];
+
+    service.resolveBreadcrumbs().subscribe((meta) => {
+      expect(meta).toEqual(resultBreadcrumbs);
+    });
   });
 });

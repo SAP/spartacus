@@ -62,3 +62,7 @@ export function verifyTicketDetailsAreDisplayedInTicketHeader(ticketDetails: Tes
 export function verifyStatusOfTicketInDetailsPage(status = TestStatus.closed){
   cy.get(TICKET_HEADER).eq(STATUS_IN_HEADER).contains(status);
 }
+
+export function visitTicketDetailsPageForNonExistingTicket(){
+  cy.visit('/my-account/support-ticket/XYZ01234');
+}

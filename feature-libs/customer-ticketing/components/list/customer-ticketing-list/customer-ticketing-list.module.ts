@@ -10,6 +10,7 @@ import {
   CardModule,
   IconModule,
   ListNavigationModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import {
@@ -32,6 +33,7 @@ import { CustomerTicketingCreateModule } from '../customer-ticketing-create/cust
     IconModule,
     ListNavigationModule,
     RouterModule,
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

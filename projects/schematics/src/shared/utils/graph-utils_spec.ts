@@ -139,8 +139,8 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
-        SPARTACUS_ESLINT_PLUGIN,
         SPARTACUS_CUSTOMER_TICKETING,
+        SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
   });

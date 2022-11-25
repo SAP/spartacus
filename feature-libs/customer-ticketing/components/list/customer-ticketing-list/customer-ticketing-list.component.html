@@ -1,4 +1,4 @@
-<ng-container *ngIf="tickets$ | async as ticketList">
+<ng-container *ngIf="tickets$ | async as ticketList; else spinner">
   <span class="cx-ticketing-list-title">
     <h1 class="cx-ticketing-list-title-text">
       {{ 'customerTicketingList.requestTitle' | cxTranslate }}
@@ -164,3 +164,7 @@
     </ng-container>
   </ng-template>
 </ng-container>
+
+<ng-template #spinner>
+  <cx-spinner></cx-spinner>
+</ng-template>

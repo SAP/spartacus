@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule } from '@spartacus/storefront';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import {
   AuthGuard,
   CmsConfig,
@@ -17,7 +17,7 @@ import {
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, CardModule],
+  imports: [CommonModule, I18nModule, UrlModule, CardModule, SpinnerModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
