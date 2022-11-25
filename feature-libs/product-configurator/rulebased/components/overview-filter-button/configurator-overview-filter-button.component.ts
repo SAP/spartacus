@@ -48,6 +48,13 @@ export class ConfiguratorOverviewFilterButtonComponent {
       ) as OperatorFunction<Configurator.Configuration, ConfigurationNonNullOv>
     );
 
+  getNumFilters(overview: Configurator.Overview): number {
+    return (
+      (overview.attributeFilters?.length ?? 0) +
+      (overview.groupFilters?.length ?? 0)
+    );
+  }
+
   openFilterModal() {
     const dialogData = {
       testData: 'test',

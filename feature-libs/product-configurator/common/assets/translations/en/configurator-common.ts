@@ -76,6 +76,8 @@ export const configurator = {
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
       filterOverview: 'Filter',
+      filterOverviewWithCount: 'Filter ({{numAppliedFilters}})',
+      removeAll: 'Remove All',
     },
     icon: {
       groupComplete: 'Complete',

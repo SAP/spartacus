@@ -63,6 +63,20 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
+  isShowRemoveAll(overview: Configurator.Overview): boolean {
+    let numFilters =
+      (overview.attributeFilters?.length ?? 0) +
+      (overview.groupFilters?.length ?? 0);
+    return numFilters > 1;
+  }
+
+  onRemoveAll(config: ConfigurationNonNullOv) {
+    this.filterChange.emit({});
+    this.configuratorCommonsService.updateConfigurationOverview(
+      this.createInputConfig(config, [], [])
+    );
+  }
+
   protected createInputConfig(
     config: ConfigurationNonNullOv,
     attrFilters: Configurator.OverviewFilter[],

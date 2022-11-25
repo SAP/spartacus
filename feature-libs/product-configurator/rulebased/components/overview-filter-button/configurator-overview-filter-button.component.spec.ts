@@ -66,44 +66,70 @@ function initMocks() {
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
+  describe('Component Test', () => {
+    beforeEach(
+      waitForAsync(() => {
+        initTestData();
+        initMocks();
+        TestBed.configureTestingModule({
+          imports: [I18nTestingModule],
+          declarations: [ConfiguratorOverviewFilterButtonComponent],
+          providers: [
+            { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+            {
+              provide: ConfiguratorRouterExtractorService,
+              useValue: mockConfigRouterService,
+            },
+            {
+              provide: ConfiguratorCommonsService,
+              useValue: mockConfigCommonsService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
+
+    it('should create component', () => {
+      initComponent();
+      expect(component).toBeDefined();
+    });
+
+    it('should open filter modal on request', () => {
+      initComponent();
+      component.openFilterModal();
+      expect(mockLaunchDialogService.openDialog).toHaveBeenCalled();
+    });
+
+    it('should render filter button', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-config-filter-button'
+      );
+    });
+  });
+
+  describe('Unit Test', () => {
+    beforeEach(() => {
       initTestData();
       initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorOverviewFilterButtonComponent],
-        providers: [
-          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useValue: mockConfigRouterService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+      component = new ConfiguratorOverviewFilterButtonComponent(
+        mockLaunchDialogService,
+        mockConfigCommonsService,
+        mockConfigRouterService
+      );
+    });
 
-  it('should create component', () => {
-    initComponent();
-    expect(component).toBeDefined();
-  });
+    it('should get 0 as number of filters when there are no filters', () => {
+      expect(component.getNumFilters(ovConfig.overview)).toEqual(0);
+    });
 
-  it('should open filter modal on request', () => {
-    initComponent();
-    component.openFilterModal();
-    expect(mockLaunchDialogService.openDialog).toHaveBeenCalled();
-  });
-
-  it('should render filter button', () => {
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-config-filter-button'
-    );
+    it('should get number of filters when there are filters', () => {
+      ovConfig.overview.attributeFilters = [
+        Configurator.OverviewFilter.USER_INPUT,
+      ];
+      ovConfig.overview.groupFilters = ['1', '2'];
+      expect(component.getNumFilters(ovConfig.overview)).toEqual(3);
+    });
   });
 });

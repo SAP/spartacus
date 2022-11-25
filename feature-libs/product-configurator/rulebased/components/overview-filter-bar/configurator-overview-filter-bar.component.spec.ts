@@ -132,6 +132,34 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expect(component.filterChange.emit).toHaveBeenCalled();
     });
 
+    it('on remove all should remove call service with adapted filters', () => {
+      ovConfig.overview.groupFilters = ['1', '3'];
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT, MY_SELECTIONS];
+      expectedInputConfig.overview.groupFilters = [];
+      expectedInputConfig.overview.attributeFilters = [];
+      component.onRemoveAll(ovConfig);
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledWith(expectedInputConfig);
+    });
+
+    it('on remove all should emit filter update event', () => {
+      spyOn(component.filterChange, 'emit');
+      component.onRemoveAll(ovConfig);
+      expect(component.filterChange.emit).toHaveBeenCalled();
+    });
+
+    it('should not show remove all if only one filter applied', () => {
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      expect(component.isShowRemoveAll(ovConfig.overview)).toBeFalsy();
+    });
+
+    it('should show remove all if two filters are applied', () => {
+      ovConfig.overview.groupFilters = ['1'];
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      expect(component.isShowRemoveAll(ovConfig.overview)).toBeTruthy();
+    });
+
     it('should create input config', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,

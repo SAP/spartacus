@@ -38,4 +38,17 @@
       </span>
     </button>
   </ng-container>
+
+  <ng-container *ngIf="isShowRemoveAll(config.overview)">
+    <button
+      class="cx-overview-filter-applied"
+      title="{{ 'configurator.button.removeAll' | cxTranslate }}"
+      (click)="onRemoveAll(config)"
+    >
+      {{ 'configurator.button.removeAll' | cxTranslate }}
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </ng-container>
 </ng-container>

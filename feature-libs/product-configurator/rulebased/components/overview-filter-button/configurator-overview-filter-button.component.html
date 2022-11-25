@@ -1,12 +1,17 @@
-<button
-  class="cx-config-filter-button cx-btn btn btn-action"
-  tabindex="0"
-  (click)="openFilterModal()"
-  title="{{ 'configurator.button.filterOverview' | cxTranslate }}"
->
-  {{ 'configurator.button.filterOverview' | cxTranslate }}
-</button>
 <ng-container *ngIf="config$ | async as config">
+  <button
+    class="cx-config-filter-button cx-btn btn btn-action"
+    tabindex="0"
+    (click)="openFilterModal()"
+    title="{{ 'configurator.button.filterOverview' | cxTranslate }}"
+  >
+    {{
+      (getNumFilters(config.overview) > 0
+        ? 'configurator.button.filterOverviewWithCount'
+        : 'configurator.button.filterOverview'
+      ) | cxTranslate: { numAppliedFilters: getNumFilters(config.overview) }
+    }}
+  </button>
   <cx-configurator-overview-filter-bar
     [config]="config"
   ></cx-configurator-overview-filter-bar>
