@@ -98,6 +98,13 @@ export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/or
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
 
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_CORE = `@spartacus/organization/account-summary/core`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_COMPONENTS = `@spartacus/organization/account-summary/components`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ASSETS = `@spartacus/organization/account-summary/assets`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_OCC = `@spartacus/organization/account-summary/occ`;
+
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
 export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `@spartacus/product/variants/root`;
@@ -156,6 +163,8 @@ export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
+export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
@@ -163,6 +172,8 @@ export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/as
 export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
+
+export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 /***** Scopes end *****/
 
@@ -192,6 +203,7 @@ export const ORDER_FEATURE_NAME = 'Order';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
+export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';

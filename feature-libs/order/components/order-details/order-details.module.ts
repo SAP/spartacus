@@ -13,7 +13,6 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -83,7 +82,7 @@ const moduleComponents = [
       },
     }),
 
-    provideConfig(defaultConsignmentTrackingLayoutConfig),
+    provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

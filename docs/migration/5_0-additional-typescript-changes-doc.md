@@ -148,7 +148,9 @@ Current version:
 
 constructor(
   protected activeCartFacade: ActiveCartFacade,
-  protected launchDialogService: LaunchDialogService
+  protected launchDialogService: LaunchDialogService,
+  protected routingService: RoutingService,
+  protected el: ElementRef
 )
 
 ```
