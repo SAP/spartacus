@@ -24,11 +24,25 @@ export class ConfiguratorOverviewFilterBarComponent {
   @Input() config: ConfigurationNonNullOv;
 
   iconTypes = ICON_TYPE;
+  attributeFilterTypes = Configurator.OverviewFilter;
 
-  onAttrFilterRemove(config: ConfigurationNonNullOv, filter: string) {
+  getGroupFilterDescription(
+    overview: Configurator.Overview,
+    groupId: string
+  ): string {
+    console.log(overview);
+    return (
+      overview.possibleGroups?.find((group) => group.id === groupId)
+        ?.groupDescription ?? ''
+    );
+  }
+
+  onAttrFilterRemove(config: ConfigurationNonNullOv, attrToRemove: string) {
     let attrFilters = config.overview.attributeFilters ?? [];
     let groupFilters = config.overview.groupFilters ?? [];
-    attrFilters = attrFilters.filter((attrFilter) => filter !== attrFilter);
+    attrFilters = attrFilters.filter(
+      (attrFilterName) => attrToRemove !== attrFilterName
+    );
 
     this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(
@@ -36,8 +50,17 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
-  onGroupFilterRemove(groupId: string) {
-    console.log(groupId + '#group clicked');
+  onGroupFilterRemove(config: ConfigurationNonNullOv, groupIdToRemove: string) {
+    let attrFilters = config.overview.attributeFilters ?? [];
+    let groupFilters = config.overview.groupFilters ?? [];
+    groupFilters = groupFilters.filter(
+      (groupId) => groupIdToRemove !== groupId
+    );
+
+    this.filterChange.emit({});
+    this.configuratorCommonsService.updateConfigurationOverview(
+      this.createInputConfig(config, attrFilters, groupFilters)
+    );
   }
 
   protected createInputConfig(

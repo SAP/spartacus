@@ -72,21 +72,6 @@ export class ConfiguratorOverviewFilterComponent {
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
-  onAttrFilterRemove(config: ConfigurationNonNullOv, filter: string) {
-    let attrFilters = config.overview.attributeFilters ?? [];
-    let groupFilters = config.overview.groupFilters ?? [];
-    attrFilters = attrFilters.filter((attrFilter) => filter !== attrFilter);
-
-    this.filterChange.emit({});
-    this.configuratorCommonsService.updateConfigurationOverview(
-      this.createInputConfig(config, attrFilters, groupFilters)
-    );
-  }
-
-  onGroupFilterRemove(groupId: string) {
-    console.log(groupId + '#group clicked');
-  }
-
   protected extractGroupFilterState(configuration: ConfigurationNonNullOv) {
     this.groupFilters = [];
     configuration.overview.possibleGroups?.forEach((group) => {

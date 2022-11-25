@@ -1,6 +1,19 @@
 %cx-configurator-overview-filter-button {
-
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .cx-config-filter-button {
-    margin-left: 16px;
+    margin-inline-start: 16px;
+    margin-inline-end: 16px;
+    @include media-breakpoint-down(sm) {
+      inline-size: 100%;
+    }
+  }
+
+  cx-configurator-overview-filter-bar {
+    margin-inline-start: 16px;
   }
 }

@@ -12,6 +12,9 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const configId = '1234-56-7890';
 
+const PRICE_RELEVANT = Configurator.OverviewFilter.PRICE_RELEVANT;
+const MY_SELECTIONS = Configurator.OverviewFilter.USER_INPUT;
+
 let component: ConfiguratorOverviewFilterBarComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
 //let htmlElem: HTMLElement;
@@ -20,6 +23,7 @@ let mockConfigCommonsService: ConfiguratorCommonsService;
 
 let config: Configurator.Configuration;
 let ovConfig: ConfigurationNonNullOv;
+let expectedInputConfig: ConfigurationNonNullOv;
 
 function initTestData() {
   config = ConfiguratorTestUtils.createConfiguration(configId, owner);
@@ -28,8 +32,17 @@ function initTestData() {
     overview: ConfigurationTestData.productConfiguration.overview,
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
+  expectedInputConfig = {
+    ...config,
+    overview: {
+      configId: config.configId,
+      productCode: config.productCode,
+      attributeFilters: [],
+      groupFilters: [],
+      possibleGroups: structuredClone(ovConfig.overview.groups),
+    },
+  };
 }
-
 function initMocks() {
   mockConfigCommonsService = jasmine.createSpyObj([
     'updateConfigurationOverview',
@@ -77,22 +90,58 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       );
     });
 
+    it('get group filter description should return description for existing group', () => {
+      expect(
+        component.getGroupFilterDescription(ovConfig.overview, '2')
+      ).toEqual('Group 2');
+    });
+
+    it('get group filter description should return empty string for non existing group', () => {
+      expect(
+        component.getGroupFilterDescription(ovConfig.overview, 'x')
+      ).toEqual('');
+    });
+
+    it('on attribute filter remove should remove call service with adapted attribute filter', () => {
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT, MY_SELECTIONS];
+      expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      component.onAttrFilterRemove(ovConfig, MY_SELECTIONS);
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledWith(expectedInputConfig);
+    });
+
+    it('on attribute filter remove should emit filter update event', () => {
+      spyOn(component.filterChange, 'emit');
+      component.onAttrFilterRemove(ovConfig, PRICE_RELEVANT);
+      expect(component.filterChange.emit).toHaveBeenCalled();
+    });
+
+    it('on group filter remove should remove call service with adapted group filter', () => {
+      ovConfig.overview.groupFilters = ['1', '3'];
+      expectedInputConfig.overview.groupFilters = ['3'];
+      component.onGroupFilterRemove(ovConfig, '1');
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledWith(expectedInputConfig);
+    });
+
+    it('on group filter remove should emit filter update event', () => {
+      spyOn(component.filterChange, 'emit');
+      component.onGroupFilterRemove(ovConfig, '1');
+      expect(component.filterChange.emit).toHaveBeenCalled();
+    });
+
     it('should create input config', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,
-        [Configurator.OverviewFilter.PRICE_RELEVANT],
+        [PRICE_RELEVANT],
         ['3', '5']
       );
-      expect(inputConfig).toEqual({
-        ...ovConfig,
-        overview: {
-          configId: ovConfig.configId,
-          productCode: ovConfig.productCode,
-          attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
-          groupFilters: ['3', '5'],
-          possibleGroups: ovConfig.overview.possibleGroups,
-        },
-      });
+      expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      expectedInputConfig.overview.groupFilters = ['3', '5'];
+
+      expect(inputConfig).toEqual(expectedInputConfig);
     });
   });
 });

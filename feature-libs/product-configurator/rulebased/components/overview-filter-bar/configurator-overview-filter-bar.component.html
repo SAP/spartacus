@@ -4,10 +4,20 @@
   >
     <button
       class="cx-overview-filter-applied"
-      title="{{ filter }}"
+      title="{{
+        (filter === attributeFilterTypes.PRICE_RELEVANT
+          ? 'configurator.overviewFilter.byPrice'
+          : 'configurator.overviewFilter.mySelections'
+        ) | cxTranslate
+      }}"
       (click)="onAttrFilterRemove(config, filter)"
     >
-      {{ filter }}
+      {{
+        (filter === attributeFilterTypes.PRICE_RELEVANT
+          ? 'configurator.overviewFilter.byPrice'
+          : 'configurator.overviewFilter.mySelections'
+        ) | cxTranslate
+      }}
       <span aria-hidden="true">
         <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </span>
@@ -19,10 +29,10 @@
   >
     <button
       class="cx-overview-filter-applied"
-      title="{{ groupId + '# group' }}"
+      title="{{ getGroupFilterDescription(config.overview, groupId) }}"
       (click)="onGroupFilterRemove(config, groupId)"
     >
-      {{ groupId + '# group' }}
+      {{ getGroupFilterDescription(config.overview, groupId) }}
       <span aria-hidden="true">
         <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </span>
