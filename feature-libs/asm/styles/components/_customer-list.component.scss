@@ -206,6 +206,7 @@ $sapFioriContent_LabelColor: #6a6d70;
   .ng-select.customer-list-selector {
     .ng-value-label {
       font-weight: 700;
+      color: $sapFioriLinkColor;
     }
   }
 }
