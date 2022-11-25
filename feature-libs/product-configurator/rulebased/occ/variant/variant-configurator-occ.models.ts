@@ -27,6 +27,16 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct: string;
+    kbKey?: KB;
+    pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export interface Prices {
@@ -98,6 +108,7 @@ export namespace OccConfigurator {
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {

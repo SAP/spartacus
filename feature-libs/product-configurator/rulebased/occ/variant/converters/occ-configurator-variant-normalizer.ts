@@ -40,6 +40,9 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: source.kbKey ?? undefined,
+      pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -147,6 +150,7 @@ export class OccConfiguratorVariantNormalizer
       intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
       validationType: sourceAttribute.validationType,
+      visible: sourceAttribute.visible,
     };
 
     this.setSelectedSingleValue(attribute);

@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
   attributeCheckbox,
+  attributeCheckboxCode,
+  attributeCheckboxGroupId,
   attributeRadioButton,
   productConfiguration,
 } from '../../testing/configurator-test-data';
@@ -40,10 +42,11 @@ describe('CpqConfiguratorUtils', () => {
     it('should get attribute fields we need to do the CPQ update', () => {
       const updateInformation =
         CpqConfiguratorUtils.getUpdateInformation(attributeCheckbox);
+
       expect(updateInformation.standardAttributeCode).toBe(
-        attributeCheckbox.attrCode?.toString()
+        attributeCheckboxCode.toString()
       );
-      expect(updateInformation.tabId).toBe(attributeCheckbox.groupId);
+      expect(updateInformation.tabId).toBe(attributeCheckboxGroupId);
     });
 
     it('should throw an error if the necessary fields are not available on attribute level', () => {

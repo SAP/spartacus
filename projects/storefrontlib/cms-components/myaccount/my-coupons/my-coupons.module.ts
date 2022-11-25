@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -48,6 +48,7 @@ import { KeyboardFocusModule } from '../../../layout/index';
       },
     ]),
     KeyboardFocusModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     MyCouponsComponent,
@@ -68,7 +69,7 @@ import { KeyboardFocusModule } from '../../../layout/index';
         },
       },
     }),
-    provideConfig(defaultCouponLayoutConfig),
+    provideDefaultConfig(defaultCouponLayoutConfig),
   ],
   exports: [MyCouponsComponent, CouponClaimComponent],
 })

@@ -9,8 +9,13 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2020", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -223,6 +228,24 @@
       "@spartacus/order/root": [
         "feature-libs/order/root/public_api"
       ],
+      "@spartacus/organization/account-summary/assets": [
+        "feature-libs/organization/account-summary/assets/public_api"
+      ],
+      "@spartacus/organization/account-summary/components": [
+        "feature-libs/organization/account-summary/components/public_api"
+      ],
+      "@spartacus/organization/account-summary/core": [
+        "feature-libs/organization/account-summary/core/public_api"
+      ],
+      "@spartacus/organization/account-summary": [
+        "feature-libs/organization/account-summary/public_api"
+      ],
+      "@spartacus/organization/account-summary/occ": [
+        "feature-libs/organization/account-summary/occ/public_api"
+      ],
+      "@spartacus/organization/account-summary/root": [
+        "feature-libs/organization/account-summary/root/public_api"
+      ],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -426,6 +449,12 @@
       ],
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
+      ],
+      "@spartacus/cdc/user-account": [
+        "integration-libs/cdc/user-account/public_api"
+      ],
+      "@spartacus/cdc/user-profile": [
+        "integration-libs/cdc/user-profile/public_api"
       ],
       "@spartacus/cdc/core": [
         "integration-libs/cdc/core/public_api"

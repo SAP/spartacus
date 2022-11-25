@@ -5,6 +5,8 @@ import {
   QuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
 import {
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -81,7 +83,12 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        FeaturesConfigModule,
+      ],
       declarations: [QuickOrderFormComponent, MockCxIconComponent],
       providers: [
         ChangeDetectorRef,
@@ -89,6 +96,12 @@ describe('QuickOrderFormComponent', () => {
         QuickOrderConfig,
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
       ],
     }).compileComponents();
 

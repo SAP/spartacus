@@ -3020,6 +3020,7 @@ export namespace Occ {
     stores?: BaseStore[];
     urlPatterns?: string[];
     urlEncodingAttributes?: string[];
+    requiresAuthentication?: boolean;
   }
 
   export interface BaseStore {
