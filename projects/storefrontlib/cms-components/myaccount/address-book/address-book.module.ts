@@ -19,6 +19,7 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { AddressBookComponent } from './address-book.component';
 import { AddressFormModule } from './address-form/address-form.module';
 import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
+import { MyPreferredStoreModule } from './my-preferred-store';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    MyPreferredStoreModule,
   ],
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
