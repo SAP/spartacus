@@ -14,17 +14,18 @@ declare global {
        *
        * @example
         ```
-        cy.requireCostCenterAddressSelected(cartId);
+        cy.requireCostCenterAddressSelected(auth, cartId);
         ```
        */
       requireCostCenterAddressSelected: (
+        auth: {},
         cartId?: string
       ) => Cypress.Chainable<{}>;
     }
   }
 }
 
-Cypress.Commands.add('requireCostCenterAddressSelected', (token, cartId) => {
+Cypress.Commands.add('requireCostCenterAddressSelected', (auth, cartId) => {
   const cartCode = cartId || 'current';
 
   function getCostCenters() {
@@ -35,7 +36,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (token, cartId) => {
       )}/costcenters`,
       form: false,
       headers: {
-        Authorization: `bearer ${token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -48,7 +49,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (token, cartId) => {
       )}/users/current/carts/${cartCode}/costcenter?costCenterId=${costCenterCode}`,
       form: false,
       headers: {
-        Authorization: `bearer ${token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -61,7 +62,7 @@ Cypress.Commands.add('requireCostCenterAddressSelected', (token, cartId) => {
       )}/orgUsers/current/carts/${cartCode}/addresses/delivery?addressId=${addressId}`,
       form: false,
       headers: {
-        Authorization: `bearer ${token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
