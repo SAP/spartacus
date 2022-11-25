@@ -5,7 +5,11 @@
  */
 
 import * as commons from './customer-ticketing-commons';
-import { TestTicketDetails } from './customer-ticketing-commons';
+import {
+  TestTicketDetails,
+  TICKET_MESSAGE_MAX_LENGTH,
+  TICKET_SUBJECT_MAX_LENGTH
+} from './customer-ticketing-commons';
 
 export function openCreateTicketPopup() {
   cy.get('cx-customer-ticketing-list').should('exist');
@@ -33,6 +37,23 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails) {
     cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).type(
       ticketDetails.message
     );
+    cy.get('cx-form-errors').should('not.be.visible');
+  });
+}
+
+export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit(){
+  const SUBJECT_CONTROL = 'subject';
+  const MESSAGE_CONTROL = 'message';
+
+  cy.get('cx-customer-ticketing-create-dialog').within(() => {
+    cy.get(`textarea[formcontrolname="${SUBJECT_CONTROL}"]`)
+      .invoke('text').then((text) => {
+        expect(text.length).to.be.lte(TICKET_SUBJECT_MAX_LENGTH);
+      });
+    cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`)
+      .invoke('text').then((text) => {
+        expect(text.length).to.be.lte(TICKET_MESSAGE_MAX_LENGTH);
+      });
     cy.get('cx-form-errors').should('not.be.visible');
   });
 }
@@ -88,4 +109,8 @@ export function createMultipleTickets(
   for (let i = 0; i < numberOfTicket; i++) {
     createTicket(ticketDetails);
   }
+}
+
+export function verifyCreateTicketPopupIsClosed(){
+  cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }
