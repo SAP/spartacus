@@ -30,3 +30,7 @@ export function sendMessage(message: string) {
   cy.get('button').contains('Send').click();
   cy.wait(1000);
 }
+
+export function visitTicketDetailsPageForNonExistingTicket(){
+  cy.visit('/my-account/support-ticket/XYZ01234');
+}

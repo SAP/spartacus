@@ -1,5 +1,11 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
+import {
+  FIRST_ROW_TICKET_LIST,
+  TestCategory,
+  TestTicketDetails
+} from '../../../helpers/customer-ticketing/customer-ticketing';
+
 
 describe('ticket details', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -21,6 +27,38 @@ describe('ticket details', () => {
         });
         customerTicketing.clickTicketInRow();
         customerTicketing.verifyTicketDetailsPageVisit();
+      });
+
+      it('should be able to view ticket details page for an existing ticket', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'A test subject',
+          message: 'A test message',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickMyAccountMenuOption();
+        customerTicketing.clickCustomerSupportMenuOption();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+        customerTicketing.verifyTicketDetailsPageVisit();
+      });
+      it('should be able to visit ticket details page for an existing ticket via url', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'A test subject',
+          message: 'A test message',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickMyAccountMenuOption();
+        customerTicketing.clickCustomerSupportMenuOption();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+      });
+      it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitTicketDetailsPageForNonExistingTicket();
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.verifyGlobalMessage("Ticket not found.");
       });
     });
   });
