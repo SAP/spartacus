@@ -17,6 +17,7 @@ import {
   CREATED_ON_COLUMN,
   CHANGED_ON_COLUMN,
   MAX_TICKETS_PER_PAGE,
+  FIFTH_ROW_TICKET_LIST,
 } from './customer-ticketing-commons';
 
 export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST) {
@@ -196,4 +197,45 @@ function getIdInRow(rowNumber: number) {
     .find('td')
     .eq(ID_COLUMN)
     .find('a');
+}
+
+export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds(){
+  const TOTAL_NUMBER_OF_PAGES_TO_VISIT = 3;
+  for(let page = 1; page < TOTAL_NUMBER_OF_PAGES_TO_VISIT; page++){
+    getIdInRow(FIFTH_ROW_TICKET_LIST).then((id) => {
+      const smallerId = parseInt(id.text(), 10);
+      var next_page = page+1;
+      cy.get(`aria-label="page ${next_page}"`).click();
+      getIdInRow(FIFTH_ROW_TICKET_LIST)
+        .invoke('text')
+        .then(parseInt)
+        .should('be.lt', smallerId);
+    });
+  };
+}
+
+export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds(){
+  getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
+    const smallerId = parseInt(id.text(), 10);
+    clickPageOnPagination("last");
+    getIdInRow(FIRST_ROW_TICKET_LIST)
+      .invoke('text')
+      .then(parseInt)
+      .should('be.lt', smallerId);
+  });
+}
+
+export function clickPageOnPagination(pageLabel: string){
+  cy.get(`aria-label="${pageLabel} page"`).click();
+}
+
+export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
+  getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
+    const biggerId = parseInt(id.text(), 10);
+    clickPageOnPagination("first");
+    getIdInRow(FIRST_ROW_TICKET_LIST)
+      .invoke('text')
+      .then(parseInt)
+      .should('be.gt', biggerId);
+  });
 }
