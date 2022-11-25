@@ -4,6 +4,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
+  RoutingService,
 } from '@spartacus/core';
 import { BadTicketRequestHandler } from './bad-ticket-request.handler';
 
@@ -17,7 +18,7 @@ const MockTicketNotFoundResponse = {
       {
         type: 'NotFoundError',
         message: 'Ticket not found for the given ID XYZ12345',
-        reason: 'notFound'
+        reason: 'notFound',
       },
     ],
   },
@@ -26,6 +27,10 @@ const MockTicketNotFoundResponse = {
 class MockGlobalMessageService {
   add() {}
   remove() {}
+}
+
+class MockRoutingService {
+  go() {}
 }
 
 describe('BadTicketRequestHandler', () => {
@@ -40,6 +45,7 @@ describe('BadTicketRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
     service = TestBed.inject(BadTicketRequestHandler);
@@ -69,5 +75,4 @@ describe('BadTicketRequestHandler', () => {
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
-
 });

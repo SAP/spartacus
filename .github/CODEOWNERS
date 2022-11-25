@@ -44,9 +44,9 @@
 #  Folders where anyone with write access to the repo can approve Pull Requests
 # ================================================
 
-/docs/          @SAP/spartacus-project-team
+/docs/
 
-/projects/storefrontapp-e2e-cypress/          @SAP/spartacus-project-team
+/projects/storefrontapp-e2e-cypress/
 
 
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules

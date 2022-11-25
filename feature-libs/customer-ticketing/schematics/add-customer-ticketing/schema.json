@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["CUSTOMER_TICKETING"]
+      "default": ["Customer-Ticketing"]
     }
   },
   "required": []

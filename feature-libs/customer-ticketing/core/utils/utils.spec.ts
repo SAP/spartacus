@@ -7,7 +7,7 @@ describe('Ticket utils', () => {
         isTicketNotFoundError({
           type: 'NotFoundError',
           message: 'Ticket not found for the given ID XYZ12345',
-          reason: 'notFound'
+          reason: 'notFound',
         })
       ).toEqual(true);
     });

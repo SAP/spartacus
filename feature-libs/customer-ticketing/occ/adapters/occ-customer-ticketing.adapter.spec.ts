@@ -8,8 +8,13 @@ import {
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { CUSTOMER_TICKETING_EVENT_NORMALIZER } from 'feature-libs/customer-ticketing/core';
+import {
+  CUSTOMER_TICKETING_CREATE_NORMALIZER,
+  CUSTOMER_TICKETING_EVENT_NORMALIZER,
+  CUSTOMER_TICKETING_FILE_NORMALIZER,
+} from 'feature-libs/customer-ticketing/core';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 
@@ -20,6 +25,14 @@ const MockOccModuleConfig: OccConfig = {
         getTicket: 'users/${customerId}/tickets/${ticketId}',
         createTicketEvent: 'users/${customerId}/tickets/${ticketId}/events',
         getTickets: 'users/${customerId}/tickets',
+        uploadAttachment:
+          'users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments',
+        downloadAttachment:
+          'users/${customerId}/tickets/${ticketId}/events/${eventCode}/attachments/${attachmentId}',
+        createTicket: 'users/${customerId}/tickets',
+        getTicketCategories: '/ticketCategories',
+        getTicketAssociatedObjects:
+          'users/${customerId}/ticketAssociatedObjects',
       } as OccEndpoints,
     },
   },
@@ -221,6 +234,147 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockTicketList);
+    });
+  });
+
+  describe('uploadAttachment', () => {
+    it('should uoload attachment for the given event code and ticket id', (done) => {
+      const attachmentResponse = {
+        id: 'mockId',
+      };
+      const mockEventCode = 'mockEventCode';
+
+      service
+        .uploadAttachment(
+          mockCustomerId,
+          mockTicketId,
+          mockEventCode,
+          '' as unknown as File
+        )
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(attachmentResponse);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            `users/${mockCustomerId}/tickets/${mockTicketId}/events/${mockEventCode}/attachments`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(attachmentResponse);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_TICKETING_FILE_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        '' as unknown as File,
+        CUSTOMER_TICKETING_FILE_NORMALIZER
+      );
+    });
+  });
+
+  describe('downloadAttachment', () => {
+    it('should download attachment for the given event code and ticket id', (done) => {
+      const attachmentResponse = new Blob();
+      const mockEventCode = 'mockEventCode';
+      const mockAttachmentId = 'mockAttachmentId';
+
+      service
+        .downloadAttachment(
+          mockCustomerId,
+          mockTicketId,
+          mockEventCode,
+          mockAttachmentId
+        )
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(attachmentResponse);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `users/${mockCustomerId}/tickets/${mockTicketId}/events/${mockEventCode}/attachments/${mockAttachmentId}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('blob');
+      mockReq.flush(attachmentResponse);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_TICKETING_FILE_NORMALIZER
+      );
+    });
+  });
+
+  describe('createTicket', () => {
+    it('should create ticket', (done) => {
+      const mockTicketStarter: TicketStarter = {
+        message: 'Test',
+        subject: 'Test',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+      };
+
+      const mockCreatedTicketResponse: TicketDetails = {
+        availableStatusTransitions: [
+          {
+            id: 'CLOSED',
+            name: 'Closed',
+          },
+        ],
+        createdAt: '2022-11-09T14:19:40+0000',
+        id: '00001362',
+        modifiedAt: '2022-11-09T14:19:40+0000',
+        status: {
+          id: 'OPEN',
+          name: 'Open',
+        },
+        subject: 'Test',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+        ticketEvents: [
+          {
+            author: 'Mark Rivers',
+            code: '000001CI',
+            createdAt: '2022-11-09T14:19:40+0000',
+            message: 'Test',
+          },
+        ],
+      };
+
+      service
+        .createTicket(mockCustomerId, mockTicketStarter)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockCreatedTicketResponse);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'POST' && req.url === `users/${mockCustomerId}/tickets`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockCreatedTicketResponse);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CUSTOMER_TICKETING_CREATE_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        mockTicketStarter,
+        CUSTOMER_TICKETING_CREATE_NORMALIZER
+      );
     });
   });
 });

@@ -3,6 +3,10 @@ import * as customerTicketing from '../../../helpers/customer-ticketing/customer
 import {
   TestTicketDetails,
   TestCategory,
+  TestStatus,
+  FIRST_ROW_TICKET_LIST,
+  SECOND_ROW_TICKET_LIST,
+  LAST_PAGE
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
@@ -42,9 +46,27 @@ describe('ticket listing', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.closeTicketRequest('thank you');
         customerTicketing.verifyStatusOfTicketInList();
+      });
+
+      it('should still show the ticket in the list when status is In Process', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'changing status',
+          message: 'status will change',
+          category: TestCategory.complaint,
+        };
+
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+        customerTicketing.closeTicketRequest('thank you');
+        customerTicketing.verifyTicketListingPageVisit();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+        customerTicketing.reopenTicketRequest('Reopening ticket');
+        customerTicketing.verifyStatusOfTicketInList(TestStatus.in_process);
       });
 
       it('should create 6 tickets', () => {
@@ -106,14 +128,14 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(firstTicket);
         customerTicketing.createTicket(secondTicket);
-        customerTicketing.openTicketOnSepcifiedRowNumber(2);
+        customerTicketing.openTicketOnSepcifiedRowNumber(SECOND_ROW_TICKET_LIST);
         cy.wait(1000);
         customerTicketing.sendMessage('hello, world');
         cy.go('back');
-        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.id);
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
         customerTicketing.verifyCertainNumberOfTicketsSortedById(2);
         customerTicketing.selectSortBy(
-          customerTicketing.TestSortingTypes.changedOn
+          customerTicketing.TestSortingTypes.byChangedOn
         );
         customerTicketing.verifyCreatedTicketDetails(firstTicket);
       });
@@ -147,6 +169,31 @@ describe('ticket listing', () => {
         customerTicketing.sendMessage('adding to top');
         cy.go('back');
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
+      });
+
+      it('should take you to the corresponding page when clicking the page number on pagination', () => {
+        customerTicketing.loginAsAdmin();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
+        customerTicketing.verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds();
+      });
+
+      it('should take you to the last page when the last button is clicked on pagination', () => {
+        customerTicketing.loginAsAdmin();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
+        customerTicketing.verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds();
+      });
+
+      it('should take you to the first page when the first button is clicked on pagination', () => {
+        customerTicketing.loginAsAdmin();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.verifyPaginationExist();
+        customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
+        customerTicketing.clickPageOnPagination(LAST_PAGE);
+        customerTicketing.verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds();
       });
     });
   });
