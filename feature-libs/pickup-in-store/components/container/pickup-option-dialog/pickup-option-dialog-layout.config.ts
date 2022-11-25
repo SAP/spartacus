@@ -10,7 +10,7 @@ import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
 export const defaultPickupOptionsDialogLayoutConfig: LayoutConfig = {
   launch: {
     PICKUP_IN_STORE: {
-      inline: true,
+      inlineRoot: true,
       component: PickupOptionDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
