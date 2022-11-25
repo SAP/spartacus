@@ -132,6 +132,7 @@ export const userConfig: MyCompanyConfig = {
       updateValue: 'Custom Retail',
       showInTable: true,
       showInDetails: true,
+      formLabel: 'Unit',
       selector: 'cx-org-card label ng-select:contains(Unit)',
     },
   ],
