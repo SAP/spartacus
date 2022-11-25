@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
 import { BaseSite } from '../../../model/misc.model';
@@ -33,8 +33,18 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
     return this.configInit.getStable('context').pipe(
       switchMap((config) => {
         const siteUid = config?.context?.[BASE_SITE_CONTEXT_ID]?.[0];
-        return this.baseSiteService.get(siteUid)
-          .pipe(map((baseSite) => this.getRoutingConfig(baseSite)), take(1));
+        return this.baseSiteService.get(siteUid).pipe(
+          filter((baseSite: any) => {
+            if (!baseSite) {
+              throw new Error(
+                `Error: Cannot get base site config for ${siteUid}.`
+              );
+            }
+            return Boolean(baseSite);
+          }),
+          map((baseSite) => this.getRoutingConfig(baseSite)),
+          take(1)
+        );
       })
     );
   }
