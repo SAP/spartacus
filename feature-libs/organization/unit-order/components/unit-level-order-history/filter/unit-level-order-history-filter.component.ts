@@ -78,6 +78,8 @@ export class UnitLevelOrderHistoryFilterComponent {
       unitFilterMobile: unit,
     });
     this.emitFilterEvent(buyer, unit);
+    this.buyerFilterMobileValue = buyer;
+    this.unitFilterMobileValue = unit;
   }
 
   emitFilterEvent(buyer: string, unit: string): void {

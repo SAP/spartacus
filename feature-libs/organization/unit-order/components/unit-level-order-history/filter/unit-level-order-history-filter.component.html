@@ -289,13 +289,11 @@
   >
     <div class="cx-selected-filters">
       {{ 'unitLevelOrderHistory.yourFilters' | cxTranslate }}
-      <span *ngIf="unitFilterMobileValue">"{{ unitFilterMobileValue }}"</span
-      ><span *ngIf="unitFilterMobileValue && buyerFilterMobileValue">{{
+      <span *ngIf="buyerFilterMobileValue">"{{ buyerFilterMobileValue }}"</span
+      ><span *ngIf="buyerFilterMobileValue && unitFilterMobileValue">{{
         'unitLevelOrderHistory.and' | cxTranslate
       }}</span
-      ><span *ngIf="buyerFilterMobileValue"
-        >"{{ buyerFilterMobileValue }}"</span
-      >
+      ><span *ngIf="unitFilterMobileValue">"{{ unitFilterMobileValue }}"</span>
     </div>
 
     <div class="cx-clear-filter">
