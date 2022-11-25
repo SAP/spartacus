@@ -17,8 +17,13 @@ import {
   CREATED_ON_COLUMN,
   CHANGED_ON_COLUMN,
   MAX_TICKETS_PER_PAGE,
+  ID_DELIMITER,
+  STATUS_DELIMITER,
+  SUBJECT_DELIMITER,
+  TestCategory,
   FIFTH_ROW_TICKET_LIST,
 } from './customer-ticketing-commons';
+const MESSAGE_BOX = ".form-control";
 
 export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST) {
   cy.get('cx-customer-ticketing-list')
@@ -197,6 +202,36 @@ function getIdInRow(rowNumber: number) {
     .find('td')
     .eq(ID_COLUMN)
     .find('a');
+}
+
+export function extractTicketDetailsFromFirstRowInTicketListingPage(): TestTicketDetails {
+  const testTicketDetails: TestTicketDetails = {
+    subject: "",
+    message:"",
+    category: TestCategory.complaint
+  };
+
+  cy.get('cx-customer-ticketing-list').find('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST).within(() => {
+    cy.get('td').eq(ID_COLUMN).invoke('text').then(id => {
+      testTicketDetails.id = id.substring(ID_DELIMITER);
+    });
+     cy.get('td').eq(SUBJECT_COLUMN).invoke('text').then(subject => {
+        testTicketDetails.subject = subject.substring(SUBJECT_DELIMITER);
+     });
+     cy.get('td').eq(STATUS_COLUMN).invoke('text').then((status) => {
+        testTicketDetails.status = status.substring(STATUS_DELIMITER);
+     });
+ });
+
+  return testTicketDetails;
+}
+
+export function verifyMessageBoxIsDisabled(){
+  cy.get(MESSAGE_BOX).should('not.exist');
+}
+
+export function verifyMessageBoxIsEnabled(){
+  cy.get(MESSAGE_BOX).should('exist');
 }
 
 export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds(){
