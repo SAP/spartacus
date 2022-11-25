@@ -6,3 +6,8 @@
 >
   {{ 'configurator.button.filterOverview' | cxTranslate }}
 </button>
+<ng-container *ngIf="config$ | async as config">
+  <cx-configurator-overview-filter-bar
+    [config]="config"
+  ></cx-configurator-overview-filter-bar>
+</ng-container>
