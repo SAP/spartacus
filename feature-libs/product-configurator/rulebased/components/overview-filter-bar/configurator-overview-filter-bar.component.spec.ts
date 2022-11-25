@@ -5,7 +5,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfigurationNonNullOv } from '../overview-filter/configurator-overview-filter.component';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
@@ -22,8 +21,8 @@ let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
 let config: Configurator.Configuration;
-let ovConfig: ConfigurationNonNullOv;
-let expectedInputConfig: ConfigurationNonNullOv;
+let ovConfig: Configurator.ConfigurationWithOverview;
+let expectedInputConfig: Configurator.ConfigurationWithOverview;
 
 function initTestData() {
   config = ConfiguratorTestUtils.createConfiguration(configId, owner);

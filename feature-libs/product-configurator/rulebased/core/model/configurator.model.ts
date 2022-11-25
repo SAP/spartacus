@@ -100,6 +100,10 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
   }
 
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
+  }
+
   export interface InteractionState {
     currentGroup?: string;
     menuParentGroup?: string;

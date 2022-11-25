@@ -19,10 +19,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { OverviewFilterUpdateEvent } from './configurator-overview-filter.event';
 
-export interface ConfigurationNonNullOv extends Configurator.Configuration {
-  overview: Configurator.Overview;
-}
-
 @Component({
   selector: 'cx-configurator-overview-filter',
   templateUrl: './configurator-overview-filter.component.html',
@@ -55,14 +51,17 @@ export class ConfiguratorOverviewFilterComponent {
       // filter 'strict null check safe'
       filter(
         (configuration) => configuration.overview != null
-      ) as OperatorFunction<Configurator.Configuration, ConfigurationNonNullOv>,
-      tap((configuration: ConfigurationNonNullOv) => {
+      ) as OperatorFunction<
+        Configurator.Configuration,
+        Configurator.ConfigurationWithOverview
+      >,
+      tap((configuration: Configurator.ConfigurationWithOverview) => {
         this.extractAttrFilterState(configuration);
         this.extractGroupFilterState(configuration);
       })
     );
 
-  onFilter(config: ConfigurationNonNullOv) {
+  onFilter(config: Configurator.ConfigurationWithOverview) {
     let inputConfig = this.createInputConfig(
       config,
       this.collectAttrFilters(),
@@ -72,7 +71,9 @@ export class ConfiguratorOverviewFilterComponent {
     this.configuratorCommonsService.updateConfigurationOverview(inputConfig);
   }
 
-  protected extractGroupFilterState(configuration: ConfigurationNonNullOv) {
+  protected extractGroupFilterState(
+    configuration: Configurator.ConfigurationWithOverview
+  ) {
     this.groupFilters = [];
     configuration.overview.possibleGroups?.forEach((group) => {
       let isSelected = false;
@@ -83,7 +84,9 @@ export class ConfiguratorOverviewFilterComponent {
     });
   }
 
-  protected extractAttrFilterState(configuration: ConfigurationNonNullOv) {
+  protected extractAttrFilterState(
+    configuration: Configurator.ConfigurationWithOverview
+  ) {
     if (configuration.overview.attributeFilters) {
       let isSelected =
         configuration.overview.attributeFilters.indexOf(
@@ -123,10 +126,10 @@ export class ConfiguratorOverviewFilterComponent {
   }
 
   protected createInputConfig(
-    config: ConfigurationNonNullOv,
+    config: Configurator.ConfigurationWithOverview,
     attrFilters: Configurator.OverviewFilter[],
     groupFilers: string[]
-  ): ConfigurationNonNullOv {
+  ): Configurator.ConfigurationWithOverview {
     return {
       ...config,
       overview: {

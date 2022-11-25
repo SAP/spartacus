@@ -16,7 +16,6 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigurationNonNullOv } from '../overview-filter/configurator-overview-filter.component';
 
 @Component({
   selector: 'cx-configurator-overview-filter-button',
@@ -45,7 +44,10 @@ export class ConfiguratorOverviewFilterButtonComponent {
       // filter 'strict null check safe'
       filter(
         (configuration) => configuration.overview != null
-      ) as OperatorFunction<Configurator.Configuration, ConfigurationNonNullOv>
+      ) as OperatorFunction<
+        Configurator.Configuration,
+        Configurator.ConfigurationWithOverview
+      >
     );
 
   getNumFilters(overview: Configurator.Overview): number {

@@ -10,7 +10,6 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { CommonConfigurator } from 'feature-libs/product-configurator/common/core/model/common-configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigurationNonNullOv } from '../overview-filter/configurator-overview-filter.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -25,7 +24,7 @@ let mockConfigRouterService: ConfiguratorRouterExtractorService;
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
 let config: Configurator.Configuration;
-let ovConfig: ConfigurationNonNullOv;
+let ovConfig: Configurator.ConfigurationWithOverview;
 
 function asSpy(f: any) {
   return <jasmine.Spy>f;

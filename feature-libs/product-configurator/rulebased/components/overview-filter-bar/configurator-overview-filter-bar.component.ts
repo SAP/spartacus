@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigurationNonNullOv } from '../overview-filter/configurator-overview-filter.component';
 import { OverviewFilterUpdateEvent } from '../overview-filter/configurator-overview-filter.event';
 
 @Component({
@@ -21,7 +20,7 @@ export class ConfiguratorOverviewFilterBarComponent {
   ) {}
 
   @Output() filterChange = new EventEmitter<OverviewFilterUpdateEvent>();
-  @Input() config: ConfigurationNonNullOv;
+  @Input() config: Configurator.ConfigurationWithOverview;
 
   iconTypes = ICON_TYPE;
   attributeFilterTypes = Configurator.OverviewFilter;
@@ -37,7 +36,10 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
-  onAttrFilterRemove(config: ConfigurationNonNullOv, attrToRemove: string) {
+  onAttrFilterRemove(
+    config: Configurator.ConfigurationWithOverview,
+    attrToRemove: string
+  ) {
     let attrFilters = config.overview.attributeFilters ?? [];
     let groupFilters = config.overview.groupFilters ?? [];
     attrFilters = attrFilters.filter(
@@ -50,7 +52,10 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
-  onGroupFilterRemove(config: ConfigurationNonNullOv, groupIdToRemove: string) {
+  onGroupFilterRemove(
+    config: Configurator.ConfigurationWithOverview,
+    groupIdToRemove: string
+  ) {
     let attrFilters = config.overview.attributeFilters ?? [];
     let groupFilters = config.overview.groupFilters ?? [];
     groupFilters = groupFilters.filter(
@@ -70,7 +75,7 @@ export class ConfiguratorOverviewFilterBarComponent {
     return numFilters > 1;
   }
 
-  onRemoveAll(config: ConfigurationNonNullOv) {
+  onRemoveAll(config: Configurator.ConfigurationWithOverview) {
     this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, [], [])
@@ -78,10 +83,10 @@ export class ConfiguratorOverviewFilterBarComponent {
   }
 
   protected createInputConfig(
-    config: ConfigurationNonNullOv,
+    config: Configurator.ConfigurationWithOverview,
     attrFilters: Configurator.OverviewFilter[],
     groupFilers: string[]
-  ): ConfigurationNonNullOv {
+  ): Configurator.ConfigurationWithOverview {
     return {
       ...config,
       overview: {
