@@ -14,7 +14,7 @@ export const unitOrder = {
     buyer: 'Buyer',
     unit: 'Unit',
     total: 'Total',
-    noOrders: 'We have no order records for your unit.',
+    noOrders: 'We have no matching order records for your unit.',
     startShopping: 'Start Shopping',
     sortBy: 'Sort by',
     sortOrders: 'Sort orders',
