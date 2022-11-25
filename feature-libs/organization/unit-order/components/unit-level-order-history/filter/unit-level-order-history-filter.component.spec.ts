@@ -172,9 +172,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearUnitBtn')
       );
-      buttonElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -195,9 +193,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearBuyerBtn')
       );
-      buttonElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
