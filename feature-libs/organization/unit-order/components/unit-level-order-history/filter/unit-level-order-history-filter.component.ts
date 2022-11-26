@@ -37,22 +37,6 @@ export class UnitLevelOrderHistoryFilterComponent {
   filterByBuyer = 'filterByBuyer';
   filterByUnit = 'filterByUnit';
 
-  @ViewChild('unitButton', { read: ElementRef }) unitButton: ElementRef;
-  @ViewChild('buyerButton', { read: ElementRef }) buyerButton: ElementRef;
-  @ViewChild('unitButtonMobile', { read: ElementRef })
-  unitButtonMobile: ElementRef;
-  @ViewChild('buyerButtonMobile', { read: ElementRef })
-  buyerButtonMobile: ElementRef;
-
-  @ViewChild('unitPresentation', { read: ElementRef })
-  unitPresentation: ElementRef;
-  @ViewChild('buyerPresentation', { read: ElementRef })
-  buyerPresentation: ElementRef;
-  @ViewChild('unitPresentationMobile', { read: ElementRef })
-  unitPresentationMobile: ElementRef;
-  @ViewChild('buyerPresentationMobile', { read: ElementRef })
-  buyerPresentationMobile: ElementRef;
-
   @ViewChild('filterNav', { read: ElementRef }) filterNav: ElementRef;
   @ViewChild('filterNavUnit', { read: ElementRef }) filterNavUnit: ElementRef;
   @ViewChild('filterNavBuyer', { read: ElementRef }) filterNavBuyer: ElementRef;
@@ -106,42 +90,9 @@ export class UnitLevelOrderHistoryFilterComponent {
     }
 
     this.renderer.setStyle(
-      this.unitButtonMobile.nativeElement,
-      'display',
-      'none'
-    );
-    this.renderer.setStyle(
-      this.buyerButtonMobile.nativeElement,
-      'display',
-      'none'
-    );
-    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
-    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
-    this.renderer.setStyle(
       this.removeAppliedFilters.nativeElement,
       'display',
       'none'
-    );
-
-    this.renderer.setStyle(
-      this.unitPresentationMobile.nativeElement,
-      'display',
-      'block'
-    );
-    this.renderer.setStyle(
-      this.buyerPresentationMobile.nativeElement,
-      'display',
-      'block'
-    );
-    this.renderer.setStyle(
-      this.unitPresentation.nativeElement,
-      'display',
-      'block'
-    );
-    this.renderer.setStyle(
-      this.buyerPresentation.nativeElement,
-      'display',
-      'block'
     );
   }
 
@@ -226,53 +177,21 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   clearUnit(): void {
     this.filterForm.get('unitFilter')?.reset();
-    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'none');
-    this.renderer.setStyle(
-      this.unitPresentation.nativeElement,
-      'display',
-      'block'
-    );
     this.searchUnitLevelOrders();
   }
 
   clearBuyer(): void {
     this.filterForm.get('buyerFilter')?.reset();
-    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'none');
-    this.renderer.setStyle(
-      this.buyerPresentation.nativeElement,
-      'display',
-      'block'
-    );
     this.searchUnitLevelOrders();
   }
 
   clearUnitMobile(): void {
     this.filterFormMobile.get('unitFilterMobile')?.reset();
-    this.renderer.setStyle(
-      this.unitButtonMobile.nativeElement,
-      'display',
-      'none'
-    );
-    this.renderer.setStyle(
-      this.unitPresentationMobile.nativeElement,
-      'display',
-      'block'
-    );
     this.renderer.setStyle(document.body, 'overflow', '');
   }
 
   clearBuyerMobile(): void {
     this.filterFormMobile.get('buyerFilterMobile')?.reset();
-    this.renderer.setStyle(
-      this.buyerButtonMobile.nativeElement,
-      'display',
-      'none'
-    );
-    this.renderer.setStyle(
-      this.buyerPresentationMobile.nativeElement,
-      'display',
-      'block'
-    );
     this.renderer.setStyle(document.body, 'overflow', '');
   }
 
@@ -282,12 +201,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.clearBuyer();
       return;
     }
-    this.renderer.setStyle(this.buyerButton.nativeElement, 'display', 'block');
-    this.renderer.setStyle(
-      this.buyerPresentation.nativeElement,
-      'display',
-      'none'
-    );
   }
 
   searchUnit(inputElement: HTMLInputElement): void {
@@ -296,12 +209,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.clearUnit();
       return;
     }
-    this.renderer.setStyle(this.unitButton.nativeElement, 'display', 'block');
-    this.renderer.setStyle(
-      this.unitPresentation.nativeElement,
-      'display',
-      'none'
-    );
   }
 
   searchBuyerMobile(inputElement: HTMLInputElement): void {
@@ -310,16 +217,6 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.clearBuyer();
       return;
     }
-    this.renderer.setStyle(
-      this.buyerButtonMobile.nativeElement,
-      'display',
-      'block'
-    );
-    this.renderer.setStyle(
-      this.buyerPresentationMobile.nativeElement,
-      'display',
-      'none'
-    );
   }
 
   searchUnitMobile(inputElement: HTMLInputElement): void {
@@ -328,15 +225,5 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.clearUnit();
       return;
     }
-    this.renderer.setStyle(
-      this.unitButtonMobile.nativeElement,
-      'display',
-      'block'
-    );
-    this.renderer.setStyle(
-      this.unitPresentationMobile.nativeElement,
-      'display',
-      'none'
-    );
   }
 }

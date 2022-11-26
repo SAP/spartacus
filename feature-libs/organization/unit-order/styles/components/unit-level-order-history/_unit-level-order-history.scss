@@ -6,6 +6,21 @@
     }
   }
 
+  div.search-icon {
+    display: block;
+  }
+
+  label {
+    // hide search icon when the input is dirty
+    &.dirty div.search-icon {
+      display: none;
+    }
+    // hide reset icon when the input is empty
+    &:not(.dirty) button.reset {
+      display: none;
+    }
+  }
+
   .cx-unit-level-order-history-filter-label-wrapper {
     width: 200px;
     border: 1px solid lightgray;
@@ -23,7 +38,6 @@
   }
 
   .cx-unit-level-order-history-filter-reset-button {
-    display: none;
     border: none;
     color: lightgray;
     background: white;
@@ -140,9 +154,9 @@
     }
   }
 
-  .cx-unit-level-order-history-unit
-    .cx-unit-level-order-history-buyer
-    .cx-unit-level-order-history-status {
+  .cx-unit-level-order-history-unit,
+  .cx-unit-level-order-history-buyer,
+  .cx-unit-level-order-history-status {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
