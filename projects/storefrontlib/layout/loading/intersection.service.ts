@@ -29,8 +29,8 @@ export class IntersectionService {
    * observable must be cleaned up either way, since the value might never emit; it
    * depends on whether the element appears in the view port.
    *
-   * @param  element - HTML element
-   * @param  options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @param element - HTML element
+   * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
    * @param intersectingCondition - Allows to specify an intersecting condition
    * @returns Element intersects?
    */
@@ -47,8 +47,8 @@ export class IntersectionService {
   /**
    * Returns an observable that emits for every change of intersection of a given element.
    *
-   * @param  element - HTML element
-   * @param  options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @param element - HTML element
+   * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
    * @param intersectingCondition - Allows to specify an intersecting condition
    * @returns Element intersects?
    */
