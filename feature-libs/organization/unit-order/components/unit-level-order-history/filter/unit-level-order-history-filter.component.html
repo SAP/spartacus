@@ -74,7 +74,7 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label>
+      <label [class.dirty]="!!buyerFilterMobileId.value">
         <input
           #buyerFilterMobileId
           formControlName="buyerFilterMobile"
@@ -100,7 +100,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation">
+        <div #buyerPresentationMobile role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -141,7 +141,7 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label>
+      <label [class.dirty]="!!unitFilterMobileId.value">
         <input
           #unitFilterMobileId
           formControlName="unitFilterMobile"
@@ -162,7 +162,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation">
+        <div #unitPresentationMobile role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -194,7 +194,10 @@
           role="search"
           class="cx-unit-level-order-history-filter-label-wrapper"
         >
-          <label class="cx-unit-level-order-history-filter-label">
+          <label
+            class="cx-unit-level-order-history-filter-label"
+            [class.dirty]="!!buyerFilterId.value"
+          >
             <input
               #buyerFilterId
               formControlName="buyerFilter"
@@ -232,7 +235,10 @@
           {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
         </span>
         <div class="cx-unit-level-order-history-filter-label-wrapper">
-          <label class="cx-unit-level-order-history-filter-label">
+          <label
+            class="cx-unit-level-order-history-filter-label"
+            [class.dirty]="!!unitFilterId.value"
+          >
             <input
               #unitFilterId
               formControlName="unitFilter"
