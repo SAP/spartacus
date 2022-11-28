@@ -45,11 +45,12 @@ export class UnitLevelOrderHistoryFilterComponent {
   buyerFilterMobileId: ElementRef;
   @ViewChild('unitFilterMobileId', { read: ElementRef })
   unitFilterMobileId: ElementRef;
-  @ViewChild('removeAppliedFilters', { read: ElementRef })
-  removeAppliedFilters: ElementRef;
 
   @Output()
   filterListEvent = new EventEmitter<OrderHistoryQueryParams>();
+
+  unitFilterMobileValue: string | null;
+  buyerFilterMobileValue: string | null;
 
   constructor(protected renderer: Renderer2) {}
 
@@ -61,6 +62,8 @@ export class UnitLevelOrderHistoryFilterComponent {
       unitFilterMobile: unit,
     });
     this.emitFilterEvent(buyer, unit);
+    this.buyerFilterMobileValue = buyer;
+    this.unitFilterMobileValue = unit;
   }
 
   emitFilterEvent(buyer: string, unit: string): void {
@@ -89,11 +92,8 @@ export class UnitLevelOrderHistoryFilterComponent {
       this.searchUnitLevelOrders();
     }
 
-    this.renderer.setStyle(
-      this.removeAppliedFilters.nativeElement,
-      'display',
-      'none'
-    );
+    this.unitFilterMobileValue = null;
+    this.buyerFilterMobileValue = null;
   }
 
   launchMobileFilters(): void {
@@ -104,23 +104,11 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   searchUnitLevelOrdersForMobile(): void {
     let buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
+    this.buyerFilterMobileValue = buyer;
     let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
+    this.unitFilterMobileValue = unit;
     this.filterForm.setValue({ buyerFilter: buyer, unitFilter: unit });
     this.emitFilterEvent(buyer, unit);
-
-    if (buyer || unit) {
-      this.renderer.setStyle(
-        this.removeAppliedFilters.nativeElement,
-        'display',
-        'flex'
-      );
-    } else {
-      this.renderer.setStyle(
-        this.removeAppliedFilters.nativeElement,
-        'display',
-        'none'
-      );
-    }
 
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
@@ -188,11 +176,13 @@ export class UnitLevelOrderHistoryFilterComponent {
   clearUnitMobile(): void {
     this.filterFormMobile.get('unitFilterMobile')?.reset();
     this.renderer.setStyle(document.body, 'overflow', '');
+    this.unitFilterMobileValue = null;
   }
 
   clearBuyerMobile(): void {
     this.filterFormMobile.get('buyerFilterMobile')?.reset();
     this.renderer.setStyle(document.body, 'overflow', '');
+    this.buyerFilterMobileValue = null;
   }
 
   searchBuyer(inputElement: HTMLInputElement): void {

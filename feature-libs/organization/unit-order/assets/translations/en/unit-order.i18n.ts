@@ -35,6 +35,8 @@ export const unitOrder = {
     search: 'Search',
     clearAll: 'Clear All',
     removeAppliedFilters: 'Remove Applied Filters',
+    yourFilters: 'Your Filters:',
+    and: ' and ',
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',
