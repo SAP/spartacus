@@ -104,23 +104,6 @@ describe('ticketing', () => {
         customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
       });
 
-      it('should not be able to see created ticket in other stores', () => {
-        const testTicketDetails: TestTicketDetails = {
-          subject: 'Entering a subject',
-          message: 'Typing a message',
-          category: TestCategory.complaint,
-        };
-        customerTicketing.loginRegisteredUser();
-        customerTicketing.visitElectronicTicketListingPage();
-        customerTicketing.openCreateTicketPopup();
-        customerTicketing.fillTicketDetails(testTicketDetails);
-        customerTicketing.clickSubmit();
-        customerTicketing.verifyGlobalMessage();
-        customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.visitApparelUKTicketListingPage();
-        customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
-      });
-
       it('should not allow ticket to be created if form not properly completed', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
@@ -147,7 +130,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
-      it('should not create ticket if subject exceeds 255 character limit', () => {
+      it('should not let subject exceeds 255 character limit', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
         const testTicketDetails: TestTicketDetails = {
           subject: customerTicketing.generateDummyStringOfLength(TICKET_SUBJECT_MAX_LENGTH+1),
@@ -162,7 +145,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketSubjectAndMessageDoNotExceedCharacterLimit();
       });
 
-      it('should not create ticket if message exceeds 5000 character limit', () => {
+      it('should not let message exceeds 5000 character limit', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
         const testTicketDetails: TestTicketDetails = {
           subject: 'Exceeding character limit',
@@ -190,6 +173,23 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.clickSubmit();
         customerTicketing.verifyCreateTicketPopupIsClosed();
+      });
+
+      it('should not be able to see created ticket in other stores', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Entering a subject',
+          message: 'Typing a message',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.verifyGlobalMessage();
+        customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
+        customerTicketing.visitApparelUKTicketListingPage();
+        customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
     });

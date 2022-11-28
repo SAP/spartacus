@@ -16,6 +16,7 @@ describe('ticket details', () => {
           win.sessionStorage.clear();
         });
       });
+
       it('should be able to view ticket details page for an existing ticket', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.clickMyAccountMenuOption();
@@ -81,7 +82,7 @@ describe('ticket details', () => {
           message: 'First ticket',
           category: TestCategory.complaint,
         });
-        customerTicketing.clickTicketInRow();
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.closeTicketRequest("Closing ticket");
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.verifyStatusOfTicketInList();
@@ -94,29 +95,45 @@ describe('ticket details', () => {
 
 
       it('ticket should always have atleast one message in it', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
           subject: 'Ticket should always have atleast one message',
           message: 'Ticket should always have atleast one message',
-          category: TestCategory.complaint,
-          filename: 'fileNotSupported.xls',
+          category: TestCategory.complaint
         };
-        customerTicketing.sendMessage("Update ticket with comments");
-        customerTicketing.verifyMessageWasPosted("Update ticket with comments");
-        customerTicketing.navigateBackToPreviousPage();
-        customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
+        customerTicketing.sendMessage("Update ticket with comments");
         customerTicketing.verifyMessageWasPosted("Update ticket with comments");
       });
 
       it('pressing send should publish message without attachment', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Replies in tickets can be sent',
+          message: 'Replies in tickets can be sent',
+          category: TestCategory.complaint
+        };
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.sendMessage("Update ticket with comments");
         customerTicketing.verifyMessageWasPosted("Update ticket with comments");
       });
 
       it('pressing send should publish message with attachment', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Replies in tickets can be sent',
+          message: 'Replies in tickets can be sent',
+          category: TestCategory.complaint
+        };
+        customerTicketing.createTicket(testTicketDetails);
+        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         let file_name = "test.docx";
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.addFile(file_name);
@@ -126,30 +143,35 @@ describe('ticket details', () => {
       });
 
       it('should be able to view ticket details page for an existing ticket', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
           subject: 'A test subject',
           message: 'A test message',
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.clickMyAccountMenuOption();
-        customerTicketing.clickCustomerSupportMenuOption();
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
       });
+
       it('should be able to visit ticket details page for an existing ticket via url', () => {
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
           subject: 'A test subject',
           message: 'A test message',
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.clickMyAccountMenuOption();
-        customerTicketing.clickCustomerSupportMenuOption();
-        customerTicketing.verifyTicketListingPageVisit();
-        customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
+        let ticket_details_from_first_row = customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
+        cy.wait(50000);
+        cy.log(ticket_details_from_first_row.id);
+        customerTicketing.visitTicketDetailsForExistingTicket(ticket_details_from_first_row.id);
+        customerTicketing.verifyTicketDetailsPageVisit();
       });
+
       it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitTicketDetailsPageForNonExistingTicket();

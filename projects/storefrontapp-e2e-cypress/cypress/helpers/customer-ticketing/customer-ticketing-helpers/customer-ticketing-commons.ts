@@ -76,7 +76,7 @@ export function visitPage(page: string, alias?: string) {
 }
 
 export function visitElectronicTicketListingPage() {
-  visitPage('/my-account/support-tickets', 'ticketListingPage');
+  visitPage('electronics-spa/en/USD/my-account/support-tickets', 'ticketListingPage');
 }
 
 export function verifyGlobalMessage(globalMessage = 'Request created.') {
@@ -127,4 +127,8 @@ export function navigateBackToPreviousPage(){
 
 export function generateDummyStringOfLength(length: number): string {
   return new Array(length).join('a');
+}
+
+export function visitTicketDetailsForExistingTicket(id: String) {
+  visitPage(`/my-account/support-ticket/${id}`, 'specificTicketDetailsPage');
 }

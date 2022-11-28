@@ -240,7 +240,7 @@ export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByCompari
     getIdInRow(FIFTH_ROW_TICKET_LIST).then((id) => {
       const smallerId = parseInt(id.text(), 10);
       var next_page = page+1;
-      cy.get(`aria-label="page ${next_page}"`).click();
+      cy.get(`[aria-label="page ${next_page}"]`).click();
       getIdInRow(FIFTH_ROW_TICKET_LIST)
         .invoke('text')
         .then(parseInt)
@@ -261,7 +261,7 @@ export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingI
 }
 
 export function clickPageOnPagination(pageLabel: string){
-  cy.get(`aria-label="${pageLabel} page"`).click();
+  cy.get(`[aria-label="${pageLabel} page"]`).click();
 }
 
 export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
