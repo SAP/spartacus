@@ -1,15 +1,35 @@
 <div class="row">
+  <div class="col-md-12">
+    <h2 class="cx-my-preferred-store-heading">Pick-Up Store</h2>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-6 cx-address-card">
     <cx-card [border]="true" [fitToContainer]="true" [content]="content">
       <div label_container_bottom>
         <div class="info-location">
-          <div>{{ 'pickupInfo.pickupFrom' | cxTranslate }}</div>
           <cx-store-address
             [storeDetails]="preferredStore$ | async"
           ></cx-store-address>
         </div>
+        <div>
+          <button
+            (click)="toggleOpenHours()"
+            class="cx-store-opening-hours-toggle"
+          >
+            {{ 'store.viewHours' | cxTranslate }}
+            <span class="cx-store-opening-hours-icon"
+              ><cx-icon
+                [type]="
+                  openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
+                "
+              ></cx-icon
+            ></span>
+          </button>
+        </div>
         <div class="store-hours">
           <cx-store-schedule
+            *ngIf="openHoursOpen"
             [storeDetails]="preferredStore$ | async"
           ></cx-store-schedule>
         </div>

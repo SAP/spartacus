@@ -28,14 +28,14 @@ describe('StoreScheduleComponent', () => {
   it('should fail gracefully when storeDetails input is undefined', () => {
     const storeDetails: PointOfService = undefined as unknown as PointOfService;
     component.storeDetails = storeDetails;
-    component.ngOnInit();
+    component.ngOnChanges();
     expect(component.openingTimes).toEqual([]);
   });
 
   it('should fail gracefully when storeDetails input is an empty Object', () => {
     const storeDetails: PointOfService = {};
     component.storeDetails = storeDetails;
-    component.ngOnInit();
+    component.ngOnChanges();
     expect(component.openingTimes).toEqual([]);
   });
 
@@ -44,7 +44,7 @@ describe('StoreScheduleComponent', () => {
       openingHours: {},
     };
     component.storeDetails = storeDetails;
-    component.ngOnInit();
+    component.ngOnChanges();
     expect(component.openingTimes).toEqual([]);
   });
 
@@ -65,7 +65,7 @@ describe('StoreScheduleComponent', () => {
       },
     };
     component.storeDetails = storeDetails;
-    component.ngOnInit();
+    component.ngOnChanges();
     expect(component.openingTimes).toEqual([
       { weekDay: 'Mon', closed: false, openingHours: '09:00 - 18:30' },
       { weekDay: '', closed: false, openingHours: ' - ' },

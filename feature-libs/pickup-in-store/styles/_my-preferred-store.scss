@@ -1,0 +1,21 @@
+cx-my-preferred-store {
+  .cx-store-opening-hours-toggle {
+    @include type('6');
+    color: $cx-color-link-primary;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: underline;
+    .cx-store-opening-hours-icon {
+      color: var(--cx-color-secondary);
+      opacity: var(--cx-opacity, 0.5);
+    }
+    padding-inline-start: 0;
+    padding-top: 0.5rem;
+    border: none;
+    background: none;
+  }
+
+  .cx-my-preferred-store-heading {
+    margin-bottom: 1.5rem;
+  }
+}
