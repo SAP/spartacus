@@ -11,7 +11,11 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { SampleUser } from '../sample-data/checkout-flow';
-import { interceptGet, interceptPost } from '../support/utils/intercept';
+import {
+  interceptGet,
+  interceptPatch,
+  interceptPost,
+} from '../support/utils/intercept';
 import { login } from './auth-forms';
 import * as loginHelper from './login';
 import {
@@ -59,6 +63,11 @@ export function listenForCartBindingRequest(): string {
     '/assistedservicewebservices/bind-cart?*',
     false
   );
+}
+
+export function listenForCartSaveRequest(options?: { cartId: string }): string {
+  const cartId = options?.cartId ?? '*';
+  return interceptPatch('cartSaving', `/users/*/carts/${cartId}/save?*`, true);
 }
 
 export function listenForListOfAddressesRequest(): string {
@@ -396,10 +405,35 @@ export function testCustomerEmulation() {
   });
 }
 
-export function bindCart() {
+export function bindCart(options?: {
+  dialogAction?: 'replace' | 'cancel';
+  previousCart?: string;
+}) {
   const bindingRequest = listenForCartBindingRequest();
+  const saveCartRequest = listenForCartSaveRequest({
+    cartId: options?.previousCart,
+  });
+
   //click button
   cy.findByText(/Assign Cart to Customer/i).click();
-  //make call
-  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+
+  if (options?.dialogAction) {
+    // click dialog button
+    cy.get('.cx-asm-bind-cart-dialog')
+      .findByText(new RegExp(options.dialogAction, 'i'), { selector: 'button' })
+      .click();
+
+    // verify action
+    if (options.dialogAction !== 'cancel') {
+      if (options.dialogAction === 'replace' && options?.previousCart) {
+        cy.wait(saveCartRequest).its('response.statusCode').should('eq', 200);
+      }
+
+      //make call
+      cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+    }
+  } else {
+    //make call
+    cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+  }
 }
