@@ -287,16 +287,24 @@
     .cx-clear-filter {
       flex-basis: 100%;
       justify-content: flex-end;
-      display: none;
-      flex-direction: row;
+      margin-top: 2rem;
+    }
+
+    .cx-selected-filters {
+      flex-basis: 100%;
+      justify-content: flex-start;
       margin-top: 2rem;
     }
 
     @include media-breakpoint-down(sm) {
       flex-basis: 100%;
-      padding: 0.5rem;
+      padding: 1rem;
       display: flex;
     }
+  }
+
+  .cx-unit-level-order-history-filters-show-and-remove {
+    display: flex;
   }
 
   .cx-unit-level-order-history-filter-form-button-block {
