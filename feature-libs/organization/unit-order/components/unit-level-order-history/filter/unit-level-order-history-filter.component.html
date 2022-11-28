@@ -67,7 +67,8 @@
       </button>
 
       <button
-        class="clear-btn" type="button"
+        class="clear-btn"
+        type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
         (click)="closeFilterSubNav()"
       >
@@ -128,7 +129,7 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button type="button"  class="filter-button" (click)="backFilterSubNav()">
+      <button type="button" class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
       </button>
