@@ -52,7 +52,7 @@
 <form
   id="filterFormMobileId"
   [formGroup]="filterFormMobile"
-  (keydown.enter)="searchUnitLevelOrdersForMobile()"
+  (ngSubmit)="searchUnitLevelOrdersForMobile()"
 >
   <div
     id="cx-unit-level-order-history-filter-nav-sub-buyer"

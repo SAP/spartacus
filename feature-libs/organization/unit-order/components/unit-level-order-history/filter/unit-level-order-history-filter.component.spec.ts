@@ -55,6 +55,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;
+    fixture.autoDetectChanges();
   });
 
   it('should create', () => {
@@ -212,82 +213,96 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
   });
 
   describe('mobile view', () => {
-    let mobileFormElement;
-    beforeEach(() => {
-      mobileFormElement = fixture.debugElement.query(
-        By.css('#filterFormMobileId')
-      );
-    });
-
     it('should emit a buyer view when filtered by a buyer for mobile view', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
+      const spy = spyOn(
+        component,
+        'searchUnitLevelOrdersForMobile'
+      ).and.callThrough();
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: 'mark',
         unitFilterMobile: '',
       });
+      expect(form.valid).toBeTruthy();
       let orderHistoryQueryParams: OrderHistoryQueryParams;
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      mobileFormElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      fixture.debugElement
+        .query(By.css('#filterFormMobileId'))
+        .triggerEventHandler('ngSubmit', null);
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(spy).toHaveBeenCalled();
         expect(form.get('buyerFilterMobile').value).toBe('mark');
         expect(form.get('unitFilterMobile').value).toBe('');
+        expect(component.filterForm.get('buyerFilter').value).toBe('mark');
+        expect(component.filterForm.get('unitFilter').value).toBe('');
+
         expect(orderHistoryQueryParams.filters).toBe('::user:mark');
       });
     });
 
     it('should emit a unit when filtered by a unit  for mobile view', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
+      const spy = spyOn(
+        component,
+        'searchUnitLevelOrdersForMobile'
+      ).and.callThrough();
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: '',
         unitFilterMobile: 'services',
       });
+
+      expect(form.valid).toBeTruthy();
+
       let orderHistoryQueryParams: OrderHistoryQueryParams;
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      mobileFormElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+
+      fixture.debugElement
+        .query(By.css('#filterFormMobileId'))
+        .triggerEventHandler('ngSubmit', null);
 
       fixture.detectChanges();
-
       fixture.whenStable().then(() => {
-        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(1);
         expect(form.get('buyerFilterMobile').value).toBe('');
         expect(form.get('unitFilterMobile').value).toBe('services');
+        expect(component.filterForm.get('buyerFilter').value).toBe('');
+        expect(component.filterForm.get('unitFilter').value).toBe('services');
         expect(orderHistoryQueryParams.filters).toBe('::unit:services');
       });
     });
 
     it('should emit a buyer and a unit when filtered by buyer and unit for mobile view', () => {
-      const spy = spyOn(component, 'searchUnitLevelOrdersForMobile');
+      const spy = spyOn(
+        component,
+        'searchUnitLevelOrdersForMobile'
+      ).and.callThrough();
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: 'gi',
         unitFilterMobile: 'services',
       });
+      expect(form.valid).toBeTruthy();
       let orderHistoryQueryParams: OrderHistoryQueryParams;
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      mobileFormElement.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      fixture.debugElement
+        .query(By.css('#filterFormMobileId'))
+        .triggerEventHandler('ngSubmit', null);
 
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(spy).toHaveBeenCalled();
         expect(form.get('buyerFilterMobile').value).toBe('gi');
         expect(form.get('unitFilterMobile').value).toBe('services');
+        expect(component.filterForm.get('buyerFilter').value).toBe('gi');
+        expect(component.filterForm.get('unitFilter').value).toBe('services');
         expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
       });
     });
