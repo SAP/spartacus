@@ -18,7 +18,7 @@ export class AvatarComponent {
 
   constructor() {}
 
-  getInitials(author: string) {
+  getInitials(author: string): string {
     return author
       .split(' ')
       .map((author) => author[0])
