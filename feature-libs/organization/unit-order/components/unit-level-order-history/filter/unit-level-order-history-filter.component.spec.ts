@@ -308,17 +308,20 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should remove all of the filtered values when clicked on Remove Applied Filter button', () => {
-      fixture.detectChanges();
-      const spy = spyOn(component, 'clearAll').and.callThrough();
-      const clearbtn = fixture.debugElement.query(
-        By.css('button#removeAppliedFiltersbtn')
-      );
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: 'gi',
         unitFilterMobile: 'services',
       });
-      clearbtn.nativeElement.click();
+      spyOn(component, 'searchUnitLevelOrdersForMobile').and.callThrough();
+      component.searchUnitLevelOrdersForMobile();
+      fixture.detectChanges();
+
+      const spy = spyOn(component, 'clearAll').and.callThrough();
+      fixture.debugElement
+        .query(By.css('#removeAppliedFiltersbtn'))
+        .nativeElement.click();
+
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
       expect(component.buyerFilterMobileId.nativeElement.value).toBe('');
