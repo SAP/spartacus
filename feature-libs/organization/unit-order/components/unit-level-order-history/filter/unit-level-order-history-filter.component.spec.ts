@@ -328,18 +328,13 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.unitFilterMobileId.nativeElement.value).toBe('');
     });
 
-    it('should clear unit value when clicked on x button in the searchByUnit field', () => {
+    it('should clear unit value when clicked on x button in the searchByUnit field', async () => {
       const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
-      const form = component.filterForm;
+      const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: 'gi',
         unitFilterMobile: 'services',
       });
-
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearUnitMobileBtn')
@@ -353,22 +348,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         expect(spy).toHaveBeenCalled();
         expect(form.get('buyerFilterMobile').value).toBe('gi');
         expect(form.get('unitFilterMobile').value).toBeNull();
-        expect(orderHistoryQueryParams.filters).toBe('::user:gi');
       });
     });
 
-    it('should clear buyer value when clicked on x button in the searchByBuyer field', () => {
+    it('should clear buyer value when clicked on x button in the searchByBuyer field', async () => {
       const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
-      const form = component.filterForm;
+      const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: 'gi',
         unitFilterMobile: 'services',
       });
-
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       let buttonElement = fixture.debugElement.query(
         By.css('button#clearBuyerMobileBtn')
@@ -382,7 +371,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         expect(spy).toHaveBeenCalled();
         expect(form.get('buyerFilterMobile').value).toBeNull();
         expect(form.get('unitFilterMobile').value).toBe('services');
-        expect(orderHistoryQueryParams.filters).toBe('::unit:services');
       });
     });
 
