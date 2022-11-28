@@ -56,8 +56,8 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
             slots: [
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewBanner',
-              'VariantConfigOverviewContent',
               'VariantConfigOverviewSidebar',
+              'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
           },
