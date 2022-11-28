@@ -15,7 +15,7 @@ declare global {
        *
        * @example
         ```
-        cy.requirePaymentTypeSelected(token, cartId);
+        cy.requirePaymentTypeSelected(auth, cartId);
         ```
        */
       requirePaymentTypeSelected: (
@@ -26,7 +26,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requirePaymentTypeSelected', (token, cartId) => {
+Cypress.Commands.add('requirePaymentTypeSelected', (auth, cartId) => {
   const cartCode = cartId || 'current';
   const payType = 'account';
 
@@ -38,7 +38,7 @@ Cypress.Commands.add('requirePaymentTypeSelected', (token, cartId) => {
       )}/users/current/carts/${cartCode}/paymenttype?paymentType=${payType}`,
       form: false,
       headers: {
-        Authorization: `bearer ${token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }

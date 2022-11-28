@@ -14,7 +14,7 @@ export const unitOrder = {
     buyer: 'Buyer',
     unit: 'Unit',
     total: 'Total',
-    noOrders: 'We have no order records for your unit.',
+    noOrders: 'We have no matching order records for your unit.',
     startShopping: 'Start Shopping',
     sortBy: 'Sort by',
     sortOrders: 'Sort orders',
@@ -35,6 +35,8 @@ export const unitOrder = {
     search: 'Search',
     clearAll: 'Clear All',
     removeAppliedFilters: 'Remove Applied Filters',
+    yourFilters: 'Your Filters:',
+    and: ' and ',
   },
   unitLevelOrderHistorySorting: {
     date: 'Date',
