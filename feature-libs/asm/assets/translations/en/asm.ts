@@ -69,6 +69,13 @@ export const asm = {
       assignCartId: 'Assign a cart id to customer',
       enterCartId: 'Enter cart id',
       resetCartId: 'Reset',
+      dialog: {
+        title: 'Assign Anonymous Cart',
+        body: 'Do you want to replace the current active cart with the anonymous cart? If you replace the current active cart, it is saved as a saved cart.',
+        actions: {
+          replace: 'Replace Cart',
+        },
+      },
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
