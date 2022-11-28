@@ -1,3 +1,19 @@
-<h2>In Feature Lib</h2>
-{{ (storeSelected$ | async)?.name }}
-
+<div class="row">
+  <div class="col-md-6 cx-address-card">
+    <cx-card [border]="true" [fitToContainer]="true" [content]="content">
+      <div label_container_bottom>
+        <div class="info-location">
+          <div>{{ 'pickupInfo.pickupFrom' | cxTranslate }}</div>
+          <cx-store-address
+            [storeDetails]="preferredStore$ | async"
+          ></cx-store-address>
+        </div>
+        <div class="store-hours">
+          <cx-store-schedule
+            [storeDetails]="preferredStore$ | async"
+          ></cx-store-schedule>
+        </div>
+      </div>
+    </cx-card>
+  </div>
+</div>
