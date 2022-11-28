@@ -13,5 +13,7 @@ import { MyPreferredStoreComponent } from './my-preferred-store.component';
       },
     } as CmsConfig),
   ],
+  exports: [MyPreferredStoreComponent],
+  declarations: [MyPreferredStoreComponent],
 })
 export class MyPreferredStoreModule {}
