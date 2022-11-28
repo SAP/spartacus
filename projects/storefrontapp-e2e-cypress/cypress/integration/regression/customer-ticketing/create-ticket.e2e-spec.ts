@@ -1,8 +1,9 @@
-import { viewportContext } from "../../../helpers/viewport-context";
+import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import {TestTicketDetails, TestCategory} from '../../../helpers/customer-ticketing/customer-ticketing';
-
-
+import {
+  TestTicketDetails,
+  TestCategory,
+} from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticketing', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -33,7 +34,6 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-
       });
 
       it('should be able to create a ticket with an attachment', () => {
@@ -51,7 +51,9 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not be able to create a ticket with an attachment larger than 10mb', () => {
@@ -101,7 +103,9 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not allow ticket to be created if form not properly completed', () => {
@@ -133,7 +137,9 @@ describe('ticketing', () => {
       it('should not let subject exceeds 255 character limit', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
         const testTicketDetails: TestTicketDetails = {
-          subject: customerTicketing.generateDummyStringOfLength(TICKET_SUBJECT_MAX_LENGTH+1),
+          subject: customerTicketing.generateDummyStringOfLength(
+            TICKET_SUBJECT_MAX_LENGTH + 1
+          ),
           message: 'Exceeding character limit',
           category: TestCategory.complaint,
         };
@@ -149,7 +155,9 @@ describe('ticketing', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
         const testTicketDetails: TestTicketDetails = {
           subject: 'Exceeding character limit',
-          message: customerTicketing.generateDummyStringOfLength(TICKET_MESSAGE_MAX_LENGTH+1),
+          message: customerTicketing.generateDummyStringOfLength(
+            TICKET_MESSAGE_MAX_LENGTH + 1
+          ),
           category: TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
@@ -191,7 +199,6 @@ describe('ticketing', () => {
         customerTicketing.visitApparelUKTicketListingPage();
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
-
     });
   });
 });

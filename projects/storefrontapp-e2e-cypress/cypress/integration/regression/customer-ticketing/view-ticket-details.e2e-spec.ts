@@ -7,7 +7,6 @@ import {
   FIRST_ROW_TICKET_LIST,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-
 describe('ticket details', () => {
   viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
@@ -50,9 +49,12 @@ describe('ticket details', () => {
         });
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyTicketListingPageVisit();
-        let ticketDetails = customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
+        let ticketDetails =
+          customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
-        customerTicketing.verifyTicketDetailsAreDisplayedInTicketHeader(ticketDetails);
+        customerTicketing.verifyTicketDetailsAreDisplayedInTicketHeader(
+          ticketDetails
+        );
       });
 
       it('closing a ticket should not let user interact with the ticket anymore', () => {
@@ -67,7 +69,7 @@ describe('ticket details', () => {
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.open);
-        customerTicketing.closeTicketRequest("Closing ticket");
+        customerTicketing.closeTicketRequest('Closing ticket');
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.verifyStatusOfTicketInList();
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
@@ -83,16 +85,17 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         });
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
-        customerTicketing.closeTicketRequest("Closing ticket");
+        customerTicketing.closeTicketRequest('Closing ticket');
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.verifyStatusOfTicketInList();
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.closed);
-        customerTicketing.reopenTicketRequest("Reopening ticket");
-        customerTicketing.verifyStatusOfTicketInDetailsPage(TestStatus.in_process);
+        customerTicketing.reopenTicketRequest('Reopening ticket');
+        customerTicketing.verifyStatusOfTicketInDetailsPage(
+          TestStatus.in_process
+        );
         customerTicketing.verifyMessageBoxIsEnabled();
       });
-
 
       it('ticket should always have atleast one message in it', () => {
         customerTicketing.loginRegisteredUser();
@@ -100,13 +103,13 @@ describe('ticket details', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Ticket should always have atleast one message',
           message: 'Ticket should always have atleast one message',
-          category: TestCategory.complaint
+          category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
-        customerTicketing.sendMessage("Update ticket with comments");
-        customerTicketing.verifyMessageWasPosted("Update ticket with comments");
+        customerTicketing.sendMessage('Update ticket with comments');
+        customerTicketing.verifyMessageWasPosted('Update ticket with comments');
       });
 
       it('pressing send should publish message without attachment', () => {
@@ -115,13 +118,13 @@ describe('ticket details', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Replies in tickets can be sent',
           message: 'Replies in tickets can be sent',
-          category: TestCategory.complaint
+          category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.verifyTicketDetailsPageVisit();
-        customerTicketing.sendMessage("Update ticket with comments");
-        customerTicketing.verifyMessageWasPosted("Update ticket with comments");
+        customerTicketing.sendMessage('Update ticket with comments');
+        customerTicketing.verifyMessageWasPosted('Update ticket with comments');
       });
 
       it('pressing send should publish message with attachment', () => {
@@ -130,15 +133,15 @@ describe('ticket details', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Replies in tickets can be sent',
           message: 'Replies in tickets can be sent',
-          category: TestCategory.complaint
+          category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
-        let file_name = "test.docx";
+        let file_name = 'test.docx';
         customerTicketing.verifyTicketDetailsPageVisit();
         customerTicketing.addFile(file_name);
-        customerTicketing.sendMessage("Update ticket with comments");
-        customerTicketing.verifyMessageWasPosted("Update ticket with comments");
+        customerTicketing.sendMessage('Update ticket with comments');
+        customerTicketing.verifyMessageWasPosted('Update ticket with comments');
         customerTicketing.verifyFileAttachedToMessage(file_name);
       });
 
@@ -165,10 +168,13 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        let ticket_details_from_first_row = customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
+        let ticket_details_from_first_row =
+          customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
         cy.wait(50000);
         cy.log(ticket_details_from_first_row.id);
-        customerTicketing.visitTicketDetailsForExistingTicket(ticket_details_from_first_row.id);
+        customerTicketing.visitTicketDetailsForExistingTicket(
+          ticket_details_from_first_row.id
+        );
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
@@ -176,7 +182,7 @@ describe('ticket details', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitTicketDetailsPageForNonExistingTicket();
         customerTicketing.verifyTicketListingPageVisit();
-        customerTicketing.verifyGlobalMessage("Ticket not found.");
+        customerTicketing.verifyGlobalMessage('Ticket not found.');
       });
     });
   });

@@ -8,7 +8,7 @@ import * as commons from './customer-ticketing-commons';
 import {
   TestTicketDetails,
   TICKET_MESSAGE_MAX_LENGTH,
-  TICKET_SUBJECT_MAX_LENGTH
+  TICKET_SUBJECT_MAX_LENGTH,
 } from './customer-ticketing-commons';
 
 export function openCreateTicketPopup() {
@@ -41,17 +41,19 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails) {
   });
 }
 
-export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit(){
+export function verifyTicketSubjectAndMessageDoNotExceedCharacterLimit() {
   const SUBJECT_CONTROL = 'subject';
   const MESSAGE_CONTROL = 'message';
 
   cy.get('cx-customer-ticketing-create-dialog').within(() => {
     cy.get(`textarea[formcontrolname="${SUBJECT_CONTROL}"]`)
-      .invoke('text').then((text) => {
+      .invoke('text')
+      .then((text) => {
         expect(text.length).to.be.lte(TICKET_SUBJECT_MAX_LENGTH);
       });
     cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`)
-      .invoke('text').then((text) => {
+      .invoke('text')
+      .then((text) => {
         expect(text.length).to.be.lte(TICKET_MESSAGE_MAX_LENGTH);
       });
     cy.get('cx-form-errors').should('not.be.visible');
@@ -111,6 +113,6 @@ export function createMultipleTickets(
   }
 }
 
-export function verifyCreateTicketPopupIsClosed(){
+export function verifyCreateTicketPopupIsClosed() {
   cy.get('cx-customer-ticketing-create-dialog').should('not.exist');
 }

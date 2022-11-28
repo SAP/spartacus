@@ -29,7 +29,7 @@ export const SUBJECT_DELIMITER = 10;
 export const STATUS_DELIMITER = 9;
 export const TICKET_SUBJECT_MAX_LENGTH = 255;
 export const TICKET_MESSAGE_MAX_LENGTH = 5000;
-export const LAST_PAGE = "last";
+export const LAST_PAGE = 'last';
 
 export enum TestSortingTypes {
   byChangedOn = 'Changed On',
@@ -39,7 +39,7 @@ export enum TestSortingTypes {
 export enum TestStatus {
   closed = 'Closed',
   open = 'Open',
-  in_process = 'In Process'
+  in_process = 'In Process',
 }
 
 export enum TestCategory {
@@ -76,7 +76,10 @@ export function visitPage(page: string, alias?: string) {
 }
 
 export function visitElectronicTicketListingPage() {
-  visitPage('electronics-spa/en/USD/my-account/support-tickets', 'ticketListingPage');
+  visitPage(
+    'electronics-spa/en/USD/my-account/support-tickets',
+    'ticketListingPage'
+  );
 }
 
 export function verifyGlobalMessage(globalMessage = 'Request created.') {
@@ -121,7 +124,7 @@ export function verifyTicketDetailsPageVisit() {
   cy.get('cx-customer-ticketing-messages').should('exist');
 }
 
-export function navigateBackToPreviousPage(){
+export function navigateBackToPreviousPage() {
   cy.go('back');
 }
 

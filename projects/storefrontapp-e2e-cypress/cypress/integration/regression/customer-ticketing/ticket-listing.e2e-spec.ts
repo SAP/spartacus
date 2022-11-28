@@ -6,7 +6,7 @@ import {
   TestStatus,
   FIRST_ROW_TICKET_LIST,
   SECOND_ROW_TICKET_LIST,
-  LAST_PAGE
+  LAST_PAGE,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
@@ -68,7 +68,10 @@ describe('ticket listing', () => {
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.reopenTicketRequest('Reopening ticket');
         customerTicketing.navigateBackToPreviousPage();
-        customerTicketing.verifyStatusOfTicketInList(FIRST_ROW_TICKET_LIST, TestStatus.in_process);
+        customerTicketing.verifyStatusOfTicketInList(
+          FIRST_ROW_TICKET_LIST,
+          TestStatus.in_process
+        );
       });
 
       it('should create 6 tickets', () => {
@@ -130,7 +133,9 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(firstTicket);
         customerTicketing.createTicket(secondTicket);
-        customerTicketing.openTicketOnSepcifiedRowNumber(SECOND_ROW_TICKET_LIST);
+        customerTicketing.openTicketOnSepcifiedRowNumber(
+          SECOND_ROW_TICKET_LIST
+        );
         cy.wait(1000);
         customerTicketing.sendMessage('hello, world');
         cy.go('back');

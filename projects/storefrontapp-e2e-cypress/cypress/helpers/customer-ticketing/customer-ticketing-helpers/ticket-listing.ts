@@ -23,7 +23,7 @@ import {
   TestCategory,
   FIFTH_ROW_TICKET_LIST,
 } from './customer-ticketing-commons';
-const MESSAGE_BOX = ".form-control";
+const MESSAGE_BOX = '.form-control';
 
 export function clickTicketInRow(rowNumber = FIRST_ROW_TICKET_LIST) {
   cy.get('cx-customer-ticketing-list')
@@ -206,53 +206,66 @@ function getIdInRow(rowNumber: number) {
 
 export function extractTicketDetailsFromFirstRowInTicketListingPage(): TestTicketDetails {
   const testTicketDetails: TestTicketDetails = {
-    subject: "",
-    message:"",
-    category: TestCategory.complaint
+    subject: '',
+    message: '',
+    category: TestCategory.complaint,
   };
 
-  cy.get('cx-customer-ticketing-list').find('tbody').get('tr').eq(FIRST_ROW_TICKET_LIST).within(() => {
-    cy.get('td').eq(ID_COLUMN).invoke('text').then(id => {
-      testTicketDetails.id = id.substring(ID_DELIMITER);
+  cy.get('cx-customer-ticketing-list')
+    .find('tbody')
+    .get('tr')
+    .eq(FIRST_ROW_TICKET_LIST)
+    .within(() => {
+      cy.get('td')
+        .eq(ID_COLUMN)
+        .invoke('text')
+        .then((id) => {
+          testTicketDetails.id = id.substring(ID_DELIMITER);
+        });
+      cy.get('td')
+        .eq(SUBJECT_COLUMN)
+        .invoke('text')
+        .then((subject) => {
+          testTicketDetails.subject = subject.substring(SUBJECT_DELIMITER);
+        });
+      cy.get('td')
+        .eq(STATUS_COLUMN)
+        .invoke('text')
+        .then((status) => {
+          testTicketDetails.status = status.substring(STATUS_DELIMITER);
+        });
     });
-     cy.get('td').eq(SUBJECT_COLUMN).invoke('text').then(subject => {
-        testTicketDetails.subject = subject.substring(SUBJECT_DELIMITER);
-     });
-     cy.get('td').eq(STATUS_COLUMN).invoke('text').then((status) => {
-        testTicketDetails.status = status.substring(STATUS_DELIMITER);
-     });
- });
 
   return testTicketDetails;
 }
 
-export function verifyMessageBoxIsDisabled(){
+export function verifyMessageBoxIsDisabled() {
   cy.get(MESSAGE_BOX).should('not.exist');
 }
 
-export function verifyMessageBoxIsEnabled(){
+export function verifyMessageBoxIsEnabled() {
   cy.get(MESSAGE_BOX).should('exist');
 }
 
-export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds(){
+export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds() {
   const TOTAL_NUMBER_OF_PAGES_TO_VISIT = 3;
-  for(let page = 1; page < TOTAL_NUMBER_OF_PAGES_TO_VISIT; page++){
+  for (let page = 1; page < TOTAL_NUMBER_OF_PAGES_TO_VISIT; page++) {
     getIdInRow(FIFTH_ROW_TICKET_LIST).then((id) => {
       const smallerId = parseInt(id.text(), 10);
-      var next_page = page+1;
+      var next_page = page + 1;
       cy.get(`[aria-label="page ${next_page}"]`).click();
       getIdInRow(FIFTH_ROW_TICKET_LIST)
         .invoke('text')
         .then(parseInt)
         .should('be.lt', smallerId);
     });
-  };
+  }
 }
 
-export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds(){
+export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds() {
   getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
     const smallerId = parseInt(id.text(), 10);
-    clickPageOnPagination("last");
+    clickPageOnPagination('last');
     getIdInRow(FIRST_ROW_TICKET_LIST)
       .invoke('text')
       .then(parseInt)
@@ -260,14 +273,14 @@ export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingI
   });
 }
 
-export function clickPageOnPagination(pageLabel: string){
+export function clickPageOnPagination(pageLabel: string) {
   cy.get(`[aria-label="${pageLabel} page"]`).click();
 }
 
-export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds(){
+export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds() {
   getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
     const biggerId = parseInt(id.text(), 10);
-    clickPageOnPagination("first");
+    clickPageOnPagination('first');
     getIdInRow(FIRST_ROW_TICKET_LIST)
       .invoke('text')
       .then(parseInt)
