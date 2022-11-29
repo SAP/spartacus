@@ -36,6 +36,8 @@
 
         span {
           @include cx-configurator-truncate-content();
+          -webkit-line-clamp: unset;
+          line-break: auto;
           text-align: center;
         }
       }

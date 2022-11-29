@@ -72,7 +72,7 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label>
+      <label [class.dirty]="!!buyerFilterMobileId.value">
         <input
           #buyerFilterMobileId
           formControlName="buyerFilterMobile"
@@ -96,7 +96,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation">
+        <div #buyerPresentationMobile role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -137,7 +137,7 @@
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
 
-      <label>
+      <label [class.dirty]="!!unitFilterMobileId.value">
         <input
           #unitFilterMobileId
           formControlName="unitFilterMobile"
@@ -156,7 +156,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation">
+        <div #unitPresentationMobile role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -188,7 +188,10 @@
           role="search"
           class="cx-unit-level-order-history-filter-label-wrapper"
         >
-          <label class="cx-unit-level-order-history-filter-label">
+          <label
+            class="cx-unit-level-order-history-filter-label"
+            [class.dirty]="!!buyerFilterId.value"
+          >
             <input
               #buyerFilterId
               formControlName="buyerFilter"
@@ -224,7 +227,10 @@
           {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
         </span>
         <div class="cx-unit-level-order-history-filter-label-wrapper">
-          <label class="cx-unit-level-order-history-filter-label">
+          <label
+            class="cx-unit-level-order-history-filter-label"
+            [class.dirty]="!!unitFilterId.value"
+          >
             <input
               #unitFilterId
               formControlName="unitFilter"
@@ -282,9 +288,28 @@
     <cx-icon [type]="iconTypes.FILTER"></cx-icon>
     {{ 'unitLevelOrderHistory.filterBy' | cxTranslate }}
   </button>
-  <div #removeAppliedFilters class="cx-clear-filter">
-    <button class="cx-action-link clear-btn" type="button" (click)="clearAll()">
-      {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
-    </button>
+
+  <div
+    *ngIf="buyerFilterMobileValue || unitFilterMobileValue"
+    class="cx-unit-level-order-history-filters-show-and-remove"
+  >
+    <div class="cx-selected-filters">
+      {{ 'unitLevelOrderHistory.yourFilters' | cxTranslate }}
+      <span *ngIf="buyerFilterMobileValue">"{{ buyerFilterMobileValue }}"</span
+      ><span *ngIf="buyerFilterMobileValue && unitFilterMobileValue">{{
+        'unitLevelOrderHistory.and' | cxTranslate
+      }}</span
+      ><span *ngIf="unitFilterMobileValue">"{{ unitFilterMobileValue }}"</span>
+    </div>
+
+    <div class="cx-clear-filter">
+      <button
+        class="cx-action-link clear-btn"
+        type="button"
+        (click)="clearAll()"
+      >
+        {{ 'unitLevelOrderHistory.removeAppliedFilters' | cxTranslate }}
+      </button>
+    </div>
   </div>
 </div>
