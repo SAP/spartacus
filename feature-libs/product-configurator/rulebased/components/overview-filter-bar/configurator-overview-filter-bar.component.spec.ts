@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from 'feature-libs/product-configurator/common/core/model/common-configurator.model';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -16,7 +17,7 @@ const MY_SELECTIONS = Configurator.OverviewFilter.USER_INPUT;
 
 let component: ConfiguratorOverviewFilterBarComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
-//let htmlElem: HTMLElement;
+let htmlElem: HTMLElement;
 
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
@@ -50,8 +51,9 @@ function initMocks() {
 
 function initTestComponent() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
-  // htmlElem = fixture.nativeElement;
+  htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  component.config = ovConfig;
   fixture.detectChanges();
 }
 
@@ -75,8 +77,77 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     );
 
     it('should create component', () => {
+      initTestData();
+      initMocks();
       initTestComponent();
       expect(component).toBeDefined();
+    });
+
+    it('should render Price Relevant filter removal button', () => {
+      initTestData();
+      initMocks();
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      initTestComponent();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-applied',
+        'configurator.overviewFilter.byPrice'
+      );
+    });
+
+    it('should render my Selections filter removal button', () => {
+      initTestData();
+      initMocks();
+      ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+      initTestComponent();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-applied',
+        'configurator.overviewFilter.mySelections'
+      );
+    });
+
+    it('should render group filter removal button', () => {
+      initTestData();
+      initMocks();
+      ovConfig.overview.groupFilters = ['1', '2'];
+      initTestComponent();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-applied',
+        'Group 1',
+        0
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-applied',
+        'Group 2',
+        1
+      );
+    });
+
+    it('should render remove all button component if there are 2 or more filters active', () => {
+      initTestData();
+      initMocks();
+      ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+      ovConfig.overview.groupFilters = ['1'];
+      initTestComponent();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-overview-filter-applied',
+        'configurator.button.removeAll',
+        2
+      );
     });
   });
 
