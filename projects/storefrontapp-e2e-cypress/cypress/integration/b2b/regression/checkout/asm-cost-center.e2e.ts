@@ -37,8 +37,11 @@ context('B2B - ASM Account Checkout', () => {
         .type(user_email);
       cy.get('[formcontrolname="searchTerm"]').should('have.value', user_email);
     });
+    cy.wait(asm.listenForCustomerSearchRequest())
+      .its('response.statusCode')
+      .should('eq', 200);
     cy.get('cx-customer-selection div.asm-results button').click();
-    cy.get('button[type="submit"]').click();
+    cy.get('cx-customer-selection button[type="submit"]').click();
   });
 
   it('should show error on invalid cost center', () => {
