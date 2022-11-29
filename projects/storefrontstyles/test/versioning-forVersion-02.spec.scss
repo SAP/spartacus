@@ -1,0 +1,27 @@
+@import 'true';
+@import '../scss/versioning';
+@import 'versioning-test-util.scss';
+
+
+
+@include describe('Style versioning forVersion() mixin ') {
+
+  @include describe('with style version 5.1.3') {
+
+  @import '../scss/versioning';
+  $_fullVersion: 5.2;
+  $_majorVersion: 5;
+  $styleVersion: 5.1.3;
+  $useLatestStyles: false;
+
+
+  @include shouldDisplayForVersion(5.1.2);
+  @include shouldDisplayForVersion(5.1.3);
+  @include shouldNOTDisplayForVersion(5.1.4);
+  @include shouldDisplayForRange(5.0, 5.2);
+  @include shouldNOTDisplayForRange(5.0, 5.1.2);
+  @include shouldNOTDisplayForRange(5.1.3, 6);
+  @include shouldDisplayForRange(5.0.1, 5.2.3);
+
+}
+}
