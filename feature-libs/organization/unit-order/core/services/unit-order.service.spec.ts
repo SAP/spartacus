@@ -6,7 +6,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { UnitOrderActions } from '../store/actions/index';
@@ -61,7 +61,7 @@ describe('UnitOrderService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should inject OrderHistoryService', inject(
+  it('should inject UnitOrderService', inject(
     [UnitOrderService],
     (service: UnitOrderService) => {
       expect(service).toBeTruthy();
@@ -131,6 +131,38 @@ describe('UnitOrderService', () => {
     unitOrderService.clearOrderList();
     expect(store.dispatch).toHaveBeenCalledWith(
       new UnitOrderActions.ClearUnitOrders()
+    );
+  });
+
+  it('should be able to get order details', () => {
+    store.dispatch(
+      new UnitOrderActions.LoadOrderDetailsSuccess({ code: 'testOrder' })
+    );
+
+    let order: Order | undefined;
+    unitOrderService
+      .getOrderDetails()
+      .subscribe((data) => {
+        order = data;
+      })
+      .unsubscribe();
+    expect(order).toEqual({ code: 'testOrder' });
+  });
+
+  it('should be able to load order details', () => {
+    unitOrderService.loadOrderDetails('orderCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UnitOrderActions.LoadOrderDetails({
+        userId: OCC_USER_ID_CURRENT,
+        orderCode: 'orderCode',
+      })
+    );
+  });
+
+  it('should be able to clear order details', () => {
+    unitOrderService.clearOrderDetails();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new UnitOrderActions.ClearOrderDetails()
     );
   });
 });
