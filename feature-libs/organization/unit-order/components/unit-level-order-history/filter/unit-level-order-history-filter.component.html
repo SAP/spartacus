@@ -111,7 +111,6 @@
 
     <div>
       <button
-        style="margin: 0"
         class="cx-action-link clear-btn"
         type="button"
         (click)="clearBuyerMobile()"
@@ -149,7 +148,7 @@
           [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
           placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />
-        <button
+        <button style="margin: 0"
           id="clearUnitMobileBtn"
           type="button"
           [attr.aria-label]="'common.reset' | cxTranslate"
@@ -160,7 +159,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation" class="search-icon">
+        <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -217,7 +216,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #buyerPresentation role="presentation" class="search-icon">
+            <div role="presentation" class="search-icon">
               <cx-icon
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
@@ -249,7 +248,6 @@
             <button
               id="clearUnitBtn"
               type="button"
-              #unitButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearUnit()"
               (keydown.enter)="clearUnit()"
@@ -258,7 +256,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #unitPresentation role="presentation" class="search-icon">
+            <div role="presentation" class="search-icon">
               <cx-icon
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
