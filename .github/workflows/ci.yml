@@ -101,7 +101,9 @@ jobs:
   sonarqube_scan:
     needs: no_retries
     name: SonarQube Scan
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
