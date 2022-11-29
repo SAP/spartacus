@@ -8,6 +8,12 @@ class MockUnitOrderAdapter implements Partial<UnitOrderAdapter> {
   loadUnitOrderHistory = createSpy(
     'UnitOrderAdapter.loadUnitOrderHistory'
   ).and.callFake((userId: string) => of(`orderHistory-${userId}`));
+
+  loadUnitOrderDetail = createSpy(
+    'UnitOrderAdapter.loadUnitOrderDetail'
+  ).and.callFake((userId: string, orderCode: string) =>
+    of(`orderDetails-${userId}-${orderCode}`)
+  );
 }
 
 describe('OrderHistoryConnector', () => {
@@ -40,6 +46,14 @@ describe('OrderHistoryConnector', () => {
       undefined,
       undefined,
       undefined
+    );
+  });
+
+  it('getUnitOrderDetail should call adapter', () => {
+    service.getUnitOrderDetail('user3', '0000022').subscribe();
+    expect(adapter.loadUnitOrderDetail).toHaveBeenCalledWith(
+      'user3',
+      '0000022'
     );
   });
 });

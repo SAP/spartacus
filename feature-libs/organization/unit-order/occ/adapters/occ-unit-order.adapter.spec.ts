@@ -3,13 +3,17 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { ORDER_HISTORY_NORMALIZER } from '@spartacus/order/root';
+import {
+  ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
+} from '@spartacus/order/root';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccUnitOrderAdapter } from './occ-unit-order.adapter';
 
 const userId = '123';
+const orderDetailCode = '00001004';
 
 describe('OccUnitOrderAdapter', () => {
   let occOrderHistoryAdapter: OccUnitOrderAdapter;
@@ -93,6 +97,34 @@ describe('OccUnitOrderAdapter', () => {
         }, `GET method`)
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_HISTORY_NORMALIZER);
+    });
+  });
+
+  describe('loadUnitOrderDetail', () => {
+    it(
+      'should fetch a single unit-level order',
+      waitForAsync(() => {
+        occOrderHistoryAdapter
+          .loadUnitOrderDetail(userId, orderDetailCode)
+          .subscribe();
+        httpMock.expectOne((req: HttpRequest<any>) => {
+          return req.method === 'GET';
+        }, `GET a single order`);
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'unitLevelOrderDetail',
+          {
+            urlParams: { userId, orderId: orderDetailCode },
+          }
+        );
+      })
+    );
+
+    it('should use converter', () => {
+      occOrderHistoryAdapter
+        .loadUnitOrderDetail(userId, orderDetailCode)
+        .subscribe();
+      httpMock.expectOne((req) => req.method === 'GET').flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
   });
 });
