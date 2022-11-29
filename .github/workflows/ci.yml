@@ -101,7 +101,6 @@ jobs:
   sonarqube_scan:
     needs: no_retries
     name: SonarQube Scan
-    runs-on: ubuntu-latest
     steps:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
@@ -109,8 +108,6 @@ jobs:
           args: >
             -Dsonar.qualitygate.wait=true
             -Dsonar.projectKey=composable-storefront
-            -Dsonar.scm.provider=git
-            -Dsonar.projectBaseDir=./spartacus
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
