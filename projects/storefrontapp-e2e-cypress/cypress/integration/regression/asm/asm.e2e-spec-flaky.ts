@@ -127,6 +127,100 @@ context('Assisted Service Module', () => {
     });
   });
 
+  it('agent should be able to replace anonymous cart with current customer cart', () => {
+    const customer = getSampleUser();
+
+    checkout.visitHomePage();
+    cy.get('cx-asm-main-ui').should('not.exist');
+
+    checkout.registerUser(false, customer);
+
+    cy.log('--> Add to cart as an anonymous user');
+    cart.addProductAsAnonymous();
+
+    cy.log('--> Retrieve cart id');
+    cart.goToCart();
+    cy.get('cx-cart-details')
+      .get('h2.cx-total')
+      .then(($cartId) => {
+        // localStorage contains anonymous cart uid, but need cart code.  read cart code from UI
+        const text = $cartId.text();
+        const anonymousCartCode = text.replace('Cart #', '').trim();
+        cy.wrap(anonymousCartCode).as('anonymousCartCode');
+      });
+    cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
+      cy.log(`--> Anonymous cart id: ${anonymousCartCode}`);
+    });
+
+    cy.log('--> Agent logging in');
+    checkout.visitHomePage('asm=true');
+    cy.get('cx-asm-main-ui').should('exist');
+    cy.get('cx-asm-main-ui').should('be.visible');
+    asm.agentLogin();
+
+    cy.log('--> Starting customer emulation');
+    asm.startCustomerEmulation(customer);
+
+    cy.log('--> Create current active cart');
+    cart.addProductFromPdp(cart.products[1].code).then(() => {
+      const activeCartCode = JSON.parse(
+        window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+      ).active;
+      cy.wrap(activeCartCode).as('activeCartCode');
+    });
+    cy.get<string>('@activeCartCode').then((activeCartCode) => {
+      cy.log(`---> Current active cart: ${activeCartCode}`);
+    });
+
+    cy.log('--> Enter users cart number');
+    cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
+      cy.get('cx-customer-emulation input[formcontrolname="cartNumber"]')
+        .clear()
+        .type(anonymousCartCode);
+    });
+
+    cy.log('--> Agent binding cart');
+    cy.get<string>('@activeCartCode').then((activeCartCode) => {
+      asm.bindCart({ dialogAction: 'replace', previousCart: activeCartCode });
+    });
+
+    cy.log('--> Verify the agent sees the anonymous cart');
+    cart.goToCart();
+    cy.get('cx-cart-details').then(() => {
+      const customerCartCode = JSON.parse(
+        window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+      ).active;
+      cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
+        expect(customerCartCode).to.equal(anonymousCartCode);
+      });
+    });
+
+    cy.log(
+      '--> Stop customer emulation using the end session button in the ASM UI'
+    );
+    asm.agentSignOut();
+
+    cy.get('cx-asm-main-ui').should('exist');
+
+    cy.log('--> Log in as customer');
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    cy.visit('/login');
+    cy.wait(`@${loginPage}`);
+    login(customer.email, customer.password);
+    cy.wait('@csAgentAuthentication');
+
+    cy.log("--> Verify anonymous cart is now the user's active cart");
+    cart.goToCart();
+    cy.get('cx-cart-details').then(() => {
+      const customerCartCode = JSON.parse(
+        window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+      ).active;
+      cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
+        expect(customerCartCode).to.equal(anonymousCartCode);
+      });
+    });
+  });
+
   describe('When a customer session and an asm agent session are both active', () => {
     let customer;
 

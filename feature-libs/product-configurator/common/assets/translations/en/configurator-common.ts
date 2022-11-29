@@ -76,6 +76,12 @@ export const configurator = {
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
     },
+    icon: {
+      groupComplete: 'Complete',
+      groupIncomplete: 'Incomplete',
+      groupConflict: 'Conflict',
+      subgroup: 'has sub-groups',
+    },
     priceSummary: {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
@@ -93,6 +99,12 @@ export const configurator = {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
       itemPrice: 'Item Price',
+    },
+    overviewMenu: {
+      title: 'Menu',
+    },
+    overviewFilter: {
+      title: 'Filter',
     },
     group: {
       general: 'General',
