@@ -98,15 +98,21 @@ $useLatestStyles: false !default;
     @return $value;
   } @else if type-of($value) == 'list' {
     // 1.2.3 will become list [1.2, 0.3]
-    // $p is the second item in list, e.g. 0.3
-    $p: toString(nth($value, 2));
-    $i: str-index($p, '.');
-    @if $i != null {
-      @return toString(nth($value, 1)) + '.' + str-slice($p, $i + 1);
+    // 1.2.0 will become list [1.2, 0]
+    // 1.0.2 will become list [1, 0.2]
+    $firstItem: toString(nth($value, 1));
+    $secondItem: toString(nth($value, 2));
+    $firstDot: str-index($firstItem, '.');
+    @if $firstDot != null {
+      $secondDot: str-index($secondItem, '.');
+      @if $secondDot != null {
+        @return $firstItem + '.' + str-slice($secondItem, $secondDot + 1);
+      } @else {
+        @return $firstItem;
+      }
     } @else {
-      @return toString(nth($value, 1));
+      @return $firstItem + '.' + $secondItem;
     }
-    @return toString(nth($value, 1));
   } @else {
     @error 'Input #{$value} is invalid';
   }
@@ -202,5 +208,5 @@ $useLatestStyles: false !default;
 
 // Indicates if breaking changes are requested.
 @function useBreakingChanges() {
-  @return $useLatestStyles or $styleVersion > $_majorVersion;
+  @return $useLatestStyles or compareVersion($styleVersion, $_majorVersion) > 0;
 }
