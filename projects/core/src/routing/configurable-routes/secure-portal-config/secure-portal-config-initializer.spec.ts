@@ -29,7 +29,7 @@ class MockConfigInitializerService
 }
 
 class MockBaseSiteService {
-  getAll(): Observable<BaseSite> {
+  get(): Observable<BaseSite> {
     return of({});
   }
 }
@@ -55,31 +55,8 @@ describe(`SecurePortalConfigInitializer`, () => {
   });
 
   describe(`resolveConfig`, () => {
-    it(`should throw error when the base sites loaded are undefined`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(undefined));
-      let message = false;
-      try {
-        await initializer.configFactory();
-      } catch (e: any) {
-        message = e.message;
-      }
-      expect(message).toBeTruthy();
-    });
-
-    it(`should throw error when the base sites loaded is an empty array`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of([]));
-      let message = false;
-      try {
-        await initializer.configFactory();
-      } catch (e: any) {
-        message = e.message;
-      }
-      expect(message).toBeTruthy();
-    });
-
-    it(`should throw error when the basesite is not found`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of([{ uid: 'test1' }]));
-
+    it(`should throw error when the base site loaded is undefined or not found`, async () => {
+      spyOn(baseSiteService, 'get').and.returnValue(of(undefined));
       let message = false;
       try {
         await initializer.configFactory();
@@ -90,11 +67,11 @@ describe(`SecurePortalConfigInitializer`, () => {
     });
 
     it(`should return routing config based on BaseSite.requiresAuthentication value`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
+      spyOn(baseSiteService, 'get').and.returnValue(of(mockBaseSites[0]));
 
       const result = await initializer.configFactory();
 
-      expect(baseSiteService.getAll).toHaveBeenCalled();
+      expect(baseSiteService.get).toHaveBeenCalled();
       expect(result).toEqual({
         routing: {
           protected: true,
