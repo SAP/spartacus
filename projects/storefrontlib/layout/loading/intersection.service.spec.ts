@@ -5,10 +5,7 @@ import { take } from 'rxjs/operators';
 
 const MockLayoutConfig: LayoutConfig = {};
 
-const mockIntersectionObserver = class {
-  observe(): void {}
-  disconnect(): void {}
-};
+const entries: IntersectionObserverEntry[] = [];
 
 fdescribe('IntersectionService', () => {
   let service: IntersectionService;
@@ -17,11 +14,13 @@ fdescribe('IntersectionService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: LayoutConfig, useValue: MockLayoutConfig }],
     });
+
+    service = TestBed.inject(IntersectionService);
+    spyOn(window, 'IntersectionObserver').and.callThrough();
   });
 
-  beforeEach(() => {
-    service = TestBed.inject(IntersectionService);
-    (<any>window).IntersectionObserver = mockIntersectionObserver;
+  afterEach(() => {
+    entries.pop();
   });
 
   it('should be created', () => {
@@ -30,19 +29,49 @@ fdescribe('IntersectionService', () => {
 
   describe('isIntersected', () => {
     it('should return false', (done) => {
-      const heading = document.createElement('h2');
+      const element: Element = document.createElement('h2');
 
-      (<any>window).IntersectionObserverEntry = {
-        target: heading,
+      const entry: IntersectionObserverEntry = {
+        target: element,
         isIntersecting: false,
         intersectionRatio: 0,
+        boundingClientRect: undefined,
+        intersectionRect: undefined,
+        rootBounds: null,
+        time: undefined,
       };
 
+      entries.push(entry);
+
       service
-        .isIntersected(heading)
+        .isIntersected(element as HTMLElement)
         .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(false);
+          done();
+        });
+    });
+
+    it('should return true', (done) => {
+      const element: Element = document.createElement('section');
+
+      const entry: IntersectionObserverEntry = {
+        target: element,
+        isIntersecting: true,
+        intersectionRatio: 0,
+        boundingClientRect: undefined,
+        intersectionRect: undefined,
+        rootBounds: null,
+        time: undefined,
+      };
+
+      entries.push(entry);
+
+      service
+        .isIntersected(element as HTMLElement)
+        .pipe(take(1))
+        .subscribe((isIntersected) => {
+          expect(isIntersected).toBe(true);
           done();
         });
     });
