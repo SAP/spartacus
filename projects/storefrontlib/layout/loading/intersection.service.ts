@@ -27,26 +27,37 @@ export class IntersectionService {
    *
    * The returned observable will only emit the first value. The
    * observable must be cleaned up either way, since the value might never emit; it
-   *  depends on whether the element appears in the view port.
+   * depends on whether the element appears in the view port.
+   *
+   * @param element - HTML element
+   * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @param intersectingCondition - Allows to specify an intersecting condition
+   * @returns Element intersects?
    */
   isIntersected(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options?: IntersectionOptions,
+    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
   ): Observable<boolean> {
-    return this.intersects(element, options).pipe(first((v) => v === true));
+    return this.intersects(element, options, intersectingCondition).pipe(
+      first((v) => v === true)
+    );
   }
 
   /**
-   * Returns an observable that emits for every change of intersection of a given element
-   * @param  element - HTML element
-   * @param  options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * Returns an observable that emits for every change of intersection of a given element.
+   *
+   * @param element - HTML element
+   * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @param intersectingCondition - Allows to specify an intersecting condition
    * @returns Element intersects?
    */
   isIntersecting(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options?: IntersectionOptions,
+    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
   ): Observable<boolean> {
-    return this.intersects(element, options);
+    return this.intersects(element, options, intersectingCondition);
   }
 
   /**
@@ -56,7 +67,8 @@ export class IntersectionService {
    */
   private intersects(
     element: HTMLElement,
-    options: IntersectionOptions = {}
+    options: IntersectionOptions = {},
+    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
   ): Observable<boolean> {
     const elementVisible$ = new Observable(
       (observer: Observer<IntersectionObserverEntry[]>) => {
@@ -72,7 +84,11 @@ export class IntersectionService {
       }
     ).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
-      map((entry: IntersectionObserverEntry) => entry.isIntersecting),
+      map((entry: IntersectionObserverEntry) =>
+        intersectingCondition
+          ? intersectingCondition(entry)
+          : entry.isIntersecting
+      ),
       distinctUntilChanged()
     );
 
