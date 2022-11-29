@@ -5,8 +5,8 @@
  */
 
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

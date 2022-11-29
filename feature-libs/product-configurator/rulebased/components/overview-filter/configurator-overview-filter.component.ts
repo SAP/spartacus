@@ -6,9 +6,8 @@
 
 import { Component, Input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
-import { OperatorFunction } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { Observable, OperatorFunction } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
