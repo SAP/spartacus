@@ -1,5 +1,6 @@
 <ng-container *ngIf="config$ | async as config">
   <button
+    #filterButton
     class="cx-config-filter-button cx-btn btn btn-action"
     tabindex="0"
     (click)="openFilterModal()"

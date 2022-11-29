@@ -77,15 +77,11 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     );
 
     it('should create component', () => {
-      initTestData();
-      initMocks();
       initTestComponent();
       expect(component).toBeDefined();
     });
 
     it('should render Price Relevant filter removal button', () => {
-      initTestData();
-      initMocks();
       ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
       initTestComponent();
 
@@ -98,8 +94,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     it('should render my Selections filter removal button', () => {
-      initTestData();
-      initMocks();
       ovConfig.overview.attributeFilters = [MY_SELECTIONS];
       initTestComponent();
 
@@ -112,8 +106,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     it('should render group filter removal button', () => {
-      initTestData();
-      initMocks();
       ovConfig.overview.groupFilters = ['1', '2'];
       initTestComponent();
 
@@ -135,8 +127,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     it('should render remove all button component if there are 2 or more filters active', () => {
-      initTestData();
-      initMocks();
       ovConfig.overview.attributeFilters = [MY_SELECTIONS];
       ovConfig.overview.groupFilters = ['1'];
       initTestComponent();

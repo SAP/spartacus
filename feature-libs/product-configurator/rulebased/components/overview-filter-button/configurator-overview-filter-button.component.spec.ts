@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { of } from 'rxjs';
@@ -14,6 +14,8 @@ import { Configurator } from '../../core/model/configurator.model';
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const configId = '1234-56-7890';
+
+const PRICE_RELEVANT = Configurator.OverviewFilter.PRICE_RELEVANT;
 
 let component: ConfiguratorOverviewFilterButtonComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterButtonComponent>;
@@ -62,6 +64,7 @@ function initMocks() {
   asSpy(mockConfigCommonsService.getConfigurationWithOverview).and.returnValue(
     of(ovConfig)
   );
+  asSpy(mockLaunchDialogService.openDialog).and.returnValue(of());
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
@@ -96,14 +99,40 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     it('should open filter modal on request', () => {
       initComponent();
       component.openFilterModal();
-      expect(mockLaunchDialogService.openDialog).toHaveBeenCalled();
+      expect(mockLaunchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
+        component.filerButton,
+        {}
+      );
     });
 
     it('should render filter button', () => {
+      initComponent();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-config-filter-button'
+      );
+    });
+
+    it('should render filter button with count if there are active filters', () => {
+      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+      initComponent();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-filter-button',
+        'configurator.button.filterOverviewWithCount numAppliedFilters:1'
+      );
+    });
+
+    it('should render filter button without count if there are no active filters', () => {
+      initComponent();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-filter-button',
+        'configurator.button.filterOverview numAppliedFilters:0'
       );
     });
   });
