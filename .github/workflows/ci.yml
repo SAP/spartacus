@@ -109,7 +109,7 @@ jobs:
           args: >
             -Dsonar.qualitygate.wait=true
             -Dsonar.projectKey=composable-storefront
-            -sonar.scm.provider=git
+            -Dsonar.scm.provider=git
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
