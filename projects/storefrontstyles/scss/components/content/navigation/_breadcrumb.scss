@@ -38,7 +38,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
       margin: 0;
 
       li {
-        display: inline;
+        display: flex;
         color: var(--cx-color-secondary);
 
         &:not(:last-child):after {
