@@ -41,7 +41,7 @@ class MockCxIconComponent {
 describe('UnitLevelOrderHistoryFilterComponent', () => {
   let component: UnitLevelOrderHistoryFilterComponent;
   let fixture: ComponentFixture<UnitLevelOrderHistoryFilterComponent>;
-  let MARK = 'mark';
+  const MARK = 'mark';
   const GI = 'gi';
   const SERVICES = 'services';
   const EMPTY_STRING = '';
