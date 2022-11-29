@@ -98,7 +98,9 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE).value).toBe(
         MARK
       );
-      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(EMPTY_STRING);
+      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
+        EMPTY_STRING
+      );
       expect(orderHistoryQueryParams.filters).toBe('::user:mark');
     });
 
@@ -178,9 +180,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         unitFilter: SERVICES,
       });
 
-      let buttonElement = fixture.debugElement.query(
-        By.css('#clearUnitBtn')
-      );
+      let buttonElement = fixture.debugElement.query(By.css('#clearUnitBtn'));
       buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
       fixture.detectChanges();
@@ -203,9 +203,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         unitFilter: SERVICES,
       });
 
-      let buttonElement = fixture.debugElement.query(
-        By.css('#clearBuyerBtn')
-      );
+      let buttonElement = fixture.debugElement.query(By.css('#clearBuyerBtn'));
       buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
       fixture.detectChanges();
@@ -334,8 +332,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(component.buyerFilterMobileId.nativeElement.value).toBe(EMPTY_STRING);
-      expect(component.unitFilterMobileId.nativeElement.value).toBe(EMPTY_STRING);
+      expect(component.buyerFilterMobileId.nativeElement.value).toBe(
+        EMPTY_STRING
+      );
+      expect(component.unitFilterMobileId.nativeElement.value).toBe(
+        EMPTY_STRING
+      );
     });
 
     it('should clear unit value when clicked on x button in the searchByUnit field', async () => {
@@ -387,9 +389,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should call launchMobileFilters when filterBy button is clicked', () => {
       const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
       fixture.detectChanges();
-      const filterByBtn = fixture.debugElement.query(
-        By.css('#filterByBtn')
-      );
+      const filterByBtn = fixture.debugElement.query(By.css('#filterByBtn'));
       filterByBtn.nativeElement.click();
       expect(spy).toHaveBeenCalled();
     });
