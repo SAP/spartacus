@@ -189,7 +189,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
           htmlElem,
           '.cx-overview-filter-applied',
           'title',
-          'configurator.overviewFilter.removeGroup group:Group 1',
+          'configurator.overviewFilter.removeByGroup group:Group 1',
           0
         );
       });

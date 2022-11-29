@@ -23,6 +23,7 @@ import { ConfiguratorProductTitleModule } from './product-title/configurator-pro
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
+import { ConfiguratorOverviewMenuModule } from './overview-menu/configurator-overview-menu.module';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorPreviousNextButtonsModule,
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
-
+    ConfiguratorOverviewMenuModule,
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
