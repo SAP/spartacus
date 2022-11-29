@@ -8,7 +8,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, OperatorFunction } from 'rxjs';
-import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -28,15 +28,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
-        )
-      ),
-      distinctUntilKeyChanged('configId'),
-      switchMap((configuration) =>
-        this.configuratorCommonsService.getConfigurationWithOverview(
-          configuration
-        )
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
       ),
       // filter 'strict null check safe'
       filter(

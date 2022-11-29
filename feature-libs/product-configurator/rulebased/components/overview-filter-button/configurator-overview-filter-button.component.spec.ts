@@ -27,7 +27,6 @@ let mockLaunchDialogService: LaunchDialogService;
 let mockConfigRouterService: ConfiguratorRouterExtractorService;
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
-let config: Configurator.Configuration;
 let ovConfig: Configurator.ConfigurationWithOverview;
 
 function asSpy(f: any) {
@@ -35,9 +34,8 @@ function asSpy(f: any) {
 }
 
 function initTestData() {
-  config = ConfiguratorTestUtils.createConfiguration(configId, owner);
   ovConfig = structuredClone({
-    ...config,
+    ...ConfiguratorTestUtils.createConfiguration(configId, owner),
     overview: ConfigurationTestData.productConfiguration.overview,
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
@@ -51,22 +49,16 @@ function initComponent() {
 }
 
 function initMocks() {
-  mockLaunchDialogService = jasmine.createSpyObj(['openDialog']);
+  mockLaunchDialogService = jasmine.createSpyObj(['openDialogAndSubscribe']);
   mockConfigRouterService = jasmine.createSpyObj(['extractRouterData']);
-  mockConfigCommonsService = jasmine.createSpyObj([
-    'getOrCreateConfiguration',
-    'getConfigurationWithOverview',
-  ]);
+  mockConfigCommonsService = jasmine.createSpyObj(['getConfiguration']);
   asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
     of(ConfigurationTestData.mockRouterState)
   );
-  asSpy(mockConfigCommonsService.getOrCreateConfiguration).and.returnValue(
-    of(config)
-  );
-  asSpy(mockConfigCommonsService.getConfigurationWithOverview).and.returnValue(
+  asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
     of(ovConfig)
   );
-  asSpy(mockLaunchDialogService.openDialog).and.returnValue(of());
+  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(of());
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
@@ -101,7 +93,9 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     it('should open filter modal on request', () => {
       initComponent();
       component.openFilterModal();
-      expect(mockLaunchDialogService.openDialog).toHaveBeenCalledWith(
+      expect(
+        mockLaunchDialogService.openDialogAndSubscribe
+      ).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
         component.filerButton,
         {}

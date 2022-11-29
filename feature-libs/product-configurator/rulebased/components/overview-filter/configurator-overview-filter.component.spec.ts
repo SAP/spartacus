@@ -24,7 +24,6 @@ let htmlElem: HTMLElement;
 let mockConfigRouterService: ConfiguratorRouterExtractorService;
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
-let config: Configurator.Configuration;
 let ovConfig: Configurator.ConfigurationWithOverview;
 
 function asSpy(f: any) {
@@ -32,9 +31,8 @@ function asSpy(f: any) {
 }
 
 function initTestData() {
-  config = ConfiguratorTestUtils.createConfiguration(configId, owner);
   ovConfig = structuredClone({
-    ...config,
+    ...ConfiguratorTestUtils.createConfiguration(configId, owner),
     overview: ConfigurationTestData.productConfiguration.overview,
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
@@ -43,17 +41,13 @@ function initTestData() {
 function initMocks() {
   mockConfigRouterService = jasmine.createSpyObj(['extractRouterData']);
   mockConfigCommonsService = jasmine.createSpyObj([
-    'getOrCreateConfiguration',
-    'getConfigurationWithOverview',
+    'getConfiguration',
     'updateConfigurationOverview',
   ]);
   asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
     of(ConfigurationTestData.mockRouterState)
   );
-  asSpy(mockConfigCommonsService.getOrCreateConfiguration).and.returnValue(
-    of(config)
-  );
-  asSpy(mockConfigCommonsService.getConfigurationWithOverview).and.returnValue(
+  asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
     of(ovConfig)
   );
 }
@@ -126,9 +120,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should not render anything if nothing has been emitted', () => {
-      asSpy(mockConfigCommonsService.getOrCreateConfiguration).and.returnValue(
-        NEVER
-      );
+      asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(NEVER);
       initTestComponent();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,

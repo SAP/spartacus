@@ -8,12 +8,7 @@ import { Component, Input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -36,15 +31,7 @@ export class ConfiguratorOverviewFilterComponent {
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
-        )
-      ),
-      distinctUntilKeyChanged('configId'),
-      switchMap((configuration) =>
-        this.configuratorCommonsService.getConfigurationWithOverview(
-          configuration
-        )
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
       ),
       // filter 'strict null check safe'
       filter(
