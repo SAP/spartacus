@@ -1,7 +1,9 @@
 <ng-container *ngIf="config$ | async as config">
-  <cx-configurator-overview-filter-bar
-    [config]="config"
-  ></cx-configurator-overview-filter-bar>
+  <ng-container *ngIf="showFilterBar">
+    <cx-configurator-overview-filter-bar
+      [config]="config"
+    ></cx-configurator-overview-filter-bar>
+  </ng-container>
   <div class="cx-overview-filter-header">
     {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
   </div>

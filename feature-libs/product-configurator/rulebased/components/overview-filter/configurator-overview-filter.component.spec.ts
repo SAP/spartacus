@@ -134,6 +134,26 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         '.cx-overview-filter-option, .cx-overview-filter-header'
       );
     });
+
+    it('should render filter bar by default', () => {
+      initTestComponent();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-filter-bar'
+      );
+    });
+
+    it('should hide filter bar if requested', () => {
+      initTestComponent();
+      component.showFilterBar = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-overview-filter-bar'
+      );
+    });
   });
 
   describe('Unit Test', () => {
@@ -217,12 +237,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           possibleGroups: ovConfig.overview.possibleGroups,
         },
       });
-    });
-
-    it('on filter should emit filter update event', () => {
-      spyOn(component.filterChange, 'emit');
-      component.onFilter(ovConfig);
-      expect(component.filterChange.emit).toHaveBeenCalled();
     });
 
     it('should create input config', () => {

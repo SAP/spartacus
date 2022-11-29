@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { OverviewFilterUpdateEvent } from '../overview-filter/configurator-overview-filter.event';
 
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
@@ -19,7 +18,6 @@ export class ConfiguratorOverviewFilterBarComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
-  @Output() filterChange = new EventEmitter<OverviewFilterUpdateEvent>();
   @Input() config: Configurator.ConfigurationWithOverview;
 
   iconTypes = ICON_TYPE;
@@ -46,7 +44,6 @@ export class ConfiguratorOverviewFilterBarComponent {
       (attrFilterName) => attrToRemove !== attrFilterName
     );
 
-    this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, attrFilters, groupFilters)
     );
@@ -62,7 +59,6 @@ export class ConfiguratorOverviewFilterBarComponent {
       (groupId) => groupIdToRemove !== groupId
     );
 
-    this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, attrFilters, groupFilters)
     );
@@ -76,7 +72,6 @@ export class ConfiguratorOverviewFilterBarComponent {
   }
 
   onRemoveAll(config: Configurator.ConfigurationWithOverview) {
-    this.filterChange.emit({});
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, [], [])
     );

@@ -110,12 +110,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
-    it('on attribute filter remove should emit filter update event', () => {
-      spyOn(component.filterChange, 'emit');
-      component.onAttrFilterRemove(ovConfig, PRICE_RELEVANT);
-      expect(component.filterChange.emit).toHaveBeenCalled();
-    });
-
     it('on group filter remove should remove call service with adapted group filter', () => {
       ovConfig.overview.groupFilters = ['1', '3'];
       expectedInputConfig.overview.groupFilters = ['3'];
@@ -123,12 +117,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expect(
         mockConfigCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
-    });
-
-    it('on group filter remove should emit filter update event', () => {
-      spyOn(component.filterChange, 'emit');
-      component.onGroupFilterRemove(ovConfig, '1');
-      expect(component.filterChange.emit).toHaveBeenCalled();
     });
 
     it('on remove all should remove call service with adapted filters', () => {
@@ -140,12 +128,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expect(
         mockConfigCommonsService.updateConfigurationOverview
       ).toHaveBeenCalledWith(expectedInputConfig);
-    });
-
-    it('on remove all should emit filter update event', () => {
-      spyOn(component.filterChange, 'emit');
-      component.onRemoveAll(ovConfig);
-      expect(component.filterChange.emit).toHaveBeenCalled();
     });
 
     it('should not show remove all if only one filter applied', () => {
