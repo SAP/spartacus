@@ -202,5 +202,5 @@ $useLatestStyles: false !default;
 
 // Indicates if breaking changes are requested.
 @function useBreakingChanges() {
-  @return $useLatestStyles or $styleVersion > $_majorVersion;
+  @return $useLatestStyles or compareVersion($styleVersion, $_majorVersion) > 0;
 }
