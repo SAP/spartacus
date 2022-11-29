@@ -6,7 +6,7 @@ import {
   TestStatus,
   FIRST_ROW_TICKET_LIST,
   SECOND_ROW_TICKET_LIST,
-  LAST_PAGE
+  LAST_PAGE,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
@@ -17,6 +17,7 @@ describe('ticket listing', () => {
           win.sessionStorage.clear();
         });
       });
+
       it('visit the ticket listing page and see if tickets exist', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'something to mindful',
@@ -36,7 +37,7 @@ describe('ticket listing', () => {
         customerTicketing.verifyTicketListingTableContent();
       });
 
-      it('should still show the ticket in the list when status is not open', () => {
+      it('should still show the ticket in the list when status is closed', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'changing status',
           message: 'status will change',
@@ -66,7 +67,11 @@ describe('ticket listing', () => {
         customerTicketing.verifyTicketListingPageVisit();
         customerTicketing.clickTicketInRow(FIRST_ROW_TICKET_LIST);
         customerTicketing.reopenTicketRequest('Reopening ticket');
-        customerTicketing.verifyStatusOfTicketInList(TestStatus.in_process);
+        customerTicketing.navigateBackToPreviousPage();
+        customerTicketing.verifyStatusOfTicketInList(
+          FIRST_ROW_TICKET_LIST,
+          TestStatus.in_process
+        );
       });
 
       it('should create 6 tickets', () => {
@@ -128,7 +133,9 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(firstTicket);
         customerTicketing.createTicket(secondTicket);
-        customerTicketing.openTicketOnSepcifiedRowNumber(SECOND_ROW_TICKET_LIST);
+        customerTicketing.openTicketOnSepcifiedRowNumber(
+          SECOND_ROW_TICKET_LIST
+        );
         cy.wait(1000);
         customerTicketing.sendMessage('hello, world');
         cy.go('back');
@@ -159,6 +166,7 @@ describe('ticket listing', () => {
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket(ticketToSort);
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
+        customerTicketing.navigateBackToPreviousPage();
         customerTicketing.createMultipleTickets(
           numberOfOtherTickets,
           otherTickets
@@ -167,7 +175,7 @@ describe('ticket listing', () => {
           numberOfOtherTickets + 1
         );
         customerTicketing.sendMessage('adding to top');
-        cy.go('back');
+        customerTicketing.navigateBackToPreviousPage();
         customerTicketing.verifyCreatedTicketDetails(ticketToSort);
       });
 

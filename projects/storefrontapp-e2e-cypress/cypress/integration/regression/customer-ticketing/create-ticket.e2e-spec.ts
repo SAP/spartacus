@@ -1,8 +1,9 @@
-import { viewportContext } from "../../../helpers/viewport-context";
+import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import {TestTicketDetails, TestCategory} from '../../../helpers/customer-ticketing/customer-ticketing';
-
-
+import {
+  TestTicketDetails,
+  TestCategory,
+} from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticketing', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -33,7 +34,6 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-
       });
 
       it('should be able to create a ticket with an attachment', () => {
@@ -51,7 +51,9 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not be able to create a ticket with an attachment larger than 10mb', () => {
@@ -101,24 +103,9 @@ describe('ticketing', () => {
         customerTicketing.clickSubmit();
         customerTicketing.verifyGlobalMessage();
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
-      });
-
-      it('should not be able to see created ticket in other stores', () => {
-        const testTicketDetails: TestTicketDetails = {
-          subject: 'Entering a subject',
-          message: 'Typing a message',
-          category: TestCategory.complaint,
-        };
-        customerTicketing.loginRegisteredUser();
-        customerTicketing.visitElectronicTicketListingPage();
-        customerTicketing.openCreateTicketPopup();
-        customerTicketing.fillTicketDetails(testTicketDetails);
-        customerTicketing.clickSubmit();
-        customerTicketing.verifyGlobalMessage();
-        customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-        customerTicketing.visitApparelUKTicketListingPage();
-        customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
+        customerTicketing.verifyFileAttachedToMessage(
+          testTicketDetails.filename
+        );
       });
 
       it('should not allow ticket to be created if form not properly completed', () => {
@@ -147,10 +134,12 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
-      it('should not create ticket if subject exceeds 255 character limit', () => {
+      it('should not let subject exceeds 255 character limit', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
         const testTicketDetails: TestTicketDetails = {
-          subject: customerTicketing.generateDummyStringOfLength(TICKET_SUBJECT_MAX_LENGTH+1),
+          subject: customerTicketing.generateDummyStringOfLength(
+            TICKET_SUBJECT_MAX_LENGTH + 1
+          ),
           message: 'Exceeding character limit',
           category: TestCategory.complaint,
         };
@@ -162,11 +151,13 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketSubjectAndMessageDoNotExceedCharacterLimit();
       });
 
-      it('should not create ticket if message exceeds 5000 character limit', () => {
+      it('should not let message exceeds 5000 character limit', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
         const testTicketDetails: TestTicketDetails = {
           subject: 'Exceeding character limit',
-          message: customerTicketing.generateDummyStringOfLength(TICKET_MESSAGE_MAX_LENGTH+1),
+          message: customerTicketing.generateDummyStringOfLength(
+            TICKET_MESSAGE_MAX_LENGTH + 1
+          ),
           category: TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
@@ -192,6 +183,22 @@ describe('ticketing', () => {
         customerTicketing.verifyCreateTicketPopupIsClosed();
       });
 
+      it('should not be able to see created ticket in other stores', () => {
+        const testTicketDetails: TestTicketDetails = {
+          subject: 'Entering a subject',
+          message: 'Typing a message',
+          category: TestCategory.complaint,
+        };
+        customerTicketing.loginRegisteredUser();
+        customerTicketing.visitElectronicTicketListingPage();
+        customerTicketing.openCreateTicketPopup();
+        customerTicketing.fillTicketDetails(testTicketDetails);
+        customerTicketing.clickSubmit();
+        customerTicketing.verifyGlobalMessage();
+        customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
+        customerTicketing.visitApparelUKTicketListingPage();
+        customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
+      });
     });
   });
 });
