@@ -110,22 +110,12 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterForm.setValue({ buyerFilter: buyer, unitFilter: unit });
     this.emitFilterEvent(buyer, unit);
 
-    this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
-    this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
-    this.renderer.setStyle(
-      this.filterNavBuyer.nativeElement,
-      'display',
-      'none'
-    );
+    this.closeFilterNav();
   }
 
   closeFilterNav(): void {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
-    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
     this.renderer.setStyle(document.body, 'overflow', '');
-  }
-
-  closeFilterSubNav(): void {
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
     this.renderer.setStyle(
       this.filterNavBuyer.nativeElement,

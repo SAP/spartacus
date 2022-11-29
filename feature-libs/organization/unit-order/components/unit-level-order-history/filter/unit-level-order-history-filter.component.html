@@ -68,9 +68,7 @@
 
       <button
         class="clear-btn"
-        type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterSubNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
@@ -90,9 +88,9 @@
         />
 
         <button
+          style="margin: 0"
           id="clearBuyerMobileBtn"
           type="button"
-          #buyerButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
           (keydown.enter)="clearBuyerMobile()"
@@ -101,7 +99,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation" class="search-icon">
+        <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -113,6 +111,7 @@
 
     <div>
       <button
+        style="margin: 0"
         class="cx-action-link clear-btn"
         type="button"
         (click)="clearBuyerMobile()"
@@ -136,9 +135,7 @@
 
       <button
         class="clear-btn"
-        type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterSubNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
@@ -155,7 +152,6 @@
         <button
           id="clearUnitMobileBtn"
           type="button"
-          #unitButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
           (keydown.enter)="clearUnitMobile()"
@@ -213,7 +209,6 @@
             <button
               id="clearBuyerBtn"
               type="button"
-              #buyerButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearBuyer()"
               (keydown.enter)="clearBuyer()"
