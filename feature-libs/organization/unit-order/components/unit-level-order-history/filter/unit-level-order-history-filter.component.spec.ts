@@ -81,7 +81,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit buyer when filtered by buyer', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
       const searchBtn = fixture.debugElement.query(
-        By.css('button#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn')
       );
       const form = component.filterForm;
       form.patchValue({
@@ -105,7 +105,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit unit when filtered by unit', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
       const searchBtn = fixture.debugElement.query(
-        By.css('button#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn')
       );
       const form = component.filterForm;
       form.patchValue({
@@ -131,7 +131,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should emit a buyer and a unit when filtered by buyer and unit', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
       const searchBtn = fixture.debugElement.query(
-        By.css('button#searchUnitLevelOrdersBtn')
+        By.css('#searchUnitLevelOrdersBtn')
       );
       const form = component.filterForm;
       form.patchValue({
@@ -157,7 +157,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     it('should clear all of the filtered values when clearAll button is clicked', () => {
       fixture.detectChanges();
       const spy = spyOn(component, 'clearAll').and.callThrough();
-      const clearbtn = fixture.debugElement.query(By.css('button#clearAllBtn'));
+      const clearbtn = fixture.debugElement.query(By.css('#clearAllBtn'));
       const form = component.filterForm;
       form.patchValue({
         buyerFilter: GI,
@@ -179,7 +179,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('button#clearUnitBtn')
+        By.css('#clearUnitBtn')
       );
       buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
@@ -204,7 +204,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('button#clearBuyerBtn')
+        By.css('#clearBuyerBtn')
       );
       buttonElement.nativeElement.dispatchEvent(new Event('mousedown'));
 
@@ -347,7 +347,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('button#clearUnitMobileBtn')
+        By.css('#clearUnitMobileBtn')
       );
       buttonElement.nativeElement.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Enter' })
@@ -370,7 +370,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       let buttonElement = fixture.debugElement.query(
-        By.css('button#clearBuyerMobileBtn')
+        By.css('#clearBuyerMobileBtn')
       );
       buttonElement.nativeElement.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Enter' })
@@ -388,7 +388,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
       fixture.detectChanges();
       const filterByBtn = fixture.debugElement.query(
-        By.css('button#filterByBtn')
+        By.css('#filterByBtn')
       );
       filterByBtn.nativeElement.click();
       expect(spy).toHaveBeenCalled();
@@ -398,7 +398,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       const spy = spyOn(component, 'closeFilterNav').and.callThrough();
       fixture.detectChanges();
       const closeFilterNavBtn = fixture.debugElement.query(
-        By.css('button#closeFilterNavBtn')
+        By.css('#closeFilterNavBtn')
       );
       closeFilterNavBtn.nativeElement.click();
       expect(spy).toHaveBeenCalled();
