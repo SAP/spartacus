@@ -238,6 +238,11 @@ export const configurator = {
       additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
+      filterOverview: 'Open configuration overview filter menu',
+      filterOverviewWithCount:
+        'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
+      closeFilterMenu:
+        'Close the configuration overview filter menu and apply the selected filters',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',

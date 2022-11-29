@@ -4,7 +4,12 @@
       <div class="cx-dialog-title modal-title">
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
       </div>
-      <button type="button" class="close" (click)="closeFilterModal()">
+      <button
+        title="{{ 'configurator.a11y.closeFilterMenu' | cxTranslate }}"
+        type="button"
+        class="close"
+        (click)="closeFilterModal()"
+      >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
         </span>

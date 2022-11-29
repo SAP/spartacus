@@ -4,7 +4,12 @@
     class="cx-config-filter-button cx-btn btn btn-action"
     tabindex="0"
     (click)="openFilterModal()"
-    title="{{ 'configurator.button.filterOverview' | cxTranslate }}"
+    title="{{
+      (getNumFilters(config.overview) > 0
+        ? 'configurator.a11y.filterOverviewWithCount'
+        : 'configurator.a11y.filterOverview'
+      ) | cxTranslate: { numAppliedFilters: getNumFilters(config.overview) }
+    }}"
   >
     {{
       (getNumFilters(config.overview) > 0
