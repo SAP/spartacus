@@ -4,16 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
 import { Observable, OperatorFunction } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -27,6 +22,8 @@ export class ConfiguratorOverviewFilterButtonComponent {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
+
+  @ViewChild('filterButton') filerButton: ElementRef;
 
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -58,19 +55,10 @@ export class ConfiguratorOverviewFilterButtonComponent {
   }
 
   openFilterModal() {
-    const dialogData = {
-      testData: 'test',
-    };
-
-    const dialog = this.launchDialogService.openDialog(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-      undefined,
-      undefined,
-      dialogData
+      this.filerButton,
+      {}
     );
-
-    if (dialog) {
-      dialog.pipe(take(1)).subscribe();
-    }
   }
 }
