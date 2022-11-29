@@ -217,10 +217,12 @@ export interface CmsVideoComponent extends CmsComponent {
   mute?: string;
   containerSize?: ContainerSizeOptions;
   containerBackground?: ContainerBackgroundOptions;
+  thumbnailSelector?: ContainerBackgroundOptions;
   videoContainerHeight?: number;
   video?: CmsBannerComponentMedia;
   container?: boolean;
   videoMedia?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  thumbnail?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   url?: string;
   category?: string;
   product?: string;
@@ -230,6 +232,7 @@ export interface CmsVideoComponent extends CmsComponent {
 export enum ContainerBackgroundOptions {
   NO_BACKGROUND = 'NO_BACKGROUND',
   UPLOAD_RESPONSIVE_IMAGE = 'UPLOAD_RESPONSIVE_IMAGE',
+  UPLOAD_THUMBNAIL = 'UPLOAD_THUMBNAIL',
 }
 
 export enum ContainerSizeOptions {
