@@ -20,6 +20,7 @@ import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
+import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [
@@ -291,5 +292,23 @@ describe('UnitLevelOrderHistoryComponent', () => {
         By.css('.cx-unit-level-order-history-no-order')
       )
     ).not.toBeNull();
+  });
+
+  it('should set correct filters', () => {
+    spyOn(unitOrderFacade, 'loadOrderList').and.stub();
+
+    let orderHistoryQueryParam: OrderHistoryQueryParams = {
+      currentPage: 0,
+      sortCode: 'byDate',
+      filters: '::user:mark:unit:custom',
+    };
+    component.filterChange(orderHistoryQueryParam);
+
+    expect(unitOrderFacade.loadOrderList).toHaveBeenCalledWith(
+      5,
+      0,
+      '::user:mark:unit:custom',
+      'byDate'
+    );
   });
 });
