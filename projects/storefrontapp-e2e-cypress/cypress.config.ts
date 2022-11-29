@@ -10,14 +10,18 @@ export default defineConfig({
   defaultCommandTimeout: 10000,
   requestTimeout: 15000,
   retries: {
-    runMode: 2,
+    runMode: 1,
   },
   videoUploadOnPasses: false,
+  numTestsKeptInMemory: 1,
+  chromeWebSecurity: false,
+  video: true,
+  videoCompression: 3,
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    //API_URL: 'https://40.76.109.9:9002',
-    API_URL: 'https://spartacus-devci7674.eastus.cloudapp.azure.com:8443',
+    API_URL: 'https://20.83.184.244:9002',
+    //API_URL: 'https://spartacus-devci7674.eastus.cloudapp.azure.com:8443',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
@@ -31,7 +35,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    //baseUrl: 'http://localhost:4200',
-    baseUrl: 'https://spartacus-devci7674.eastus.cloudapp.azure.com',
+    baseUrl: 'http://localhost:4201',
+    //baseUrl: 'https://spartacus-devci7674.eastus.cloudapp.azure.com',
   },
 });
