@@ -362,6 +362,7 @@ export function testCustomerEmulation() {
     navigateToHomepage();
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
+    cy.get('cx-storefront.stop-navigating').should('exist');
     cy.get('cx-product-list-item').should('exist');
 
     cy.log('--> Verify data changed by the agent as a customer');
