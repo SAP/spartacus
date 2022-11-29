@@ -117,7 +117,7 @@ export class AddressBookComponent implements OnInit {
             deleteMsg: textVerifyDeleteMsg,
             label: address.defaultAddress
               ? 'addressBook.defaultDeliveryAddress'
-              : 'addressBook.additionalDeliveryAddress',
+              : 'addressBook.additionalDeliveryAddress ',
           } as Card;
         }
       )
