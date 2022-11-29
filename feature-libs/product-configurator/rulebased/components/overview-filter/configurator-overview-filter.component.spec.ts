@@ -108,7 +108,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     it('should render always default options', () => {
-      if (ovConfig.overview) ovConfig.overview.possibleGroups = [];
+      ovConfig.overview.possibleGroups = [];
       initTestComponent();
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
@@ -147,6 +147,44 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         htmlElem,
         'cx-configurator-overview-filter-bar'
       );
+    });
+
+    describe('A11Y', () => {
+      it('price filter label should bw linked to checkbox', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-option label',
+          'for',
+          'cx-configurator-overview-filter-option-price',
+          0
+        );
+      });
+
+      it('price filter label should bw linked to checkbox', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-option label',
+          'for',
+          'cx-configurator-overview-filter-option-mySelection',
+          1
+        );
+      });
+
+      it('group filter label should bw linked to checkbox', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-option label',
+          'for',
+          'cx-configurator-overview-filter-option-group-1',
+          2
+        );
+      });
     });
   });
 
