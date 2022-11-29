@@ -135,9 +135,64 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect,
         htmlElem,
         '.cx-overview-filter-applied',
-        'configurator.button.removeAll',
+        'configurator.overviewFilter.removeAll',
         2
       );
+    });
+
+    describe('A11Y', () => {
+      it('remove price filter should have descriptive title', () => {
+        ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-applied',
+          'title',
+          'configurator.overviewFilter.removeByPrice',
+          0
+        );
+      });
+
+      it('remove my selection filter should have descriptive title', () => {
+        ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-applied',
+          'title',
+          'configurator.overviewFilter.removeMySelections',
+          0
+        );
+      });
+
+      it('remove all filter should have descriptive title', () => {
+        ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+        ovConfig.overview.groupFilters = ['1'];
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-applied',
+          'title',
+          'configurator.overviewFilter.removeAllFilters',
+          2
+        );
+      });
+
+      it('remove group filter should have descriptive title', () => {
+        ovConfig.overview.groupFilters = ['1'];
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-overview-filter-applied',
+          'title',
+          'configurator.overviewFilter.removeGroup group:Group 1',
+          0
+        );
+      });
     });
   });
 

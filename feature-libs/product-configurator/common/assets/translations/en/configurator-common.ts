@@ -77,7 +77,6 @@ export const configurator = {
       cancelConfigurationMobile: 'Cancel',
       filterOverview: 'Filter',
       filterOverviewWithCount: 'Filter ({{numAppliedFilters}})',
-      removeAll: 'Remove All',
     },
     icon: {
       groupComplete: 'Complete',
@@ -112,6 +111,11 @@ export const configurator = {
       byGroup: 'Filter by Group',
       byPrice: 'Price-Relevant Options',
       mySelections: 'My Selections',
+      removeAll: 'Remove All',
+      removeAllFilters: 'Remove All Filters',
+      removeByPrice: 'Remove Price-Relevant Filter',
+      removeMySelections: 'Remove My Selections Filter',
+      removeByGroup: 'Remove Group Filter for Group {{group}}',
     },
     group: {
       general: 'General',
