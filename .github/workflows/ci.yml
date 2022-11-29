@@ -110,6 +110,7 @@ jobs:
             -Dsonar.qualitygate.wait=true
             -Dsonar.projectKey=composable-storefront
             -Dsonar.scm.provider=git
+            -Dsonar.projectBaseDir=/github/workspace/spartacus
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
