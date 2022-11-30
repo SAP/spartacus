@@ -103,14 +103,17 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   searchUnitLevelOrdersForMobile(): void {
+    this.getFormValuesForMobileAndEmitFilterEvent();
+    this.closeFilterNav();
+  }
+
+  getFormValuesForMobileAndEmitFilterEvent(): void {
     let buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
     this.buyerFilterMobileValue = buyer;
     let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
     this.unitFilterMobileValue = unit;
     this.filterForm.setValue({ buyerFilter: buyer, unitFilter: unit });
     this.emitFilterEvent(buyer, unit);
-
-    this.closeFilterNav();
   }
 
   closeFilterNav(): void {
@@ -167,12 +170,14 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.filterFormMobile.get('unitFilterMobile')?.reset();
     this.renderer.setStyle(document.body, 'overflow', '');
     this.unitFilterMobileValue = null;
+    this.getFormValuesForMobileAndEmitFilterEvent();
   }
 
   clearBuyerMobile(): void {
     this.filterFormMobile.get('buyerFilterMobile')?.reset();
     this.renderer.setStyle(document.body, 'overflow', '');
     this.buyerFilterMobileValue = null;
+    this.getFormValuesForMobileAndEmitFilterEvent();
   }
 
   searchBuyer(inputElement: HTMLInputElement): void {

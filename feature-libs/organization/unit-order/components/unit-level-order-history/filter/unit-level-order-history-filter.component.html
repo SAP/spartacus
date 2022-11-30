@@ -27,6 +27,7 @@
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
       "
+      (click)="closeFilterNav()"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
@@ -53,6 +54,7 @@
   id="filterFormMobileId"
   [formGroup]="filterFormMobile"
   (ngSubmit)="searchUnitLevelOrdersForMobile()"
+  (keydown.enter)="searchUnitLevelOrdersForMobile()"
 >
   <div
     id="cx-unit-level-order-history-filter-nav-sub-buyer"
@@ -69,6 +71,8 @@
       <button
         class="clear-btn"
         [attr.aria-label]="'common.close' | cxTranslate"
+        type="button"
+        (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
@@ -134,6 +138,8 @@
       <button
         class="clear-btn"
         [attr.aria-label]="'common.close' | cxTranslate"
+        type="button"
+        (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
