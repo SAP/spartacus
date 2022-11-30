@@ -23,6 +23,7 @@ export function serverRequestUrlFactory(options?: ServerOptions): Function {
 
     // SSR mode
     if (serverRequestUrl) {
+      // should override the automatically recognized origin
       if (options?.serverRequestOrigin) {
         return serverRequestUrl.replace(
           serverRequestOrigin,
