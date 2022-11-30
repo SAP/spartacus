@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -8,9 +9,7 @@ let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
 let htmlElem: HTMLElement;
 
-let mockLaunchDialogService: LaunchDialogService = jasmine.createSpyObj([
-  'closeDialog',
-]);
+let mockLaunchDialogService: LaunchDialogService;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterDialogComponent);
@@ -19,9 +18,14 @@ function initialize() {
   fixture.detectChanges();
 }
 
+function initializeMocks() {
+  mockLaunchDialogService = jasmine.createSpyObj(['closeDialog']);
+}
+
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
+      initializeMocks();
       TestBed.configureTestingModule({
         declarations: [ConfiguratorOverviewFilterDialogComponent],
         imports: [I18nTestingModule],
@@ -40,10 +44,28 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should close filter modal on request', () => {
-    component.closeFilterModal();
+    fixture.debugElement
+      .query(By.css('.cx-dialog-header button'))
+      .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Skipping Filtering'
+      'Close Filtering'
     );
+  });
+
+  it('should close filter modal when clicking outside', () => {
+    fixture.debugElement
+      .query(By.css('.cx-modal-container'))
+      .triggerEventHandler('click');
+    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Close Filtering'
+    );
+  });
+
+  it('should not close filter modal when clicking inside the modal', () => {
+    fixture.debugElement
+      .query(By.css('.cx-modal-content'))
+      .triggerEventHandler('click');
+    expect(mockLaunchDialogService.closeDialog).not.toHaveBeenCalled();
   });
 
   it('should render close button', () => {
@@ -62,7 +84,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     );
   });
 
-  it('should modal header and body', () => {
+  it('should have modal header and body', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -74,5 +96,17 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       htmlElem,
       '.cx-dialog-body'
     );
+  });
+
+  describe('A11Y', () => {
+    it('close button should have descriptive title', () => {
+      CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+        expect,
+        htmlElem,
+        '.cx-dialog-header button',
+        'title',
+        'configurator.a11y.closeFilterMenu'
+      );
+    });
   });
 });

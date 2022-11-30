@@ -131,6 +131,33 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         'configurator.button.filterOverview numAppliedFilters:0'
       );
     });
+
+    describe('A11Y', () => {
+      it('filter button should have descriptive title', () => {
+        initComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-config-filter-button',
+          'title',
+          'configurator.a11y.filterOverview numAppliedFilters:0'
+        );
+      });
+
+      it('filter button should have descriptive title with count', () => {
+        ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+        ovConfig.overview.groupFilters = ['1', '2'];
+        initComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '.cx-config-filter-button',
+          'title',
+          'configurator.a11y.filterOverviewWithCount numAppliedFilters:3'
+        );
+      });
+    });
+
   });
 
   describe('Unit Test', () => {

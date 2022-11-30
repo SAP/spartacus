@@ -17,6 +17,6 @@ export class ConfiguratorOverviewFilterDialogComponent {
   iconTypes = ICON_TYPE;
 
   closeFilterModal(): void {
-    this.launchDialogService.closeDialog('Skipping Filtering');
+    this.launchDialogService.closeDialog('Close Filtering');
   }
 }
