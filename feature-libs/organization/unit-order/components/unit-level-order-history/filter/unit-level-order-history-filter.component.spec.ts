@@ -228,7 +228,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
   });
 
   describe('mobile view', () => {
-    it('should emit a buyer view when filtered by a buyer for mobile view', () => {
+    it('should emit a buyer value when filtered by a buyer', () => {
       const spy = spyOn(
         component,
         'searchUnitLevelOrdersForMobile'
@@ -243,11 +243,9 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
+      let el = fixture.debugElement.query(By.css('.buyer-filter-mobile'));
 
-      el.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      el.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
@@ -258,7 +256,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(orderHistoryQueryParams.filters).toBe('::user:mark');
     });
 
-    it('should emit a unit when filtered by a unit  for mobile view', () => {
+    it('should emit a unit value when filtered by a unit', () => {
       const spy = spyOn(
         component,
         'searchUnitLevelOrdersForMobile'
@@ -276,11 +274,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         (value) => (orderHistoryQueryParams = value)
       );
 
-      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
-
-      el.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
+      el.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
@@ -291,7 +286,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(orderHistoryQueryParams.filters).toBe('::unit:services');
     });
 
-    it('should emit a buyer and a unit when filtered by buyer and unit for mobile view', () => {
+    it('should emit a buyer and a unit value when filtered by buyer and unit', () => {
       const spy = spyOn(
         component,
         'searchUnitLevelOrdersForMobile'
@@ -306,11 +301,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
-
-      el.nativeElement.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Enter' })
-      );
+      let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
+      el.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
