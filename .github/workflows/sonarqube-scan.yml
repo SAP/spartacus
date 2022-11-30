@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+name: SonarQube scan
+jobs:
+  sonarqube_scan:
+    needs: no_retries
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Scanning files using SonarQube
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectKey=composable-storefront
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonar.tools.sap
