@@ -8,100 +8,13 @@ $styleVersion: 3.2;
 $useLatestStyles: false;
 
 @include describe('Style versioning forVersion() mixin ') {
-  @include describe('with style version 3.2') {
-    @include it('should display the breaking change 3.1') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion(3.1) {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-            color: #fff;
-          }
-        }
-      }
-    }
-    @include it('should NOT display the breaking change 4') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion(4) {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-          }
-        }
-      }
-    }
-    @include it('should support strings? ') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion('3.1.2') {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-            color: #fff;
-          }
-        }
-      }
-    }
-
-    @include it('should display the breaking change 3, 3.5') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion(3, 3.5) {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-            color: #fff;
-          }
-        }
-      }
-    }
-    @include it('should NOT display the breaking change 4.8, 4.9') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion(4.8, 4.9) {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-          }
-        }
-      }
-    }
-    @include it('should NOT display the breaking change 3.11') {
-      @include assert {
-        @include output {
-          .test {
-            @include forVersion(3.11) {
-              color: #fff;
-            }
-          }
-        }
-        @include expect {
-          .test {
-          }
-        }
-      }
-    }
+  @include describe('with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}') {
+    @include shouldDisplayForVersion(3.1);
+    @include shouldNOTDisplayForVersion(4);
+    @include shouldDisplayForVersion('3.1.2');
+    @include shouldDisplayForRange(3, 3.5);
+    @include shouldNOTDisplayForRange(4.8, 4.9);
+    @include shouldNOTDisplayForVersion('3.11');
+    @include shouldNOTDisplayForRange(3.19, 3.21);
   }
 }
