@@ -1,0 +1,21 @@
+<div class="cx-bundle-summary">
+  <h4 class="cx-bundle-summary-title">{{ bundle.label }}</h4>
+  <div>Subtotal ({{ products?.length }} items)</div>
+  <ul *ngIf="products?.length">
+    <li *ngFor="let product of products">
+      {{ product.product.nameHtml }} {{ product.basePrice.formattedValue }}
+    </li>
+  </ul>
+
+  <h5>Bundle Price ${{ getTotalPrice() }}</h5>
+
+  <h5>Total ${{ getTotalPrice() }}</h5>
+
+  <button
+    class="btn btn-primary cx-add-to-cart-btn"
+    *ngIf="showAddToCart"
+    (click)="onAddToCart()"
+  >
+    Add to cart
+  </button>
+</div>

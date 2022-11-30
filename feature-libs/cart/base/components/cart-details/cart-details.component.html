@@ -19,6 +19,38 @@
 
       <cx-cart-item-list
         [items]="entries"
+        [bundles]="bundles$ | async"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="promotionLocation"
+        [options]="{
+          isSaveForLater: false,
+          optionalBtn: saveForLaterBtn
+        }"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="entryGroups$ | async as entryGroups">
+    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
+      <ng-container *cxFeatureLevel="'4.2'">
+        <cx-cart-validation-warnings></cx-cart-validation-warnings>
+      </ng-container>
+
+      <h2 class="cx-total">
+        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+      </h2>
+
+      <cx-promotions
+        [promotions]="
+          (cart.appliedOrderPromotions || []).concat(
+            cart.potentialOrderPromotions || []
+          )
+        "
+      ></cx-promotions>
+
+      <cx-cart-item-list
+        [items]="entries"
+        [bundles]="bundles$ | async"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [promotionLocation]="promotionLocation"
         [options]="{
@@ -41,3 +73,5 @@
     {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
   </button>
 </ng-template>
+
+<cx-bundle-main></cx-bundle-main>

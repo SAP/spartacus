@@ -18,6 +18,7 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   ConsignmentEntry,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
@@ -61,14 +62,26 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
+  protected _bundles: EntryGroup[] = [];
 
   @Input('items')
   set items(items: OrderEntry[]) {
     this.resolveItems(items);
-    this.createForm();
+    this.createForm(items);
   }
   get items(): OrderEntry[] {
     return this._items;
+  }
+
+  @Input('bundles')
+  set bundles(bundles: EntryGroup[]) {
+    this._bundles = bundles;
+    for (let bundle of bundles) {
+      this.createForm(bundle.entries ?? []);
+    }
+  }
+  get bundles(): EntryGroup[] {
+    return this._bundles;
   }
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -95,7 +108,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
-
     this.subscription.add(
       this.userIdService
         ?.getUserId()
@@ -172,8 +184,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Creates form models for list items
    */
-  protected createForm(): void {
-    this._items.forEach((item) => {
+  protected createForm(items: OrderEntry[] = []): void {
+    items.forEach((item) => {
       const controlName = this.getControlName(item);
       const control = this.form.get(controlName);
       if (control) {
@@ -196,8 +208,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected getControlName(item: OrderEntry): string {
-    return item.entryNumber?.toString() || '';
+  protected getControlName(item: OrderEntry & EntryGroup): string {
+    if (item.entryGroupNumber) {
+      return item.entryGroupNumber?.toString() || '';
+    } else {
+      return item.entryNumber?.toString() || '';
+    }
   }
 
   removeEntry(item: OrderEntry): void {
