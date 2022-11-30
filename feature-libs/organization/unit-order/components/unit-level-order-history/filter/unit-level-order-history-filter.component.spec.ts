@@ -243,12 +243,13 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      fixture.debugElement
-        .query(By.css('#filterFormMobileId'))
-        .triggerEventHandler('ngSubmit', null);
+      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
+
+      el.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
 
       fixture.detectChanges();
-
       expect(spy).toHaveBeenCalled();
       expect(form.get(BUYER_FILTER_MOBILE).value).toBe(MARK);
       expect(form.get(UNIT_FILTER_MOBILE).value).toBe(EMPTY_STRING);
@@ -275,9 +276,11 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         (value) => (orderHistoryQueryParams = value)
       );
 
-      fixture.debugElement
-        .query(By.css('#filterFormMobileId'))
-        .triggerEventHandler('ngSubmit', null);
+      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
+
+      el.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
@@ -303,9 +306,11 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       component.filterListEvent.subscribe(
         (value) => (orderHistoryQueryParams = value)
       );
-      fixture.debugElement
-        .query(By.css('#filterFormMobileId'))
-        .triggerEventHandler('ngSubmit', null);
+      let el = fixture.debugElement.query(By.css('#filterFormMobileId'));
+
+      el.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
