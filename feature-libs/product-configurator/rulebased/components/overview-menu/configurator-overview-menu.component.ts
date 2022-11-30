@@ -34,70 +34,34 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorOverviewMenuComponent {
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#the_root_element__and_root_margin
-    //https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
-    // top, right, bottom, left
-
-    /**
-     const options: IntersectionOptions = { rootMargin: '800px 0px -500px 0px' };
-     const allHeadings =
-     this.configuratorStorefrontUtilsService.getElements('h2');
-     if (allHeadings) {
-      for (let index = 0; index < allHeadings.length; index++) {
+    const options: IntersectionOptions = { rootMargin: '0px 0px -500px 0px' };
+    const intersectingCondition = (entry: IntersectionObserverEntry) => {
+      return (
+        entry.intersectionRatio > 0 &&
+        entry.target.getBoundingClientRect().top <= 25
+      );
+    };
+    const groups =
+      this.configuratorStorefrontUtilsService.getElements('div.cx-group');
+    if (groups) {
+      for (let index = 0; index < groups.length; index++) {
         this.intersectionService
-          .isIntersecting(allHeadings[index], options)
-          .subscribe((isIntersected) => {
-            const id = allHeadings[index]?.id.replace(
-              '-ovGroup',
-              '-ovMenuItem'
-            );
+          .isIntersecting(groups[index], options, intersectingCondition)
+          .subscribe((isIntersecting) => {
+            const id = groups[index]?.id.replace('-ovGroup', '-ovMenuItem');
             if (id) {
               const querySelector = '#' + id;
               let groupItem =
                 this.configuratorStorefrontUtilsService.getElement(
                   querySelector
                 );
-              if (!isIntersected) {
-                groupItem?.classList.remove('active');
+              if (isIntersecting) {
+                this.makeAllMenuItemsActive(groupItem);
               } else {
-                //groupItem?.classList.add('active');
-                this.makeAllButtonsActive(groupItem);
-                //this.enableActiveClass(id);
+                groupItem?.classList.remove('active');
               }
             }
           });
-      }
-    }
-     */
-
-    const options: IntersectionOptions = { rootMargin: '0px 0px -500px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        let id = entry.target.getAttribute('id');
-        if (id) {
-          id = id?.replace('-ovGroup', '-ovMenuItem');
-          const querySelector = '#' + id;
-          let groupItem =
-            this.configuratorStorefrontUtilsService.getElement(querySelector);
-
-          //TODO: do we want to set a setting which defines where the top is => Ask Christoph
-          if (
-            entry.intersectionRatio > 0 &&
-            entry.target.getBoundingClientRect().top <= 25
-          ) {
-            this.makeAllMenuItemsActive(groupItem);
-          } else {
-            groupItem?.classList.remove('active');
-          }
-        }
-      });
-    }, options);
-
-    const groups =
-      this.configuratorStorefrontUtilsService.getElements('div.cx-group');
-    if (groups) {
-      for (let index = 0; index < groups.length; index++) {
-        observer.observe(groups[index]);
       }
     }
   }
@@ -214,7 +178,10 @@ export class ConfiguratorOverviewMenuComponent {
           idPrefix,
           groupId
         )
-      : idPrefix + groupId + '-ovGroup';
+      : //: idPrefix + groupId + '-ovGroup';
+      idPrefix
+      ? idPrefix + '--' + groupId + '-ovGroup'
+      : groupId + '-ovGroup';
   }
 
   /**

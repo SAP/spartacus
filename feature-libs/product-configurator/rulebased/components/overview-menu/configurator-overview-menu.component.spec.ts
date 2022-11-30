@@ -20,6 +20,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Type } from '@angular/core';
 import { ConfiguratorGroupsService } from '@spartacus/product-configurator/rulebased';
+import { IntersectionService } from '@spartacus/storefront';
 
 const MOCK_ROUTER_STATE: any = ConfigurationTestData.mockRouterState;
 const OWNER: CommonConfigurator.Owner =
@@ -28,7 +29,7 @@ const OWNER: CommonConfigurator.Owner =
 const CONFIG_ID = '1234-56-7890';
 const GROUP_PREFIX = 'prefix';
 const GROUP_ID_LOCAL = 'id';
-const OV_GROUP_ID = GROUP_PREFIX + GROUP_ID_LOCAL;
+const OV_GROUP_ID = GROUP_PREFIX + '--' + GROUP_ID_LOCAL + '-ovGroup';
 const CONFIGURATION: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   overview: ConfigurationTestData.productConfiguration.overview,
@@ -37,6 +38,8 @@ const CONFIGURATION_WO_OVERVIEW: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   overview: undefined,
 };
+
+const groups: NodeListOf<HTMLElement> = undefined;
 
 let routerStateObservable: any;
 let defaultRouterStateObservable: any;
@@ -77,11 +80,18 @@ class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
 }
 
+class MockIntersectionService {
+  isIntersecting(): Observable<boolean> {
+    return of(false);
+  }
+}
+
 let component: ConfiguratorOverviewMenuComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 let configuratorGroupsService: ConfiguratorGroupsService;
+let intersectionService: IntersectionService;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
@@ -97,19 +107,27 @@ function initialize() {
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
   );
-  spyOn(configuratorStorefrontUtilsService, 'createOvGroupId').and.returnValue(
-    OV_GROUP_ID
-  );
+  spyOn(
+    configuratorStorefrontUtilsService,
+    'createOvGroupId'
+  ).and.callThrough();
   spyOn(
     configuratorStorefrontUtilsService,
     'scrollToConfigurationElement'
   ).and.callThrough();
 
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
+  spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+    groups
+  );
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
+
+  intersectionService = TestBed.inject(
+    IntersectionService as Type<IntersectionService>
+  );
 }
 
-describe('ConfigurationOverviewMenuComponent', () => {
+fdescribe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -133,6 +151,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
           },
         ],
       }).compileComponents();
@@ -304,11 +326,52 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
+  describe('getGroupId', () => {
+    it('should dispatch request to utils service', () => {
+      initialize();
+      expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
+    });
+
+    it('should cope with utils service not present', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
+    });
+
+    it('should cope with utils service not present and idPrefix is undefined', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getGroupId(undefined, 'B')).toBe('B-ovGroup');
+    });
+  });
+
+  describe('getMenuItemId', () => {
+    it('should dispatch request to utils service', () => {
+      initialize();
+      expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
+    });
+
+    it('should cope with utils service not present', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
+    });
+
+    it('should cope with utils service not present and idPrefix is undefined', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getMenuItemId(undefined, 'B')).toBe('B-ovMenuItem');
+    });
+  });
+
   describe('onScroll', () => {
     beforeEach(() => {
       initialize();
     });
 
-    it('', () => {});
+    it('should highlight menu item', () => {
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+      window.scroll();
+    });
   });
 });

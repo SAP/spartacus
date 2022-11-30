@@ -254,12 +254,11 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
-    //return 'id' + prefix + groupId + '-ovGroup';
     return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
   }
 
   /**
-   * Generates a unique overview group ID from the local group ID
+   * Generates a unique overview menu item ID from the local group ID
    * and a prefix that reflects the parent groups in the group hierarchy
    *
    * @param {string} prefix - prefix that we need to make the ID unique

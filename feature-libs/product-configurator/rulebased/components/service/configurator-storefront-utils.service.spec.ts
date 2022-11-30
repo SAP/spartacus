@@ -223,8 +223,26 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('createOvGroupId', () => {
+    it('should create a group id from its 1 parameter', () => {
+      expect(classUnderTest.createOvGroupId(undefined, 'B')).toBe('B-ovGroup');
+    });
+
     it('should create a group id from its 2 parameters', () => {
       expect(classUnderTest.createOvGroupId('A', 'B')).toBe('A--B-ovGroup');
+    });
+  });
+
+  describe('createOvMenuItemId', () => {
+    it('should create a menu item id from its 1 parameter', () => {
+      expect(classUnderTest.createOvMenuItemId(undefined, 'B')).toBe(
+        'B-ovMenuItem'
+      );
+    });
+
+    it('should create a menu item id from its 2 parameters', () => {
+      expect(classUnderTest.createOvMenuItemId('A', 'B')).toBe(
+        'A--B-ovMenuItem'
+      );
     });
   });
 
@@ -488,6 +506,39 @@ describe('ConfigUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('getElements', () => {
+    it('should not get HTML elements based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getElements('elementMock')).toBeUndefined();
+    });
+
+    function createElements(
+      tagName: string,
+      amountOfElement: number
+    ): Array<HTMLElement> {
+      const nodes: Array<HTMLElement> = [];
+      for (let index = 0; index < amountOfElement; index++) {
+        const element = document.createElement(tagName);
+        element.id = index + '-' + tagName;
+        nodes.push(element);
+      }
+      return nodes;
+    }
+
+    it('should return HTML element based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const elements: Array<HTMLElement> = createElements('section', 10);
+
+      document.querySelectorAll = jasmine
+        .createSpy('section')
+        .and.returnValue(elements);
+
+      const result = Array.from(classUnderTest.getElements('section'));
+      expect(result.length).toEqual(elements.length);
+      expect(result).toEqual(elements);
     });
   });
 });
