@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -92,7 +93,9 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
     it('should open filter modal on request', () => {
       initComponent();
-      component.openFilterModal();
+      fixture.debugElement
+        .query(By.css('.cx-config-filter-button'))
+        .triggerEventHandler('click');
       expect(
         mockLaunchDialogService.openDialogAndSubscribe
       ).toHaveBeenCalledWith(
@@ -157,7 +160,6 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         );
       });
     });
-
   });
 
   describe('Unit Test', () => {

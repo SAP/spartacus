@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -138,6 +139,22 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         'configurator.overviewFilter.removeAll',
         2
       );
+    });
+
+    it('should trigger overview update on filter removal click', () => {
+      ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+      ovConfig.overview.groupFilters = ['1'];
+      initTestComponent();
+
+      fixture.debugElement
+        .queryAll(By.css('.cx-overview-filter-applied'))
+        .forEach((element) => {
+          element.triggerEventHandler('click');
+        });
+
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
     describe('A11Y', () => {

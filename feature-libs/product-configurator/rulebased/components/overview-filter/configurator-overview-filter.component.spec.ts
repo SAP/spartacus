@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -147,6 +148,19 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         htmlElem,
         'cx-configurator-overview-filter-bar'
       );
+    });
+
+    it('should filter on change of option', () => {
+      initTestComponent();
+      fixture.debugElement
+        .queryAll(By.css('.cx-overview-filter-option input'))
+        .forEach((element) => {
+          element.triggerEventHandler('change');
+        });
+
+      expect(
+        mockConfigCommonsService.updateConfigurationOverview
+      ).toHaveBeenCalledTimes(4); // Price Relevant, My Selections, Group 1, Group 2
     });
 
     describe('A11Y', () => {
