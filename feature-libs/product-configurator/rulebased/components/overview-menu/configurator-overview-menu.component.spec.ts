@@ -39,8 +39,6 @@ const CONFIGURATION_WO_OVERVIEW: Configurator.Configuration = {
   overview: undefined,
 };
 
-const groups: NodeListOf<HTMLElement> = undefined;
-
 let routerStateObservable: any;
 let defaultRouterStateObservable: any;
 let defaultConfigObservable: any;
@@ -62,17 +60,12 @@ class MockConfiguratorCommonsService {
       : defaultConfigObservable;
     return obs;
   }
+
   removeConfiguration(): void {}
 }
 
 class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
-}
-
-class MockIntersectionService {
-  isIntersecting(): Observable<boolean> {
-    return of(false);
-  }
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -105,10 +98,6 @@ function initialize() {
     'scrollToConfigurationElement'
   ).and.callThrough();
 
-  spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-  spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-    groups
-  );
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
 
   intersectionService = TestBed.inject(
@@ -116,7 +105,7 @@ function initialize() {
   );
 }
 
-fdescribe('ConfigurationOverviewMenuComponent', () => {
+describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -143,7 +132,6 @@ fdescribe('ConfigurationOverviewMenuComponent', () => {
           },
           {
             provide: IntersectionService,
-            useClass: MockIntersectionService,
           },
         ],
       }).compileComponents();
@@ -357,9 +345,98 @@ fdescribe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should highlight menu item', () => {
+    function createElement(
+      id: string,
+      tagName: string,
+      active?: boolean
+    ): HTMLElement {
+      const element = document.createElement(tagName);
+      element.id = id + '-ovGroup';
+      element.classList?.add('cx-group');
+      if (active) {
+        element.classList?.add('active');
+      }
+      return element;
+    }
+
+    function createElements(tagName: string, active?: boolean): HTMLElement[] {
+      const elements = [];
+      CONFIGURATION.overview.groups.forEach((group) => {
+        let element = createElement(group.id, tagName, active);
+        elements.push(element);
+        group.subGroups?.forEach((subgroup) => {
+          element = createElement(subgroup.id, tagName, active);
+          elements.push(element);
+        });
+      });
+      return elements;
+    }
+
+    it('should not call onScroll method', () => {
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(false));
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        undefined
+      );
+      fixture.detectChanges();
+
+      component.onScroll();
+      expect(intersectionService.isIntersecting).not.toHaveBeenCalled();
+    });
+
+    it('should add active class to menu items', () => {
       spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
-      window.scroll();
+      const groups = createElements('div');
+
+      document.querySelectorAll = jasmine
+        .createSpy('div.cx-group')
+        .and.returnValue(groups);
+
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        groups
+      );
+      let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
+      let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
+      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+        menuItem
+      );
+      fixture.detectChanges();
+
+      component.onScroll();
+
+      menuItems = htmlElem.querySelectorAll('button.cx-menu-item');
+      menuItems.forEach((item, index) => {
+        if (index % 2 === 1) {
+          expect(item.classList?.contains('active')).toBe(true);
+        } else {
+          expect(item.classList?.contains('active')).toBe(false);
+        }
+      });
+    });
+
+    it('should remove active class to menu items', () => {
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(false));
+      const groups = createElements('div', true);
+
+      document.querySelectorAll = jasmine
+        .createSpy('div.cx-group')
+        .and.returnValue(groups);
+
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        groups
+      );
+      let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
+      let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
+      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+        menuItem
+      );
+      fixture.detectChanges();
+
+      component.onScroll();
+
+      menuItems = htmlElem.querySelectorAll('button.cx-menu-item');
+      menuItems.forEach((item) => {
+        expect(item.classList?.contains('active')).toBe(false);
+      });
     });
   });
 });

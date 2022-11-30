@@ -312,11 +312,13 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  getElements(querySelector: string): NodeListOf<HTMLElement> | undefined {
+  getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
-      return this.windowRef.document.querySelectorAll(
-        querySelector
-      ) as NodeListOf<HTMLElement>;
+      return Array.from(
+        this.windowRef.document.querySelectorAll(
+          querySelector
+        ) as NodeListOf<HTMLElement>
+      );
     }
   }
 }
