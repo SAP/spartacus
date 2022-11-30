@@ -5,10 +5,11 @@ on:
       - epic/**
       - release/**
       - integration-libs/**
+      - test-sonar2
   pull_request:
     types: [opened, synchronize]
   workflow_dispatch:
-    # empty as it is used only to manually trigger the workflow
+    # empty as it is used only to manually trigger the workflows
   
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
