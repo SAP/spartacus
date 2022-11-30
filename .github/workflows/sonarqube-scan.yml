@@ -20,4 +20,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
-    if: $GITHUB_BASE_REF == 'develop'
+    if: ${{ github.event.pull_request.base.ref == develop }}
