@@ -1,5 +1,8 @@
-<div class="cx-configurator-overview-filter-dialog cx-modal-container">
-  <div class="cx-modal-content">
+<div
+  class="cx-configurator-overview-filter-dialog cx-modal-container"
+  (click)="closeFilterModal()"
+>
+  <div class="cx-modal-content" (click)="$event.stopPropagation()">
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
