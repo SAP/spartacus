@@ -6,7 +6,6 @@ name: SonarQube scan
 jobs:
   sonarqube_scan:
     name: SonarQube Scan
-    if: ${{ github.base_ref == 'develop' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,3 +20,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
+    if: ${{ github.base_ref == 'develop' || startsWith(github.base_ref, 'release') }}
+    
