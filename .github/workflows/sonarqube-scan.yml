@@ -4,7 +4,6 @@ on:
 name: SonarQube scan
 jobs:
   sonarqube_scan:
-    needs: no_retries
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
