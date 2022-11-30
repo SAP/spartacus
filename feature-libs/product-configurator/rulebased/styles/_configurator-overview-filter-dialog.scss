@@ -1,6 +1,9 @@
 %cx-configurator-overview-filter-dialog {
   .cx-modal-content {
     margin: auto;
+    @include media-breakpoint-down(sm) {
+      min-height: 100%;
+    }
   }
   .cx-dialog-header {
     padding-top: 2rem;
