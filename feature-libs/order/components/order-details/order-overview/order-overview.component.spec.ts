@@ -3,13 +3,26 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
+  CostCenter,
+  B2BUnit,
+  B2BUser,
+  B2BUserRole,
   I18nTestingModule,
   TranslationService,
+  User,
+  B2BUserRight,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderOverviewComponent } from './order-overview.component';
+import { UserAccountFacade } from '@spartacus/user/account/root';
+
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
+  get(): Observable<User> {
+    return of({});
+  }
+}
 
 @Component({ selector: 'cx-card', template: '' })
 class MockCardComponent {
@@ -102,7 +115,22 @@ const mockOrder: Order = {
     unit: {
       name: 'Rustic',
     },
-  },
+  } as CostCenter,
+  orgCustomer: {
+    uid: 'gi.sun@rustic-hw.com|powertools-standalone',
+    name: 'Gi Sun',
+    email: 'gi.sun@rustic-hw.com',
+  } as B2BUser,
+  orgUnit: {
+    name: 'Rustic',
+  } as B2BUnit,
+};
+
+const mockUnitOrderViewer: B2BUser = {
+  uid: 'gi.sun@rustic-hw.com|powertools-standalone',
+  name: 'Gi Sun',
+  email: 'gi.sun@rustic-hw.com',
+  roles: [B2BUserRole.CUSTOMER, B2BUserRight.UNITORDERVIEWER],
 };
 
 const mockUnformattedAddress = 'test1, , test3, test4';
@@ -118,6 +146,7 @@ describe('OrderOverviewComponent', () => {
   let component: OrderOverviewComponent;
   let fixture: ComponentFixture<OrderOverviewComponent>;
   let translationService: TranslationService;
+  let userAccountFacade: UserAccountFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -126,6 +155,7 @@ describe('OrderOverviewComponent', () => {
         declarations: [OrderOverviewComponent, MockCardComponent],
         providers: [
           { provide: TranslationService, useClass: MockTranslationService },
+          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         ],
       }).compileComponents();
     })
@@ -135,6 +165,7 @@ describe('OrderOverviewComponent', () => {
     fixture = TestBed.createComponent(OrderOverviewComponent);
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
   });
 
   it('should create', () => {
@@ -484,6 +515,57 @@ describe('OrderOverviewComponent', () => {
         component['normalizeFormattedAddress'](mockFormattedAddress);
 
       expect(address).toEqual(mockFormattedAddress);
+    });
+  });
+
+  describe('when unit order is defined', () => {
+    beforeEach(() => {
+      component.order = mockOrder;
+      spyOn(translationService, 'translate').and.returnValue(of('test'));
+    });
+
+    it('should set a variable to show more fields when the user has a unit order viewer', () => {
+      spyOn(userAccountFacade, 'get').and.returnValue(of(mockUnitOrderViewer));
+
+      component.ngOnInit();
+      expect(component.isUserOrgUnitViewer).toBeTruthy();
+    });
+
+    it('should call getBuyerNameCardContent(customer: B2BUser)', () => {
+      spyOn(component, 'getBuyerNameCardContent').and.callThrough();
+
+      component
+        .getBuyerNameCardContent(mockOrder.orgCustomer)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([
+            mockOrder.orgCustomer?.name,
+            '(' + mockOrder.orgCustomer?.email + ')',
+          ]);
+        })
+        .unsubscribe();
+
+      expect(component.getBuyerNameCardContent).toHaveBeenCalledWith(
+        mockOrder.orgCustomer
+      );
+    });
+
+    it('should call getUnitNameCardContent(orgUnit: string)', () => {
+      spyOn(component, 'getUnitNameCardContent').and.callThrough();
+
+      component
+        .getUnitNameCardContent(mockOrder.orgUnit.name)
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          expect(data.title).toEqual('test');
+          expect(data.text).toEqual([mockOrder.orgUnit.name]);
+        })
+        .unsubscribe();
+
+      expect(component.getUnitNameCardContent).toHaveBeenCalledWith(
+        mockOrder.orgUnit.name
+      );
     });
   });
 });

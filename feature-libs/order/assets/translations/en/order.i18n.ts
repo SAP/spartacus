@@ -15,6 +15,7 @@ export const order = {
     none: 'None {{value}}',
     placed: 'Placed',
     placedBy: 'Placed By',
+    buyer: 'Buyer',
     unit: 'Unit',
     costCenter: 'Cost Center',
     costCenterAndUnit: 'Cost Center / Unit',
@@ -115,6 +116,8 @@ export const order = {
     date: 'Date',
     status: 'Status',
     PONumber: 'P.O. Number',
+    buyer: 'Buyer',
+    unit: 'Unit',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
     noReplenishmentOrders:

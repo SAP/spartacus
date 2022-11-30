@@ -82,6 +82,29 @@
       </label>
     </fieldset>
 
+    <fieldset required="true" class="full-width">
+      <legend class="label-content required">
+        {{ 'orgUser.rights' | cxTranslate }}
+      </legend>
+
+      <label
+        class="form-check"
+        *ngFor="let right of availableRights; let i = index"
+      >
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [value]="right"
+          [checked]="roles?.value?.includes(right)"
+          (change)="updateRoles($any($event))"
+          [disabled]="form?.status === 'DISABLED'"
+        />
+        <span class="form-check-label">
+          {{ 'organization.userRights.' + right | cxTranslate }}
+        </span>
+      </label>
+    </fieldset>
+
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUser.orgUnit' | cxTranslate
