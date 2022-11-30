@@ -53,7 +53,6 @@
 <form
   id="filterFormMobileId"
   [formGroup]="filterFormMobile"
-  (keydown.enter)="searchUnitLevelOrdersForMobile()"
 >
   <div
     id="cx-unit-level-order-history-filter-nav-sub-buyer"
@@ -82,6 +81,7 @@
           formControlName="buyerFilterMobile"
           class="form-control"
           (input)="searchBuyerMobile(buyerFilterMobileId)"
+          (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.searchByBuyer' | cxTranslate
           "
@@ -149,6 +149,7 @@
           formControlName="unitFilterMobile"
           class="form-control"
           (input)="searchUnitMobile(unitFilterMobileId)"
+          (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
           placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />

@@ -126,6 +126,10 @@ export class UnitLevelOrderHistoryFilterComponent {
       'none'
     );
     this.renderer.setStyle(document.body, 'overflow', '');
+    this.filterFormMobile.patchValue({
+      buyerFilterMobile : this.buyerFilterMobileValue,
+      unitFilterMobile : this.unitFilterMobileValue
+    });
   }
 
   backFilterSubNav(): void {
@@ -136,6 +140,11 @@ export class UnitLevelOrderHistoryFilterComponent {
       'none'
     );
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
+
+    this.filterFormMobile.patchValue({
+      buyerFilterMobile : this.buyerFilterMobileValue,
+      unitFilterMobile : this.unitFilterMobileValue
+    });
   }
 
   launchSubNav(option: string): void {
