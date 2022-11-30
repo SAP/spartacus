@@ -1,5 +1,7 @@
 on:
   push:
+    branches:
+      - test-branch
 
 name: SonarQube scan
 jobs:
