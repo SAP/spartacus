@@ -50,10 +50,7 @@
   </div>
 </div>
 
-<form
-  id="filterFormMobileId"
-  [formGroup]="filterFormMobile"
->
+<form id="filterFormMobileId" [formGroup]="filterFormMobile">
   <div
     id="cx-unit-level-order-history-filter-nav-sub-buyer"
     #filterNavBuyer
@@ -61,7 +58,7 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button type="button" class="filter-button" (click)="backFilterSubNav()">
+      <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
       </button>
@@ -69,7 +66,6 @@
       <button
         class="clear-btn"
         [attr.aria-label]="'common.close' | cxTranslate"
-        type="button"
         (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
@@ -92,7 +88,6 @@
 
         <button
           id="clearBuyerMobileBtn"
-          type="button"
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
           (keydown.enter)="clearBuyerMobile()"
@@ -129,7 +124,7 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button type="button" class="filter-button" (click)="backFilterSubNav()">
+      <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
       </button>
@@ -137,7 +132,6 @@
       <button
         class="clear-btn"
         [attr.aria-label]="'common.close' | cxTranslate"
-        type="button"
         (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
@@ -155,7 +149,6 @@
         />
         <button
           id="clearUnitMobileBtn"
-          type="button"
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
           (keydown.enter)="clearUnitMobile()"

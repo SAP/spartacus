@@ -407,12 +407,6 @@
     color: lightgray;
   }
 
-  button[type='button'].reset.cx-unit-level-order-history-filter-reset-button {
-    @include media-breakpoint-down(md) {
-      margin-bottom: 0em;
-    }
-  }
-
   .cx-filter-nav {
     height: 100%;
     width: 100%;

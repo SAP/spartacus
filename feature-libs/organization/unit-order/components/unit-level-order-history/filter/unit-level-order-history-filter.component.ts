@@ -125,10 +125,10 @@ export class UnitLevelOrderHistoryFilterComponent {
       'display',
       'none'
     );
-    this.renderer.setStyle(document.body, 'overflow', '');
+    this.renderer.setStyle(this.filterNav.nativeElement, 'width', '0');
     this.filterFormMobile.patchValue({
-      buyerFilterMobile : this.buyerFilterMobileValue,
-      unitFilterMobile : this.unitFilterMobileValue
+      buyerFilterMobile: this.buyerFilterMobileValue,
+      unitFilterMobile: this.unitFilterMobileValue,
     });
   }
 
@@ -142,8 +142,8 @@ export class UnitLevelOrderHistoryFilterComponent {
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'flex');
 
     this.filterFormMobile.patchValue({
-      buyerFilterMobile : this.buyerFilterMobileValue,
-      unitFilterMobile : this.unitFilterMobileValue
+      buyerFilterMobile: this.buyerFilterMobileValue,
+      unitFilterMobile: this.unitFilterMobileValue,
     });
   }
 
