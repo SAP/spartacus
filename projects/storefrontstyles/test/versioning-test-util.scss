@@ -1,7 +1,5 @@
-@mixin shouldDisplayForRange($from, $to) {
-  @include it(
-    'should display for range: #{$from} , #{$to}       '
-  ) {
+@mixin shouldDisplayForRange($from, $to: 0) {
+  @include it('should display for range: #{$from} , #{$to}       ') {
     @include assert {
       @include output {
         .test {
@@ -20,9 +18,7 @@
 }
 
 @mixin shouldNOTDisplayForRange($from, $to) {
-  @include it(
-    'should NOT display for range: #{$from} , #{$to}      '
-  ) {
+  @include it('should NOT display for range: #{$from} , #{$to}      ') {
     @include assert {
       @include output {
         .test {

@@ -2,8 +2,6 @@
 @import '../scss/versioning';
 @import 'versioning-test-util.scss';
 
-
-
 @include describe('Style versioning functions') {
   @include describe('compareVersion()') {
     @include it('should return 0 (equal) for single digit version') {

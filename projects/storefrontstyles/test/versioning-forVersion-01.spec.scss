@@ -7,12 +7,7 @@ $_majorVersion: 3;
 $styleVersion: 3.2;
 $useLatestStyles: false;
 
-
 @include describe('Style versioning forVersion() mixin ') {
-
-
-
-
   @include describe('with style version 3.2') {
     @include it('should display the breaking change 3.1') {
       @include assert {
@@ -109,6 +104,4 @@ $useLatestStyles: false;
       }
     }
   }
-
-
 }
