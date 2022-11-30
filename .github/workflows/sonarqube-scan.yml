@@ -8,6 +8,7 @@ jobs:
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
+      - script: echo hello
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
