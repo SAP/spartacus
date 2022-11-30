@@ -27,6 +27,15 @@ const MockBadPasswordResponse = {
   url: 'https://server.com/authorizationserver/oauth/token',
   error: {
     error: 'invalid_grant',
+    error_description: 'Bad password',
+  },
+} as HttpErrorResponse;
+
+const MockDisabledUserResponse = {
+  url: 'https://server.com/authorizationserver/oauth/token',
+  error: {
+    error: 'invalid_grant',
+    error_description: 'User is disabled',
   },
 } as HttpErrorResponse;
 
@@ -134,7 +143,21 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
+    spyOn(service, 'createErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
+    expect(service.createErrorTranslationKey).toHaveBeenCalledWith(
+      MockBadPasswordResponse.error.error_description
+    );
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(globalMessageService.remove).toHaveBeenCalled();
+  });
+
+  it('should handle disabled user message', () => {
+    spyOn(service, 'createErrorTranslationKey').and.callThrough();
+    service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
+    expect(service.createErrorTranslationKey).toHaveBeenCalledWith(
+      MockDisabledUserResponse.error.error_description
+    );
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
@@ -184,6 +207,13 @@ describe('BadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'item not found',
       GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should convert error description to translation key', () => {
+    const error_description = 'This is test error';
+    expect(service.createErrorTranslationKey(error_description)).toBe(
+      'this_is_test_error'
     );
   });
 });

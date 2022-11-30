@@ -44,6 +44,11 @@ export abstract class HttpErrorHandler implements Applicable {
     return errorResponse.status === this.responseStatus;
   }
 
+  /**
+   * Converts error description to translation key format.
+   *
+   * Example: 'User is disabled' will be transformed to 'user_is_disabled'.
+   */
   createErrorTranslationKey(reason: string): string {
     return reason.toLowerCase().replace(/ /g, '_');
   }
