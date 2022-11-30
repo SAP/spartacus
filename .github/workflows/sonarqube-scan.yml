@@ -5,6 +5,7 @@ on:
 name: SonarQube scan
 jobs:
   sonarqube_scan:
+    name: SonarQube Scan
     if: ${{ github.base_ref == 'develop' }}
     runs-on: ubuntu-latest
     steps:
