@@ -116,6 +116,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
+    if: github.event_name == 'pull_request'
   linting:
     needs: no_retries
     name: Validations and static code checks
