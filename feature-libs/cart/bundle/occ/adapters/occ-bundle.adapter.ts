@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/core';
 import { BundleAdapter, BundleStarter } from '@spartacus/cart/bundle/core';
 import {
   ConverterService,
@@ -46,9 +45,7 @@ export class OccBundleAdapter implements BundleAdapter {
       },
     });
 
-    return this.http
-      .post<any>(url, <HttpParams>bundleStarter, { headers })
-      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+    return this.http.post<any>(url, <HttpParams>bundleStarter, { headers });
   }
 
   /**

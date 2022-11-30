@@ -11,8 +11,8 @@ import {
   ProductSelectionState,
 } from '@spartacus/cart/bundle/core';
 import { Product } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { ProductDetailsDialogComponent } from '../../../product-details-dialog/product-details-dialog.component';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+// import { ProductDetailsDialogComponent } from '../../../product-details-dialog/product-details-dialog.component';
 
 @Component({
   selector: 'cx-bundle-product-grid-item',
@@ -31,7 +31,7 @@ export class BundleProductGridItemComponent {
   btnActionTypes = ProductBtnActionTypes;
 
   constructor(
-    protected modalService: ModalService,
+    protected launchDialogService: LaunchDialogService,
     protected router: Router,
     protected activatedRoute: ActivatedRoute
   ) {}
@@ -45,16 +45,16 @@ export class BundleProductGridItemComponent {
   }
 
   checkDetails(): void {
-    const productDialogModalRef = this.modalService.open(
-      ProductDetailsDialogComponent,
-      {
-        centered: true,
-        size: 'lg',
-      }
-    );
-    productDialogModalRef.componentInstance.product = this.product;
-    productDialogModalRef.componentInstance.select = () =>
-      this.toggleSelection();
+    // const productDialogModalRef = this.launchDialogService.openDialog(
+    //   ProductDetailsDialogComponent,
+    //   {
+    //     centered: true,
+    //     size: 'lg',
+    //   }
+    // );
+    // productDialogModalRef.componentInstance.product = this.product;
+    // productDialogModalRef.componentInstance.select = () =>
+    //   this.toggleSelection();
 
     // Add product code to queryParams to use CurrentProductService
     this.router.navigate([], {

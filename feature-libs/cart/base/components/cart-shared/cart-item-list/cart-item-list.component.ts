@@ -26,7 +26,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
 interface ItemListContext {
@@ -76,7 +76,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input('bundles')
   set bundles(bundles: EntryGroup[]) {
     this._bundles = bundles;
-    this.createBundleForm(bundles);
     for (let bundle of bundles) {
       this.createForm(bundle.entries ?? []);
     }
@@ -209,35 +208,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected createBundleForm(bundles: EntryGroup[]): void {
-    bundles.forEach((bundle) => {
-      const controlName = this.getBundleControlName(bundle);
-      const control = this.form.get(controlName);
-      if (control) {
-        // @TODO: Change '1' to bundle.quantity (see this.createForm function)
-        if (control.get('quantity')?.value !== 1) {
-          control.patchValue({ quantity: 1 }, { emitEvent: false });
-        }
-      } else {
-        const group = new FormGroup({
-          entryGroupNumber: new FormControl(bundle.entryGroupNumber),
-          quantity: new FormControl(1, { updateOn: 'blur' }),
-        });
-        this.form.addControl(controlName, group);
-      }
-
-      if (this.readonly) {
-        this.form.controls[controlName].disable();
-      }
-    });
-  }
-
-  protected getBundleControlName(item: EntryGroup): string {
-    return `bundle_${item.entryGroupNumber?.toString()}`;
-  }
-
-  protected getControlName(item: OrderEntry): string {
-    return item.entryNumber?.toString() || '';
+  protected getControlName(item: OrderEntry & EntryGroup): string {
+    if (item.entryGroupNumber) {
+      return item.entryGroupNumber?.toString() || '';
+    } else {
+      return item.entryNumber?.toString() || '';
+    }
   }
 
   removeEntry(item: OrderEntry): void {
@@ -253,10 +229,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[this.getControlName(item)];
-  }
-
-  getBundleControl(bundle: EntryGroup): Observable<FormGroup> | undefined {
-    return of(<FormGroup>this.form.get(this.getBundleControlName(bundle)));
   }
 
   getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {

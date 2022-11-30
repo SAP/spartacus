@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-product-details-dialog',
@@ -12,7 +12,7 @@ export class ProductDetailsDialogComponent {
   product: Product;
   select: Function;
 
-  constructor(protected modalService: ModalService) {}
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   selectProduct() {
     this.select();
@@ -20,6 +20,6 @@ export class ProductDetailsDialogComponent {
   }
 
   dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 }

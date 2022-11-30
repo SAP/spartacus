@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
 import {
+  CartItemComponent,
+  CartItemContextSource,
+} from '@spartacus/cart/base/components';
+import {
   ActiveCartFacade,
   CartItemContext,
   EntryGroup,
 } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
-import { CartItemComponent } from '../cart-item/cart-item.component';
-import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 
 @Component({
   selector: '[cx-cart-bundle-list-row], cx-cart-bundle-list-row',
@@ -34,6 +36,6 @@ export class CartBundleListRowComponent extends CartItemComponent {
   }
 
   removeBundle() {
-    this.activeCartService.deleteEntryGroup(this.bundle.entryGroupNumber);
+    this.activeCartService.removeEntryGroup(this.bundle.entryGroupNumber);
   }
 }

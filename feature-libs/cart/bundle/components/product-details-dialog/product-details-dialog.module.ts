@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
-  ModalModule,
   ProductImagesModule,
   ProductIntroModule,
   ProductSummaryModule,
@@ -19,7 +18,6 @@ import { ProductDetailsDialogComponent } from './product-details-dialog.componen
     UrlModule,
     IconModule,
     I18nModule,
-    ModalModule,
     ProductSummaryModule,
     ProductIntroModule,
     ProductImagesModule,
