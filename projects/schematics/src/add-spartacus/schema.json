@@ -32,6 +32,7 @@
           "EPD-Visualization",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
@@ -134,6 +135,10 @@
           {
             "value": "Order-Approval",
             "label": "Organization - Order Approval (b2b feature)"
+          },
+          {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
           },
           {
             "value": "Account-Summary",
