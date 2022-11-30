@@ -5,7 +5,13 @@
 </div>
 <div class="row">
   <div class="col-md-6 cx-address-card">
-    <cx-card [border]="true" [fitToContainer]="true" [content]="content">
+    <cx-card
+      [border]="true"
+      [fitToContainer]="true"
+      [content]="content"
+      (sendCard)="getDirectionsToStore()"
+      (editCard)="changeStore()"
+    >
       <div label_container_bottom>
         <div class="info-location">
           <cx-store-address
