@@ -178,8 +178,7 @@ export class ConfiguratorOverviewMenuComponent {
           idPrefix,
           groupId
         )
-      : //: idPrefix + groupId + '-ovGroup';
-      idPrefix
+      : idPrefix
       ? idPrefix + '--' + groupId + '-ovGroup'
       : groupId + '-ovGroup';
   }
