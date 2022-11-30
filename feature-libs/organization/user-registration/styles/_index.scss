@@ -1,0 +1,23 @@
+@import './user-registration-form';
+
+$org-user-registration-components-allowlist: cx-user-registration-form !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $org-user-registration-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $org-user-registration-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
