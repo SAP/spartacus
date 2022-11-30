@@ -1,6 +1,5 @@
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
 
 name: SonarQube scan
 jobs:
@@ -8,6 +7,7 @@ jobs:
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
+      script: echo ${{ github.base_ref }}
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -20,4 +20,3 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
-    if: ${{ github.base_ref == 'develop' || startsWith(github.base_ref, 'release') }}
