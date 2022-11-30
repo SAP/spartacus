@@ -45,7 +45,6 @@ let routerStateObservable: any;
 let defaultRouterStateObservable: any;
 let defaultConfigObservable: any;
 let configurationObservable: any;
-let overviewObservable: any;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -57,22 +56,12 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+  getConfiguration(): Observable<Configurator.Configuration> {
     const obs: Observable<Configurator.Configuration> = configurationObservable
       ? configurationObservable
       : defaultConfigObservable;
     return obs;
   }
-
-  getConfigurationWithOverview(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    const obs: Observable<Configurator.Configuration> = overviewObservable
-      ? overviewObservable
-      : of(configuration);
-    return obs;
-  }
-
   removeConfiguration(): void {}
 }
 
@@ -163,7 +152,6 @@ fdescribe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;
-    overviewObservable = null;
     defaultRouterStateObservable = of(MOCK_ROUTER_STATE);
     defaultConfigObservable = of(CONFIGURATION);
   });

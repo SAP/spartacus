@@ -70,18 +70,9 @@ export class IntersectionService {
     options: IntersectionOptions = {},
     intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
   ): Observable<boolean> {
-    const elementVisible$ = new Observable(
-      (observer: Observer<IntersectionObserverEntry[]>) => {
-        const rootMargin = this.getRootMargin(options);
-        const intersectOptions = { rootMargin, threshold: options.threshold };
-        const intersectionObserver = new IntersectionObserver((entries) => {
-          observer.next(entries);
-        }, intersectOptions);
-        intersectionObserver.observe(element);
-        return () => {
-          intersectionObserver.disconnect();
-        };
-      }
+    const elementVisible$ = this.createIntersectionObservable(
+      element,
+      options
     ).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) =>
@@ -93,6 +84,23 @@ export class IntersectionService {
     );
 
     return elementVisible$;
+  }
+
+  private createIntersectionObservable(
+    element: HTMLElement,
+    options: IntersectionOptions
+  ): Observable<IntersectionObserverEntry[]> {
+    return new Observable((observer: Observer<IntersectionObserverEntry[]>) => {
+      const rootMargin = this.getRootMargin(options);
+      const intersectOptions = { rootMargin, threshold: options.threshold };
+      const intersectionObserver = new IntersectionObserver((entries) => {
+        observer.next(entries);
+      }, intersectOptions);
+      intersectionObserver.observe(element);
+      return () => {
+        intersectionObserver.disconnect();
+      };
+    });
   }
 
   private getRootMargin(options: IntersectionOptions = {}): string | undefined {
