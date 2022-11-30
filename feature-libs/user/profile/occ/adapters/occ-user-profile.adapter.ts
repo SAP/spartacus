@@ -34,7 +34,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected captchaService: CaptchaService
+    protected captchaService?: CaptchaService
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
@@ -54,12 +54,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    if (this.captchaService.getToken()) {
-      headers = headers.append(
-        USE_CAPTCHA_TOKEN,
-        this.captchaService.getToken()
-      );
-    }
+    headers = this.appendCaptchaToken(headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
@@ -74,13 +69,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    if (this.captchaService.getToken()) {
-      headers = headers.append(
-        USE_CAPTCHA_TOKEN,
-        this.captchaService.getToken()
-      );
-    }
-
+    headers = this.appendCaptchaToken(headers);
     const httpParams: HttpParams = new HttpParams()
       .set('guid', guid)
       .set('password', password);
@@ -173,5 +162,16 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
+  }
+
+  protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
+    if (this.captchaService?.getToken()) {
+      return currentHeaders.append(
+        USE_CAPTCHA_TOKEN,
+        this.captchaService.getToken()
+      );
+    } else {
+      return currentHeaders;
+    }
   }
 }

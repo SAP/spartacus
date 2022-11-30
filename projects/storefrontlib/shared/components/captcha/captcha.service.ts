@@ -13,14 +13,8 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import {
-  forkJoin,
-  Observable,
-  ReplaySubject,
-  Subject,
-  Subscription,
-} from 'rxjs';
-import { concatMap, take } from 'rxjs/operators';
+import { forkJoin, Observable, of, ReplaySubject, Subscription } from 'rxjs';
+import { concatMap, take, map } from 'rxjs/operators';
 import { CaptchaApiConfig } from './config/captcha-api-config';
 
 /**
@@ -86,20 +80,15 @@ export class CaptchaService implements OnDestroy {
     return this.captchaConfigSubject$.asObservable();
   }
 
-  renderCaptcha(element: HTMLElement, key: string): Observable<void> {
-    const retVal = new Subject<void>();
-
-    // @ts-ignore Global object created when captcha script is loaded
-    grecaptcha.render(element, {
-      sitekey: key,
-      callback: (response: string) => {
-        this.token = response;
-        retVal.next();
-        retVal.complete();
-      },
-    });
-
-    return retVal.asObservable();
+  renderCaptcha(elem: HTMLElement, key: string): Observable<string> {
+    const params: { [key: string]: any } = { sitekey: key, element: elem };
+    if (this.apiConfig?.renderingFunction) {
+      return this.apiConfig
+        ?.renderingFunction(params)
+        .pipe(map((result) => (this.token = result)));
+    } else {
+      return of('');
+    }
   }
 
   ngOnDestroy() {

@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnDestroy,
   Output,
   Renderer2,
@@ -19,6 +20,7 @@ import { CaptchaService } from '@spartacus/storefront';
 import { CaptchaApiConfig } from './config/captcha-api-config';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'cx-captcha',
@@ -26,6 +28,7 @@ import { concatMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
+  @Input() control: AbstractControl;
   @Output() confirmed = new EventEmitter<boolean>();
   @Output() enabled = new EventEmitter<boolean>();
 
@@ -70,7 +73,10 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             }
           })
         )
-        .subscribe(() => this.confirmed.emit(true))
+        .subscribe(() => {
+          this.control.setValue(true);
+          this.confirmed.emit(true);
+        })
     );
   }
 

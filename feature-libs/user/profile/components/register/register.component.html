@@ -185,10 +185,10 @@
             </div>
           </div>
           <cx-captcha
+            [control]="registerForm.get('captcha')"
             (enabled)="captchaEnabled($event)"
             (confirmed)="captchaConfirmed($event)"
           ></cx-captcha>
-          <cx-form-errors [control]="captchaControl"></cx-form-errors>
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}
           </button>

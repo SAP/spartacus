@@ -38,7 +38,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   isLoading$ = new BehaviorSubject(false);
 
-  private isCaptchaEnabled = false;
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
@@ -62,6 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         disabled: this.isConsentRequired(),
       }),
       termsandconditions: [false, Validators.requiredTrue],
+      captcha: [false, Validators.requiredTrue],
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -70,8 +70,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
-
-  captchaControl = new UntypedFormControl(null, [Validators.required]);
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -142,19 +140,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-    let isAllValid = true;
-    if (this.isCaptchaEnabled && !this.captchaControl.valid) {
-      this.captchaControl.markAsTouched();
-      isAllValid = false;
-    }
-
-    if (!this.registerForm.valid) {
-      this.registerForm.markAllAsTouched();
-      isAllValid = false;
-    }
-
-    if (isAllValid) {
+    if (this.registerForm.valid) {
       this.registerUser();
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   }
 
@@ -227,11 +216,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   captchaEnabled(status: boolean) {
-    this.isCaptchaEnabled = status;
+    if (!status) {
+      this.registerForm.get('captcha')?.setValue(true);
+    }
   }
 
-  captchaConfirmed(status: boolean) {
-    this.captchaControl.setValue(status);
+  captchaConfirmed() {
+    this.registerForm.get('captcha')?.setValue(true);
   }
 
   ngOnDestroy() {

@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import { Config } from '@spartacus/core';
 export abstract class CaptchaApiConfig {
   apiUrl?: string;
   fields?: { [key: string]: string };
+  renderingFunction?: (params: { [key: string]: any }) => Observable<string>;
 }
 
 declare module '@spartacus/core' {
