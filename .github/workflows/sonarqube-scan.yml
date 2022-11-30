@@ -5,10 +5,10 @@ on:
 name: SonarQube scan
 jobs:
   sonarqube_scan:
+    if: ${{ github.base_ref == develop }} 
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
-        if: ${{ github.base_ref == develop }} 
       - name: output
         run: |
           echo ${{ github.base_ref }}
