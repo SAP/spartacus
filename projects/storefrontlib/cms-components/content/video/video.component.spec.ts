@@ -42,7 +42,6 @@ class MockSemanticPathService {
 
 class MockMediaService {
   getMedia(media: any): Media {
-    console.log('flo media', media);
     return {
       src: media ? media.url : undefined,
       srcset: undefined,

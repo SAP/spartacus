@@ -44,7 +44,6 @@ export class VideoComponent {
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     distinctUntilChanged(),
     tap((data) => {
-      console.log('data change', data);
       this.styleClasses = data.styleClasses;
       this.setMedia(data);
       this.setControls(data);
