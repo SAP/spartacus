@@ -181,24 +181,24 @@ export function assignmentsTest(config: MyCompanyConfig) {
             .contains(ASSIGNMENT_LABELS.ROLES_AND_RIGHTS)
             .click();
 
-          subConfig.rolesAndRightsConfig.rows.forEach((row) => {
-            cy.get('cx-org-card cx-view[position="3"] label span')
-              .contains(row.updateValue)
-              .parent()
-              .within(() => {
-                cy.get('[type="checkbox"]')
-                  .as('checkbox')
-                  .invoke('is', ':checked')
-                  .then((isChecked) => {
-                    if (isChecked) {
-                      cy.get('@checkbox').uncheck();
-                    } else {
-                      cy.get('@checkbox').check();
-                    }
-                  });
-              });
-          });
-          cy.get('cx-org-notification').should('not.exist');
+          checkRoles();
+          checkRoles(true);
+
+          function checkRoles(uncheck?: boolean) {
+            subConfig.rolesAndRightsConfig.rows.forEach((row) => {
+              cy.get('cx-org-card cx-view[position="3"] label span')
+                .contains(row.updateValue)
+                .parent()
+                .within(() => {
+                  if (!uncheck) {
+                    cy.get('[type="checkbox"]').check();
+                  } else {
+                    cy.get('[type="checkbox"]').uncheck();
+                  }
+                });
+            });
+            cy.get('cx-org-notification').should('not.exist');
+          }
         });
       }
 
