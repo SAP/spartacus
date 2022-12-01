@@ -37,7 +37,10 @@ export class SmartEditLauncherService {
       this.isLaunchedInSmartEdit() &&
       this.featureModules.isConfigured('smartEdit')
     ) {
-      this.featureModules.resolveFeature('smartEdit').subscribe();
+      setTimeout(
+        () => this.featureModules.resolveFeature('smartEdit').subscribe(),
+        10000
+      );
     }
   }
 
