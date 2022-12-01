@@ -30,7 +30,7 @@ export class SupplementHashAnchorsPipe implements PipeTransform {
     return `${currentUrlWithoutFragment}${anchorId}`;
   }
 
-  public transform(html: string = ''): string {
+  public transform(html = ''): string {
     const template = this.renderer.createElement('template');
     template.innerHTML = html.trim();
     const linkNodes: NodeListOf<HTMLAnchorElement> =
