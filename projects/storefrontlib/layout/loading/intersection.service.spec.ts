@@ -175,7 +175,7 @@ describe('IntersectionService', () => {
   });
 
   describe('getRootMargin', () => {
-    it('should get margin from layout config if not explictly provided', () => {
+    it('should get margin from layout config if not explicitly provided', () => {
       expect(service['getRootMargin']({})).toBe(INTERSECTION_MARGIN_GENERAL);
     });
     it('should get margin from layout config if no options provided at all', () => {
