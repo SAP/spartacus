@@ -98,7 +98,7 @@ export class CommonConfiguratorTestUtilsService {
     let element = htmlElement.querySelectorAll(querySelector)[index];
     expect(element)
       .withContext(
-        `expected element identified by selector '${querySelector} [${index}]'
+        `expected element identified by selector '${querySelector}[${index}]'
         to be present, but it has NOT!`
       )
       .toBeDefined();
@@ -106,7 +106,7 @@ export class CommonConfiguratorTestUtilsService {
     let attributeValue = element?.getAttribute(attributeName);
     expect(attributeValue)
       .withContext(
-        `expected element identified by selector '${querySelector} [${index}]'
+        `expected element identified by selector '${querySelector}[${index}]'
          to have an attribute with name '${attributeName}', but it has NOT!`
       )
       .not.toBe(null);

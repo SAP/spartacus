@@ -164,31 +164,52 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     describe('A11Y', () => {
-      it('price filter label should bw linked to checkbox', () => {
+      it('price filter label should be linked to checkbox', () => {
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
           '.cx-overview-filter-option label',
           'for',
-          'cx-configurator-overview-filter-option-price',
-          0
+          'cx-configurator-overview-filter-option-price'
         );
       });
 
-      it('price filter label should bw linked to checkbox', () => {
+      it('price filter label should have a11y text', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '#cx-configurator-overview-filter-option-price',
+          'aria-label',
+          'configurator.a11y.filterOverviewByPrice'
+        );
+      });
+
+      it('my selections filter label should be linked to checkbox', () => {
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
           '.cx-overview-filter-option label',
           'for',
-          'cx-configurator-overview-filter-option-mySelection',
+          'cx-configurator-overview-filter-option-mySelections',
           1
         );
       });
 
-      it('group filter label should bw linked to checkbox', () => {
+      it('my selections filter label should have a11y text', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '#cx-configurator-overview-filter-option-mySelections',
+          'aria-label',
+          'configurator.a11y.filterOverviewByMySelections'
+        );
+      });
+
+      it('group filter label should be linked to checkbox', () => {
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
@@ -197,6 +218,17 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           'for',
           'cx-configurator-overview-filter-option-group-1',
           2
+        );
+      });
+
+      it('group filter label should have a11y text', () => {
+        initTestComponent();
+        CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+          expect,
+          htmlElem,
+          '#cx-configurator-overview-filter-option-group-1',
+          'aria-label',
+          'configurator.a11y.filterOverviewByGroup groupName:Group 1'
         );
       });
     });

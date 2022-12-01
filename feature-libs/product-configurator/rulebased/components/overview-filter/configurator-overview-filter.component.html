@@ -17,6 +17,9 @@
         [formControl]="priceFilter"
         (change)="onFilter(config)"
         name="config-overview-price-filter"
+        [attr.aria-label]="
+          'configurator.a11y.filterOverviewByPrice' | cxTranslate
+        "
       />
       <label
         class="form-check-label"
@@ -30,16 +33,19 @@
   <div class="cx-overview-filter-option">
     <div class="form-check">
       <input
-        id="cx-configurator-overview-filter-option-mySelection"
+        id="cx-configurator-overview-filter-option-mySelections"
         type="checkbox"
         class="form-check-input"
         [formControl]="mySelectionsFilter"
         (change)="onFilter(config)"
         name="config-overview-my-selection-filter"
+        [attr.aria-label]="
+          'configurator.a11y.filterOverviewByMySelections' | cxTranslate
+        "
       />
       <label
         class="form-check-label"
-        for="cx-configurator-overview-filter-option-mySelection"
+        for="cx-configurator-overview-filter-option-mySelections"
       >
         {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
       >
@@ -63,6 +69,10 @@
             [formControl]="groupFilters[i]"
             (change)="onFilter(config)"
             name="{{ 'config-overview-group-filter-' + group.id }}"
+            [attr.aria-label]="
+              'configurator.a11y.filterOverviewByGroup'
+                | cxTranslate: { groupName: group.groupDescription }
+            "
           />
           <label
             class="form-check-label"

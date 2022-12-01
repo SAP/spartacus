@@ -243,6 +243,11 @@ export const configurator = {
         'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
       closeFilterMenu:
         'Close the configuration overview filter menu and apply the selected filters',
+      filterOverviewByPrice: 'Filter configuration overview by your selections',
+      filterOverviewByMySelections:
+        'Filter configuration overview by price-relevant options',
+      filterOverviewByGroup:
+        'Filter configuration overview by Group {{groupName}}',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
