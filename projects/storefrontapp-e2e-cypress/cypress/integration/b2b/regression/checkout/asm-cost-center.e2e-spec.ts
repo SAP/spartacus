@@ -38,6 +38,7 @@ context('B2B - ASM Account Checkout', () => {
     // });
 
     // it('should start customer emulation', () => {
+    cy.log('--> customer emulation');
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('exist');
     cy.get('cx-customer-selection form').within(() => {
@@ -54,6 +55,7 @@ context('B2B - ASM Account Checkout', () => {
     // });
 
     // it('should show error on invalid cost center', () => {
+    cy.log('--> should show error on invalid cost center');
     b2bCheckout.addB2bProductToCartAndCheckout();
     cy.get('cx-payment-type').within(() => {
       cy.findByText('Account').click({ force: true });
@@ -70,6 +72,7 @@ context('B2B - ASM Account Checkout', () => {
     // });
 
     // it('should not show error on valid cost center', () => {
+    cy.log('--> should not show error on valid cost cente');
     alerts.getErrorAlert().then(() => {
       alerts.getErrorAlert().within(() => {
         cy.get('button').click();
@@ -82,7 +85,7 @@ context('B2B - ASM Account Checkout', () => {
     cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
 
-    cy.log('--> sign out and close ASM UI');
+    cy.log('--> sign out');
     asm.agentSignOut();
   });
 });
