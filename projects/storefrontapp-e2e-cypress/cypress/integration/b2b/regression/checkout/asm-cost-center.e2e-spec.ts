@@ -29,7 +29,7 @@ context('B2B - ASM Account Checkout', () => {
     cy.saveLocalStorage();
   });
 
-  it('should show error on valid cost cente', () => {
+  it('should show error on invalid cost center', () => {
     cy.log('--> Agent logging in');
     checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');

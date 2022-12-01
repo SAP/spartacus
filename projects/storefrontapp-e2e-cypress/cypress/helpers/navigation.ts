@@ -80,6 +80,15 @@ export function navigateToCategory(
   force: boolean = true
 ): void {
   const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
+  // flaky fix
+  // application starts doing something
+  // now the test should wait for the app
+  // before calling another command
+  cy.get('cx-category-navigation').should('exist');
+  cy.get('cx-category-navigation cx-generic-link a')
+    .contains(categoryName)
+    .should('exist');
+
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force });
