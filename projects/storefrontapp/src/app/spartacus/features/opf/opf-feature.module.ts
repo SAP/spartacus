@@ -10,10 +10,7 @@ import {
   opfTranslationChunksConfig,
   opfTranslations,
 } from '@spartacus/opf/assets';
-import {
-  OpfRootModule,
-  OPF_FEATURE,
-} from '@spartacus/opf/root';
+import { OpfRootModule, OPF_FEATURE } from '@spartacus/opf/root';
 
 @NgModule({
   imports: [OpfRootModule],
@@ -29,10 +26,7 @@ import {
     provideConfig(<CmsConfig>{
       featureModules: {
         [OPF_FEATURE]: {
-          module: () =>
-            import('@spartacus/opf').then(
-              (m) => m.OpfModule
-            ),
+          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
         },
       },
     }),

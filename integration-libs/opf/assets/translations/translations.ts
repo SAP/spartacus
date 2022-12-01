@@ -8,10 +8,9 @@ import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
 export const opfTranslations: TranslationResources = {
-  en
+  en,
 };
 
-export const opfTranslationChunksConfig: TranslationChunksConfig =
-  {
-    opf: ['opf'],
-  };
+export const opfTranslationChunksConfig: TranslationChunksConfig = {
+  opf: ['opfCheckout'],
+};

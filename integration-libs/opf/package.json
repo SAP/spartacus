@@ -1,47 +1,44 @@
 {
-    "name": "@spartacus/opf",
-    "version": "4.1.0-next.0",
-    "description": "SAP Open Payment Framework integration library for Spartacus",
-    "keywords": [
-      "spartacus",
-      "framework",
-      "storefront",
-      "opf"
-    ],
-    "homepage": "https://github.com/SAP/spartacus",
-    "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/opf",
-    "license": "Apache-2.0",
-    "exports": {
-      ".": {
-        "sass": "./_index.scss"
-      }
-    },
-    "scripts": {
-      "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-      "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
-      "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
-    },
-    "dependencies": {
-      "tslib": "^2.4.0"
-    },
-    "peerDependencies": {
-      "@angular-devkit/schematics": "^14.2.3",
-      "@angular/common": "^14.2.3",
-      "@angular/core": "^14.2.3",
-      "@angular/forms": "^14.2.3",
-      "@angular/router": "^14.2.3",
-      "@sapui5/ts-types-esm": "1.98.0",
-      "@spartacus/cart": "4.1.0-next.0",
-      "@spartacus/core": "4.1.0-next.0",
-      "@spartacus/schematics": "4.1.0-next.0",
-      "@spartacus/storefront": "4.1.0-next.0",
-      "@spartacus/styles": "4.1.0-next.0",
-      "bootstrap": "^4.6.1",
-      "rxjs": "^6.6.0"
-    },
-    "publishConfig": {
-      "access": "public"
-    },
-    "schematics": "./schematics/collection.json"
-  }
-  
+  "name": "@spartacus/opf",
+  "version": "4.1.0-next.0",
+  "description": "SAP Open Payment Framework integration library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "opf"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/opf",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^14.2.3",
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@sapui5/ts-types-esm": "1.98.0",
+    "@spartacus/cart": "4.1.0-next.0",
+    "@spartacus/checkout": "4.1.0-next.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
+    "bootstrap": "^4.6.1",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
+}

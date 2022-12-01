@@ -5,5 +5,9 @@
  */
 
 export const opf = {
-    opf: {}
+  opfCheckout: {
+    shipping: 'shipping',
+    deliveryMethod: 'Delivery Method',
+    paymentAndReview: 'Payment & Review',
+  },
 };

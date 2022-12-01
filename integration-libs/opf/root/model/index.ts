@@ -4,8 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { opf } from './opf.i18n';
-
-export const en = {
-  opf,
-};
+import './augmented-types';
