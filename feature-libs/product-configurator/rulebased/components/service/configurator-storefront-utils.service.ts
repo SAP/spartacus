@@ -312,6 +312,12 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  /**
+   * Retrieves a list of HTML elements based on querySelector when running in browser
+   *
+   * @param querySelector - querySelector
+   * @returns list of HTML elements
+   */
   getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
       return Array.from(

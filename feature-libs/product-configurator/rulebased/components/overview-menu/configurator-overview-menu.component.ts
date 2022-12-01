@@ -138,6 +138,7 @@ export class ConfiguratorOverviewMenuComponent {
   /**
    * Navigates to group in OV form
    *
+   * @param {string} prefix - Prefix (reflects the parent groups in the hierarchy)
    * @param {string} id - Group id
    */
   navigateToGroup(prefix: string, id: string): void {
