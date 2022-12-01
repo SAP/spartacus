@@ -68,6 +68,15 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     expect(mockLaunchDialogService.closeDialog).not.toHaveBeenCalled();
   });
 
+  it('should close filter modal when pressing esc', () => {
+    fixture.debugElement
+      .query(By.css('.cx-modal-content'))
+      .triggerEventHandler('esc');
+    expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Close Filtering'
+    );
+  });
+
   it('should render close button', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
