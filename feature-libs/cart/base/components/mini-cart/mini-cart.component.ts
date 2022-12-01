@@ -21,13 +21,5 @@ export class MiniCartComponent {
 
   total$: Observable<string> = this.miniCartComponentService.getTotalPrice();
 
-  constructor(protected miniCartComponentService: MiniCartComponentService) {
-    if(true) {
-      if(true) {
-        if(true) {
-          console.log('code smell :)');
-        }
-      }
-    }
-  }
+  constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

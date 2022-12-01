@@ -22,7 +22,6 @@ import {
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
-import { TestCheckoutSmellComponent } from './test-checkout-smell.component';
 
 @NgModule({
   imports: [
@@ -45,7 +44,7 @@ import { TestCheckoutSmellComponent } from './test-checkout-smell.component';
       },
     }),
   ],
-  declarations: [CheckoutReviewSubmitComponent, TestCheckoutSmellComponent],
-  exports: [CheckoutReviewSubmitComponent, TestCheckoutSmellComponent],
+  declarations: [CheckoutReviewSubmitComponent],
+  exports: [CheckoutReviewSubmitComponent],
 })
 export class CheckoutReviewSubmitModule {}
