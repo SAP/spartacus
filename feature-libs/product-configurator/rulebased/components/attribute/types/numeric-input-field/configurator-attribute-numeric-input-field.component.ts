@@ -324,7 +324,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         }
       }
     }
-    return intervalText;
+    return textToReturn;
   }
 
   protected getAdditionalIntervalText(key: string): string {
