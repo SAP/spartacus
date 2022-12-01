@@ -132,7 +132,7 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
       .set('baseSite', this.activeBaseSite)
       .set('cartId', cartId)
       .set('customerId', customerId);

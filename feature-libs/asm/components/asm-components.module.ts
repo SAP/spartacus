@@ -23,6 +23,7 @@ import {
   SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 import { defaultCustomer360LayoutConfig } from './asm-customer-360/default-customer-360-layout.config';
@@ -36,6 +37,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { defaultCustomerListLayoutConfig } from './customer-list/default-customer-list-layout.config';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
+import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
@@ -57,6 +59,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmCustomer360ComponentModule,
   ],
   declarations: [
+    AsmBindCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -69,6 +72,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     DotSpinnerComponent,
   ],
   exports: [
+    AsmBindCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -82,6 +86,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
   ],
   providers: [
     provideDefaultConfig(defaultAsmLayoutConfig),
+    provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
     provideDefaultConfig(defaultCustomer360LayoutConfig),
   ],

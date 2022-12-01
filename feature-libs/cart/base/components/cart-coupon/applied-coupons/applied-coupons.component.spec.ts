@@ -2,7 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
@@ -44,7 +48,7 @@ describe('AppliedCouponsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           AppliedCouponsComponent,
           MockCxIconComponent,
@@ -52,6 +56,12 @@ describe('AppliedCouponsComponent', () => {
         ],
         providers: [
           { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
         ],
       }).compileComponents();
     })

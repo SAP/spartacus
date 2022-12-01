@@ -4,7 +4,7 @@
     role="search"
     [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
     class="cx-asm-assignCart"
-    [class.active]="cartId.valid"
+    [class.active]="valid$ | async"
     (click)="cartIdElement.focus()"
   >
     <input
@@ -13,6 +13,7 @@
       formcontrolname="cartNumber"
       [formControl]="cartId"
       (keydown.enter)="bindCartToCustomer()"
+      (blur)="resetInput()"
       [attr.aria-label]="'asm.bindCart.enterCartId' | cxTranslate"
     />
     <button
@@ -23,13 +24,13 @@
     >
       <cx-icon class="cx-icon fas fa-times-circle"></cx-icon>
     </button>
-    <cx-icon class="cx-icon fas fa-search"></cx-icon>
   </div>
   <button
+    #bindToCart
     class="cx-asm-bindCartToCustomer"
-    [disabled]="cartId.invalid"
+    [disabled]="!(valid$ | async)"
     type="submit"
-    [class.cx-asm-active]="cartId.valid"
+    [class.cx-asm-active]="valid$ | async"
     [class.cx-bind-loading]="loading$ | async"
   >
     <span [attr.aria-hidden]="loading$ | async">

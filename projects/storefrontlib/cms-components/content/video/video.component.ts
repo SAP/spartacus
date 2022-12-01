@@ -65,13 +65,22 @@ export class VideoComponent {
     }
 
     if (
-      data.containerBackground ===
+      data?.containerBackground ===
         ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE &&
-      data.videoMedia
+      data?.videoMedia
     ) {
       this.thumbnail = this.mediaService.getMedia(
         data.videoMedia as MediaContainer
       );
+    } else if (
+      data?.thumbnailSelector === ContainerBackgroundOptions.UPLOAD_THUMBNAIL &&
+      data?.thumbnail
+    ) {
+      this.thumbnail = this.mediaService.getMedia(
+        data.thumbnail as MediaContainer
+      );
+    } else {
+      this.thumbnail = undefined;
     }
   }
 
