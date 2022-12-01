@@ -51,7 +51,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return requestAndToken$.pipe(
       switchMap(({ request, token }) =>
         next.handle(request).pipe(
-          catchError((errResponse: any) => this.handleBlobErrors(errResponse)),
+          //catchError((errResponse: any) => this.handleBlobErrors(errResponse)),
           catchError((errResponse: any) => {
             if (errResponse instanceof HttpErrorResponse) {
               switch (errResponse.status) {
