@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PointOfService, RoutingService } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PointOfServiceNames,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -31,8 +34,10 @@ export class MyPreferredStoreComponent {
     protected storeFinderService: StoreFinderService
   ) {
     this.preferredStore$ = this.preferredStoreService.getPreferredStore$().pipe(
-      filter((preferredStore) => !!preferredStore?.name),
-      map((preferredStore) => preferredStore?.name),
+      filter((preferredStore) => preferredStore !== null),
+      map((preferredStore) => preferredStore as PointOfServiceNames),
+      filter((preferredStore) => !!preferredStore.name),
+      map((preferredStore) => preferredStore.name),
       tap((preferredStoreName) =>
         this.pickupLocationsSearchService.loadStoreDetails(
           preferredStoreName as string
