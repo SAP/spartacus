@@ -74,7 +74,7 @@ export class ConfiguratorGroupTitleComponent {
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
-            title += ' / [' + group.name + ']';
+            title += ` / [${group.name}]`;
           }
         });
     }
