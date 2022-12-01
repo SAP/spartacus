@@ -93,7 +93,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    let anonymousCartId = this.cartId.value;
+    const anonymousCartId = this.cartId.value;
 
     const subscription = of(this.loading$.getValue())
       .pipe(
