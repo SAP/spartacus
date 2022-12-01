@@ -37,7 +37,12 @@ export function completeForm(
   const valueKey = getValueKey(formType);
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
-      getFieldByLabel(input).then((el) => {
+      if (input.selector) {
+        getFieldBySelector(input.selector).as('el');
+      } else {
+        getFieldByLabel(input).as('el');
+      }
+      cy.get('@el').then((el) => {
         if (!el.html().includes('disabled')) {
           switch (input.inputType) {
             case INPUT_TYPE.TEXT:
