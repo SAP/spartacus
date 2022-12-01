@@ -10,6 +10,10 @@ import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
 
+export type IntersectingCondition = (
+  entry: IntersectionObserverEntry
+) => boolean;
+
 /**
  * The IntersectionService uses the native IntersectionObserver (v2), which
  * can be used to implement pre-loading and deferred loading of DOM content.
@@ -31,13 +35,14 @@ export class IntersectionService {
    *
    * @param element - HTML element
    * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
-   * @param intersectingCondition - Allows to specify an intersecting condition
+   * @param intersectingCondition - Allows to specify an intersecting condition.
+   * If this parameter is not set, then the transition state of the element will be verified whenever the element intersects the view port.
    * @returns Element intersects?
    */
   isIntersected(
     element: HTMLElement,
     options?: IntersectionOptions,
-    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
+    intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
     return this.intersects(element, options, intersectingCondition).pipe(
       first((v) => v === true)
@@ -49,13 +54,14 @@ export class IntersectionService {
    *
    * @param element - HTML element
    * @param options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
-   * @param intersectingCondition - Allows to specify an intersecting condition
+   * @param intersectingCondition - Allows to specify an intersecting condition.
+   * If this parameter is not set, then the transition state of the element will be verified whenever the element intersects the view port.
    * @returns Element intersects?
    */
   isIntersecting(
     element: HTMLElement,
     options?: IntersectionOptions,
-    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
+    intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
     return this.intersects(element, options, intersectingCondition);
   }
@@ -68,7 +74,7 @@ export class IntersectionService {
   private intersects(
     element: HTMLElement,
     options: IntersectionOptions = {},
-    intersectingCondition?: (entry: IntersectionObserverEntry) => boolean
+    intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
     const elementVisible$ = this.createIntersectionObservable(
       element,
