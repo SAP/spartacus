@@ -38,12 +38,17 @@
       <div class="cx-dialog-body modal-body">
         <div class="cx-dialog-row">
           <div class="cx-dialog-item">
-            <div
-              *ngIf="
-                customerSearchPage$ | async as customerSearchPage;
-                else spinner
-              "
-            >
+            <div *ngIf="listsEmpty" class="cx-error-state">
+              {{ 'asm.customerList.noLists' | cxTranslate }}
+            </div>
+            <div *ngIf="listsError" class="cx-error-state">
+              {{ 'asm.customerList.listsError' | cxTranslate }}
+            </div>
+            <div *ngIf="customerSearchError$ | async" class="cx-error-state">
+              {{ 'generalErrors.pageFailure' | cxTranslate }}
+            </div>
+            <cx-spinner *ngIf="customerSearchLoading$ | async"></cx-spinner>
+            <div *ngIf="customerSearchPage$ | async as customerSearchPage">
               <table id="asm-cusomer-list-table" role="table" class="table">
                 <caption class="cx-visually-hidden">
                   {{
@@ -331,13 +336,6 @@
     >
     </ng-select>
   </label>
-</ng-template>
-<ng-template #spinner>
-  <cx-spinner></cx-spinner>
-</ng-template>
-
-<ng-template #emptyState>
-  <div>{{ 'asm.customerList.noCustomers' | cxTranslate }}</div>
 </ng-template>
 
 <ng-template #closeButton>
