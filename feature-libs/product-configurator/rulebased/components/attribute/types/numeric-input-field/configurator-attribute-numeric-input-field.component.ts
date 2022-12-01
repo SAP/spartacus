@@ -294,30 +294,31 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     intervalText: string,
     interval: ConfiguratorAttributeNumericInterval
   ) {
+    let textToReturn = intervalText;
     this.translation
       .translate('configurator.a11y.numericIntervalStandard', {
         minValue: formattedMinValue,
         maxValue: formattedMaxValue,
       })
       .pipe(take(1))
-      .subscribe((text) => (intervalText = text));
+      .subscribe((text) => (textToReturn = text));
 
     if (!interval.minValueIncluded || !interval.maxValueIncluded) {
       if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-        intervalText += ' ';
-        intervalText += this.getAdditionalIntervalText(
+        textToReturn += ' ';
+        textToReturn += this.getAdditionalIntervalText(
           'configurator.a11y.numericIntervalStandardOpen'
         );
       } else {
         if (!interval.minValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
             'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
           );
         }
         if (!interval.maxValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
             'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
           );
         }
