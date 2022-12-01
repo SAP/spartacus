@@ -6,6 +6,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  GetTicketQueryResetEvent,
   STATUS,
   STATUS_NAME,
   TicketEvent,
@@ -41,6 +42,7 @@ export class CustomerTicketingCloseDialogComponent
             this.isDataLoading$.next(false);
             this.close('Ticket closed successfully');
             this.routingService.go({ cxRoute: 'supportTickets' });
+            this.eventService.dispatch({}, GetTicketQueryResetEvent);
           },
           error: () => {
             this.close('Something went wrong while closing the ticket');
