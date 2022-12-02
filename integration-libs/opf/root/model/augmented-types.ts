@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/checkout/base/root';
+// import '@spartacus/checkout/base/root';
 
-declare module '@spartacus/checkout/base/root' {
-  const enum CheckoutStepType {
-    PAYMENT_REVIEW = 'paymentAndReview',
-  }
-}
+// declare module '@spartacus/checkout/base/root' {
+//   const enum CheckoutStepType {
+//     PAYMENT_REVIEW = 'paymentAndReview',
+//   }
+// }
