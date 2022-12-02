@@ -55,13 +55,11 @@
           </div>
         </div>
         <ng-content select="[label_container_bottom]"></ng-content>
-
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-img-container">
         <cx-icon [type]="content.img"></cx-icon>
       </div>
-
     </div>
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">

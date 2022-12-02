@@ -76,10 +76,6 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should getDirectionsToStore', () => {
-
     component.getDirectionsToStore();
-
   });
-
-
 });

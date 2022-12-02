@@ -1,9 +1,14 @@
 <div class="row">
   <div class="col-md-12">
-    <h2 class="cx-my-preferred-store-heading">Pick-Up Store</h2>
+    <h2
+      class="cx-my-preferred-store-heading"
+      [attr.data-test-id]="'preferredStoreHeading'"
+    >
+      {{ 'addressBookPickupInStore.heading' | cxTranslate }}
+    </h2>
   </div>
 </div>
-<div class="row">
+<div class="row" [attr.data-test-id]="'preferredStoreAddressBook'">
   <div class="col-md-6 cx-address-card">
     <cx-card
       [border]="true"

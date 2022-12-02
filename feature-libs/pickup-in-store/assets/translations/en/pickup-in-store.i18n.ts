@@ -59,6 +59,11 @@ export const storeSearch = {
   useMyLocation: 'Use my location',
   viewAllStores: 'View all stores',
 };
+/** Translation keys for the AddressBook PickupInStoreComponent */
+
+export const addressBookPickupInStore = {
+  heading: 'Pick-Up Store',
+};
 
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
@@ -70,4 +75,5 @@ export const pickupInStore = {
   storeList,
   storeSchedule,
   storeSearch,
+  addressBookPickupInStore,
 };

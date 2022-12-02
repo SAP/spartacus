@@ -41,7 +41,9 @@ export class PickupInStoreActiveCartService extends ActiveCartService {
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          location && location.pickupOption === 'pickup' ? location.name : undefined
+          location && location.pickupOption === 'pickup'
+            ? location.name
+            : undefined
         );
       });
   }
