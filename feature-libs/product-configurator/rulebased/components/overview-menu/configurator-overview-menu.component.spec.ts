@@ -141,8 +141,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   it('should provide the overview groups', () => {
     initialize();
-    component.ovGroups$.subscribe((ovGroups) => {
-      expect(ovGroups?.length).toBe(2);
+    component.overview$.subscribe((overview) => {
+      expect(overview?.groups?.length).toBe(2);
     });
   });
 
