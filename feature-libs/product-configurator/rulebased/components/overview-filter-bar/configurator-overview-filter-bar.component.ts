@@ -23,6 +23,12 @@ export class ConfiguratorOverviewFilterBarComponent {
   iconTypes = ICON_TYPE;
   attributeFilterTypes = Configurator.OverviewFilter;
 
+  /**
+   * gets the description for the given group id
+   *
+   * @param {string} groupId groupId
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   */
   getGroupFilterDescription(
     overview: Configurator.Overview,
     groupId: string
@@ -34,12 +40,18 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
+  /**
+   * removes the given attribute filter and updates the configuration overview accordingly
+   *
+   * @param {Configurator.OverviewFilter} attrToRemove attribute filter to remove
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   */
   onAttrFilterRemove(
     config: Configurator.ConfigurationWithOverview,
-    attrToRemove: string
+    attrToRemove: Configurator.OverviewFilter
   ) {
     let attrFilters = config.overview.attributeFilters ?? [];
-    let groupFilters = config.overview.groupFilters ?? [];
+    const groupFilters = config.overview.groupFilters ?? [];
     attrFilters = attrFilters.filter(
       (attrFilterName) => attrToRemove !== attrFilterName
     );
@@ -49,11 +61,17 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
+  /**
+   * removes the given group filter and updates the configuration overview accordingly
+   *
+   * @param {string} groupIdToRemove id of the group to be removed from filtering
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   */
   onGroupFilterRemove(
     config: Configurator.ConfigurationWithOverview,
     groupIdToRemove: string
   ) {
-    let attrFilters = config.overview.attributeFilters ?? [];
+    const attrFilters = config.overview.attributeFilters ?? [];
     let groupFilters = config.overview.groupFilters ?? [];
     groupFilters = groupFilters.filter(
       (groupId) => groupIdToRemove !== groupId
@@ -64,13 +82,24 @@ export class ConfiguratorOverviewFilterBarComponent {
     );
   }
 
+  /**
+   * check whether the button to remove all filters should be shown
+   *
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @returns {boolean} - 'true' only if the button to remove all filters should be shown
+   */
   isShowRemoveAll(overview: Configurator.Overview): boolean {
-    let numFilters =
+    const numFilters =
       (overview.attributeFilters?.length ?? 0) +
       (overview.groupFilters?.length ?? 0);
     return numFilters > 1;
   }
 
+  /**
+   * removes all filters and updates the configuration overview accordingly
+   *
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   */
   onRemoveAll(config: Configurator.ConfigurationWithOverview) {
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, [], [])

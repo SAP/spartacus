@@ -244,9 +244,10 @@ export const configurator = {
         'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
       closeFilterMenu:
         'Close the configuration overview filter menu and apply the selected filters',
-      filterOverviewByPrice: 'Filter configuration overview by your selections',
-      filterOverviewByMySelections:
+      filterOverviewByPrice:
         'Filter configuration overview by price-relevant options',
+      filterOverviewByMySelections:
+        'Filter configuration overview by your selections',
       filterOverviewByGroup:
         'Filter configuration overview by group {{groupName}}',
     },

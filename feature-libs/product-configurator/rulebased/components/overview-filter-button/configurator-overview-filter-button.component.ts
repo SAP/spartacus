@@ -39,6 +39,12 @@ export class ConfiguratorOverviewFilterButtonComponent {
       >
     );
 
+  /**
+   * get the number of filters currently applied to the overview page
+   *
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @returns {number} - number of applied filters
+   */
   getNumFilters(overview: Configurator.Overview): number {
     return (
       (overview.attributeFilters?.length ?? 0) +
@@ -46,6 +52,9 @@ export class ConfiguratorOverviewFilterButtonComponent {
     );
   }
 
+  /**
+   * opens the filter modal
+   */
   openFilterModal() {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,

@@ -46,8 +46,13 @@ export class ConfiguratorOverviewFilterComponent {
       })
     );
 
+  /**
+   * Updates the overview based on the filters currently selected in the UI
+   *
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   */
   onFilter(config: Configurator.ConfigurationWithOverview) {
-    let inputConfig = this.createInputConfig(
+    const inputConfig = this.createInputConfig(
       config,
       this.collectAttrFilters(),
       this.collectGroupFilters(config.overview)
@@ -72,22 +77,22 @@ export class ConfiguratorOverviewFilterComponent {
     configuration: Configurator.ConfigurationWithOverview
   ) {
     if (configuration.overview.attributeFilters) {
-      let isSelected =
+      const isPriceFilterSelected =
         configuration.overview.attributeFilters.indexOf(
           Configurator.OverviewFilter.PRICE_RELEVANT
         ) >= 0;
-      this.priceFilter.setValue(isSelected);
+      this.priceFilter.setValue(isPriceFilterSelected);
 
-      isSelected =
+      const isMySelectionsFilterSelected =
         configuration.overview.attributeFilters.indexOf(
           Configurator.OverviewFilter.USER_INPUT
         ) >= 0;
-      this.mySelectionsFilter.setValue(isSelected);
+      this.mySelectionsFilter.setValue(isMySelectionsFilterSelected);
     }
   }
 
   protected collectGroupFilters(overview: Configurator.Overview): string[] {
-    let filters: string[] = [];
+    const filters: string[] = [];
     let idx = 0;
     this.groupFilters.forEach((groupFilter) => {
       if (groupFilter.value && overview?.possibleGroups) {
@@ -99,7 +104,7 @@ export class ConfiguratorOverviewFilterComponent {
   }
 
   protected collectAttrFilters(): Configurator.OverviewFilter[] {
-    let filters: Configurator.OverviewFilter[] = [];
+    const filters: Configurator.OverviewFilter[] = [];
     if (this.priceFilter.value) {
       filters.push(Configurator.OverviewFilter.PRICE_RELEVANT);
     }

@@ -26,6 +26,9 @@ export class ConfiguratorOverviewFilterDialogComponent {
     focusOnEscape: true,
   };
 
+  /**
+   * closes the filter modal
+   */
   closeFilterModal(): void {
     this.launchDialogService.closeDialog('Close Filtering');
   }

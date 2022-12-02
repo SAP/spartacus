@@ -78,7 +78,7 @@ export class CommonConfiguratorTestUtilsService {
   }
 
   /**
-   * Helper function for proving whether the an elements attribute has on an value.
+   * Helper function for proving whether an element's attribute has a certain value.
    *
    * @param {any} expect - Expectation for a spec.
    * @param {Element} htmlElement - HTML element.
