@@ -107,7 +107,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     );
   });
 
-  describe('A11Y', () => {
+  describe('to support A11Y', () => {
     it('close button should have descriptive title', () => {
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
         expect,

@@ -61,7 +61,7 @@ function initTestComponent() {
 }
 
 describe('ConfiguratorOverviewFilterComponent', () => {
-  describe('Component Test', () => {
+  describe('in a component test environment', () => {
     beforeEach(
       waitForAsync(() => {
         initTestData();
@@ -150,7 +150,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
-    it('should filter on change of option', () => {
+    it('should update overview on change of filter option', () => {
       initTestComponent();
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-option input'))
@@ -163,7 +163,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       ).toHaveBeenCalledTimes(4); // Price Relevant, My Selections, Group 1, Group 2
     });
 
-    describe('A11Y', () => {
+    describe('to support A11Y', () => {
       it('price filter label should be linked to checkbox', () => {
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -234,7 +234,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
   });
 
-  describe('Unit Test', () => {
+  describe('in a unit test environment', () => {
     beforeEach(() => {
       initTestData();
       initMocks();
@@ -244,7 +244,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
-    it('should extract attribute filters state', () => {
+    it('extractAttrFilterState should extract attribute filters state', () => {
       ovConfig.overview.attributeFilters = [
         Configurator.OverviewFilter.PRICE_RELEVANT,
       ];
@@ -253,50 +253,56 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       expect(component.mySelectionsFilter.value).toBeFalsy();
     });
 
-    it('should extract group filters state when all groups are selected', () => {
-      ovConfig.overview.groupFilters = ['1', '2'];
-      component['extractGroupFilterState'](ovConfig);
-      expect(component.groupFilters.length).toBe(2);
-      expect(component.groupFilters[0].value).toBeTruthy();
-      expect(component.groupFilters[1].value).toBeTruthy();
+    describe('extractGroupFilterState', () => {
+      it('should extract group filters state when all groups are selected', () => {
+        ovConfig.overview.groupFilters = ['1', '2'];
+        component['extractGroupFilterState'](ovConfig);
+        expect(component.groupFilters.length).toBe(2);
+        expect(component.groupFilters[0].value).toBeTruthy();
+        expect(component.groupFilters[1].value).toBeTruthy();
+      });
+
+      it('should extract group filters state when no group is available', () => {
+        ovConfig.overview.possibleGroups = [];
+        component['extractGroupFilterState'](ovConfig);
+        expect(component.groupFilters.length).toBe(0);
+      });
     });
 
-    it('should extract group filters state when no group is available', () => {
-      ovConfig.overview.possibleGroups = [];
-      component['extractGroupFilterState'](ovConfig);
-      expect(component.groupFilters.length).toBe(0);
+    describe('collectAttrFilters', () => {
+      it('should collect attribute filters when nothing selected', () => {
+        let attrFilters = component['collectAttrFilters']();
+        expect(attrFilters).toEqual([]);
+      });
+
+      it('should collect attribute filters when all selected', () => {
+        component.priceFilter.setValue(true);
+        component.mySelectionsFilter.setValue(true);
+        let attrFilters = component['collectAttrFilters']();
+        expect(attrFilters).toEqual([
+          Configurator.OverviewFilter.PRICE_RELEVANT,
+          Configurator.OverviewFilter.USER_INPUT,
+        ]);
+      });
     });
 
-    it('should collect attribute filters when nothing selected', () => {
-      let attrFilters = component['collectAttrFilters']();
-      expect(attrFilters).toEqual([]);
+    describe('collectGroupFilters', () => {
+      it('should collect group filters when nothing selected', () => {
+        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
+        expect(groupFilters).toEqual([]);
+      });
+
+      it('should collect group filters when one selected', () => {
+        component.groupFilters = [
+          new UntypedFormControl(false),
+          new UntypedFormControl(true),
+        ];
+        let groupFilters = component['collectGroupFilters'](ovConfig.overview);
+        expect(groupFilters).toEqual(['2']);
+      });
     });
 
-    it('should collect attribute filters when all selected', () => {
-      component.priceFilter.setValue(true);
-      component.mySelectionsFilter.setValue(true);
-      let attrFilters = component['collectAttrFilters']();
-      expect(attrFilters).toEqual([
-        Configurator.OverviewFilter.PRICE_RELEVANT,
-        Configurator.OverviewFilter.USER_INPUT,
-      ]);
-    });
-
-    it('should collect group filters when nothing selected', () => {
-      let groupFilters = component['collectGroupFilters'](ovConfig.overview);
-      expect(groupFilters).toEqual([]);
-    });
-
-    it('should collect group filters when one selected', () => {
-      component.groupFilters = [
-        new UntypedFormControl(false),
-        new UntypedFormControl(true),
-      ];
-      let groupFilters = component['collectGroupFilters'](ovConfig.overview);
-      expect(groupFilters).toEqual(['2']);
-    });
-
-    it('on filter should call common configuration service', () => {
+    it('onFilter should call common configuration service', () => {
       component.mySelectionsFilter.setValue(true);
       component.groupFilters = [
         new UntypedFormControl(false),
@@ -317,7 +323,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
     });
 
-    it('should create input config', () => {
+    it('createInputConfig should create input config', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,
         [Configurator.OverviewFilter.PRICE_RELEVANT],

@@ -63,7 +63,7 @@ function initMocks() {
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
-  describe('Component Test', () => {
+  describe('in a component test environment', () => {
     beforeEach(
       waitForAsync(() => {
         initTestData();
@@ -135,7 +135,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       );
     });
 
-    describe('A11Y', () => {
+    describe('to support A11Y', () => {
       it('filter button should have descriptive title', () => {
         initComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -162,7 +162,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     });
   });
 
-  describe('Unit Test', () => {
+  describe('in a unit test environment', () => {
     beforeEach(() => {
       initTestData();
       initMocks();
@@ -172,17 +172,18 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         mockConfigRouterService
       );
     });
+    describe('getNumFilters', () => {
+      it('should return 0 when there are no filters', () => {
+        expect(component.getNumFilters(ovConfig.overview)).toEqual(0);
+      });
 
-    it('should get 0 as number of filters when there are no filters', () => {
-      expect(component.getNumFilters(ovConfig.overview)).toEqual(0);
-    });
-
-    it('should get number of filters when there are filters', () => {
-      ovConfig.overview.attributeFilters = [
-        Configurator.OverviewFilter.USER_INPUT,
-      ];
-      ovConfig.overview.groupFilters = ['1', '2'];
-      expect(component.getNumFilters(ovConfig.overview)).toEqual(3);
+      it('should return 3 when there are 2 group filters and one attribute filter', () => {
+        ovConfig.overview.attributeFilters = [
+          Configurator.OverviewFilter.USER_INPUT,
+        ];
+        ovConfig.overview.groupFilters = ['1', '2'];
+        expect(component.getNumFilters(ovConfig.overview)).toEqual(3);
+      });
     });
   });
 });

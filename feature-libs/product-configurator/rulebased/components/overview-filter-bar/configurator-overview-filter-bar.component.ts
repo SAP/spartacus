@@ -33,7 +33,6 @@ export class ConfiguratorOverviewFilterBarComponent {
     overview: Configurator.Overview,
     groupId: string
   ): string {
-    console.log(overview);
     return (
       overview.possibleGroups?.find((group) => group.id === groupId)
         ?.groupDescription ?? ''
@@ -50,8 +49,7 @@ export class ConfiguratorOverviewFilterBarComponent {
     config: Configurator.ConfigurationWithOverview,
     attrToRemove: Configurator.OverviewFilter
   ) {
-    let attrFilters = config.overview.attributeFilters ?? [];
-    const groupFilters = config.overview.groupFilters ?? [];
+    let [attrFilters, groupFilters] = this.getInputFilters(config.overview);
     attrFilters = attrFilters.filter(
       (attrFilterName) => attrToRemove !== attrFilterName
     );
@@ -71,8 +69,7 @@ export class ConfiguratorOverviewFilterBarComponent {
     config: Configurator.ConfigurationWithOverview,
     groupIdToRemove: string
   ) {
-    const attrFilters = config.overview.attributeFilters ?? [];
-    let groupFilters = config.overview.groupFilters ?? [];
+    let [attrFilters, groupFilters] = this.getInputFilters(config.overview);
     groupFilters = groupFilters.filter(
       (groupId) => groupIdToRemove !== groupId
     );
@@ -104,6 +101,12 @@ export class ConfiguratorOverviewFilterBarComponent {
     this.configuratorCommonsService.updateConfigurationOverview(
       this.createInputConfig(config, [], [])
     );
+  }
+
+  protected getInputFilters(
+    overview: Configurator.Overview
+  ): [Configurator.OverviewFilter[], string[]] {
+    return [overview.attributeFilters ?? [], overview.groupFilters ?? []];
   }
 
   protected createInputConfig(

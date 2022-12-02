@@ -59,7 +59,7 @@ function initTestComponent() {
 }
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
-  describe('Component Test', () => {
+  describe('in a component test environment', () => {
     beforeEach(
       waitForAsync(() => {
         initTestData();
@@ -157,8 +157,8 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
-    describe('A11Y', () => {
-      it('remove price filter should have descriptive title', () => {
+    describe('to support A11Y', () => {
+      it('the button to remove the price filter should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -171,7 +171,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         );
       });
 
-      it('remove my selection filter should have descriptive title', () => {
+      it('the button to remove the my selection filter should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [MY_SELECTIONS];
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -184,7 +184,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         );
       });
 
-      it('remove all filter should have descriptive title', () => {
+      it('the button to remove all filters should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [MY_SELECTIONS];
         ovConfig.overview.groupFilters = ['1'];
         initTestComponent();
@@ -198,7 +198,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         );
       });
 
-      it('remove group filter should have descriptive title', () => {
+      it('the button to remove a group filter should have a descriptive title', () => {
         ovConfig.overview.groupFilters = ['1'];
         initTestComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
@@ -213,7 +213,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
   });
 
-  describe('Unit Test', () => {
+  describe('in a unit test environment', () => {
     beforeEach(() => {
       initTestData();
       initMocks();
@@ -222,19 +222,21 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       );
     });
 
-    it('get group filter description should return description for existing group', () => {
-      expect(
-        component.getGroupFilterDescription(ovConfig.overview, '2')
-      ).toEqual('Group 2');
+    describe('getGroupFilterDescription', () => {
+      it('should return description for existing group', () => {
+        expect(
+          component.getGroupFilterDescription(ovConfig.overview, '2')
+        ).toEqual('Group 2');
+      });
+
+      it('should return empty string for non existing group', () => {
+        expect(
+          component.getGroupFilterDescription(ovConfig.overview, 'x')
+        ).toEqual('');
+      });
     });
 
-    it('get group filter description should return empty string for non existing group', () => {
-      expect(
-        component.getGroupFilterDescription(ovConfig.overview, 'x')
-      ).toEqual('');
-    });
-
-    it('on attribute filter remove should remove call service with adapted attribute filter', () => {
+    it('onAttrFilterRemove should call service with adapted attribute filter', () => {
       ovConfig.overview.attributeFilters = [PRICE_RELEVANT, MY_SELECTIONS];
       expectedInputConfig.overview.attributeFilters = [PRICE_RELEVANT];
       component.onAttrFilterRemove(ovConfig, MY_SELECTIONS);
@@ -243,7 +245,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
-    it('on group filter remove should remove call service with adapted group filter', () => {
+    it('onGroupFilterRemove should call service with adapted group filter', () => {
       ovConfig.overview.groupFilters = ['1', '3'];
       expectedInputConfig.overview.groupFilters = ['3'];
       component.onGroupFilterRemove(ovConfig, '1');
@@ -252,7 +254,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
-    it('on remove all should remove call service with adapted filters', () => {
+    it('onRemoveAll should call service with empty filters', () => {
       ovConfig.overview.groupFilters = ['1', '3'];
       ovConfig.overview.attributeFilters = [PRICE_RELEVANT, MY_SELECTIONS];
       expectedInputConfig.overview.groupFilters = [];
@@ -263,18 +265,20 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledWith(expectedInputConfig);
     });
 
-    it('should not show remove all if only one filter applied', () => {
-      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
-      expect(component.isShowRemoveAll(ovConfig.overview)).toBeFalsy();
+    describe('isShowRemoveAll', () => {
+      it('should return false if only one filter applied', () => {
+        ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+        expect(component.isShowRemoveAll(ovConfig.overview)).toBeFalsy();
+      });
+
+      it('should return true if two filters are applied', () => {
+        ovConfig.overview.groupFilters = ['1'];
+        ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
+        expect(component.isShowRemoveAll(ovConfig.overview)).toBeTruthy();
+      });
     });
 
-    it('should show remove all if two filters are applied', () => {
-      ovConfig.overview.groupFilters = ['1'];
-      ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
-      expect(component.isShowRemoveAll(ovConfig.overview)).toBeTruthy();
-    });
-
-    it('should create input config', () => {
+    it('createInputConfig should create input config', () => {
       let inputConfig = component['createInputConfig'](
         ovConfig,
         [PRICE_RELEVANT],
