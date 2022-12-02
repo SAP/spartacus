@@ -79,10 +79,10 @@
           (input)="searchBuyerMobile(buyerFilterMobileId)"
           (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
-            'unitLevelOrderHistory.searchByBuyer' | cxTranslate
+            'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
           "
           placeholder="{{
-            'unitLevelOrderHistory.searchByBuyer' | cxTranslate
+            'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
           }}"
         />
 
@@ -144,8 +144,12 @@
           class="form-control unit-filter-mobile"
           (input)="searchUnitMobile(unitFilterMobileId)"
           (keydown.enter)="searchUnitLevelOrdersForMobile()"
-          [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
-          placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
+          [attr.aria-label]="
+            'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
+          "
+          placeholder="{{
+            'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
+          }}"
         />
         <button
           id="clearUnitMobileBtn"
@@ -188,6 +192,9 @@
         <div
           role="search"
           class="cx-unit-level-order-history-filter-label-wrapper"
+          [attr.aria-label]="
+            'unitLevelOrderHistory.filterByBuyerAriaLabel' | cxTranslate
+          "
         >
           <label
             class="cx-unit-level-order-history-filter-label"
@@ -199,9 +206,11 @@
               class="form-control cx-unit-level-order-history-filter-input"
               (input)="searchBuyer(buyerFilterId)"
               [attr.aria-label]="
-                'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
+                'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
               "
-              placeholder="{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}"
+              placeholder="{{
+                'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
+              }}"
             />
             <button
               id="clearBuyerBtn"
@@ -227,7 +236,13 @@
         <span>
           {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
         </span>
-        <div class="cx-unit-level-order-history-filter-label-wrapper">
+        <div
+          role="search"
+          class="cx-unit-level-order-history-filter-label-wrapper"
+          [attr.aria-label]="
+            'unitLevelOrderHistory.filterByUnitAriaLabel' | cxTranslate
+          "
+        >
           <label
             class="cx-unit-level-order-history-filter-label"
             [class.dirty]="!!unitFilterId.value"
@@ -238,9 +253,11 @@
               class="form-control cx-unit-level-order-history-filter-input"
               (input)="searchUnit(unitFilterId)"
               [attr.aria-label]="
-                'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate
+                'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
               "
-              placeholder="{{ 'unitLevelOrderHistory.unit' | cxTranslate }}"
+              placeholder="{{
+                'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
+              }}"
             />
             <button
               id="clearUnitBtn"
