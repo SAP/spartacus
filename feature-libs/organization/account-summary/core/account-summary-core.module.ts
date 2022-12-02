@@ -5,11 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { HttpErrorHandler, PageMetaResolver } from '@spartacus/core';
+import { PageMetaResolver } from '@spartacus/core';
 import { AccountSummaryPageMetaResolver } from './account-summary-page-meta.resolver';
 import { AccountSummaryConnector } from './connectors/account-summary.connector';
 import { facadeProviders } from './facade/facade-providers';
-import { BlobErrorHandler } from './http-interceptors/blob-error.handler';
 
 @NgModule({
   providers: [
@@ -18,11 +17,6 @@ import { BlobErrorHandler } from './http-interceptors/blob-error.handler';
     {
       provide: PageMetaResolver,
       useExisting: AccountSummaryPageMetaResolver,
-      multi: true,
-    },
-    {
-      provide: HttpErrorHandler,
-      useExisting: BlobErrorHandler,
       multi: true,
     },
   ],
