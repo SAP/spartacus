@@ -32,6 +32,7 @@ export class MyPreferredStoreComponent {
   };
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
+  pointOfService: PointOfService;
 
   constructor(
     private preferredStoreService: PreferredStoreService,
@@ -53,7 +54,10 @@ export class MyPreferredStoreComponent {
         this.pickupLocationsSearchService.getStoreDetails(
           preferredStoreName as string
         )
-      )
+      ),
+      tap((store: PointOfService) => {
+        this.pointOfService = store;
+      })
     );
   }
 
@@ -70,6 +74,9 @@ export class MyPreferredStoreComponent {
   }
 
   getDirectionsToStore(): void {
-    //
+    const linkToDirections: string = this.storeFinderService.getDirections(
+      this.pointOfService
+    );
+    window.open(linkToDirections, '_blank');
   }
 }
