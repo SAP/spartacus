@@ -187,7 +187,7 @@
           <cx-captcha
             [control]="registerForm.get('captcha')"
             (enabled)="captchaEnabled($event)"
-            (confirmed)="captchaConfirmed($event)"
+            (confirmed)="captchaConfirmed()"
           ></cx-captcha>
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}

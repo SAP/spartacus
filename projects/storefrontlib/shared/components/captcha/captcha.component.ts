@@ -16,11 +16,12 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { CaptchaService } from '@spartacus/storefront';
-import { CaptchaApiConfig } from './config/captcha-api-config';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { AbstractControl } from '@angular/forms';
+
+import { CaptchaService } from './captcha.service';
+import { CaptchaApiConfig } from './config/captcha-api-config';
 
 @Component({
   selector: 'cx-captcha',
