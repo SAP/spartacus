@@ -27,6 +27,7 @@
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
       "
+      (click)="closeFilterNav()"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
@@ -49,11 +50,7 @@
   </div>
 </div>
 
-<form
-  id="filterFormMobileId"
-  [formGroup]="filterFormMobile"
-  (ngSubmit)="searchUnitLevelOrdersForMobile()"
->
+<form [formGroup]="filterFormMobile">
   <div
     id="cx-unit-level-order-history-filter-nav-sub-buyer"
     #filterNavBuyer
@@ -61,16 +58,15 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button type="button" class="filter-button" (click)="backFilterSubNav()">
+      <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
       </button>
 
       <button
         class="clear-btn"
-        type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterSubNav()"
+        (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
@@ -79,8 +75,9 @@
         <input
           #buyerFilterMobileId
           formControlName="buyerFilterMobile"
-          class="form-control"
+          class="form-control buyer-filter-mobile"
           (input)="searchBuyerMobile(buyerFilterMobileId)"
+          (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.searchByBuyer' | cxTranslate
           "
@@ -91,8 +88,6 @@
 
         <button
           id="clearBuyerMobileBtn"
-          type="button"
-          #buyerButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
           (keydown.enter)="clearBuyerMobile()"
@@ -101,7 +96,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #buyerPresentationMobile role="presentation" class="search-icon">
+        <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -129,16 +124,15 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button type="button" class="filter-button" (click)="backFilterSubNav()">
+      <button class="filter-button" (click)="backFilterSubNav()">
         <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
         <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
       </button>
 
       <button
         class="clear-btn"
-        type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterSubNav()"
+        (click)="closeFilterNav()"
       >
         <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
       </button>
@@ -147,15 +141,14 @@
         <input
           #unitFilterMobileId
           formControlName="unitFilterMobile"
-          class="form-control"
+          class="form-control unit-filter-mobile"
           (input)="searchUnitMobile(unitFilterMobileId)"
+          (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="'unitLevelOrderHistory.searchByUnit' | cxTranslate"
           placeholder="{{ 'unitLevelOrderHistory.searchByUnit' | cxTranslate }}"
         />
         <button
           id="clearUnitMobileBtn"
-          type="button"
-          #unitButtonMobile
           [attr.aria-label]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
           (keydown.enter)="clearUnitMobile()"
@@ -164,7 +157,7 @@
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
         </button>
 
-        <div #unitPresentationMobile role="presentation" class="search-icon">
+        <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
             [type]="iconTypes.SEARCH"
@@ -212,8 +205,6 @@
             />
             <button
               id="clearBuyerBtn"
-              type="button"
-              #buyerButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearBuyer()"
               (keydown.enter)="clearBuyer()"
@@ -222,7 +213,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #buyerPresentation role="presentation" class="search-icon">
+            <div role="presentation" class="search-icon">
               <cx-icon
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
@@ -254,7 +245,6 @@
             <button
               id="clearUnitBtn"
               type="button"
-              #unitButton
               [attr.aria-label]="'common.reset' | cxTranslate"
               (mousedown)="clearUnit()"
               (keydown.enter)="clearUnit()"
@@ -263,7 +253,7 @@
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
             </button>
 
-            <div #unitPresentation role="presentation" class="search-icon">
+            <div role="presentation" class="search-icon">
               <cx-icon
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
@@ -298,7 +288,6 @@
 <div class="cx-unit-level-order-history-filter-form-mobile">
   <button
     id="filterByBtn"
-    type="button"
     class="btn btn-action btn-block dialog-trigger"
     (click)="launchMobileFilters()"
   >
