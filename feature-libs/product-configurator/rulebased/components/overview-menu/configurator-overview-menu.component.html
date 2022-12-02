@@ -1,21 +1,14 @@
 <ng-container *ngIf="ovGroups$ | async as ovGroups; else ghostMenu">
-  <div class="cx-sticky-menu">
-    <div class="cx-menu-bar">
-      <button role="tab" class="active">
-        {{ 'configurator.overviewMenu.title' | cxTranslate }}
-      </button>
-    </div>
-    <ng-container
-      *ngTemplateOutlet="
-        groups;
-        context: {
-          overviewGroups: ovGroups,
-          level: 1,
-          idPrefix: ''
-        }
-      "
-    ></ng-container>
-  </div>
+  <ng-container
+    *ngTemplateOutlet="
+      groups;
+      context: {
+        overviewGroups: ovGroups,
+        level: 1,
+        idPrefix: ''
+      }
+    "
+  ></ng-container>
 </ng-container>
 
 <ng-template

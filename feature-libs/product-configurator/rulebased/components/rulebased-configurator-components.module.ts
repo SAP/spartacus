@@ -24,6 +24,7 @@ import { ConfiguratorProductTitleModule } from './product-title/configurator-pro
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
+import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurator-overview-sidebar.module';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorOverviewFilterModule,
     ConfiguratorOverviewFilterButtonModule,
     ConfiguratorOverviewFilterDialogModule,
+    ConfiguratorOverviewSidebarModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
