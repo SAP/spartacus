@@ -32,7 +32,10 @@
           </div>
         </div>
         <div class="header-account-details">
-          <span *ngIf="activeCart$ | async as activeCart">
+          <span
+            class="header-account-details-active-cart"
+            *ngIf="activeCart$ | async as activeCart"
+          >
             <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
             {{
               'asm.customer360.header.activeCartLabel'
@@ -51,7 +54,10 @@
               {{ activeCart.code }}
             </a>
           </span>
-          <span *ngIf="(orderHistory$ | async)?.orders?.[0] as recentOrder">
+          <span
+            class="header-account-details-recent-order"
+            *ngIf="(orderHistory$ | async)?.orders?.[0] as recentOrder"
+          >
             <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
             {{
               'asm.customer360.header.recentOrderLabel'

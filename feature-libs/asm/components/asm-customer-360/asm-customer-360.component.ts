@@ -88,7 +88,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     this.subscription.unsubscribe();
   }
 
-  selectTab(selectedTab: any): void {
+  selectTab(selectedTab: number): void {
     this.activeTab = selectedTab;
     this.currentTab = this.tabs[selectedTab];
 
