@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
@@ -18,15 +18,6 @@ import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-
     IconModule,
     FormsModule,
     ReactiveFormsModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorOverviewFilter: {
-          component: ConfiguratorOverviewFilterBarComponent,
-        },
-      },
-    }),
   ],
   declarations: [ConfiguratorOverviewFilterBarComponent],
   exports: [ConfiguratorOverviewFilterBarComponent],
