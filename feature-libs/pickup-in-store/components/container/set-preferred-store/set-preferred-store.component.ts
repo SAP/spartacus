@@ -28,7 +28,7 @@ export class SetPreferredStoreComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.outlet.context$.subscribe(
+    this.outlet?.context$.subscribe(
       (pointOfServiceNames) => (this.pointOfServiceName = pointOfServiceNames)
     );
   }
