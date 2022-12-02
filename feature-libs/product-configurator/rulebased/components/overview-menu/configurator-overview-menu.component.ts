@@ -18,13 +18,13 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewMenuComponent {
-  ovGroups$: Observable<Configurator.GroupOverview[] | undefined> =
+  overview$: Observable<Configurator.Overview | undefined> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)
       ),
       filter((configuration) => configuration.overview != null),
-      map((configuration) => configuration.overview?.groups),
+      map((configuration) => configuration.overview),
       tap((data) => {
         if (data) {
           this.setHeight();

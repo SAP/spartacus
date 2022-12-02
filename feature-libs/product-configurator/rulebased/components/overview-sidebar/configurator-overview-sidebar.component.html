@@ -1,9 +1,19 @@
 <div class="cx-sticky-menu">
-  <div class="cx-menu-bar">
-    <button role="tab" [class.active]="!showFilter" (click)="onMenu()">
+  <div class="cx-menu-bar" role="tablist">
+    <button
+      role="tab"
+      [attr.aria-selected]="!showFilter"
+      [class.active]="!showFilter"
+      (click)="onMenu()"
+    >
       {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
     </button>
-    <button role="tab" [class.active]="showFilter" (click)="onFilter()">
+    <button
+      role="tab"
+      [attr.aria-selected]="showFilter"
+      [class.active]="showFilter"
+      (click)="onFilter()"
+    >
       {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
     </button>
   </div>

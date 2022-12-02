@@ -1,9 +1,9 @@
-<ng-container *ngIf="ovGroups$ | async as ovGroups; else ghostMenu">
+<ng-container *ngIf="overview$ | async as overview; else ghostMenu">
   <ng-container
     *ngTemplateOutlet="
       groups;
       context: {
-        overviewGroups: ovGroups,
+        overviewGroups: overview.groups,
         level: 1,
         idPrefix: ''
       }
