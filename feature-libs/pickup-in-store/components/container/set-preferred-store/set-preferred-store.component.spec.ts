@@ -58,19 +58,17 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
   });
 });
 
-
 describe('SetPreferredStoreComponent with outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
   let preferredStoreService: PreferredStoreService;
-
 
   const pointOfServiceName: PointOfServiceNames = {
     name: 'London School',
     displayName: 'London School',
   };
 
-const context$= of(pointOfServiceName);
+  const context$ = of(pointOfServiceName);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,7 +76,7 @@ const context$= of(pointOfServiceName);
       imports: [I18nTestingModule, IconTestingModule, CommonModule],
       providers: [
         { provide: PreferredStoreService, useClass: MockPreferredStoreService },
-        { provide: OutletContextData<PointOfServiceNames>, useValue: { context$ } },
+        { provide: OutletContextData, useValue: { context$ } },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);

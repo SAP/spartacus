@@ -40,7 +40,7 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
-    OutletModule
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig({
