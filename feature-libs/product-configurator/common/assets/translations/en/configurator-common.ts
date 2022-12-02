@@ -116,7 +116,7 @@ export const configurator = {
       removeAllFilters: 'Remove All Filters',
       removeByPrice: 'Remove Price-Relevant Filter',
       removeMySelections: 'Remove My Selections Filter',
-      removeByGroup: 'Remove Group Filter for Group {{group}}',
+      removeByGroup: 'Remove Group Filter for group {{group}}',
     },
     group: {
       general: 'General',
@@ -248,7 +248,7 @@ export const configurator = {
       filterOverviewByMySelections:
         'Filter configuration overview by price-relevant options',
       filterOverviewByGroup:
-        'Filter configuration overview by Group {{groupName}}',
+        'Filter configuration overview by group {{groupName}}',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
