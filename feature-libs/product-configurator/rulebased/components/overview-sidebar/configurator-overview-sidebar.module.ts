@@ -6,7 +6,6 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorOverviewFilterModule } from '../overview-filter/configurator-overview-filter.module';
 import { ConfiguratorOverviewMenuModule } from '../overview-menu/configurator-overview-menu.module';
@@ -16,8 +15,6 @@ import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-si
   imports: [
     CommonModule,
     I18nModule,
-    FormsModule,
-    ReactiveFormsModule,
     ConfiguratorOverviewFilterModule,
     ConfiguratorOverviewMenuModule,
   ],
