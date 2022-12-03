@@ -12,7 +12,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Observer, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -51,7 +51,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return requestAndToken$.pipe(
       switchMap(({ request, token }) =>
         next.handle(request).pipe(
-          //catchError((errResponse: any) => this.handleBlobErrors(errResponse)),
           catchError((errResponse: any) => {
             if (errResponse instanceof HttpErrorResponse) {
               switch (errResponse.status) {
@@ -100,49 +99,5 @@ export class AuthInterceptor implements HttpInterceptor {
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
-  }
-
-  /**
-   * If the input is a json blob of type HttpErrorResonse: extract the json error from the blob
-   * Otherwise: rethrow the error
-   */
-  protected handleBlobErrors(errResponse: any): Observable<never> {
-    if (
-      errResponse instanceof HttpErrorResponse &&
-      errResponse.error instanceof Blob &&
-      errResponse.error.type === 'application/json'
-    ) {
-      return this.extractJsonFromBlob(errResponse.error).pipe(
-        switchMap((error: any) =>
-          throwError(
-            new HttpErrorResponse({
-              ...errResponse,
-              error,
-              url: errResponse.url ?? undefined,
-            })
-          )
-        )
-      );
-    } else {
-      return throwError(errResponse);
-    }
-  }
-
-  /**
-   * Take a blob as input and return an Observable containing the extracted json
-   */
-  protected extractJsonFromBlob(blob: Blob): Observable<any> {
-    return new Observable((observer: Observer<any>) => {
-      const fileReader: FileReader = new FileReader();
-      fileReader.readAsText(blob);
-      fileReader.onload = () => {
-        observer.next(JSON.parse(fileReader.result as string));
-        observer.complete();
-      };
-      fileReader.onerror = (error) => {
-        fileReader.abort();
-        observer.error(error);
-      };
-    });
   }
 }

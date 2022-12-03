@@ -12,7 +12,6 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -166,37 +165,6 @@ describe('AuthInterceptor', () => {
     );
 
     sub.unsubscribe();
-  });
-
-  it(`Should handle errors wrapped in blob response type`, async () => {
-    spyOn(authHeaderService, 'shouldCatchError').and.returnValue(false);
-
-    http
-      .get('/occ', { responseType: 'blob' as 'json' })
-      .pipe(take(1))
-      .subscribe(
-        () => {},
-        (err) => {
-          expect(err.status).toEqual(401);
-          expect(err.error.errors[0].type).toEqual('InvalidTokenError');
-        }
-      );
-
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === '/occ';
-    });
-
-    const errors = JSON.stringify({
-      errors: [{ type: 'InvalidTokenError' }],
-    });
-    const error = new Blob([errors], {
-      type: 'application/json',
-    });
-
-    mockReq.flush(error, {
-      status: 401,
-      statusText: 'Unauthorized',
-    });
   });
 
   it(`Should not handle 401 error for non expired token occ calls`, (done) => {
