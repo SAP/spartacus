@@ -35,9 +35,7 @@ context('B2B - ASM Account Checkout', () => {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
     asm.agentLogin();
-    // });
 
-    // it('should start customer emulation', () => {
     cy.log('--> customer emulation');
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('exist');
@@ -52,9 +50,7 @@ context('B2B - ASM Account Checkout', () => {
       .should('eq', 200);
     cy.get('cx-customer-selection div.asm-results button').click();
     cy.get('cx-customer-selection button[type="submit"]').click();
-    // });
 
-    // it('should show error on invalid cost center', () => {
     cy.log('--> should show error on invalid cost center');
     b2bCheckout.addB2bProductToCartAndCheckout();
     cy.get('cx-payment-type').within(() => {
@@ -69,20 +65,20 @@ context('B2B - ASM Account Checkout', () => {
 
     cy.wait('@costCenterReq').its('response.statusCode').should('eq', 400);
     alerts.getErrorAlert().contains('Invalid cost center.');
-    // });
 
-    // it('should not show error on valid cost center', () => {
     cy.log('--> should not show error on valid cost cente');
-    alerts.getErrorAlert().then(() => {
-      alerts.getErrorAlert().within(() => {
+    alerts.getErrorAlert().then((alert) => {
+      cy.wrap(alert).within(() => {
         cy.get('button').click();
       });
     });
-    cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
+    // flaky:  added timer between intercepters
+    cy.wait(1000);
+    cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReqValid');
     cy.get('cx-cost-center').within(() => {
       cy.get('select').select(valid_cost_center);
     });
-    cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
+    cy.wait('@costCenterReqValid').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
 
     cy.log('--> sign out');
