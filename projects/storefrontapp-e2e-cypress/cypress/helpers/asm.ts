@@ -357,7 +357,6 @@ export function testCustomerEmulation() {
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout
-    // navigateToHomepage();
     checkout.visitHomePage();
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
