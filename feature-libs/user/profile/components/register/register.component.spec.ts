@@ -44,6 +44,7 @@ const mockRegisterFormData: any = {
   password: 'strongPass$!123',
   passwordconf: 'strongPass$!123',
   newsletter: true,
+  captcha: true,
 };
 
 const mockTitlesList: Title[] = [
@@ -379,6 +380,7 @@ describe('RegisterComponent', () => {
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
       spyOn(component, 'registerUser').and.callThrough();
+      mockRegisterFormData.captcha = false;
       component.registerForm.patchValue(mockRegisterFormData);
     });
 

@@ -46,6 +46,10 @@ export class CaptchaService implements OnDestroy {
     this.initialize();
   }
 
+  /**
+   * Retrieve captcha configuration from the backend, and if enabled
+   * call @function loadScript with active language
+   */
   initialize(): void {
     let captchaConfig: CaptchaConfig;
 
@@ -80,8 +84,13 @@ export class CaptchaService implements OnDestroy {
     return this.captchaConfigSubject$.asObservable();
   }
 
-  renderCaptcha(elem: HTMLElement, key: string): Observable<string> {
-    const params: { [key: string]: any } = { sitekey: key, element: elem };
+  /**
+   * Trigger rendering function configured in CaptchaApiConfig
+   * @param {HTMLElement} elem - HTML element to render captcha widget within.
+   * @param {string} pubKey - public key to be used for the widget
+   */
+  renderCaptcha(elem: HTMLElement, pubKey: string): Observable<string> {
+    const params: { [key: string]: any } = { sitekey: pubKey, element: elem };
     if (this.apiConfig?.renderingFunction) {
       return this.apiConfig
         ?.renderingFunction(params)
@@ -99,6 +108,10 @@ export class CaptchaService implements OnDestroy {
     return this.token;
   }
 
+  /**
+   * Load external script with dependencies to be added to <head>.
+   * @param {string} lang - Language used by api in the script
+   */
   loadScript(lang: string): void {
     if (this.apiConfig?.apiUrl) {
       this.scriptLoader.embedScript({

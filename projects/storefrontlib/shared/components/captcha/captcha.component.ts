@@ -30,7 +30,10 @@ import { CaptchaApiConfig } from './config/captcha-api-config';
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
   @Input() control: AbstractControl;
+
+  // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
+  // Emits whether captcha is enabled after calling the backend
   @Output() enabled = new EventEmitter<boolean>();
 
   @ViewChild('captcha', { static: false }) captchaRef: ElementRef;
@@ -43,6 +46,10 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
     private renderer: Renderer2
   ) {}
 
+  /**
+   * Add fields from CaptchaApiConfig. Call backend to get captcha
+   * config.
+   */
   ngAfterViewInit(): void {
     const fields = this.config?.fields;
     if (fields) {
