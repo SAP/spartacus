@@ -25,7 +25,7 @@
       <div class="property">
         <label>{{ 'orgUser.roles' | cxTranslate }}</label>
         <ul class="value">
-          <ng-container *ngFor="let role of model.roles; let isLast = last">
+          <ng-container *ngFor="let role of model.roles">
             <li
               *ngIf="availableRoles.includes(role)"
               [innerText]="'organization.userRoles.' + role | cxTranslate"
@@ -38,7 +38,7 @@
       <div class="property" *ngIf="hasRight(model)">
         <label>{{ 'orgUser.rights' | cxTranslate }}</label>
         <ul class="value">
-          <ng-container *ngFor="let right of model.roles; let isLast = last">
+          <ng-container *ngFor="let right of model.roles">
             <li
               *ngIf="availableRights.includes(right)"
               [innerText]="'organization.userRights.' + right | cxTranslate"
