@@ -5,7 +5,7 @@ import { LaunchDialogService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { of } from 'rxjs';
+import { NEVER, of } from 'rxjs';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
@@ -42,15 +42,14 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       }).compileComponents();
     })
   );
-  beforeEach(() => {
-    initialize();
-  });
 
   it('should create component', () => {
+    initialize();
     expect(component).toBeDefined();
   });
 
   it('should close filter modal on request', () => {
+    initialize();
     fixture.debugElement
       .query(By.css('.cx-dialog-header button'))
       .triggerEventHandler('click');
@@ -60,6 +59,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should close filter modal when clicking outside', () => {
+    initialize();
     fixture.debugElement
       .query(By.css('.cx-modal-container'))
       .triggerEventHandler('click');
@@ -69,6 +69,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should not close filter modal when clicking inside the modal', () => {
+    initialize();
     fixture.debugElement
       .query(By.css('.cx-modal-content'))
       .triggerEventHandler('click');
@@ -76,6 +77,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should close filter modal when pressing esc', () => {
+    initialize();
     fixture.debugElement
       .query(By.css('.cx-modal-content'))
       .triggerEventHandler('esc');
@@ -85,6 +87,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should render close button', () => {
+    initialize();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -93,6 +96,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should render title', () => {
+    initialize();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -101,6 +105,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   });
 
   it('should have modal header and body', () => {
+    initialize();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -113,9 +118,25 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
       '.cx-dialog-body'
     );
   });
+  it('should not have a modal body if nothing is emitted', () => {
+    mockLaunchDialogService.data$ = NEVER;
+    initialize();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-dialog-header'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-dialog-body'
+    );
+  });
 
   describe('to support A11Y', () => {
     it('close button should have descriptive title', () => {
+      initialize();
       CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
         expect,
         htmlElem,
