@@ -631,7 +631,7 @@ export class ConfiguratorGroupMenuComponent {
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
-            title += ' / [' + group.name + ']';
+            title += ` / [${group.name}]`;
           }
         });
     }
