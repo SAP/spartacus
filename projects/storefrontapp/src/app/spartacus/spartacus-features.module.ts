@@ -13,7 +13,7 @@ import {
   ProductModule,
   ProductOccModule,
   UserModule,
-  UserOccModule
+  UserOccModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -56,7 +56,7 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  VideoModule
+  VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
