@@ -79,11 +79,11 @@ export class SmartEditLauncherService {
     ) {
       // console.log(this.config);
       console.log('hi from launcher');
-      this.featureModules.resolveFeature('smartEdit').subscribe();
-      // setTimeout(
-      //   () => this.featureModules.resolveFeature('smartEdit').subscribe(),
-      //   10000
-      // );
+      // this.featureModules.resolveFeature('smartEdit').subscribe();
+      setTimeout(
+        () => this.featureModules.resolveFeature('smartEdit').subscribe(),
+        10000
+      );
 
       // console.log('a', this.config);
     }
