@@ -1,6 +1,6 @@
 @import 'true';
 @import '../scss/versioning';
-@import 'versioning-test-util.scss';
+@import './versioning-test-util';
 
 $_fullVersion: 3.4;
 $_majorVersion: 3;

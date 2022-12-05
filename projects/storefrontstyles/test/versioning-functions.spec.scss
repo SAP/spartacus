@@ -1,6 +1,6 @@
 @import 'true';
 @import '../scss/versioning';
-@import 'versioning-test-util.scss';
+@import './versioning-test-util';
 
 @include describe('Style versioning functions') {
   @include describe('compareVersion()') {
