@@ -279,7 +279,7 @@ export class ConfiguratorTestUtils {
     };
     if (numberOfSubgroups > 0) {
       const subGroupNr = groupNr;
-      const subGroupId = groupId.concat('@subGroup') + subGroupNr;
+      const subGroupId = `${groupId}@subGroup${subGroupNr}`;
       const subGroup = this.createComplexGroup(
         subGroupNr + 1,
         subGroupId,
