@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/root';
 import { Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -22,7 +27,7 @@ import { ReviewEntry } from './asm-customer-product-reviews.model';
   selector: 'cx-asm-customer-product-reviews',
   templateUrl: './asm-customer-product-reviews.component.html',
 })
-export class AsmCustomerProductReviewsComponent implements OnDestroy {
+export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   reviewColumns: Array<CustomerTableColumn> = [
     { property: 'item', text: 'item', navigatable: true },
     { property: 'dateAndStatus', text: 'DATE / STATUS' },
@@ -36,9 +41,11 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy {
 
   constructor(
     protected context: Customer360SectionContext<AsmCustomer360ReviewList>
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.subscription.add(
-      context.data$.subscribe((data) => {
+      this.context.data$.subscribe((data) => {
         this.reviewEntries = data.reviews.map((entry) => ({
           ...entry,
           item: combineStrings(entry.productName, entry.productCode, ', SKU: '),
