@@ -1088,9 +1088,6 @@ export namespace Occ {
 
     savedBy?: Principal;
 
-    /**
-     * @member {string} [site]
-     */
     site?: string;
 
     store?: string;
