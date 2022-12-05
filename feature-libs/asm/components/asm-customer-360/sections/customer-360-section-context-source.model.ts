@@ -25,9 +25,9 @@ export class Customer360SectionContextSource<
 
   readonly data$ = new ReplaySubject<Data>(1);
 
-  readonly savedCarts$ = new ReplaySubject<Array<Cart>>();
+  readonly savedCarts$ = new ReplaySubject<Array<Cart>>(1);
 
-  readonly activeCart$ = new ReplaySubject<Cart>();
+  readonly activeCart$ = new ReplaySubject<Cart>(1);
 
-  readonly orderHistory$ = new ReplaySubject<OrderHistoryList>();
+  readonly orderHistory$ = new ReplaySubject<OrderHistoryList>(1);
 }
