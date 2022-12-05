@@ -4,11 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, OperatorFunction } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -16,35 +14,23 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-overview-filter',
   templateUrl: './configurator-overview-filter.component.html',
 })
-export class ConfiguratorOverviewFilterComponent {
+export class ConfiguratorOverviewFilterComponent implements OnChanges {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 
   @Input() showFilterBar: boolean = true;
+  @Input() config: Configurator.ConfigurationWithOverview;
 
   priceFilter = new UntypedFormControl('');
   mySelectionsFilter = new UntypedFormControl('');
   groupFilters = new Array<UntypedFormControl>();
 
-  config$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      ),
-      // filter 'strict null check safe'
-      filter(
-        (configuration) => configuration.overview != null
-      ) as OperatorFunction<
-        Configurator.Configuration,
-        Configurator.ConfigurationWithOverview
-      >,
-      tap((configuration: Configurator.ConfigurationWithOverview) => {
-        this.extractAttrFilterState(configuration);
-        this.extractGroupFilterState(configuration);
-      })
-    );
+  ngOnChanges() {
+    this.extractAttrFilterState(this.config);
+    this.extractGroupFilterState(this.config);
+  }
 
   /**
    * Updates the overview based on the filters currently selected in the UI

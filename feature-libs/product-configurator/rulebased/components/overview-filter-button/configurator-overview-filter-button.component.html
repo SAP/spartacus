@@ -3,7 +3,7 @@
     #filterButton
     class="cx-config-filter-button cx-btn btn btn-action"
     tabindex="0"
-    (click)="openFilterModal()"
+    (click)="openFilterModal(config)"
     title="{{
       (getNumFilters(config.overview) > 0
         ? 'configurator.a11y.filterOverviewWithCount'

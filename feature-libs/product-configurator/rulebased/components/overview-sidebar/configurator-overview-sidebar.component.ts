@@ -5,6 +5,11 @@
  */
 
 import { Component } from '@angular/core';
+import { ConfiguratorRouterExtractorService } from 'feature-libs/product-configurator/common/components/service/configurator-router-extractor.service';
+import { Observable, OperatorFunction } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-overview-sidebar',
@@ -13,7 +18,24 @@ import { Component } from '@angular/core';
 export class ConfiguratorOverviewSidebarComponent {
   showFilter: boolean = false;
 
-  constructor() {}
+  constructor(
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+  ) {}
+
+  config$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      // filter 'strict null check safe'
+      filter(
+        (configuration) => configuration.overview != null
+      ) as OperatorFunction<
+        Configurator.Configuration,
+        Configurator.ConfigurationWithOverview
+      >
+    );
 
   onFilter() {
     this.showFilter = true;

@@ -18,6 +18,8 @@ import {
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
+  config$ = this.launchDialogService.data$;
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,

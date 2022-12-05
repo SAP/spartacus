@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -17,20 +20,12 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorOverviewMenuComponent {
-  overview$: Observable<Configurator.Overview | undefined> =
-    this.configRouterExtractorService.extractRouterData().pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      ),
-      filter((configuration) => configuration.overview != null),
-      map((configuration) => configuration.overview),
-      tap((data) => {
-        if (data) {
-          this.setHeight();
-        }
-      })
-    );
+export class ConfiguratorOverviewMenuComponent implements OnChanges {
+  @Input() config: Configurator.ConfigurationWithOverview;
+
+  ngOnChanges() {
+    this.setHeight();
+  }
 
   protected setHeight() {
     const ovForm = this.configuratorStorefrontUtilsService.getElement(

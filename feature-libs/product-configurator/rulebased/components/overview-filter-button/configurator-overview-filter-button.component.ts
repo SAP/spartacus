@@ -54,12 +54,13 @@ export class ConfiguratorOverviewFilterButtonComponent {
 
   /**
    * opens the filter modal
+   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
    */
-  openFilterModal() {
+  openFilterModal(config: Configurator.ConfigurationWithOverview) {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
       this.filerButton,
-      {}
+      config
     );
   }
 }
