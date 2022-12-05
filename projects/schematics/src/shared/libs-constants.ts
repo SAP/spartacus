@@ -248,6 +248,8 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+
+export const S4OM_MODULE = 'S4omModule';
 /***** Feature name end *****/
 export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
