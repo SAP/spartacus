@@ -11,7 +11,7 @@ let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
 let htmlElem: HTMLElement;
 
-let mockLaunchDialogService: LaunchDialogService;
+let mockLaunchDialogService: any;
 
 const ovConfig = ConfigurationTestData.productConfiguration;
 
@@ -23,10 +23,10 @@ function initialize() {
 }
 
 function initializeMocks() {
-  mockLaunchDialogService = jasmine.createSpyObj(
-    ['closeDialog'],
-    [{ data$: of(ovConfig) }]
-  );
+  mockLaunchDialogService = {
+    closeDialog: jasmine.createSpy(),
+    data$: of(ovConfig),
+  };
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
