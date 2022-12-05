@@ -31,6 +31,12 @@ import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
+type updateConfigurationSuccessResultType =
+  | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
+  | ConfiguratorActions.UpdatePriceSummary
+  | ConfiguratorActions.SearchVariants
+  | ConfiguratorActions.ChangeGroup;
+
 @Injectable()
 /**
  * Common configurator effects, used for complex configurators like variant configurator
@@ -241,86 +247,85 @@ export class ConfiguratorBasicEffects {
     )
   );
 
-  updateConfigurationSuccess$: Observable<
-    | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
-    | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
-    | ConfiguratorActions.ChangeGroup
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
-      map(
-        (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
-          action.payload
-      ),
-      mergeMap((payload: Configurator.Configuration) => {
-        return this.store.pipe(
-          select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
-          take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
-          switchMapTo(
-            this.store.pipe(
-              select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
-              take(1),
-              map((currentGroupId) => {
-                const groupIdFromPayload =
-                  this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                    payload
-                  );
-                const parentGroupFromPayload =
-                  this.configuratorGroupUtilsService.getParentGroup(
-                    payload.groups,
-                    this.configuratorGroupUtilsService.getGroupById(
+  updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
+        map(
+          (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
+            action.payload
+        ),
+        mergeMap((payload: Configurator.Configuration) => {
+          return this.store.pipe(
+            select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
+            take(1),
+            filter((hasPendingChanges) => hasPendingChanges === false),
+            switchMapTo(
+              this.store.pipe(
+                select(
+                  ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
+                ),
+                take(1),
+                map((currentGroupId) => {
+                  const groupIdFromPayload =
+                    this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                      payload
+                    );
+                  const parentGroupFromPayload =
+                    this.configuratorGroupUtilsService.getParentGroup(
                       payload.groups,
-                      groupIdFromPayload
-                    ),
-                    undefined
-                  );
-                return {
-                  currentGroupId,
-                  groupIdFromPayload,
-                  parentGroupFromPayload,
-                };
-              }),
-              switchMap((container) => {
-                //changeGroup because in cases where a queue of updates exists with a group navigation in between,
-                //we need to ensure that the last update determines the current group.
-                const updateFinalizeSuccessAction =
-                  new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                    payload
-                  );
-                const updatePriceSummaryAction =
-                  new ConfiguratorActions.UpdatePriceSummary({
-                    ...payload,
-                    interactionState: {
-                      currentGroup: container.groupIdFromPayload,
-                    },
-                  });
-                const searchVariantsAction =
-                  new ConfiguratorActions.SearchVariants(payload);
-                return container.currentGroupId === container.groupIdFromPayload
-                  ? [
-                      updateFinalizeSuccessAction,
-                      updatePriceSummaryAction,
-                      searchVariantsAction,
-                    ]
-                  : [
-                      updateFinalizeSuccessAction,
-                      updatePriceSummaryAction,
-                      searchVariantsAction,
-                      new ConfiguratorActions.ChangeGroup({
-                        configuration: payload,
-                        groupId: container.groupIdFromPayload,
-                        parentGroupId: container.parentGroupFromPayload?.id,
-                      }),
-                    ];
-              })
+                      this.configuratorGroupUtilsService.getGroupById(
+                        payload.groups,
+                        groupIdFromPayload
+                      ),
+                      undefined
+                    );
+                  return {
+                    currentGroupId,
+                    groupIdFromPayload,
+                    parentGroupFromPayload,
+                  };
+                }),
+                switchMap((container) => {
+                  //changeGroup because in cases where a queue of updates exists with a group navigation in between,
+                  //we need to ensure that the last update determines the current group.
+                  const updateFinalizeSuccessAction =
+                    new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                      payload
+                    );
+                  const updatePriceSummaryAction =
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...payload,
+                      interactionState: {
+                        currentGroup: container.groupIdFromPayload,
+                      },
+                    });
+                  const searchVariantsAction =
+                    new ConfiguratorActions.SearchVariants(payload);
+                  return container.currentGroupId ===
+                    container.groupIdFromPayload
+                    ? [
+                        updateFinalizeSuccessAction,
+                        updatePriceSummaryAction,
+                        searchVariantsAction,
+                      ]
+                    : [
+                        updateFinalizeSuccessAction,
+                        updatePriceSummaryAction,
+                        searchVariantsAction,
+                        new ConfiguratorActions.ChangeGroup({
+                          configuration: payload,
+                          groupId: container.groupIdFromPayload,
+                          parentGroupId: container.parentGroupFromPayload?.id,
+                        }),
+                      ];
+                })
+              )
             )
-          )
-        );
-      })
-    )
-  );
+          );
+        })
+      )
+    );
 
   updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
     createEffect(() =>

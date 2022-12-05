@@ -7,7 +7,6 @@
 /**
  * Common configurator component test utils service provides helper functions for the component tests.
  */
-
 export class CommonConfiguratorTestUtilsService {
   /**
    * Helper function for proving whether the element is present in the DOM tree.
@@ -23,10 +22,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
       0,
-      "expected element identified by selector '" +
-        querySelector +
-        "' to be present, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -46,10 +42,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       numberOfElements,
-      "expected elements identified by selector '" +
-        querySelector +
-        "' to be present, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -128,10 +121,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       0,
-      "expected element identified by selector '" +
-        querySelector +
-        "' to be NOT present, but it is! innerHtml: " +
-        htmlElement.innerHTML
+      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -151,10 +141,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       expectedNumber,
-      "expected elements identified by selector '" +
-        querySelector +
-        "' to be present times, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
