@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
@@ -18,6 +18,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { EventService } from '../../event/event.service';
 import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
@@ -41,9 +42,23 @@ export class CmsService {
     };
   } = {};
 
+  // TODO: make events and platformId as required dependencies
+  constructor(
+    store: Store<StateWithCms>,
+    routingService: RoutingService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    events: EventService,
+    platformId: Object
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(store: Store<StateWithCms>, routingService: RoutingService);
   constructor(
     protected store: Store<StateWithCms>,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    @Optional() protected events?: EventService,
+    @Optional() @Inject(PLATFORM_ID) protected platformId?: Object
   ) {}
 
   /**
@@ -273,11 +288,27 @@ export class CmsService {
     pageContext: PageContext,
     forceReload = false
   ): Observable<Page | null> {
+    // if (
+    //   pageContext.id === SMART_EDIT_CONTEXT &&
+    //   pageContext.type === PageType.CONTENT_PAGE &&
+    //   this.events &&
+    //   this.platformId &&
+    //   isPlatformBrowser(this.platformId)
+    // ) {
+    //   return this.events.get(ModuleInitializedEvent).pipe(
+    //     filter((event) => event.feature === 'smartEdit'),
+    //     switchMap(() => this.hasPage(pageContext, forceReload)),
+    //     switchMap((hasPage) =>
+    //       hasPage ? this.getPageState(pageContext) : of(null)
+    //     )
+    //   );
+    // } else {
     return this.hasPage(pageContext, forceReload).pipe(
       switchMap((hasPage) =>
         hasPage ? this.getPageState(pageContext) : of(null)
       )
     );
+    // }
   }
 
   getPageIndex(pageContext: PageContext): Observable<string> {
