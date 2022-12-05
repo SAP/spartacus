@@ -2,12 +2,11 @@ const path = require('path');
 const sassTrue = require('sass-true');
 const glob = require('glob');
 
-const testPath = `test/**/*.spec.scss`;
+describe('Scss Styles', () => {
+  const testFiles = glob.sync(
+    path.resolve(process.cwd(), `test/**/*.spec.scss`)
+  );
 
-describe('Sass', () => {
-  const testFiles = glob.sync(path.resolve(process.cwd(), testPath));
-
-  // Run on each file with describe() and it() functions
   testFiles.forEach((file) =>
     sassTrue.runSass({ file: file }, { describe, it })
   );
