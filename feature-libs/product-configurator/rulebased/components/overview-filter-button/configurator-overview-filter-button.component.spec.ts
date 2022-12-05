@@ -101,7 +101,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       ).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
         component.filerButton,
-        {}
+        ovConfig
       );
     });
 

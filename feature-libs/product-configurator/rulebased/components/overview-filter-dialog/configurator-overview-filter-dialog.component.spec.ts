@@ -4,12 +4,16 @@ import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { of } from 'rxjs';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
 let htmlElem: HTMLElement;
 
 let mockLaunchDialogService: LaunchDialogService;
+
+const ovConfig = ConfigurationTestData.productConfiguration;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterDialogComponent);
@@ -19,7 +23,10 @@ function initialize() {
 }
 
 function initializeMocks() {
-  mockLaunchDialogService = jasmine.createSpyObj(['closeDialog']);
+  mockLaunchDialogService = jasmine.createSpyObj(
+    ['closeDialog'],
+    [{ data$: of(ovConfig) }]
+  );
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {

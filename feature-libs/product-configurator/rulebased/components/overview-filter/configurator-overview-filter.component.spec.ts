@@ -2,11 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
-import { NEVER, of } from 'rxjs';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -22,14 +18,9 @@ let component: ConfiguratorOverviewFilterComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterComponent>;
 let htmlElem: HTMLElement;
 
-let mockConfigRouterService: ConfiguratorRouterExtractorService;
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
 let ovConfig: Configurator.ConfigurationWithOverview;
-
-function asSpy(f: any) {
-  return <jasmine.Spy>f;
-}
 
 function initTestData() {
   ovConfig = structuredClone({
@@ -40,23 +31,16 @@ function initTestData() {
 }
 
 function initMocks() {
-  mockConfigRouterService = jasmine.createSpyObj(['extractRouterData']);
   mockConfigCommonsService = jasmine.createSpyObj([
-    'getConfiguration',
     'updateConfigurationOverview',
   ]);
-  asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
-    of(ConfigurationTestData.mockRouterState)
-  );
-  asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
-    of(ovConfig)
-  );
 }
 
 function initTestComponent() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFilterComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  component.config = ovConfig;
   fixture.detectChanges();
 }
 
@@ -70,10 +54,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           imports: [I18nTestingModule],
           declarations: [ConfiguratorOverviewFilterComponent],
           providers: [
-            {
-              provide: ConfiguratorRouterExtractorService,
-              useValue: mockConfigRouterService,
-            },
             {
               provide: ConfiguratorCommonsService,
               useValue: mockConfigCommonsService,
@@ -117,16 +97,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         htmlElem,
         '.cx-overview-filter-option',
         2 //2 default
-      );
-    });
-
-    it('should not render anything if nothing has been emitted', () => {
-      asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(NEVER);
-      initTestComponent();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-overview-filter-option, .cx-overview-filter-header'
       );
     });
 
@@ -239,9 +209,9 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       initTestData();
       initMocks();
       component = new ConfiguratorOverviewFilterComponent(
-        mockConfigCommonsService,
-        mockConfigRouterService
+        mockConfigCommonsService
       );
+      component.config = ovConfig;
     });
 
     it('extractAttrFilterState should extract attribute filters state', () => {

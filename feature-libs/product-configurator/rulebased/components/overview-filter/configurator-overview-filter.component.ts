@@ -6,7 +6,6 @@
 
 import { Component, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -16,8 +15,7 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
   @Input() showFilterBar: boolean = true;

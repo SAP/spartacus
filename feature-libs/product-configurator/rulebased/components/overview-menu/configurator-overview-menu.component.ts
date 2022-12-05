@@ -10,8 +10,6 @@ import {
   Input,
   OnChanges,
 } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
@@ -46,8 +44,6 @@ export class ConfiguratorOverviewMenuComponent implements OnChanges {
   }
 
   constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
