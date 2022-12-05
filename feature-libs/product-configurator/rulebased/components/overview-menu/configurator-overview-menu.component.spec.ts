@@ -131,12 +131,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
-  describe('setHeight', () => {
+  describe('ngOnChanges', () => {
     beforeEach(() => {
       initialize();
     });
     it('should not set menu height because form is not defined', () => {
-      component['setHeight']();
+      component.ngOnChanges();
       expect(
         configuratorStorefrontUtilsService.changeStyling
       ).not.toHaveBeenCalled();
@@ -149,7 +149,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
         .createSpy('ovForm')
         .and.returnValue(ovForm);
 
-      component['setHeight']();
+      component.ngOnChanges();
 
       expect(
         configuratorStorefrontUtilsService.changeStyling
@@ -166,7 +166,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
         .createSpy('ovForm')
         .and.returnValue(ovForm);
 
-      component['setHeight']();
+      component.ngOnChanges();
 
       expect(
         configuratorStorefrontUtilsService.changeStyling
