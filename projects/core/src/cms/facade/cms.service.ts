@@ -300,6 +300,7 @@ export class CmsService {
       this.platformId &&
       isPlatformBrowser(this.platformId)
     ) {
+      console.log('smartedit');
       return this.events.get(ModuleInitializedEvent).pipe(
         filter((event) => event.feature === 'smartEdit'),
         switchMap(() => this.hasPage(pageContext, forceReload)),
@@ -308,6 +309,7 @@ export class CmsService {
         )
       );
     } else {
+      console.log('not smartedit');
       return this.hasPage(pageContext, forceReload).pipe(
         switchMap((hasPage) =>
           hasPage ? this.getPageState(pageContext) : of(null)

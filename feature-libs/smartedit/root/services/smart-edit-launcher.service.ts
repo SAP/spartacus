@@ -59,10 +59,12 @@ export class SmartEditLauncherService {
     ) {
       if (this.featureConfigService?.isLevel('5.1')) {
         if (this.platformId && isPlatformBrowser(this.platformId)) {
+          console.log('not ssr and load from client - in smartedit launcher');
           // we don't want to process smartedit when doing SSR
           this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
         }
       } else {
+        console.log('old - in smartedit launcher');
         this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
       }
     }
