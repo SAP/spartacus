@@ -11,6 +11,7 @@ import {
   previousPage,
   QUERY_ALIAS,
   searchUrlPrefix,
+  stubFirstPageTopRatedSearchEndPoint,
   verifyProductSearch,
 } from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -26,6 +27,8 @@ context('Product search rating flow', () => {
     describe('Product search', () => {
       it('should be able to search and show product rating', () => {
         const productName = 'DSC-N1';
+
+        stubFirstPageTopRatedSearchEndPoint();
 
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
