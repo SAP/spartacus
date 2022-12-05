@@ -26,7 +26,7 @@ const mockB2BUserWithoutRight: B2BUser = {
   roles: [B2BUserRole.CUSTOMER],
 };
 
-fdescribe('RolesCellComponent', () => {
+describe('RolesCellComponent', () => {
   let component: UserDetailsCellComponent;
   let fixture: ComponentFixture<UserDetailsCellComponent>;
   let b2bUserService: B2BUserService;
