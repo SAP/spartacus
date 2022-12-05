@@ -8,7 +8,9 @@ $styleVersion: 3.2;
 $useLatestStyles: false;
 
 @include describe('Style versioning forVersion() mixin ') {
-  @include describe('with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}') {
+  @include describe(
+    'with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}'
+  ) {
     @include shouldDisplayForVersion(3.1);
     @include shouldNOTDisplayForVersion(4);
     @include shouldDisplayForVersion('3.1.2');

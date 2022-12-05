@@ -8,7 +8,9 @@ $styleVersion: 5.1;
 $useLatestStyles: false;
 
 @include describe('Style versioning forVersion() mixin ') {
-  @include describe('with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}') {
+  @include describe(
+    'with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}'
+  ) {
     @include shouldNOTDisplayForRange(4, 5);
     @include shouldNOTDisplayForRange(1.1, 4.9);
     @include shouldDisplayForRange(4.9, 5.1);
@@ -22,8 +24,11 @@ $useLatestStyles: false;
     @include shouldDisplayForVersion(4.3);
     @include shouldDisplayForVersion(5.1);
     @include shouldDisplayForVersion(4.3.2);
+    /* prettier-ignore */
     @include shouldDisplayForVersion(5.0.1);
+    /* prettier-ignore */
     @include shouldDisplayForVersion(5.0.2);
+    /* prettier-ignore */
     @include shouldDisplayForVersion(5.0.3);
     @include shouldDisplayForVersion('5.0.4');
     @include shouldNOTDisplayForVersion(6);
