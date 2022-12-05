@@ -687,6 +687,11 @@ function parseInstallArgs {
                 echo "➖ Added EPD"   
                 shift
                 ;;
+            s4om)
+                ADD_EPD_VISUALIZATION=true
+                echo "➖ Added S4OM"   
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
