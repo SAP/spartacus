@@ -1,0 +1,246 @@
+<section *ngIf="!(isLoading$ | async); else loading">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.titleCode.label' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="titleCode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="titles$ | async"
+        bindLabel="name"
+        bindValue="code"
+        placeholder="{{
+          'userRegistrationForm.fields.titleCode.placeholder' | cxTranslate
+        }}"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'userRegistrationForm.fields.titleCode.label' | cxTranslate
+        }"
+      >
+      </ng-select>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'userRegistrationForm.fields.firstName.label' | cxTranslate
+      }}</span>
+      <input
+        required="true"
+        class="form-control"
+        type="text"
+        name="firstname"
+        placeholder="{{
+          'userRegistrationForm.fields.firstName.placeholder' | cxTranslate
+        }}"
+        formControlName="firstName"
+      />
+      <cx-form-errors
+        [control]="registerForm.get('firstName')"
+      ></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'userRegistrationForm.fields.lastName.label' | cxTranslate
+      }}</span>
+      <input
+        required="true"
+        class="form-control"
+        type="text"
+        name="lastname"
+        placeholder="{{
+          'userRegistrationForm.fields.lastName.placeholder' | cxTranslate
+        }}"
+        formControlName="lastName"
+      />
+      <cx-form-errors [control]="registerForm.get('lastName')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'userRegistrationForm.fields.email.label' | cxTranslate
+      }}</span>
+      <input
+        required="true"
+        class="form-control"
+        type="email"
+        name="email"
+        placeholder="{{
+          'userRegistrationForm.fields.email.placeholder' | cxTranslate
+        }}"
+        formControlName="email"
+      />
+      <cx-form-errors [control]="registerForm.get('email')"></cx-form-errors>
+    </label>
+
+    <ng-container
+      *ngIf="countries$ | async as countries"
+      formGroupName="country"
+    >
+      <label *ngIf="countries.length !== 0">
+        <span class="label-content">{{
+          'userRegistrationForm.fields.country.label' | cxTranslate
+        }}</span>
+        <ng-select
+          class="country-select"
+          id="country-select"
+          formControlName="isocode"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="countries"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{
+            'userRegistrationForm.fields.country.placeholder' | cxTranslate
+          }}"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'userRegistrationForm.fields.country.label' | cxTranslate
+          }"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="registerForm.get('country.isocode')"
+        ></cx-form-errors>
+      </label>
+    </ng-container>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.addressLine.label' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{
+          'userRegistrationForm.fields.addressLine.placeholder' | cxTranslate
+        }}"
+        formControlName="line1"
+      />
+      <cx-form-errors [control]="registerForm.get('line1')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.secondAddressLine.label' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{
+          'userRegistrationForm.fields.secondAddressLine.placeholder'
+            | cxTranslate
+        }}"
+        formControlName="line2"
+      />
+      <cx-form-errors [control]="registerForm.get('line2')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.city.label' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{
+          'userRegistrationForm.fields.city.label' | cxTranslate
+        }}"
+        formControlName="town"
+      />
+      <cx-form-errors [control]="registerForm.get('town')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.postalCode.label' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{
+          'userRegistrationForm.fields.postalCode.placeholder' | cxTranslate
+        }}"
+        formControlName="postalCode"
+      />
+      <cx-form-errors
+        [control]="registerForm.get('postalCode')"
+      ></cx-form-errors>
+    </label>
+
+    <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
+      <label *ngIf="regions.length !== 0">
+        <span class="label-content">{{
+          'userRegistrationForm.fields.state.label' | cxTranslate
+        }}</span>
+        <ng-select
+          class="region-select"
+          formControlName="isocode"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="regions"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{
+            'userRegistrationForm.fields.state.placeholder' | cxTranslate
+          }}"
+          id="region-select"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate
+          }"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="registerForm.get('region.isocode')"
+        ></cx-form-errors>
+      </label>
+    </ng-container>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.phoneNumber.label' | cxTranslate
+      }}</span>
+      <input
+        type="tel"
+        class="form-control"
+        placeholder="{{
+          'userRegistrationForm.fields.phoneNumber.placeholder' | cxTranslate
+        }}"
+        formControlName="phoneNumber"
+      />
+      <cx-form-errors
+        [control]="registerForm.get('phoneNumber')"
+      ></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content">{{
+        'userRegistrationForm.fields.message.label' | cxTranslate
+      }}</span>
+      <textarea
+        class="form-control"
+        formControlName="message"
+        placeholder="{{
+          'userRegistrationForm.fields.message.placeholder' | cxTranslate
+        }}"
+        rows="5"
+      ></textarea>
+      <cx-form-errors [control]="registerForm.get('message')"></cx-form-errors>
+    </label>
+
+    <button type="submit" class="btn btn-block btn-primary">
+      {{ 'userRegistrationForm.formSubmitButtonLabel' | cxTranslate }}
+    </button>
+    <a
+      class="cx-login-link btn-link"
+      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      >{{ 'userRegistrationForm.goToLoginButtonLabel' | cxTranslate }}</a
+    >
+  </form>
+</section>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

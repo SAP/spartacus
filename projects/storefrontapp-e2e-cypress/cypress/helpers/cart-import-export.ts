@@ -200,6 +200,8 @@ export function verifyCart(config: ImportConfig) {
         }
       });
   }
+
+  cy.get('cx-cart-item-list .cx-remove-btn').should('be.enabled');
 }
 
 /**
@@ -255,6 +257,9 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
   cy.wait(['@refreshCart', '@addToCart']);
+  cy.get('cx-added-to-cart-dialog a.btn-primary')
+    .contains('view cart')
+    .should('be.visible');
 }
 
 /**
@@ -282,7 +287,6 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   cy.requireLoggedIn();
-  cy.visit(config.importButtonPath);
 
   const cartPage = waitForPage(
     config.importButtonPath,

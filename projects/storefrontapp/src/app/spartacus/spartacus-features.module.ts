@@ -65,6 +65,7 @@ import { ImportExportFeatureModule } from './features/cart/cart-import-export-fe
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
@@ -79,25 +80,31 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
+import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
+    AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule
+    OrderApprovalFeatureModule,
+    OrganizationUserRegistrationFeatureModule
   );
 }
 
+if (environment.cdc) {
+  featureModules.push(CdcFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }

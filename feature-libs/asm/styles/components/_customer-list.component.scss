@@ -1,0 +1,212 @@
+$sapFioriTextColor: #1d2d3e;
+$sapFioriLinkColor: #0070f2;
+$sapFioriContent_LabelColor: #6a6d70;
+
+%cx-customer-list {
+  .cx-modal-content {
+    min-height: 424px;
+  }
+
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 2rem;
+    padding-inline-start: 2.3rem;
+    border-width: 0;
+    display: flex;
+    .title {
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+    .close {
+      font-size: 1rem;
+      color: $sapFioriTextColor;
+    }
+  }
+
+  .cx-dialog-sub-header {
+    padding-top: 0;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.5rem;
+    padding-inline-start: 1.75rem;
+    border-width: 0;
+    display: flex;
+    .cx-header-actions {
+      display: flex;
+      label {
+        margin: 0;
+      }
+      .cx-pagination-buttons {
+        display: flex;
+        align-items: center;
+        cx-icon {
+          color: $sapFioriLinkColor;
+        }
+        cx-icon.previous {
+          padding-top: 0;
+          padding-inline-end: 10px;
+          padding-bottom: 0;
+          padding-inline-start: 0;
+        }
+        cx-icon.next {
+          padding-top: 0;
+          padding-inline-end: 0;
+          padding-bottom: 0;
+          padding-inline-start: 10px;
+        }
+        button {
+          text-decoration: none;
+          color: $sapFioriLinkColor;
+        }
+        .cx-btn-previous {
+          span {
+            padding-top: 0;
+            padding-inline-end: 0;
+            padding-bottom: 0;
+            padding-inline-start: 5px;
+          }
+        }
+        .cx-btn-next {
+          span {
+            padding-top: 0;
+            padding-inline-end: 5px;
+            padding-bottom: 0;
+            padding-inline-start: 0;
+          }
+        }
+        div:first-child {
+          font-size: 0.875rem;
+          color: $sapFioriTextColor;
+          padding: 0 10px;
+        }
+      }
+      .table-header-cell {
+        line-height: 40px;
+        margin-top: 0;
+        margin-inline-end: 15px;
+        margin-bottom: 0;
+        margin-inline-start: 0;
+      }
+      .table-header-cell.sort {
+        cursor: pointer;
+        cx-icon {
+          margin: 0 10px;
+        }
+      }
+    }
+    .cx-header-actions.mobile {
+      flex-direction: column;
+    }
+  }
+
+  .cx-dialog-sub-header.tablet-mobile {
+    flex-direction: column;
+  }
+
+  .cx-dialog-body {
+    padding-top: 0;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+  }
+
+  .table {
+    thead {
+      tr {
+        border-top: 1px solid var(--cx-color-light);
+        height: 44px;
+        th {
+          color: $sapFioriTextColor;
+          text-transform: none;
+          font-weight: 700;
+        }
+      }
+    }
+    tbody {
+      td {
+        font-size: 0.875rem;
+        color: $sapFioriTextColor;
+        .cx-header-text {
+          color: $sapFioriContent_LabelColor;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  .cx-btn-cell {
+    text-decoration: none;
+    color: $sapFioriLinkColor;
+    padding: 0;
+    border: 0;
+    min-height: 1.15rem;
+    width: fit-content;
+  }
+  .cx-avatar-cell {
+    width: 65px;
+    vertical-align: top;
+    .cx-avatar {
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 50%;
+      color: #fff;
+      text-align: center;
+      background: #9259cd;
+      text-transform: uppercase;
+      margin-top: 2px;
+      margin-inline-end: 10px;
+      margin-bottom: 2px;
+      margin-inline-start: 0;
+    }
+  }
+
+  .cx-cell-container {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 5px 0;
+  }
+
+  .cx-action-color {
+    color: $sapFioriLinkColor;
+  }
+
+  .cx-multi-cell {
+    vertical-align: top;
+    .cx-cell-container {
+      flex-direction: column;
+      align-items: flex-start;
+      button {
+        min-width: 0;
+      }
+      cx-icon {
+        align-self: flex-start;
+      }
+    }
+  }
+
+  .cx-empty-state,
+  .cx-error-state {
+    display: flex;
+    justify-content: left;
+  }
+  .ng-select {
+    .ng-select-container {
+      border: 0;
+      .ng-arrow-wrapper {
+        .ng-arrow {
+          border-color: $sapFioriLinkColor transparent transparent;
+        }
+      }
+    }
+  }
+  .ng-select.ng-select-focused {
+    outline: none;
+  }
+  .ng-select.customer-list-selector {
+    .ng-value-label {
+      font-weight: 700;
+      color: $sapFioriLinkColor;
+    }
+  }
+}

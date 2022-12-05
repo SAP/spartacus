@@ -49,10 +49,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -127,7 +124,11 @@ export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/product-configurator\\";
+"
+`;
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup styling should update angular.json 1`] = `
 "{
@@ -296,10 +297,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -364,7 +362,11 @@ export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/product-configurator\\";
+"
+`;
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup styling should update angular.json 1`] = `
 "{
@@ -529,10 +531,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
       }
     },
   }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
+    context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
       resources: translations,
@@ -580,7 +579,11 @@ export class ProductConfiguratorFeatureModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/product-configurator\\";
+"
+`;
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup styling should update angular.json 1`] = `
 "{
@@ -759,7 +762,11 @@ export class ProductConfiguratorFeatureModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/product-configurator\\";
+"
+`;
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup styling should update angular.json 1`] = `
 "{

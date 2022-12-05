@@ -1,0 +1,44 @@
+<form (submit)="bindCartToCustomer()">
+  <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
+  <div
+    role="search"
+    [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
+    class="cx-asm-assignCart"
+    [class.active]="valid$ | async"
+    (click)="cartIdElement.focus()"
+  >
+    <input
+      autocomplete="off"
+      #cartIdElement
+      formcontrolname="cartNumber"
+      [formControl]="cartId"
+      (keydown.enter)="bindCartToCustomer()"
+      (blur)="resetInput()"
+      [attr.aria-label]="'asm.bindCart.enterCartId' | cxTranslate"
+    />
+    <button
+      class="cx-asm-reset"
+      [attr.aria-label]="'asm.bindCart.resetCartId' | cxTranslate"
+      [class.visible]="cartId.value?.length > 0"
+      (click)="clearText()"
+    >
+      <cx-icon class="cx-icon fas fa-times-circle"></cx-icon>
+    </button>
+  </div>
+  <button
+    #bindToCart
+    class="cx-asm-bindCartToCustomer"
+    [disabled]="!(valid$ | async)"
+    type="submit"
+    [class.cx-asm-active]="valid$ | async"
+    [class.cx-bind-loading]="loading$ | async"
+  >
+    <span [attr.aria-hidden]="loading$ | async">
+      {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
+    </span>
+    <cx-dot-spinner
+      [attr.aria-hidden]="!(loading$ | async)"
+      [attr.aria-label]="'common.loading' | cxTranslate"
+    ></cx-dot-spinner>
+  </button>
+</form>

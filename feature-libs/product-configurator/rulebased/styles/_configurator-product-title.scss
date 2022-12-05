@@ -36,6 +36,8 @@
 
         span {
           @include cx-configurator-truncate-content();
+          -webkit-line-clamp: unset;
+          line-break: auto;
           text-align: center;
         }
       }
@@ -158,6 +160,31 @@
           .cx-description {
             span {
               @include cx-configurator-truncate-content();
+            }
+          }
+
+          .cx-kb-key-details {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .cx-kb-pair {
+              .cx-label {
+                text-transform: uppercase;
+                font-weight: bold;
+                padding-inline-end: 5px;
+              }
+              &:not(:first-child) {
+                padding-inline-start: 15px;
+              }
+
+              .cx-value {
+                padding-inline-start: 5px;
+                padding-inline-end: 15px;
+              }
+              &:not(:last-child) {
+                border-inline-end: solid 1px;
+              }
             }
           }
         }

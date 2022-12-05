@@ -1,5 +1,0 @@
-name: 'Hosting service deployment'
-description: 'Hosting service deployment bot'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
