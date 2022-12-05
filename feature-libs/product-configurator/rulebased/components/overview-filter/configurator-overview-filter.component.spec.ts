@@ -239,6 +239,19 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       });
     });
 
+    it('ngOnChanges should extract filters state', () => {
+      ovConfig.overview.attributeFilters = [
+        Configurator.OverviewFilter.USER_INPUT,
+      ];
+      ovConfig.overview.groupFilters = ['1'];
+      component.ngOnChanges();
+      expect(component.priceFilter.value).toBeFalsy();
+      expect(component.mySelectionsFilter.value).toBeTruthy();
+      expect(component.groupFilters.length).toBe(2);
+      expect(component.groupFilters[0].value).toBeTruthy();
+      expect(component.groupFilters[1].value).toBeFalsy();
+    });
+
     describe('collectAttrFilters', () => {
       it('should collect attribute filters when nothing selected', () => {
         let attrFilters = component['collectAttrFilters']();
