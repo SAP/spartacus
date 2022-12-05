@@ -99,7 +99,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     );
   });
 
-  it('should render ghost menu as long as the data is not ready', () => {
+  //TODO: move test with ghost menu to sidebar CXSPA-1967
+  xit('should render ghost menu as long as the data is not ready', () => {
     initialize();
     expect(htmlElem.innerHTML).toContain('cx-ghost-menu');
   });
