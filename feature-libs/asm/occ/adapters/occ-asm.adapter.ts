@@ -114,9 +114,10 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http
-      .get<CustomerSearchPage>(url, { headers, params })
-      .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
+    return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
+    );
   }
 
   bindCart({ cartId, customerId }: BindCartParams): Observable<unknown> {
