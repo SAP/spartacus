@@ -24,11 +24,11 @@ $useLatestStyles: false;
     @include shouldDisplayForVersion(4.3);
     @include shouldDisplayForVersion(5.1);
     @include shouldDisplayForVersion(4.3.2);
-    /* prettier-ignore */
+    // prettier-ignore
     @include shouldDisplayForVersion(5.0.1);
-    /* prettier-ignore */
+    // prettier-ignore
     @include shouldDisplayForVersion(5.0.2);
-    /* prettier-ignore */
+    // prettier-ignore
     @include shouldDisplayForVersion(5.0.3);
     @include shouldDisplayForVersion('5.0.4');
     @include shouldNOTDisplayForVersion(6);
