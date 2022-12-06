@@ -1,5 +1,9 @@
 %VariantConfigurationOverviewTemplate {
   @include cx-configurator-template();
+}
+
+%VariantConfigurationOverviewTemplate:has(cx-page-slot):has(.VariantConfigOverviewSidebar) {
+  @include cx-configurator-template();
   cx-page-slot.VariantConfigOverviewContent,
   cx-page-slot.VariantConfigOverviewSidebar {
     height: fit-content;
