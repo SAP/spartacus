@@ -55,7 +55,11 @@ export class StoreFinderFeatureModule { }
 "
 `;
 
-exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/storefinder";"`;
+exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/storefinder";
+"
+`;
 
 exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup styling should update angular.json 1`] = `
 "{

@@ -90,7 +90,11 @@ export class ProductBulkPricingFeatureModule { }
 "
 `;
 
-exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/product";"`;
+exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/product";
+"
+`;
 
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should update angular.json 1`] = `
 "{
@@ -269,7 +273,11 @@ export class ProductImageZoomFeatureModule { }
 "
 `;
 
-exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/product";"`;
+exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/product";
+"
+`;
 
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should update angular.json 1`] = `
 "{
@@ -448,7 +456,11 @@ export class ProductVariantsFeatureModule { }
 "
 `;
 
-exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/product";"`;
+exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/product";
+"
+`;
 
 exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should update angular.json 1`] = `
 "{

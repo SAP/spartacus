@@ -86,7 +86,11 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/user";"`;
+exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/user";
+"
+`;
 
 exports[`Spartacus User schematics: ng-add User Profile feature general setup styling should update angular.json 1`] = `
 "{
@@ -265,7 +269,11 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should create a proper scss file 1`] = `"@import "@spartacus/user";"`;
+exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/user";
+"
+`;
 
 exports[`Spartacus User schematics: ng-add User-Account feature general setup styling should update angular.json 1`] = `
 "{

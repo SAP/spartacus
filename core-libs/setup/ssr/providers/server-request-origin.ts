@@ -18,14 +18,14 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
       skipSelf: true,
     });
 
-    // SSR mode
-    if (serverRequestOrigin) {
-      return serverRequestOrigin;
-    }
-
-    // likely prerendering mode
+    // usually prerendering mode, but can be SSR
     if (options?.serverRequestOrigin) {
       return options.serverRequestOrigin;
+    }
+
+    // SSR mode, from express engine
+    if (serverRequestOrigin) {
+      return serverRequestOrigin;
     }
 
     throw new Error(
