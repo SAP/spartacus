@@ -75,6 +75,6 @@ echo "Running schematics unit tests and code coverage for smartedit library"
 
 yarn --cwd feature-libs/smartedit run test:schematics --coverage
 
-echo "Running unit tests and code coverage for storefrontstyle"
+echo "Running unit tests for storefrontstyle"
 
-yarn --cwd projects/storefrontstyles run test --runInBand --coverage
+yarn --cwd projects/storefrontstyles run test
