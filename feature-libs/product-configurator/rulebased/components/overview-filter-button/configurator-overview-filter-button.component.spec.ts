@@ -100,7 +100,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         mockLaunchDialogService.openDialogAndSubscribe
       ).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-        component.filerButton,
+        component.filterButton,
         ovConfig
       );
     });
