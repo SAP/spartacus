@@ -91,14 +91,14 @@ export class MultiCartEffects {
             cartId: action.payload,
           });
       }
+      return undefined;
     }),
     filter(isNotUndefined)
   );
 
   /**
    * Verifies if cart is the current cart and returns the appropriate cart type
-   * 
-   * @param action 
+   * @param action
    * @returns cart type needed on load
    */
   private getActiveCartTypeOnLoad(action: any) {
@@ -107,25 +107,24 @@ export class MultiCartEffects {
         cartType: CartType.ACTIVE,
         cartId: '',
       });
+    }
+    return undefined;
   }
-  return undefined;
-}
 
-/**
- * Verifies if cart is active and returns the appropriate cart type
- * 
- * @param action 
- * @returns cart type needed on creation
- */
-private getActiveCartTypeOnCreate(action: any) {
-  if (action?.payload?.extraData?.active) {
-    return new CartActions.SetCartTypeIndex({
-      cartType: CartType.ACTIVE,
-      cartId: action.meta.entityId as string,
-    });
+  /**
+   * Verifies if cart is active and returns the appropriate cart type
+   * @param action
+   * @returns cart type needed on creation
+   */
+  private getActiveCartTypeOnCreate(action: any) {
+    if (action?.payload?.extraData?.active) {
+      return new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: action.meta.entityId as string,
+      });
+    }
+    return undefined;
   }
-  return undefined;
-}
-  
+
   constructor(private actions$: Actions) {}
 }
