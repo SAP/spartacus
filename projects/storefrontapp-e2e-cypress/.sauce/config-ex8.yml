@@ -1,0 +1,138 @@
+# https://docs.saucelabs.com/web-apps/automated-testing/cypress/
+# https://docs.saucelabs.com/web-apps/automated-testing/cypress/yaml/
+#apiVersion: v1alpha
+apiVersion: v1
+kind: cypress
+sauce:
+  region: eu-central-1 # or us-west-1
+  concurrency: 12
+  metadata:
+    tags:
+      - cypress
+      - default
+    build: "config-ex5 $CURRENT_TIME"
+  tunnel:
+    name: "name"
+cypress:
+  version: 10.7.0
+  configFile: "cypress.config.ts" # We determine related files based on the location of the config file.
+# Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
+rootDir: ./
+suites:
+  - name: "Cypress Chrome W11 - Smoke"
+    #browser: "chrome"
+    #platformName: "Windows 11"
+    #screenResolution: "1400x1050"
+    browser: "chrome"
+    platformName: "macOS 12"
+    screenResolution: "1600x1200"
+    headless: true
+    shard: "concurrency"
+    config:
+      specPattern: ["cypress/e2e/regression/anonymous-consents/*.core-e2e.cy.ts", 
+      "cypress/e2e/regression/asm/*.core-e2e.cy.ts" ,
+      "cypress/e2e/regression/cart/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/checkout/*.core-e2e.cy.ts", 
+      "cypress/e2e/regression/consignment-tracking/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/coupons/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/homepage/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/image-zoom/*.*",
+      "cypress/e2e/regression/inventory-display/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/miscellaneous/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/my-account/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/notification/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/order/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/password-visibility/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/product_configurator/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/product_details/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/product_carousel/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/product_search/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/promotions/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/qualtrics/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/redirects/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/reset-password/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/save-for-later/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/scrolling/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/site-context/currency/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/site-context/language/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/storefinder/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/user_access/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/variants/*.core-e2e.cy.ts",
+      "cypress/e2e/regression/wishlist/*.core-e2e.cy.ts"
+      ]
+      #specPattern: ["cypress/e2e/regression/coupons/*.core-e2e.cy.ts"]
+      
+      #Required
+      # specPattern: ["cypress/e2e/regression/image-zoom/*.e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/homepage/*.*"]
+      # specPattern: ["cypress/e2e/regression/anonymous-consents/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/asm/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/cart/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/checkout/*.core-e2e.cy.ts"]
+
+      # specPattern: ["cypress/e2e/regression/anonymous-consents/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/my-account/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/product-search/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/consignment-tracking/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/coupons/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/image-zoom/*.e2e.cy.ts"]
+
+      # specPattern: ["cypress/e2e/regression/inventory-display/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/miscellaneous/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/notification/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/orders/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/password-visibility/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/product_configurator/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/product_details/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/product-carousel/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/promotions/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/qualtrics/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/redirects/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/reset-password/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/save-for-later/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/scrolling/*.core-e2e.cy.ts"]  
+      # specPattern: ["cypress/e2e/regression/site-context/currency/*.core-e2e.cy.ts"]  
+      # specPattern: ["cypress/e2e/regression/site-context/language/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/storefinder/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/user_access/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/variants/*.core-e2e.cy.ts"]
+      # specPattern: ["cypress/e2e/regression/wishlist/*.core-e2e.cy.ts"]
+             
+npm:
+  dependencies:
+    - "@cypress/webpack-preprocessor"
+    - "webpack"
+    - "@angular/animations"
+    - "@angular/common"
+    - "@angular/compiler"
+    - "@angular/core"
+    - "@angular/forms"
+    - "@angular/platform-browser"
+    - "@angular/platform-browser-dynamic"
+    - "@angular/platform-server"
+    - "@angular/pwa"
+    - "@angular/router"
+    - "@angular/service-worker"
+    - "@ng-bootstrap/ng-bootstrap"
+    - "@ng-select/ng-select"
+    - "@ngrx/effects"
+    - "@ngrx/router-store"
+    - "@ngrx/store"
+    - "@nguniversal/express-engine"
+    - "@types/googlemaps"
+    - "angular-oauth2-oidc"
+    - "bootstrap"
+    - "comment-json"
+    - "express"
+    - "hamburgers"
+    - "i18next"
+    - "i18next-http-backend"
+    - "ngx-infinite-scroll"
+    - "parse5"
+    - "rxjs"
+    - "ts-loader"
+    - "tslib"
+    - "zone.js"
+    - "typescript"
+    - "@testing-library/cypress"
+    - "cypress-file-upload"
