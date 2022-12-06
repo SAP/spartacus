@@ -37,10 +37,16 @@ export class ConfiguratorOverviewSidebarComponent {
       >
     );
 
+  /**
+   * Triggers display of the filter view in the overview sidebar
+   */
   onFilter() {
     this.showFilter = true;
   }
 
+  /**
+   * Triggers display of the menu view in the overview sidebar
+   */
   onMenu() {
     this.showFilter = false;
   }
