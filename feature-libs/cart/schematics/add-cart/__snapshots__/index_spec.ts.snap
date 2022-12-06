@@ -75,7 +75,11 @@ export class CartBaseFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/cart\\";
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should update angular.json 1`] = `
 "{
@@ -254,7 +258,11 @@ export class CartImportExportFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/cart\\";
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should update angular.json 1`] = `
 "{
@@ -433,7 +441,11 @@ export class CartQuickOrderFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/cart\\";
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should update angular.json 1`] = `
 "{
@@ -612,7 +624,11 @@ export class CartSavedCartFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/cart\\";
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should update angular.json 1`] = `
 "{
@@ -801,7 +817,11 @@ export class WishListFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/cart\\";
+"
+`;
 
 exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styling should update angular.json 1`] = `
 "{
