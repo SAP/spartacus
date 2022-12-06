@@ -77,4 +77,4 @@ yarn --cwd feature-libs/smartedit run test:schematics --coverage
 
 echo "Running unit tests for storefrontstyle"
 
-yarn --cwd projects/storefrontstyles run test
+yarn --cwd projects/storefrontstyles run test --runInBand
