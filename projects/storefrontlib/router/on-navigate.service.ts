@@ -57,9 +57,7 @@ export class OnNavigateService {
        * @deprecated since 5.1
        * this feature level check should be removed in Major release
        */
-      if (isFeatureLevel(this.config, '5.1')) {
-        this.viewportScroller.setHistoryScrollRestoration('manual');
-      }
+      this.setHistoryScrollRestoration();
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
@@ -93,6 +91,15 @@ export class OnNavigateService {
 
           this.hostComponent?.location?.nativeElement.focus();
         });
+    }
+  }
+
+  /**
+   * Set history scroll restoration is feature flag is 5.1
+   */
+  private setHistoryScrollRestoration() {
+    if (isFeatureLevel(this.config, '5.1')) {
+      this.viewportScroller.setHistoryScrollRestoration('manual');
     }
   }
 
