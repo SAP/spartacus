@@ -7,6 +7,8 @@
 import { Location } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { FeatureConfigService, FeatureModulesService } from '@spartacus/core';
+import { queueScheduler } from 'rxjs';
+import { observeOn } from 'rxjs/operators';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**
@@ -81,7 +83,10 @@ export class SmartEditLauncherService {
       console.log('hi from launcher');
       // this.featureModules.resolveFeature('smartEdit').subscribe();
       setTimeout(() =>
-        this.featureModules.resolveFeature('smartEdit').subscribe()
+        this.featureModules
+          .resolveFeature('smartEdit')
+          .pipe(observeOn(queueScheduler))
+          .subscribe()
       );
 
       // console.log('a', this.config);
