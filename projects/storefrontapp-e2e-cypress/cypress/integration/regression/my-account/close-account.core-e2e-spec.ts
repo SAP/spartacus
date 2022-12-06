@@ -1,4 +1,5 @@
 import { login } from '../../../helpers/auth-forms';
+import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -64,11 +65,13 @@ describe('My Account - Close Account', () => {
 
         cy.wait('@deleteQuery');
 
-        cy.location('pathname').should('contain', '/');
+        const homePageAlias = waitForPage('homepage', 'getHomePage');
 
         alerts
           .getSuccessAlert()
           .should('contain', 'Account closed with success');
+
+        cy.wait(`@${homePageAlias}`);
 
         cy.get('cx-login .cx-login-greet').should('not.exist');
       });
