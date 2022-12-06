@@ -82,7 +82,7 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * check whether the button to remove all filters should be shown
    *
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param {Configurator.Overview} overview - current configuration overview data
    * @returns {boolean} - 'true' only if the button to remove all filters should be shown
    */
   isShowRemoveAll(overview: Configurator.Overview): boolean {

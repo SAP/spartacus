@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
@@ -18,30 +13,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorOverviewMenuComponent implements OnChanges {
+export class ConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
-
-  ngOnChanges() {
-    this.setHeight();
-  }
-
-  protected setHeight() {
-    const ovForm = this.configuratorStorefrontUtilsService.getElement(
-      'cx-configurator-overview-form'
-    );
-
-    const formHeight = ovForm?.getBoundingClientRect()?.height
-      ? Math.round(ovForm?.getBoundingClientRect()?.height)
-      : 0;
-
-    if (formHeight) {
-      this.configuratorStorefrontUtilsService.changeStyling(
-        'cx-configurator-overview-menu',
-        'height',
-        formHeight + 'px'
-      );
-    }
-  }
 
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService

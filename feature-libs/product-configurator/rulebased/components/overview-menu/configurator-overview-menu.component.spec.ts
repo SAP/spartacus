@@ -11,7 +11,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Type } from '@angular/core';
-import { ConfiguratorGroupsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -99,12 +99,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
     );
   });
 
-  //TODO: move test with ghost menu to sidebar CXSPA-1967
-  xit('should render ghost menu as long as the data is not ready', () => {
-    initialize();
-    expect(htmlElem.innerHTML).toContain('cx-ghost-menu');
-  });
-
   describe('getGroupLevelStyleClasses', () => {
     it('should return style class according to level', () => {
       initialize();
@@ -128,57 +122,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledWith('#' + OV_GROUP_ID);
-    });
-  });
-
-  describe('ngOnChanges', () => {
-    beforeEach(() => {
-      initialize();
-    });
-    it('should not set menu height because form is not defined', () => {
-      component.ngOnChanges();
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).not.toHaveBeenCalled();
-    });
-
-    it('should not set menu height because form height is not defined', () => {
-      const ovForm = document.createElement('cx-configurator-overview-form');
-
-      document.querySelector = jasmine
-        .createSpy('ovForm')
-        .and.returnValue(ovForm);
-
-      component.ngOnChanges();
-
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).not.toHaveBeenCalled();
-    });
-
-    it('should set menu height', () => {
-      const ovForm = document.createElement('cx-configurator-overview-form');
-      spyOn(ovForm, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 1200, 500, 1200)
-      );
-
-      document.querySelector = jasmine
-        .createSpy('ovForm')
-        .and.returnValue(ovForm);
-
-      component.ngOnChanges();
-
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).toHaveBeenCalled();
-
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).toHaveBeenCalledWith(
-        'cx-configurator-overview-menu',
-        'height',
-        ovForm.getBoundingClientRect().height + 'px'
-      );
     });
   });
 });

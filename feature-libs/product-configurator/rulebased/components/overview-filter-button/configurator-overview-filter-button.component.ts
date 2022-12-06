@@ -23,7 +23,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
 
-  @ViewChild('filterButton') filerButton: ElementRef;
+  @ViewChild('filterButton') filterButton: ElementRef;
 
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -42,7 +42,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   /**
    * get the number of filters currently applied to the overview page
    *
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param {Configurator.Overview} overview - current configuration overview data
    * @returns {number} - number of applied filters
    */
   getNumFilters(overview: Configurator.Overview): number {
@@ -59,7 +59,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   openFilterModal(config: Configurator.ConfigurationWithOverview) {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-      this.filerButton,
+      this.filterButton,
       config
     );
   }

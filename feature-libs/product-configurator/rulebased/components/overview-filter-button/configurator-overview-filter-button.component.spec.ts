@@ -6,7 +6,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -100,7 +100,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         mockLaunchDialogService.openDialogAndSubscribe
       ).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_OV_FILTER,
-        component.filerButton,
+        component.filterButton,
         ovConfig
       );
     });
@@ -132,6 +132,22 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         htmlElem,
         '.cx-config-filter-button',
         'configurator.button.filterOverview numAppliedFilters:0'
+      );
+    });
+
+    it('while loading should not render filter button but ghost button instead', () => {
+      asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(NEVER);
+      initComponent();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-filter-button'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-filter-button'
       );
     });
 
