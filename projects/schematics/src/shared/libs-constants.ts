@@ -177,6 +177,8 @@ export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/ro
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
 export const SPARTACUS_S4OM = '@spartacus/s4om';
+export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
+export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
 export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 /***** Scopes end *****/
@@ -249,7 +251,8 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
-export const S4OM_MODULE = 'S4omModule';
+export const S4OM_FEATURE_NAME = 'S4-HANA-Order-Management';
+
 /***** Feature name end *****/
 export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';

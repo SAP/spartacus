@@ -1,62 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_S4OM_FEATURE,
-  configureB2bFeatures,
-  LibraryOptions as S4OMOptions,
+  analyzeApplication,
+  analyzeCrossFeatureDependencies,
+  finalizeInstallation,
+  LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
-  S4OM_MODULE,
-  shouldAddFeature,
-  SPARTACUS_S4OM,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  S4OM_FOLDER_NAME,
-  S4OM_MODULE_NAME,
-  S4OM_TRANSLATIONS,
-  S4OM_TRANSLATION_CHUNKS_CONFIG,
-  SPARTACUS_S4OM_ASSETS,
-} from '../constants';
 
-export function addS4OMFeature(options: S4OMOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+export function addSpartacusOrganization(
+  options: SpartacusOrganizationOptions
+): Rule {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+
     return chain([
+      analyzeApplication(options, features),
+
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_S4OM_FEATURE, options.features)
-        ? chain([configureB2bFeatures(options, packageJson), addS4OM(options)])
-        : noop(),
+      finalizeInstallation(options, features),
     ]);
   };
-}
-
-function addS4OM(options: S4OMOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: S4OM_FOLDER_NAME,
-    moduleName: S4OM_MODULE_NAME,
-    featureModule: {
-      name: S4OM_MODULE,
-      importPath: SPARTACUS_S4OM,
-    },
-    i18n: {
-      resources: S4OM_TRANSLATIONS,
-      chunks: S4OM_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_S4OM_ASSETS,
-    },
-    dependencyManagement: {
-      featureName: CLI_S4OM_FEATURE,
-      featureDependencies: {},
-    },
-  });
 }
