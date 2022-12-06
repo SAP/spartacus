@@ -210,4 +210,7 @@ export const common = {
     showPassword: 'Show password',
     hidePassword: 'Hide password',
   },
+  generalErrors: {
+    pageFailure: 'The page could not be loaded. Please try again later.',
+  },
 };
