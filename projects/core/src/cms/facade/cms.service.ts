@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
@@ -19,9 +20,13 @@ import {
   tap,
 } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { CmsComponent } from '../../model/cms.model';
+import { ModuleInitializedEvent } from '../../lazy-loading/events/module-initialized-event';
+import { CmsComponent, PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { PageContext } from '../../routing/models/page-context.model';
+import {
+  PageContext,
+  SMART_EDIT_CONTEXT,
+} from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { isNotUndefined } from '../../util/type-guards';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -288,29 +293,29 @@ export class CmsService {
     pageContext: PageContext,
     forceReload = false
   ): Observable<Page | null> {
-    // if (
-    //   pageContext.id === SMART_EDIT_CONTEXT &&
-    //   pageContext.type === PageType.CONTENT_PAGE &&
-    //   this.events &&
-    //   this.platformId &&
-    //   isPlatformBrowser(this.platformId)
-    // ) {
-    //   console.log('smartedit');
-    //   return this.events.get(ModuleInitializedEvent).pipe(
-    //     filter((event) => event.feature === 'smartEdit'),
-    //     switchMap(() => this.hasPage(pageContext, forceReload)),
-    //     switchMap((hasPage) =>
-    //       hasPage ? this.getPageState(pageContext) : of(null)
-    //     )
-    //   );
-    // } else {
-    // console.log('not smartedit');
-    return this.hasPage(pageContext, forceReload).pipe(
-      switchMap((hasPage) =>
-        hasPage ? this.getPageState(pageContext) : of(null)
-      )
-    );
-    // }
+    if (
+      pageContext.id === SMART_EDIT_CONTEXT &&
+      pageContext.type === PageType.CONTENT_PAGE &&
+      this.events &&
+      this.platformId &&
+      isPlatformBrowser(this.platformId)
+    ) {
+      console.log('smartedit');
+      return this.events.get(ModuleInitializedEvent).pipe(
+        filter((event) => event.feature === 'smartEdit'),
+        switchMap(() => this.hasPage(pageContext, forceReload)),
+        switchMap((hasPage) =>
+          hasPage ? this.getPageState(pageContext) : of(null)
+        )
+      );
+    } else {
+      console.log('not smartedit');
+      return this.hasPage(pageContext, forceReload).pipe(
+        switchMap((hasPage) =>
+          hasPage ? this.getPageState(pageContext) : of(null)
+        )
+      );
+    }
   }
 
   getPageIndex(pageContext: PageContext): Observable<string> {

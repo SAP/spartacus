@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { FeatureConfigService, FeatureModulesService } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
@@ -57,20 +57,22 @@ export class SmartEditLauncherService {
       this.isLaunchedInSmartEdit() &&
       this.featureModules.isConfigured(SMART_EDIT_FEATURE)
     ) {
-      if (this.featureConfigService?.isLevel('5.1')) {
-        if (this.platformId && isPlatformBrowser(this.platformId)) {
-          console.log('not ssr and load from client - in smartedit launcher');
-          // we don't want to process smartedit when doing SSR
-          // this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+      // if (this.featureConfigService?.isLevel('5.1')) {
+      //   if (this.platformId && isPlatformBrowser(this.platformId)) {
+      console.log(
+        'not ssr and load from client - in smartedit launcher timeout, but no more platform verification'
+      );
+      // we don't want to process smartedit when doing SSR
+      // this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
 
-          setTimeout(() => {
-            this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
-          });
-        }
-      } else {
-        console.log('old - in smartedit launcher');
+      setTimeout(() => {
         this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
-      }
+      });
+      //   }
+      // } else {
+      //   console.log('old - in smartedit launcher');
+      //   this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+      // }
     }
   }
 
