@@ -80,7 +80,7 @@ export class SmartEditLauncherService {
       this.featureModules.isConfigured('smartEdit')
     ) {
       // console.log(this.config);
-      console.log('hi from launcher');
+      console.log('hi from launcher - scheduler');
       // this.featureModules.resolveFeature('smartEdit').subscribe();
       setTimeout(() =>
         this.featureModules
