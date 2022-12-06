@@ -101,6 +101,7 @@ function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  component.ghostStyle = false;
   fixture.detectChanges();
 }
 
