@@ -271,8 +271,6 @@ export function assignmentsTest(config: MyCompanyConfig) {
           .contains(ASSIGNMENT_LABELS.MANAGE)
           .click();
         cy.wait('@getAssignable');
-        // waiting for the UI element to finish loading. TODO: This is not ideal. there has to be a way to work around loading states.
-        cy.wait(1000);
       } else {
         cy.get('cx-org-card .header a')
           .contains(ASSIGNMENT_LABELS.MANAGE)

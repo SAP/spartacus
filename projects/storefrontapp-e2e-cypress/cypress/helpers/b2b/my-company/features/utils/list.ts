@@ -90,11 +90,11 @@ export function testListSorting(config: MyCompanyConfig): void {
 }
 
 function ngSelect(sortKey: string): void {
-  cy.get(`ng-select`).click().wait(1000);
+  cy.get(`ng-select`).click();
+  cy.wait(1000);
   cy.get('div.ng-option')
     .contains(sortKey, { matchCase: false })
-    .click({ force: true })
-    .wait(1000);
+    .click({ force: true });
 }
 
 /**
@@ -134,7 +134,7 @@ export function checkRows(rows): void {
                   }
                 });
               } else {
-                cy.get('td').eq(i).should('contain.text', row.text[i]);
+                cy.get('td').eq(i).contains(row.text[i]);
               }
             }
           }
