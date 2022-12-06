@@ -79,7 +79,3 @@ yarn --cwd feature-libs/tracking run test:schematics --coverage
 echo "Running unit tests and code coverage for schematics library"
 
 yarn --cwd projects/schematics run test --runInBand --coverage
-
-echo "Running unit tests and code coverage for storefrontstyle"
-
-yarn --cwd projects/storefrontstyles run test --runInBand --coverage
