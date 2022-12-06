@@ -61,7 +61,11 @@ export class SmartEditLauncherService {
         if (this.platformId && isPlatformBrowser(this.platformId)) {
           console.log('not ssr and load from client - in smartedit launcher');
           // we don't want to process smartedit when doing SSR
-          this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+          // this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+
+          setTimeout(() => {
+            this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
+          });
         }
       } else {
         console.log('old - in smartedit launcher');
@@ -79,7 +83,10 @@ export class SmartEditLauncherService {
     const cmsToken = params
       ?.split('&')
       .find((param) => param.startsWith('cmsTicketId='));
+    console.log(`cmsToken = ${cmsToken}`);
     this._cmsTicketId = cmsToken?.split('=')[1];
+
+    console.log(`path pop = ${path.split('/').pop()}`);
 
     return (
       path.split('/').pop() === this.config.smartEdit?.storefrontPreviewRoute &&
