@@ -14,6 +14,7 @@ import {
   Occ,
   OccConfig,
   OccEndpoints,
+  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -111,6 +112,9 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
         return req.method === 'GET' && req.url === 'paymenttypes';
       });
 
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(paymentTypesList);
