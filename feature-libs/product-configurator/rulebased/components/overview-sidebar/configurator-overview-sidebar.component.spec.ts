@@ -1,7 +1,6 @@
-import { Type } from '@angular/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TranslationService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
@@ -36,12 +35,6 @@ function initTestComponent() {
   fixture.detectChanges();
 }
 
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of('');
-  }
-}
-
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return defaultConfigObservable;
@@ -57,19 +50,11 @@ class MockConfiguratorRouterExtractorService {
 class MockConfiguratorGroupsService {}
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
-  let componentUnderTest: ConfiguratorOverviewSidebarComponent;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorOverviewSidebarComponent],
       providers: [
-        {
-          provide: ConfiguratorOverviewSidebarComponent,
-          useClass: ConfiguratorOverviewSidebarComponent,
-        },
-        {
-          provide: TranslationService,
-          useClass: MockTranslationService,
-        },
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -84,10 +69,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         },
       ],
     });
-
-    componentUnderTest = TestBed.inject(
-      ConfiguratorOverviewSidebarComponent as Type<ConfiguratorOverviewSidebarComponent>
-    );
   });
 
   beforeEach(() => {
@@ -139,14 +120,14 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should set showFilters to true by calling onFilter', () => {
-    componentUnderTest.showFilter = false;
-    componentUnderTest.onFilter();
-    expect(componentUnderTest.showFilter).toBeTruthy();
+    component.showFilter = false;
+    component.onFilter();
+    expect(component.showFilter).toBe(true);
   });
 
   it('should set showFilters to false by calling onMenu', () => {
-    componentUnderTest.showFilter = true;
-    componentUnderTest.onMenu();
-    expect(componentUnderTest.showFilter).toBeFalsy();
+    component.showFilter = true;
+    component.onMenu();
+    expect(component.showFilter).toBe(false);
   });
 });
