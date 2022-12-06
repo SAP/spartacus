@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PointOfService, RoutingService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  CmsService,
+  Page,
+  PointOfService,
+  RoutingService,
+} from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreService,
@@ -14,16 +19,16 @@ import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyPreferredStoreComponent {
-  public preferredStore$: Observable<PointOfService>;
-  public content = {
+export class MyPreferredStoreComponent implements OnInit {
+  preferredStore$: Observable<PointOfService>;
+  content = {
     header: 'My Store',
     actions: [
       { event: 'send', name: 'Get Directions' },
@@ -33,12 +38,14 @@ export class MyPreferredStoreComponent {
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
   pointOfService: PointOfService;
+  isStoreFinder = false;
 
   constructor(
     private preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderService
+    protected storeFinderService: StoreFinderService,
+    protected cmsService: CmsService
   ) {
     this.preferredStore$ = this.preferredStoreService.getPreferredStore$().pipe(
       filter((preferredStore) => preferredStore !== null),
@@ -59,6 +66,27 @@ export class MyPreferredStoreComponent {
         this.pointOfService = store;
       })
     );
+  }
+
+  ngOnInit(): void {
+    this.cmsService
+      .getCurrentPage()
+      .pipe(
+        filter<Page>(Boolean),
+        take(1),
+        tap(
+          (cmsPage) =>
+            (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
+        ),
+        filter(() => this.isStoreFinder),
+        tap(() => {
+          this.content = {
+            header: '',
+            actions: [{ event: 'send', name: 'Get Directions' }],
+          };
+        })
+      )
+      .subscribe();
   }
 
   /**

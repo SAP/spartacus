@@ -65,6 +65,12 @@ export const addressBookPickupInStore = {
   heading: 'Pick-Up Store',
 };
 
+/** Translation keys for Preferred Store on Store Finder Page */
+
+export const storeFinderPickupInStore = {
+  heading: 'My Store',
+};
+
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInfo,
@@ -76,4 +82,5 @@ export const pickupInStore = {
   storeSchedule,
   storeSearch,
   addressBookPickupInStore,
+  storeFinderPickupInStore,
 };

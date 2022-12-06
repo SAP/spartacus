@@ -1,4 +1,6 @@
 cx-my-preferred-store {
+  @import 'bootstrap/scss/buttons';
+
   .cx-store-opening-hours-toggle {
     @include type('6');
     color: $cx-color-link-primary;
@@ -17,5 +19,55 @@ cx-my-preferred-store {
 
   .cx-my-preferred-store-heading {
     margin-bottom: 1.5rem;
+  }
+
+  .container {
+    .cx-my-preferred-store-heading {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      color: var(--cx-color-primary);
+    }
+    [data-test-id='preferredStoreAddressBook'] .cx-store-name {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    cx-card {
+      .cx-card-actions {
+        @extend .btn, .btn-sm, .btn-block;
+        @extend .btn-outline-text !optional;
+        border-width: 2px;
+        border-style: solid;
+        text-decoration: none;
+        margin-top: 1rem;
+        &:hover {
+          color: var(--cx-color-primary);
+          border-width: 2px;
+          border-style: solid;
+          border-color: var(--cx-color-primary);
+          background-color: var(--cx-color-inverse);
+        }
+
+        &.active {
+          color: var(--cx-color-primary);
+          border-width: 2px;
+          border-style: solid;
+          background-color: var(--cx-color-inverse);
+        }
+
+        &.disabled {
+          color: var(--cx-color-light);
+          border-width: 2px;
+          border-style: solid;
+          border-color: var(--cx-color-light);
+          opacity: 1;
+        }
+
+        .link.cx-action-link {
+          margin: 0.5rem;
+          font-weight: 700;
+          text-decoration: none;
+        }
+      }
+    }
   }
 }

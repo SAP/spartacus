@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsConfig,
+  CmsService,
   ConfigModule,
   I18nTestingModule,
+  Page,
   RoutingService,
 } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
@@ -14,10 +16,20 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { PickupLocationsSearchFacade } from 'feature-libs/pickup-in-store/root/facade';
 import { MockStoreFinderService } from 'feature-libs/storefinder/components/abstract-store-item/abstract-store-item.component.spec';
+import { Observable, of } from 'rxjs';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
+}
+
+class MockCmsService {
+  getCurrentPage(): Observable<Page> {
+    return of();
+  }
+  refreshLatestPage() {}
+  refreshPageById() {}
+  refreshComponent() {}
 }
 
 describe('MyPreferredStoreComponent', () => {
@@ -48,6 +60,7 @@ describe('MyPreferredStoreComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();
     routingService = TestBed.inject(RoutingService);
