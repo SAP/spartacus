@@ -1,4 +1,4 @@
-<ng-container *ngIf="config$ | async as config">
+<ng-container *ngIf="config$ | async as config; else ghostFilterButton">
   <button
     #filterButton
     class="cx-config-filter-button cx-btn btn btn-action"
@@ -22,3 +22,8 @@
     [config]="config"
   ></cx-configurator-overview-filter-bar>
 </ng-container>
+
+<ng-template #ghostFilterButton>
+    <div class="cx-ghost-filter-button ghost"></div>
+</ng-template>
+
