@@ -61,3 +61,12 @@ export const getCustomerListCustomersSearchResultsLoading: MemoizedSelector<
   (state: StateUtils.LoaderState<CustomerSearchPage>) =>
     StateUtils.loaderLoadingSelector(state)
 );
+
+export const getCustomerListCustomersSearchResultsError: MemoizedSelector<
+  StateWithAsm,
+  boolean
+> = createSelector(
+  getCustomerListCustomersSearchResultsLoaderState,
+  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
+    StateUtils.loaderErrorSelector(state)
+);
