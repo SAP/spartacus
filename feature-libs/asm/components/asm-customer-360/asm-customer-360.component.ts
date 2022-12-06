@@ -25,7 +25,7 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 
 @Component({
@@ -120,7 +120,10 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   }
 
   protected setTabData(): void {
-    this.customer360Tabs$ = this.asm360Facade.get360Data(this.activeTab).pipe(
+    const get360Data =
+      this.asm360Facade.get360Data(this.activeTab) ?? of(undefined);
+
+    this.customer360Tabs$ = get360Data.pipe(
       filter((response) => Boolean(response)),
       map((response) => {
         return this.currentTab.components.map((component) => {

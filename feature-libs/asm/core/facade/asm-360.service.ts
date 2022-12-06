@@ -60,13 +60,15 @@ export class Asm360Service implements Asm360Facade {
       });
   }
 
-  get360Data(index: number): Observable<AsmCustomer360Response | undefined> {
-    return this.customer360Queries$[index].get();
+  get360Data(
+    index: number
+  ): Observable<AsmCustomer360Response | undefined> | undefined {
+    return this.customer360Queries$[index]?.get();
   }
 
   get360DataState(
     index: number
-  ): Observable<QueryState<AsmCustomer360Response>> {
-    return this.customer360Queries$[index].getState();
+  ): Observable<QueryState<AsmCustomer360Response>> | undefined {
+    return this.customer360Queries$[index]?.getState();
   }
 }

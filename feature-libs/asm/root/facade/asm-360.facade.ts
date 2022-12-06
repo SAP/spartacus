@@ -22,8 +22,8 @@ import { AsmCustomer360Response } from '../model/customer-360.model';
 export abstract class Asm360Facade {
   abstract get360Data(
     tabIndex: number
-  ): Observable<AsmCustomer360Response | undefined>;
+  ): Observable<AsmCustomer360Response | undefined> | undefined;
   abstract get360DataState(
     tabIndex: number
-  ): Observable<QueryState<AsmCustomer360Response>>;
+  ): Observable<QueryState<AsmCustomer360Response>> | undefined;
 }
