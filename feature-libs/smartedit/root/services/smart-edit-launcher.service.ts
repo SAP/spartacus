@@ -67,7 +67,7 @@ export class SmartEditLauncherService {
 
       setTimeout(() => {
         this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
-      });
+      }, 10000);
       //   }
       // } else {
       //   console.log('old - in smartedit launcher');
