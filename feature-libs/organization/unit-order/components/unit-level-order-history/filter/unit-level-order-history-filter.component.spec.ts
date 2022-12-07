@@ -264,16 +264,15 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         component,
         'searchUnitLevelOrdersForMobile'
       ).and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: MARK,
         unitFilterMobile: EMPTY_STRING,
       });
       expect(form.valid).toBeTruthy();
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
+
       let el = fixture.debugElement.query(By.css('.buyer-filter-mobile'));
 
       el.triggerEventHandler('keydown.enter', {});
@@ -284,7 +283,11 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(UNIT_FILTER_MOBILE).value).toBe(EMPTY_STRING);
       expect(component.filterForm.get(BUYER_FILTER).value).toBe(MARK);
       expect(component.filterForm.get(UNIT_FILTER).value).toBe(EMPTY_STRING);
-      expect(orderHistoryQueryParams.filters).toBe('::user:mark');
+
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${MARK}`,
+      });
     });
 
     it('should emit a unit value when filtered by a unit', () => {
@@ -292,6 +295,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         component,
         'searchUnitLevelOrdersForMobile'
       ).and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: EMPTY_STRING,
@@ -299,11 +304,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       });
 
       expect(form.valid).toBeTruthy();
-
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
 
       let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
       el.triggerEventHandler('keydown.enter', {});
@@ -314,7 +314,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(UNIT_FILTER_MOBILE).value).toBe(SERVICES);
       expect(component.filterForm.get(BUYER_FILTER).value).toBe(EMPTY_STRING);
       expect(component.filterForm.get(UNIT_FILTER).value).toBe(SERVICES);
-      expect(orderHistoryQueryParams.filters).toBe('::unit:services');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${UNIT}:${SERVICES}`,
+      });
     });
 
     it('should emit a buyer and a unit value when filtered by buyer and unit', () => {
@@ -322,16 +325,15 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         component,
         'searchUnitLevelOrdersForMobile'
       ).and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const form = component.filterFormMobile;
       form.patchValue({
         buyerFilterMobile: GI,
         unitFilterMobile: SERVICES,
       });
       expect(form.valid).toBeTruthy();
-      let orderHistoryQueryParams: OrderHistoryQueryParams;
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
+
       let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
       el.triggerEventHandler('keydown.enter', {});
 
@@ -341,7 +343,11 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.get(UNIT_FILTER_MOBILE).value).toBe(SERVICES);
       expect(component.filterForm.get(BUYER_FILTER).value).toBe(GI);
       expect(component.filterForm.get(UNIT_FILTER).value).toBe(SERVICES);
-      expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
+
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${GI}:${UNIT}:${SERVICES}`,
+      });
     });
 
     it('should remove all of the filtered values when clicked on Remove Applied Filter button', () => {
