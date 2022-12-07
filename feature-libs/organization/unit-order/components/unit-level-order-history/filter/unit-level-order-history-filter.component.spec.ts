@@ -96,12 +96,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
 
-      expect(form.get(BUYER_FILTER).value).toBe(MARK);
-      expect(form.get(UNIT_FILTER).value).toBe(EMPTY_STRING);
-      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE).value).toBe(
+      expect(form.get(BUYER_FILTER)?.value).toBe(MARK);
+      expect(form.get(UNIT_FILTER)?.value).toBe(EMPTY_STRING);
+      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
         MARK
       );
-      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
+      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
         EMPTY_STRING
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
@@ -127,12 +127,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
 
-      expect(form.get(BUYER_FILTER).value).toBe(EMPTY_STRING);
-      expect(form.get(UNIT_FILTER).value).toBe(SERVICES);
-      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE).value).toBe(
+      expect(form.get(BUYER_FILTER)?.value).toBe(EMPTY_STRING);
+      expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
+      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
         EMPTY_STRING
       );
-      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
+      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
         SERVICES
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
@@ -158,12 +158,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
 
-      expect(form.get(BUYER_FILTER).value).toBe(GI);
-      expect(form.get(UNIT_FILTER).value).toBe(SERVICES);
-      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE).value).toBe(
+      expect(form.get(BUYER_FILTER)?.value).toBe(GI);
+      expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
+      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
         GI
       );
-      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
+      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
         SERVICES
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
@@ -184,8 +184,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       clearbtn.nativeElement.click();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(form.get(BUYER_FILTER).value).toBeNull();
-      expect(form.get(UNIT_FILTER).value).toBeNull();
+      expect(form.get(BUYER_FILTER)?.value).toBeNull();
+      expect(form.get(UNIT_FILTER)?.value).toBeNull();
     });
 
     it('should clear the unit value when x button in the unit-input field is clicked', () => {
@@ -203,13 +203,13 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
-      expect(form.get(BUYER_FILTER).value).toBe(GI);
-      expect(form.get(UNIT_FILTER).value).toBeNull();
-      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE).value).toBe(
+      expect(form.get(BUYER_FILTER)?.value).toBe(GI);
+      expect(form.get(UNIT_FILTER)?.value).toBeNull();
+      expect(component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value).toBe(
         GI
       );
       expect(
-        component.filterFormMobile.get(UNIT_FILTER_MOBILE).value
+        component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value
       ).toBeNull();
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -232,12 +232,12 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
-      expect(form.get(BUYER_FILTER).value).toBeNull();
-      expect(form.get(UNIT_FILTER).value).toBe(SERVICES);
+      expect(form.get(BUYER_FILTER)?.value).toBeNull();
+      expect(form.get(UNIT_FILTER)?.value).toBe(SERVICES);
       expect(
-        component.filterFormMobile.get(BUYER_FILTER_MOBILE).value
+        component.filterFormMobile.get(BUYER_FILTER_MOBILE)?.value
       ).toBeNull();
-      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
+      expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE)?.value).toBe(
         SERVICES
       );
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
@@ -279,10 +279,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
-      expect(form.get(BUYER_FILTER_MOBILE).value).toBe(MARK);
-      expect(form.get(UNIT_FILTER_MOBILE).value).toBe(EMPTY_STRING);
-      expect(component.filterForm.get(BUYER_FILTER).value).toBe(MARK);
-      expect(component.filterForm.get(UNIT_FILTER).value).toBe(EMPTY_STRING);
+      expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(MARK);
+      expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(EMPTY_STRING);
+      expect(component.filterForm.get(BUYER_FILTER)?.value).toBe(MARK);
+      expect(component.filterForm.get(UNIT_FILTER)?.value).toBe(EMPTY_STRING);
 
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -310,10 +310,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(form.get(BUYER_FILTER_MOBILE).value).toBe(EMPTY_STRING);
-      expect(form.get(UNIT_FILTER_MOBILE).value).toBe(SERVICES);
-      expect(component.filterForm.get(BUYER_FILTER).value).toBe(EMPTY_STRING);
-      expect(component.filterForm.get(UNIT_FILTER).value).toBe(SERVICES);
+      expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(EMPTY_STRING);
+      expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
+      expect(component.filterForm.get(BUYER_FILTER)?.value).toBe(EMPTY_STRING);
+      expect(component.filterForm.get(UNIT_FILTER)?.value).toBe(SERVICES);
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
         filters: `::${UNIT}:${SERVICES}`,
@@ -339,10 +339,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
-      expect(form.get(BUYER_FILTER_MOBILE).value).toBe(GI);
-      expect(form.get(UNIT_FILTER_MOBILE).value).toBe(SERVICES);
-      expect(component.filterForm.get(BUYER_FILTER).value).toBe(GI);
-      expect(component.filterForm.get(UNIT_FILTER).value).toBe(SERVICES);
+      expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(GI);
+      expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
+      expect(component.filterForm.get(BUYER_FILTER)?.value).toBe(GI);
+      expect(component.filterForm.get(UNIT_FILTER)?.value).toBe(SERVICES);
 
       expect(component.filterListEvent.emit).toHaveBeenCalledWith({
         ...mockOrderHistoryQueryParams,
@@ -395,8 +395,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(spy).toHaveBeenCalled();
-          expect(form.get(BUYER_FILTER_MOBILE).value).toBe(GI);
-          expect(form.get(UNIT_FILTER_MOBILE).value).toBeNull();
+          expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(GI);
+          expect(form.get(UNIT_FILTER_MOBILE)?.value).toBeNull();
         });
       })
     );
@@ -421,8 +421,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(spy).toHaveBeenCalled();
-          expect(form.get(BUYER_FILTER_MOBILE).value).toBeNull();
-          expect(form.get(UNIT_FILTER_MOBILE).value).toBe(SERVICES);
+          expect(form.get(BUYER_FILTER_MOBILE)?.value).toBeNull();
+          expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
         });
       })
     );
