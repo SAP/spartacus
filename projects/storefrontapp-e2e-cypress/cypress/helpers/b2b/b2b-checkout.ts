@@ -302,7 +302,7 @@ export function reviewB2bReviewOrderPage(
   cartData: SampleCartProduct,
   isAccount: boolean,
   orderType: string,
-  conf: TabbingOrderConfig = config,
+  conf: TabbingOrderConfig = config
 ) {
   cy.get('.cx-review-title').should('contain', 'Review');
 

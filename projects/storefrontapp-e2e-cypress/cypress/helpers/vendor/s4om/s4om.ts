@@ -1,18 +1,34 @@
-import { cartWithB2bProductAndPremiumShipping, poNumber, POWERTOOLS_BASESITE, recurrencePeriodMap } from "../../../sample-data/b2b-checkout";
-import { SampleCartProduct, SampleProduct, SampleUser } from "../../../sample-data/checkout-flow";
-import { AccountData } from "../../../support/require-logged-in.commands";
-import { tabbingOrderConfig } from "../../accessibility/b2b/tabbing-order.config";
-import { verifyTabbingOrder } from "../../accessibility/tabbing-order";
-import { TabbingOrderConfig, TabbingOrderTypes } from "../../accessibility/tabbing-order.model";
-import { addProductToCart } from "../../applied-promotions";
-import { login } from "../../auth-forms";
-import { interceptPutDeliveryModeEndpoint } from "../../b2b/b2b-checkout";
-import { checkClearCartDialog, clearActiveCart, goToCart, validateEmptyCart } from "../../cart";
-import { restoreCart } from "../../cart-import-export";
+import {
+  cartWithB2bProductAndPremiumShipping,
+  poNumber,
+  POWERTOOLS_BASESITE,
+  recurrencePeriodMap,
+} from '../../../sample-data/b2b-checkout';
+import {
+  SampleCartProduct,
+  SampleProduct,
+  SampleUser,
+} from '../../../sample-data/checkout-flow';
+import { AccountData } from '../../../support/require-logged-in.commands';
+import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
+import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
+import {
+  TabbingOrderConfig,
+  TabbingOrderTypes,
+} from '../../accessibility/tabbing-order.model';
+import { addProductToCart } from '../../applied-promotions';
+import { login } from '../../auth-forms';
+import { interceptPutDeliveryModeEndpoint } from '../../b2b/b2b-checkout';
+import {
+  checkClearCartDialog,
+  clearActiveCart,
+  goToCart,
+  validateEmptyCart,
+} from '../../cart';
+import { restoreCart } from '../../cart-import-export';
 //import { interceptPaymentTypesEndpoint } from "../../b2b/b2b-checkout";
-import { waitForPage, waitForProductPage } from "../../checkout-flow";
-import { doPlaceOrder } from "../../order-history";
-
+import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { doPlaceOrder } from '../../order-history';
 
 export const s4omB2BUser: AccountData = {
   registrationData: {
@@ -20,9 +36,9 @@ export const s4omB2BUser: AccountData = {
     password: 'welcome',
     firstName: 'James',
     lastName: 'Weber',
-    titleCode: 'mr'
+    titleCode: 'mr',
   },
-  user: "91"
+  user: '91',
 };
 
 export const s4omB2bAccountShipToUser: SampleUser = {
@@ -108,7 +124,6 @@ export const s4omAccountReviewOrderGeneral = [
 export const s4omTabbingOrderConfig: TabbingOrderConfig = {
   ...tabbingOrderConfig,
   checkoutReviewOrder: [
-    
     { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
     {
       value: '/powertools-spa/en/USD/checkout/payment-details',
@@ -119,24 +134,28 @@ export const s4omTabbingOrderConfig: TabbingOrderConfig = {
   checkoutReviewOrderAccount: [
     ...s4omAccountReviewOrderGeneral,
     ...acceptAndSubmitOrder,
-  ]
-}
+  ],
+};
 
 export function loginS4OMB2bUser() {
-
   let user: Partial<AccountData & { fullName: string }> = s4omB2BUser;
-  user.fullName = s4omB2BUser.registrationData.firstName + ' ' + s4omB2BUser.registrationData.lastName;
+  user.fullName =
+    s4omB2BUser.registrationData.firstName +
+    ' ' +
+    s4omB2BUser.registrationData.lastName;
 
   cy.window().then((win) => win.sessionStorage.clear());
   cy.visit('/login');
-  login(s4omB2BUser.registrationData.email, s4omB2BUser.registrationData.password);
+  login(
+    s4omB2BUser.registrationData.email,
+    s4omB2BUser.registrationData.password
+  );
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
 export function addB2bS4ProductToCart() {
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${s4omProductLink}`);
   const productPage = waitForProductPage(s4omProduct.code, 'getProductPage');
-
 
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
@@ -167,7 +186,6 @@ export function verifyScheduleLineInfo() {
   });
 }
 
-
 export function proceedtoCheckOutS4Product() {
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
@@ -177,8 +195,6 @@ export function proceedtoCheckOutS4Product() {
   cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
 }
 
-
-
 export function selectS4OMAccountShippingAddress() {
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
   cy.wait(7000); //delivery address loads slow
@@ -187,7 +203,6 @@ export function selectS4OMAccountShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
@@ -216,7 +231,6 @@ export function selectS4OMAccountShippingAddress() {
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
 }
 
-
 export function reviewB2bOrderDetail(
   sampleUser: SampleUser = s4omB2bAccountShipToUser,
   sampleProduct: SampleProduct = s4omProduct,
@@ -227,13 +241,12 @@ export function reviewB2bOrderDetail(
   b2bUnt: string = s4omB2BUnit,
   isOrderConfirmation: boolean = true
 ) {
-  if(isOrderConfirmation) {
+  if (isOrderConfirmation) {
     cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
     cy.get('h2').should('contain', 'Thank you for your order!');
   } else {
     cy.get('h1').should('contain', 'Order Details');
   }
-  
 
   cy.get('cx-order-overview .container').within(() => {
     cy.get('.cx-summary-card:nth-child(1)').within(() => {
@@ -329,4 +342,3 @@ export function reviewB2bOrderDetail(
     cartData.totalAndShipping
   );
 }
-
