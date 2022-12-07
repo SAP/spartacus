@@ -10,6 +10,7 @@ import { provideDefaultConfig } from '@spartacus/core';
 import {
   CartPickupOptionsContainerModule,
   defaultPickupOptionsDialogLayoutConfig,
+  MyPreferredStoreModule,
   PdpPickupOptionsContainerModule,
   PickupInfoContainerModule,
 } from './container/index';
@@ -19,6 +20,7 @@ import {
     CartPickupOptionsContainerModule,
     PdpPickupOptionsContainerModule,
     PickupInfoContainerModule,
+    MyPreferredStoreModule,
   ],
   providers: [provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)],
 })

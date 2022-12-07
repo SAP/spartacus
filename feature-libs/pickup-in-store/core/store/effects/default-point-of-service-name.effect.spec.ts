@@ -7,7 +7,7 @@ import { User, UserIdService, WindowRef } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { MockWindowRef } from '../../services/preferred-store.service.spec';
 import {
   LoadDefaultPointOfService,
@@ -16,9 +16,13 @@ import {
 } from '../actions/default-point-of-service-name.action';
 import { DefaultPointOfServiceEffect } from './default-point-of-service-name.effect';
 
+let ForceErrorInMockUserProfileFacadeGo = false;
+
 export class MockUserProfileFacade implements Partial<UserProfileFacade> {
   update(_details: User): Observable<unknown> {
-    return of({});
+    return ForceErrorInMockUserProfileFacadeGo
+      ? throwError('An RX JS ERROR')
+      : of({});
   }
   get(): Observable<User | undefined> {
     return of({
@@ -127,6 +131,22 @@ describe('DefaultPointOfServiceEffect', () => {
   });
 
   it('should update user profile and emit DefaultPointOfServiceActions.LoadDefaultPointOfService', () => {
+    const action = SetDefaultPointOfService({
+      payload: {
+        name: 'defaultPointOfServiceName',
+        displayName: '',
+      },
+    });
+    const actionSuccess = LoadDefaultPointOfService();
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(b)', { b: actionSuccess });
+    expect(
+      defaultPointOfServiceEffect.setDefaultPointOfService$
+    ).toBeObservable(expected);
+  });
+
+  it('should emit DefaultPointOfServiceActions.LoadDefaultPointOfService in the event of error when calling userProfileService.update', () => {
+    ForceErrorInMockUserProfileFacadeGo = true;
     const action = SetDefaultPointOfService({
       payload: {
         name: 'defaultPointOfServiceName',

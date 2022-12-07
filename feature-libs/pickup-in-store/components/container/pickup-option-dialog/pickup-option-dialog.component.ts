@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupLocationsSearchFacade,
@@ -25,7 +26,7 @@ import {
 } from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
 
 /**
@@ -155,7 +156,12 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
       this.intendedPickupLocationService
         .getIntendedLocation(this.productCode)
         .pipe(
-          filter((store) => !store?.name),
+          filter(
+            (store: AugmentedPointOfService | undefined) =>
+              typeof store !== 'undefined'
+          ),
+          map((store) => store as AugmentedPointOfService),
+          filter((store) => !store.name),
           take(1),
           tap(() =>
             this.intendedPickupLocationService.setPickupOption(

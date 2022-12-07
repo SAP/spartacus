@@ -10,3 +10,4 @@ export * from './pickup-info-container/index';
 export * from './pickup-option-dialog/index';
 export * from './store-list/index';
 export * from './store-search/index';
+export * from './my-preferred-store/index';

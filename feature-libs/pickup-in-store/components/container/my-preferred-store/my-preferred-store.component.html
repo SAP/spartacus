@@ -1,0 +1,62 @@
+<div [ngClass]="{ container: isStoreFinder }">
+  <div class="row">
+    <div class="col-md-12">
+      <h2
+        class="cx-my-preferred-store-heading"
+        [attr.data-test-id]="'preferredStoreHeading'"
+      >
+        {{
+          isStoreFinder
+            ? ('storeFinderPickupInStore.heading' | cxTranslate)
+            : ('addressBookPickupInStore.heading' | cxTranslate)
+        }}
+      </h2>
+    </div>
+  </div>
+  <div class="row" [attr.data-test-id]="'preferredStoreAddressBook'">
+    <div
+      [ngClass]="{
+        'col-md-6': !isStoreFinder,
+        'col-md-4': isStoreFinder,
+        'cx-address-card': true
+      }"
+    >
+      <cx-card
+        [border]="!isStoreFinder"
+        [fitToContainer]="true"
+        [content]="content"
+        (sendCard)="getDirectionsToStore()"
+        (editCard)="changeStore()"
+      >
+        <div label_container_bottom>
+          <div class="info-location">
+            <cx-store-address
+              [storeDetails]="preferredStore$ | async"
+            ></cx-store-address>
+          </div>
+          <div *ngIf="!isStoreFinder">
+            <button
+              (click)="toggleOpenHours()"
+              class="cx-store-opening-hours-toggle"
+            >
+              {{ 'store.viewHours' | cxTranslate }}
+              <span class="cx-store-opening-hours-icon"
+                ><cx-icon
+                  [type]="
+                    openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
+                  "
+                ></cx-icon
+              ></span>
+            </button>
+          </div>
+          <div class="store-hours" *ngIf="!isStoreFinder">
+            <cx-store-schedule
+              *ngIf="openHoursOpen"
+              [storeDetails]="preferredStore$ | async"
+            ></cx-store-schedule>
+          </div>
+        </div>
+      </cx-card>
+    </div>
+  </div>
+</div>
