@@ -1,5 +1,6 @@
 import { login } from '../../../helpers/auth-forms';
 import * as alerts from '../../../helpers/global-message';
+import { waitForPage } from '../../../helpers/navigation';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
@@ -72,7 +73,12 @@ describe('My Account - Close Account', () => {
       });
 
       it('should not login with a closed account credentials', () => {
+        // Note: Login page takes longer to render as the initial request is unauthorized.
+        // We need to wait for this request to avoid timeouts.
+        const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login');
+        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 401);
+
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password
