@@ -1,11 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { NEVER, of } from 'rxjs';
+import { Component, Directive, Input } from '@angular/core';
+import { Configurator } from '../../core/model/configurator.model';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
@@ -29,12 +35,40 @@ function initializeMocks() {
   };
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  selector: 'cx-configurator-overview-filter',
+  template: '',
+})
+class MockConfiguratorOverviewFilterComponent {
+  @Input() showFilterBar: boolean = true;
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(
     waitForAsync(() => {
       initializeMocks();
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorOverviewFilterDialogComponent],
+        declarations: [
+          ConfiguratorOverviewFilterDialogComponent,
+          MockCxIconComponent,
+          MockConfiguratorOverviewFilterComponent,
+          MockKeyboadFocusDirective,
+        ],
         imports: [I18nTestingModule],
         providers: [
           { provide: LaunchDialogService, useValue: mockLaunchDialogService },

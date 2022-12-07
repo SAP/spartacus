@@ -285,20 +285,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Retrieves height of HTML element based on querySelector when running in browser
-   *
-   * @param querySelector
-   * @returns HTML element height
-   */
-  getHeight(querySelector: string): number {
-    const element = this.getElement(querySelector);
-
-    return element?.getBoundingClientRect()?.height
-      ? Math.round(element?.getBoundingClientRect()?.height)
-      : 0;
-  }
-
-  /**
    * Get HTML element based on querySelector when running in browser
    *
    * @param querySelector - querySelector

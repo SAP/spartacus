@@ -14,6 +14,10 @@ $splitConfiguratorOvPage: true !default;
       @include media-breakpoint-up(lg) {
         cx-page-slot.VariantConfigOverviewSidebar {
           max-inline-size: 30%;
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          marging-block-end: 50px;
         }
 
         cx-page-slot.VariantConfigOverviewContent {
