@@ -58,9 +58,9 @@ class MockConfiguratorRouterExtractorService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  getHeight() {}
   changeStyling() {}
   getElement() {}
+  createOvMenuItemId() {}
 }
 
 @Component({
