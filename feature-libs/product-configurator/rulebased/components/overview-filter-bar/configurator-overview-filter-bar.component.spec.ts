@@ -1,7 +1,9 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -58,6 +60,14 @@ function initTestComponent() {
   fixture.detectChanges();
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   describe('in a component test environment', () => {
     beforeEach(
@@ -66,7 +76,10 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         initMocks();
         TestBed.configureTestingModule({
           imports: [I18nTestingModule],
-          declarations: [ConfiguratorOverviewFilterBarComponent],
+          declarations: [
+            ConfiguratorOverviewFilterBarComponent,
+            MockCxIconComponent,
+          ],
           providers: [
             {
               provide: ConfiguratorCommonsService,

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, HostBinding, OnChanges } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
-import { delay, filter, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -16,7 +16,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-sidebar',
   templateUrl: './configurator-overview-sidebar.component.html',
 })
-export class ConfiguratorOverviewSidebarComponent implements OnChanges {
+export class ConfiguratorOverviewSidebarComponent {
   @HostBinding('class.ghost') ghostStyle = true;
   showFilter: boolean = false;
 
@@ -38,42 +38,12 @@ export class ConfiguratorOverviewSidebarComponent implements OnChanges {
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
       >,
-      delay(0),
       tap((data) => {
         if (data) {
-          this.setHeight();
           this.ghostStyle = false;
         }
       })
     );
-
-  ngOnChanges() {
-    this.setHeight();
-  }
-
-  protected setHeight() {
-    const formHeight = this.configuratorStorefrontUtilsService.getHeight(
-      'cx-configurator-overview-form'
-    );
-    let filterHeight = this.configuratorStorefrontUtilsService.getHeight(
-      'cx-configurator-overview-filter'
-    );
-
-    if (filterHeight > formHeight) {
-      filterHeight += 100;
-      this.configuratorStorefrontUtilsService.changeStyling(
-        'cx-configurator-overview-sidebar',
-        'height',
-        filterHeight + 'px'
-      );
-    } else {
-      this.configuratorStorefrontUtilsService.changeStyling(
-        'cx-configurator-overview-sidebar',
-        'height',
-        formHeight + 'px'
-      );
-    }
-  }
 
   /**
    * Triggers display of the filter view in the overview sidebar

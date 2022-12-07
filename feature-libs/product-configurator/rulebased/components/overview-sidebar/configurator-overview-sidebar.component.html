@@ -1,30 +1,28 @@
 <ng-container *ngIf="config$ | async as config; else ghostSidebar">
-  <div class="cx-sticky-menu">
-    <div class="cx-menu-bar" role="tablist">
-      <button
-        role="tab"
-        [attr.aria-selected]="!showFilter"
-        [class.active]="!showFilter"
-        (click)="onMenu()"
-      >
-        {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
-      </button>
-      <button
-        role="tab"
-        [attr.aria-selected]="showFilter"
-        [class.active]="showFilter"
-        (click)="onFilter()"
-      >
-        {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
-      </button>
-    </div>
-
-    <cx-configurator-overview-filter *ngIf="showFilter" [config]="config">
-    </cx-configurator-overview-filter>
-
-    <cx-configurator-overview-menu *ngIf="!showFilter" [config]="config">
-    </cx-configurator-overview-menu>
+  <div class="cx-menu-bar" role="tablist">
+    <button
+      role="tab"
+      [attr.aria-selected]="!showFilter"
+      [class.active]="!showFilter"
+      (click)="onMenu()"
+    >
+      {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
+    </button>
+    <button
+      role="tab"
+      [attr.aria-selected]="showFilter"
+      [class.active]="showFilter"
+      (click)="onFilter()"
+    >
+      {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
+    </button>
   </div>
+
+  <cx-configurator-overview-filter *ngIf="showFilter" [config]="config">
+  </cx-configurator-overview-filter>
+
+  <cx-configurator-overview-menu *ngIf="!showFilter" [config]="config">
+  </cx-configurator-overview-menu>
 </ng-container>
 
 <ng-template #ghostSidebar>
