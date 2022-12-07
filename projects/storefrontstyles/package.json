@@ -10,6 +10,9 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/storefrontstyles",
   "license": "Apache-2.0",
+  "scripts": {
+    "test": "../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
   "dependencies": {
     "hamburgers": "^1.1.3"
   },
