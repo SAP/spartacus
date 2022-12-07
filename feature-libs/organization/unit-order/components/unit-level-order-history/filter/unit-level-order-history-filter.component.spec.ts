@@ -176,7 +176,6 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     });
 
     it('should clear all of the filtered values when clearAll button is clicked', () => {
-      fixture.detectChanges();
       const spy = spyOn(component, 'clearAll').and.callThrough();
       const clearbtn = fixture.debugElement.query(By.css('#clearAllBtn'));
       const form = component.filterForm;
