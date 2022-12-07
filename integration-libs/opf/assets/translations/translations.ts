@@ -12,5 +12,5 @@ export const opfTranslations: TranslationResources = {
 };
 
 export const opfTranslationChunksConfig: TranslationChunksConfig = {
-  opf: ['opfCheckout'],
+  opf: ['opf'],
 };

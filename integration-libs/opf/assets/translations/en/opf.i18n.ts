@@ -5,9 +5,11 @@
  */
 
 export const opf = {
-  opfCheckout: {
-    shipping: 'shipping',
-    deliveryMethod: 'Delivery Method',
-    paymentAndReview: 'Payment & Review',
+  opf: {
+    checkoutTabs: {
+      shipping: 'Shipping',
+      deliveryMethod: 'Delivery Method',
+      paymentAndReview: 'Payment & Review',
+    },
   },
 };

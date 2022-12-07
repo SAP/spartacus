@@ -5,4 +5,4 @@
  */
 
 export * from './opf-components.module';
-export * from './opf-checkout-payment-review/index';
+export * from './opf-checkout-payment-and-review/index';

@@ -14,23 +14,24 @@ export const defaultOPFCheckoutConfig: CheckoutConfig = {
     steps: [
       {
         id: 'deliveryAddress',
-        name: 'opfCheckoutProgress.shipping',
+        name: 'opf.checkoutTabs.shipping',
         routeName: 'checkoutDeliveryAddress',
         type: [CheckoutStepType.DELIVERY_ADDRESS],
         nameMultiLine: false,
       },
       {
         id: 'deliveryMode',
-        name: 'opfCheckoutProgress.deliveryMethod',
+        name: 'opf.checkoutTabs.deliveryMethod',
         routeName: 'checkoutDeliveryMode',
         type: [CheckoutStepType.DELIVERY_MODE],
         nameMultiLine: false,
       },
       {
         id: 'reviewOrder',
-        name: 'opfCheckoutProgress.paymentAndReview',
-        routeName: 'paymentAndReview',
-        type: [CheckoutStepType.PAYMENT_REVIEW],
+        name: 'opf.checkoutTabs.paymentAndReview',
+        routeName: 'checkoutReviewOrder',
+        // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
+        type: [CheckoutStepType.REVIEW_ORDER],
         nameMultiLine: false,
       },
     ],

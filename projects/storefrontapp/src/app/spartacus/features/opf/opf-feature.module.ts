@@ -4,16 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
 } from '@spartacus/opf/assets';
-import { OpfRootModule, OPF_FEATURE } from '@spartacus/opf/root';
+import {
+  defaultB2BOPFCheckoutConfig,
+  defaultOPFCheckoutConfig,
+  OPFRootModule,
+  OPF_FEATURE,
+} from '@spartacus/opf/root';
+import { environment } from '../../../../environments/environment';
+
+const extensionProviders: Provider[] = [];
+if (environment.b2b) {
+  extensionProviders.push(provideConfig(defaultB2BOPFCheckoutConfig));
+} else {
+  extensionProviders.push(provideConfig(defaultOPFCheckoutConfig));
+}
 
 @NgModule({
-  imports: [OpfRootModule],
+  imports: [OPFRootModule],
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
@@ -30,6 +43,8 @@ import { OpfRootModule, OPF_FEATURE } from '@spartacus/opf/root';
         },
       },
     }),
+
+    ...extensionProviders,
   ],
 })
 export class OpfFeatureModule {}

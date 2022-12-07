@@ -20,21 +20,22 @@ export const defaultB2BOPFCheckoutConfig: CheckoutConfig = {
       },
       {
         id: 'deliveryAddress',
-        name: 'opfCheckoutProgress.shipping',
+        name: 'opf.checkoutTabs.shipping',
         routeName: 'checkoutDeliveryAddress',
         type: [CheckoutStepType.DELIVERY_ADDRESS],
       },
       {
         id: 'deliveryMode',
-        name: 'opfCheckoutProgress.deliveryMethod',
+        name: 'opf.checkoutTabs.deliveryMethod',
         routeName: 'checkoutDeliveryMode',
         type: [CheckoutStepType.DELIVERY_MODE],
       },
       {
-        id: 'paymentAndReview',
-        name: 'opfCheckoutProgress.paymentAndReview',
-        routeName: 'paymentAndReview',
-        type: [CheckoutStepType.PAYMENT_REVIEW],
+        id: 'reviewOrder',
+        name: 'opf.checkoutTabs.paymentAndReview',
+        routeName: 'checkoutReviewOrder',
+        // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
+        type: [CheckoutStepType.REVIEW_ORDER],
       },
     ],
   },

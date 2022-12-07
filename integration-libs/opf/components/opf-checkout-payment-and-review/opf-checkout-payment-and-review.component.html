@@ -1,11 +1,8 @@
+<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">Payment Options</h2>
 <!-- For B2B Account payment, OPF should not be displayed -->
-<div *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'">
-  <h2 class="cx-review-title d-none d-lg-block d-xl-block">Payment Options</h2>
-
+<ng-container *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'">
   <div
     class="editable-alias"
     style="display: block; border: 1px solid black; height: 300px; width: 100%"
-  >
-    OPF Section
-  </div>
-</div>
+  ></div>
+</ng-container>

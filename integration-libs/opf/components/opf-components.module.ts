@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OPFCheckoutPaymentsModule } from './opf-checkout-payment-review/opf-checkout-payment-review.module';
+import { OPFCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-review/opf-checkout-payment-and-review.module';
 
 @NgModule({
-  imports: [OPFCheckoutPaymentsModule],
+  imports: [OPFCheckoutPaymentAndReviewModule],
 })
 export class OpfComponentsModule {}

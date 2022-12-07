@@ -9,7 +9,10 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
-import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
+import {
+  CheckoutB2BRootModule,
+  defaultB2BCheckoutConfig,
+} from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
@@ -51,6 +54,9 @@ if (environment.b2b) {
       },
     })
   );
+  if (!environment.opf) {
+    extensionProviders.push(provideConfig(defaultB2BCheckoutConfig));
+  }
 }
 
 @NgModule({

@@ -10,14 +10,14 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
-import { defaultOPFRoutingConfig } from './config/default-opf-routing-config';
 import { OPF_CORE_FEATURE, OPF_FEATURE } from './feature-name';
 
 export function defaultOPFComponentsConfig() {
   const config = {
     featureModules: {
       [OPF_FEATURE]: {
-        cmsComponents: ['OPFCheckoutPaymentReview'],
+        // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
+        cmsComponents: ['CheckoutReviewOrder'],
       },
 
       // By default core is bundled together with components.
@@ -31,7 +31,8 @@ export function defaultOPFComponentsConfig() {
   providers: [
     provideDefaultConfigFactory(defaultOPFComponentsConfig),
     provideDefaultConfig(defaultOPFCheckoutConfig),
-    provideDefaultConfig(defaultOPFRoutingConfig),
+    // TODO: (OPF) uncomment once proper type and routing is set up
+    // provideDefaultConfig(defaultOPFRoutingConfig),
   ],
 })
 export class OPFRootModule {}

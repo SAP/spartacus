@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OPFCheckoutPaymentReviewComponent } from './opf-checkout-payment-review.component';
+import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 describe('OPFCheckoutPaymentReviewComponent', () => {
-  let component: OPFCheckoutPaymentReviewComponent;
-  let fixture: ComponentFixture<OPFCheckoutPaymentReviewComponent>;
+  let component: OPFCheckoutPaymentAndReviewComponent;
+  let fixture: ComponentFixture<OPFCheckoutPaymentAndReviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OPFCheckoutPaymentReviewComponent],
+      declarations: [OPFCheckoutPaymentAndReviewComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OPFCheckoutPaymentReviewComponent);
+    fixture = TestBed.createComponent(OPFCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

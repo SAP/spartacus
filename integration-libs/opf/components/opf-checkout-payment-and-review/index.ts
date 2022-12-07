@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-checkout-payment-review.component';
-export * from './opf-checkout-payment-review.module';
+export * from './opf-checkout-payment-and-review.component';
+export * from './opf-checkout-payment-and-review.module';
