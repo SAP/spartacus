@@ -490,27 +490,4 @@ describe('ConfigUtilsService', () => {
       expect(theElement.style.position).toEqual('sticky');
     });
   });
-
-  describe('getHeight', () => {
-    it('should return zero height of HTML element based on query selector', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-      expect(classUnderTest.getHeight('elementMock')).toEqual(0);
-    });
-
-    it('should return height of HTML element based on query selector', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      const element = document.createElement('cx-configurator-overview-form');
-      spyOn(element, 'getBoundingClientRect').and.returnValue(
-        new DOMRect(100, 1200, 500, 1200)
-      );
-
-      document.querySelector = jasmine
-        .createSpy('elementMock')
-        .and.returnValue(element);
-
-      expect(classUnderTest.getHeight('elementMock')).toEqual(
-        element.getBoundingClientRect().height
-      );
-    });
-  });
 });
