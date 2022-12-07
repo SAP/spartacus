@@ -2,7 +2,6 @@ import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as asm from '../../../../helpers/asm';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import { AsmConfig } from '@spartacus/storefront';
 import * as checkout from '../../../../helpers/checkout-flow';
 
 context('B2B - ASM Account Checkout', () => {
@@ -16,12 +15,6 @@ context('B2B - ASM Account Checkout', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-  });
-
-  beforeEach(() => {
-    cy.cxConfig({
-      asm: { agentSessionTimer: { startingDelayInSeconds: 10000 } },
-    } as AsmConfig);
   });
 
   beforeEach(() => {
