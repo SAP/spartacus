@@ -7,7 +7,7 @@
 import { Component, HostBinding, OnChanges } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
-import { delay, filter, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -38,7 +38,6 @@ export class ConfiguratorOverviewSidebarComponent implements OnChanges {
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
       >,
-      delay(0),
       tap((data) => {
         if (data) {
           this.setHeight();

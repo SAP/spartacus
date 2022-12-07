@@ -1,6 +1,6 @@
 import { Component, Input, Type } from '@angular/core';
 import { I18nTestingModule } from '@spartacus/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CommonConfigurator,
@@ -14,9 +14,6 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-
-import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 const OWNER: CommonConfigurator.Owner =
@@ -34,12 +31,12 @@ let defaultConfigObservable: any;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
 function initTestComponent() {
+  defaultConfigObservable = of(CONFIGURATION);
   fixture = TestBed.createComponent(ConfiguratorOverviewSidebarComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.ghostStyle = false;
   fixture.detectChanges();
-
   configuratorStorefrontUtilsService = TestBed.inject(
     ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
   );
@@ -60,7 +57,11 @@ class MockConfiguratorRouterExtractorService {
   }
 }
 
-class MockConfiguratorGroupsService {}
+class MockConfiguratorStorefrontUtilsService {
+  getHeight() {}
+  changeStyling() {}
+  getElement() {}
+}
 
 @Component({
   selector: 'cx-configurator-overview-filter',
@@ -71,45 +72,47 @@ class MockConfiguratorOverviewFilterComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
 }
 
-describe('ConfiguratorOverviewSidebarComponent', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorOverviewSidebarComponent,
-        ConfiguratorOverviewMenuComponent,
-        MockConfiguratorOverviewFilterComponent,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-        },
-      ],
-    });
-  });
+@Component({
+  selector: 'cx-configurator-overview-menu',
+  template: '',
+})
+class MockConfiguratorOverviewMenuComponent {
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
 
-  beforeEach(() => {
-    defaultConfigObservable = of(CONFIGURATION);
-  });
+describe('ConfiguratorOverviewSidebarComponent', () => {
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          MockConfiguratorOverviewFilterComponent,
+          MockConfiguratorOverviewMenuComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   it('should create component', () => {
     initTestComponent();
     expect(component).toBeDefined();
   });
 
-  xit('should render overview menu component by default', () => {
+  it('should render overview menu component by default', () => {
     initTestComponent();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -118,7 +121,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  xit('should render overview filter component when filter tab is selected', () => {
+  it('should render overview filter component when filter tab is selected', () => {
     initTestComponent();
     // click filter button
     fixture.debugElement
@@ -132,7 +135,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
-  xit('should render overview menu component when menu tab is selected', () => {
+  it('should render overview menu component when menu tab is selected', () => {
     initTestComponent();
     component.onFilter();
     fixture.detectChanges();
