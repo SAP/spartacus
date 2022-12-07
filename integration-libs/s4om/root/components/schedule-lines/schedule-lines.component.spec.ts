@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
+import { ScheduleLine } from '@spartacus/s4om/root';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { FeaturesConfigModule } from 'projects/core/src/features-config';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
@@ -32,7 +33,7 @@ class MockLanguageService {
   template: '',
 })
 class MockConfigureScheduleLineComponent {
-  @Input() cartEntry: OrderEntry;
+  @Input() cartEntry: Partial<OrderEntry & ScheduleLine>;
 }
 
 describe('ScheduleLinesCartEntryComponent', () => {
