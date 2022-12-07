@@ -6,10 +6,13 @@
 
 export const opf = {
   opf: {
-    checkoutTabs: {
-      shipping: 'Shipping',
-      deliveryMethod: 'Delivery Method',
-      paymentAndReview: 'Payment & Review',
+    checkout: {
+      tabs: {
+        shipping: 'Shipping',
+        deliveryMethod: 'Delivery Method',
+        paymentAndReview: 'Payment & Review',
+      },
+      paymentAndReviewTitle: 'Payment and review',
     },
   },
 };

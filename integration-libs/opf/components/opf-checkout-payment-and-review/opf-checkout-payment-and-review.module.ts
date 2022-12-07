@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
-import { provideDefaultConfig, CmsConfig } from '@spartacus/core';
+import { provideDefaultConfig, CmsConfig, I18nModule } from '@spartacus/core';
 import {
   CheckoutAuthGuard,
   CartNotEmptyGuard,
@@ -15,7 +15,7 @@ import {
 
 @NgModule({
   declarations: [OPFCheckoutPaymentAndReviewComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, I18nModule],
 
   providers: [
     provideDefaultConfig(<CmsConfig>{
