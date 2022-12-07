@@ -21,7 +21,6 @@ import * as loginHelper from './login';
 import {
   navigateToAMyAccountPage,
   navigateToCategory,
-  navigateToHomepage,
   waitForPage,
 } from './navigation';
 
@@ -245,7 +244,7 @@ export function loginCustomerInStorefront(customer) {
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
-  // due to flaky not to check 200 status because revocation get called twice and some time one of call fails
+  // When the agent signs out, there are two revocations made simultaneously - the second one occasionally fails, though it is not necessary. We therefore are not interested in the status code of the second one.
   cy.wait(tokenRevocationAlias);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
