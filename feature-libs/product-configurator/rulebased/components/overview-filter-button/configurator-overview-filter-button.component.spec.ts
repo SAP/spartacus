@@ -7,6 +7,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { NEVER, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -57,7 +58,7 @@ function initMocks() {
     of(ConfigurationTestData.mockRouterState)
   );
   asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
-    of(ovConfig)
+    of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
   );
   asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(of());
 }
@@ -83,16 +84,18 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
             },
           ],
         }).compileComponents();
+        initComponent();
       })
     );
+    beforeEach(() => {
+      fixture.detectChanges(); //due to the additional delay(0)
+    });
 
     it('should create component', () => {
-      initComponent();
       expect(component).toBeDefined();
     });
 
     it('should open filter modal on request', () => {
-      initComponent();
       fixture.debugElement
         .query(By.css('.cx-config-filter-button'))
         .triggerEventHandler('click');
@@ -106,17 +109,17 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     });
 
     it('should render filter button', () => {
-      initComponent();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-config-filter-button'
       );
+      expect(htmlElem.classList.contains('ghost')).toBeFalsy();
     });
 
     it('should render filter button with count if there are active filters', () => {
       ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
-      initComponent();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -126,7 +129,6 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     });
 
     it('should render filter button without count if there are no active filters', () => {
-      initComponent();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -149,11 +151,12 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         htmlElem,
         '.cx-ghost-filter-button'
       );
+
+      expect(htmlElem.classList.contains('ghost')).toBeTruthy();
     });
 
     describe('to support A11Y', () => {
       it('filter button should have descriptive title', () => {
-        initComponent();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -166,7 +169,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       it('filter button should have descriptive title with count', () => {
         ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
         ovConfig.overview.groupFilters = ['1', '2'];
-        initComponent();
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
