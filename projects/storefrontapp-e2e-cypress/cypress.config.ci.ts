@@ -33,6 +33,18 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
+      const latestStableChromeBrowsers = config.browsers
+        .filter(
+          (browser) =>
+            browser.channel === 'stable' && browser.family === 'chromium'
+        )
+        .sort(
+          (browserA, browserB) =>
+            Number(browserA.version) - Number(browserB.version)
+        )[0];
+
+      config.browsers = [latestStableChromeBrowsers];
+
       return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:4200',
