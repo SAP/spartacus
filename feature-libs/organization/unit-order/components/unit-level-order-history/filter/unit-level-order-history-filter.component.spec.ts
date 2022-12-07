@@ -1,5 +1,3 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 import {
   Component,
   EventEmitter,
@@ -8,11 +6,13 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { PaginationModel } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { By } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
+import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
 @Pipe({
   name: 'cxTranslate',
@@ -45,10 +45,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
   const GI = 'gi';
   const SERVICES = 'services';
   const EMPTY_STRING = '';
+  const USER = 'user';
+  const UNIT = 'unit';
   const BUYER_FILTER = 'buyerFilter';
   const UNIT_FILTER = 'unitFilter';
   const BUYER_FILTER_MOBILE = 'buyerFilterMobile';
   const UNIT_FILTER_MOBILE = 'unitFilterMobile';
+  const mockOrderHistoryQueryParams: OrderHistoryQueryParams = {
+    currentPage: 0,
+    filters: '',
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -64,7 +70,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
       component = fixture.componentInstance;
-      fixture.autoDetectChanges();
+      fixture.detectChanges();
     })
   );
 
@@ -73,15 +79,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
   });
 
   describe('desktop view', () => {
-    let orderHistoryQueryParams: OrderHistoryQueryParams;
-    beforeEach(() => {
-      component.filterListEvent.subscribe(
-        (value) => (orderHistoryQueryParams = value)
-      );
-      fixture.detectChanges();
-    });
     it('should emit buyer when filtered by buyer', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
       );
@@ -103,11 +104,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
         EMPTY_STRING
       );
-      expect(orderHistoryQueryParams.filters).toBe('::user:mark');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${MARK}`,
+      });
     });
 
     it('should emit unit when filtered by unit', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
       );
@@ -129,11 +135,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
         SERVICES
       );
-      expect(orderHistoryQueryParams.filters).toBe('::unit:services');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${UNIT}:${SERVICES}`,
+      });
     });
 
     it('should emit a buyer and a unit when filtered by buyer and unit', () => {
       const spy = spyOn(component, 'searchUnitLevelOrders').and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const searchBtn = fixture.debugElement.query(
         By.css('#searchUnitLevelOrdersBtn')
       );
@@ -155,7 +166,10 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
         SERVICES
       );
-      expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${GI}:${UNIT}:${SERVICES}`,
+      });
     });
 
     it('should clear all of the filtered values when clearAll button is clicked', () => {
@@ -176,6 +190,8 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
     it('should clear the unit value when x button in the unit-input field is clicked', () => {
       const spy = spyOn(component, 'clearUnit').and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const form = component.filterForm;
       form.patchValue({
         buyerFilter: GI,
@@ -195,10 +211,16 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(
         component.filterFormMobile.get(UNIT_FILTER_MOBILE).value
       ).toBeNull();
-      expect(orderHistoryQueryParams.filters).toBe('::user:gi');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${GI}`,
+      });
     });
+
     it('should clear the buyer value when x button in the buyer-input field is clicked', () => {
       const spy = spyOn(component, 'clearBuyer').and.callThrough();
+      spyOn(component.filterListEvent, 'emit');
+
       const form = component.filterForm;
       form.patchValue({
         buyerFilter: GI,
@@ -218,12 +240,21 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(component.filterFormMobile.get(UNIT_FILTER_MOBILE).value).toBe(
         SERVICES
       );
-      expect(orderHistoryQueryParams.filters).toBe('::unit:services');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${UNIT}:${SERVICES}`,
+      });
     });
+
     it('should emit the filter event', () => {
+      spyOn(component.filterListEvent, 'emit');
+
       component.emitFilterEvent(GI, SERVICES);
       fixture.detectChanges();
-      expect(orderHistoryQueryParams.filters).toBe('::user:gi:unit:services');
+      expect(component.filterListEvent.emit).toHaveBeenCalledWith({
+        ...mockOrderHistoryQueryParams,
+        filters: `::${USER}:${GI}:${UNIT}:${SERVICES}`,
+      });
     });
   });
 
