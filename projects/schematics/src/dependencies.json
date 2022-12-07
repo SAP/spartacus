@@ -102,8 +102,8 @@
     "rxjs": "^6.6.0"
   },
   "@spartacus/multisite-isolation": {
-    "@angular/core": "^13.3.0",
-    "@ngrx/store": "^13.0.2",
+    "@angular/core": "^14.2.3",
+    "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
