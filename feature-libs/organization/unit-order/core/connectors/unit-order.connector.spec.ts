@@ -38,7 +38,10 @@ describe('OrderHistoryConnector', () => {
 
   it('getUnitOrderHistory should call adapter', () => {
     let result;
-    service.getUnitOrderHistory('user3').subscribe((res) => (result = res));
+    service
+      .getUnitOrderHistory('user3')
+      .subscribe((res) => (result = res))
+      .unsubscribe();
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadUnitOrderHistory).toHaveBeenCalledWith(
       'user3',
@@ -50,7 +53,7 @@ describe('OrderHistoryConnector', () => {
   });
 
   it('getUnitOrderDetail should call adapter', () => {
-    service.getUnitOrderDetail('user3', '0000022').subscribe();
+    service.getUnitOrderDetail('user3', '0000022').subscribe().unsubscribe();
     expect(adapter.loadUnitOrderDetail).toHaveBeenCalledWith(
       'user3',
       '0000022'
