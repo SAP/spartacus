@@ -416,7 +416,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
       issueNavigationDone: true,
     },
   };
-
+export const OV_GROUP_DESCRIPTION = 'Group 1';
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -570,7 +570,7 @@ export const productConfiguration: Configurator.Configuration = {
     groups: [
       {
         id: '1',
-        groupDescription: 'Group 1',
+        groupDescription: OV_GROUP_DESCRIPTION,
         attributes: [
           {
             attribute: 'C1',

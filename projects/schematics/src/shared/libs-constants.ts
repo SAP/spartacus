@@ -101,6 +101,9 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ASSETS = `@spartacus/organiza
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/order-approval`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION = `@spartacus/organization/user-registration`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ROOT = `@spartacus/organization/user-registration/root`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ASSETS = `@spartacus/organization/user-registration/assets`;
 
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
@@ -207,6 +210,10 @@ export const ORDER_FEATURE_NAME = 'Order';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
+
+export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
+  'Organization-User-Registration';
+
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';

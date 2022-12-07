@@ -168,6 +168,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Administration",
           "Account-Summary",
+          "Organization-User-Registration",
           "Order-Approval",
           "EPD-Visualization",
           "Digital-Payments",
