@@ -158,6 +158,15 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
 
+    it('should create the styles config file.', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      expect(
+        tree.exists('/projects/schematics-test/src/styles-config.scss')
+      ).toBe(true);
+    });
+
     it('should set styleVersion based on featureLevel', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
@@ -167,9 +176,19 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/styles.scss'
+        '/projects/schematics-test/src/styles-config.scss'
       );
       expect(appModule.includes(`$styleVersion: 5.5`)).toBe(true);
+    });
+
+    it('Main styles should import the styles config.', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      const mainStylesContent = tree.readContent(
+        '/projects/schematics-test/src/styles.scss'
+      );
+      expect(mainStylesContent.includes("@import 'styles-config';")).toBe(true);
     });
 
     describe('context config', () => {

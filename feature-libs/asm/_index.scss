@@ -1,3 +1,2 @@
-// Temporary fix.  This should be removed when resolving issue CXSPA-1466
-$useLatestStyles: true;
+@import '@spartacus/styles/scss/core';
 @import './styles/index';
