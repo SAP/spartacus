@@ -6,7 +6,12 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel } from '@spartacus/core';
@@ -56,23 +61,21 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
     filters: '',
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          UnitLevelOrderHistoryFilterComponent,
-          MockTranslatePipe,
-          MockPaginationComponent,
-          MockCxIconComponent,
-        ],
-        imports: [ReactiveFormsModule],
-      }).compileComponents();
+  beforeEach(fakeAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        UnitLevelOrderHistoryFilterComponent,
+        MockTranslatePipe,
+        MockPaginationComponent,
+        MockCxIconComponent,
+      ],
+      imports: [ReactiveFormsModule],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -375,57 +378,49 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       );
     });
 
-    it(
-      'should clear unit value when clicked on x button in the searchByUnit field',
-      waitForAsync(() => {
-        const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
-        const form = component.filterFormMobile;
-        form.patchValue({
-          buyerFilterMobile: GI,
-          unitFilterMobile: SERVICES,
-        });
+    it('should clear unit value when clicked on x button in the searchByUnit field', fakeAsync(() => {
+      const spy = spyOn(component, 'clearUnitMobile').and.callThrough();
+      const form = component.filterFormMobile;
+      form.patchValue({
+        buyerFilterMobile: GI,
+        unitFilterMobile: SERVICES,
+      });
 
-        let buttonElement = fixture.debugElement.query(
-          By.css('#clearUnitMobileBtn')
-        );
-        buttonElement.nativeElement.dispatchEvent(
-          new KeyboardEvent('keydown', { key: 'Enter' })
-        );
+      let buttonElement = fixture.debugElement.query(
+        By.css('#clearUnitMobileBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
 
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(spy).toHaveBeenCalled();
-          expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(GI);
-          expect(form.get(UNIT_FILTER_MOBILE)?.value).toBeNull();
-        });
-      })
-    );
+      fixture.detectChanges();
+      tick();
+      expect(spy).toHaveBeenCalled();
+      expect(form.get(BUYER_FILTER_MOBILE)?.value).toBe(GI);
+      expect(form.get(UNIT_FILTER_MOBILE)?.value).toBeNull();
+    }));
 
-    it(
-      'should clear buyer value when clicked on x button in the searchByBuyer field',
-      waitForAsync(() => {
-        const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
-        const form = component.filterFormMobile;
-        form.patchValue({
-          buyerFilterMobile: GI,
-          unitFilterMobile: SERVICES,
-        });
+    it('should clear buyer value when clicked on x button in the searchByBuyer field', fakeAsync(() => {
+      const spy = spyOn(component, 'clearBuyerMobile').and.callThrough();
+      const form = component.filterFormMobile;
+      form.patchValue({
+        buyerFilterMobile: GI,
+        unitFilterMobile: SERVICES,
+      });
 
-        let buttonElement = fixture.debugElement.query(
-          By.css('#clearBuyerMobileBtn')
-        );
-        buttonElement.nativeElement.dispatchEvent(
-          new KeyboardEvent('keydown', { key: 'Enter' })
-        );
+      let buttonElement = fixture.debugElement.query(
+        By.css('#clearBuyerMobileBtn')
+      );
+      buttonElement.nativeElement.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' })
+      );
 
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(spy).toHaveBeenCalled();
-          expect(form.get(BUYER_FILTER_MOBILE)?.value).toBeNull();
-          expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
-        });
-      })
-    );
+      fixture.detectChanges();
+      tick();
+      expect(spy).toHaveBeenCalled();
+      expect(form.get(BUYER_FILTER_MOBILE)?.value).toBeNull();
+      expect(form.get(UNIT_FILTER_MOBILE)?.value).toBe(SERVICES);
+    }));
 
     it('should call launchMobileFilters when filterBy button is clicked', () => {
       const spy = spyOn(component, 'launchMobileFilters').and.callThrough();
