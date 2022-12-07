@@ -26,5 +26,5 @@ jobs:
     steps:
       - name: testing
         run: |         
-          ${{ github.run_id }}
+          echo "${{ github.run_id }}"
 
