@@ -37,6 +37,14 @@ describe('My Account - Close Account', () => {
       });
 
       it('should cancel and go back to the homepage', () => {
+        // Note: Without this, selectUserMenuOption() times out waiting for "My Account".
+        cy.location('pathname').should(
+          'contain',
+          `/${Cypress.env('BASE_SITE')}/${Cypress.env(
+            'BASE_LANG'
+          )}/${Cypress.env('BASE_CURRENCY')}`
+        );
+
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
