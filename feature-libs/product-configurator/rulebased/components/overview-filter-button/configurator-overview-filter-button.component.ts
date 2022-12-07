@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, OperatorFunction } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -24,6 +24,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   ) {}
 
   @ViewChild('filterButton') filterButton: ElementRef;
+  @HostBinding('class.ghost') ghostStyle = true;
 
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -36,7 +37,10 @@ export class ConfiguratorOverviewFilterButtonComponent {
       ) as OperatorFunction<
         Configurator.Configuration,
         Configurator.ConfigurationWithOverview
-      >
+      >,
+      tap(() => {
+        this.ghostStyle = false;
+      })
     );
 
   /**
