@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { ProductSearchAdapter } from '../../../product/connectors/search/product
 import { SearchConfig } from '../../../product/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_HTTP_TOKEN } from '../../utils';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -31,8 +32,12 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+
     return this.http
-      .get(this.getSearchEndpoint(query, searchConfig))
+      .get(this.getSearchEndpoint(query, searchConfig), { context })
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
   }
 
