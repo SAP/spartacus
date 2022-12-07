@@ -30,13 +30,7 @@ describe('My Account - Close Account', () => {
         );
         cy.requireLoggedIn(standardUser);
         cy.visit('/');
-      });
 
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-      });
-
-      it('should cancel and go back to the homepage', () => {
         // Note: Without this, selectUserMenuOption() times out waiting for "My Account".
         cy.location('pathname').should(
           'contain',
@@ -44,7 +38,13 @@ describe('My Account - Close Account', () => {
             'BASE_LANG'
           )}/${Cypress.env('BASE_CURRENCY')}`
         );
+      });
 
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+      });
+
+      it('should cancel and go back to the homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
