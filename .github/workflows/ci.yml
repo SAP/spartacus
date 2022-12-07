@@ -5,6 +5,7 @@ on:
       - epic/**
       - release/**
       - integration-libs/**
+      - test**
   pull_request:
     types: [opened, synchronize]
   workflow_dispatch:
