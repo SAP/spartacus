@@ -4,9 +4,8 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
-      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -14,10 +13,6 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
-    parallelOptions: {
-      executors: 2,
-      shardStrategy: 'round-robin',
-    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
@@ -26,19 +21,22 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
-      outputFile: 'unit-test-asm.xml',
+      outputFile: 'unit-test-multisite-isolation.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/asm'),
+      dir: require('path').join(
+        __dirname,
+        '../../coverage/multisite-isolation'
+      ),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 90,
-          lines: 90,
-          branches: 75,
-          functions: 85,
+          statements: 85,
+          lines: 85,
+          branches: 70,
+          functions: 80,
         },
       },
     },

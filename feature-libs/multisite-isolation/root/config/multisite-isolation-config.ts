@@ -15,6 +15,7 @@ export abstract class MultisiteIsolationConfig extends OccConfig {
   multisiteIsolation?: {
     enabled?: true;
     isolationDetection?: false;
+    decorator?: string;
   };
 }
 

@@ -17,7 +17,9 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { MultisiteIsolationConfig } from '../config/multisite-isolation-config';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +33,8 @@ export class MultisiteIsolationAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected baseSiteService: BaseSiteService
+    protected baseSiteService: BaseSiteService,
+    protected multisiteIsolationConfig: MultisiteIsolationConfig
   ) {
     super(
       store,
@@ -43,15 +46,22 @@ export class MultisiteIsolationAuthService extends AuthService {
     );
   }
 
-  protected getUidDecorator() {
+  /**
+   * Creates decorator structure based on currently activated baseSite.
+   */
+  protected getUidDecorator(): Observable<string> {
     return this.baseSiteService.getActive().pipe(
       take(1),
-      map((baseSiteName) => `|${baseSiteName}`)
+      map(
+        (baseSiteName) =>
+          `${this.multisiteIsolationConfig.multisiteIsolation?.decorator}${baseSiteName}`
+      )
     );
   }
 
   /**
-   * Adds baseSite decorator to `userId` property before sending request for token.
+   * Adds baseSite decorator to `userId` property before sending request for a token.
+   *
    * @param userId
    * @param password
    */

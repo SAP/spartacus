@@ -16,8 +16,9 @@ import {
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
-  'electronics-standalone',
+  'electronics-spa',
   'electronics',
+  'electronics-standalone',
   'apparel-de',
   'apparel-uk',
   'apparel-uk-spa',

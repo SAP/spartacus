@@ -5,7 +5,7 @@ module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/test-jest.ts'],
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
   globals: {
     'ts-jest': {
@@ -14,7 +14,7 @@ module.exports = {
   },
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/asm/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/multisite-isolation/schematics',
   coverageThreshold: {
     global: {
       statements: 90,

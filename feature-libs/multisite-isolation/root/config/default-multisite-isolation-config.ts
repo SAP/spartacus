@@ -10,5 +10,6 @@ export const defaultMultisiteIsolationConfig: MultisiteIsolationConfig = {
   multisiteIsolation: {
     enabled: true,
     isolationDetection: false,
+    decorator: '|',
   },
 };

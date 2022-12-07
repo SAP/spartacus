@@ -3,19 +3,20 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
-    "strict": true,
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "strict": false, // TODO: Fix strict errors and remove this option
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {
