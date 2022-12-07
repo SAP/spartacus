@@ -159,7 +159,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should render group descriptions', () => {
     initialize();
     expect(htmlElem.innerHTML).toContain(
-      ConfigurationTestData.ov_group_description
+      ConfigurationTestData.OV_GROUP_DESCRIPTION
     );
   });
 
