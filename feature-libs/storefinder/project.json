@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/storefinder",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "feature-libs/storefinder/tsconfig.lib.json",
+        "project": "feature-libs/storefinder/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/storefinder/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/storefinder/test.ts",
+        "tsConfig": "feature-libs/storefinder/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/storefinder/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/storefinder/**/*.ts",
+          "feature-libs/storefinder/**/*.html"
+        ]
+      }
+    }
+  }
+}

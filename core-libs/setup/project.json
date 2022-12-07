@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "core-libs/setup",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "core-libs/setup/tsconfig.lib.json",
+        "project": "core-libs/setup/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "core-libs/setup/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "core-libs/setup/test.ts",
+        "tsConfig": "core-libs/setup/tsconfig.spec.json",
+        "karmaConfig": "core-libs/setup/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "core-libs/setup/**/*.ts",
+          "core-libs/setup/**/*.html"
+        ]
+      }
+    }
+  }
+}

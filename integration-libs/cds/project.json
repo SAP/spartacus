@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "integration-libs/cds/src",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "integration-libs/cds/tsconfig.lib.json",
+        "project": "integration-libs/cds/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/cds/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/cds/src/test.ts",
+        "tsConfig": "integration-libs/cds/tsconfig.spec.json",
+        "karmaConfig": "integration-libs/cds/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/cds/**/*.ts",
+          "integration-libs/cds/**/*.html"
+        ]
+      }
+    }
+  }
+}

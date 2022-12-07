@@ -1,0 +1,39 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/order",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/order/tsconfig.lib.json",
+        "project": "feature-libs/order/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/order/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "feature-libs/order/tsconfig.lib.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/order/test.ts",
+        "tsConfig": "feature-libs/order/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/order/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/order/**/*.ts",
+          "feature-libs/order/**/*.html"
+        ]
+      }
+    }
+  }
+}

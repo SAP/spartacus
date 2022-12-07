@@ -1,0 +1,12 @@
+{
+  "sourceRoot": "projects/schematics/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["projects/schematics/**/*.ts"]
+      }
+    }
+  }
+}

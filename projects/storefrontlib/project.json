@@ -1,0 +1,40 @@
+{
+  "sourceRoot": "projects/storefrontlib",
+  "projectType": "library",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
+        "project": "projects/storefrontlib/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/storefrontlib/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "projects/storefrontlib/test.ts",
+        "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
+        "karmaConfig": "projects/storefrontlib/karma.conf.js",
+        "codeCoverageExclude": ["dist/**/*"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["./projects/storefrontstyles/scss"]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/storefrontlib/**/*.ts",
+          "projects/storefrontlib/**/*.html"
+        ]
+      }
+    }
+  }
+}

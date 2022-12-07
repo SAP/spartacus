@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "integration-libs/digital-payments/src",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "integration-libs/digital-payments/tsconfig.lib.json",
+        "project": "integration-libs/digital-payments/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/digital-payments/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/digital-payments/src/test.ts",
+        "tsConfig": "integration-libs/digital-payments/tsconfig.spec.json",
+        "karmaConfig": "integration-libs/digital-payments/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/digital-payments/**/*.ts",
+          "integration-libs/digital-payments/**/*.html"
+        ]
+      }
+    }
+  }
+}

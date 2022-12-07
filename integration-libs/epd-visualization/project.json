@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "integration-libs/epd-visualization",
+  "prefix": "cx-epd-visualization",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.json",
+        "project": "integration-libs/epd-visualization/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/epd-visualization/test.ts",
+        "tsConfig": "integration-libs/epd-visualization/tsconfig.spec.json",
+        "karmaConfig": "integration-libs/epd-visualization/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/epd-visualization/**/*.ts",
+          "integration-libs/epd-visualization/**/*.html"
+        ]
+      }
+    }
+  }
+}

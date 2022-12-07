@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/cart",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/cart/tsconfig.lib.json",
+        "project": "feature-libs/cart/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/cart/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/cart/test.ts",
+        "tsConfig": "feature-libs/cart/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/cart/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/cart/**/*.ts",
+          "feature-libs/cart/**/*.html"
+        ]
+      }
+    }
+  }
+}

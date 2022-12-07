@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/asm",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "feature-libs/asm/tsconfig.lib.json",
+        "project": "feature-libs/asm/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/asm/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/asm/test.ts",
+        "tsConfig": "feature-libs/asm/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/asm/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/asm/**/*.ts",
+          "feature-libs/asm/**/*.html"
+        ]
+      }
+    }
+  }
+}

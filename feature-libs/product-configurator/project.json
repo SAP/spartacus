@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/product-configurator",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/product-configurator/tsconfig.lib.json",
+        "project": "feature-libs/product-configurator/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/product-configurator/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/product-configurator/test.ts",
+        "tsConfig": "feature-libs/product-configurator/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/product-configurator/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/product-configurator/**/*.ts",
+          "feature-libs/product-configurator/**/*.html"
+        ]
+      }
+    }
+  }
+}

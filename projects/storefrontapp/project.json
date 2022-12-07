@@ -1,0 +1,219 @@
+{
+  "sourceRoot": "projects/storefrontapp/src",
+  "projectType": "application",
+  "prefix": "cx",
+  "generators": {},
+  "targets": {
+    "build": {
+      "executor": "@angular-builders/custom-webpack:browser",
+      "options": {
+        "customWebpackConfig": {
+          "path": "./extra-webpack.config.js"
+        },
+        "aot": true,
+        "outputPath": "dist/storefrontapp",
+        "index": "projects/storefrontapp/src/index.html",
+        "main": "projects/storefrontapp/src/main.ts",
+        "polyfills": "projects/storefrontapp/src/polyfills.ts",
+        "tsConfig": "projects/storefrontapp/tsconfig.app.json",
+        "assets": [
+          "projects/storefrontapp/src/favicon.ico",
+          "projects/storefrontapp/src/assets",
+          "projects/storefrontapp/src/manifest.json",
+          {
+            "glob": "**/*",
+            "input": "feature-libs/smartedit/assets",
+            "output": "assets/"
+          }
+        ],
+        "styles": [
+          {
+            "input": "projects/storefrontapp/src/styles.scss",
+            "bundleName": "styles"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-asm.scss",
+            "bundleName": "asm"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-organization.scss",
+            "bundleName": "organization"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-product-configurator.scss",
+            "bundleName": "product-configurator"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
+            "bundleName": "storefinder"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-product.scss",
+            "bundleName": "product"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
+            "bundleName": "qualtrics"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-cart.scss",
+            "bundleName": "cart"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-user.scss",
+            "bundleName": "user"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-checkout.scss",
+            "bundleName": "checkout"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-order.scss",
+            "bundleName": "order"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
+            "bundleName": "epd-visualization"
+          }
+        ],
+        "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "projects/storefrontapp/src/environments/environment.ts",
+              "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "aot": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "serviceWorker": false,
+          "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular-builders/custom-webpack:dev-server",
+      "options": {
+        "browserTarget": "storefrontapp:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "storefrontapp:build:production"
+        },
+        "development": {
+          "browserTarget": "storefrontapp:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "projects/storefrontapp/src/test.ts",
+        "polyfills": "projects/storefrontapp/src/polyfills.ts",
+        "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
+        "karmaConfig": "projects/storefrontapp/karma.conf.js",
+        "styles": ["projects/storefrontapp/src/styles.scss"],
+        "scripts": [],
+        "assets": [
+          "projects/storefrontapp/src/favicon.ico",
+          "projects/storefrontapp/src/assets",
+          "projects/storefrontapp/src/manifest.json",
+          {
+            "glob": "**/*",
+            "input": "feature-libs/smartedit/assets",
+            "output": "assets/"
+          }
+        ],
+        "codeCoverageExclude": ["dist/**/*"]
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/storefrontapp/**/*.ts",
+          "projects/storefrontapp/**/*.html"
+        ]
+      }
+    },
+    "server": {
+      "executor": "@angular-builders/custom-webpack:server",
+      "options": {
+        "customWebpackConfig": {
+          "path": "./extra-webpack.config.js"
+        },
+        "outputPath": "dist/storefrontapp-server",
+        "main": "projects/storefrontapp/server.ts",
+        "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+      },
+      "configurations": {
+        "development": {
+          "sourceMap": true,
+          "optimization": false
+        },
+        "production": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "projects/storefrontapp/src/environments/environment.ts",
+              "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true,
+          "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "storefrontapp:build:development",
+          "serverTarget": "storefrontapp:server:development"
+        },
+        "production": {
+          "browserTarget": "storefrontapp:build:production",
+          "serverTarget": "storefrontapp:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "browserTarget": "storefrontapp:build:production",
+        "serverTarget": "storefrontapp:server:production",
+        "routes": ["/"]
+      },
+      "configurations": {
+        "production": {}
+      }
+    }
+  }
+}

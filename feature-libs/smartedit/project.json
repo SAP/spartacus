@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "sourceRoot": "feature-libs/smartedit",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "feature-libs/smartedit/tsconfig.lib.json",
+        "project": "feature-libs/smartedit/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/smartedit/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/smartedit/test.ts",
+        "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
+        "karmaConfig": "feature-libs/smartedit/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/smartedit/**/*.ts",
+          "feature-libs/smartedit/**/*.html"
+        ]
+      }
+    }
+  }
+}
