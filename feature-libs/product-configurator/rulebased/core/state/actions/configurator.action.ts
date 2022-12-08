@@ -61,8 +61,13 @@ export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: CommonConfigurator.Owner) {
-    super(CONFIGURATOR_DATA, payload.key);
+  constructor(
+    public payload: {
+      owner: CommonConfigurator.Owner;
+      configIdTemplate?: string;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 

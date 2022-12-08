@@ -171,9 +171,9 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
+    const action = new ConfiguratorActions.CreateConfiguration({
+      owner: productConfiguration.owner,
+    });
 
     const configurationSuccessAction =
       new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration);
@@ -200,9 +200,9 @@ describe('ConfiguratorEffect', () => {
   it('should emit a fail action in case something goes wrong', () => {
     createMock.and.returnValue(throwError(errorResponse));
 
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
+    const action = new ConfiguratorActions.CreateConfiguration({
+      owner: productConfiguration.owner,
+    });
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
       ownerKey: productConfiguration.owner.key,
