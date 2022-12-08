@@ -26,7 +26,7 @@ const mockCredentials = {
   password: 'myPassword',
 };
 
-fdescribe('MultisiteIsolationAuthService', () => {
+describe('MultisiteIsolationAuthService', () => {
   let service: MultisiteIsolationAuthService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
 
