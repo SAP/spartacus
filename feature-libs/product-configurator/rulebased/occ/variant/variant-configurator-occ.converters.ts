@@ -43,3 +43,7 @@ export const VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER =
 export const VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER = new InjectionToken<
   Converter<OccConfigurator.Overview, Configurator.Overview>
 >('VariantConfiguratorOverviewNormalizer');
+
+export const VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER = new InjectionToken<
+  Converter<Configurator.Overview, OccConfigurator.Overview>
+>('VariantConfiguratorOverviewSerializer');
