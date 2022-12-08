@@ -7,6 +7,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+
 import { filter, map, tap } from 'rxjs/operators';
 
 @Component({
@@ -47,7 +48,19 @@ export class PickUpInStoreDetailsComponent implements OnInit {
         value: deliveryPointOfServiceMap[key],
       }))
     ),
-    tap((d) => console.log('d', d))
+    tap(
+      (
+        deliveryPointOfServiceMap: Array<{ name: string; value: Array<Object> }>
+      ) => {
+        const NAMES = deliveryPointOfServiceMap.map(
+          (deliveryPointOfService) => deliveryPointOfService.name
+        );
+        NAMES.forEach((name) =>
+          this.pickupLocationsSearchService.loadStoreDetails(name)
+        );
+      }
+    )
+    // mergeMap()
   );
   constructor(
     protected activeCartFacade: ActiveCartFacade,
