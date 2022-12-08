@@ -12,7 +12,7 @@ class MockOAuthLibWrapperService {
 }
 
 class MockBaseSiteService {
-  getActive(): Observable<string> {
+  get(): Observable<string> {
     return of();
   }
 }
@@ -26,7 +26,7 @@ const mockCredentials = {
   password: 'myPassword',
 };
 
-describe('MultisiteIsolationAuthService', () => {
+fdescribe('MultisiteIsolationAuthService', () => {
   let service: MultisiteIsolationAuthService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
 

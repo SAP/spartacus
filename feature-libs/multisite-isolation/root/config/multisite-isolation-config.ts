@@ -13,8 +13,8 @@ import { Config, OccConfig } from '@spartacus/core';
 })
 export abstract class MultisiteIsolationConfig extends OccConfig {
   multisiteIsolation?: {
-    enabled?: true;
-    isolationDetection?: false;
+    enabled?: boolean;
+    isolationDetection?: boolean;
     decorator?: string;
   };
 }

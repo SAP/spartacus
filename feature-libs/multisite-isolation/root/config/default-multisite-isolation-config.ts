@@ -9,7 +9,7 @@ import { MultisiteIsolationConfig } from './multisite-isolation-config';
 export const defaultMultisiteIsolationConfig: MultisiteIsolationConfig = {
   multisiteIsolation: {
     enabled: true,
-    isolationDetection: false,
+    isolationDetection: true,
     decorator: '|',
   },
 };

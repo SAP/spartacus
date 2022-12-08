@@ -50,12 +50,26 @@ export class MultisiteIsolationAuthService extends AuthService {
    * Creates decorator structure based on currently activated baseSite.
    */
   protected getUidDecorator(): Observable<string> {
-    return this.baseSiteService.getActive().pipe(
+    return this.baseSiteService.get().pipe(
       take(1),
-      map(
-        (baseSiteName) =>
-          `${this.multisiteIsolationConfig.multisiteIsolation?.decorator}${baseSiteName}`
-      )
+      map((baseSite) => {
+        const config = this.multisiteIsolationConfig.multisiteIsolation;
+        const uidDecorator = `${config?.decorator}${baseSite?.uid}`;
+
+        if (config) {
+          if (config.isolationDetection && config.enabled) {
+            if (baseSite?.isolated) {
+              return uidDecorator;
+            }
+          } else {
+            if (config.enabled) {
+              return uidDecorator;
+            }
+          }
+        }
+
+        return '';
+      })
     );
   }
 
