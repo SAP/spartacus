@@ -154,7 +154,7 @@ export class ConfiguratorAttributeBaseComponent {
   ): string {
     let title = label ? label : '';
     if (expMode && techName) {
-      title += ' / [' + techName + ']';
+      title += ` / [${techName}]`;
     }
     return title;
   }

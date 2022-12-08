@@ -83,6 +83,15 @@ export class AsmService {
   }
 
   /**
+   * Returns the customer list customers search result error status.
+   */
+  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerListCustomersSearchResultsError)
+    );
+  }
+
+  /**
    * Reset the customer list customers search result data to the initial state.
    */
   customerListCustomersSearchReset(): void {
