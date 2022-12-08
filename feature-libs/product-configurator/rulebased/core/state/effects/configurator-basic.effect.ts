@@ -52,7 +52,10 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.CREATE_CONFIGURATION),
       mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
         return this.configuratorCommonsConnector
-          .createConfiguration(action.payload.owner)
+          .createConfiguration(
+            action.payload.owner,
+            action.payload.configIdTemplate
+          )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
               const currentGroup =

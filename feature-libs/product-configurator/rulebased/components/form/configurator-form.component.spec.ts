@@ -52,10 +52,10 @@ const mockRouterState: any = {
   },
 };
 
-const MOCK_ROUTER_STATE_WITH_TEMPLATE: any = { 
+const MOCK_ROUTER_STATE_WITH_TEMPLATE: any = {
   state: {
-    ...  mockRouterState.state, 
-    queryParams: {configIdTemplate: CONFIG_ID_TEMPLATE},
+    ...mockRouterState.state,
+    queryParams: { configIdTemplate: CONFIG_ID_TEMPLATE },
   },
 };
 
@@ -185,7 +185,7 @@ function checkConfigurationObs(
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
-    b: MOCK_ROUTER_STATE_WITH_TEMPLATE
+    b: MOCK_ROUTER_STATE_WITH_TEMPLATE,
   });
   configurationCreateObservable = cold(configurationServiceMarbels, {
     x: configRead,
@@ -485,10 +485,10 @@ describe('ConfigurationFormComponent', () => {
         'getOrCreateConfiguration'
       ).and.callThrough();
       checkConfigurationObs('b', 'x', 'x');
-      expect(configuratorCommonsService.getOrCreateConfiguration).toHaveBeenCalledWith(
-        OWNER, CONFIG_ID_TEMPLATE
-      );
-    });    
+      expect(
+        configuratorCommonsService.getOrCreateConfiguration
+      ).toHaveBeenCalledWith(OWNER, CONFIG_ID_TEMPLATE);
+    });
   });
 
   it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
@@ -599,17 +599,17 @@ describe('ConfigurationFormComponent', () => {
       }
     });
 
-    it("should state that expert mode is requested if the router demands that", () => { 
+    it('should state that expert mode is requested if the router demands that', () => {
       routerStateObservable = of({
         ...mockRouterState,
         state: {
           ...mockRouterState.state,
           queryParams: { expMode: 'true' },
         },
-      });  
+      });
       createComponent().ngOnInit();
-      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalled(); 
-    });    
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalled();
+    });
   });
 
   describe('displayConflictDescription', () => {
