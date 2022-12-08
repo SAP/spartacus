@@ -2,33 +2,30 @@ import {
   cartWithB2bProductAndPremiumShipping,
   poNumber,
   POWERTOOLS_BASESITE,
-  recurrencePeriodMap,
+  recurrencePeriodMap
 } from '../../../sample-data/b2b-checkout';
 import {
   SampleCartProduct,
   SampleProduct,
-  SampleUser,
+  SampleUser
 } from '../../../sample-data/checkout-flow';
 import { AccountData } from '../../../support/require-logged-in.commands';
 import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
 import {
   TabbingOrderConfig,
-  TabbingOrderTypes,
+  TabbingOrderTypes
 } from '../../accessibility/tabbing-order.model';
 import { addProductToCart } from '../../applied-promotions';
 import { login } from '../../auth-forms';
 import { interceptPutDeliveryModeEndpoint } from '../../b2b/b2b-checkout';
 import {
-  checkClearCartDialog,
   clearActiveCart,
   goToCart,
-  validateEmptyCart,
+  validateEmptyCart
 } from '../../cart';
-import { restoreCart } from '../../cart-import-export';
 //import { interceptPaymentTypesEndpoint } from "../../b2b/b2b-checkout";
 import { waitForPage, waitForProductPage } from '../../checkout-flow';
-import { doPlaceOrder } from '../../order-history';
 
 export const s4omB2BUser: AccountData = {
   registrationData: {
@@ -178,6 +175,10 @@ export function clearItemsFromCart() {
   goToCart();
   clearActiveCart();
   validateEmptyCart();
+}
+
+export function goToCart() {
+  goToCart();
 }
 
 export function verifyScheduleLineInfo() {
