@@ -1,3 +1,4 @@
+import { MultisiteIsolationRootModule } from './root/multisite-isolation-root.module';
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -7,7 +8,6 @@
 import { NgModule } from '@angular/core';
 
 @NgModule({
-  // TODO: Import modules
-  imports: [],
+  imports: [MultisiteIsolationRootModule],
 })
 export class MultisiteIsolationModule {}
