@@ -1,27 +1,36 @@
 %VariantConfigurationOverviewTemplate {
   @include cx-configurator-template();
-  cx-page-slot.VariantConfigOverviewContent,
-  cx-page-slot.VariantConfigOverviewSidebar {
-    height: fit-content;
-  }
+}
 
-  @include media-breakpoint-up(lg) {
-    cx-page-slot.VariantConfigOverviewSidebar {
-      max-inline-size: 30%;
+@include forVersion(5.1) {
+  %VariantConfigurationOverviewTemplate {
+    cx-page-slot.VariantConfigOverviewContent,
+    cx-page-slot.VariantConfigOverviewNavigation {
+      height: fit-content;
     }
 
-    cx-page-slot.VariantConfigOverviewContent {
-      max-inline-size: 70%;
-    }
-  }
+    @include media-breakpoint-up(lg) {
+      cx-page-slot.VariantConfigOverviewNavigation {
+        max-inline-size: 30%;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        margin-block-end: 75px;
+      }
 
-  @include media-breakpoint-up(xl) {
-    cx-page-slot.VariantConfigOverviewSidebar {
-      max-inline-size: calc(1140px * 0.3);
+      cx-page-slot.VariantConfigOverviewContent {
+        max-inline-size: 70%;
+      }
     }
 
-    cx-page-slot.VariantConfigOverviewContent {
-      max-inline-size: calc(1140px * 0.7);
+    @include media-breakpoint-up(xl) {
+      cx-page-slot.VariantConfigOverviewNavigation {
+        max-inline-size: calc(1140px * 0.3);
+      }
+
+      cx-page-slot.VariantConfigOverviewContent {
+        max-inline-size: calc(1140px * 0.7);
+      }
     }
   }
 }

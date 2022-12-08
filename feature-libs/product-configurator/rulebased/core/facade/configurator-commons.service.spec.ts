@@ -404,6 +404,18 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
+  describe('updateConfigurationOverview', () => {
+    it('should fire the corresponding action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.updateConfigurationOverview(productConfiguration);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.UpdateConfigurationOverview(
+          productConfiguration
+        )
+      );
+    });
+  });
+
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
