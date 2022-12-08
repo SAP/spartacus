@@ -1,2 +1,15 @@
 Pick In Store Details
 <h1>Expect to see this!</h1>
+
+<ng-container
+  *ngIf="deliveryPointsOfService$ | async as deliveryPointsOfService"
+>
+  <div *ngFor="let deliveryPointOfService of deliveryPointsOfService">
+    <div *ngFor="let value of deliveryPointOfService.value">
+      -----{{ value.product.name | json }}
+    </div>
+    {{ deliveryPointOfService.name }}
+  </div>
+</ng-container>
+
+<!-- <pre>{{ deliveryPointsOfService$ | async | json }}</pre> -->
