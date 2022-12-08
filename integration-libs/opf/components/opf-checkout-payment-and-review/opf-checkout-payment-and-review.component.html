@@ -1,0 +1,10 @@
+<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+  {{ 'opf.checkout.paymentAndReviewTitle' | cxTranslate }}
+</h2>
+<!-- For B2B Account payment, OPF should not be displayed -->
+<ng-container *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'">
+  <div
+    class="editable-alias"
+    style="display: block; border: 1px solid black; height: 300px; width: 100%"
+  ></div>
+</ng-container>

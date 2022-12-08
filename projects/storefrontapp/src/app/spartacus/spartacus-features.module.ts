@@ -84,6 +84,7 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
+import { OpfFeatureModule } from './features/opf/opf-feature.module';
 
 const featureModules = [];
 
@@ -107,6 +108,9 @@ if (environment.digitalPayments) {
 }
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
+}
+if (environment.opf) {
+  featureModules.push(OpfFeatureModule);
 }
 
 @NgModule({

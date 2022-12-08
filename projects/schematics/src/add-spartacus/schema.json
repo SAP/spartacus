@@ -30,6 +30,7 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "OPF",
           "Administration",
           "Order-Approval",
           "Account-Summary",
@@ -126,6 +127,10 @@
           {
             "value": "EPD-Visualization",
             "label": "EPD Visualization Integration"
+          },
+          {
+            "value": "OPF",
+            "label": "OPF Integration"
           },
           {
             "value": "Administration",

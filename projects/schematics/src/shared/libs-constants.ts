@@ -173,6 +173,10 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
+export const SPARTACUS_OPF = `@spartacus/opf`;
+export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
+export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
+
 export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 /***** Scopes end *****/
@@ -234,4 +238,6 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+
+export const OPF_FEATURE_NAME = 'OPF';
 /***** Feature name end *****/

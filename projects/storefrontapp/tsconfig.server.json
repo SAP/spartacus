@@ -397,6 +397,15 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+
+      "@spartacus/opf/assets": ["../../integration-libs/opf/assets/public_api"],
+      "@spartacus/opf/components": [
+        "../../integration-libs/opf/components/public_api"
+      ],
+      "@spartacus/opf/core": ["../../integration-libs/opf/core/public_api"],
+      "@spartacus/opf": ["../../integration-libs/opf/public_api"],
+      "@spartacus/opf/root": ["../../integration-libs/opf/root/public_api"],
+
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]

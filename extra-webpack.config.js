@@ -49,6 +49,10 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/opf': path.join(
+        __dirname,
+        'integration-libs/opf'
+      ),
     },
   },
 };
