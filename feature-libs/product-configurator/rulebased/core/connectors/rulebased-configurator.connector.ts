@@ -28,9 +28,9 @@ export class RulebasedConfiguratorConnector {
   ) {}
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner, configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
-    return this.getAdapter(owner.configuratorType).createConfiguration(owner);
+    return this.getAdapter(owner.configuratorType).createConfiguration(owner, configIdTemplate);
   }
 
   readConfiguration(

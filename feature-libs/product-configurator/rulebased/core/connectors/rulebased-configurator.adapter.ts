@@ -16,7 +16,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner, configIdTemplate?: string
   ): Observable<Configurator.Configuration>;
 
   /**

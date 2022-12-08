@@ -138,7 +138,8 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter on createConfiguration', () => {
+  describe('createConfiguration', () => {
+  it('should call adapter', () => {
     let result;
     service
       .createConfiguration(productConfiguration.owner)
@@ -146,9 +147,21 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(result).toBe('createConfiguration' + productConfiguration.owner);
 
     expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
-      productConfiguration.owner
+      productConfiguration.owner, undefined
     );
   });
+
+  it('should forward configuration template ID', () => {
+    let result;
+    service
+      .createConfiguration(productConfiguration.owner)
+      .subscribe((res) => (result = res));
+    expect(result).toBe('createConfiguration' + productConfiguration.owner);
+
+    expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+      productConfiguration.owner, undefined
+    );
+  });  
 
   it('should throw an error in case no adapter present for configurator type', () => {
     expect(function () {
@@ -171,6 +184,7 @@ describe('RulebasedConfiguratorConnector', () => {
       service.createConfiguration(ownerForUnknownConfigurator);
     }).toBeDefined();
   });
+});
 
   it('should call adapter on readConfigurationForCartEntry', () => {
     service
