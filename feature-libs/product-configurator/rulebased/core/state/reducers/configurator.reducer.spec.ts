@@ -374,6 +374,7 @@ describe('Configurator reducer', () => {
       const overview: Configurator.Overview = {
         configId: CONFIG_ID,
         productCode: PRODUCT_CODE,
+        possibleGroups: undefined,
       };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
         ownerKey: configuration.owner.key,
@@ -398,6 +399,43 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.priceSummary).toBe(priceSummary);
+    });
+
+    it('should fill possible groups', () => {
+      const sourceOverview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+        groups: [{ id: '1' }, { id: '2' }],
+      };
+      const targetOverview: Configurator.Overview = {
+        ...sourceOverview,
+        possibleGroups: sourceOverview.groups,
+      };
+      const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+        ownerKey: configuration.owner.key,
+        overview: sourceOverview,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.overview).toEqual(targetOverview);
+    });
+  });
+
+  describe('UpdateConfigurationOverviewSuccess action', () => {
+    it('should put configuration overview into the state', () => {
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+      };
+      const action = new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+        {
+          ownerKey: configuration.owner.key,
+          overview: overview,
+        }
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
     });
   });
 

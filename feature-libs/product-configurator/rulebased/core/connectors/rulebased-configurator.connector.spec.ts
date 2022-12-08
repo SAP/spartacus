@@ -87,6 +87,11 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
       of('updateConfiguration' + configuration.configId)
   );
 
+  updateConfigurationOverview = createSpy().and.callFake(
+    (ovInput: Configurator.Overview) =>
+      of('updateConfigurationOverview' + ovInput.configId)
+  );
+
   createConfiguration = createSpy().and.callFake(
     (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
   );
@@ -277,5 +282,40 @@ describe('RulebasedConfiguratorConnector', () => {
     service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter[0].addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
+  });
+
+  describe('updateConfigurationOverview', () => {
+    it('should forward to adapter', () => {
+      const overview: Configurator.Overview = {
+        configId: productConfiguration.configId,
+        productCode: productConfiguration.productCode,
+      };
+      const configWithOverview: Configurator.Configuration = {
+        ...productConfiguration,
+        overview: overview,
+      };
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith(
+        overview
+      );
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
+    });
+    it('should retrieve overview if not available (exception case)', () => {
+      let result;
+      service
+        .updateConfigurationOverview(productConfiguration)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
+        productConfiguration.configId
+      );
+      expect(result).toBe(
+        'getConfigurationOverview' + productConfiguration.configId
+      );
+    });
   });
 });
