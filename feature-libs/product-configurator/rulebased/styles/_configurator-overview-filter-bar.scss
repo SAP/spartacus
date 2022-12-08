@@ -1,0 +1,30 @@
+%cx-configurator-overview-filter-bar {
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .cx-overview-filter-applied {
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-light);
+    border-radius: 2px;
+
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    padding-block-start: 5px;
+    padding-block-end: 5px;
+
+    margin-inline-start: 0px;
+    margin-inline-end: 10px;
+    margin-block-start: 10px;
+    margin-block-end: 5px;
+
+    width: fit-content;
+
+    .cx-icon {
+      padding-inline-start: 10px;
+    }
+  }
+}

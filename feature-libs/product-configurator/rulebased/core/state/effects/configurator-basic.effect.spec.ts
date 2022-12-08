@@ -112,6 +112,7 @@ describe('ConfiguratorEffect', () => {
   let updateConfigurationMock: jasmine.Spy;
   let readPriceSummaryMock: jasmine.Spy;
   let overviewMock: jasmine.Spy;
+  let updateOverviewMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorBasicEffects;
 
   let store: Store<StateWithConfigurator>;
@@ -130,6 +131,9 @@ describe('ConfiguratorEffect', () => {
     overviewMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration.overview));
+    updateOverviewMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration.overview));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -137,6 +141,7 @@ describe('ConfiguratorEffect', () => {
       updateConfiguration = updateConfigurationMock;
       readPriceSummary = readPriceSummaryMock;
       getConfigurationOverview = overviewMock;
+      updateConfigurationOverview = updateOverviewMock;
     }
 
     TestBed.configureTestingModule({
@@ -301,6 +306,48 @@ describe('ConfiguratorEffect', () => {
       const expected = cold('-b', { b: failAction });
 
       expect(configEffects.getOverview$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect updateOverview', () => {
+    it('should emit a success action with content in case connector call goes well', () => {
+      const payloadInput: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+      };
+      const action = new ConfiguratorActions.UpdateConfigurationOverview(
+        payloadInput
+      );
+
+      const overviewSuccessAction =
+        new ConfiguratorActions.UpdateConfigurationOverviewSuccess({
+          ownerKey: owner.key,
+          overview: productConfiguration.overview ?? {
+            configId: CONFIG_ID,
+            productCode: productCode,
+          },
+        });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: overviewSuccessAction });
+
+      expect(configEffects.updateOverview$).toBeObservable(expected);
+    });
+
+    it('should emit a fail action in case something goes wrong', () => {
+      updateOverviewMock.and.returnValue(throwError(errorResponse));
+      const overviewAction =
+        new ConfiguratorActions.UpdateConfigurationOverview(
+          productConfiguration
+        );
+
+      const failAction =
+        new ConfiguratorActions.UpdateConfigurationOverviewFail({
+          ownerKey: productConfiguration.owner.key,
+          error: normalizeHttpError(errorResponse),
+        });
+      actions$ = hot('-a', { a: overviewAction });
+      const expected = cold('-b', { b: failAction });
+
+      expect(configEffects.updateOverview$).toBeObservable(expected);
     });
   });
 

@@ -211,6 +211,42 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  updateOverview$: Observable<
+    | ConfiguratorActions.UpdateConfigurationOverviewSuccess
+    | ConfiguratorActions.UpdateConfigurationOverviewFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW),
+      map(
+        (action: ConfiguratorActions.UpdateConfigurationOverview) =>
+          action.payload
+      ),
+      mergeMap((payload) => {
+        return this.configuratorCommonsConnector
+          .updateConfigurationOverview(payload)
+          .pipe(
+            map((overview: Configurator.Overview) => {
+              return new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+                {
+                  ownerKey: payload.owner.key,
+                  overview: overview,
+                }
+              );
+            }),
+            catchError((error) => {
+              const errorPayload = normalizeHttpError(error);
+              return [
+                new ConfiguratorActions.UpdateConfigurationOverviewFail({
+                  ownerKey: payload.owner.key,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
+      })
+    )
+  );
+
   updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
     createEffect(() =>
       this.actions$.pipe(

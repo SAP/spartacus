@@ -1,0 +1,26 @@
+%cx-configurator-overview-filter {
+  &:not(:empty) {
+    padding-inline-end: 30px;
+  }
+  .cx-overview-filter-header,
+  .cx-overview-filter-option {
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    margin-block-start: 15px;
+    margin-block-end: 15px;
+  }
+
+  .cx-overview-filter-header {
+    font-weight: bold;
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-light);
+    border-radius: 2px;
+
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    padding-block-start: 15px;
+    padding-block-end: 15px;
+
+    margin-block-start: 25px;
+  }
+}

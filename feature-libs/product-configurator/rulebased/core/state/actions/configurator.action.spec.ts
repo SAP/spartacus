@@ -18,6 +18,10 @@ const OWNER: CommonConfigurator.Owner = {
   key: OWNER_KEY,
   configuratorType: ConfiguratorType.VARIANT,
 };
+const OVERVIEW: Configurator.Overview = {
+  configId: CONFIG_ID,
+  productCode: PRODUCT_CODE,
+};
 const CONFIGURATION: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   productCode: PRODUCT_CODE,
@@ -154,6 +158,60 @@ describe('ConfiguratorActions', () => {
       const action = new ConfiguratorActions.RemoveProductBoundConfigurations();
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS,
+      });
+    });
+  });
+
+  describe('UpdateConfigurationOverview actions', () => {
+    it('should allow to create the main action with matching meta data', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationOverview(
+        CONFIGURATION
+      );
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW,
+        payload: CONFIGURATION,
+        meta: {
+          entityType: CONFIGURATOR_DATA,
+          entityId: OWNER_KEY,
+          loader: { load: true },
+        },
+      });
+    });
+
+    it('should allow to create the fail action', () => {
+      const error = 'anError';
+      const action = new ConfiguratorActions.UpdateConfigurationOverviewFail({
+        ownerKey: CONFIGURATION.owner.key,
+        error: error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_FAIL,
+        payload: {
+          ownerKey: CONFIGURATION.owner.key,
+          error: error,
+        },
+        meta: {
+          entityType: CONFIGURATOR_DATA,
+          entityId: OWNER_KEY,
+          loader: { error: error },
+        },
+      });
+    });
+
+    it('should allow to create the success action', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+        { ownerKey: CONFIGURATION.owner.key, overview: OVERVIEW }
+      );
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS,
+        payload: { ownerKey: CONFIGURATION.owner.key, overview: OVERVIEW },
+        meta: {
+          entityType: CONFIGURATOR_DATA,
+          entityId: OWNER_KEY,
+          loader: { success: true },
+        },
       });
     });
   });

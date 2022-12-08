@@ -3,55 +3,35 @@
 TAG_NAME="sampledata"
 SAMPLE_DATA_ASSETS_FOLDER="sample-data-assets"
 STOREFRONT_FILE_NAME="spartacussampledata"
+
+SAMPLE_DATA_UNRELEASED_BRANCH="release/5.x"
 UNRELEASED_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-5-x"
+
+SAMPLE_DATA_CURRENT_BRANCH="release/4.x"
 CURRENT_RELEASE_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-4-x"
+
+SAMPLE_DATA_PREVIOUS_BRANCH="release/3.x"
 PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-3-x"
-IS_SAMPLE_DATA_BRANCH_OR_TAGS=
 
-function verify_branch_or_tag_exists {
-    IS_SAMPLE_DATA_BRANCH_OR_TAGS=`git ls-remote --heads --tags https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/spartacussampledata.git $1`
 
-    if [ -z "$IS_SAMPLE_DATA_BRANCH_OR_TAGS" ]; then
-        echo "Error. Branch/Tag: $1 does not exist. Verify branch/tag name exist on the spartacus sample data repository"
-        exit 1
-    fi
-}
-
-function download_sample_data {
+function download_sample_data_from_spartacussample_repo {
     curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.zip" -o "$2.zip"
     curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.tar.gz" -o "$2.tar.gz"
 }
 
-
-
-echo "-----"
-echo "Verify UNRELEASED sample data branch or tag exists"
-
-verify_branch_or_tag_exists $SAMPLE_DATA_UNRELEASED
-
-echo "-----"
-echo "Verify CURRENT sample data branch or tag exists"
-
-verify_branch_or_tag_exists $SAMPLE_DATA_CURRENT
-
-echo "-----"
-echo "Verify PREVIOUS sample data branch or tag exists"
-
-verify_branch_or_tag_exists $SAMPLE_DATA_PREVIOUS
-
 echo "-----"
 echo "Downloading UNRELEASED sample data for 5.x"
 
-download_sample_data $SAMPLE_DATA_UNRELEASED $UNRELEASED_SPARTACUS_VERSION_NAME
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_UNRELEASED_BRANCH $UNRELEASED_SPARTACUS_VERSION_NAME
 
 echo "-----"
 echo "Downloading CURRENT sample data for 4.x"
 
-download_sample_data $SAMPLE_DATA_CURRENT $CURRENT_RELEASE_SPARTACUS_VERSION_NAME
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_CURRENT_BRANCH $CURRENT_RELEASE_SPARTACUS_VERSION_NAME
 
 echo "Downloading PREVIOUS sample data for 3.x"
 
-download_sample_data $SAMPLE_DATA_PREVIOUS $PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_PREVIOUS_BRANCH $PREVIOUS_RELEASE_SPARTACUS_VERSION_NAME
 
 echo "-----"
 echo "Move assets to single folder"
