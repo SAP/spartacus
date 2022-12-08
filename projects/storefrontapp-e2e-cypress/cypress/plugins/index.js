@@ -30,16 +30,19 @@ module.exports = (on, config) => {
   config.env.TIMESTAMP = Date.now() - 1535535333333;
 
   /* Filter only stable Chromium browsers, then sort by the browsers by version (which is in string) and choose the most recent. */
-  const latestStableChromeBrowsers = config.browsers
+  const latestStableChromeBrowser = config.browsers
     .filter(
-      (browser) => browser.channel === 'stable' && browser.family === 'chromium'
+      (browser) =>
+        browser.channel === 'stable' &&
+        browser.family === 'chromium' &&
+        browser.name === 'chrome'
     )
     .sort(
       (browserA, browserB) =>
         Number(browserA.version) - Number(browserB.version)
     )[0];
 
-  config.browsers = [latestStableChromeBrowsers];
+  config.browsers = [latestStableChromeBrowser];
 
   return config;
 };
