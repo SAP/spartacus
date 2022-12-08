@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as asm from '../../../../helpers/asm';
 import * as alerts from '../../../../helpers/global-message';
@@ -37,8 +43,11 @@ context('B2B - ASM Account Checkout', () => {
         .type(user_email);
       cy.get('[formcontrolname="searchTerm"]').should('have.value', user_email);
     });
+    cy.wait(asm.listenForCustomerSearchRequest())
+      .its('response.statusCode')
+      .should('eq', 200);
     cy.get('cx-customer-selection div.asm-results button').click();
-    cy.get('button[type="submit"]').click();
+    cy.get('cx-customer-selection button[type="submit"]').click();
   });
 
   it('should show error on invalid cost center', () => {
