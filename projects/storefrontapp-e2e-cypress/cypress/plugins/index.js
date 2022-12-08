@@ -29,6 +29,7 @@ module.exports = (on, config) => {
   /* Set exact timestamp to be shared in all spec files */
   config.env.TIMESTAMP = Date.now() - 1535535333333;
 
+  /* Filter only stable Chromium browsers, then sort by the browsers by version (which is in string) and choose the most recent. */
   const latestStableChromeBrowsers = config.browsers
     .filter(
       (browser) => browser.channel === 'stable' && browser.family === 'chromium'
