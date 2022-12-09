@@ -18,7 +18,7 @@ describe('serverRequestUrlFactory', () => {
   const mockOrigin = 'https://some.origin.com';
   const mockPath = '/some/url';
 
-  describe('when SERVER_REQUEST_URL was provided in the platform injector', () => {
+  describe('when SERVER_REQUEST_URL is provided in the platform injector', () => {
     beforeEach(() => {
       reinitializeTestEnvironment({
         platformProviders: [
@@ -35,7 +35,7 @@ describe('serverRequestUrlFactory', () => {
       });
     });
 
-    describe('when `serverRequestOrigin` was NOT passed in the options', () => {
+    describe('and when options.serverRequestOrigin is NOT present', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           providers: [
@@ -55,7 +55,7 @@ describe('serverRequestUrlFactory', () => {
       });
     });
 
-    describe('when `serverRequestOrigin` was passed in the options', () => {
+    describe('and when options.serverRequestOrigin is present', () => {
       const configuredStaticOrigin = 'https://configured.origin.com';
 
       beforeEach(() => {
@@ -71,14 +71,14 @@ describe('serverRequestUrlFactory', () => {
         });
       });
 
-      it('should return SERVER_REQUEST_URL, but with the origin part replaced to value of `serverRequestOrigin`', () => {
+      it('should return SERVER_REQUEST_URL from the platform injector, but with the origin part replaced to value of `serverRequestOrigin`', () => {
         const result = TestBed.inject(SERVER_REQUEST_URL);
         expect(result).toEqual(configuredStaticOrigin + mockPath);
       });
     });
   });
 
-  describe('when SERVER_REQUEST_URL was NOT provided in the platform injector', () => {
+  describe('when SERVER_REQUEST_URL is NOT provided in the platform injector', () => {
     beforeEach(() => {
       reinitializeTestEnvironment({
         platformProviders: [
@@ -86,6 +86,7 @@ describe('serverRequestUrlFactory', () => {
           // Note: no providers for SERVER_REQUEST_URL
         ],
       });
+
       TestBed.configureTestingModule({
         providers: [
           {
@@ -94,7 +95,9 @@ describe('serverRequestUrlFactory', () => {
           },
           {
             provide: SERVER_REQUEST_URL,
-            useFactory: serverRequestUrlFactory(),
+            useFactory: serverRequestUrlFactory({
+              serverRequestOrigin: undefined,
+            }),
           },
         ],
       });

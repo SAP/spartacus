@@ -70,7 +70,7 @@ describe('serverRequestOriginFactory', () => {
       });
     });
 
-    describe('when SERVER_REQUEST_ORIGIN is NOT present', () => {
+    describe('when SERVER_REQUEST_ORIGIN is NOT provided in the platform injector', () => {
       beforeEach(() => {
         reinitializeTestEnvironment({
           platformProviders: [
