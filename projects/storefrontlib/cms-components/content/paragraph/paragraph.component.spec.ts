@@ -20,8 +20,7 @@ export class MockAnchorPipe implements PipeTransform {
 }
 
 /**
- * @deprecated in 5.1
- * TODO: Remove in 6.0
+ * TODO: (#CXSPA-778) Remove MockFeatureConfigService in 6.0
  */
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isLevel(_version: string): boolean {

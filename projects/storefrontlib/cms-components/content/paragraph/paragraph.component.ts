@@ -25,15 +25,14 @@ export class ParagraphComponent {
       const element = event.target as HTMLAnchorElement;
       const href = element?.getAttribute('href');
 
-      // Use router for internal link navigation
       /**
-       * @deprecated in 5.1
-       * TODO: Remove old method of resolving internal links.
+       * TODO: (#CXSPA-778) Remove feature config check and deprecated navigation method in 6.0.
        */
       if (this.featureConfigService?.isLevel('5.1')) {
         const documentHost =
           element.ownerDocument.URL.split('://')[1].split('/')[0];
-        console.log(documentHost, element.host);
+
+        // Use router for internal link navigation
         if (href && documentHost === element.host) {
           event.preventDefault();
           this.router.navigateByUrl(href);
@@ -47,6 +46,9 @@ export class ParagraphComponent {
     }
   }
 
+  /**
+   * TODO: (#CXSPA-778) Remove featureConfigService from constructor in 6.0.
+   */
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
     protected router: Router,
