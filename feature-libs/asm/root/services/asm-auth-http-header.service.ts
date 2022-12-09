@@ -119,6 +119,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * currently logged in user and CS agent.
    */
   public handleExpiredRefreshToken(): void {
+    console.trace();
     this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(take(1))
