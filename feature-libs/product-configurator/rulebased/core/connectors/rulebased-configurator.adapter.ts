@@ -44,6 +44,15 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
+   * Abstract method to update the configuration overview
+   *
+   * @param configurationOverview Configuration overview with filter options that should be applied
+   */
+  abstract updateConfigurationOverview(
+    configurationOverview: Configurator.Overview
+  ): Observable<Configurator.Overview>;
+
+  /**
    * Abstract method to add a configuration to cart.
    *
    * @param parameters add to cart parameters object

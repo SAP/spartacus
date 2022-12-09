@@ -29,7 +29,8 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
     }
 
     throw new Error(
-      `The request origin is not set. Please specify it through environment variables when initiating the process.
+      `The request origin is not set. 
+    If you are using the default environment variable, please specify it when initiating the process.
     
     E.g.
     > SERVER_REQUEST_ORIGIN=https://my.domain.com yarn prerender
