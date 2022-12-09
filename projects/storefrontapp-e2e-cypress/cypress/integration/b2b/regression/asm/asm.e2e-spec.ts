@@ -6,6 +6,7 @@ import { user } from '../../../../sample-data/checkout-flow';
 import { register } from '../../../../helpers/auth-forms';
 import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
 import { interceptGet } from '../../../../support/utils/intercept';
+import { AsmConfig } from '@spartacus/storefront';
 
 context('B2B - Assisted Service Module', () => {
   before(() => {
@@ -15,6 +16,12 @@ context('B2B - Assisted Service Module', () => {
   describe('Powertools Site', () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
+
+    beforeEach(() => {
+      cy.cxConfig({
+        asm: { agentSessionTimer: { startingDelayInSeconds: 10000 } },
+      } as AsmConfig);
     });
 
     after(() => {

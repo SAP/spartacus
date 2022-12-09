@@ -3,6 +3,7 @@ import * as asm from '../../../../helpers/asm';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import * as checkout from '../../../../helpers/checkout-flow';
+import { AsmConfig } from '@spartacus/storefront';
 
 context('B2B - ASM Account Checkout', () => {
   const invalid_cost_center = 'Rustic_Global';
@@ -15,6 +16,12 @@ context('B2B - ASM Account Checkout', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+  });
+
+  beforeEach(() => {
+    cy.cxConfig({
+      asm: { agentSessionTimer: { startingDelayInSeconds: 10000 } },
+    } as AsmConfig);
   });
 
   beforeEach(() => {
