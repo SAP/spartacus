@@ -137,3 +137,31 @@ export function registerConfigurationOvOCC() {
     )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
   ).as('configure_overview');
 }
+
+/**
+ * Verifies whether the product overview side bar is displayed.
+ */
+export function checkConfigOverviewSidebarDisplayed(): void {
+  cy.get('cx-configurator-overview-sidebar').should('be.visible');
+}
+
+/**
+ * Verifies whether the product overview menu is displayed.
+ */
+export function checkConfigOverviewMenuDisplayed(): void {
+  cy.get('cx-configurator-overview-sidebar').should('be.visible');
+}
+
+/**
+ * Verifies whether the product overview filter is displayed.
+ */
+export function checkConfigOverviewFilterDisplayed(): void {
+  cy.get('cx-configurator-overview-filter').should('be.visible');
+}
+
+/**
+ * Switches configuration overview side bar from menu -> filter or from filter -> menu
+ */
+export function configOverviewSwitchMenuFilter(): void {
+  cy.get('cx-configurator-overview-sidebar button:not(.active)').click();
+}
