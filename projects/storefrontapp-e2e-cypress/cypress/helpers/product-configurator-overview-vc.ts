@@ -149,14 +149,16 @@ export function checkConfigOverviewSidebarDisplayed(): void {
  * Verifies whether the product overview menu is displayed.
  */
 export function checkConfigOverviewMenuDisplayed(): void {
-  cy.get('cx-configurator-overview-sidebar').should('be.visible');
+  cy.get('cx-configurator-overview-menu').should('exist');
+  cy.get('cx-configurator-overview-filter').should('not.exist');
 }
 
 /**
  * Verifies whether the product overview filter is displayed.
  */
 export function checkConfigOverviewFilterDisplayed(): void {
-  cy.get('cx-configurator-overview-filter').should('be.visible');
+  cy.get('cx-configurator-overview-filter').should('exist');
+  cy.get('cx-configurator-overview-menu').should('not.exist');
 }
 
 /**
