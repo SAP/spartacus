@@ -29,7 +29,7 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
     }
 
     throw new Error(
-      `The request origin is not set. 
+      `The SERVER_REQUEST_ORIGIN is not provided. 
     If you are using the default environment variable, please specify it when initiating the process.
     
     E.g.
@@ -37,7 +37,7 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
     > SERVER_REQUEST_ORIGIN=http://localhost:4200 yarn serve:ssr
     
     
-    Alternatively, you can pass it as an argument to provideServer
+    Alternatively, you can pass it as an argument to 'provideServer()'
     function, but beware it will be used for server-side rendering as well.
     
     E.g.
