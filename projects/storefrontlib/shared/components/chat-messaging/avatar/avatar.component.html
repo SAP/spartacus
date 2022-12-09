@@ -4,7 +4,7 @@
   [ngClass]="{ 'right-align': message.rightAlign }"
 >
   <span *ngIf="!message.rightAlign && message?.author">
-    {{ getInitials(message.author) }}
+    {{ getInitials(message?.author || '') }}
   </span>
 
   <cx-icon
