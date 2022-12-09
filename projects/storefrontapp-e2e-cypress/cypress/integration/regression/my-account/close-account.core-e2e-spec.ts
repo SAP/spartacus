@@ -1,6 +1,5 @@
 import { login } from '../../../helpers/auth-forms';
 import * as alerts from '../../../helpers/global-message';
-import { waitForPage } from '../../../helpers/navigation';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
