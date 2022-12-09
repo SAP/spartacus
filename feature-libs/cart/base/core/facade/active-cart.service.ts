@@ -527,6 +527,22 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .subscribe();
   }
 
+  hasPickupItems(): Observable<boolean> {
+    return this.getActive().pipe(
+      map((cart) =>
+        cart.pickupItemsQuantity ? cart.pickupItemsQuantity > 0 : false
+      )
+    );
+  }
+
+  hasDeliveryItems(): Observable<boolean> {
+    return this.getActive().pipe(
+      map((cart) =>
+        cart.deliveryItemsQuantity ? cart.deliveryItemsQuantity > 0 : false
+      )
+    );
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
