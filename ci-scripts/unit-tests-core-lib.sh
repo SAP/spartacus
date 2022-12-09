@@ -32,7 +32,7 @@ yarn --cwd feature-libs/order run test:schematics --coverage
 
 echo "Running unit tests and code coverage for setup library"
 
-yarn --cwd core-libs/setup run test --runInBand --coverage
+yarn test:setup:lib
 
 echo "Running unit tests and code coverage for user"
 
