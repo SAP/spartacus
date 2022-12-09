@@ -37,6 +37,7 @@ export const customerTicketing = {
   createCustomerTicket: {
     createNewTicket: 'Add',
     addNewRequest: 'Add New Request',
+    addRequest: 'Add Request',
     subject: 'Subject',
     category: 'Category',
     associateTo: 'Associate To',
