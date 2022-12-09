@@ -7,7 +7,7 @@
 import { TestBed } from '@angular/core/testing';
 import { INITIAL_CONFIG } from '@angular/platform-server';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
-import { reinitializeTestEnvironment } from '../../init-test-environment';
+import { reinitializeTestEnvironment } from '../../reinitialize-test-environment';
 import { serverRequestUrlFactory } from './server-request-url';
 
 describe('serverRequestUrlFactory', () => {

@@ -6,7 +6,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { SERVER_REQUEST_ORIGIN } from '@spartacus/core';
-import { reinitializeTestEnvironment } from '../../init-test-environment';
+import { reinitializeTestEnvironment } from '../../reinitialize-test-environment';
 import { serverRequestOriginFactory } from './server-request-origin';
 
 describe('serverRequestOriginFactory', () => {
