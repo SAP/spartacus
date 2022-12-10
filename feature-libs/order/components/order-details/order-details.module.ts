@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
+  IconModule,
   KeyboardFocusModule,
   OutletModule,
   PromotionsModule,
@@ -26,12 +27,15 @@ import {
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
-import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
+//import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewModule } from './order-overview/order-overview.module';
+import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
+import { defaultReorderLayoutConfig } from './reorder-layout.config';
+import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component'
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -41,6 +45,8 @@ const moduleComponents = [
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
+  OrderDetailReorderComponent,
+  ReorderDialogComponent,
 ];
 
 @NgModule({
@@ -57,6 +63,7 @@ const moduleComponents = [
     OutletModule,
     AddToCartModule,
     KeyboardFocusModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -81,8 +88,7 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
-
-    provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
+    provideDefaultConfig(defaultReorderLayoutConfig)
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

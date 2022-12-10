@@ -22,11 +22,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-import-entries-dialog',
-  templateUrl: './import-entries-dialog.component.html',
+  selector: 'cx-reorder-dialog',
+  templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent {
+export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -49,7 +49,9 @@ export class ImportEntriesDialogComponent {
   context$: Observable<AddOrderEntriesContext> =
     this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(protected launchDialogService: LaunchDialogService) {
+    console.log("Constructor called");
+  }
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;
