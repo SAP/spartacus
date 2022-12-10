@@ -136,6 +136,12 @@
       "version": "5.0.0-next.0",
       "factory": "./5_0/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
+    },
+
+    "00-migration-v6-ssr": {
+      "version": "6.0.0-next.0",
+      "factory": "./6_0/ssr/ssr#migrate",
+      "description": "Updates the SSR setup"
     }
   }
 }
