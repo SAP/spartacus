@@ -44,7 +44,8 @@ function removeServiceWorkerSetup(host: Tree, modulePath: string): void {
     ...getLineFromTSFile(
       host,
       modulePath,
-      fileContent.indexOf(serviceWorkerModuleImport)
+      fileContent.indexOf(serviceWorkerModuleImport),
+      6
     )
   );
 
