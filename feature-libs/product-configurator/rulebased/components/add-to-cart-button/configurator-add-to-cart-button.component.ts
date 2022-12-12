@@ -334,7 +334,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected makeAddToCartButtonSticky(): void {
-    const options: IntersectionOptions = { rootMargin: '0px 0px -100px 0px' };
+    const options: IntersectionOptions = {
+      rootMargin: '9999px 0px -100px 0px',
+    };
 
     this.subscription.add(
       this.container$
