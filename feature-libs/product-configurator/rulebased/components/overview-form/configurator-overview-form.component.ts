@@ -82,11 +82,25 @@ export class ConfiguratorOverviewFormComponent {
    * @returns {boolean} - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
-    return (
-      configuration.overview?.groups?.find((group) =>
-        group.attributes ? group.attributes.length : 0 > 0
-      ) !== undefined
-    );
+    return this.hasGroupsWithAttributes(configuration.overview?.groups);
+  }
+
+  protected hasGroupsWithAttributes(
+    groups?: Configurator.GroupOverview[]
+  ): boolean {
+    if (groups) {
+      let hasAttributes =
+        groups.find((group) =>
+          group.attributes ? group.attributes.length : 0 > 0
+        ) !== undefined;
+      if (!hasAttributes) {
+        hasAttributes =
+          groups.find((group) =>
+            this.hasGroupsWithAttributes(group.subGroups)
+          ) !== undefined;
+      }
+      return hasAttributes;
+    } else return false;
   }
 
   /**
