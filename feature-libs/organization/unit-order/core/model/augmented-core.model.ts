@@ -11,8 +11,6 @@ declare module '@spartacus/order/root' {
     orgUnit?: B2BUnit;
     orgCustomer?: B2BUser;
   }
-
-  interface OrderHistoryList {}
 }
 
 export interface OrderHistoryQueryParams {

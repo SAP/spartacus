@@ -64,7 +64,7 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
   ],
   providers: [
     provideDefaultConfigFactory(defaultOrganizationUnitOrderComponentsConfig),
-    provideDefaultConfig(<RoutingConfig>{
+    provideDefaultConfig({
       routing: {
         routes: {
           unitLevelOrders: {
@@ -76,7 +76,7 @@ export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
           },
         },
       },
-    }),
+    } as RoutingConfig),
   ],
 })
 export class UnitOrderRootModule {}

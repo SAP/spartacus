@@ -22,7 +22,7 @@ import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
 @NgModule({
   imports: [CommonModule, UnitLevelOrderOverviewModule],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         UnitLevelOrderDetailsOverviewComponent: {
           component: UnitLevelOrderOverviewComponent,
@@ -49,7 +49,7 @@ import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
           ],
         },
       },
-    }),
+    } as CmsConfig),
   ],
 })
 export class UnitLevelOrderDetailModule {}

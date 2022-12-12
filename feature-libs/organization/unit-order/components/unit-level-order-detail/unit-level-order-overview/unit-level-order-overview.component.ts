@@ -115,7 +115,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       map((textTitle) => ({
         title: textTitle,
         textBold: costCenter?.name,
-        text: ['(' + costCenter?.unit?.name + ')'],
+        text: [`(${costCenter?.unit?.name})`],
       }))
     );
   }
@@ -232,8 +232,6 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
       .split(',')
       .map((address) => address.trim());
 
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
-
-    return newFormattedAddress;
+    return addresses.filter(Boolean).join(', ');
   }
 }

@@ -55,8 +55,8 @@ export class UnitLevelOrderHistoryFilterComponent {
   constructor(protected renderer: Renderer2) {}
 
   searchUnitLevelOrders(): void {
-    let buyer = this.filterForm.get('buyerFilter')?.value;
-    let unit = this.filterForm.get('unitFilter')?.value;
+    const buyer = this.filterForm.get('buyerFilter')?.value;
+    const unit = this.filterForm.get('unitFilter')?.value;
     this.filterFormMobile.setValue({
       buyerFilterMobile: buyer,
       unitFilterMobile: unit,
@@ -69,8 +69,13 @@ export class UnitLevelOrderHistoryFilterComponent {
   emitFilterEvent(buyer: string, unit: string): void {
     let filters: string[] = [];
 
-    buyer?.length ? filters.push('user:' + buyer) : '';
-    unit?.length ? filters.push('unit:' + unit) : '';
+    if (buyer?.length) {
+      filters.push('user:' + buyer);
+    }
+    if (unit?.length) {
+      filters.push('unit:' + unit);
+    }
+
     filters.unshift(filters.length ? ':' : '');
     this.encodedFilter = filters.join(':');
 
@@ -81,10 +86,10 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   clearAll(): void {
-    let buyer = this.filterForm.get('buyerFilter')?.value;
-    let unit = this.filterForm.get('unitFilter')?.value;
-    let buyerMobile = this.buyerFilterMobileId?.nativeElement.value;
-    let unitMobile = this.unitFilterMobileId?.nativeElement.value;
+    const buyer = this.filterForm.get('buyerFilter')?.value;
+    const unit = this.filterForm.get('unitFilter')?.value;
+    const buyerMobile = this.buyerFilterMobileId?.nativeElement.value;
+    const unitMobile = this.unitFilterMobileId?.nativeElement.value;
 
     if (buyer || unit || buyerMobile || unitMobile) {
       this.filterForm.reset();
@@ -108,9 +113,9 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   getFormValuesForMobileAndEmitFilterEvent(): void {
-    let buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
+    const buyer = this.filterFormMobile.get('buyerFilterMobile')?.value;
     this.buyerFilterMobileValue = buyer;
-    let unit = this.filterFormMobile.get('unitFilterMobile')?.value;
+    const unit = this.filterFormMobile.get('unitFilterMobile')?.value;
     this.unitFilterMobileValue = unit;
     this.filterForm.setValue({ buyerFilter: buyer, unitFilter: unit });
     this.emitFilterEvent(buyer, unit);
@@ -193,7 +198,6 @@ export class UnitLevelOrderHistoryFilterComponent {
     const value = inputElement.value;
     if (!value || value === '') {
       this.clearBuyer();
-      return;
     }
   }
 
@@ -201,23 +205,6 @@ export class UnitLevelOrderHistoryFilterComponent {
     const value = inputElement.value;
     if (!value || value === '') {
       this.clearUnit();
-      return;
-    }
-  }
-
-  searchBuyerMobile(inputElement: HTMLInputElement): void {
-    const value = inputElement.value;
-    if (!value || value === '') {
-      this.clearBuyer();
-      return;
-    }
-  }
-
-  searchUnitMobile(inputElement: HTMLInputElement): void {
-    const value = inputElement.value;
-    if (!value || value === '') {
-      this.clearUnit();
-      return;
     }
   }
 }

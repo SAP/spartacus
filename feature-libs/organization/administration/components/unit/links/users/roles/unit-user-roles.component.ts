@@ -61,7 +61,7 @@ export class UnitUserRolesFormComponent {
 
   save(form: UntypedFormGroup) {
     form.disable();
-    let rolesAndRights: (B2BUserRole | B2BUserRight)[] = [
+    const rolesAndRights: (B2BUserRole | B2BUserRight)[] = [
       ...this.availableRoles,
       ...this.availableRights,
     ].filter((role: B2BUserRole | B2BUserRight) => !!form.get(role)?.value);

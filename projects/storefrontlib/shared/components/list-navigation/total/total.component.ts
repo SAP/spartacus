@@ -45,6 +45,4 @@ export class TotalComponent {
     const lastItem = (this.currentPage + 1) * this.pageSize;
     return lastItem > this.totalResults ? this.totalResults : lastItem;
   }
-
-  constructor() {}
 }

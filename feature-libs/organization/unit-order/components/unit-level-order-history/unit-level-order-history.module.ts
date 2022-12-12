@@ -35,14 +35,14 @@ import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-his
   declarations: [UnitLevelOrderHistoryComponent],
   exports: [UnitLevelOrderHistoryComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig({
       cmsComponents: {
         UnitLevelOrderHistoryComponent: {
           component: UnitLevelOrderHistoryComponent,
           guards: [AuthGuard, UnitLevelOrdersViewerGuard],
         },
       },
-    }),
+    } as CmsConfig),
   ],
 })
 export class UnitLevelOrderHistoryModule {}
