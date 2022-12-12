@@ -52,6 +52,6 @@ export class ParagraphComponent {
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
     protected router: Router,
-    protected featureConfigService?: FeatureConfigService
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 }
