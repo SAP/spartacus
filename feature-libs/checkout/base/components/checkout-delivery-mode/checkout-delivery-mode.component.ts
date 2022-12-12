@@ -23,6 +23,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -34,6 +35,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
+  // TODO: subscriptions and ngOnDestroy can be removed
   protected subscriptions = new Subscription();
   protected busy$ = new BehaviorSubject(false);
 
@@ -69,15 +71,6 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
-      .getSupportedDeliveryModes()
-      .pipe(
-        filter((deliveryModes) => !!deliveryModes?.length),
-        distinctUntilChanged((current, previous) => {
-          return JSON.stringify(current) === JSON.stringify(previous);
-        })
-      );
-
     this.selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
       .getSelectedDeliveryModeState()
       .pipe(
@@ -86,15 +79,15 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
         map((deliveryMode) => deliveryMode?.code)
       );
 
-    this.subscriptions.add(
-      this.supportedDeliveryModes$
-        .pipe(withLatestFrom(this.selectedDeliveryModeCode$))
-        .subscribe(([deliveryModes, code]) => {
+    this.supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
+      .getSupportedDeliveryModes()
+      .pipe(
+        filter((deliveryModes) => !!deliveryModes?.length),
+        withLatestFrom(this.selectedDeliveryModeCode$),
+        tap(([deliveryModes, code]) => {
           if (
-            !(
-              code &&
-              !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
-            )
+            !code ||
+            !deliveryModes.find((deliveryMode) => deliveryMode.code === code)
           ) {
             code =
               this.checkoutConfigService.getPreferredDeliveryMode(
@@ -105,8 +98,11 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
             this.mode.controls['deliveryModeId'].setValue(code);
             this.changeMode(code);
           }
-        })
-    );
+        }),
+        map(([deliveryModes]) =>
+          deliveryModes.filter((mode) => mode.code !== 'pickup')
+        )
+      );
   }
 
   changeMode(code: string): void {
