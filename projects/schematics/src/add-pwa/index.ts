@@ -45,6 +45,10 @@ function removeServiceWorkerSetup(host: Tree, modulePath: string): void {
       host,
       modulePath,
       fileContent.indexOf(serviceWorkerModuleImport),
+      /**
+       * this is a temporary solution, until we switch the add-pwa
+       * and add-ssr to use tsmorph
+       */
       6
     )
   );
