@@ -19,8 +19,8 @@ export function getRequestOrigin(req: Request): string {
         .substring(0, forwardedHost.indexOf(','))
         .trimRight();
     }
-    return req.protocol + '://' + forwardedHost;
+    return `${req.protocol}://${forwardedHost}`;
   } else {
-    return req.protocol + '://' + req.get('host');
+    return `${req.protocol}://${req.get('host')}`;
   }
 }
