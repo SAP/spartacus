@@ -671,3 +671,12 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
     });
   });
 }
+
+/**
+ * Clears cart. Can be used to clean up the environment after tests.
+ */
+export function clearCart() {
+  cy.visit('/cart');
+  cy.contains('cx-clear-cart button', 'Clear Cart').click();
+  cy.contains('cx-clear-cart-dialog button', 'Clear Cart').click();
+}

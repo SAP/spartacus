@@ -29,6 +29,12 @@ context('B2B - ASM Account Checkout', () => {
   });
 
   afterEach(() => {
+    cy.log('--> clear cart');
+    checkout.clearCart();
+
+    cy.log('--> sign out');
+    asm.agentSignOut();
+
     cy.saveLocalStorage();
   });
 
@@ -59,7 +65,6 @@ context('B2B - ASM Account Checkout', () => {
         cy.get('button').click();
       });
     });
-    asm.agentSignOut();
   });
 
   it('should not show error on valid cost center', () => {
@@ -77,14 +82,13 @@ context('B2B - ASM Account Checkout', () => {
     });
     cy.get('button.btn-primary').should('be.enabled').click({ force: true });
 
-    cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReqValid');
+    cy.intercept('PUT', `*costcenter?costCenterId=${valid_cost_center}*`).as(
+      'costCenterReqValid'
+    );
     cy.get('cx-cost-center').within(() => {
       cy.get('select').select(valid_cost_center);
     });
     cy.wait('@costCenterReqValid').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
-
-    cy.log('--> sign out');
-    asm.agentSignOut();
   });
 });
