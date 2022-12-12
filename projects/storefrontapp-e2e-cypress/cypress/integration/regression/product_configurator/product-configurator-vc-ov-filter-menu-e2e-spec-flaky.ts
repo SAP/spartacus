@@ -13,6 +13,8 @@ const CBL = 'checkBoxList';
 context('Product Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
+    configurationOverviewVc.registerConfigurationOverviewRoute();
+    configurationOverviewVc.registerConfigurationOverviewUpdateRoute();
   });
 
   it('should display sidebar with filter and menu on overview page', () => {
@@ -44,11 +46,10 @@ context('Product Configuration', () => {
     configurationOverview.checkNumberOfAttributePricesDisplayed(4);
 
     // filter prices relevant
-    configurationOverviewVc.configOverviewToggleAttributeFilter('price');
+    configurationOverviewVc.configOverviewToggleAttributeFilterAndWait('price');
     configurationOverview.checkNumberOfGroupHeadersDisplayed(3);
     configurationOverview.checkNumberOfAttributesDisplayed(4);
     configurationOverview.checkNumberOfAttributePricesDisplayed(4);
-
 
     // add group filter
 

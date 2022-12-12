@@ -29,6 +29,7 @@ export function goToConfigOverviewPage(
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
     configurationOverview.checkConfigOverviewPageDisplayed();
     configurationVc.checkGhostAnimationNotDisplayed();
+    cy.wait(READ_CONFIG_OV_ALIAS);
   });
 }
 
@@ -110,7 +111,7 @@ export function verifyNotificationBannerOnOP(
   numberOfIssues?: number,
   numberOfConflicts?: number
 ): void {
-  cy.wait('@configure_overview');
+  cy.wait(READ_CONFIG_OV_ALIAS);
   let element = cy.get('cx-configurator-overview-notification-banner', {
     timeout: 10000,
   });
@@ -126,16 +127,29 @@ export function verifyNotificationBannerOnOP(
   }
 }
 
+export const UPDATE_CONFIG_OV_ALIAS = '@updateConfigOverview';
+export const READ_CONFIG_OV_ALIAS = '@readConfigOverview';
+
+UPDATE_CONFIG_OV_ALIAS;
 /**
  * Registers OCC call for OV page in order to wait for it
  */
-export function registerConfigurationOvOCC() {
+export function registerConfigurationOverviewRoute() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
-  ).as('configure_overview');
+  ).as(READ_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
+}
+
+export function registerConfigurationOverviewUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as(UPDATE_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -173,15 +187,17 @@ export function configOverviewToggleSidebar(): void {
 /**
  * Toggles configuration overview side bar from menu -> filter or from filter -> menu
  */
-export function configOverviewToggleGroupFilter(filter: string): void {
+export function configOverviewToggleGroupFilterAndWait(filter: string): void {
   cy.get(`#cx-configurator-overview-filter-option-group-${filter}`).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
 }
 
 /**
  * Toggles configuration overview side bar from menu -> filter or from filter -> menu
  */
-export function configOverviewToggleAttributeFilter(
+export function configOverviewToggleAttributeFilterAndWait(
   filter: 'mySelections' | 'price'
 ): void {
   cy.get(`#cx-configurator-overview-filter-option-${filter}`).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
 }

@@ -38,7 +38,7 @@ export function clickContinueToCartBtnOnOP(): void {
 }
 
 /**
- * Waits for the notitication banner to display the correct number of issues
+ * Waits for the notification banner to display the correct number of issues
  *
  * @param {number} numberOfIssues - Expected number of issues
  */
