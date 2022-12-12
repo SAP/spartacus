@@ -18,31 +18,32 @@
   let-idPrefix="idPrefix"
 >
   <ng-container *ngFor="let group of overviewGroups">
-    <div [ngClass]="getGroupLevelStyleClasses(level)">
-      <button
-        id="{{ getMenuItemId(idPrefix, group.id) }}"
-        class="cx-menu-item"
-        role="tab"
-        [attr.aria-label]="
-          'configurator.a11y.groupName'
-            | cxTranslate: { group: group.groupDescription }
-        "
-        (click)="navigateToGroup(idPrefix, group.id)"
-      >
-        <span aria-hidden="true"> {{ group.groupDescription }}</span>
-      </button>
-      <ng-container *ngIf="group.subGroups?.length > 0">
-        <ng-container
-          *ngTemplateOutlet="
-            groups;
-            context: {
-              overviewGroups: group.subGroups,
-              level: level + 1,
-              idPrefix: idPrefix ? idPrefix + '--' + group.id : group.id
-            }
+    <ul>
+      <li [ngClass]="getGroupLevelStyleClasses(level)">
+        <button
+          id="{{ getMenuItemId(idPrefix, group.id) }}"
+          class="cx-menu-item"
+          [attr.aria-label]="
+            'configurator.a11y.groupName'
+              | cxTranslate: { group: group.groupDescription }
           "
-        ></ng-container>
-      </ng-container>
-    </div>
+          (click)="navigateToGroup(idPrefix, group.id)"
+        >
+          <span aria-hidden="true"> {{ group.groupDescription }}</span>
+        </button>
+        <ng-container *ngIf="group.subGroups?.length > 0">
+          <ng-container
+            *ngTemplateOutlet="
+              groups;
+              context: {
+                overviewGroups: group.subGroups,
+                level: level + 1,
+                idPrefix: idPrefix ? idPrefix + '--' + group.id : group.id
+              }
+            "
+          ></ng-container>
+        </ng-container>
+      </li>
+    </ul>
   </ng-container>
 </ng-template>

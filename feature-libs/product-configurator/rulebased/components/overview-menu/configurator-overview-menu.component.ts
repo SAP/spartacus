@@ -67,11 +67,16 @@ export class ConfiguratorOverviewMenuComponent {
   protected collectAllMenuItems(element: HTMLElement | undefined): Element[] {
     let menuItems: Element[] = [];
     if (element) {
-      while (element?.parentElement?.classList?.contains('cx-menu-group')) {
+      while (
+        element?.parentElement?.classList?.contains('cx-menu-group') ||
+        element?.parentElement?.parentElement?.classList?.contains(
+          'cx-menu-group'
+        )
+      ) {
         const child = element?.parentElement?.querySelector('.cx-menu-item');
         if (child) {
           if (menuItems.indexOf(child) === -1) {
-            menuItems.unshift(child);
+            menuItems.push(child);
           }
         }
         element = element?.parentElement;
