@@ -3,7 +3,7 @@
 exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR 1`] = `
 "import { HttpClientModule } from \\"@angular/common/http\\";
 import { NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from \\"@ngrx/effects\\";
 import { StoreModule } from \\"@ngrx/store\\";
 import { AppRoutingModule } from \\"@spartacus/storefront\\";
@@ -21,7 +21,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     SpartacusModule,
-    BrowserTransferStateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -99,18 +98,23 @@ exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR
 
 exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR 3`] = `
 "import { NgModule } from '@angular/core';
-import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
+import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
+import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
   imports: [
     AppModule,
     ServerModule,
-    ServerTransferStateModule,
   ],
   bootstrap: [AppComponent],
+  providers: [
+    ...provideServer({
+       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+     }),
+  ],
 })
 export class AppServerModule {}
 "
