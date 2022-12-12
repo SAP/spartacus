@@ -74,3 +74,7 @@ ng test smartedit --source-map --no-watch --code-coverage --browsers ChromeHeadl
 echo "Running schematics unit tests and code coverage for smartedit library"
 
 yarn --cwd feature-libs/smartedit run test:schematics --coverage
+
+echo "Running unit tests for storefrontstyle"
+
+yarn --cwd projects/storefrontstyles run test --runInBand

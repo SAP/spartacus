@@ -191,6 +191,17 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Updates configuration overview according to group and attribute filters
+   *
+   * @param configuration - Configuration. Can contain filters in its overview facet
+   */
+  updateConfigurationOverview(configuration: Configurator.Configuration): void {
+    this.store.dispatch(
+      new ConfiguratorActions.UpdateConfigurationOverview(configuration)
+    );
+  }
+
+  /**
    * Removes a configuration.
    *
    * @param owner - Configuration owner

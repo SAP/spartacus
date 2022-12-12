@@ -97,6 +97,11 @@ export namespace Configurator {
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+  }
+
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
   }
 
   export interface InteractionState {
@@ -116,6 +121,9 @@ export namespace Configurator {
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;
+    attributeFilters?: OverviewFilter[];
+    groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
@@ -253,5 +261,10 @@ export namespace Configurator {
   export enum ValidationType {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
+  }
+  export enum OverviewFilter {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
   }
 }

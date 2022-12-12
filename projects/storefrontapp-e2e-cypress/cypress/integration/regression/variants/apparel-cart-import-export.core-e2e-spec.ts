@@ -1,5 +1,6 @@
 import * as importExport from '../../../helpers/cart-import-export';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
@@ -13,6 +14,7 @@ context('Apparel - Cart Import/Export', () => {
     });
 
     beforeEach(() => {
+      clearAllStorage();
       cy.cxConfig({
         context: {
           baseSite: [APPAREL_BASESITE],
