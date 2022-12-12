@@ -239,7 +239,6 @@ export const configurator = {
       additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
-      ovGroup: 'Scroll to corresponding group in overview form',
       filterOverview: 'Open configuration overview filter menu',
       filterOverviewWithCount:
         'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
