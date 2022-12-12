@@ -23,7 +23,7 @@
 
   .cx-unit-level-order-history-filter-label-wrapper {
     width: 200px;
-    border: 1px solid lightgray;
+    border: 1px solid var(--cx-color-secondary);
     border-radius: 3px;
   }
 
@@ -34,13 +34,13 @@
   }
 
   .cx-unit-level-order-history-filter-input:focus {
-    background: white;
+    background: var(--cx-color-inverse);
   }
 
   .cx-unit-level-order-history-filter-reset-button {
     border: none;
-    color: lightgray;
-    background: white;
+    color: var(--cx-color-secondary);
+    background: var(--cx-color-inverse);
     padding-inline-end: 10px;
   }
 
@@ -249,9 +249,7 @@
   .cx-unit-level-order-history-pagination {
     margin-inline-start: auto;
     @include media-breakpoint-down(sm) {
-      align-items: flex-start;
-      padding-inline-start: 1.25rem;
-      margin-inline-start: 0;
+      margin: 0 auto;
     }
   }
 
@@ -266,13 +264,13 @@
     cx-total {
       display: flex;
       column-gap: 0.5rem;
-    }
-  }
 
-  .cx-vertical-line-separator {
-    border-color: var(--cx-color-light);
-    border-inline-start-style: solid;
-    border-inline-start-width: thin;
+      div.cx-vertical-line-separator {
+        border-color: var(--cx-color-light);
+        border-inline-start-style: solid;
+        border-inline-start-width: thin;
+      }
+    }
   }
 
   .cx-unit-level-order-history-no-order {
@@ -331,8 +329,8 @@
     display: flex;
     flex-direction: row;
 
-    .clear-btn {
-      margin-inline-end: 1rem;
+    .cx-clear-btn {
+      margin-inline-end: 2.125rem;
       border: none;
       background-color: inherit;
       font-size: var(--cx-font-size, 1rem);
@@ -361,7 +359,15 @@
   }
 
   .cx-filter-list {
-    margin: 1px 11px 1px 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    button[type='button'] {
+      background-color: transparent;
+      border: none;
+      font-size: var(--cx-font-size, 1.5rem);
+      margin: 0;
+    }
   }
 
   .cx-filter {
@@ -373,23 +379,21 @@
     background-color: var(--cx-color-background);
     overflow-x: hidden;
     top: 0;
-    padding-top: 33px;
+    padding: 10px;
     display: none;
     flex-direction: column;
     font-weight: var(--cx-font-weight-semi);
   }
 
-  .filter-list-border {
-    border-bottom: 2px solid #e0e0e0;
+  .cx-filter-list-border {
+    border-bottom: 1px solid var(--cx-color-light);
   }
 
-  .clear-btn {
-    margin-inline-end: 1rem;
+  .cx-clear-btn {
+    margin-inline-end: 2.125rem;
     border: none;
     background-color: inherit;
     font-size: var(--cx-font-size, 1rem);
-    float: right;
-    justify-content: flex-end;
   }
 
   #cx-unit-level-order-history-filter-nav-sub-unit {
@@ -404,7 +408,7 @@
     display: block;
     padding: 10px;
     padding-top: 15px;
-    color: lightgray;
+    color: var(--cx-color-secondary);
   }
 
   .cx-filter-nav {
@@ -415,7 +419,6 @@
     left: 0;
     background-color: var(--cx-color-background);
     overflow-x: hidden;
-    padding-top: 33px;
     top: 0;
 
     @include media-breakpoint-up(lg) {
@@ -426,15 +429,30 @@
     }
 
     .cx-filter-nav-div {
-      box-shadow: 0 4px 2px -2px lightgray;
+      padding: 10px;
+
+      box-shadow: 0 4px 2px -2px var(--cx-color-secondary);
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+    }
+
+    .cx-clear-btn-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .cx-filter-back-button {
+      display: flex;
+      align-items: center;
     }
 
     label {
       display: flex;
       align-content: stretch;
-      background: white;
+      background: var(--cx-color-inverse);
       padding-bottom: 0;
-      border: 1px solid lightgray;
+      border: 1px solid var(--cx-color-secondary);
       margin: 0 1rem 0 1rem;
     }
 
@@ -445,28 +463,13 @@
     }
 
     input:focus {
-      background-color: white;
+      background-color: var(--cx-color-inverse);
     }
 
     input::placeholder {
-      color: lightgray;
+      color: var(--cx-color-secondary);
       font-weight: $font-weight-light;
       font-size: var(--cx-font-size, 1rem);
-    }
-
-    .filter-button {
-      border: none;
-      align-content: stretch;
-      flex-basis: 100%;
-      justify-content: flex-end;
-      margin-inline-end: 0.5rem;
-      margin-bottom: 1rem;
-      align-self: center;
-      background-color: var(--cx-color-background);
-
-      span {
-        padding-inline-start: 12px;
-      }
     }
   }
 }
