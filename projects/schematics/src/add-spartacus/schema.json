@@ -175,7 +175,7 @@
           },
           {
             "value": "S4OM",
-            "label": "S/4 HANA Synchronous Order Management"
+            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",

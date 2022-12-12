@@ -33,7 +33,7 @@ class MockLanguageService {
   template: '',
 })
 class MockConfigureScheduleLineComponent {
-  @Input() cartEntry: Partial<OrderEntry & ScheduleLine>;
+  @Input() cartEntry: Partial<OrderEntry & Array<ScheduleLine>>;
 }
 
 describe('ScheduleLinesCartEntryComponent', () => {
@@ -81,7 +81,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
   });
 
   it('should expose orderEntry$', (done) => {
-    const orderEntry: OrderEntry = { orderCode: '123', scheduleLines: [] };
+    const orderEntry: Partial<OrderEntry & Array<ScheduleLine>> = { orderCode: '123', scheduleLines: [] };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
       done();

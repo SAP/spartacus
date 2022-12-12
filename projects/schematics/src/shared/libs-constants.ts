@@ -238,12 +238,6 @@ export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
-export const CLI_CDC_FEATURE = 'CDC';
-export const CLI_CDS_FEATURE = 'CDS';
-export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
-export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
-export const CLI_S4OM_FEATURE = 'S4OM';
-/***** CLI end *****/
 
 export const CDS_FEATURE_NAME = 'CDS';
 
@@ -251,77 +245,5 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
-export const S4OM_FEATURE_NAME = 'S4-HANA-Order-Management';
-
+export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 /***** Feature name end *****/
-export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
-export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
-export const CHECKOUT_BASE_MODULE = 'CheckoutModule';
-export const CHECKOUT_BASE_ROOT_MODULE = 'CheckoutRootModule';
-export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
-export const CHECKOUT_B2B_ROOT_MODULE = 'CheckoutB2BRootModule';
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
-  'CheckoutScheduledReplenishmentModule';
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE =
-  'CheckoutScheduledReplenishmentRootModule';
-
-export const ORDER_MODULE = 'OrderModule';
-export const ORDER_ROOT_MODULE = 'OrderRootModule';
-
-export const ADMINISTRATION_MODULE = 'AdministrationModule';
-export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
-export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
-export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
-
-export const BULK_PRICING_MODULE = 'BulkPricingModule';
-export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
-export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
-export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
-export const VARIANTS_MODULE = 'ProductVariantsModule';
-export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
-
-export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
-  'TextfieldConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
-  'TextfieldConfiguratorRootModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =
-  'RulebasedConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
-  'RulebasedConfiguratorRootModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE =
-  'RulebasedCpqConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE =
-  'CpqConfiguratorRootModule';
-
-export const QUALTRICS_MODULE = 'QualtricsModule';
-export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
-
-export const SMARTEDIT_MODULE = 'SmartEditModule';
-export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
-
-export const STOREFINDER_MODULE = 'StoreFinderModule';
-export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-
-export const TMS_BASE_MODULE = 'BaseTmsModule';
-export const TMS_GTM_MODULE = 'GtmModule';
-export const TMS_AEP_MODULE = 'AepModule';
-export const PERSONALIZATION_MODULE = 'PersonalizationModule';
-export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
-
-export const USER_ACCOUNT_MODULE = 'UserAccountModule';
-export const USER_ACCOUNT_ROOT_MODULE = 'UserAccountRootModule';
-export const USER_PROFILE_MODULE = 'UserProfileModule';
-export const USER_PROFILE_ROOT_MODULE = 'UserProfileRootModule';
-
-export const CDC_MODULE = 'CdcModule';
-export const CDC_ROOT_MODULE = 'CdcRootModule';
-
-export const CDS_MODULE = 'CdsModule';
-
-export const DIGITAL_PAYMENTS_MODULE = 'DigitalPaymentsModule';
-
-export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
-export const EPD_VISUALIZATION_ROOT_MODULE = 'EpdVisualizationRootModule';
-
-export const S4OM_MODULE = 'S4omModule';
-/***** Feature libs configuration end *****/

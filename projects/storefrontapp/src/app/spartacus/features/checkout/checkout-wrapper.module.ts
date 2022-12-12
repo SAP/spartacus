@@ -9,11 +9,15 @@ import { CheckoutB2BModule } from '@spartacus/checkout/b2b';
 import { CheckoutModule } from '@spartacus/checkout/base';
 import { CheckoutScheduledReplenishmentModule } from '@spartacus/checkout/scheduled-replenishment';
 import { DigitalPaymentsModule } from '@spartacus/digital-payments';
+import { S4omModule } from '@spartacus/s4om';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 
 if (environment.b2b) {
+  if (environment.s4om) {
+    extensions.push(S4omModule);
+  }
   extensions.push(CheckoutB2BModule, CheckoutScheduledReplenishmentModule);
 }
 

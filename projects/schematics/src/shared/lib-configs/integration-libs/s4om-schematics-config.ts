@@ -9,18 +9,18 @@ import {
   CHECKOUT_B2B_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   S4OM_FEATURE_NAME,
-  S4OM_MODULE,
   SPARTACUS_S4OM,
   SPARTACUS_S4OM_ASSETS,
-  SPARTACUS_S4OM_ROOT,
+  SPARTACUS_S4OM_ROOT
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
-import { CHECKOUT_B2B_ROOT_MODULE } from '../checkout-schematics-config';
+import { CHECKOUT_B2B_MODULE } from '../checkout-schematics-config';
 
 export const S4OM_FOLDER_NAME = 's4om';
 export const S4OM_TRANSLATIONS = 's4omTranslations';
 export const S4OM_TRANSLATION_CHUNKS_CONFIG = 's4omTranslationChunksConfig';
 export const S4OM_ROOT_MODULE = 'S4omRootModule';
+export const S4OM_MODULE = 'S4omModule';
 
 export const S4OM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -49,7 +49,7 @@ export const S4OM_SCHEMATICS_CONFIG: SchematicConfig = {
   ],
   importAfter: [
     {
-      markerModuleName: CHECKOUT_B2B_ROOT_MODULE,
+      markerModuleName: CHECKOUT_B2B_MODULE,
       featureModuleName: S4OM_MODULE,
     },
   ],

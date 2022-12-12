@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["S4OM"]
+      "default": ["S4HANA-Order-Management"]
     }
   },
   "required": []

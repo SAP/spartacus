@@ -5,7 +5,7 @@ module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/test-jest.ts'],
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
   globals: {
     'ts-jest': {
@@ -14,7 +14,7 @@ module.exports = {
   },
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/epd-visualization/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/s4om/schematics',
   coverageThreshold: {
     global: {
       statements: 90,

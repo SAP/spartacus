@@ -11,10 +11,10 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_S4OM_FEATURE,
+  CHECKOUT_BASE_FEATURE_NAME,
   LibraryOptions,
   LibraryOptions as S4OMOptions,
+  S4OM_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CART,
   SPARTACUS_CHECKOUT,
@@ -27,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
 
-describe('Spartacus Digital-Payments schematics: ng-add', () => {
+describe('Spartacus S4OM schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
@@ -61,7 +61,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
   const s4omFeatureOptions: S4OMOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_S4OM_FEATURE],
+    features: [S4OM_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -176,7 +176,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           SPARTACUS_CHECKOUT
         );
         expect(checkoutTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_CHECKOUT_BASE_FEATURE,
+          CHECKOUT_BASE_FEATURE_NAME,
         ]);
       });
 
