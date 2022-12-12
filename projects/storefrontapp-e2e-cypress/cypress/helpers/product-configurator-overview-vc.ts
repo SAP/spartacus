@@ -162,8 +162,26 @@ export function checkConfigOverviewFilterDisplayed(): void {
 }
 
 /**
- * Switches configuration overview side bar from menu -> filter or from filter -> menu
+ * Toggles configuration overview side bar from menu -> filter or from filter -> menu
  */
-export function configOverviewSwitchMenuFilter(): void {
-  cy.get('cx-configurator-overview-sidebar button:not(.active)').click();
+export function configOverviewToggleSidebar(): void {
+  cy.get(
+    'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)'
+  ).click();
+}
+
+/**
+ * Toggles configuration overview side bar from menu -> filter or from filter -> menu
+ */
+export function configOverviewToggleGroupFilter(filter: string): void {
+  cy.get(`#cx-configurator-overview-filter-option-group-${filter}`).click();
+}
+
+/**
+ * Toggles configuration overview side bar from menu -> filter or from filter -> menu
+ */
+export function configOverviewToggleAttributeFilter(
+  filter: 'mySelections' | 'price'
+): void {
+  cy.get(`#cx-configurator-overview-filter-option-${filter}`).click();
 }
