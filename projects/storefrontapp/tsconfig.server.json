@@ -381,15 +381,15 @@
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
+      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
-      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
-      "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
@@ -419,9 +419,6 @@
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
-  },
-  "angularCompilerOptions": {
-    "entryModule": "src/app/app.server.module#AppServerModule"
   },
   "files": [
     "src/main.server.ts",

@@ -790,4 +790,88 @@ describe('OccConfigurationVariantAdapter', () => {
       ConfiguratorType.VARIANT
     );
   });
+
+  describe('updateConfigurationOverview', () => {
+    const overviewInput: Configurator.Overview = {
+      configId: configId,
+      productCode: productCode,
+      groupFilters: ['A'],
+      attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
+      possibleGroups: [{ id: '1' }, { id: '2' }],
+    };
+    it('should call overview endpoint and build url', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.configId).toEqual(configId);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'getVariantConfigurationOverview',
+        {
+          urlParams: {
+            configId,
+          },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      );
+      mockReq.flush(overviewOcc);
+    });
+
+    it('should return filter attributes like provided as input', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.attributeFilters).toEqual(
+            overviewInput.attributeFilters
+          );
+          expect(resultOv.groupFilters).toEqual(overviewInput.groupFilters);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+      mockReq.flush(overviewOcc);
+    });
+
+    it('should return possible groups like provided as input', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.possibleGroups).toEqual(overviewInput.possibleGroups);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+      mockReq.flush(overviewOcc);
+    });
+  });
 });
