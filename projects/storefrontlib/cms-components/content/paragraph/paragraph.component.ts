@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  Optional,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { CmsParagraphComponent, FeatureConfigService } from '@spartacus/core';
