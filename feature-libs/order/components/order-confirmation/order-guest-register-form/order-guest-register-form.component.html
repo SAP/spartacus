@@ -25,6 +25,7 @@
             cxPasswordVisibilitySwitch
           />
           <cx-form-errors
+            prefix="formErrors.password"
             [control]="guestRegisterForm.get('password')"
           ></cx-form-errors>
         </label>
@@ -50,6 +51,7 @@
             cxPasswordVisibilitySwitch
           />
           <cx-form-errors
+            prefix="register.confirmPassword"
             [control]="guestRegisterForm.get('passwordconf')"
           ></cx-form-errors>
         </label>

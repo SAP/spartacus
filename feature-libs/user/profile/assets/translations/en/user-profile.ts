@@ -28,6 +28,7 @@ export const userProfile = {
       action: 'Confirm password',
       label: 'Confirm password',
       placeholder: 'Confirm Password',
+      required: 'Confirm password is required.',
     },
     managementInMyAccount: 'Management in My Account.',
     termsAndConditions: 'Terms & Conditions',

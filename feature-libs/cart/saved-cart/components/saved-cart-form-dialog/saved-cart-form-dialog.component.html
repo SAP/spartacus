@@ -195,7 +195,7 @@
             <ng-container>
               <label>
                 <span class="cx-saved-carts-label label-content">{{
-                  'savedCartDialog.savedCartName' | cxTranslate
+                  'savedCartDialog.savedCartName.label' | cxTranslate
                 }}</span>
                 <input
                   required="true"
@@ -205,7 +205,10 @@
                   required
                   type="text"
                 />
-                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+                <cx-form-errors
+                  prefix="savedCartDialog.savedCart"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
               </label>
             </ng-container>
           </div>
@@ -213,7 +216,9 @@
           <div class="cx-saved-cart-form-row">
             <label>
               <span class="cx-saved-carts-label label-content"
-                >{{ 'savedCartDialog.savedCartDescription' | cxTranslate }}
+                >{{
+                  'savedCartDialog.savedCartDescription.label' | cxTranslate
+                }}
                 <span class="cx-saved-carts-label-optional">
                   ({{ 'savedCartDialog.optional' | cxTranslate }})
                 </span></span
@@ -225,6 +230,7 @@
                 rows="5"
               ></textarea>
               <cx-form-errors
+                prefix="savedCartDialog.savedCartDescription"
                 [control]="form.get('description')"
               ></cx-form-errors>
 

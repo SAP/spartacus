@@ -15,6 +15,7 @@
         }}"
       />
       <cx-form-errors
+        prefix="formErrors.email"
         [control]="checkoutLoginForm.get('email')"
       ></cx-form-errors>
     </label>
@@ -36,6 +37,7 @@
         }}"
       />
       <cx-form-errors
+        prefix="checkoutLogin.confirmEmail"
         [control]="checkoutLoginForm.get('emailConfirmation')"
       ></cx-form-errors>
     </label>

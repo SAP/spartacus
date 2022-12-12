@@ -29,6 +29,7 @@ export const asm = {
     customerSearch: {
       searchTerm: {
         label: 'Customer Name/Email Address',
+        required: 'Customer Name or Email Address is required',
       },
       submit: 'Start Session',
       noMatch: 'No customer found.',

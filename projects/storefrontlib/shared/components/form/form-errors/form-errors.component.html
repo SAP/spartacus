@@ -1,6 +1,6 @@
 <ng-container *ngIf="errorsDetails$ | async as errorDetails">
   <ng-container *ngIf="!hidden">
-    <p *ngFor="let error of errorDetails">
+    <p *ngFor="let error of errorDetails" aria-live="assertive">
       {{
         prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1])
       }}

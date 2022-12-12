@@ -12,7 +12,10 @@
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
-    <cx-form-errors [control]="form.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      [prefix]="'formErrors.email'"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -28,7 +31,10 @@
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
-    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+    <cx-form-errors
+      [prefix]="'formErrors.password'"
+      [control]="form.get('password')"
+    ></cx-form-errors>
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">

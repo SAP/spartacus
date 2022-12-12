@@ -2,31 +2,37 @@
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'orgBudget.name' | cxTranslate
+        'orgBudget.name.label' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'orgBudget.name' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.name.label' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgBudget.name"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
-        'orgBudget.code' | cxTranslate
+        'orgBudget.code.label' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'orgBudget.code' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.code.label' | cxTranslate }}"
         formControlName="code"
       />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgBudget.code"
+        [control]="form.get('code')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -37,6 +43,7 @@
         [control]="$any(form.get('startDate'))"
         [max]="form.get('endDate')?.value"
         [required]="true"
+        prefix="formErrors.startDate"
         (update)="form.get('endDate')?.updateValueAndValidity()"
       ></cx-date-picker>
     </label>
@@ -47,13 +54,14 @@
         [control]="$any(form.get('endDate'))"
         [min]="form.get('startDate')?.value"
         [required]="true"
+        prefix="formErrors.endDate"
         (update)="form.get('startDate')?.updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
     <label [formGroup]="$any(form.get('currency'))">
       <span class="label-content required">{{
-        'orgBudget.currency' | cxTranslate
+        'orgBudget.currency.label' | cxTranslate
       }}</span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -65,23 +73,31 @@
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
-        [placeholder]="'orgBudget.currency' | cxTranslate"
+        [placeholder]="'orgBudget.currency.label' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgBudget.currency"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label>
-      <span class="label-content">{{ 'orgBudget.amount' | cxTranslate }}</span>
+      <span class="label-content">{{
+        'orgBudget.amount.label' | cxTranslate
+      }}</span>
       <input
         required="true"
         type="number"
         class="form-control"
-        placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.amount.label' | cxTranslate }}"
         formControlName="budget"
         min="0"
       />
-      <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgBudget.amount"
+        [control]="form.get('budget')"
+      ></cx-form-errors>
     </label>
 
     <label
@@ -89,7 +105,7 @@
       [formGroup]="$any(form.get('orgUnit'))"
     >
       <span class="label-content required">{{
-        'orgBudget.businessUnits' | cxTranslate
+        'orgBudget.businessUnits.label' | cxTranslate
       }}</span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -101,10 +117,13 @@
         bindValue="id"
         [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
-        [placeholder]="'orgBudget.businessUnits' | cxTranslate"
+        [placeholder]="'orgBudget.businessUnits.label' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgBudget.businessUnits"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

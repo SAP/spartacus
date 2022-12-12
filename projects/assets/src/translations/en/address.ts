@@ -11,22 +11,36 @@ export const address = {
     firstName: {
       label: 'First name',
       placeholder: 'First Name',
+      required: 'First name is required',
     },
     lastName: {
       label: 'Last name',
       placeholder: 'Last Name',
+      required: 'Last name is required',
     },
-    address1: 'Address 1',
-    address2: 'Address 2 (optional)',
-    country: 'Country/Region',
+    address1: {
+      label: 'Address 1',
+      required: 'Address is required',
+      placeholder: 'Street Address',
+    },
+    address2: {
+      label: 'Address 2 (optional)',
+      placeholder: 'Apt, Suite',
+    },
+    country: {
+      label: 'Country/Region',
+      required: 'Country/Region is required',
+    },
     city: {
       label: 'City',
       placeholder: 'City',
+      required: 'City is required',
     },
     state: 'State',
     zipCode: {
       label: 'Zip code',
       placeholder: 'Postal Code/Zip',
+      required: 'Zip code is required',
     },
     phoneNumber: {
       label: 'Phone number (optional)',
@@ -34,8 +48,6 @@ export const address = {
     },
     saveAsDefault: 'Save as default',
     chooseAddress: 'Choose address',
-    streetAddress: 'Street Address',
-    aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
     setAsDefault: 'Set as default delivery address',
     titleRequired: 'Title is required.',

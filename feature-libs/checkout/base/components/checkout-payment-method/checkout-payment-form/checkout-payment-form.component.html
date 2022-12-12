@@ -9,7 +9,7 @@
             <div *ngIf="cardTypes.length !== 0">
               <label>
                 <span class="label-content required">{{
-                  'paymentForm.paymentType' | cxTranslate
+                  'paymentForm.paymentType.label' | cxTranslate
                 }}</span>
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
@@ -22,11 +22,12 @@
                   formControlName="code"
                   id="card-type-select"
                   [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate
+                    ariaLabel: 'paymentForm.paymentType.label' | cxTranslate
                   }"
                 >
                 </ng-select>
                 <cx-form-errors
+                  prefix="paymentForm.paymentType"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -49,6 +50,7 @@
               formControlName="accountHolderName"
             />
             <cx-form-errors
+              prefix="paymentForm.accountHolderName"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -57,7 +59,7 @@
         <div class="form-group">
           <label>
             <span class="label-content">{{
-              'paymentForm.cardNumber' | cxTranslate
+              'paymentForm.cardNumber.label' | cxTranslate
             }}</span>
             <input
               required="true"
@@ -66,6 +68,7 @@
               formControlName="cardNumber"
             />
             <cx-form-errors
+              prefix="paymentForm.cardNumber"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -75,7 +78,7 @@
           <div class="form-group col-md-8">
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
-                {{ 'paymentForm.expirationDate' | cxTranslate }}
+                {{ 'paymentForm.expirationDate.label' | cxTranslate }}
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -83,18 +86,21 @@
                   [searchable]="true"
                   [clearable]="false"
                   [items]="months"
-                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
+                  placeholder="{{
+                    'paymentForm.expirationDate.month.mask' | cxTranslate
+                  }}"
                   formControlName="expiryMonth"
                   id="month-select"
                   [cxNgSelectA11y]="{
                     ariaLabel:
-                      'paymentForm.expirationMonth'
+                      'paymentForm.expirationDate.month.value'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryMonth')?.value }
                   }"
                 >
                 </ng-select>
                 <cx-form-errors
+                  prefix="paymentForm.expirationDate.month"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -104,11 +110,13 @@
                   [searchable]="true"
                   [clearable]="false"
                   [items]="years"
-                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
+                  placeholder="{{
+                    'paymentForm.expirationDate.year.mask' | cxTranslate
+                  }}"
                   id="year-select"
                   [cxNgSelectA11y]="{
                     ariaLabel:
-                      'paymentForm.expirationYear'
+                      'paymentForm.expirationDate.year.value'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryYear')?.value }
                   }"
@@ -116,6 +124,7 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  prefix="paymentForm.expirationDate.year"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -125,12 +134,12 @@
           <div class="form-group col-md-4">
             <label>
               <span class="label-content">
-                {{ 'paymentForm.securityCode' | cxTranslate }}
+                {{ 'paymentForm.securityCode.label' | cxTranslate }}
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"
                   placement="right"
-                  title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
+                  title="{{ 'paymentForm.securityCode.title' | cxTranslate }}"
                   alt=""
                 ></cx-icon>
               </span>
@@ -142,6 +151,7 @@
                 formControlName="cvn"
               />
               <cx-form-errors
+                prefix="paymentForm.securityCode"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -212,7 +222,7 @@
                   <div *ngIf="countries.length !== 0">
                     <label>
                       <span class="label-content required">{{
-                        'addressForm.country' | cxTranslate
+                        'addressForm.country.label' | cxTranslate
                       }}</span>
                       <ng-select
                         [inputAttrs]="{ required: 'true' }"
@@ -233,6 +243,7 @@
                       >
                       </ng-select>
                       <cx-form-errors
+                        prefix="addressForm.country"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
                     </label>
@@ -254,6 +265,7 @@
                     formControlName="firstName"
                   />
                   <cx-form-errors
+                    prefix="addressForm.firstName"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
                 </label>
@@ -273,6 +285,7 @@
                     formControlName="lastName"
                   />
                   <cx-form-errors
+                    prefix="addressForm.lastName"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
                 </label>
@@ -280,14 +293,14 @@
               <div class="form-group">
                 <label>
                   <span class="label-content required">{{
-                    'addressForm.address1' | cxTranslate
+                    'addressForm.address1.label' | cxTranslate
                   }}</span>
                   <input
                     required="true"
                     type="text"
                     class="form-control"
                     placeholder="{{
-                      'addressForm.streetAddress' | cxTranslate
+                      'addressForm.address1.placeholder' | cxTranslate
                     }}"
                     formControlName="line1"
                   />
@@ -299,12 +312,14 @@
               <div class="form-group">
                 <label>
                   <span class="label-content">{{
-                    'addressForm.address2' | cxTranslate
+                    'addressForm.address2.label' | cxTranslate
                   }}</span>
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+                    placeholder="{{
+                      'addressForm.address2.placeholder' | cxTranslate
+                    }}"
                     formControlName="line2"
                   />
                 </label>
@@ -325,6 +340,7 @@
                       formControlName="town"
                     />
                     <cx-form-errors
+                      prefix="addressForm.city"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
                   </label>
@@ -344,6 +360,7 @@
                       formControlName="postalCode"
                     />
                     <cx-form-errors
+                      prefix="addressForm.zipCode"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
                   </label>

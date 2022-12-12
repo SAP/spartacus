@@ -115,6 +115,18 @@ export const orgUnit = {
     addressDetails: '{{formattedAddress}}',
     costCenters: 'Cost Centers',
   },
+
+  formErrors: {
+    name: {
+      required: 'Name is required',
+    },
+    uid: {
+      required: 'ID is required',
+    },
+    approvalProcess: {
+      required: 'Approval process is required',
+    },
+  },
 };
 
 export const orgUnitChildren = {

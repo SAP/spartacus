@@ -49,6 +49,7 @@ export const cart = {
     vouchersApplied: 'Applied coupons',
     availableCoupons: 'Available coupons',
     availableCouponsLabel: 'You can add these coupons to this order.',
+    required: 'Coupon code is required.',
   },
   saveForLaterItems: {
     itemTotal: 'Saved for later ({{count}} item)',

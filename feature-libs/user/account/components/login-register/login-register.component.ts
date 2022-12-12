@@ -18,5 +18,6 @@ export class LoginRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    console.log('loginAsGuest', this.loginAsGuest);
   }
 }

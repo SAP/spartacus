@@ -8,15 +8,37 @@ export const payment = {
   paymentForm: {
     payment: 'Payment',
     choosePaymentMethod: 'Choose a payment method',
-    paymentType: 'Payment Type',
+    paymentType: {
+      label: 'Payment type',
+      required: 'Payment type is required',
+    },
     accountHolderName: {
       label: 'Account Holder Name',
       placeholder: 'Account Holder Name',
+      required: 'Account Holder Name is required',
     },
-    cardNumber: 'Card Number',
-    expirationDate: 'Expiration Date',
-    securityCode: 'Security code (CVV)',
-    securityCodeTitle: 'Card Verification Value',
+    cardNumber: {
+      label: 'Card Number',
+      required: 'Card Number is required',
+    },
+    expirationDate: {
+      label: 'Expiration Date',
+      month: {
+        value: 'Expiration month {{ selected }}',
+        required: 'Month is required',
+        mask: 'MM',
+      },
+      year: {
+        value: 'Expiration year {{ selected }}',
+        required: 'Year is required',
+        mask: 'YY',
+      },
+    },
+    securityCode: {
+      label: 'Security code (CVV)',
+      required: 'Security code is required',
+      title: 'Card Verification Value',
+    },
     saveAsDefault: 'Save as default',
     setAsDefault: 'Set as default payment method',
     billingAddress: 'Billing address',
@@ -24,10 +46,6 @@ export const payment = {
     billingAddressSameAsShipping:
       'Billing address is the same as delivery address',
     selectOne: 'Select One...',
-    monthMask: 'MM',
-    yearMask: 'YYYY',
-    expirationYear: 'Expiration year {{ selected }}',
-    expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
     paymentAddedSuccessfully: 'New payment was added successfully',

@@ -30,6 +30,8 @@ export const user = {
     confirmEmail: {
       label: 'Confirm email',
       placeholder: 'Confirm email',
+      required: 'Confirm email is required.',
+      cxEmailsMustMatch: 'Email and Confirm email must match.',
     },
     continue: 'Continue',
     emailIsRequired: 'Invalid email format',

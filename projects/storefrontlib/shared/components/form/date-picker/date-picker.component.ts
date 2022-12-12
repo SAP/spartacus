@@ -30,6 +30,7 @@ export class DatePickerComponent {
   @Input() min?: string;
   @Input() max?: string;
   @Input() required?: boolean;
+  @Input() prefix: string = 'formErrors.date';
 
   @Output() update: EventEmitter<void> = new EventEmitter();
 

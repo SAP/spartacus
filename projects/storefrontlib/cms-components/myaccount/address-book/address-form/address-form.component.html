@@ -6,7 +6,7 @@
           <div *ngIf="countries.length !== 0">
             <label>
               <span class="label-content required">{{
-                'addressForm.country' | cxTranslate
+                'addressForm.country.label' | cxTranslate
               }}</span>
               <ng-select
                 [inputAttrs]="{ required: 'true' }"
@@ -26,6 +26,7 @@
               >
               </ng-select>
               <cx-form-errors
+                prefix="addressForm.country"
                 [control]="addressForm.get('country.isocode')"
               ></cx-form-errors>
             </label>
@@ -72,6 +73,7 @@
             formControlName="firstName"
           />
           <cx-form-errors
+            prefix="addressForm.firstName"
             [control]="addressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -89,6 +91,7 @@
             formControlName="lastName"
           />
           <cx-form-errors
+            prefix="addressForm.lastName"
             [control]="addressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -96,27 +99,30 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'addressForm.address1' | cxTranslate
+            'addressForm.address1.label' | cxTranslate
           }}</span>
           <input
             required="true"
             type="text"
             class="form-control"
-            placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
+            placeholder="{{ 'addressForm.address1.placeholder' | cxTranslate }}"
             formControlName="line1"
           />
-          <cx-form-errors [control]="addressForm.get('line1')"></cx-form-errors>
+          <cx-form-errors
+            prefix="addressForm.address1"
+            [control]="addressForm.get('line1')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'addressForm.address2' | cxTranslate
+            'addressForm.address2.label' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
-            placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+            placeholder="{{ 'addressForm.address2.placeholder' | cxTranslate }}"
             formControlName="line2"
           />
         </label>
@@ -135,6 +141,7 @@
               formControlName="town"
             />
             <cx-form-errors
+              prefix="addressForm.city"
               [control]="addressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -154,6 +161,7 @@
               formControlName="postalCode"
             />
             <cx-form-errors
+              prefix="addressForm.zipCode"
               [control]="addressForm.get('postalCode')"
             ></cx-form-errors>
           </label>

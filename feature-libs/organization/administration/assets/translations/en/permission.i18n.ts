@@ -8,14 +8,32 @@ export const orgPurchaseLimit = {
   header: 'All purchase limits ({{count}})',
 
   name: 'Name',
-  code: 'Code',
+  code: {
+    label: 'Code',
+    required: 'Code is required',
+  },
   active: 'Status',
   limit: 'Limit',
-  orderApprovalPermissionType: 'Type',
-  threshold: 'Threshold',
-  periodRange: 'Period',
-  currency: 'Currency',
-  orgUnit: 'Parent Unit',
+  orderApprovalPermissionType: {
+    label: 'Type',
+    required: 'Type is required',
+  },
+  threshold: {
+    label: 'Threshold',
+    required: 'Threshold is required',
+  },
+  periodRange: {
+    label: 'Period',
+    required: 'Period is required',
+  },
+  currency: {
+    label: 'Currency',
+    required: 'Currency is required',
+  },
+  orgUnit: {
+    label: 'Parent Unit',
+    required: 'Parent Unit is required',
+  },
   unit: 'Parent Unit',
   actions: '',
   hint: 'Purchase limits help control spending by defining how much buyers can spend per order or per week, month, quarter, or year. Purchase limits are assigned to users or user groups. Purchase limits are also assigned to approvers, defining how much they are permitted to approve. You can assign purchase limits to many users at once with user groups.',

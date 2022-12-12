@@ -45,8 +45,14 @@ export const savedCartCartPage = {
 export const savedCartDialog = {
   saveForLater: 'Save For Later',
   itemsSavedForLater: 'All of the items in your cart will be saved for later',
-  savedCartName: 'Saved Cart Name',
-  savedCartDescription: 'Saved Cart Description',
+  savedCartName: {
+    label: 'Saved Cart Name',
+    required: 'Saved Cart Name is required',
+  },
+  savedCartDescription: {
+    label: 'Saved Cart Description',
+    required: 'Saved Cart Description is required',
+  },
   optional: 'optional',
   charactersLeft: 'characters left: {{count}}',
   cancel: 'Cancel',

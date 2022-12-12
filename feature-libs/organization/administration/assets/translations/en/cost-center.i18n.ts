@@ -7,11 +7,23 @@
 export const orgCostCenter = {
   header: 'All cost centers ({{count}})',
 
-  code: 'Code',
+  code: {
+    label: 'Code',
+    required: 'Code is required',
+  },
   active: 'Status',
-  name: 'Name',
-  currency: 'Currency',
-  unit: 'Parent Unit',
+  name: {
+    label: 'Name',
+    required: 'Name is required',
+  },
+  currency: {
+    label: 'Currency',
+    required: 'Currency is required',
+  },
+  unit: {
+    label: 'Parent Unit',
+    required: 'Parent Unit is required',
+  },
   actions: '',
 
   sortBy: 'Sort by',

@@ -2,36 +2,42 @@
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'orgCostCenter.name' | cxTranslate
+        'orgCostCenter.name.label' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
+        placeholder="{{ 'orgCostCenter.name.label' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgCostCenter.name"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
-        'orgCostCenter.code' | cxTranslate
+        'orgCostCenter.code.label' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
+        placeholder="{{ 'orgCostCenter.code.label' | cxTranslate }}"
         formControlName="code"
       />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgCostCenter.code"
+        [control]="form.get('code')"
+      ></cx-form-errors>
     </label>
 
     <label formGroupName="currency">
       <span class="label-content required">{{
-        'orgCostCenter.currency' | cxTranslate
+        'orgCostCenter.currency.label' | cxTranslate
       }}</span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -43,15 +49,18 @@
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
-        [placeholder]="'orgCostCenter.currency' | cxTranslate"
+        [placeholder]="'orgCostCenter.currency.label' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgCostCenter.currency"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label [formGroup]="$any(form.get('unit'))">
       <span class="label-content required">{{
-        'orgCostCenter.unit' | cxTranslate
+        'orgCostCenter.unit.label' | cxTranslate
       }}</span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -63,10 +72,13 @@
         bindValue="id"
         [readonly]="form.get('unit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
-        [placeholder]="'orgCostCenter.unit' | cxTranslate"
+        [placeholder]="'orgCostCenter.unit.label' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
+      <cx-form-errors
+        prefix="orgCostCenter.unit"
+        [control]="form.get('unit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

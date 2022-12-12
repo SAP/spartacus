@@ -9,6 +9,7 @@
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
     />
     <cx-form-errors
+      [prefix]="'asm.customerSearch.searchTerm'"
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>

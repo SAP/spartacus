@@ -6,6 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
+import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
@@ -48,6 +49,11 @@ const baseSite = environment.epdVisualization
         selectiveCart: {
           enabled: true,
         },
+      },
+    }),
+    provideConfig(<CheckoutConfig>{
+      checkout: {
+        guest: true,
       },
     }),
   ],

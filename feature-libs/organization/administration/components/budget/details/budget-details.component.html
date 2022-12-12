@@ -18,14 +18,14 @@
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'orgBudget.name' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.name.label' | cxTranslate }}</label>
       <span class="value">
         {{ model.name }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'orgBudget.code' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.code.label' | cxTranslate }}</label>
       <span class="value">
         {{ model.code }}
       </span>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="property">
-      <label>{{ 'orgBudget.amount' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.amount.label' | cxTranslate }}</label>
       <span class="value">
         {{ model.budget }} {{ model.currency?.isocode }}
       </span>

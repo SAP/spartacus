@@ -7,13 +7,28 @@
 export const orgBudget = {
   header: 'All budgets ({{count}})',
 
-  code: 'Code',
-  name: 'Name',
+  code: {
+    label: 'Code',
+    required: 'Code is required',
+  },
+  name: {
+    label: 'Name',
+    required: 'Name is required',
+  },
   active: 'Status',
-  currency: 'Currency',
-  amount: 'Amount',
+  currency: {
+    label: 'Currency',
+    required: 'Currency is required',
+  },
+  amount: {
+    label: 'Amount',
+    required: 'Amount is required',
+  },
   unit: 'Unit',
-  businessUnits: 'Unit',
+  businessUnits: {
+    label: 'Unit',
+    required: 'Unit is required',
+  },
   dateRange: 'Start - End',
   startDate: 'Start',
   endDate: 'End',
