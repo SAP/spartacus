@@ -122,13 +122,6 @@ describe('Spartacus Schematics: ng-add', () => {
       expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
-
-    if (appServerModuleBuffer) {
-      const appServerModuleContent = appServerModuleBuffer.toString(UTF_8);
-      expect(
-        appServerModuleContent.includes('ServerTransferStateModule')
-      ).toBeTruthy();
-    }
   });
 
   it('should add spartacus with both PWA and SSR', async () => {
