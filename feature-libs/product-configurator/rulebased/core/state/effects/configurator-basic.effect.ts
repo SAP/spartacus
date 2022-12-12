@@ -269,7 +269,8 @@ export class ConfiguratorBasicEffects {
                 map((currentGroupId) => {
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                      payload
+                      payload,
+                      currentGroupId?.startsWith('CONFLICT')
                     );
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
