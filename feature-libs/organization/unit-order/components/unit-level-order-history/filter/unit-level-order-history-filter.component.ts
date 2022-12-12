@@ -117,6 +117,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   closeFilterNav(): void {
+    console.log('closeFilterNav');
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
     this.renderer.setStyle(document.body, 'overflow', '');
     this.renderer.setStyle(this.filterNavUnit.nativeElement, 'display', 'none');
@@ -148,6 +149,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   launchSubNav(option: string): void {
+    console.log('launchSubNav');
     this.renderer.setStyle(this.filterNav.nativeElement, 'display', 'none');
 
     if (option === this.filterByUnit) {

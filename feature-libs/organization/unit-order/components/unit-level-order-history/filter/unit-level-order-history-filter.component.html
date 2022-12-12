@@ -8,7 +8,6 @@
     <button
       id="closeFilterNavBtn"
       type="button"
-      class="clear-btn"
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="closeFilterNav()"
     >
@@ -17,30 +16,27 @@
   </div>
 
   <div
-    class="cx-filter-list filter-list-border"
+    class="cx-filter-list cx-filter-list-border"
     (click)="launchSubNav(filterByBuyer)"
   >
     <span>{{ 'unitLevelOrderHistory.buyer' | cxTranslate }}</span>
     <button
       type="button"
-      class="clear-btn"
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
       "
-      (click)="closeFilterNav()"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
   </div>
 
   <div
-    class="cx-filter-list filter-list-border"
+    class="cx-filter-list cx-filter-list-border"
     (click)="launchSubNav(filterByUnit)"
   >
     <span>{{ 'unitLevelOrderHistory.unit' | cxTranslate }}</span>
     <button
       type="button"
-      class="clear-btn"
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate
       "
@@ -58,18 +54,22 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button class="filter-button" (click)="backFilterSubNav()">
-        <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
-        <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
-      </button>
+      <div class="cx-filter-list">
+        <div class="cx-filter-back-button" (click)="backFilterSubNav()">
+          <button type="button">
+            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+          </button>
+          <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
+        </div>
 
-      <button
-        class="clear-btn"
-        [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterNav()"
-      >
-        <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-      </button>
+        <button
+          type="button"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          (click)="closeFilterNav()"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+        </button>
+      </div>
 
       <label [class.dirty]="!!buyerFilterMobileId.value">
         <input
@@ -103,17 +103,16 @@
           ></cx-icon>
         </div>
       </label>
-      <br />
-    </div>
 
-    <div>
-      <button
-        class="cx-action-link clear-btn"
-        type="button"
-        (click)="clearBuyerMobile()"
-      >
-        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
-      </button>
+      <div class="cx-clear-btn-container">
+        <button
+          class="cx-action-link cx-clear-btn"
+          type="button"
+          (click)="clearBuyerMobile()"
+        >
+          {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -124,18 +123,22 @@
     [attr.aria-label]="'unitLevelOrderHistory.filterBy' | cxTranslate"
   >
     <div class="cx-filter-nav-div">
-      <button class="filter-button" (click)="backFilterSubNav()">
-        <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
-        <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
-      </button>
+      <div class="cx-filter-list">
+        <div class="cx-filter-back-button" (click)="backFilterSubNav()">
+          <button type="button">
+            <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
+          </button>
+          <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>
+        </div>
 
-      <button
-        class="clear-btn"
-        [attr.aria-label]="'common.close' | cxTranslate"
-        (click)="closeFilterNav()"
-      >
-        <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-      </button>
+        <button
+          type="button"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          (click)="closeFilterNav()"
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+        </button>
+      </div>
 
       <label [class.dirty]="!!unitFilterMobileId.value">
         <input
@@ -168,16 +171,16 @@
           ></cx-icon>
         </div>
       </label>
-      <br />
-    </div>
-    <div class="cx-unit-level-order-history-filter-nav-button-block">
-      <button
-        class="cx-action-link clear-btn"
-        type="button"
-        (click)="clearUnitMobile()"
-      >
-        {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
-      </button>
+
+      <div class="cx-clear-btn-container">
+        <button
+          class="cx-action-link cx-clear-btn"
+          type="button"
+          (click)="clearUnitMobile()"
+        >
+          {{ 'unitLevelOrderHistory.clearAll' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 </form>
@@ -284,7 +287,7 @@
     <div class="cx-unit-level-order-history-filter-form-button-block">
       <button
         id="clearAllBtn"
-        class="cx-action-link clear-btn"
+        class="cx-action-link cx-clear-btn"
         type="button"
         (click)="clearAll()"
       >
@@ -328,7 +331,7 @@
     <div class="cx-clear-filter">
       <button
         id="removeAppliedFiltersBtn"
-        class="cx-action-link clear-btn"
+        class="cx-action-link cx-clear-btn"
         type="button"
         (click)="clearAll()"
       >
