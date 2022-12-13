@@ -94,11 +94,9 @@ context('Product Configuration', () => {
     configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(5);
 
     // menu scroll test
-    cy.scrollTo('top');
-    cy.window().its('scrollY').as('lastScrollY');
     for (let ii: number = 0; ii < 5; ii++) {
       configurationOverviewVc.clickMenuItem(ii);
-      configurationOverviewVc.checkWindowScrolledDown();
+      configurationOverviewVc.checkViewPortScrolledToGroup(ii);
     }
   });
 });

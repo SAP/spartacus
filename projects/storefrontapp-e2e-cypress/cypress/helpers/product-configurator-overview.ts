@@ -56,7 +56,9 @@ export function waitForNotificationBanner(numberOfIssues?: number): void {
 }
 
 /**
- * Verifies whether the group header displayed.
+ * Verifies whether the group header with given index has the given name.
+ * @param {string} groupName - groupName to check
+ * @param {number} groupIdx - index of the ov group
  */
 export function checkGroupHeaderDisplayed(
   groupName: string,
@@ -68,7 +70,8 @@ export function checkGroupHeaderDisplayed(
 }
 
 /**
- * Verifies whether the group header is not displayed.
+ * Verifies whether the group header with given name is not displayed.
+ * @param {string} groupName - groupName to check
  */
 export function checkGroupHeaderNotDisplayed(groupName: string): void {
   cy.get('cx-configurator-overview-form .cx-group').should(
@@ -78,7 +81,8 @@ export function checkGroupHeaderNotDisplayed(groupName: string): void {
 }
 
 /**
- * Verifies the whether the current number of group headers is displayed
+ * Verifies whether the given number of group headers is displayed
+ * @param {number} num expected number
  */
 export function checkNumberOfGroupHeadersDisplayed(num: number): void {
   cy.get('cx-configurator-overview-form .cx-group').should('have.length', num);
@@ -86,6 +90,9 @@ export function checkNumberOfGroupHeadersDisplayed(num: number): void {
 
 /**
  * Verifies whether the attribute name and value are displayed at the given position.
+ * @param {string} attributeName - expected attribute name, or an empty string if the name is expected to be hidden
+ * @param {string} valueName - expected value
+ * @param {number} attributeIdx - index of the ov attribute to check
  */
 export function checkAttrDisplayed(
   attributeName: string,
@@ -95,13 +102,11 @@ export function checkAttrDisplayed(
   cy.get('.cx-attribute-value-pair')
     .eq(attributeIdx)
     .within(() => {
-      cy.log('Attribute name: ' + attributeName);
       if (attributeName) {
         cy.get('.cx-attribute-label').should('contain.text', attributeName);
       } else {
         cy.get('.cx-attribute-label').should('not.be.visible');
       }
-      cy.log('Value name: ' + valueName);
       cy.get('.cx-value-info, .cx-attribute-value').should(
         'contain.text',
         valueName
@@ -110,7 +115,8 @@ export function checkAttrDisplayed(
 }
 
 /**
- * Verifies the whether the current number of group headers is displayed
+ * Verifies whether the given number of attributes is displayed
+ * @param {number} num expected number
  */
 export function checkNumberOfAttributesDisplayed(num: number): void {
   cy.get('.cx-attribute-value-pair').should('have.length', num);
@@ -118,6 +124,8 @@ export function checkNumberOfAttributesDisplayed(num: number): void {
 
 /**
  * Verifies whether the attribute price is displayed at the given position.
+ * @param {string} priceString expected price (formula) as string
+ * @param {number} attributeIdx index of the ov attribute to check
  */
 export function checkAttrPriceDisplayed(
   priceString: string,
@@ -135,10 +143,12 @@ export function checkAttrPriceDisplayed(
 }
 
 /**
- * Verifies the whether the current number of group headers is displayed
+ * Verifies whether the given number of attributes with prices is displayed
+ * @param {number} num expected number
  */
 export function checkNumberOfAttributePricesDisplayed(num: number): void {
-  cy.get(
-    '.cx-attribute-value-pair cx-configurator-price:visible'
-  ).should('have.length', num);
+  cy.get('.cx-attribute-value-pair cx-configurator-price:visible').should(
+    'have.length',
+    num
+  );
 }

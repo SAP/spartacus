@@ -127,12 +127,18 @@ export function verifyNotificationBannerOnOP(
   }
 }
 
+/**
+ * Cypress alias for Config OV update OCC call.
+ */
 export const UPDATE_CONFIG_OV_ALIAS = '@updateConfigOverview';
+
+/**
+ * Cypress alias for Config OV read OCC call.
+ */
 export const READ_CONFIG_OV_ALIAS = '@readConfigOverview';
 
-UPDATE_CONFIG_OV_ALIAS;
 /**
- * Registers OCC call for OV page in order to wait for it
+ * Registers OCC call for OV page in order to wait for it sing alias @see READ_CONFIG_OV_ALIAS
  */
 export function registerConfigurationOverviewRoute() {
   cy.intercept(
@@ -143,6 +149,9 @@ export function registerConfigurationOverviewRoute() {
   ).as(READ_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
 }
 
+/**
+ * Registers OCC call for updating OV page in order to wait for it using alias @see UPDATE_CONFIG_OV_ALIAS
+ */
 export function registerConfigurationOverviewUpdateRoute() {
   cy.intercept({
     method: 'PATCH',
@@ -213,17 +222,34 @@ export function removeFilterByNameAndWait(filterName: string) {
   cy.wait(UPDATE_CONFIG_OV_ALIAS);
 }
 
+/**
+ * Verifies the the current number of displayed menu items.
+ * @param {number} num expected number
+ */
 export function checkNumberOfMenuEntriesDisplayed(num: number) {
   cy.get('.cx-menu-item').should('have.length', num);
 }
 
+/**
+ * Clicks on the menu item with the given index. Does not wait, but returns immediately.
+ * @param {number} index index of the menu item
+ */
 export function clickMenuItem(index: number) {
   cy.get('.cx-menu-item').eq(index).click();
 }
 
-export function checkWindowScrolledDown() {
-  cy.get('@lastScrollY').then((lastScrollY) => {
-    cy.window().its('scrollY').should('be.greaterThan', lastScrollY);
-  });
-  cy.window().its('scrollY').as('lastScrollY');
+/**
+ * Checks that the ov group with given index is placed in the top area of the view port,
+ * or in other words that the screen has ben scrolled to this group.
+ * @param {number} groupIdx index of the ov group
+ */
+export function checkViewPortScrolledToGroup(groupIdx: number) {
+  cy.get('cx-configurator-overview-form .cx-group h2')
+    .eq(groupIdx)
+    .then((elem) => {
+      // due to rounding errors top will be between 0px..1px
+      expect(elem[0].getBoundingClientRect().top)
+        .to.be.greaterThan(0)
+        .and.to.be.below(1);
+    });
 }
