@@ -134,7 +134,7 @@ describe('ConfiguratorBasicEffectService', () => {
       ).toBe(GROUP_ID_8);
     });
 
-    it('should find attribute group as first group in multi level config although conflicts exist if includeConflicts is set to true', () => {
+    it('should find conflict group as first group in multi level config where conflicts exist if includeConflicts is set to true', () => {
       productConfiguration.groups = groupListWithConflicts;
       expect(
         classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
