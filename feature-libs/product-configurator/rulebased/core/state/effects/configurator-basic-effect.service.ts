@@ -50,6 +50,7 @@ export class ConfiguratorBasicEffectService {
     let groupWithAttributes: Configurator.Group | undefined;
     if (
       includeConflicts &&
+      groups.length > 0 &&
       groups[0].groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
     ) {
       //check if conflicts exist and try to return first conflict group with attributes
