@@ -97,6 +97,37 @@ const groupListWithConflicts: Configurator.Group[] = [
   },
 ];
 
+const groupListWithConflictsAndAttributesOnRootLevel: Configurator.Group[] = [
+  {
+    id: GROUP_ID_CONFLICT_HEADER,
+    groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+    attributes: [],
+    subGroups: [
+      {
+        id: GROUP_ID_CONFLICT_1,
+        groupType: Configurator.GroupType.CONFLICT_GROUP,
+        attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
+        subGroups: [],
+      },
+    ],
+  },
+  {
+    id: GROUP_ID_1,
+    attributes: [],
+    subGroups: [],
+  },
+  {
+    id: GROUP_ID_4,
+    attributes: [
+      {
+        name: ATTRIBUTE_1_CHECKBOX,
+        values: [{ name: 'val', valueCode: '1' }],
+      },
+    ],
+    subGroups: [],
+  },
+];
+
 describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
@@ -118,6 +149,14 @@ describe('ConfiguratorBasicEffectService', () => {
       expect(
         classUnderTest.getFirstGroupWithAttributes(productConfiguration)
       ).toBe(GROUP_ID_8);
+    });
+
+    it('should find conflict group as first group in single level config where conflicts exist if includeConflicts is set to true', () => {
+      productConfiguration.groups =
+        groupListWithConflictsAndAttributesOnRootLevel;
+      expect(
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
+      ).toBe(GROUP_ID_CONFLICT_1);
     });
 
     it('should find attribute group as first group in multi level config although conflicts exist (using default value for includeConflicts)', () => {
@@ -154,6 +193,22 @@ describe('ConfiguratorBasicEffectService', () => {
   });
 
   describe('getFirstGroupWithAttributesForList', () => {
+    it('should find attribute group as first group in single level config although conflicts exist if includeConflicts is set to false', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflictsAndAttributesOnRootLevel,
+          false
+        )
+      ).toBe(GROUP_ID_4);
+    });
+    it('should find conflict group as first group in single level config if includeConflicts is set to true', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflictsAndAttributesOnRootLevel,
+          true
+        )
+      ).toBe(GROUP_ID_CONFLICT_1);
+    });
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {

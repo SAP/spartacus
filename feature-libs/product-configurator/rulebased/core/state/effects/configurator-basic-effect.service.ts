@@ -49,13 +49,19 @@ export class ConfiguratorBasicEffectService {
   ): string | undefined {
     let groupWithAttributes: Configurator.Group | undefined;
     if (includeConflicts) {
-      groupWithAttributes = groups
-        .filter(
-          (currentGroup) =>
-            currentGroup.attributes && currentGroup.attributes.length > 0
-        )
-        .shift();
-    } else {
+      //check if conflicts exist and return first conflict group with attributes
+      if (
+        groups[0].groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+      ) {
+        groupWithAttributes = groups[0].subGroups
+          .filter(
+            (currentGroup) =>
+              currentGroup.attributes && currentGroup.attributes.length > 0
+          )
+          .shift();
+      }
+    }
+    if (groupWithAttributes === undefined) {
       groupWithAttributes = groups
         .filter(
           (currentGroup) =>
