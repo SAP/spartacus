@@ -96,9 +96,6 @@ export class ConfiguratorCommonsService {
     configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
-      case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
-      }
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
           owner
@@ -108,6 +105,9 @@ export class ConfiguratorCommonsService {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );
+      }
+      default: {
+        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }
     }
   }
