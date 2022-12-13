@@ -10,6 +10,9 @@ const testProduct = 'CONF_CAMERA_SL';
 const RB = 'radioGroup';
 const CBL = 'checkBoxList';
 
+const GROUP_ID_OPTIONS = '5';
+const GROUP_ID_LENS = '4';
+
 context('Product Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -24,40 +27,79 @@ context('Product Configuration', () => {
       electronicsShop,
       testProduct
     );
-    configurationOverviewVc.checkConfigOverviewSidebarDisplayed();
-    configurationOverviewVc.checkConfigOverviewMenuDisplayed();
+    configurationOverviewVc.checkSidebarDisplayed();
+    configurationOverviewVc.checkMenuDisplayed();
 
-    configurationOverviewVc.configOverviewToggleSidebar();
-    configurationOverviewVc.checkConfigOverviewFilterDisplayed();
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkFilterDisplayed();
 
-    configurationOverviewVc.configOverviewToggleSidebar();
-    configurationOverviewVc.checkConfigOverviewMenuDisplayed();
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkMenuDisplayed();
   });
 
   it('should be able filter the overview page', () => {
     clickAllowAllFromBanner();
     completeDigitalCameraConfiguration();
     configuration.navigateToOverviewPage();
-    configurationOverviewVc.configOverviewToggleSidebar();
 
     // no filter
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(5);
     configurationOverview.checkNumberOfGroupHeadersDisplayed(5);
     configurationOverview.checkNumberOfAttributesDisplayed(17);
     configurationOverview.checkNumberOfAttributePricesDisplayed(4);
 
     // filter prices relevant
-    configurationOverviewVc.configOverviewToggleAttributeFilterAndWait('price');
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.toggleAttributeFilterAndWait('price');
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(3);
     configurationOverview.checkNumberOfGroupHeadersDisplayed(3);
     configurationOverview.checkNumberOfAttributesDisplayed(4);
     configurationOverview.checkNumberOfAttributePricesDisplayed(4);
 
-    // add group filter
+    // filter prices relevant and group Options
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.toggleGroupFilterAndWait(GROUP_ID_OPTIONS);
+    configurationOverview.checkNumberOfGroupHeadersDisplayed(1);
+    configurationOverview.checkNumberOfAttributesDisplayed(2);
+    configurationOverview.checkNumberOfAttributePricesDisplayed(2);
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(1);
 
-    // add second group
+    // filter prices relevant and (group Options or group Lens)
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.toggleGroupFilterAndWait(GROUP_ID_LENS);
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(2);
+    configurationOverview.checkNumberOfGroupHeadersDisplayed(2);
+    configurationOverview.checkNumberOfAttributesDisplayed(3);
+    configurationOverview.checkNumberOfAttributePricesDisplayed(3);
 
-    // remove all
+    // group Options or group Lens
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.removeFilterByNameAndWait('Price');
+    configurationOverview.checkNumberOfGroupHeadersDisplayed(2);
+    configurationOverview.checkNumberOfAttributesDisplayed(4);
+    configurationOverview.checkNumberOfAttributePricesDisplayed(3);
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(2);
 
-    // filter my selections
+    // no filter
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.removeFilterByNameAndWait('Remove All');
+    configurationOverview.checkNumberOfGroupHeadersDisplayed(5);
+    configurationOverview.checkNumberOfAttributesDisplayed(17);
+    configurationOverview.checkNumberOfAttributePricesDisplayed(4);
+    configurationOverviewVc.toggleSidebar();
+    configurationOverviewVc.checkNumberOfMenuEntriesDisplayed(5);
+
+    // menu scroll test
+    cy.scrollTo('top');
+    cy.window().its('scrollY').as('lastScrollY');
+    for (let ii: number = 0; ii < 5; ii++) {
+      configurationOverviewVc.clickMenuItem(ii);
+      configurationOverviewVc.checkWindowScrolledDown();
+    }
   });
 });
 

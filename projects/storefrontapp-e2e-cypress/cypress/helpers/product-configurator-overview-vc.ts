@@ -155,14 +155,14 @@ export function registerConfigurationOverviewUpdateRoute() {
 /**
  * Verifies whether the product overview side bar is displayed.
  */
-export function checkConfigOverviewSidebarDisplayed(): void {
+export function checkSidebarDisplayed(): void {
   cy.get('cx-configurator-overview-sidebar').should('be.visible');
 }
 
 /**
  * Verifies whether the product overview menu is displayed.
  */
-export function checkConfigOverviewMenuDisplayed(): void {
+export function checkMenuDisplayed(): void {
   cy.get('cx-configurator-overview-menu').should('exist');
   cy.get('cx-configurator-overview-filter').should('not.exist');
 }
@@ -170,7 +170,7 @@ export function checkConfigOverviewMenuDisplayed(): void {
 /**
  * Verifies whether the product overview filter is displayed.
  */
-export function checkConfigOverviewFilterDisplayed(): void {
+export function checkFilterDisplayed(): void {
   cy.get('cx-configurator-overview-filter').should('exist');
   cy.get('cx-configurator-overview-menu').should('not.exist');
 }
@@ -178,26 +178,52 @@ export function checkConfigOverviewFilterDisplayed(): void {
 /**
  * Toggles configuration overview side bar from menu -> filter or from filter -> menu
  */
-export function configOverviewToggleSidebar(): void {
+export function toggleSidebar(): void {
   cy.get(
     'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)'
   ).click();
 }
 
 /**
- * Toggles configuration overview side bar from menu -> filter or from filter -> menu
+ * Toggles the given configuration overview group filter
+ * @param {string} groupId - id of group filter to toggle
  */
-export function configOverviewToggleGroupFilterAndWait(filter: string): void {
-  cy.get(`#cx-configurator-overview-filter-option-group-${filter}`).click();
+export function toggleGroupFilterAndWait(groupId: string): void {
+  cy.get(`#cx-configurator-overview-filter-option-group-${groupId}`).click();
   cy.wait(UPDATE_CONFIG_OV_ALIAS);
 }
 
 /**
- * Toggles configuration overview side bar from menu -> filter or from filter -> menu
+ * Toggles the given configuration overview attribute filter
+ * @param {'mySelections' | 'price'} filter - type of attribute filter to toggle
  */
-export function configOverviewToggleAttributeFilterAndWait(
+export function toggleAttributeFilterAndWait(
   filter: 'mySelections' | 'price'
 ): void {
   cy.get(`#cx-configurator-overview-filter-option-${filter}`).click();
   cy.wait(UPDATE_CONFIG_OV_ALIAS);
+}
+
+/**
+ * Removes given configuration overview filter by name
+ * @param {'Remove All' | string} filterName - name of the overview filter or 'Remove All'
+ */
+export function removeFilterByNameAndWait(filterName: string) {
+  cy.get('button.cx-overview-filter-applied').contains(filterName).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
+}
+
+export function checkNumberOfMenuEntriesDisplayed(num: number) {
+  cy.get('.cx-menu-item').should('have.length', num);
+}
+
+export function clickMenuItem(index: number) {
+  cy.get('.cx-menu-item').eq(index).click();
+}
+
+export function checkWindowScrolledDown() {
+  cy.get('@lastScrollY').then((lastScrollY) => {
+    cy.window().its('scrollY').should('be.greaterThan', lastScrollY);
+  });
+  cy.window().its('scrollY').as('lastScrollY');
 }
