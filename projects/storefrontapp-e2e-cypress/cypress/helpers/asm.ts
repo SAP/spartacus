@@ -21,7 +21,6 @@ import * as loginHelper from './login';
 import {
   navigateToAMyAccountPage,
   navigateToCategory,
-  navigateToHomepage,
   waitForPage,
 } from './navigation';
 
@@ -245,7 +244,8 @@ export function loginCustomerInStorefront(customer) {
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias).its('response.statusCode').should('eq', 200);
+  // When the agent signs out, there are two revocations made simultaneously - the second one occasionally fails, though it is not necessary. We therefore are not interested in the status code of the second one.
+  cy.wait(tokenRevocationAlias);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }
@@ -356,7 +356,7 @@ export function testCustomerEmulation() {
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout
-    navigateToHomepage();
+    checkout.visitHomePage();
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
     cy.get('cx-product-list-item').should('exist');
