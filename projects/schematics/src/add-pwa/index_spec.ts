@@ -82,9 +82,6 @@ describe('Spartacus Schematics: add-pwa', () => {
         '/projects/schematics-test/src/app/app.module.ts'
       );
       expect(appModule).toMatchSnapshot();
-
-      const packageJson = tree.readContent('/package.json');
-      expect(packageJson).toMatchSnapshot();
     });
 
     it('should modify package.json', async () => {
