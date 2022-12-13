@@ -100,7 +100,9 @@ export class ConfiguratorOverviewFormComponent {
           ) !== undefined;
       }
       return hasAttributes;
-    } else return false;
+    } else {
+      return false;
+    }
   }
 
   /**
