@@ -76,7 +76,7 @@
           #buyerFilterMobileId
           formControlName="buyerFilterMobile"
           class="form-control buyer-filter-mobile"
-          (input)="searchBuyerMobile(buyerFilterMobileId)"
+          (input)="searchBuyer(buyerFilterMobileId)"
           (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
@@ -145,7 +145,7 @@
           #unitFilterMobileId
           formControlName="unitFilterMobile"
           class="form-control unit-filter-mobile"
-          (input)="searchUnitMobile(unitFilterMobileId)"
+          (input)="searchUnit(unitFilterMobileId)"
           (keydown.enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
