@@ -9,8 +9,13 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2020", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -196,10 +201,18 @@
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
       ],
-      "@spartacus/order/core": ["feature-libs/order/core/public_api"],
-      "@spartacus/order": ["feature-libs/order/public_api"],
-      "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
-      "@spartacus/order/root": ["feature-libs/order/root/public_api"],
+      "@spartacus/order/core": [
+        "feature-libs/order/core/public_api"
+      ],
+      "@spartacus/order": [
+        "feature-libs/order/public_api"
+      ],
+      "@spartacus/order/occ": [
+        "feature-libs/order/occ/public_api"
+      ],
+      "@spartacus/order/root": [
+        "feature-libs/order/root/public_api"
+      ],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
       ],
@@ -440,16 +453,24 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/core": [
+        "integration-libs/cdc/core/public_api"
+      ],
+      "@spartacus/cdc": [
+        "integration-libs/cdc/public_api"
+      ],
+      "@spartacus/cdc/root": [
+        "integration-libs/cdc/root/public_api"
+      ],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
-      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
-      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
-      "@spartacus/cds": ["integration-libs/cds/public_api"],
+      "@spartacus/cds": [
+        "integration-libs/cds/public_api"
+      ],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
