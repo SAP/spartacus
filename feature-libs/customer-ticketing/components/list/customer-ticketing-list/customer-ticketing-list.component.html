@@ -47,7 +47,7 @@
           *ngFor="let ticket of ticketList.tickets"
           (click)="goToTicketDetail(ticket.id)"
         >
-          <td class="cx-ticketing-list-data">
+          <td class="cx-ticketing-list-data cx-ticketing-list-id">
             <div class="cx-ticketing-list-label">
               {{ 'customerTicketingList.mobile.ticketIdFull' | cxTranslate }}
             </div>
@@ -58,7 +58,7 @@
                   params: { ticketCode: ticket.id }
                 } | cxUrl
               "
-              class="cx-ticketing-list-value cx-text-red"
+              class="cx-ticketing-list-value"
             >
               {{ ticket.id }}
             </a>
@@ -74,7 +74,7 @@
                   params: { ticketCode: ticket.id }
                 } | cxUrl
               "
-              class="cx-ticketing-list-value cx-text-red"
+              class="cx-ticketing-list-value"
             >
               {{ ticket.subject }}
             </a>
