@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as configurationOverview from './product-configurator-overview';
 
 /**
