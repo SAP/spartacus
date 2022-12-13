@@ -330,7 +330,6 @@ export function testCustomerEmulation() {
       'contain',
       'You have successfully signed out.'
     );
-    cy.get('cx-page-slot.Section1 cx-banner').first().should('be.visible');
 
     // Without this wait, the test fails b/c the customer search box is disabled
     cy.wait(1000);
