@@ -678,6 +678,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Unit-Level Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Wish List',
       type: TabbingOrderTypes.LINK,
     },
@@ -1127,6 +1131,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {
