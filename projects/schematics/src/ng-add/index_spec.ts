@@ -124,11 +124,16 @@ describe('Spartacus Schematics: ng-add', () => {
     }
   });
 
-  it('should add spartacus with both PWA and SSR', async () => {
+  it('should add spartacus properly with both PWA and SSR', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'ng-add',
-        { ...defaultOptions, name: 'schematics-test', pwa: true, ssr: true },
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          pwa: true,
+          ssr: true,
+        },
         appTree
       )
       .toPromise();

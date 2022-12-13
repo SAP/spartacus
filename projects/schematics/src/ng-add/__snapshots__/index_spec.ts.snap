@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR 1`] = `
+exports[`Spartacus Schematics: ng-add should add spartacus properly with both PWA and SSR 1`] = `
 "import { HttpClientModule } from \\"@angular/common/http\\";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,7 +29,7 @@ export class AppModule { }
 "
 `;
 
-exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR 2`] = `
+exports[`Spartacus Schematics: ng-add should add spartacus properly with both PWA and SSR 2`] = `
 "{
   \\"name\\": \\"workspace\\",
   \\"version\\": \\"0.0.0\\",
@@ -96,7 +96,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR
 }"
 `;
 
-exports[`Spartacus Schematics: ng-add should add spartacus with both PWA and SSR 3`] = `
+exports[`Spartacus Schematics: ng-add should add spartacus properly with both PWA and SSR 3`] = `
 "import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
 
