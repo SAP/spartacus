@@ -67,7 +67,7 @@ export class UnitLevelOrderHistoryFilterComponent {
   }
 
   emitFilterEvent(buyer: string, unit: string): void {
-    let filters: string[] = [];
+    const filters: string[] = [];
 
     if (buyer?.length) {
       filters.push('user:' + buyer);
