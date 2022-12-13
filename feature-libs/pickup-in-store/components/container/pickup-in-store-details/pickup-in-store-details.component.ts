@@ -15,10 +15,10 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickUpInStoreDetailsComponent implements OnInit {
-    // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
+  // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
-
+  compact = false;
   constructor(
     protected deliveryPointsService: DeliveryPointsService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade
