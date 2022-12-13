@@ -82,10 +82,10 @@ export class ConfiguratorOverviewFormComponent {
    * @returns {boolean} - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
-    return this.hasGroupsWithAttributes(configuration.overview?.groups);
+    return this.hasGroupWithAttributes(configuration.overview?.groups);
   }
 
-  protected hasGroupsWithAttributes(
+  protected hasGroupWithAttributes(
     groups?: Configurator.GroupOverview[]
   ): boolean {
     if (groups) {
@@ -96,7 +96,7 @@ export class ConfiguratorOverviewFormComponent {
       if (!hasAttributes) {
         hasAttributes =
           groups.find((group) =>
-            this.hasGroupsWithAttributes(group.subGroups)
+            this.hasGroupWithAttributes(group.subGroups)
           ) !== undefined;
       }
       return hasAttributes;
