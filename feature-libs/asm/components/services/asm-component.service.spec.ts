@@ -9,7 +9,9 @@ import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService implements Partial<AuthService> {
-  logout(): void {}
+  coreLogout(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -75,9 +77,9 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomer()', () => {
     it('should logout customer and redirect to home.', () => {
-      spyOn(authService, 'logout').and.stub();
+      spyOn(authService, 'coreLogout').and.callThrough();
       asmComponentService.logoutCustomer();
-      expect(authService.logout).toHaveBeenCalled();
+      expect(authService.coreLogout).toHaveBeenCalled();
     });
   });
 
