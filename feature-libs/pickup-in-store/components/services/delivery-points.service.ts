@@ -95,7 +95,7 @@ export class DeliveryPointsService {
         ).pipe(
           map((storeDetails) => {
             const STORE_DETAILS_MAP = storeDetails
-              .filter((storeDetails) => !!storeDetails)
+              .filter((_storeDetails) => !!_storeDetails)
               .reduce(
                 (accumulator, value) => ({
                   ...accumulator,

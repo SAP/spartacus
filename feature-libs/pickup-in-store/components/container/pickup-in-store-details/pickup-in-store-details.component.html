@@ -1,15 +1,26 @@
-Pick In Store Details
-<h1>Expect to see this!</h1>
-
 <ng-container
   *ngIf="deliveryPointsOfService$ | async as deliveryPointsOfService"
 >
+  <h1>Items to be Picked Up</h1>
   <div *ngFor="let deliveryPointOfService of deliveryPointsOfService">
-    <div *ngFor="let value of deliveryPointOfService.value">
-      -----{{ value.product.name | json }}
+    <div
+      class="cx-delivery-pointof-service-item"
+      *ngFor="let value of deliveryPointOfService.value"
+    >
+      <!-- -----{{ value.product.name | json }} -->
+      <div class="item-cell cx-image-container">
+        <cx-media
+          [container]="value.product?.images?.PRIMARY"
+          format="cartIcon"
+        ></cx-media>
+      </div>
+      <div class="item-cell">Info</div>
+      <div class="item-cell">{{ value.basePrice.formattedValue }}</div>
+      <div class="item-cell">{{ value.quantity }}</div>
+      <div class="item-cell">{{ value.totalPrice.formattedValue }}</div>
     </div>
-    {{ deliveryPointOfService.name }}
+    <div class="cx-delivery-point-of-service">
+      {{ deliveryPointOfService.name }}
+    </div>
   </div>
 </ng-container>
-
-

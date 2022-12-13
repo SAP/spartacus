@@ -1,0 +1,19 @@
+.cx-delivery-point-of-service {
+  border: solid thin grey;
+}
+
+.cx-delivery-pointof-service-item {
+  border: solid thin grey;
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-cell {
+  border: solid thin red;
+  height: 65px;
+}
+
+.cx-image-container {
+  padding: 0;
+  max-width: 65px;
+}
