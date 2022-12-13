@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   RouteConfig,
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -22,10 +22,25 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   isExpressCheckout = createSpy().and.returnValue(true);
 }
 
+const mockCheckoutSteps: Array<CheckoutStep> = [
+  {
+    id: 'step1',
+    name: 'step 1',
+    routeName: 'checkoutDeliveryAddress',
+    type: [CheckoutStepType.DELIVERY_ADDRESS],
+  },
+  {
+    id: 'step2',
+    name: 'step 2',
+    routeName: 'checkoutDeliveryMode',
+    type: [CheckoutStepType.DELIVERY_MODE],
+  },
+];
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  getFirstCheckoutStepRoute = createSpy().and.returnValue(
-    'checkoutDeliveryAddress'
+  steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
+    mockCheckoutSteps
   );
+  disableEnableStep = createSpy();
   getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
 }
 
@@ -41,6 +56,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 
 class MockCartService implements Partial<ActiveCartFacade> {
   isGuestCart = createSpy().and.returnValue(of(false));
+  hasDeliveryItems = createSpy().and.returnValue(of(true));
 }
 
 describe(`CheckoutGuard`, () => {
@@ -85,7 +101,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutStepService.getFirstCheckoutStepRoute()
+              mockCheckoutSteps[0].routeName
             )?.paths?.[0]
           }`
         );
@@ -103,7 +119,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutStepService.getFirstCheckoutStepRoute()
+              mockCheckoutSteps[0].routeName
             )?.paths?.[0]
           }`
         );
@@ -119,7 +135,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutStepService.getFirstCheckoutStepRoute()
+              mockCheckoutSteps[0].routeName
             )?.paths?.[0]
           }`
         );
@@ -141,6 +157,50 @@ describe(`CheckoutGuard`, () => {
               mockCheckoutStepService.getCheckoutStepRoute(
                 CheckoutStepType.REVIEW_ORDER
               ) as string
+            )?.paths?.[0]
+          }`
+        );
+        done();
+      })
+      .unsubscribe();
+  });
+
+  it(`should redirect to review order`, (done) => {
+    expressCheckoutService.trySetDefaultCheckoutDetails =
+      createSpy().and.returnValue(of(true));
+
+    guard
+      .canActivate()
+      .subscribe((result) => {
+        expect(result.toString()).toEqual(
+          `/${
+            mockRoutingConfigService.getRouteConfig(
+              mockCheckoutStepService.getCheckoutStepRoute(
+                CheckoutStepType.REVIEW_ORDER
+              ) as string
+            )?.paths?.[0]
+          }`
+        );
+        done();
+      })
+      .unsubscribe();
+  });
+
+  it(`should disable delivery address step, and redirect to next step`, (done) => {
+    cartService.hasDeliveryItems = createSpy().and.returnValue(of(false));
+    mockCheckoutStepService.steps$.next([mockCheckoutSteps[1]]);
+
+    guard
+      .canActivate()
+      .subscribe((result) => {
+        expect(mockCheckoutStepService.disableEnableStep).toHaveBeenCalledWith(
+          CheckoutStepType.DELIVERY_ADDRESS,
+          true
+        );
+        expect(result.toString()).toEqual(
+          `/${
+            mockRoutingConfigService.getRouteConfig(
+              mockCheckoutSteps[1].routeName
             )?.paths?.[0]
           }`
         );

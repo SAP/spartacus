@@ -799,4 +799,34 @@ describe('ActiveCartService', () => {
       });
     });
   });
+
+  describe('hasPickupItems and hasDeliveryItems', () => {
+    it('should be able to get whether cart has pickup items', (done) => {
+      const mockCart: Cart = {
+        pickupItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasPickupItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeTruthy();
+        done();
+      });
+    });
+
+    it('should be able to get whether cart has delivery items', (done) => {
+      const mockCart: Cart = {
+        deliveryItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasDeliveryItems().subscribe((hasDelivery) => {
+        expect(hasDelivery).toBeTruthy();
+        done();
+      });
+    });
+  });
 });

@@ -35,6 +35,7 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
   isGuestCart = createSpy().and.returnValue(of(false));
+  hasDeliveryItems = createSpy().and.returnValue(of(true));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
