@@ -24,7 +24,7 @@ export class ConfiguratorBasicEffectService {
    */
   getFirstGroupWithAttributes(
     configuration: Configurator.Configuration,
-    includeConflicts: boolean = false
+    includeConflicts = false
   ): string {
     const id = this.getFirstGroupWithAttributesForList(
       configuration.groups,
