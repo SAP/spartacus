@@ -431,6 +431,6 @@
     "strict": true,
     "strictNullChecks": true
   },
-  "include": ["schematics/**/*.ts"],
-  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
+  "include": ["src/schematics/**/*.ts"],
+  "exclude": ["src/schematics/*/files/**/*", "src/schematics/**/*_spec.ts"]
 }
