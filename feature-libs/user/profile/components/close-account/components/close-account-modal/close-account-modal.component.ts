@@ -80,7 +80,9 @@ export class CloseAccountModalComponent implements OnInit {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       });
-    this.routingService.go({ cxRoute: 'logout' });
+    this.authService.coreLogout().then(() => {
+      this.routingService.go({ cxRoute: 'home' });
+    });
   }
 
   onError(): void {
