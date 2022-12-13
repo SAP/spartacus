@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add-ssr app.server.module.ts should be updated 1`] = `
+"import { NgModule } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
+
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+import { provideServer } from '@spartacus/setup/ssr';
+
+@NgModule({
+  imports: [
+    AppModule,
+    ServerModule,
+  ],
+  bootstrap: [AppComponent],
+  providers: [
+    ...provideServer({
+       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+     }),
+  ],
+})
+export class AppServerModule {}
+"
+`;
+
+exports[`add-ssr index.html should contain occ-backend-base-url attribute in meta tags 1`] = `
+"<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"utf-8\\">
+  <title>SchematicsTest</title>
+  <base href=\\"/\\">
+  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\">
+  <link rel=\\"icon\\" type=\\"image/x-icon\\" href=\\"favicon.ico\\">
+  <meta name=\\"occ-backend-base-url\\" content=\\"https://localhost:9002\\" />
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+"
+`;
+
+exports[`add-ssr server.ts should be configured properly 1`] = `
+"import 'zone.js/dist/zone-node';
+
+import { ngExpressEngine as engine } from '@nguniversal/express-engine';
+import { NgExpressEngineDecorator } from '@spartacus/setup/ssr';
+import * as express from 'express';
+import { join } from 'path';
+
+import { AppServerModule } from './src/main.server';
+import { APP_BASE_HREF } from '@angular/common';
+import { existsSync } from 'fs';
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+
+// The Express app is exported so that it can be used by serverless Functions.
+export function app() {
+  const server = express();
+  const distFolder = join(process.cwd(), 'dist/schematics-test/browser');
+  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+    ? 'index.original.html'
+    : 'index';
+
+  server.set('trust proxy', 'loopback');
+
+  server.engine(
+    'html',
+    ngExpressEngine({
+      bootstrap: AppServerModule,
+    })
+  );
+
+  server.set('view engine', 'html');
+  server.set('views', distFolder);
+
+  // Serve static files from /browser
+  server.get(
+    '*.*',
+    express.static(distFolder, {
+      maxAge: '1y',
+    })
+  );
+
+  // All regular routes use the Universal engine
+  server.get('*', (req, res) => {
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+    });
+  });
+
+  return server;
+}
+
+function run() {
+  const port = process.env['PORT'] || 4000;
+
+  // Start up the Node server
+  const server = app();
+  server.listen(port, () => {
+    console.log(\`Node Express server listening on http://localhost:\${port}\`);
+  });
+}
+
+// Webpack will replace 'require' with '__webpack_require__'
+// '__non_webpack_require__' is a proxy to Node 'require'
+// The below code is to ensure that the server is run only when not requiring the bundle.
+declare const __non_webpack_require__: NodeRequire;
+const mainModule = __non_webpack_require__.main;
+const moduleFilename = (mainModule && mainModule.filename) || '';
+if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
+  run();
+}
+
+export * from './src/main.server';
+"
+`;
