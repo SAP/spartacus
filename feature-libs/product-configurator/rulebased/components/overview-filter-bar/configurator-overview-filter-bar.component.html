@@ -1,0 +1,56 @@
+<ng-container
+  *ngFor="let filter of config.overview.attributeFilters; let i = index"
+>
+  <button
+    class="cx-overview-filter-applied"
+    title="{{
+      (filter === attributeFilterTypes.PRICE_RELEVANT
+        ? 'configurator.overviewFilter.removeByPrice'
+        : 'configurator.overviewFilter.removeMySelections'
+      ) | cxTranslate
+    }}"
+    (click)="onAttrFilterRemove(config, filter)"
+  >
+    {{
+      (filter === attributeFilterTypes.PRICE_RELEVANT
+        ? 'configurator.overviewFilter.byPrice'
+        : 'configurator.overviewFilter.mySelections'
+      ) | cxTranslate
+    }}
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</ng-container>
+
+<ng-container
+  *ngFor="let groupId of config.overview.groupFilters; let i = index"
+>
+  <button
+    class="cx-overview-filter-applied"
+    title="{{
+      'configurator.overviewFilter.removeByGroup'
+        | cxTranslate
+          : { group: getGroupFilterDescription(config.overview, groupId) }
+    }}"
+    (click)="onGroupFilterRemove(config, groupId)"
+  >
+    {{ getGroupFilterDescription(config.overview, groupId) }}
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</ng-container>
+
+<ng-container *ngIf="isShowRemoveAll(config.overview)">
+  <button
+    class="cx-overview-filter-applied"
+    title="{{ 'configurator.overviewFilter.removeAllFilters' | cxTranslate }}"
+    (click)="onRemoveAll(config)"
+  >
+    {{ 'configurator.overviewFilter.removeAll' | cxTranslate }}
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</ng-container>

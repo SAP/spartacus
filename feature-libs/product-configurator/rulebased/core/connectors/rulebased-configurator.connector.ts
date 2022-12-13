@@ -99,6 +99,20 @@ export class RulebasedConfiguratorConnector {
     ).getConfigurationOverview(configuration.configId);
   }
 
+  updateConfigurationOverview(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Overview> {
+    const overview = configuration.overview;
+
+    return overview
+      ? this.getAdapter(
+          configuration.owner.configuratorType
+        ).updateConfigurationOverview(overview)
+      : this.getAdapter(
+          configuration.owner.configuratorType
+        ).getConfigurationOverview(configuration.configId);
+  }
+
   searchVariants(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Variant[]> {
