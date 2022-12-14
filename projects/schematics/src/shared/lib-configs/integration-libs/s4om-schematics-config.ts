@@ -17,6 +17,7 @@ import { SchematicConfig } from '../../utils/lib-utils';
 export const S4OM_FOLDER_NAME = 's4om';
 export const S4OM_FEATURE_MODULE_NAME = 'S4om';
 
+export const S4OM_FEATURE_NAME_CONSTANT = 'S4OM_FEATURE';
 export const S4OM_TRANSLATIONS = 's4omTranslations';
 export const S4OM_TRANSLATION_CHUNKS_CONFIG = 's4omTranslationChunksConfig';
 export const S4OM_ROOT_MODULE = 'S4omRootModule';
@@ -37,6 +38,10 @@ export const S4OM_SCHEMATICS_CONFIG: SchematicConfig = {
   rootModule: {
     name: S4OM_ROOT_MODULE,
     importPath: SPARTACUS_S4OM_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_S4OM_ROOT,
+    namedImports: [S4OM_FEATURE_NAME_CONSTANT],
   },
   i18n: {
     resources: S4OM_TRANSLATIONS,
