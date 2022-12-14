@@ -55,6 +55,7 @@ describe('CloseAccountModalComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
+  let authService: AuthService;
 
   beforeEach(
     waitForAsync(() => {
@@ -99,6 +100,8 @@ describe('CloseAccountModalComponent', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    authService = TestBed.inject(AuthService);
+
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -121,7 +124,11 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+    authService.coreLogout().then(() => {
+      expect(routingService.go).toHaveBeenCalledWith(
+        { cxRoute: 'home' }
+      );
+    });
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 

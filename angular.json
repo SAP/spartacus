@@ -992,5 +992,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
