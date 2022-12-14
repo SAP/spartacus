@@ -138,6 +138,11 @@ describe('Spartacus S4OM schematics: ng-add', () => {
           expect(expectedDependency).toBeTruthy();
         }
       });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
     });
 
     describe('eager loading', () => {
