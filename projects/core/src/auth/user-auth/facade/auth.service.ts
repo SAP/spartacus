@@ -90,10 +90,14 @@ export class AuthService {
    */
   async loginWithCredentials(userId: string, password: string): Promise<void> {
     try {
-      console.log(this.authMultisiteIsolationService?.getBaseSiteDecorator());
+      let uId: string = userId;
+
+      if (this.authMultisiteIsolationService?.getBaseSiteDecorator()) {
+        uId + this.authMultisiteIsolationService?.getBaseSiteDecorator();
+      }
 
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
-        userId,
+        uId,
         password
       );
 
