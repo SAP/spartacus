@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const S4OM_FEATURE = 's4om';
+export const S4OM_FEATURE = 'S4HANA-Order-Management';

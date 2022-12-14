@@ -3,22 +3,18 @@
 import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
-  Style,
+  Style
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CHECKOUT_BASE_FEATURE_NAME,
-  LibraryOptions,
   LibraryOptions as S4OMOptions,
   S4OM_FEATURE_NAME,
-  SpartacusOptions,
-  SPARTACUS_CART,
-  SPARTACUS_CHECKOUT,
-  SPARTACUS_SCHEMATICS,
+  SpartacusOptions, SPARTACUS_CHECKOUT,
+  SPARTACUS_SCHEMATICS
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -144,40 +140,14 @@ describe('Spartacus S4OM schematics: ng-add', () => {
       });
 
       it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
-        expect(tasks.length).toEqual(3);
-
-        const cartTask = tasks[0];
-        expect(cartTask).toBeTruthy();
-        expect(cartTask.name).toEqual('add-spartacus-library');
-        expect(cartTask.options).toHaveProperty('collection', SPARTACUS_CART);
-        expect(cartTask.options.options?.features).toEqual([]);
-
-        const checkoutTask = tasks[1];
-        expect(checkoutTask).toBeTruthy();
-        expect(checkoutTask.name).toEqual('add-spartacus-library');
-        expect(checkoutTask.options).toHaveProperty(
-          'collection',
-          SPARTACUS_CHECKOUT
+        const tasks = schematicRunner.tasks.filter(
+          (task) =>
+            task.name === 'run-schematic' &&
+            (task.options as RunSchematicTaskOptions<{}>).collection ===
+            '@sap/s4om'
         );
-        expect(checkoutTask.options.options?.features).toEqual([]);
 
-        const checkoutTaskWithSubFeatures = tasks[2];
-        expect(checkoutTaskWithSubFeatures).toBeTruthy();
-        expect(checkoutTaskWithSubFeatures.name).toEqual(
-          'add-spartacus-library'
-        );
-        expect(checkoutTaskWithSubFeatures.options).toHaveProperty(
-          'collection',
-          SPARTACUS_CHECKOUT
-        );
-        expect(checkoutTaskWithSubFeatures.options.options?.features).toEqual([
-          CHECKOUT_BASE_FEATURE_NAME,
-        ]);
+        expect(tasks.length).toEqual(0);
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
