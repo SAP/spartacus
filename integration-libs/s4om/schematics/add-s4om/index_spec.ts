@@ -1,20 +1,20 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
-  UnitTestTree
+  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
-  Style
+  Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as S4OMOptions,
   S4OM_FEATURE_NAME,
-  SpartacusOptions, SPARTACUS_CHECKOUT,
-  SPARTACUS_SCHEMATICS
+  SpartacusOptions,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -137,17 +137,6 @@ describe('Spartacus S4OM schematics: ng-add', () => {
           const expectedDependency = dependencies[toAdd];
           expect(expectedDependency).toBeTruthy();
         }
-      });
-
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks.filter(
-          (task) =>
-            task.name === 'run-schematic' &&
-            (task.options as RunSchematicTaskOptions<{}>).collection ===
-            '@sap/s4om'
-        );
-
-        expect(tasks.length).toEqual(0);
       });
     });
 
