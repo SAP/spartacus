@@ -12,6 +12,7 @@ import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -42,7 +43,8 @@ export class AuthService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
   /**
@@ -87,6 +89,13 @@ export class AuthService {
    */
   async loginWithCredentials(userId: string, password: string): Promise<void> {
     try {
+      console.log(this.authMultisiteIsolationService?.isBaseSiteIsolated());
+      if (this.authMultisiteIsolationService) {
+        this.authMultisiteIsolationService
+          .getUidDecorator()
+          .subscribe((data: any) => console.log(data));
+      }
+
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         userId,
         password
