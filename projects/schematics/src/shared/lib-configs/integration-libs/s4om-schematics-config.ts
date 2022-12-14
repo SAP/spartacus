@@ -11,11 +11,13 @@ import {
   S4OM_FEATURE_NAME,
   SPARTACUS_S4OM,
   SPARTACUS_S4OM_ASSETS,
-  SPARTACUS_S4OM_ROOT
+  SPARTACUS_S4OM_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
 
 export const S4OM_FOLDER_NAME = 's4om';
+export const S4OM_FEATURE_MODULE_NAME = 'S4om';
+
 export const S4OM_TRANSLATIONS = 's4omTranslations';
 export const S4OM_TRANSLATION_CHUNKS_CONFIG = 's4omTranslationChunksConfig';
 export const S4OM_ROOT_MODULE = 'S4omRootModule';
@@ -28,7 +30,7 @@ export const S4OM_SCHEMATICS_CONFIG: SchematicConfig = {
     b2b: true,
   },
   folderName: S4OM_FOLDER_NAME,
-  moduleName: S4OM_MODULE,
+  moduleName: S4OM_FEATURE_MODULE_NAME,
   featureModule: {
     name: S4OM_MODULE,
     importPath: S4OM_MODULE,
