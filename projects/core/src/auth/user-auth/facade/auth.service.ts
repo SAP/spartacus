@@ -93,7 +93,8 @@ export class AuthService {
       let uId: string = userId;
 
       if (this.authMultisiteIsolationService?.getBaseSiteDecorator()) {
-        uId + this.authMultisiteIsolationService?.getBaseSiteDecorator();
+        uId =
+          userId + this.authMultisiteIsolationService?.getBaseSiteDecorator();
       }
 
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
