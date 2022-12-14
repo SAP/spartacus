@@ -1,19 +1,46 @@
-.cx-delivery-point-of-service {
-  border: solid thin grey;
+.cx-code,
+.cx-name .cx-property {
+  margin: 0;
+  font-weight: 400;
 }
-
+.cx-name-value {
+  margin-bottom: 0.25rem;
+  margin-top: 0.5rem;
+  font-weight: var(--cx-font-weight-semi);
+  text-decoration: underline;
+  text-transform: capitalize;
+  text-decoration-color: #d3d6db;
+}
 .cx-delivery-pointof-service-item {
-  border: solid thin grey;
-  display: flex;
-  justify-content: space-between;
+  border: 1px solid #d3d6db;
+  padding: 1rem;
 }
 
-.item-cell {
-  border: solid thin red;
-  height: 65px;
+.cx-checkout-title-pickup-in-store {
+  border: 1px solid #d3d6db;
+  border-top: none;
+  border-bottom: none;
+  margin: 0;
+  padding: 1rem;
 }
 
-.cx-image-container {
-  padding: 0;
-  max-width: 65px;
+.cx-total {
+  .cx-value {
+    font-weight: var(--cx-font-weight-bold);
+  }
+}
+
+.cx-checkout-pickup-in-store-details {
+  background-color: var(--cx-color-ghost);
+}
+
+.cx-checkout-in-store-pick-up-location {
+  padding-top: 1.5rem;
+  border: 1px solid #d3d6db;
+  font-weight: 400;
+}
+
+.cx-checkout-pickup-in-store-details {
+  padding: 1rem;
+  height: 35vh;
 }

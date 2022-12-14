@@ -1,26 +1,106 @@
 <ng-container
   *ngIf="deliveryPointsOfService$ | async as deliveryPointsOfService"
 >
-  <h1>Items to be Picked Up</h1>
-  <div *ngFor="let deliveryPointOfService of deliveryPointsOfService">
+  <p class="cx-checkout-title-pickup-in-store d-none d-lg-block d-xl-block">
+    Items to be Picked Up
+  </p>
+  <div
+    *ngFor="
+      let deliveryPointOfService of deliveryPointsOfService;
+      let last = last
+    "
+  >
     <div
       class="cx-delivery-pointof-service-item"
-      *ngFor="let value of deliveryPointOfService.value"
+      *ngFor="let item of deliveryPointOfService.value"
     >
-      <!-- -----{{ value.product.name | json }} -->
-      <div class="item-cell cx-image-container">
-        <cx-media
-          [container]="value.product?.images?.PRIMARY"
-          format="cartIcon"
-        ></cx-media>
+      <div [ngClass]="compact ? 'cx-compact row' : 'row'">
+        <!-- Item Image -->
+        <div class="col-2 cx-image-container col-offset-1">
+          <a tabindex="0">
+            <cx-media
+              [container]="item.product?.images?.PRIMARY"
+              format="cartIcon"
+            ></cx-media>
+          </a>
+        </div>
+        <!-- Item Information -->
+        <div class="cx-info col-9">
+          <div class="cx-info-container row">
+            <!-- Item Description -->
+            <div [ngClass]="compact ? '' : ' col-md-7 col-lg-7 col-xl-7'">
+              <div *ngIf="item.product?.name" class="cx-name">
+                <p class="cx-name-value">{{ item.product?.name }}</p>
+              </div>
+              <div *ngIf="item.product?.code" class="cx-code">
+                {{ 'ID' }} {{ item.product?.code }}
+              </div>
+
+              <!-- Variants -->
+              <ng-container *ngIf="item.product?.baseOptions?.length">
+                <div
+                  *ngFor="
+                    let variant of item.product?.baseOptions[0]?.selected
+                      ?.variantOptionQualifiers
+                  "
+                  class="cx-property"
+                >
+                  <div class="cx-label" *ngIf="variant.name && variant.value">
+                    {{ variant.name }}: {{ variant.value }}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <!-- Item Price -->
+            <div
+              *ngIf="item.basePrice"
+              class="cx-price"
+              [ngClass]="compact ? '' : ' col-md-2 col-lg-2 col-xl-2'"
+            >
+              <div *ngIf="item.basePrice" class="cx-value">
+                {{ item.basePrice?.formattedValue }}
+              </div>
+            </div>
+            <!-- Item Quantity -->
+            <div class="cx-quantity" [ngClass]="compact ? '' : 'col-2'">
+              <div class="cx-value" [class.readonly-value]="readonly">
+                {{ item.quantity }}
+              </div>
+            </div>
+            <!-- Total -->
+            <div
+              *ngIf="item.totalPrice"
+              class="cx-total"
+              [ngClass]="compact ? '' : ' col-md-1 col-xl-1'"
+            >
+              <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="item-cell">Info</div>
-      <div class="item-cell">{{ value.basePrice.formattedValue }}</div>
-      <div class="item-cell">{{ value.quantity }}</div>
-      <div class="item-cell">{{ value.totalPrice.formattedValue }}</div>
     </div>
-    <div class="cx-delivery-point-of-service">
-      {{ deliveryPointOfService.name }}
+    <div class="col-12 cx-checkout-in-store-pick-up-location">
+      <p>In Store Pick Up Location</p>
+    </div>
+    <div class="cx-checkout-pickup-in-store-details">
+      <!-- <p>{{ deliveryPointOfService.name }}</p> -->
+      <div>
+        <p>{{ deliveryPointOfService?.storeDetails?.displayName }}</p>
+        <p>
+          {{ deliveryPointOfService?.storeDetails?.address?.formattedAddress }}
+        </p>
+        <p>
+          {{ deliveryPointOfService?.storeDetails?.address?.phone }}
+        </p>
+      </div>
+      <div *ngIf="last" class="row cx-checkout-btns">
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-block btn-action">Back</button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-block btn-primary">Continue</button>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
