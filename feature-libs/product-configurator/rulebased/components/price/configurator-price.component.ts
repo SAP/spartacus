@@ -31,7 +31,14 @@ export class ConfiguratorPriceComponent {
     if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      return '+ ' + this.formula.price?.formattedValue;
+      if (
+        this.formula.price?.value !== undefined &&
+        this.formula.price?.value >= 0
+      ) {
+        return '+' + this.formula.price?.formattedValue;
+      } else {
+        return this.formula.price?.formattedValue || '';
+      }
     }
   }
 
@@ -41,7 +48,12 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    return '+ ' + this.formula.priceTotal?.formattedValue;
+    if (
+      this.formula.priceTotal !== undefined &&
+      this.formula.priceTotal.value >= 0
+    ) {
+      return '+' + this.formula.priceTotal?.formattedValue;
+    } else return this.formula.priceTotal?.formattedValue || '';
   }
 
   /**
@@ -54,6 +66,14 @@ export class ConfiguratorPriceComponent {
     return quantity ? this.formula.price?.value !== 0 && quantity >= 1 : false;
   }
 
+  /**
+   * Verifies if 'Selected' should be shown
+   *
+   * @return {boolean} - 'true' if 'Selected' should be shown, otherwise 'false'
+   */
+  displaySelected(): boolean {
+    return this.isPriceLightedUp() && !this.displayFormula();
+  }
   /**
    * Verifies whether only price should be displayed.
    *

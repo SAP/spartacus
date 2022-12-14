@@ -97,7 +97,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-quantity-price'
       );
 
-      expect(component.price).toEqual('+ $10');
+      expect(component.price).toEqual('+$10');
     });
 
     it('should be defined: value price greater than zero and value is selected', () => {
@@ -115,7 +115,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-quantity-price'
       );
 
-      expect(component.price).toEqual('+ $10');
+      expect(component.price).toEqual('+$10');
     });
 
     it('should be defined: value price greater than zero and value is not selected', () => {
@@ -138,7 +138,7 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-quantity-price'
       );
-      expect(component.price).toEqual('+ $10');
+      expect(component.price).toEqual('+$10');
     });
 
     it('should be defined: value price total greater than zero', () => {
@@ -155,7 +155,7 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-quantity-price'
       );
-      expect(component.priceTotal).toEqual('+ $150');
+      expect(component.priceTotal).toEqual('+$150');
     });
 
     it('should be defined: complete price formula', () => {
@@ -184,7 +184,23 @@ describe('ConfiguratorPriceComponent', () => {
       } else {
         fail();
       }
-      expect(component.priceTotal).toEqual('+ $20');
+      expect(component.priceTotal).toEqual('+$20');
+    });
+    it('should be defined: value is lightedUp and selected', () => {
+      component.formula = createTestData(0, 0, 0, true);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-price',
+        'configurator.price.selectedItem'
+      );
     });
   });
 
@@ -197,7 +213,7 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-greyed-out'
       );
-      expect(component.priceTotal).toEqual('+ $10');
+      expect(component.priceTotal).toEqual('+$10');
     });
 
     it('should be lighted up', () => {
@@ -209,7 +225,7 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-greyed-out'
       );
-      expect(component.priceTotal).toEqual('+ $10');
+      expect(component.priceTotal).toEqual('+$10');
     });
   });
 

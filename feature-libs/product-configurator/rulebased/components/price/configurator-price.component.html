@@ -17,3 +17,8 @@
     <div class="cx-price-total">{{ priceTotal }}</div>
   </ng-container>
 </ng-container>
+<ng-container *ngIf="displaySelected()">
+  <div [ngClass]="styleClass">
+    {{ 'configurator.price.selectedItem' | cxTranslate }}
+  </div>
+</ng-container>

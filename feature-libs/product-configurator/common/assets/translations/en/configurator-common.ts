@@ -84,6 +84,9 @@ export const configurator = {
       groupConflict: 'Conflict',
       subgroup: 'has sub-groups',
     },
+    price: {
+      selectedItem: 'Selected',
+    },
     priceSummary: {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
