@@ -12,8 +12,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 
@@ -32,8 +32,10 @@ export class AuthInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    /*
     const shouldCatchError =
       this.authHttpHeaderService.shouldCatchError(httpRequest);
+    */
     const shouldAddAuthorizationHeader =
       this.authHttpHeaderService.shouldAddAuthorizationHeader(httpRequest);
 
@@ -49,8 +51,11 @@ export class AuthInterceptor implements HttpInterceptor {
     );
 
     return requestAndToken$.pipe(
-      switchMap(({ request, token }) =>
-        next.handle(request).pipe(
+      switchMap(({ request }) =>
+        next
+          .handle(request)
+          .pipe
+          /*
           catchError((errResponse: any) => {
             if (errResponse instanceof HttpErrorResponse) {
               switch (errResponse.status) {
@@ -92,7 +97,8 @@ export class AuthInterceptor implements HttpInterceptor {
             }
             return throwError(errResponse);
           })
-        )
+          */
+          ()
       )
     );
   }
