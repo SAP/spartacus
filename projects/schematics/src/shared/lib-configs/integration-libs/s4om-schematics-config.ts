@@ -32,7 +32,7 @@ export const S4OM_SCHEMATICS_CONFIG: SchematicConfig = {
   moduleName: S4OM_FEATURE_MODULE_NAME,
   featureModule: {
     name: S4OM_MODULE,
-    importPath: S4OM_MODULE,
+    importPath: SPARTACUS_S4OM,
   },
   rootModule: {
     name: S4OM_ROOT_MODULE,
