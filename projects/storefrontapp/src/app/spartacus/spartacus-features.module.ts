@@ -73,12 +73,14 @@ import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
+import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
+import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
@@ -92,7 +94,9 @@ if (environment.b2b) {
     AdministrationFeatureModule,
     AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule
+    OrderApprovalFeatureModule,
+    OrganizationUserRegistrationFeatureModule,
+    UnitOrderFeatureModule
   );
 }
 

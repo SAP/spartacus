@@ -127,6 +127,7 @@
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
+    "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
     "@spartacus/schematics": "4.1.0-next.0",
@@ -172,6 +173,7 @@
     "@angular/core": "^14.2.3",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
@@ -194,6 +196,7 @@
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },

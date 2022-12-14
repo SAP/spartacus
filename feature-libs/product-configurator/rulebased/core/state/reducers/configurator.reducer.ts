@@ -56,9 +56,11 @@ export function configuratorReducer(
     }
 
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
-      const content = { ...action.payload.overview };
-
-      const result: Configurator.Configuration = {
+      const content = {
+        ...action.payload.overview,
+        possibleGroups: action.payload.overview.groups,
+      };
+      return {
         ...state,
         overview: content,
         priceSummary: content.priceSummary,
@@ -67,8 +69,20 @@ export function configuratorReducer(
           issueNavigationDone: false,
         },
       };
-
-      return result;
+    }
+    case ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS: {
+      const content = {
+        ...action.payload.overview,
+      };
+      return {
+        ...state,
+        overview: content,
+        priceSummary: content.priceSummary,
+        interactionState: {
+          ...state.interactionState,
+          issueNavigationDone: false,
+        },
+      };
     }
     case ConfiguratorActions.SEARCH_VARIANTS_SUCCESS: {
       return {
