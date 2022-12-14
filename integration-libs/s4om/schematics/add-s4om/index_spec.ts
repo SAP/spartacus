@@ -21,7 +21,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
-  'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
+  'src/app/spartacus/features/s4om/s4om-feature.module.ts';
 
 describe('Spartacus S4OM schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -148,11 +148,6 @@ describe('Spartacus S4OM schematics: ng-add', () => {
         );
 
         expect(tasks.length).toEqual(0);
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
       });
     });
 
