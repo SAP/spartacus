@@ -1,4 +1,5 @@
 import { Optional } from '@angular/core';
+
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  *
