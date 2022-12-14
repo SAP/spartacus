@@ -1,28 +1,23 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { AuthMultisiteIsolationService } from './auth-multisite-isolation.service';
-// import { Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { BaseSiteService } from '@spartacus/core';
 
-// class MockBaseSiteService {
-//   get(): Observable<string> {
-//     return of();
-//   }
-// }
-
-// const mockDecorator = '|';
-
-// const mockBaseSite = 'test-site';
-
-// const mockCredentials = {
-//   userId: 'test@example.com',
-//   password: 'myPassword',
-// };
+class MockBaseSiteService {
+  get(): Observable<string> {
+    return of();
+  }
+}
 
 describe('AuthMultisiteIsolationService', () => {
   let service: AuthMultisiteIsolationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthMultisiteIsolationService],
+      providers: [
+        AuthMultisiteIsolationService,
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
+      ],
     });
 
     service = TestBed.inject(AuthMultisiteIsolationService);

@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthToken,
   GlobalMessageService,
@@ -35,6 +36,12 @@ const loginInfo = {
 let isEmulated$: BehaviorSubject<boolean>;
 let tokenTarget$: BehaviorSubject<TokenTarget>;
 let authToken$: BehaviorSubject<AuthToken>;
+
+class MockAuthMultisiteIsolationService {
+  getBaseSiteDecorator(): string {
+    return '';
+  }
+}
 
 class MockUserIdService {
   clearUserId = jasmine.createSpy();
@@ -98,6 +105,10 @@ describe('AsmAuthService', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
         },
       ],
     });

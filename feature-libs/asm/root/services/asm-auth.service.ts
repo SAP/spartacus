@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
+  AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthService,
   AuthToken,
@@ -18,7 +19,6 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { AuthMultisiteIsolationService } from 'projects/core/src/auth/user-auth/services/auth-multisite-isolation.service';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';

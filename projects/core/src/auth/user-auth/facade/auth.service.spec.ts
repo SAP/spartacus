@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthMultisiteIsolationService } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -55,6 +56,12 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockAuthMultisiteIsolationService {
+  getBaseSiteDecorator(): string {
+    return '';
+  }
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -80,6 +87,10 @@ describe('AuthService', () => {
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
+        },
       ],
     });
 
