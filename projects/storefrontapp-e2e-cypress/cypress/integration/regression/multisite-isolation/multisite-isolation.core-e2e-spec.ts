@@ -36,12 +36,12 @@ describe('Multisite Isolation', () => {
       });
     });
 
-    it('should register customer on standalone environment', () => {
+    it.skip('should register customer on standalone environment', () => {
       cy.visit('/login/register');
       register(user);
     });
 
-    it('should not authenticate already registered customer outside isolated baseSite', () => {
+    it.skip('should not authenticate already registered customer outside isolated baseSite', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
 
       cy.cxConfig({
@@ -67,7 +67,7 @@ describe('Multisite Isolation', () => {
         .should('contain', 'Bad credentials. Please login again');
     });
 
-    it('should not authenticate already registered customer outside isolated baseSite (B2B)', () => {
+    it.skip('should not authenticate already registered customer outside isolated baseSite (B2B)', () => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
 
       cy.cxConfig({
@@ -93,7 +93,7 @@ describe('Multisite Isolation', () => {
         .should('contain', 'Bad credentials. Please login again');
     });
 
-    it('should authenticate the customer on the isolated baseSite', () => {
+    it.skip('should authenticate the customer on the isolated baseSite', () => {
       cy.visit('/login');
 
       login.listenForTokenAuthenticationRequest();

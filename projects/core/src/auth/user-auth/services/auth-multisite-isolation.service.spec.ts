@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { AuthMultisiteIsolationService } from './auth-multisite-isolation.service';
 import { Observable, of } from 'rxjs';
-import { BaseSiteService } from '@spartacus/core';
+import { AuthMultisiteIsolationService } from './auth-multisite-isolation.service';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
 class MockBaseSiteService {
   get(): Observable<string> {
