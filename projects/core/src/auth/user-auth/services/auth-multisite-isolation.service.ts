@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
 @Injectable({
@@ -36,13 +37,13 @@ export class AuthMultisiteIsolationService {
 
     this.baseSiteService
       .get()
+      .pipe(take(1))
       .subscribe((baseSite) => {
         if (baseSite?.isolated) {
           baseSiteUid =
             AuthMultisiteIsolationService.MULTISITE_SEPARATOR + baseSite?.uid;
         }
-      })
-      .unsubscribe();
+      });
 
     return baseSiteUid;
   }
