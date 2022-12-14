@@ -10,6 +10,7 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
   map,
   observeOn,
@@ -17,11 +18,11 @@ import {
   shareReplay,
   switchMap,
   take,
+  takeWhile,
   tap,
 } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
-import { ModuleInitializedEvent } from '../../lazy-loading/events/module-initialized-event';
-import { CmsComponent, PageType } from '../../model/cms.model';
+import { LazyModulesService } from '../../lazy-loading/lazy-modules.service';
+import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import {
   PageContext,
@@ -52,7 +53,7 @@ export class CmsService {
     store: Store<StateWithCms>,
     routingService: RoutingService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    events: EventService,
+    moduleService: LazyModulesService,
     platformId: Object
   );
   /**
@@ -62,7 +63,7 @@ export class CmsService {
   constructor(
     protected store: Store<StateWithCms>,
     protected routingService: RoutingService,
-    @Optional() protected events?: EventService,
+    @Optional() protected moduleService?: LazyModulesService,
     @Optional() @Inject(PLATFORM_ID) protected platformId?: Object
   ) {}
 
@@ -286,6 +287,14 @@ export class CmsService {
     );
   }
 
+  private isSmartEditModuleLoaded$ = this.moduleService?.modules$.pipe(
+    map(
+      (moduleRef) => moduleRef.instance.constructor.name === 'SmartEditModule'
+    ),
+    takeWhile((isLoaded) => !isLoaded, true),
+    distinctUntilChanged()
+  );
+
   /**
    * Given pageContext, return the CMS page data
    **/
@@ -295,13 +304,12 @@ export class CmsService {
   ): Observable<Page | null> {
     if (
       pageContext.id === SMART_EDIT_CONTEXT &&
-      pageContext.type === PageType.CONTENT_PAGE &&
-      this.events &&
+      this.isSmartEditModuleLoaded$ &&
       this.platformId &&
       isPlatformBrowser(this.platformId)
     ) {
-      return this.events.get(ModuleInitializedEvent).pipe(
-        filter((event) => event.feature === 'smartEdit'),
+      return this.isSmartEditModuleLoaded$.pipe(
+        filter((isLoaded) => isLoaded),
         switchMap(() => this.hasPage(pageContext, forceReload)),
         switchMap((hasPage) =>
           hasPage ? this.getPageState(pageContext) : of(null)
