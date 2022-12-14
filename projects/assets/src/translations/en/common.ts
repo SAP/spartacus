@@ -30,6 +30,8 @@ export const common = {
     selectFile: 'Select file',
     clear: 'Clear',
     loaded: 'Loaded',
+    results: 'Results',
+    of: 'of',
   },
   pageMetaResolver: {
     category: {
@@ -209,5 +211,8 @@ export const common = {
   passwordVisibility: {
     showPassword: 'Show password',
     hidePassword: 'Hide password',
+  },
+  generalErrors: {
+    pageFailure: 'The page could not be loaded. Please try again later.',
   },
 };

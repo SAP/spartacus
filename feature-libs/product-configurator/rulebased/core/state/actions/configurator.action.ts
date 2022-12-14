@@ -49,6 +49,13 @@ export const GET_CONFIGURATION_OVERVIEW_FAIL =
 export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
   '[Configurator] Get Configuration Overview success';
 
+export const UPDATE_CONFIGURATION_OVERVIEW =
+  '[Configurator] Update Configuration Overview';
+export const UPDATE_CONFIGURATION_OVERVIEW_FAIL =
+  '[Configurator] Update Configuration Overview fail';
+export const UPDATE_CONFIGURATION_OVERVIEW_SUCCESS =
+  '[Configurator] Update Configuration Overview success';
+
 export const SET_INTERACTION_STATE = '[Configurator] Set interaction state';
 export const SET_CURRENT_GROUP = '[Configurator] Set current group to State';
 export const SET_MENU_PARENT_GROUP =
@@ -227,6 +234,29 @@ export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAct
   }
 }
 
+export class UpdateConfigurationOverview extends StateUtils.EntityLoadAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
+  }
+}
+
+export class UpdateConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW_SUCCESS;
+  constructor(
+    public payload: { ownerKey: string; overview: Configurator.Overview }
+  ) {
+    super(CONFIGURATOR_DATA, payload.ownerKey);
+  }
+}
+
 export class SetInteractionState extends StateUtils.EntitySuccessAction {
   readonly type = SET_INTERACTION_STATE;
 
@@ -300,6 +330,9 @@ export type ConfiguratorAction =
   | GetConfigurationOverview
   | GetConfigurationOverviewFail
   | GetConfigurationOverviewSuccess
+  | UpdateConfigurationOverview
+  | UpdateConfigurationOverviewFail
+  | UpdateConfigurationOverviewSuccess
   | RemoveConfiguration
   | SetInteractionState
   | SetMenuParentGroup

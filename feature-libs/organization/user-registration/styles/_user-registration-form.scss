@@ -1,0 +1,25 @@
+.cx-organization-user-register-button {
+  @import '@spartacus/styles/scss/cxbase/mixins';
+  @import '@spartacus/styles/scss/cxbase/blocks/buttons';
+  a {
+    @extend .btn, .btn-block, .btn-secondary;
+    &:focus {
+      @include visible-focus();
+    }
+  }
+}
+
+%cx-user-registration-form {
+  form {
+    width: 50%;
+    margin: 0 auto;
+    label,
+    textarea,
+    button {
+      margin-bottom: 0.675rem;
+    }
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,151 @@
+%cx-configurator-overview-sidebar {
+  &:not(:empty) {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    margin-inline-end: 25px;
+    padding-block-start: 5px;
+    padding-block-end: 5px;
+
+    .cx-menu-bar {
+      display: flex;
+      flex-direction: row;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+      font-size: 1.25rem;
+      font-weight: 700;
+      padding-block-start: 25px;
+
+      button {
+        color: black;
+        cursor: pointer;
+        padding: 0.5rem 0 0 0;
+        text-align: start;
+        border: none;
+        background-color: transparent;
+
+        @include media-breakpoint-up(md) {
+          flex-basis: 200px;
+        }
+
+        @include media-breakpoint-down(sm) {
+          inline-size: 50%;
+        }
+
+        @include media-breakpoint-down(sm) {
+          inline-size: 50%;
+        }
+
+        // border effect
+        &:after {
+          content: '';
+          display: block;
+          block-size: 5px;
+          background: var(--cx-color-primary);
+          margin-inline-start: auto;
+          margin-inline-end: auto;
+          margin-block-start: 7px;
+          margin-block-end: auto;
+
+          // the tab hover effect uses a border in the :after pseudo
+          // that is animated from 0% to 100% width
+          inline-size: 0;
+          opacity: 0;
+          transition: all 0.6s;
+        }
+
+        &.active {
+          font-weight: bold;
+        }
+
+        &.active,
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
+
+        &.active:after,
+        &:hover:after {
+          inline-size: 100%;
+        }
+
+        &.active:after,
+        &.active:hover:after {
+          opacity: 1;
+        }
+
+        &:not(.active):hover:after {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .cx-ghost-menu {
+      .cx-ghost-menu-bar,
+      .cx-ghost-menu-item-title {
+        background-color: var(--cx-color-ghost);
+      }
+
+      .cx-ghost-menu-bar {
+        width: 100%;
+        height: 58px;
+        margin-block-end: 8px;
+      }
+
+      .cx-ghost-menu-level1 {
+        margin-block-start: 22px;
+
+        .cx-ghost-menu-item:nth-child(1) {
+          width: 95%;
+        }
+
+        .cx-ghost-menu-level2 {
+          margin-inline-start: 55px;
+
+          .cx-ghost-menu-item:nth-child(1) {
+            width: 65%;
+          }
+
+          .cx-ghost-menu-item:nth-child(2) {
+            width: 75%;
+          }
+
+          .cx-ghost-menu-item:nth-child(3) {
+            width: 55%;
+          }
+
+          .cx-ghost-menu-item:nth-child(4) {
+            width: 65%;
+          }
+        }
+
+        .cx-ghost-menu-level3 {
+          margin-inline-start: 55px;
+
+          .cx-ghost-menu-item:nth-child(1) {
+            width: 65%;
+          }
+
+          .cx-ghost-menu-item:nth-child(2) {
+            width: 75%;
+          }
+
+          .cx-ghost-menu-item:nth-child(3) {
+            width: 55%;
+          }
+
+          .cx-ghost-menu-item:nth-child(4) {
+            width: 65%;
+          }
+        }
+      }
+
+      .cx-ghost-menu-item-title {
+        height: 30px;
+        margin-block-end: 8px;
+        padding-block-end: 5px;
+      }
+    }
+  }
+}

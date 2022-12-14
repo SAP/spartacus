@@ -28,6 +28,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -329,6 +330,36 @@ export class VariantConfiguratorOccAdapter
       })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
+      );
+  }
+
+  updateConfigurationOverview(
+    ovInput: Configurator.Overview
+  ): Observable<Configurator.Overview> {
+    const url = this.occEndpointsService.buildUrl(
+      'getVariantConfigurationOverview',
+      { urlParams: { configId: ovInput.configId } }
+    );
+
+    const occOverview = this.converterService.convert(
+      ovInput,
+      VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER
+    );
+
+    return this.http
+      .patch<OccConfigurator.Overview>(url, occOverview, {
+        context: this.indicateSendUserForAsm(),
+      })
+      .pipe(
+        this.converterService.pipeable(
+          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+        ),
+        map((overview) => ({
+          ...overview,
+          attributeFilters: ovInput.attributeFilters,
+          groupFilters: ovInput.groupFilters,
+          possibleGroups: ovInput.possibleGroups,
+        }))
       );
   }
 
