@@ -167,7 +167,7 @@ export const orgUnitUsers = {
 };
 
 export const orgUnitUserRoles = {
-  title: 'User roles',
+  title: 'User roles and rights',
   subtitle: 'User: {{item.name}}',
   messages: {
     rolesUpdated: 'Roles successfully updated for {{item.name}}',
