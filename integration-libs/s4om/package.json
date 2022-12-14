@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/s4om",
   "version": "4.1.0",
-  "description": "s4om",
+  "description": "S/4HANA Order Management (b2b feature)",
   "keywords": [
     "spartacus",
     "framework",

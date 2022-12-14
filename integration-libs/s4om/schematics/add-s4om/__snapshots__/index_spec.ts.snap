@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus S4OM schematics: ng-add S4OM feature eager loading should import appropriate modules 1`] = `""`;
+
+exports[`Spartacus S4OM schematics: ng-add S4OM feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
