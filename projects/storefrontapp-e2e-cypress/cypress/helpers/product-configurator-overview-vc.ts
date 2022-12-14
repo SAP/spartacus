@@ -247,9 +247,9 @@ export function checkViewPortScrolledToGroup(groupIdx: number) {
   cy.get('cx-configurator-overview-form .cx-group h2')
     .eq(groupIdx)
     .then((elem) => {
-      // due to rounding errors top will be between 0px..1px
+      // due to rounding errors top will be between -1px..1px
       expect(elem[0].getBoundingClientRect().top)
-        .to.be.greaterThan(0)
+        .to.be.greaterThan(-1)
         .and.to.be.below(1);
     });
 }
