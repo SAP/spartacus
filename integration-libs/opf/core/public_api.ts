@@ -5,3 +5,7 @@
  */
 
 export * from './opf-core.module';
+export * from './connectors/index';
+export * from './facade/index';
+export * from './tokens/index';
+export * from './services/index';

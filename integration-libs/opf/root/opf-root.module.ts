@@ -10,6 +10,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
+import { defaultOpfConfig } from './config/default-opf-config';
 import { OPF_CORE_FEATURE, OPF_FEATURE } from './feature-name';
 
 export function defaultOPFComponentsConfig() {
@@ -29,6 +30,7 @@ export function defaultOPFComponentsConfig() {
 @NgModule({
   imports: [],
   providers: [
+    provideDefaultConfig(defaultOpfConfig),
     provideDefaultConfigFactory(defaultOPFComponentsConfig),
     provideDefaultConfig(defaultOPFCheckoutConfig),
     // TODO: (OPF) uncomment once proper type and routing is set up

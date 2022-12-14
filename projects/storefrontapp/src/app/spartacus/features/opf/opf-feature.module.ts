@@ -13,6 +13,7 @@ import {
 import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
+  OpfConfig,
   OpfRootModule,
   OPF_FEATURE,
 } from '@spartacus/opf/root';
@@ -28,6 +29,12 @@ if (environment.b2b) {
 @NgModule({
   imports: [OpfRootModule],
   providers: [
+    provideConfig(<OpfConfig>{
+      opf: {
+        baseUrl:
+          'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
+      },
+    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: opfTranslations,
