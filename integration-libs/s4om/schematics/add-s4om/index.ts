@@ -22,9 +22,7 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
-export function addS4OMFeature(
-  options: SpartacusOrganizationOptions
-): Rule {
+export function addS4OMFeature(options: SpartacusOrganizationOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);

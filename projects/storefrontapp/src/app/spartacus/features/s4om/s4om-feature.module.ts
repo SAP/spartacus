@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   s4omTranslationChunksConfig,
-  s4omTranslations
+  s4omTranslations,
 } from '@spartacus/s4om/assets';
 import { S4omRootModule } from '@spartacus/s4om/root';
 
@@ -24,4 +24,4 @@ import { S4omRootModule } from '@spartacus/s4om/root';
     }),
   ],
 })
-export class S4OMFeatureModule { }
+export class S4OMFeatureModule {}
