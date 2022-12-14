@@ -5,7 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
@@ -15,15 +14,13 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickUpInStoreDetailsComponent implements OnInit {
-    // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
+  // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
 
-  constructor(
-    protected deliveryPointsService: DeliveryPointsService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
-  ) {}
+  constructor(protected deliveryPointsService: DeliveryPointsService) {}
 
+  // TODO Remove the ngOnInit, this is just for dev purposes
   ngOnInit(): void {
     this.deliveryPointsOfService$.subscribe((d) => {
       console.clear();
