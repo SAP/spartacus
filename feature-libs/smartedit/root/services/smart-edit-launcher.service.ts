@@ -34,7 +34,7 @@ export class SmartEditLauncherService {
     featureConfigService: FeatureConfigService
   );
   /**
-   * @deprecated since 5.1
+   * @deprecated since 5.2
    */
   constructor(
     config: SmartEditConfig,
@@ -57,7 +57,7 @@ export class SmartEditLauncherService {
       this.isLaunchedInSmartEdit() &&
       this.featureModules.isConfigured(SMART_EDIT_FEATURE)
     ) {
-      if (this.featureConfigService?.isLevel('5.1')) {
+      if (this.featureConfigService?.isLevel('5.2')) {
         if (this.platformId && isPlatformBrowser(this.platformId)) {
           // we don't want to process smartedit when doing SSR
           this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();

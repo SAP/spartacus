@@ -56,7 +56,7 @@ export class CmsService {
     platformId: Object
   );
   /**
-   * @deprecated since 5.1
+   * @deprecated since 5.2
    */
   constructor(store: Store<StateWithCms>, routingService: RoutingService);
   constructor(
