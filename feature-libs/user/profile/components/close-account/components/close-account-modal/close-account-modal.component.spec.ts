@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -24,6 +25,9 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
+
+  coreLogout = createSpy().and.returnValue(Promise.resolve());
+
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -32,6 +36,15 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
+}
+
+/**
+ * TODO: (#CXSPA-741) Remove MockFeatureConfigService in 6.0
+ */
+ class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
 }
 
 @Component({
@@ -86,6 +99,10 @@ describe('CloseAccountModalComponent', () => {
           {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
           },
         ],
       }).compileComponents();
