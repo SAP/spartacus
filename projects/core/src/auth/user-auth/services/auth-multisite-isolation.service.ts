@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BaseSite, BaseSiteService } from '@spartacus/core';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,14 +29,14 @@ export class AuthMultisiteIsolationService {
    * This method checks if currently active baseSite is "isolated". If so,
    * it returns specific `uid` suffix.
    *
-   * Example: `|electronics-spa`.
+   * Example: `|electronics-standalone`.
    */
   getBaseSiteDecorator(): string {
     let baseSiteUid: string = '';
 
     this.baseSiteService
       .get()
-      .subscribe((baseSite: BaseSite | undefined) => {
+      .subscribe((baseSite) => {
         if (baseSite?.isolated) {
           baseSiteUid =
             AuthMultisiteIsolationService.MULTISITE_SEPARATOR + baseSite?.uid;
