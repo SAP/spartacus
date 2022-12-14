@@ -67,7 +67,7 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
    * Returns the configured timeout value for the given request.
    *
    * The timeout can be configured specifically for a certain request
-   * via HttpContextToken `BACKEND_TIMEOUT_CONFIG`. When it's not available,
+   * via HttpContextToken `HTTP_TIMEOUT_CONFIG`. When it's not available,
    * the value is taken from the global config `config.backend.timeout`.
    *
    * Depending on the platform (browser or server), the configured timeout value can be different.
