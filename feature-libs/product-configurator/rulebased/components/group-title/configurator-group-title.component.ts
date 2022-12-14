@@ -21,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
-//import {  take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -90,22 +89,20 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.isMobile()?.subscribe((isMobile) => {
-        this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
-          if (isMobile && !isExpanded) {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'none'
-            );
-          } else {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'block'
-            );
-          }
-        });
+      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
+        if (!isExpanded) {
+          this.configuratorStorefrontUtilsService?.changeStyling(
+            '.PreHeader',
+            'display',
+            'none'
+          );
+        } else {
+          this.configuratorStorefrontUtilsService?.changeStyling(
+            '.PreHeader',
+            'display',
+            'block'
+          );
+        }
       })
     );
   }
