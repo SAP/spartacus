@@ -1,11 +1,15 @@
-import { Type } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
-import { IconLoaderService } from '@spartacus/storefront';
+import {
+  IconLoaderService,
+  HamburgerMenuService,
+  BreakpointService,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -14,6 +18,8 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -53,20 +59,39 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
+class MockBreakpointService {
+  isDown() {}
+  isUp() {}
+}
+
+@Component({
+  selector: 'cx-hamburger-menu',
+  template: '',
+})
+class MockHamburgerMenuComponent {}
+
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
+  let htmlElem: HTMLElement;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configExpertModeService: ConfiguratorExpertModeService;
+  let breakpointService: BreakpointService;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let hamburgerMenuService: HamburgerMenuService;
 
   beforeEach(
     waitForAsync(() => {
       routerStateObservable = of(ConfigurationTestData.mockRouterState);
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [ConfiguratorGroupTitleComponent],
+        declarations: [
+          ConfiguratorGroupTitleComponent,
+          MockHamburgerMenuComponent,
+        ],
         providers: [
+          HamburgerMenuService,
           {
             provide: Router,
             useClass: MockRouter,
@@ -85,6 +110,13 @@ describe('ConfigurationGroupTitleComponent', () => {
             useClass: MockConfiguratorGroupService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+          },
         ],
       });
     })
@@ -92,6 +124,7 @@ describe('ConfigurationGroupTitleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     component.ghostStyle = false;
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
@@ -105,6 +138,23 @@ describe('ConfigurationGroupTitleComponent', () => {
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
+
+    breakpointService = TestBed.inject(
+      BreakpointService as Type<BreakpointService>
+    );
+
+    spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+
+    spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
+
+    hamburgerMenuService = TestBed.inject(
+      HamburgerMenuService as Type<HamburgerMenuService>
+    );
+    spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
   it('should create component', () => {
@@ -146,6 +196,30 @@ describe('ConfigurationGroupTitleComponent', () => {
       expect(
         component.getGroupTitle(configForExpMode.groups[0].subGroups[0])
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
+    });
+  });
+
+  describe('isMobile', () => {
+    it('should not render hamburger menu in desktop mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-hamburger-menu'
+      );
+    });
+
+    it('should render hamburger menu in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-hamburger-menu'
+      );
     });
   });
 });
