@@ -487,6 +487,19 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    it('should not display a conflict text as a link to a configuration group if this is disabled', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-conflict-msg a.link.cx-action-link'
+      );
+    });
+
     it('should display a simple conflict text without link to conflict group', () => {
       component.attribute.hasConflicts = true;
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;

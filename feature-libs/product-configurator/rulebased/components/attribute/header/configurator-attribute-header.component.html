@@ -72,7 +72,7 @@
 />
 
 <ng-template #conflictGroup>
-  <a
+  <a *ngIf="isNavigationToGroupEnabled"
     class="link cx-action-link"
     (click)="navigateToGroup()"
     (keydown.enter)="navigateToGroup()"
