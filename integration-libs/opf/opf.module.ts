@@ -7,8 +7,9 @@
 import { NgModule } from '@angular/core';
 import { OpfComponentsModule } from '@spartacus/opf/components';
 import { OpfCoreModule } from '@spartacus/opf/core';
+import { OpfOccModule } from '@spartacus/opf/occ';
 
 @NgModule({
-  imports: [OpfComponentsModule, OpfCoreModule],
+  imports: [OpfOccModule, OpfCoreModule, OpfComponentsModule],
 })
 export class OpfModule {}

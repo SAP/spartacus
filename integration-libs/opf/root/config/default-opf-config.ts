@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './augmented-types';
+import { OpfConfig } from './opf-config';
 
-export * from './opf-checkout.model';
-export * from './opf-quick-buy.model';
+export const defaultOpfConfig: OpfConfig = {
+  opf: {
+    baseUrl: '',
+  },
+};

@@ -4,7 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './augmented-types';
-
-export * from './opf-checkout.model';
-export * from './opf-quick-buy.model';
+export * from './opf-checkout-payments.component';
+export * from './opf-checkout-payments.module';
