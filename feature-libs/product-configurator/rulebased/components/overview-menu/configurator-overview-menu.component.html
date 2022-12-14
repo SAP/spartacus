@@ -17,8 +17,8 @@
   let-level="level"
   let-idPrefix="idPrefix"
 >
-  <ng-container *ngFor="let group of overviewGroups">
-    <ul>
+  <ul>
+    <ng-container *ngFor="let group of overviewGroups">
       <li [ngClass]="getGroupLevelStyleClasses(level)">
         <button
           id="{{ getMenuItemId(idPrefix, group.id) }}"
@@ -44,6 +44,6 @@
           ></ng-container>
         </ng-container>
       </li>
-    </ul>
-  </ng-container>
+    </ng-container>
+  </ul>
 </ng-template>
