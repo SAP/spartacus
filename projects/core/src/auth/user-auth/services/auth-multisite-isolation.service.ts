@@ -5,9 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BaseSiteService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BaseSite, BaseSiteService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,28 +15,19 @@ export class AuthMultisiteIsolationService {
 
   constructor(protected baseSiteService: BaseSiteService) {}
 
-  isBaseSiteIsolated(): any {
-    let isolated: boolean | undefined;
+  getBaseSiteDecorator(): string {
+    let baseSiteUid: string = '';
 
     this.baseSiteService
       .get()
-      .subscribe((baseSite) => (isolated = baseSite?.isolated))
+      .subscribe((baseSite: BaseSite | undefined) => {
+        if (baseSite?.isolated) {
+          baseSiteUid =
+            AuthMultisiteIsolationService.MULTISITE_SEPARATOR + baseSite?.uid;
+        }
+      })
       .unsubscribe();
-    console.log(isolated);
-    return isolated;
-  }
 
-  /**
-   * Creates decorator structure based on currently activated baseSite.
-   */
-  getUidDecorator(): Observable<string> {
-    return this.baseSiteService.get().pipe(
-      take(1),
-      map((baseSite) =>
-        baseSite?.isolated
-          ? `${AuthMultisiteIsolationService.MULTISITE_SEPARATOR}${baseSite?.uid}`
-          : ''
-      )
-    );
+    return baseSiteUid;
   }
 }

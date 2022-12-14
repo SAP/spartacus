@@ -1,3 +1,4 @@
+import { Optional } from '@angular/core';
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -44,7 +45,8 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
+    @Optional()
+    protected authMultisiteIsolationService: AuthMultisiteIsolationService
   ) {}
 
   /**
@@ -89,17 +91,11 @@ export class AuthService {
    */
   async loginWithCredentials(userId: string, password: string): Promise<void> {
     try {
-      console.log(this.authMultisiteIsolationService?.isBaseSiteIsolated());
-      if (this.authMultisiteIsolationService) {
-        this.authMultisiteIsolationService
-          .getUidDecorator()
-          .subscribe((data: any) => console.log(data));
-      }
-
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
-        userId,
+        userId + this.authMultisiteIsolationService?.getBaseSiteDecorator(),
         password
       );
+
       // OCC specific user id handling. Customize when implementing different backend
       this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 

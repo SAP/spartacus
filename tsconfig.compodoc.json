@@ -191,12 +191,6 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
-      "@spartacus/multisite-isolation": [
-        "feature-libs/multisite-isolation/public_api"
-      ],
-      "@spartacus/multisite-isolation/root": [
-        "feature-libs/multisite-isolation/root/public_api"
-      ],
       "@spartacus/order/assets": [
         "feature-libs/order/assets/public_api"
       ],

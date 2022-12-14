@@ -21,8 +21,7 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl:
-    'https://api.cg79x9wuu9-eccommerc1-p8-public.model-t.myhybris.cloud',
+  occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,

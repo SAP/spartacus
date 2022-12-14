@@ -176,9 +176,6 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
-export const SPARTACUS_MULTISITE_ISOLATION = `@spartacus/multisite-isolation`;
-export const SPARTACUS_MULTISITE_ISOLATION_ROOT = `@spartacus/multisite-isolation/root`;
-
 export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 /***** Scopes end *****/

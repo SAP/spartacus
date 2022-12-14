@@ -18,6 +18,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
+import { AuthMultisiteIsolationService } from 'projects/core/src/auth/user-auth/services/auth-multisite-isolation.service';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
@@ -37,7 +38,8 @@ export class AsmAuthService extends AuthService {
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authMultisiteIsolation: AuthMultisiteIsolationService
   ) {
     super(
       store,
@@ -45,7 +47,8 @@ export class AsmAuthService extends AuthService {
       oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
-      routingService
+      routingService,
+      authMultisiteIsolation
     );
   }
 
