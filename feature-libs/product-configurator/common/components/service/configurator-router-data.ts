@@ -19,5 +19,6 @@ export namespace ConfiguratorRouter {
     resolveIssues?: boolean;
     skipConflicts?: boolean;
     expMode?: boolean;
+    configIdTemplate?: string;
   }
 }

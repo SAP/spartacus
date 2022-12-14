@@ -169,6 +169,15 @@
       "@spartacus/organization/user-registration/root": [
         "../../dist/organization/user-registration/root"
       ],
+      "@spartacus/organization/unit-order/assets": [
+        "../../dist/organization/unit-order/assets"
+      ],
+      "@spartacus/organization/unit-order": [
+        "../../dist/organization/unit-order"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "../../dist/organization/unit-order/root"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
       ],

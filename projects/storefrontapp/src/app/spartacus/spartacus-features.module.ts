@@ -74,6 +74,7 @@ import { MultisiteIsolationFeatureModule } from './features/multisite-isolation/
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
+import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
@@ -95,7 +96,8 @@ if (environment.b2b) {
     AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
-    OrganizationUserRegistrationFeatureModule
+    OrganizationUserRegistrationFeatureModule,
+    UnitOrderFeatureModule
   );
 }
 
