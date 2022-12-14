@@ -26,7 +26,7 @@ export enum ASSIGNMENT_LABELS {
   CREATE = 'Create',
   EDIT = 'Edit',
   UPDATE_SUCCESS = ' updated successfully',
-  ROLES = 'Roles',
+  ROLES_AND_RIGHTS = 'Roles and Rights',
   ROLE_UPDATED_SUCCESS = 'Roles successfully updated for ',
 }
 
