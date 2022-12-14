@@ -1,27 +1,27 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
-  UnitTestTree
+  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
-  Style
+  Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as S4OMOptions,
   S4OM_FEATURE_NAME,
-  SpartacusOptions, SPARTACUS_CHECKOUT,
-  SPARTACUS_SCHEMATICS
+  SpartacusOptions,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
-  'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
+  'src/app/spartacus/features/s4om/s4om-feature.module.ts';
 
 describe('Spartacus S4OM schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -137,17 +137,6 @@ describe('Spartacus S4OM schematics: ng-add', () => {
           const expectedDependency = dependencies[toAdd];
           expect(expectedDependency).toBeTruthy();
         }
-      });
-
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks.filter(
-          (task) =>
-            task.name === 'run-schematic' &&
-            (task.options as RunSchematicTaskOptions<{}>).collection ===
-            '@sap/s4om'
-        );
-
-        expect(tasks.length).toEqual(0);
       });
 
       it('should add the feature using the lazy loading syntax', async () => {

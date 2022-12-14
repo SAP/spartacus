@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4om-root.module';
-export * from './feature-name';
-export * from './components/schedule-lines/schedule-lines.module';
 export * from './components/schedule-lines/schedule-lines.component';
+export * from './components/schedule-lines/schedule-lines.module';
+export * from './feature-name';
 export * from './model';
+export * from './s4om-root.module';
