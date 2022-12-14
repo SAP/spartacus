@@ -27,6 +27,7 @@ import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-abcd';
 const groupId = 'GROUP-1';
 const parentGroupid = 'GROUP-PARENT';
 const groupIdA = 'a';
@@ -175,48 +176,76 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects).toBeTruthy();
   });
 
-  it('should emit a success action with content for an action of type createConfiguration', () => {
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
+  describe('Effect createConfiguration', () => {
+    it('should emit a success action with content', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+      });
 
-    const configurationSuccessAction =
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration);
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
 
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-(bc)', {
-      b: configurationSuccessAction,
-      c: searchVariantsAction,
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
     });
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
-  });
+    it('should forward configuration template ID', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+        configIdTemplate: CONFIG_ID_TEMPLATE,
+      });
 
-  it('must not emit anything in case source action is not covered, createConfiguration', () => {
-    const actionNotCovered = new ConfiguratorActions.CreateConfigurationSuccess(
-      productConfiguration
-    );
-    actions$ = hot('-a', { a: actionNotCovered });
-    const expected = cold('-');
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
-  });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
 
-  it('should emit a fail action in case something goes wrong', () => {
-    createMock.and.returnValue(throwError(errorResponse));
-
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
-
-    const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
-      ownerKey: productConfiguration.owner.key,
-      error: normalizeHttpError(errorResponse),
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+      expect(createMock).toHaveBeenCalledWith(owner, CONFIG_ID_TEMPLATE);
     });
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-b', { b: completionFailure });
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
+    it('must not emit anything in case source action is not covered', () => {
+      const actionNotCovered =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
+      actions$ = hot('-a', { a: actionNotCovered });
+      const expected = cold('-');
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+    });
+
+    it('should emit a fail action in case something goes wrong', () => {
+      createMock.and.returnValue(throwError(errorResponse));
+
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+      });
+
+      const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: normalizeHttpError(errorResponse),
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completionFailure });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+    });
   });
 
   describe('Effect readConfiguration', () => {
