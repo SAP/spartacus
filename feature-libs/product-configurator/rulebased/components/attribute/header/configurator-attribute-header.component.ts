@@ -38,7 +38,7 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
   @Input() expMode: boolean;
-  @Input() isNavigationToGroupEnabled: boolean = true;
+  @Input() isNavigationToGroupEnabled = true;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
