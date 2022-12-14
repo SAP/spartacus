@@ -45,7 +45,7 @@ export class AuthService {
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
     @Optional()
-    protected authMultisiteIsolationService: AuthMultisiteIsolationService
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
   /**
