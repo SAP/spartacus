@@ -90,7 +90,7 @@ export class AuthService {
   async loginWithCredentials(userId: string, password: string): Promise<void> {
     let uid = userId;
 
-    if (this.authMultisiteIsolationService?.getBaseSiteDecorator()) {
+    if (this.authMultisiteIsolationService) {
       uid = await this.authMultisiteIsolationService
         .decorateUserId(uid)
         .toPromise();
