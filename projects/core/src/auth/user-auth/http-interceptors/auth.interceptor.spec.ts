@@ -42,7 +42,7 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   }
 }
 
-fdescribe('AuthInterceptor', () => {
+describe('AuthInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
   let authHeaderService: AuthHttpHeaderService;
