@@ -1,10 +1,65 @@
-import { DeliveryPointOfServiceItems } from "feature-libs/pickup-in-store/root/model";
-import { Observable, of } from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { PointOfService } from '@spartacus/core';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+import { DeliveryPointOfServiceItems } from 'feature-libs/pickup-in-store/root/model';
+import { Observable, of } from 'rxjs';
+import { DeliveryPointsService } from './delivery-points.service';
 
+class MockActiveCartFacade {
+  getActive(): Observable<Cart> {
+    const CART: Cart = {
+      entries: [
+        { deliveryPointOfService: { name: 'A Store' } },
+        { deliveryPointOfService: { name: 'B Store' } },
+      ],
+    };
+    return of(CART);
+  }
+}
+class MockPickupLocationsSearchFacade {
+  loadStoreDetails(): void {}
+  getStoreDetails(): Observable<PointOfService> {
+    const POINT_OF_SERVICE: PointOfService = {};
+    return of(POINT_OF_SERVICE);
+  }
+}
 
+describe('DeliveryPointsService', () => {
+  let deliveryPointsService: DeliveryPointsService;
+  let activeCartFacade: ActiveCartFacade;
+  let pickupLocationsSearchService: PickupLocationsSearchFacade;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchFacade,
+        },
+      ],
+    });
+
+    deliveryPointsService = TestBed.inject(DeliveryPointsService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
+
+    spyOn(activeCartFacade, 'getActive').and.callThrough();
+  });
+
+  it('should be created', () => {
+    expect(deliveryPointsService).toBeDefined();
+  });
+
+  it('getDeliveryPointsOfService should return: Observable<Array<DeliveryPointOfServiceItems>> ', () => {
+    deliveryPointsService.getDeliveryPointsOfService().subscribe();
+    expect(activeCartFacade).toBeDefined();
+    expect(pickupLocationsSearchService).toBeDefined();
+  });
+});
 
 export class DeliveryPointsServiceMock {
-    getDeliveryPointsOfService(): Observable<Array<DeliveryPointOfServiceItems>> {
-        return of([])
-    }
+  getDeliveryPointsOfService(): Observable<Array<DeliveryPointOfServiceItems>> {
+    return of([]);
+  }
 }
