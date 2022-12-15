@@ -63,11 +63,12 @@ describe('DeliveryPointsService', () => {
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
       'A Store'
     );
-    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
-      2
-    );
+    
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
       'B Store'
+    );
+    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(
+      2
     );
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
       'A Store'
