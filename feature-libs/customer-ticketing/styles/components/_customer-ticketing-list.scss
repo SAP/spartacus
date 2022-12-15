@@ -91,6 +91,10 @@
     }
   }
 
+  .cx-ticketing-list-id {
+    text-decoration: underline;
+  }
+
   .cx-ticketing-list-value {
     color: var(--cx-color-text);
     overflow: hidden;
@@ -155,9 +159,5 @@
 
   .cx-text-grey {
     color: var(--cx-color-secondary);
-  }
-
-  .cx-text-red {
-    color: var(--cx-color-primary);
   }
 }
