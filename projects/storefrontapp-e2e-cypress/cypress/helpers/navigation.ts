@@ -47,7 +47,7 @@ export function waitForPage(page: string, alias: string): string {
             pageLabelOrId: page,
           },
         };
-  cy.intercept(route, { delay: 1000 }).as(alias);
+  cy.intercept(route).as(alias);
   return alias;
 }
 
@@ -96,15 +96,11 @@ export function navigateToAMyAccountPage(
   cy.selectUserMenuOption({
     option: myAccountOptionText,
   });
-  cy.wait(`@${pageAlias}`)
-    .its('response')
-    .then((response) => {
-      response.statusCode === 401 &&
-        cy.log(response.statusMessage) &&
-        cy.log(response.body);
+  cy.wait(`@${pageAlias}`).then((interception) => {
+    if (interception.error) {
+      cy.log(JSON.stringify(interception.error));
+    }
 
-      return response;
-    })
-    .its('statusCode')
-    .should('eq', 200);
+    cy.wrap(interception).its('response.statusCode').should('eq', 200);
+  });
 }
