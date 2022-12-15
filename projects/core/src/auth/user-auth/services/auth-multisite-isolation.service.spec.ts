@@ -47,9 +47,9 @@ describe('AuthMultisiteIsolationService', () => {
   it('should getBaseSiteDecorator() return decorator if `isolated` property is `true`', () => {
     spyOn(baseSiteService, 'get').and.returnValue(of(mockBaseSite));
 
-    const decorator = service.getBaseSiteDecorator();
-
-    expect(decorator).toBe(mockDecorator);
+    service.getBaseSiteDecorator().subscribe((decorator) => {
+      expect(decorator).toBe(mockDecorator);
+    });
   });
 
   it('should getBaseSiteDecorator() return empty string decorator if `isolated` is `false`', () => {
@@ -57,8 +57,20 @@ describe('AuthMultisiteIsolationService', () => {
       of({ ...mockBaseSite, ...{ isolated: false } })
     );
 
-    const decorator = service.getBaseSiteDecorator();
+    service.getBaseSiteDecorator().subscribe((decorator) => {
+      expect(decorator).toBe('');
+    });
+  });
 
-    expect(decorator).toBe('');
+  it('should decorateUserId() return concatenated `userId` with the decorator suffix', () => {
+    spyOn(baseSiteService, 'get').and.returnValue(
+      of({ ...mockBaseSite, ...{ isolated: true } })
+    );
+
+    const userId = 'email@example.com';
+
+    service.decorateUserId(userId).subscribe((result) => {
+      expect(result).toBe(userId + mockDecorator);
+    });
   });
 });

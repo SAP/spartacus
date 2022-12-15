@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -44,7 +44,6 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    @Optional()
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
@@ -89,16 +88,18 @@ export class AuthService {
    * @param password
    */
   async loginWithCredentials(userId: string, password: string): Promise<void> {
-    try {
-      let uId: string = userId;
+    let uid = userId;
 
+    try {
+      console.log(this.authMultisiteIsolationService);
       if (this.authMultisiteIsolationService?.getBaseSiteDecorator()) {
-        uId =
-          userId + this.authMultisiteIsolationService?.getBaseSiteDecorator();
+        uid = await this.authMultisiteIsolationService
+          .decorateUserId(uid)
+          .toPromise();
       }
 
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
-        uId,
+        uid,
         password
       );
 

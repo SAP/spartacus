@@ -5,14 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthMultisiteIsolationService {
-  protected static MULTISITE_SEPARATOR = '|';
+  protected readonly MULTISITE_SEPARATOR = '|';
 
   constructor(protected baseSiteService: BaseSiteService) {}
 
@@ -26,25 +27,26 @@ export class AuthMultisiteIsolationService {
    * passed as a suffix to the uid field.
    *
    * Example uid value for baseSiteA will be email@example.com|baseSiteA
-   *
-   * This method checks if currently active baseSite is "isolated". If so,
-   * it returns specific `uid` suffix.
-   *
-   * Example: `|electronics-standalone`.
    */
-  getBaseSiteDecorator(): string {
-    let baseSiteUid = '';
+  getBaseSiteDecorator(): Observable<string> {
+    return this.baseSiteService.get().pipe(
+      take(1),
+      map((baseSite) =>
+        Boolean(baseSite?.isolated)
+          ? this.MULTISITE_SEPARATOR + baseSite?.uid
+          : ''
+      )
+    );
+  }
 
-    this.baseSiteService
-      .get()
-      .pipe(take(1))
-      .subscribe((baseSite) => {
-        if (baseSite?.isolated) {
-          baseSiteUid =
-            AuthMultisiteIsolationService.MULTISITE_SEPARATOR + baseSite?.uid;
-        }
-      });
-
-    return baseSiteUid;
+  /**
+   * Method returns concatenated `userId` with the decorator suffix.
+   *
+   * @param userId The `userId` for given user
+   */
+  decorateUserId(userId: string): Observable<string> {
+    return this.getBaseSiteDecorator().pipe(
+      map((decorator) => userId + decorator)
+    );
   }
 }

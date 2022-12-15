@@ -39,7 +39,7 @@ export class AsmAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected authMultisiteIsolationService: AuthMultisiteIsolationService
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
     super(
       store,
