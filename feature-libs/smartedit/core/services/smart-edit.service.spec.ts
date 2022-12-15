@@ -6,6 +6,7 @@ import {
   CmsService,
   Page,
   RoutingService,
+  ScriptLoader,
 } from '@spartacus/core';
 import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
 import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
@@ -32,11 +33,15 @@ class MockBaseSiteService {
   }
 }
 
+class MockScriptLoader {
+  public embedScript(): void {}
+}
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
   let baseSiteService: BaseSiteService;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +51,7 @@ describe('SmartEditService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
@@ -53,12 +59,19 @@ describe('SmartEditService', () => {
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
     baseSiteService = TestBed.inject(BaseSiteService);
+    scriptLoader = TestBed.inject(ScriptLoader);
 
     spyOn(routingService, 'go').and.stub();
+    spyOn(scriptLoader, 'embedScript').and.callThrough();
   });
 
   it('should SmartEditService is injected', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should be able to load webApplicationInjector.js', () => {
+    service['loadScript']();
+    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 
   describe('should add page contract', () => {
