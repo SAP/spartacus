@@ -122,6 +122,12 @@ function add_product_configurator {
     fi
 }
 
+function add_s4om {
+  if [ "$ADD_S4OM" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
@@ -679,6 +685,11 @@ function parseInstallArgs {
             epd)
                 ADD_EPD_VISUALIZATION=true
                 echo "➖ Added EPD"   
+                shift
+                ;;
+            s4om)
+                ADD_EPD_VISUALIZATION=true
+                echo "➖ Added S4OM"   
                 shift
                 ;;
             -*|--*)
