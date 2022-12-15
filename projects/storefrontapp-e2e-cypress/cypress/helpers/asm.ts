@@ -219,12 +219,12 @@ export function startCustomerEmulation(customer, b2b = false): void {
   });
   cy.wait(customerSearchRequestAlias)
     .its('response')
-    .then(
-      (response) =>
-        response.statusCode === 401 &&
+    .then((response) => {
+      response.statusCode === 401 &&
         cy.log(response.statusMessage) &&
-        cy.log(response.body)
-    )
+        cy.log(response.body);
+      return response;
+    })
     .its('statusCode')
     .should('eq', 200);
 
