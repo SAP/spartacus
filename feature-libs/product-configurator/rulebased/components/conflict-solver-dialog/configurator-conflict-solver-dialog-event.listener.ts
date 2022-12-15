@@ -14,7 +14,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,11 @@ export class ConfiguratorConflictSolverDialogEventListener
 
   conflictGroups$: Observable<Configurator.Group[] | undefined> =
     this.routerData$.pipe(
+      filter((routerData) => {
+        return (
+          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+        );
+      }),
       switchMap((routerData) =>
         this.configuratorGroupsService.getConflictGroups(routerData.owner)
       )
