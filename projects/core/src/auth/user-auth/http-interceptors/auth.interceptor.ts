@@ -32,10 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    /*
-    const shouldCatchError =
-      this.authHttpHeaderService.shouldCatchError(httpRequest);
-    */
+
     const shouldAddAuthorizationHeader =
       this.authHttpHeaderService.shouldAddAuthorizationHeader(httpRequest);
 
