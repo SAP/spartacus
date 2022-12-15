@@ -7,20 +7,22 @@ import { standardUser } from '../../../sample-data/shared-users';
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
 let failCount = 0;
-const FAIL_LIMIT = 3;
+const FAIL_LIMIT = 2;
 let skip = false;
 
 Cypress.on('fail', (error, test) => {
   console.log('test:', test.title);
-  if (failCount < FAIL_LIMIT && !skip) {
+  if (!skip) {
     failCount++;
     console.log('fail count:', failCount);
-    skip = true;
+    if (failCount < FAIL_LIMIT) {
+      skip = true;
 
-    // On failure, skip all tests and start again
-    test.skip();
-  } else {
-    throw error; // behave as normal
+      // On failure, skip all tests and start again
+      test.skip();
+    } else {
+      throw error; // behave as normal
+    }
   }
 });
 
@@ -44,6 +46,11 @@ const myTest = () =>
         it('should redirect to login page', () => {
           cy.visit(CLOSE_ACCOUNT_URL);
           cy.location('pathname').should('contain', '/login');
+        });
+
+        //TODO REMOVE
+        it('should fail', () => {
+          cy.get('nothing');
         });
       });
 
