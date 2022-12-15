@@ -41,7 +41,6 @@
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
-          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
@@ -172,10 +171,6 @@
           {
             "value": "Qualtrics",
             "label": "Qualtrics"
-          },
-          {
-            "value": "S4HANA-Order-Management",
-            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",

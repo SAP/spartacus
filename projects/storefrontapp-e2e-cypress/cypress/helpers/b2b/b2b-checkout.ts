@@ -33,7 +33,6 @@ import {
 import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
-import { TabbingOrderConfig } from '../accessibility/tabbing-order.model';
 import {
   addCheapProductToCart,
   visitHomePage,
@@ -301,8 +300,7 @@ export function reviewB2bReviewOrderPage(
   sampleUser: SampleUser = b2bAccountShipToUser,
   cartData: SampleCartProduct,
   isAccount: boolean,
-  orderType: string,
-  conf: TabbingOrderConfig = config
+  orderType: string
 ) {
   cy.get('.cx-review-title').should('contain', 'Review');
 
@@ -385,12 +383,12 @@ export function reviewB2bReviewOrderPage(
   if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      conf.replenishmentOrderAccountCheckoutReviewOrder
+      config.replenishmentOrderAccountCheckoutReviewOrder
     );
   } else {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      isAccount ? conf.checkoutReviewOrderAccount : conf.checkoutReviewOrder
+      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
     );
   }
 }
