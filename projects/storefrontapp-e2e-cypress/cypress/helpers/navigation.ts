@@ -71,7 +71,13 @@ export function waitForCategoryPage(
 export function navigateToHomepage(): void {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-page-slot.SiteLogo').click();
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${homePage}`).then((interception) => {
+    if (interception.error) {
+      cy.log(JSON.stringify(interception.error));
+    }
+
+    cy.wrap(interception).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function navigateToCategory(

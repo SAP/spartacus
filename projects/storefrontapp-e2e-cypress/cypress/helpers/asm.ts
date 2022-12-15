@@ -185,7 +185,13 @@ export function asmCustomerLists(): void {
       cy.wrap($rows[0]).click();
       cy.get('cx-customer-list').should('not.exist');
     });
-  cy.wait(userDetailsRequestAlias);
+  cy.wait(userDetailsRequestAlias).then((interception) => {
+    if (interception.error) {
+      cy.log(JSON.stringify(interception.error));
+    }
+
+    cy.wrap(interception).its('response.statusCode').should('eq', 200);
+  });;
 
   cy.get('cx-customer-emulation').should('exist');
 
@@ -329,7 +335,13 @@ export function testCustomerEmulation() {
     cy.get('cx-customer-selection').should('be.visible');
 
     // Make sure homepage is visible
-    cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@getHomePage`).then((interception) => {
+      if (interception.error) {
+        cy.log(JSON.stringify(interception.error));
+      }
+
+      cy.wrap(interception).its('response.statusCode').should('eq', 200);
+    });
     cy.get('cx-global-message div').should(
       'contain',
       'You have successfully signed out.'
