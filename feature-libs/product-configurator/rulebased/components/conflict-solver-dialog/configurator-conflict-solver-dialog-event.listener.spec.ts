@@ -14,6 +14,7 @@ import {
   ConfiguratorGroupsService,
 } from '@spartacus/product-configurator/rulebased';
 import { RouterState, RoutingService } from '@spartacus/core';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -47,26 +48,32 @@ class MockConfiguratorRouterExtractorService {
   }
 }
 
+function createListOfGroups(amount: number): Configurator.Group[] {
+  const groups: Configurator.Group[] = [];
+  for (let index = 1; index <= amount; index++) {
+    const groupId = index + '-TEST_PRODUCT.' + index;
+    const group = ConfiguratorTestUtils.createGroup(groupId);
+    groups.push(group);
+  }
+  return groups;
+}
+
+let groups: Configurator.Group[] = [];
+
 class MockConfiguratorGroupsService {
   getConflictGroups(): Observable<Configurator.Group[] | undefined> {
-    return of([]);
+    return of(groups);
   }
 }
 
-let routerState: RouterState = {
-  navigationId: 1,
-  state: {
-    url: '',
-    queryParams: [],
-    params: [],
-    context: { id: '' },
-    cmsRequired: true,
-  },
-};
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
+
+let mockRouterState: any;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(routerState);
+    return of(mockRouterState);
   }
 }
 
@@ -99,8 +106,24 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
       ],
     });
 
+    groups = createListOfGroups(5);
+
+    mockRouterState = {
+      navigationId: 1,
+      state: {
+        url: '',
+        queryParams: [],
+        params: [],
+        context: { id: '' },
+        cmsRequired: true,
+        semanticRoute: CONFIGURATOR_ROUTE,
+      },
+    };
+
     listener = TestBed.inject(ConfiguratorConflictSolverDialogEventListener);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
@@ -109,9 +132,55 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
     spyOn(configuratorGroupsService, 'getConflictGroups').and.callThrough();
   });
 
+  afterEach(() => {
+    listener.ngOnDestroy();
+  });
+
+  describe('isConfiguratorRelatedRoute', () => {
+    it('should return false because semanticRoute is not defined', () => {
+      expect(listener['isConfiguratorRelatedRoute']()).toBe(false);
+    });
+
+    it('should return false because semanticRoute does not contain configure', () => {
+      expect(listener['isConfiguratorRelatedRoute'](OVERVIEW_ROUTE)).toBe(
+        false
+      );
+    });
+
+    it('should return true because semanticRoute contains configure', () => {
+      expect(listener['isConfiguratorRelatedRoute'](CONFIGURATOR_ROUTE)).toBe(
+        true
+      );
+    });
+  });
+
+  describe('openConflictSolverDialog', () => {
+    it('should open conflict solver dialog because there are some conflict groups', () => {
+      listener['openConflictSolverDialog']();
+      expect(launchDialogService.openDialog).toHaveBeenCalled();
+    });
+
+    it('should close conflict solver dialog because there are not any conflict groups', () => {
+      groups = [];
+      listener['openConflictSolverDialog']();
+      expect(launchDialogService.closeDialog).toHaveBeenCalled();
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'CLOSE_NO_CONFLICTS_EXIST'
+      );
+    });
+
+    it('should close conflict solver dialog because no configurator related route', () => {
+      mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
+      listener['openConflictSolverDialog']();
+      expect(launchDialogService.closeDialog).toHaveBeenCalled();
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON'
+      );
+    });
+  });
+
   describe('closeModal', () => {
-    it('Should close conflict solver dialog', () => {
-      spyOn(launchDialogService, 'closeDialog').and.stub();
+    it('should close conflict solver dialog', () => {
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
     });

@@ -8,7 +8,11 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorCommonsService } from '@spartacus/product-configurator/rulebased';
+import {
+  ConfigFormUpdateEvent,
+  Configurator,
+  ConfiguratorCommonsService,
+} from '@spartacus/product-configurator/rulebased';
 import { Type } from '@angular/core';
 
 export class MockIconFontLoaderService {
@@ -79,10 +83,45 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+  });
+
+  afterEach(() => {
+    component.ngOnDestroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('updateConfiguration', () => {
+    it('should update a configuration through the facade layer ', () => {
+      const event: ConfigFormUpdateEvent = {
+        changedAttribute: undefined,
+        ownerKey: 'product/TEST_PRODUCT',
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      };
+
+      component.updateConfiguration(event);
+
+      expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
+      expect(
+        configuratorCommonsService.updateConfiguration
+      ).toHaveBeenCalledWith(
+        event.ownerKey,
+        event.changedAttribute,
+        event.updateType
+      );
+    });
+  });
+
+  describe('dismissModal', () => {
+    it('should close dialog when dismissModal is called', () => {
+      const reason = 'Close conflict solver dialog';
+      component.ngOnInit();
+      component.dismissModal(reason);
+      expect(launchDialogService.closeDialog).toHaveBeenCalled();
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
+    });
   });
 });
