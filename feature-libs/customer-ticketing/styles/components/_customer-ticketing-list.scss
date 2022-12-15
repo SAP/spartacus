@@ -99,6 +99,8 @@
     color: var(--cx-color-text);
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-word;
+    hyphens: auto;
 
     @include media-breakpoint-up(sm) {
       display: -webkit-box;
