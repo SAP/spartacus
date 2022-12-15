@@ -11,6 +11,10 @@
     padding-bottom: 1.25rem;
     padding-inline-start: 1.75rem;
     display: flex;
+    top: 0px;
+    position: sticky;
+    z-index: 9999;
+    background-color: var(--cx-color-inverse);
 
     .cx-dialog-title {
       @include type('3');
