@@ -203,7 +203,7 @@ function handleTestConfigs(
         ? 'core-libs/setup/tsconfig.spec.json'
         : `${library.directory}/tsconfig.schematics.json`;
 
-    const hadErrors = update(tsConfigPaths, entryPoints, options);
+    const hadErrors = updateTesTsConfig(tsConfigPaths, entryPoints, options);
     if (hadErrors) {
       showAllGood = false;
     }
@@ -214,7 +214,7 @@ function handleTestConfigs(
   }
 }
 
-function update(
+function updateTesTsConfig(
   path: string,
   entryPoints: Record<string, string[]>,
   options: ProgramOptions
