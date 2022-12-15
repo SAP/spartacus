@@ -16,9 +16,11 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 
+const defaultBaseSite = ['powertools-spa', 'powertools-standalone'];
+
 const baseSite = environment.epdVisualization
-  ? ['powertools-epdvisualization-spa', 'powertools-spa']
-  : ['powertools-spa'];
+  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
+  : defaultBaseSite;
 
 @NgModule({
   providers: [
