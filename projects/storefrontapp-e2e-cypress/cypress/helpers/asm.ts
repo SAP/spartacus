@@ -218,7 +218,14 @@ export function startCustomerEmulation(customer, b2b = false): void {
     );
   });
   cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
+    .its('response')
+    .then(
+      (response) =>
+        response.statusCode === 401 &&
+        cy.log(response.statusMessage) &&
+        cy.log(response.body)
+    )
+    .its('statusCode')
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
