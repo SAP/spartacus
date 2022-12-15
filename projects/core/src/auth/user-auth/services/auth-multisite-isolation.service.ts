@@ -33,7 +33,7 @@ export class AuthMultisiteIsolationService {
    * Example: `|electronics-standalone`.
    */
   getBaseSiteDecorator(): string {
-    let baseSiteUid: string = '';
+    let baseSiteUid = '';
 
     this.baseSiteService
       .get()
