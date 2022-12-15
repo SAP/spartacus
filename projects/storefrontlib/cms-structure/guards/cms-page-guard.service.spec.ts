@@ -9,13 +9,14 @@ import {
   PageType,
   RoutingService,
   SemanticPathService,
+  SMART_EDIT_CONTEXT,
 } from '@spartacus/core';
+import { CmsComponentsService } from '@spartacus/storefront';
 import { NEVER, of } from 'rxjs';
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
-import { CmsComponentsService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const NOT_FOUND_ROUTE_NAME = 'notFound';
@@ -59,6 +60,7 @@ describe('CmsPageGuardService', () => {
   let cmsGuards: CmsGuardsService;
   let semanticPath: SemanticPathService;
   let service: CmsPageGuardService;
+  let cmsComponentsService: CmsComponentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -85,6 +87,7 @@ describe('CmsPageGuardService', () => {
     cmsI18n = TestBed.inject(CmsI18nService);
     cmsGuards = TestBed.inject(CmsGuardsService);
     semanticPath = TestBed.inject(SemanticPathService);
+    cmsComponentsService = TestBed.inject(CmsComponentsService);
 
     service = TestBed.inject(CmsPageGuardService);
   });
@@ -109,6 +112,21 @@ describe('CmsPageGuardService', () => {
         .subscribe()
         .unsubscribe();
       expect(cms.getPageComponentTypes).toHaveBeenCalledWith(pageContext);
+    });
+
+    it('should get a specific component type DummySmartEditCMSComponent for SmartEdit review page', () => {
+      pageContext = { type: PageType.CONTENT_PAGE, id: SMART_EDIT_CONTEXT };
+      spyOn(cms, 'getPageComponentTypes').and.returnValue(of([]));
+      spyOn(cmsComponentsService, 'determineMappings').and.callThrough();
+
+      service
+        .canActivatePage(pageContext, pageData, route, state)
+        .subscribe()
+        .unsubscribe();
+      expect(cms.getPageComponentTypes).toHaveBeenCalledWith(pageContext);
+      expect(cmsComponentsService.determineMappings).toHaveBeenCalledWith([
+        'DummySmartEditCMSComponent',
+      ]);
     });
 
     describe('when CmsGuardsService emits false', () => {

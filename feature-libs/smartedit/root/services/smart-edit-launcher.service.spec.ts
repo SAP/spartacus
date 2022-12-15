@@ -1,8 +1,6 @@
 import { Location } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService, FeatureModulesService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { ScriptLoader } from '@spartacus/core';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
@@ -13,47 +11,34 @@ class MockLocation {
   }
 }
 
-class MockFeatureModulesService implements Partial<FeatureModulesService> {
-  isConfigured = () => true;
-  resolveFeature = () => of(undefined);
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
+class MockScriptLoader {
+  public embedScript(): void {}
 }
 
 describe('SmartEditLauncherService', () => {
   let smartEditLauncherService: SmartEditLauncherService;
   let location: Location;
-  let featureModules: FeatureModulesService;
+  let scriptLoader: ScriptLoader;
 
-  function beforeEachForPlatform(platformId: string) {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
-        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
-        { provide: PLATFORM_ID, useValue: platformId },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
     smartEditLauncherService = TestBed.inject(SmartEditLauncherService);
     location = TestBed.inject(Location);
-    featureModules = TestBed.inject(FeatureModulesService);
-  }
+    scriptLoader = TestBed.inject(ScriptLoader);
+  });
+
+  it('should be created', () => {
+    expect(smartEditLauncherService).toBeTruthy();
+  });
 
   describe('should get whether Spartacus is launched in SmartEdit', () => {
-    beforeEach(() => {
-      beforeEachForPlatform('browser');
-    });
-
-    it('should be created', () => {
-      expect(smartEditLauncherService).toBeTruthy();
-    });
-
     it('launched in smartEdit when storefrontPreviewRoute matches, and there is cmsTicketId', () => {
       spyOn(location, 'path').and.returnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
@@ -77,37 +62,13 @@ describe('SmartEditLauncherService', () => {
     });
   });
 
-  describe('should not lazy load SmartEditModule in SSR', () => {
-    beforeEach(() => {
-      beforeEachForPlatform('no-browser');
-    });
+  it('should be able to load webApplicationInjector.js', () => {
+    spyOn(location, 'path').and.returnValue(
+      '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+    );
+    spyOn(scriptLoader, 'embedScript').and.callThrough();
 
-    it('not lazy load SmartEditModule', () => {
-      spyOn(location, 'path').and.returnValue(
-        '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
-      );
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
-
-      smartEditLauncherService.load();
-      expect(featureModules.resolveFeature).not.toHaveBeenCalledWith(
-        'smartEdit'
-      );
-    });
-  });
-
-  describe('should lazy load SmartEditModule in CSR', () => {
-    beforeEach(() => {
-      beforeEachForPlatform('browser');
-    });
-
-    it('lazy load SmartEditModule', () => {
-      spyOn(location, 'path').and.returnValue(
-        '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
-      );
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
-
-      smartEditLauncherService.load();
-      expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
-    });
+    smartEditLauncherService.load();
+    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 });
