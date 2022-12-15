@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
@@ -13,18 +13,10 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   styleUrls: ['pickup-in-store-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PickUpInStoreDetailsComponent implements OnInit {
+export class PickUpInStoreDetailsComponent {
   // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
 
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
-
-  // TODO Remove the ngOnInit, this is just for dev purposes
-  ngOnInit(): void {
-    this.deliveryPointsOfService$.subscribe((d) => {
-      console.clear();
-      console.log(d);
-    });
-  }
 }
