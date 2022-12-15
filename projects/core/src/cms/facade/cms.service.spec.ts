@@ -1,16 +1,10 @@
-import { PLATFORM_ID } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
 import { PageType } from '../../model/cms.model';
-import {
-  PageContext,
-  RoutingService,
-  SMART_EDIT_CONTEXT,
-} from '../../routing/index';
+import { PageContext, RoutingService } from '../../routing/index';
 import { StateUtils } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
@@ -46,17 +40,9 @@ const testPageContext: PageContext = {
   id: 'homepage',
 };
 
-class MockEventService implements Partial<EventService> {
-  get(_event: any): Observable<any> {
-    return of();
-  }
-}
-
 describe('CmsService', () => {
   let store: Store<StateWithCms>;
   let routingService: RoutingService;
-  let eventService: EventService;
-  let cmsService: CmsService;
 
   const page: Page = {
     pageId: 'homepage',
@@ -73,15 +59,11 @@ describe('CmsService', () => {
       providers: [
         CmsService,
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: EventService, useClass: MockEventService },
-        { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
 
     store = TestBed.inject(Store);
     routingService = TestBed.inject(RoutingService);
-    eventService = TestBed.inject(EventService);
-    cmsService = TestBed.inject(CmsService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -522,35 +504,6 @@ describe('CmsService', () => {
         service.getPage(pageContext, true).subscribe((res) => (result = res));
         expect(service.getPageState).not.toHaveBeenCalled();
         expect(result).toEqual(null);
-      }
-    ));
-  });
-
-  describe('getPage for SmartEidt', () => {
-    let pageContext: PageContext;
-
-    beforeEach(() => {
-      pageContext = { id: SMART_EDIT_CONTEXT, type: PageType.CONTENT_PAGE };
-    });
-
-    it('should not call "hasPage" when smartedit feature is not ready', () => {
-      spyOn(eventService, 'get').and.returnValue(
-        of({ feature: 'someFeature' })
-      );
-      spyOn(cmsService, 'hasPage').and.returnValue(of(false));
-      cmsService.getPage(pageContext, true).subscribe();
-      expect(cmsService.hasPage).not.toHaveBeenCalledWith(pageContext, true);
-    });
-
-    it('should call "hasPage" when smartedit feature is ready', inject(
-      [CmsService],
-      (service: CmsService) => {
-        spyOn(service, 'hasPage').and.returnValue(of(false));
-        spyOn(eventService, 'get').and.returnValue(
-          of({ feature: 'smartEdit' })
-        );
-        service.getPage(pageContext, true).subscribe();
-        expect(service.hasPage).toHaveBeenCalledWith(pageContext, true);
       }
     ));
   });
