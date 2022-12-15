@@ -6,19 +6,19 @@ import { standardUser } from '../../../sample-data/shared-users';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
-let _counter = 0;
+let failCount = 0;
+const FAIL_LIMIT = 3;
 let skip = false;
 
 Cypress.on('fail', (error, test) => {
-  skip = false;
-  console.log('hello');
-  console.log(test);
-  if (_counter < 3) {
-    _counter++;
-    console.log(_counter);
-    // test.run(() => myTest());
-    cy.end();
-    myTest();
+  console.log('test:', test.title);
+  if (failCount < FAIL_LIMIT && !skip) {
+    failCount++;
+    console.log('fail count:', failCount);
+    skip = true;
+
+    // On failure, skip all tests and start again
+    test.skip();
   } else {
     throw error; // behave as normal
   }
@@ -27,6 +27,12 @@ Cypress.on('fail', (error, test) => {
 // Cypress._.times(_runModeRetries, () => {
 const myTest = () =>
   describe('My Account - Close Account', () => {
+    beforeEach(() => {
+      if (skip) {
+        Cypress.mocha.getRunner().suite.ctx.skip();
+      }
+    });
+
     viewportContext(['mobile', 'desktop'], () => {
       before(() =>
         cy.window().then((win) => {
@@ -106,6 +112,22 @@ const myTest = () =>
           cy.saveLocalStorage();
         });
       });
+    });
+
+    afterEach(() => {
+      const test = Cypress.mocha.getRunner();
+      console.log(test);
+    });
+
+    after(() => {
+      console.log('after hook', failCount, skip);
+      if (failCount < FAIL_LIMIT && skip) {
+        console.log('restarting');
+        skip = false;
+        myTest();
+      }
+      // skip = false;
+      // myTest();
     });
   });
 
