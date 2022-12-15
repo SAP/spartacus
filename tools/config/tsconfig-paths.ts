@@ -81,7 +81,6 @@ export function manageTsConfigs(
     }, {});
 
   handleSchematicsConfigs(libraries, options);
-  handleSetupConfigs(libraries, options);
   handleLibConfigs(libraries, options);
   handleRootConfigs(libraries, options);
   handleAppConfigs(libraries, options);
@@ -225,13 +224,12 @@ function handleSchematicsConfigs(
 function handleSetupConfigs(
   libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
-): void {
+): boolean {
   if (options.fix) {
     reportProgress(`Updating setup's tsconfig.spec.json file`);
   } else {
     reportProgress(`Checking setup's tsconfig.spec.json file`);
   }
-  let showAllGood = true;
 
   const entryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
@@ -256,18 +254,11 @@ function handleSetupConfigs(
       }
     );
 
-  const hadErrors = handleConfigUpdate(
+  return handleConfigUpdate(
     entryPoints,
     'core-libs/setup/tsconfig.spec.json',
     options
   );
-  if (hadErrors) {
-    showAllGood = false;
-  }
-
-  if (showAllGood) {
-    success();
-  }
 }
 
 /**
@@ -336,7 +327,9 @@ function handleLibConfigs(
       }
     }
   });
-  if (showAllGood) {
+
+  const setupHadErrors = handleSetupConfigs(libraries, options);
+  if (showAllGood && !setupHadErrors) {
     success();
   }
 }
