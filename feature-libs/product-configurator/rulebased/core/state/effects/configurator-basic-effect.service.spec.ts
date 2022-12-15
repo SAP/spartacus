@@ -14,6 +14,8 @@ import {
   GROUP_ID_8,
   GROUP_ID_9,
   PRODUCT_CODE,
+  GROUP_ID_CONFLICT_HEADER,
+  GROUP_ID_CONFLICT_1,
 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
@@ -46,6 +48,86 @@ const productConfiguration: Configurator.Configuration = {
   priceSummary: {},
   priceSupplements: [],
 };
+
+const groupListWithConflicts: Configurator.Group[] = [
+  {
+    id: GROUP_ID_CONFLICT_HEADER,
+    groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+    attributes: [],
+    subGroups: [
+      {
+        id: GROUP_ID_CONFLICT_1,
+        groupType: Configurator.GroupType.CONFLICT_GROUP,
+        attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
+        subGroups: [],
+      },
+    ],
+  },
+  {
+    id: GROUP_ID_1,
+    attributes: [],
+    subGroups: [
+      {
+        id: GROUP_ID_2,
+        attributes: [],
+        subGroups: [],
+      },
+      {
+        id: GROUP_ID_3,
+        attributes: [],
+        subGroups: [],
+      },
+    ],
+  },
+  {
+    id: GROUP_ID_4,
+    attributes: [],
+    subGroups: productConfiguration.groups,
+  },
+  {
+    id: GROUP_ID_5,
+    attributes: [],
+    subGroups: [
+      {
+        id: GROUP_ID_6,
+        attributes: [],
+        subGroups: [],
+      },
+    ],
+  },
+];
+
+const groupListWithConflictsAndAttributesOnRootLevel: Configurator.Group[] = [
+  {
+    id: GROUP_ID_CONFLICT_HEADER,
+    groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+    attributes: [],
+    subGroups: [
+      {
+        id: GROUP_ID_CONFLICT_1,
+        groupType: Configurator.GroupType.CONFLICT_GROUP,
+        attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
+        subGroups: [],
+      },
+    ],
+  },
+  {
+    id: GROUP_ID_1,
+    attributes: [],
+    subGroups: [],
+  },
+  {
+    id: GROUP_ID_4,
+    attributes: [
+      {
+        name: ATTRIBUTE_1_CHECKBOX,
+        values: [{ name: 'val', valueCode: '1' }],
+      },
+    ],
+    subGroups: [],
+  },
+];
+
 describe('ConfiguratorBasicEffectService', () => {
   let classUnderTest: ConfiguratorBasicEffectService;
 
@@ -68,6 +150,36 @@ describe('ConfiguratorBasicEffectService', () => {
         classUnderTest.getFirstGroupWithAttributes(productConfiguration)
       ).toBe(GROUP_ID_8);
     });
+
+    it('should find conflict group as first group in single level config where conflicts exist if includeConflicts is set to true', () => {
+      productConfiguration.groups =
+        groupListWithConflictsAndAttributesOnRootLevel;
+      expect(
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
+      ).toBe(GROUP_ID_CONFLICT_1);
+    });
+
+    it('should find attribute group as first group in multi level config although conflicts exist (using default value for includeConflicts)', () => {
+      productConfiguration.groups = groupListWithConflicts;
+      expect(
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration)
+      ).toBe(GROUP_ID_8);
+    });
+
+    it('should find attribute group as first group in multi level config although conflicts exist if includeConflicts is set to false', () => {
+      productConfiguration.groups = groupListWithConflicts;
+      expect(
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, false)
+      ).toBe(GROUP_ID_8);
+    });
+
+    it('should find conflict group as first group in multi level config where conflicts exist if includeConflicts is set to true', () => {
+      productConfiguration.groups = groupListWithConflicts;
+      expect(
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration, true)
+      ).toBe(GROUP_ID_CONFLICT_1);
+    });
+
     it('should throw error in case configuration has no attribute at all', () => {
       expect(function () {
         classUnderTest.getFirstGroupWithAttributes(
@@ -81,6 +193,22 @@ describe('ConfiguratorBasicEffectService', () => {
   });
 
   describe('getFirstGroupWithAttributesForList', () => {
+    it('should find attribute group as first group in single level config although conflicts exist if includeConflicts is set to false', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflictsAndAttributesOnRootLevel,
+          false
+        )
+      ).toBe(GROUP_ID_4);
+    });
+    it('should find conflict group as first group in single level config if includeConflicts is set to true', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflictsAndAttributesOnRootLevel,
+          true
+        )
+      ).toBe(GROUP_ID_CONFLICT_1);
+    });
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
@@ -116,9 +244,27 @@ describe('ConfiguratorBasicEffectService', () => {
           ],
         },
       ];
-      expect(classUnderTest['getFirstGroupWithAttributesForList'](groups)).toBe(
-        GROUP_ID_8
-      );
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](groups, false)
+      ).toBe(GROUP_ID_8);
+    });
+
+    it('should find attribute group as first group in multi level config although conflicts exist if includeConflicts is set to false', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflicts,
+          false
+        )
+      ).toBe(GROUP_ID_8);
+    });
+
+    it('should find conflict group as first group in multi level config if includeConflicts is set to true', () => {
+      expect(
+        classUnderTest['getFirstGroupWithAttributesForList'](
+          groupListWithConflicts,
+          true
+        )
+      ).toBe(GROUP_ID_CONFLICT_1);
     });
 
     it('should find no group in multi level config in case no attributes exist at all', () => {
@@ -157,7 +303,7 @@ describe('ConfiguratorBasicEffectService', () => {
         },
       ];
       expect(
-        classUnderTest['getFirstGroupWithAttributesForList'](groups)
+        classUnderTest['getFirstGroupWithAttributesForList'](groups, false)
       ).toBeUndefined();
     });
   });
