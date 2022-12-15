@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   map,
   observeOn,
@@ -18,16 +16,11 @@ import {
   shareReplay,
   switchMap,
   take,
-  takeWhile,
   tap,
 } from 'rxjs/operators';
-import { LazyModulesService } from '../../lazy-loading/lazy-modules.service';
 import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
-import {
-  PageContext,
-  SMART_EDIT_CONTEXT,
-} from '../../routing/models/page-context.model';
+import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { isNotUndefined } from '../../util/type-guards';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -48,23 +41,9 @@ export class CmsService {
     };
   } = {};
 
-  // TODO: make events and platformId as required dependencies
-  constructor(
-    store: Store<StateWithCms>,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    moduleService: LazyModulesService,
-    platformId: Object
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(store: Store<StateWithCms>, routingService: RoutingService);
   constructor(
     protected store: Store<StateWithCms>,
-    protected routingService: RoutingService,
-    @Optional() protected moduleService?: LazyModulesService,
-    @Optional() @Inject(PLATFORM_ID) protected platformId?: Object
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -287,14 +266,6 @@ export class CmsService {
     );
   }
 
-  private isSmartEditModuleLoaded$ = this.moduleService?.modules$.pipe(
-    map(
-      (moduleRef) => moduleRef.instance.constructor.name === 'SmartEditModule'
-    ),
-    takeWhile((isLoaded) => !isLoaded, true),
-    distinctUntilChanged()
-  );
-
   /**
    * Given pageContext, return the CMS page data
    **/
@@ -302,26 +273,11 @@ export class CmsService {
     pageContext: PageContext,
     forceReload = false
   ): Observable<Page | null> {
-    if (
-      pageContext.id === SMART_EDIT_CONTEXT &&
-      this.isSmartEditModuleLoaded$ &&
-      this.platformId &&
-      isPlatformBrowser(this.platformId)
-    ) {
-      return this.isSmartEditModuleLoaded$.pipe(
-        filter((isLoaded) => isLoaded),
-        switchMap(() => this.hasPage(pageContext, forceReload)),
-        switchMap((hasPage) =>
-          hasPage ? this.getPageState(pageContext) : of(null)
-        )
-      );
-    } else {
-      return this.hasPage(pageContext, forceReload).pipe(
-        switchMap((hasPage) =>
-          hasPage ? this.getPageState(pageContext) : of(null)
-        )
-      );
-    }
+    return this.hasPage(pageContext, forceReload).pipe(
+      switchMap((hasPage) =>
+        hasPage ? this.getPageState(pageContext) : of(null)
+      )
+    );
   }
 
   getPageIndex(pageContext: PageContext): Observable<string> {

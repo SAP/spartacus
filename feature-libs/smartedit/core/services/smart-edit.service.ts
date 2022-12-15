@@ -35,11 +35,11 @@ export class SmartEditService {
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SmartEditConfig,
+    /**
+     * @deprecated since 5.2
+     */
     protected scriptLoader: ScriptLoader
   ) {
-    // load webApplicationInjector.js first
-    this.loadScript();
-
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing
@@ -82,6 +82,9 @@ export class SmartEditService {
 
   /**
    * load webApplicationInjector.js
+   */
+  /**
+   * @deprecated since 5.2
    */
   protected loadScript(): void {
     this.scriptLoader.embedScript({

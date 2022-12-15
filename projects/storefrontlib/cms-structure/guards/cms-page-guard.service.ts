@@ -14,6 +14,7 @@ import {
   PageType,
   RoutingService,
   SemanticPathService,
+  SMART_EDIT_CONTEXT,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -69,6 +70,11 @@ export class CmsPageGuardService {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
+      map((componentTypes) =>
+        pageContext.id === SMART_EDIT_CONTEXT
+          ? ['DummySmartEditCMSComponent', ...componentTypes]
+          : componentTypes
+      ),
       take(1),
       switchMap((componentTypes) =>
         this.cmsComponentsService.determineMappings(componentTypes)

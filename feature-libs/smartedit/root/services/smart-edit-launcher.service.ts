@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser, Location } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
-import { FeatureConfigService, FeatureModulesService } from '@spartacus/core';
+import { Location } from '@angular/common';
+import { Injectable, Optional } from '@angular/core';
+import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
-import { SMART_EDIT_FEATURE } from '../feature-name';
 
 /**
  * The SmartEditLauncherService is used to check whether Spartacus is launched inside Smart Edit;
@@ -24,14 +23,13 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
-  // TODO: make platformId as required dependency and remove featureConfigService
+  // TODO: make scriptLoader as required dependency and remove featureModules
   constructor(
     config: SmartEditConfig,
     location: Location,
     featureModules: FeatureModulesService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    platformId: Object,
-    featureConfigService: FeatureConfigService
+    scriptLoader: ScriptLoader
   );
   /**
    * @deprecated since 5.2
@@ -44,27 +42,26 @@ export class SmartEditLauncherService {
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
+    /**
+     * @deprecated since 5.2
+     */
     protected featureModules: FeatureModulesService,
-    @Optional() @Inject(PLATFORM_ID) protected platformId?: Object,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    @Optional() protected scriptLoader?: ScriptLoader
   ) {}
 
   /**
-   * Lazy loads modules when Spartacus launced inside Smart Edit
+   * load webApplicationInjector.js first when Spartacus launched inside SmartEdit
    */
   load(): void {
-    if (
-      this.isLaunchedInSmartEdit() &&
-      this.featureModules.isConfigured(SMART_EDIT_FEATURE)
-    ) {
-      if (this.featureConfigService?.isLevel('5.2')) {
-        if (this.platformId && isPlatformBrowser(this.platformId)) {
-          // we don't want to process smartedit when doing SSR
-          this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
-        }
-      } else {
-        this.featureModules.resolveFeature(SMART_EDIT_FEATURE).subscribe();
-      }
+    if (this.isLaunchedInSmartEdit()) {
+      this.scriptLoader?.embedScript({
+        src: 'assets/webApplicationInjector.js',
+        params: undefined,
+        attributes: {
+          id: 'text/smartedit-injector',
+          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+        },
+      });
     }
   }
 
