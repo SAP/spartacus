@@ -65,7 +65,6 @@ export class CloseAccountModalComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     @Optional() protected featureConfigService?: FeatureConfigService
-
   ) {}
 
   get isLoading$(): Observable<boolean> {
@@ -88,18 +87,16 @@ export class CloseAccountModalComponent implements OnInit {
         );
       });
 
-      /**
-       * TODO: (#CXSPA-741) Remove feature config check and deprecated route to home in 6.0.
-       */
-      if (this.featureConfigService?.isLevel('5.1')) {
-        this.authService.coreLogout().then(() => {
-          this.routingService.go({ cxRoute: 'home' });
-        });
-      } else {
+    /**
+     * TODO: (#CXSPA-741) Remove feature config check and deprecated route to home in 6.0.
+     */
+    if (this.featureConfigService?.isLevel('5.1')) {
+      this.authService.coreLogout().then(() => {
         this.routingService.go({ cxRoute: 'home' });
-      }
-
-
+      });
+    } else {
+      this.routingService.go({ cxRoute: 'home' });
+    }
   }
 
   onError(): void {

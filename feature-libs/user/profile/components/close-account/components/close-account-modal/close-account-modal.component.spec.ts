@@ -27,7 +27,6 @@ class MockAuthService implements Partial<AuthService> {
   }
 
   coreLogout = createSpy().and.returnValue(Promise.resolve());
-
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -41,7 +40,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 /**
  * TODO: (#CXSPA-741) Remove MockFeatureConfigService in 6.0
  */
- class MockFeatureConfigService implements Partial<FeatureConfigService> {
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isLevel(_version: string): boolean {
     return true;
   }
@@ -119,7 +118,6 @@ describe('CloseAccountModalComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     authService = TestBed.inject(AuthService);
 
-
     spyOn(routingService, 'go').and.stub();
   });
 
@@ -142,9 +140,7 @@ describe('CloseAccountModalComponent', () => {
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
     authService.coreLogout().then(() => {
-      expect(routingService.go).toHaveBeenCalledWith(
-        { cxRoute: 'home' }
-      );
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
