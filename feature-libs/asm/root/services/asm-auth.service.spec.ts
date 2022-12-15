@@ -12,7 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { getReducers } from 'projects/core/src/process/store/reducers/index';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
   ASM_FEATURE,
@@ -37,9 +37,11 @@ let isEmulated$: BehaviorSubject<boolean>;
 let tokenTarget$: BehaviorSubject<TokenTarget>;
 let authToken$: BehaviorSubject<AuthToken>;
 
-class MockAuthMultisiteIsolationService {
-  getBaseSiteDecorator(): string {
-    return '';
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
   }
 }
 
@@ -54,7 +56,7 @@ class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
   initLoginFlow = jasmine.createSpy();
 
-  authorizeWithPasswordFlow = () => new Promise(() => {});
+  authorizeWithPasswordFlow = () => Promise.resolve();
 }
 
 class MockAsmAuthStorageService {
@@ -137,12 +139,13 @@ describe('AsmAuthService', () => {
   ));
 
   describe('loginWithCredentials()', () => {
-    it('should authorize if user can login', () => {
+    it('should authorize if user can login', async () => {
       spyOn(
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
       ).and.callThrough();
-      service.loginWithCredentials(loginInfo.userId, loginInfo.password);
+
+      await service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow
