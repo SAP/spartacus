@@ -45,6 +45,8 @@ describe('DeliveryPointsService', () => {
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
 
     spyOn(activeCartFacade, 'getActive').and.callThrough();
+    spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
+    spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
   });
 
   it('should be created', () => {
@@ -53,8 +55,26 @@ describe('DeliveryPointsService', () => {
 
   it('getDeliveryPointsOfService should return: Observable<Array<DeliveryPointOfServiceItems>> ', () => {
     deliveryPointsService.getDeliveryPointsOfService().subscribe();
-    expect(activeCartFacade).toBeDefined();
-    expect(pickupLocationsSearchService).toBeDefined();
+
+    expect(activeCartFacade.getActive).toHaveBeenCalled();
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
+      2
+    );
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
+      'A Store'
+    );
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
+      2
+    );
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
+      'B Store'
+    );
+    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
+      'A Store'
+    );
+    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
+      'B Store'
+    );
   });
 });
 
