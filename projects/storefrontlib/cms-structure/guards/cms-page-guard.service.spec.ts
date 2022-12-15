@@ -10,6 +10,7 @@ import {
   RoutingService,
   SemanticPathService,
   SMART_EDIT_CONTEXT,
+  SMART_EDIT_DUMMY_COMPONENT_TYPE,
 } from '@spartacus/core';
 import { CmsComponentsService } from '@spartacus/storefront';
 import { NEVER, of } from 'rxjs';
@@ -114,7 +115,7 @@ describe('CmsPageGuardService', () => {
       expect(cms.getPageComponentTypes).toHaveBeenCalledWith(pageContext);
     });
 
-    it('should get a specific component type DummySmartEditCMSComponent for SmartEdit review page', () => {
+    it('should get a specific component type SMART_EDIT_DUMMY_COMPONENT_TYPE for SmartEdit review page', () => {
       pageContext = { type: PageType.CONTENT_PAGE, id: SMART_EDIT_CONTEXT };
       spyOn(cms, 'getPageComponentTypes').and.returnValue(of([]));
       spyOn(cmsComponentsService, 'determineMappings').and.callThrough();
@@ -125,7 +126,7 @@ describe('CmsPageGuardService', () => {
         .unsubscribe();
       expect(cms.getPageComponentTypes).toHaveBeenCalledWith(pageContext);
       expect(cmsComponentsService.determineMappings).toHaveBeenCalledWith([
-        'DummySmartEditCMSComponent',
+        SMART_EDIT_DUMMY_COMPONENT_TYPE,
       ]);
     });
 

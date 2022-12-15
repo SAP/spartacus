@@ -5,7 +5,10 @@
  */
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  SMART_EDIT_DUMMY_COMPONENT_TYPE,
+} from '@spartacus/core';
 import { defaultSmartEditConfig } from './config/default-smart-edit-config';
 import { SMART_EDIT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
@@ -33,7 +36,7 @@ export function smartEditFactory(
     provideDefaultConfig({
       featureModules: {
         [SMART_EDIT_FEATURE]: {
-          cmsComponents: ['DummySmartEditCMSComponent'],
+          cmsComponents: [SMART_EDIT_DUMMY_COMPONENT_TYPE],
         },
       },
     }),
