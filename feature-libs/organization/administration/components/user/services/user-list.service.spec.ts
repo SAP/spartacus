@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { B2BUser, EntitiesModel, User } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  EntitiesModel,
+  User,
+} from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -18,6 +24,17 @@ const mockUserEntities: EntitiesModel<B2BUser> = {
 class MockB2BUserService {
   getList(): Observable<EntitiesModel<B2BUser>> {
     return of(mockUserEntities);
+  }
+  getAllRoles(): B2BUserRole[] {
+    return [
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
+    ];
+  }
+  getAllRights(): B2BUserRight[] {
+    return [B2BUserRight.UNITORDERVIEWER];
   }
 }
 

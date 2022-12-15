@@ -27,10 +27,10 @@ export const GROUP_ID_8 = '1234-56-7898';
 export const GROUP_ID_9 = '1234-56-7899';
 export const GROUP_ID_10 = '1234-56-7900';
 
-export const GROUP_ID_CONFLICT_HEADER = '9999-99-0000';
-export const GROUP_ID_CONFLICT_1 = '9999-99-0001';
-export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
-export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
+export const GROUP_ID_CONFLICT_HEADER = 'CONFLICT_HEADER';
+export const GROUP_ID_CONFLICT_1 = 'CONFLICT9999-99-0001';
+export const GROUP_ID_CONFLICT_2 = 'CONFLICT9999-99-0002';
+export const GROUP_ID_CONFLICT_3 = 'CONFLICT9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
 export const VALUE_01 = 'VALUE_01';
@@ -416,7 +416,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
       issueNavigationDone: true,
     },
   };
-export const ov_group_description = 'Group 1';
+export const OV_GROUP_DESCRIPTION = 'Group 1';
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -570,7 +570,7 @@ export const productConfiguration: Configurator.Configuration = {
     groups: [
       {
         id: '1',
-        groupDescription: ov_group_description,
+        groupDescription: OV_GROUP_DESCRIPTION,
         attributes: [
           {
             attribute: 'C1',

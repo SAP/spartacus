@@ -76,10 +76,7 @@ export class IntersectionService {
     options: IntersectionOptions = {},
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
-    const elementVisible$ = this.createIntersectionObservable(
-      element,
-      options
-    ).pipe(
+    return this.createIntersectionObservable(element, options).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) =>
         intersectingCondition
@@ -88,8 +85,6 @@ export class IntersectionService {
       ),
       distinctUntilChanged()
     );
-
-    return elementVisible$;
   }
 
   private createIntersectionObservable(
