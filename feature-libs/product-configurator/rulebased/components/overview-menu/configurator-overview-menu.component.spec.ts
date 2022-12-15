@@ -136,7 +136,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
-  describe('collectAllMenuItems', () => {
+  describe('collectMenuItems', () => {
     beforeEach(() => {
       initialize();
     });
@@ -152,7 +152,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     }
 
     it('should not return any menu items', () => {
-      const menuItems = component['collectAllMenuItems'](undefined);
+      const menuItems = component['collectMenuItems'](undefined);
       expect(menuItems.length).toEqual(0);
     });
 
@@ -162,12 +162,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
       //Get the last item
       const item: HTMLElement = items[items.length - 1];
       let level = getParentLevel(item);
-      const menuItems = component['collectAllMenuItems'](item);
+      const menuItems = component['collectMenuItems'](item);
       expect(menuItems.length).toEqual(level);
     });
   });
 
-  describe('makeAllMenuItemsActive', () => {
+  describe('makeMenuItemsActive', () => {
     beforeEach(() => {
       initialize();
     });
@@ -177,14 +177,14 @@ describe('ConfigurationOverviewMenuComponent', () => {
         fixture.debugElement.nativeElement.querySelectorAll('button');
       //Get the last item
       const item: HTMLElement = items[items.length - 1];
-      let menuItems = component['collectAllMenuItems'](item);
+      let menuItems = component['collectMenuItems'](item);
       //Check whether menu items do not have active class
       menuItems.forEach((item) => {
         expect(item?.classList?.contains('active')).toBe(false);
       });
 
-      component['makeAllMenuItemsActive'](item);
-      menuItems = component['collectAllMenuItems'](item);
+      component['makeMenuItemsActive'](item);
+      menuItems = component['collectMenuItems'](item);
       //Check whether menu items have active class
       menuItems.forEach((item) => {
         expect(item?.classList?.contains('active')).toBe(true);

@@ -54,7 +54,7 @@ export class ConfiguratorOverviewMenuComponent {
                   querySelector
                 );
               if (isIntersecting) {
-                this.makeAllMenuItemsActive(groupItem);
+                this.makeMenuItemsActive(groupItem);
               } else {
                 groupItem?.classList.remove('active');
               }
@@ -64,30 +64,43 @@ export class ConfiguratorOverviewMenuComponent {
     }
   }
 
-  protected collectAllMenuItems(element: HTMLElement | undefined): Element[] {
+  protected addMenuItem(
+    menuItems: Element[],
+    parent: HTMLElement | undefined
+  ): void {
+    const child = parent?.querySelector('.cx-menu-item');
+    if (child) {
+      if (menuItems.indexOf(child) === -1) {
+        menuItems.push(child);
+      }
+    }
+  }
+
+  protected collectMenuItems(element: HTMLElement | undefined): Element[] {
     let menuItems: Element[] = [];
     if (element) {
-      while (
-        element?.parentElement?.classList?.contains('cx-menu-group') ||
-        element?.parentElement?.parentElement?.classList?.contains(
-          'cx-menu-group'
-        )
-      ) {
-        const child = element?.parentElement?.querySelector('.cx-menu-item');
-        if (child) {
-          if (menuItems.indexOf(child) === -1) {
-            menuItems.push(child);
-          }
+      while (element) {
+        if (element?.parentElement?.classList?.contains('cx-menu-group')) {
+          this.addMenuItem(menuItems, element?.parentElement);
+          element = element?.parentElement;
+        } else if (
+          element?.parentElement?.parentElement?.classList?.contains(
+            'cx-menu-group'
+          )
+        ) {
+          this.addMenuItem(menuItems, element?.parentElement?.parentElement);
+          element = element?.parentElement?.parentElement;
+        } else {
+          element = undefined;
         }
-        element = element?.parentElement;
       }
     }
     return menuItems;
   }
 
-  protected makeAllMenuItemsActive(element: HTMLElement | undefined) {
+  protected makeMenuItemsActive(element: HTMLElement | undefined) {
     if (element) {
-      this.collectAllMenuItems(element).forEach((node) => {
+      this.collectMenuItems(element).forEach((node) => {
         if (!node?.classList.contains('active')) {
           node?.classList.add('active');
         }
