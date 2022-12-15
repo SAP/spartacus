@@ -7,7 +7,8 @@
   <div
     *ngFor="
       let deliveryPointOfService of deliveryPointsOfService;
-      let last = last
+      let last = last;
+      let index = index
     "
   >
     <div
@@ -84,18 +85,50 @@
     </div>
     <div class="cx-checkout-pickup-in-store-details">
       <!-- <p>{{ deliveryPointOfService.name }}</p> -->
-      <div>
-        <p>{{ deliveryPointOfService?.storeDetails?.displayName }}</p>
+      <div
+        style="display: flex; justify-content: space-around; margin-top: 1.5rem"
+      >
+        <!-- <p>{{ deliveryPointOfService?.storeDetails?.displayName }}</p>
         <p>
           {{ deliveryPointOfService?.storeDetails?.address?.formattedAddress }}
-        </p>
-        <p>
+          <br />
           {{ deliveryPointOfService?.storeDetails?.address?.phone }}
-        </p>
+        </p> -->
+        <div style="flex-basis: 50%">
+          <cx-store-address
+            [storeDetails]="deliveryPointOfService?.storeDetails"
+          ></cx-store-address>
+
+          <button
+            (click)="toggleOpenHours(index)"
+            class="cx-store-opening-hours-toggle"
+          >
+            {{ 'store.viewHours' | cxTranslate }}
+            <span class="cx-store-opening-hours-icon"
+              ><cx-icon
+                [type]="
+                  openHoursOpen && openHoursOpen[index]
+                    ? ICON_TYPE.CARET_UP
+                    : ICON_TYPE.CARET_DOWN
+                "
+              ></cx-icon
+            ></span>
+          </button>
+
+          <cx-store-schedule
+            *ngIf="openHoursOpen && openHoursOpen[index]"
+            [storeDetails]="deliveryPointOfService?.storeDetails"
+          ></cx-store-schedule>
+        </div>
+        <div>
+          <button>Change Store</button>
+        </div>
       </div>
       <div *ngIf="last" class="row cx-checkout-btns">
         <div class="col-md-12 col-lg-6">
-          <button class="btn btn-block btn-action">Back</button>
+          <button class="btn btn-block btn-action" (click)="back()">
+            Back
+          </button>
         </div>
         <div class="col-md-12 col-lg-6">
           <button class="btn btn-block btn-primary">Continue</button>
