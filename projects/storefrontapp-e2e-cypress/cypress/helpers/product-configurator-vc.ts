@@ -13,6 +13,16 @@ const conflictHeaderGroupSelector =
   'cx-configurator-group-menu .cx-menu-conflict';
 
 /**
+ * Alias used for updating the config
+ */
+export const UPDATE_CONFIG_ALIAS = '@updateConfig';
+
+/**
+ * Alias used for updating the config
+ */
+export const GET_CONFIG_ALIAS = '@readConfig';
+
+/**
  * Navigates to the product configuration page.
  *
  * @param {string} shopName - shop name
@@ -49,12 +59,12 @@ export function navigateToOverviewPage() {
  * Register configuration route.
  */
 export function registerConfigurationRoute() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/products/*/configurators/ccpconfigurator?lang=en&curr=USD`
-  ).as('configure_product');
+    )}/ccpconfigurator/*`,
+  }).as(GET_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -376,7 +386,7 @@ export function clickAddToCartBtn(): void {
 }
 
 /**
- * Register configuration update route.
+ * Register configuration update route using name @see UPDATE_CONFIG_ALIAS
  */
 export function registerConfigurationUpdateRoute() {
   cy.intercept({
@@ -384,5 +394,44 @@ export function registerConfigurationUpdateRoute() {
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/ccpconfigurator/*`,
-  }).as('updateConfig');
+  }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Selects a corresponding attribute value and waits for the patch request to complete.
+ * Assumes that @see registerConfigurationUpdateRoute was called beforehand.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {string} value - Value
+ */
+export function selectAttributeAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string,
+  value?: string
+): void {
+  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  cy.wait(UPDATE_CONFIG_ALIAS);
+}
+
+/**
+ * Clicks on the next group Button and verifies that an element of the next group is displayed.
+ *
+ * @param {string} nextGroup - Expected next group name
+ */
+export function clickOnNextBtnAndWait(nextGroup: string): void {
+  configuration.clickOnNextBtn(nextGroup);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
+ * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
+ *
+ * @param {string} previousGroup - Expected previous group name
+ */
+export function clickOnPreviousBtnAndWait(previousGroup: string): void {
+  configuration.clickOnPreviousBtn(previousGroup);
+  cy.wait(GET_CONFIG_ALIAS);
 }
