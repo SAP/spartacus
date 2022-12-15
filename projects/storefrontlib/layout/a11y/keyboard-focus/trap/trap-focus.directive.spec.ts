@@ -18,11 +18,11 @@ class CustomFocusDirective extends TrapFocusDirective {
     <div cxTrapFocus id="a"></div>
     <div [cxTrapFocus]="{ trap: true }" id="b"></div>
     <div [cxTrapFocus]="{ trap: false }" id="c"></div>
-    <div [cxTrapFocus]="ignoreArrowsConfig" id="d"></div>
+    <div [cxTrapFocus]="ignoreUpDownArrowKeysConfig" id="d"></div>
   `,
 })
 class MockComponent {
-  ignoreArrowsConfig: TrapFocusConfig = {
+  ignoreUpDownArrowKeysConfig: TrapFocusConfig = {
     trap: true,
   };
 }
@@ -120,7 +120,7 @@ describe('TrapFocusDirective', () => {
       expect(service.moveFocus).toHaveBeenCalledTimes(0);
     });
 
-    it('should move focus on ArrowUp and ArrowDown arrow events when ignoreArrows config is disabled', () => {
+    it('should move focus on ArrowUp and ArrowDown arrow events when ignoreUpDownArrowKeys config is disabled', () => {
       const host = fixture.debugElement.query(By.css('#d'));
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();
@@ -133,10 +133,10 @@ describe('TrapFocusDirective', () => {
       expect(service.moveFocus).toHaveBeenCalledTimes(5);
     });
 
-    it('should not move focus on ArrowUp and ArrowDown arrow events when ignoreArrows config is enabled', () => {
-      fixture.componentRef.instance.ignoreArrowsConfig = {
+    it('should not move focus on ArrowUp and ArrowDown arrow events when ignoreUpDownArrowKeys config is enabled', () => {
+      fixture.componentRef.instance.ignoreUpDownArrowKeysConfig = {
         trap: true,
-        ignoreArrows: true,
+        ignoreUpDownArrowKeys: true,
       };
       fixture.detectChanges();
 
