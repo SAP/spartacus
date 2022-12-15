@@ -4,8 +4,8 @@
     <div
       class="cx-messages"
       id="cx-messages"
-      (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($any($event))"
+      (keydown.arrowup)="focusPreviousChild($any($event))"
       [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
     >
       <ng-container *ngFor="let message of messageEvents; let i = index">
@@ -48,8 +48,8 @@
               (click)="
                 triggerDownload(
                   message?.code,
-                  attachment.id,
-                  attachment.filename
+                  attachment?.id,
+                  attachment?.filename
                 )
               "
               target="_blank"
@@ -101,16 +101,15 @@
       </label>
       <div class="cx-message-footer-info" id="cx-message-footer">
         <cx-file-upload
-          [formControl]="form.get('file')"
-          [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
-          multiple="maxEntries > 1"
+          [formControl]="$any(form.get('file'))"
+          [accept]="allowedTypes"
           *ngIf="messagingConfigs?.enableFileUploadOption"
         >
           <ng-template>
             <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
-            <span class="cx-message-footer-text">{{
-              'chatMessaging.uploadFile' | cxTranslate
-            }}</span>
+            <span class="cx-message-footer-text"
+              >{{ 'chatMessaging.uploadFile' | cxTranslate }}
+            </span>
           </ng-template>
         </cx-file-upload>
 

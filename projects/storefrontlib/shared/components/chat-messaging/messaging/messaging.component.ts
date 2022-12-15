@@ -13,13 +13,17 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { MessageEvent, MessagingConfigs } from './messaging.model';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
+import { MessageEvent, MessagingConfigs } from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
@@ -38,13 +42,13 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }>();
 
   @Output() downloadAttachment = new EventEmitter<{
-    messageCode: string;
-    attachmentId: string;
-    fileName: string;
+    messageCode: string | undefined;
+    attachmentId: string | undefined;
+    fileName: string | undefined;
   }>();
 
   iconTypes = ICON_TYPE;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   MAX_INPUT_CHARACTERS: number = 2000;
   MAX_SIZE: number = 10;
@@ -108,9 +112,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   triggerDownload(
-    messageCode: string,
-    attachmentId: string,
-    fileName: string
+    messageCode: string | undefined,
+    attachmentId: string | undefined,
+    fileName: string | undefined
   ): void {
     this.downloadAttachment.emit({
       messageCode: messageCode,
@@ -120,10 +124,10 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   protected buildForm(): void {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'message',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(
           this.messagingConfigs?.charactersLimit || this.MAX_INPUT_CHARACTERS
@@ -132,7 +136,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     );
     form.setControl(
       'file',
-      new FormControl('', [
+      new UntypedFormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
         this.filesFormValidators.maxEntries(this.maxEntries),
         this.filesFormValidators.allowedTypes(this.allowedTypes),
