@@ -45,7 +45,7 @@ describe('My Account - Close Account', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      it('should close account', () => {
+      it('should close account and go back to homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -74,6 +74,7 @@ describe('My Account - Close Account', () => {
         cy.wait(`@${homePageAlias}`);
 
         cy.get('cx-login .cx-login-greet').should('not.exist');
+        cy.get('cx-login a').should('contain', 'Sign In / Register');
       });
 
       it('should not login with a closed account credentials', () => {
