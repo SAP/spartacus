@@ -286,20 +286,20 @@ export function testCustomerEmulation() {
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
 
+      cy.log('--> Update personal details');
+      navigateToAMyAccountPage(
+        'Personal Details',
+        '/my-account/update-profile',
+        'updateProfilePage'
+      );
+
+      profile.updateProfile(customer);
+      customer.firstName = profile.newFirstName;
+      customer.lastName = profile.newLastName;
+      customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+      customer.titleCode = profile.newTitle;
+
       /*
-    cy.log('--> Update personal details');
-    navigateToAMyAccountPage(
-      'Personal Details',
-      '/my-account/update-profile',
-      'updateProfilePage'
-    );
-
-    profile.updateProfile(customer);
-    customer.firstName = profile.newFirstName;
-    customer.lastName = profile.newLastName;
-    customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
-    customer.titleCode = profile.newTitle;
-
     cy.log('--> Create new address');
 
     navigateToAMyAccountPage(
