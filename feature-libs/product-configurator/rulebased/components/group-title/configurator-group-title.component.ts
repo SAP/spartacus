@@ -19,7 +19,7 @@ import {
   BREAKPOINT,
   BreakpointService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -88,23 +88,25 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
-        if (!isExpanded) {
-          this.configuratorStorefrontUtilsService?.changeStyling(
-            '.PreHeader',
-            'display',
-            'none'
-          );
-        } else {
-          this.configuratorStorefrontUtilsService?.changeStyling(
-            '.PreHeader',
-            'display',
-            'block'
-          );
-        }
-      })
-    );
+    if (this.hamburgerMenuService && this.configuratorStorefrontUtilsService) {
+      this.subscription.add(
+        this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
+          if (!isExpanded) {
+            this.configuratorStorefrontUtilsService?.changeStyling(
+              '.PreHeader',
+              'display',
+              'none'
+            );
+          } else {
+            this.configuratorStorefrontUtilsService?.changeStyling(
+              '.PreHeader',
+              'display',
+              'block'
+            );
+          }
+        })
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -131,7 +133,9 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
    *
    * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
-  isMobile(): Observable<boolean> | undefined {
-    return this.breakpointService?.isDown(BREAKPOINT.md);
+  isMobile(): Observable<boolean> {
+    return this.breakpointService
+      ? this.breakpointService.isDown(BREAKPOINT.md)
+      : of(false);
   }
 }

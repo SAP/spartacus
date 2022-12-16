@@ -26,6 +26,7 @@ const config: Configurator.Configuration =
 
 let routerStateObservable: Observable<RouterState>;
 const group = ConfiguratorTestUtils.createGroup('1-CPQ_LAPTOP.1');
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -38,6 +39,7 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   navigateToGroup() {}
+
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(group);
   }
@@ -47,9 +49,11 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
+
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
+
   readConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
@@ -61,6 +65,7 @@ export class MockIconFontLoaderService {
 
 class MockBreakpointService {
   isDown() {}
+
   isUp() {}
 }
 
@@ -157,8 +162,27 @@ describe('ConfigurationGroupTitleComponent', () => {
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
-  it('should create component', () => {
+  it('should create component with hamburger menu icon', () => {
+    spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+    fixture.detectChanges();
     expect(component).toBeDefined();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-hamburger-menu'
+    );
+  });
+
+  it('should create component without hamburger menu icon', () => {
+    hamburgerMenuService = undefined;
+    configuratorStorefrontUtilsService = undefined;
+    fixture.detectChanges();
+    expect(component).toBeDefined();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-hamburger-menu'
+    );
   });
 
   it('should get group id as part of group', () => {
@@ -204,6 +228,9 @@ describe('ConfigurationGroupTitleComponent', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       fixture.detectChanges();
 
+      component.isMobile().subscribe((isMobile) => {
+        expect(isMobile).toBe(false);
+      });
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -215,6 +242,9 @@ describe('ConfigurationGroupTitleComponent', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       fixture.detectChanges();
 
+      component.isMobile().subscribe((isMobile) => {
+        expect(isMobile).toBe(true);
+      });
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
