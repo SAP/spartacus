@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 @Component({
@@ -15,18 +16,11 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
 })
 export class PickUpInStoreDetailsComponent {
   // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
+  readonly CartOutlets = CartOutlets;
   readonly ICON_TYPE = ICON_TYPE;
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
   compact = false;
-  openHoursOpen: Record<number, boolean> = {};
 
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
-
-  toggleOpenHours(index: number): boolean {
-    this.openHoursOpen[index] = !(
-      this.openHoursOpen && this.openHoursOpen[index]
-    );
-    return false;
-  }
 }

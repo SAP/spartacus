@@ -113,8 +113,10 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   ngOnInit() {
     this.pickupOptionFacade.setPageContext('CART');
     const outletContext =
-      this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
-      EMPTY;
+      this.outlet?.context$?.pipe(
+        tap((item) => console.log('Item=====>', item)),
+        filter(orderEntryWithRequiredFields)
+      ) ?? EMPTY;
 
     this.availableForPickup$ = outletContext.pipe(
       map((orderEntry) => !!orderEntry.product.availableForPickup),
