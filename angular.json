@@ -1024,5 +1024,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

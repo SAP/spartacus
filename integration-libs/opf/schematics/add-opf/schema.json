@@ -15,11 +15,6 @@
       "type": "array",
       "uniqueItems": true,
       "default": ["OPF"]
-    },
-    "baseUrl": {
-      "type": "string",
-      "description": "The base URL (origin) of the OPF Fiori Launchpad",
-      "x-prompt": "[OPF] What is the base URL (origin) of your OPF Fiori Launchpad? e.g. https://mytenant.opf.cfapps.eu20.hana.ondemand.com"
     }
   },
   "required": []
