@@ -26,7 +26,7 @@ import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/t
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
-import { defaultConflictSolverLayoutConfig } from './default-conflict-solver-layout.config';
+import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configurator-conflict-solver-layout.config';
 import { ConfiguratorExitButtonModule } from '../exit-button/configurator-exit-button.module';
 
 @NgModule({
@@ -52,7 +52,7 @@ import { ConfiguratorExitButtonModule } from '../exit-button/configurator-exit-b
     ConfiguratorConflictSuggestionModule,
     ConfiguratorExitButtonModule,
   ],
-  providers: [provideDefaultConfig(defaultConflictSolverLayoutConfig)],
+  providers: [provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig)],
   declarations: [ConfiguratorConflictSolverDialogComponent],
   exports: [ConfiguratorConflictSolverDialogComponent],
 })
