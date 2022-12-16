@@ -15,7 +15,6 @@ import {
 import { Product } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
-  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupOption,
   PickupOptionFacade,
@@ -94,7 +93,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
           () =>
             intendedLocation?.pickupOption === 'pickup' &&
             !!intendedLocation.displayName,
-          of((intendedLocation as AugmentedPointOfService).displayName),
+          of(intendedLocation?.displayName),
           this.preferredStoreService
             .getPreferredStoreWithProductInStock(productCode)
             .pipe(map(({ displayName }) => displayName))
