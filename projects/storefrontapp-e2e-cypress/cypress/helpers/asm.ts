@@ -191,7 +191,7 @@ export function asmCustomerLists(): void {
     }
 
     cy.wrap(interception).its('response.statusCode').should('eq', 200);
-  });;
+  });
 
   cy.get('cx-customer-emulation').should('exist');
 
