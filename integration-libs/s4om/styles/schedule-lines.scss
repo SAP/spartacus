@@ -1,0 +1,8 @@
+.cx-schedule-line-info {
+    display: flex;
+
+    @include media-breakpoint-down(sm) {
+        justify-content: flex-start;
+        padding: 0 0 10px 0;
+    }
+}
