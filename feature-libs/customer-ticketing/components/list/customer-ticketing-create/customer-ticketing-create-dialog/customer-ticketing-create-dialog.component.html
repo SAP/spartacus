@@ -48,9 +48,7 @@
           </span>
           <select
             class="form-control"
-            (change)="
-              setSelectedCategory(ticketCategories, $event.target.selectedIndex)
-            "
+            (change)="setSelectedCategory(ticketCategories, $event)"
           >
             <option value="" disabled selected>
               {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
@@ -78,10 +76,7 @@
           <select
             class="form-control"
             (change)="
-              setSelectedAssociatedObject(
-                ticketAssociatedObjects,
-                $event.target.selectedIndex
-              )
+              setSelectedAssociatedObject(ticketAssociatedObjects, $event)
             "
           >
             <option value="" disabled selected>
@@ -126,7 +121,7 @@
 
         <div>
           <cx-file-upload
-            [formControl]="form.get('file')"
+            [formControl]="$any(form.get('file'))"
             [accept]="allowedTypes"
           >
             <ng-template>
