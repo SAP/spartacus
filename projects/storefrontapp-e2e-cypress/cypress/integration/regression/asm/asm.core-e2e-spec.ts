@@ -10,6 +10,14 @@ context('Assisted Service Module', () => {
     cy.cxConfig({
       asm: { agentSessionTimer: { startingDelayInSeconds: 10000 } },
     } as AsmConfig);
+
+    cy.intercept('/*', (request) => {
+      request.on('response', (res) => {
+        if (res.statusCode === 401) {
+          cy.wrap(false).should('be.true');
+        }
+      });
+    });
   });
 
   describe('Customer Support Agent - Emulation', () => {

@@ -185,13 +185,7 @@ export function asmCustomerLists(): void {
       cy.wrap($rows[0]).click();
       cy.get('cx-customer-list').should('not.exist');
     });
-  cy.wait(userDetailsRequestAlias).then((interception) => {
-    if (interception.error) {
-      cy.log(JSON.stringify(interception.error));
-    }
-
-    cy.wrap(interception).its('response.statusCode').should('eq', 200);
-  });
+  cy.wait(userDetailsRequestAlias);
 
   cy.get('cx-customer-emulation').should('exist');
 
@@ -223,13 +217,9 @@ export function startCustomerEmulation(customer, b2b = false): void {
       `${customer.email}`
     );
   });
-  cy.wait(customerSearchRequestAlias).then((interception) => {
-    if (interception.error) {
-      cy.log(JSON.stringify(interception.error));
-    }
-
-    cy.wrap(interception).its('response.statusCode').should('eq', 200);
-  });
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-customer-selection button[type="submit"]').click();

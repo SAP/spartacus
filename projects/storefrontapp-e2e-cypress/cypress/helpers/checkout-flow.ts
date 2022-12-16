@@ -240,13 +240,7 @@ export function verifyDeliveryMethod() {
   cy.get('.cx-checkout-btns button.btn-primary')
     .should('be.enabled')
     .click({ force: true });
-  cy.wait(`@${paymentPage}`).then((interception) => {
-    if (interception.error) {
-      cy.log(JSON.stringify(interception.error));
-    }
-
-    cy.wrap(interception).its('response.statusCode').should('eq', 200);
-  });
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function fillPaymentForm(
