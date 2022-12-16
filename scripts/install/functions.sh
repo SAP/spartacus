@@ -690,7 +690,7 @@ function parseInstallArgs {
                 echo "➖ Added EPD"   
                 shift
                 ;;
-            epd)
+            opf)
                 ADD_OPF=true
                 echo "➖ Added OPF"   
                 shift
