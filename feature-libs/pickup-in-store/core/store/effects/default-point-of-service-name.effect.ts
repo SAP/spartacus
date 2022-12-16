@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { User, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { PREFERRED_STORE_LOCAL_STORAGE_KEY } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { iif, of } from 'rxjs';
@@ -43,7 +43,7 @@ export class DefaultPointOfServiceEffect {
               () =>
                 !!preferredStore && !!preferredStore.defaultPointOfServiceName,
               of({
-                name: (preferredStore as User).defaultPointOfServiceName,
+                name: preferredStore?.defaultPointOfServiceName,
                 displayName: '',
               }),
               (() => {
