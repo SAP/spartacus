@@ -9,7 +9,6 @@ import { PickUpInStoreDetailsComponent } from './pickup-in-store-details.compone
 describe('PickUpInStoreDetailsComponent', () => {
   let component: PickUpInStoreDetailsComponent;
   let fixture: ComponentFixture<PickUpInStoreDetailsComponent>;
-  // let deliveryPointsService: DeliveryPointsService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,7 +21,6 @@ describe('PickUpInStoreDetailsComponent', () => {
         },
       ],
     }).compileComponents();
-    // deliveryPointsService = TestBed.inject(DeliveryPointsService);
   });
 
   beforeEach(() => {
@@ -33,6 +31,13 @@ describe('PickUpInStoreDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeDefined();
-    // expect(deliveryPointsService).toBeDefined();
+  });
+
+  it('toggleOpenHours should flip booleans in an array', () => {
+    expect(component.openHoursOpen).toEqual({});
+    component.toggleOpenHours(2);
+    expect(component.openHoursOpen).toEqual({2: true});
+    component.toggleOpenHours(2);
+    expect(component.openHoursOpen).toEqual({2: false});
   });
 });

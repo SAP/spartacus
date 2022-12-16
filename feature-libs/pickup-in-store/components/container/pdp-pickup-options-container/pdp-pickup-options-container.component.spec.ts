@@ -289,8 +289,8 @@ describe('PickupOptionsComponent', () => {
               of({
                 name: 'preferredStore',
                 displayName: 'London School',
-                pickupOption: 'pickupOptions',
-              }),
+                pickupOption: 'pickup',
+              } as AugmentedPointOfService),
           },
         })
         .compileComponents();

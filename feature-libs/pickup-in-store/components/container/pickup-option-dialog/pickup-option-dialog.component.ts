@@ -184,7 +184,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
               this.cartId,
               this.entryNumber,
               this.userId,
-              store?.name as string,
+              (store as AugmentedPointOfService).name as string,
               this.quantity
             )
           )

@@ -47,11 +47,11 @@ export class DefaultPointOfServiceEffect {
                 displayName: '',
               }),
               (() => {
-                const preferredStore = this.winRef.localStorage?.getItem(
+                const PREFERRED_STORE = this.winRef.localStorage?.getItem(
                   PREFERRED_STORE_LOCAL_STORAGE_KEY
                 );
                 return of(
-                  preferredStore ? JSON.parse(preferredStore) : undefined
+                  PREFERRED_STORE ? JSON.parse(PREFERRED_STORE) : undefined
                 );
               })()
             )

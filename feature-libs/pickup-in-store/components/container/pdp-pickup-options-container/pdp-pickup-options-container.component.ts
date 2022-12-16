@@ -25,6 +25,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
+import { getProperty } from 'feature-libs/pickup-in-store/utils/utils';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
@@ -91,9 +92,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       switchMap(({ intendedLocation, productCode }) =>
         iif(
           () =>
-            intendedLocation?.pickupOption === 'pickup' &&
+            !!intendedLocation &&
+            getProperty(intendedLocation, 'pickupOption') === 'pickup' &&
             !!intendedLocation.displayName,
-          of(intendedLocation?.displayName),
+          of(getProperty(intendedLocation, 'displayName')),
           this.preferredStoreService
             .getPreferredStoreWithProductInStock(productCode)
             .pipe(map(({ displayName }) => displayName))
