@@ -2,13 +2,13 @@
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout Scheduled Replenishment should create the checkout wrapper module and import Checkout features 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -50,9 +50,9 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout Scheduled Replenishment should create the checkout wrapper module and import Checkout features 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
 @NgModule({
     declarations: [],
     imports: [
@@ -68,8 +68,8 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should order the imports in the wrapper and Spartacus features modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from "@spartacus/core";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from "@spartacus/storefront";
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
@@ -138,13 +138,13 @@ export class SpartacusFeaturesModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should order the imports in the wrapper and Spartacus features modules 2`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -186,10 +186,10 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should order the imports in the wrapper and Spartacus features modules 3`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
+import { DigitalPaymentsModule } from "@spartacus/digital-payments";
 @NgModule({
     declarations: [],
     imports: [
@@ -206,8 +206,8 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should order the imports in the wrapper and Spartacus features modules 4`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments/assets\\";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
 @NgModule({
     declarations: [],
     imports: [],
@@ -226,8 +226,8 @@ export class DigitalPaymentsFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { DigitalPaymentsModule } from "@spartacus/digital-payments";
 @NgModule({
     declarations: [],
     imports: [
@@ -242,9 +242,9 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 2`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -272,8 +272,8 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 3`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments/assets\\";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
 @NgModule({
     declarations: [],
     imports: [],
@@ -292,9 +292,9 @@ export class DigitalPaymentsFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Double execution should not change anything 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -322,7 +322,7 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Double execution should not change anything 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutModule } from "@spartacus/checkout/base";
 @NgModule({
     declarations: [],
     imports: [
@@ -336,9 +336,9 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Multiple dynamic imports in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
-import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from "@spartacus/cart/base/assets";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from "@spartacus/cart/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -380,7 +380,7 @@ export class CartBaseFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Multiple dynamic imports in the file should generate appropriate feature module 2`] = `
 "import { NgModule } from '@angular/core';
-import { CartBaseModule } from \\"@spartacus/cart/base\\";
+import { CartBaseModule } from "@spartacus/cart/base";
 @NgModule({
     declarations: [],
     imports: [
@@ -394,11 +394,11 @@ export class CartBaseWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module One dynamic import in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
@@ -433,8 +433,8 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module One dynamic import in the file should generate appropriate feature module 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { CheckoutModule } from "@spartacus/checkout/base";
 @NgModule({
     declarations: [],
     imports: [
@@ -449,10 +449,10 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module wrapper module already exists should append the feature module after it, and not add a dynamic import to the feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from "@spartacus/core";
+import { DigitalPaymentsModule } from "@spartacus/digital-payments";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from "@spartacus/storefront";
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
@@ -523,9 +523,9 @@ export class SpartacusFeaturesModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module wrapper module already exists should append the feature module after it, and not add a dynamic import to the feature module 2`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [

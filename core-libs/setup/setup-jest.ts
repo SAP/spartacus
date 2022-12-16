@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// empty, for now
+import 'jest-preset-angular/setup-jest';
+import 'zone.js';
