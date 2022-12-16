@@ -2,9 +2,9 @@
 
 exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
-import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments/assets\\";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { DigitalPaymentsModule } from "@spartacus/digital-payments";
+import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
 
 @NgModule({
   declarations: [],
@@ -24,8 +24,8 @@ export class DigitalPaymentsFeatureModule { }
 
 exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments/assets\\";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
 
 @NgModule({
   declarations: [],
@@ -45,8 +45,8 @@ export class DigitalPaymentsFeatureModule { }
 
 exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { DigitalPaymentsModule } from "@spartacus/digital-payments";
 
 @NgModule({
   declarations: [],
