@@ -113,6 +113,12 @@ function add_epd_visualization {
     fi
 }
 
+function add_opf {
+    if [ "$ADD_OPF" = true ] ; then
+        ng add @spartacus/opf --skip-confirmation --no-interactive
+    fi
+}
+
 function add_product_configurator {
     ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
