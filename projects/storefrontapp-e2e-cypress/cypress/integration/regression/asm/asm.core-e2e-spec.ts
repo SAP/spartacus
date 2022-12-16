@@ -11,10 +11,10 @@ context('Assisted Service Module', () => {
       asm: { agentSessionTimer: { startingDelayInSeconds: 10000 } },
     } as AsmConfig);
 
-    cy.intercept('/*', (request) => {
+    cy.intercept('/occ/v2/**', (request) => {
       request.on('response', (res) => {
         if (res.statusCode === 401) {
-          cy.wrap(false).should('be.true');
+          throw new Error(res.url);
         }
       });
     });
