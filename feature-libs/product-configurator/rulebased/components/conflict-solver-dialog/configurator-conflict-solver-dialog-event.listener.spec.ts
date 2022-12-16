@@ -29,10 +29,11 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
-const mockRouterData: any = {
+const defaultMockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
   owner: {
+    key: 'OWNER_KEY',
     type: CommonConfigurator.OwnerType.PRODUCT,
     id: PRODUCT_CODE,
     configuratorType: ConfiguratorType.CPQ,
@@ -41,6 +42,7 @@ const mockRouterData: any = {
   forceReload: false,
   resolveIssues: false,
 };
+let mockRouterData: ConfiguratorRouter.Data;
 
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
@@ -108,6 +110,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
 
     groups = createListOfGroups(5);
 
+    mockRouterData = structuredClone(defaultMockRouterData);
     mockRouterState = {
       navigationId: 1,
       state: {
@@ -134,6 +137,28 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
 
   afterEach(() => {
     listener.ngOnDestroy();
+  });
+
+  describe('conflictGroups observable', () => {
+    it('should emit group data when routing pageType = "configuration"', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      listener.conflictGroups$
+        .subscribe((receivedGroups) => {
+          expect(receivedGroups).toEqual(groups);
+        })
+        .unsubscribe();
+    });
+
+    it('should not emit group data when routing pageType = "overview"', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+      listener.conflictGroups$
+        .subscribe(() => {
+          fail(
+            'entity with mockRouterData.pageType = "overview" should have been filtered out and not emitted'
+          );
+        })
+        .unsubscribe();
+    });
   });
 
   describe('isConfiguratorRelatedRoute', () => {
