@@ -268,25 +268,25 @@ export function testCustomerEmulation() {
   let customer: SampleUser;
 
   Cypress._.times(10, () => {
-  it('should test customer emulation', () => {
-    checkout.visitHomePage();
+    it('should test customer emulation', () => {
+      checkout.visitHomePage();
 
-    customer = checkout.registerUser(false);
+      customer = checkout.registerUser(false);
 
-    // storefront should have ASM UI disabled by default
-    cy.get('cx-asm-main-ui').should('not.exist');
+      // storefront should have ASM UI disabled by default
+      cy.get('cx-asm-main-ui').should('not.exist');
 
-    cy.log('--> Agent logging in');
-    checkout.visitHomePage('asm=true');
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('be.visible');
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin();
+      asm.agentLogin();
 
-    cy.log('--> Starting customer emulation');
-    asm.startCustomerEmulation(customer);
+      cy.log('--> Starting customer emulation');
+      asm.startCustomerEmulation(customer);
 
-    /*
+      /*
     cy.log('--> Update personal details');
     navigateToAMyAccountPage(
       'Personal Details',
@@ -330,56 +330,56 @@ export function testCustomerEmulation() {
     consent.giveConsent();
     */
 
-    cy.log('--> Stop customer emulation');
-    cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
-      .click();
-    cy.get('cx-csagent-login-form').should('not.exist');
-    cy.get('cx-customer-selection').should('be.visible');
+      cy.log('--> Stop customer emulation');
+      cy.get('cx-customer-emulation')
+        .findByText(/End Session/i)
+        .click();
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('be.visible');
 
-    // Make sure homepage is visible
-    cy.wait(`@getHomePage`).then((interception) => {
-      if (interception.error) {
-        cy.log(JSON.stringify(interception.error));
-      }
+      // Make sure homepage is visible
+      cy.wait(`@getHomePage`).then((interception) => {
+        if (interception.error) {
+          cy.log(JSON.stringify(interception.error));
+        }
 
-      cy.wrap(interception).its('response.statusCode').should('eq', 200);
+        cy.wrap(interception).its('response.statusCode').should('eq', 200);
+      });
+      cy.get('cx-global-message div').should(
+        'contain',
+        'You have successfully signed out.'
+      );
+      cy.get('cx-page-slot.Section1 cx-banner').first().should('be.visible');
+
+      // Without this wait, the test fails b/c the customer search box is disabled
+      cy.wait(1000);
+
+      cy.log('--> Start another emulation session');
+      asm.startCustomerEmulation(customer);
+
+      cy.log(
+        '--> Stop customer emulation using the end session button in the ASM UI'
+      );
+      cy.get('cx-customer-emulation')
+        .findByText(/End Session/i)
+        .click();
+      cy.get('cx-customer-emulation').should('not.exist');
+      cy.get('cx-customer-selection').should('be.visible');
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+
+      cy.get('button[title="Close ASM"]').click();
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('not.be.visible');
+
+      // CXSPA-301/GH-14914
+      // Must ensure that site is still functional after service agent logout
+      checkout.visitHomePage();
+      cy.get('cx-storefront.stop-navigating').should('exist');
+      navigateToCategory('Brands', 'brands', false);
+      cy.get('cx-product-list-item').should('exist');
     });
-    cy.get('cx-global-message div').should(
-      'contain',
-      'You have successfully signed out.'
-    );
-    cy.get('cx-page-slot.Section1 cx-banner').first().should('be.visible');
-
-    // Without this wait, the test fails b/c the customer search box is disabled
-    cy.wait(1000);
-
-    cy.log('--> Start another emulation session');
-    asm.startCustomerEmulation(customer);
-
-    cy.log(
-      '--> Stop customer emulation using the end session button in the ASM UI'
-    );
-    cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
-      .click();
-    cy.get('cx-customer-emulation').should('not.exist');
-    cy.get('cx-customer-selection').should('be.visible');
-
-    cy.log('--> sign out and close ASM UI');
-    asm.agentSignOut();
-
-    cy.get('button[title="Close ASM"]').click();
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('not.be.visible');
-
-    // CXSPA-301/GH-14914
-    // Must ensure that site is still functional after service agent logout
-    checkout.visitHomePage();
-    cy.get('cx-storefront.stop-navigating').should('exist');
-    navigateToCategory('Brands', 'brands', false);
-    cy.get('cx-product-list-item').should('exist');
-  });
   });
 
   it.skip('should verify data changed by the agent as a customer', () => {
