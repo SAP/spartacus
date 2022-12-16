@@ -2,10 +2,10 @@
 
 exports[`Spartacus S4OM schematics: ng-add S4OM feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { S4omModule } from \\"@spartacus/s4om\\";
-import { s4omTranslationChunksConfig, s4omTranslations } from \\"@spartacus/s4om/assets\\";
-import { S4omRootModule } from \\"@spartacus/s4om/root\\";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { S4omModule } from "@spartacus/s4om";
+import { s4omTranslationChunksConfig, s4omTranslations } from "@spartacus/s4om/assets";
+import { S4omRootModule } from "@spartacus/s4om/root";
 
 @NgModule({
   declarations: [],
@@ -26,9 +26,9 @@ export class S4omFeatureModule { }
 
 exports[`Spartacus S4OM schematics: ng-add S4OM feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { s4omTranslationChunksConfig, s4omTranslations } from \\"@spartacus/s4om/assets\\";
-import { S4omRootModule, S4OM_FEATURE } from \\"@spartacus/s4om/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { s4omTranslationChunksConfig, s4omTranslations } from "@spartacus/s4om/assets";
+import { S4omRootModule, S4OM_FEATURE } from "@spartacus/s4om/root";
 
 @NgModule({
   declarations: [],
