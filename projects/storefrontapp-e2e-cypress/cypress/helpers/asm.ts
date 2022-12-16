@@ -267,7 +267,7 @@ export function assertCustomerIsSignedIn() {
 export function testCustomerEmulation() {
   let customer: SampleUser;
 
-  Cypress._.repeat(10, () => {
+  Cypress._.times(10, () => {
   it('should test customer emulation', () => {
     checkout.visitHomePage();
 
