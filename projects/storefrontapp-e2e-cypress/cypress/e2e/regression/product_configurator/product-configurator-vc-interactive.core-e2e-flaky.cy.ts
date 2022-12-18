@@ -75,6 +75,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the overview page', () => {
+      configurationOverviewVc.registerConfigurationOverviewRoute();
       clickAllowAllFromBanner();
       configurationOverviewVc.goToConfigOverviewPage(
         electronicsShop,
