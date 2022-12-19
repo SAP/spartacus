@@ -1,37 +1,7 @@
 <!--
- This file should contain "other" changes not addressed by the rest of the migration files.
- The main category of changes that are documented here are:
-   * An html template breaking change.
-   * A Typescript breaking change that is either a high level change, that is a behaviour
-     change, or anything that is a breaking change not apparent while comparting the public api
-     between the older release and the current release (and therefore will not be picked up by 
-     the breaking change detection tool.)
+  This file contains breaking changes in html markup.
 -->
 
-# Technical Changes in Spartacus 6.0
-
-## SSR and Prerendering
-
-If you are using prerendering, you will need to provide the following function to your `AppServerModule`:
-
-```ts
-import { provideServer } from '@spartacus/setup/ssr';
-@NgModule({
-  ...
-  providers: [
-    ...provideServer({
-      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-    }),
-    ...
-  ],
-})
-export class AppServerModule {}
-```
-
-It is _mandatory_ to set the `serverRequestOrigin` option for the prerendering, as it can not be automatically resolved.
-
-In SSR mode, it will be automatically resolved from the express server, therefore it doesn't have to be set via this option.
-If explicitly set, this option will take precedence over the express server.
 
 ### AppliedCouponsComponent
 
@@ -83,9 +53,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - Replaced anchor tag with button tag for `read more` link for accesibility tabbing improvements.
 
-### OnNavigateService
-
-- When using Spartacus's implementation for Scroll Position Restoration we need to disables automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
 
 ### QuickOrderFormComponent
 - Renamed `div` tag `id` value and `input` tag `aria-controls` value to remove duplicate ids occurred in the screen.
@@ -94,10 +61,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - Separated button tag from header tag for accessibility improvements
 
-### UpdatePasswordComponentService
-
-- Added `AuthRedirectService` to constructor.
-- Added `AuthService` to constructor.
 
 ### QuickOrderComponent
 
@@ -110,12 +73,3 @@ If explicitly set, this option will take precedence over the express server.
 ### defaultAnonymousConsentLayoutConfig
 
 - Changed `inline: true` to `inlineRoot: true` for keyboard tabbing and VO to work correctly.
-
-### ParagraphComponent
-
-- The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
-- The `handleClick()` method now uses `router.navigateByUrl()` to navigate internal links.
-
-### CloseAccoutModalComponent
-
-- The `onSuccess()` method now uses `authService.coreLogout()` to log user out before routing to homepage.
