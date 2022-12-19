@@ -82,7 +82,7 @@ jobs:
           RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
           FORMATTED_LIST=""
           for i in $result; do
-            FORMATTED_LIST+="    - ${result}\n"
+            FORMATTED_LIST+="    - ${RELEASE_PACKAGES}\n"
           done
           sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_LIST}%gi" $AZURE_CONFIG_PATH
           
