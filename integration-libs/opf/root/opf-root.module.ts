@@ -37,4 +37,4 @@ export function defaultOPFComponentsConfig() {
     // provideDefaultConfig(defaultOPFRoutingConfig),
   ],
 })
-export class OPFRootModule {}
+export class OpfRootModule {}

@@ -35,6 +35,7 @@ SPARTACUS_PROJECTS=(
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"
+        "dist/opf:integration-libs/opf"
         "dist/product-configurator:feature-libs/product-configurator"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
@@ -68,6 +69,7 @@ ADD_CPQ=false
 ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
+ADD_OPF=false
 
 # The base URL (origin) of the SAP EPD Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=

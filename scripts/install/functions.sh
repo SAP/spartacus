@@ -113,6 +113,12 @@ function add_epd_visualization {
     fi
 }
 
+function add_opf {
+    if [ "$ADD_OPF" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_product_configurator {
     ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
@@ -143,6 +149,7 @@ function add_spartacus_csr {
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     remove_npmrc
     )
@@ -164,6 +171,7 @@ function add_spartacus_ssr {
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     remove_npmrc
     )
@@ -184,6 +192,7 @@ function add_spartacus_ssr_pwa {
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     remove_npmrc
     )
@@ -679,6 +688,11 @@ function parseInstallArgs {
             epd)
                 ADD_EPD_VISUALIZATION=true
                 echo "➖ Added EPD"   
+                shift
+                ;;
+            opf)
+                ADD_OPF=true
+                echo "➖ Added OPF"   
                 shift
                 ;;
             -*|--*)
