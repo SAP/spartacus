@@ -30,10 +30,9 @@ echo "Running schematics unit tests and code coverage for order library"
 
 yarn --cwd feature-libs/order run test:schematics --coverage
 
-echo "Running unit tests and code coverage for setup"
+echo "Running unit tests and code coverage for setup library"
 
-ng test setup --source-map --no-watch --code-coverage --browsers ChromeHeadless
-
+yarn --cwd core-libs/setup run test --runInBand --coverage
 
 echo "Running unit tests and code coverage for user"
 
@@ -74,3 +73,7 @@ ng test smartedit --source-map --no-watch --code-coverage --browsers ChromeHeadl
 echo "Running schematics unit tests and code coverage for smartedit library"
 
 yarn --cwd feature-libs/smartedit run test:schematics --coverage
+
+echo "Running unit tests for storefrontstyle"
+
+yarn --cwd projects/storefrontstyles run test --runInBand
