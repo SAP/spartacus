@@ -83,6 +83,10 @@ export const organization = {
       b2badmingroup: 'Admin',
     },
 
+    userRights: {
+      unitorderviewergroup: 'View Unit-Level Orders',
+    },
+
     breadcrumb: 'Organization',
 
     notification: {

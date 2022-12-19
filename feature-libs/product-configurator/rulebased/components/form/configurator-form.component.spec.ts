@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -36,9 +42,11 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const CONFIG_ID_TEMPLATE = 'abcd';
 
 const mockRouterState: any = {
   state: {
@@ -51,7 +59,14 @@ const mockRouterState: any = {
   },
 };
 
-const owner = ConfiguratorModelUtils.createOwner(
+const MOCK_ROUTER_STATE_WITH_TEMPLATE: any = {
+  state: {
+    ...mockRouterState.state,
+    queryParams: { configIdTemplate: CONFIG_ID_TEMPLATE },
+  },
+};
+
+const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
 );
@@ -59,7 +74,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  ...ConfiguratorTestUtils.createConfiguration('a', OWNER),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -67,7 +82,7 @@ const configRead: Configurator.Configuration = {
 };
 
 const configRead2: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('b', owner),
+  ...ConfiguratorTestUtils.createConfiguration('b', OWNER),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -99,6 +114,13 @@ class MockConfiguratorPriceComponent {
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: string;
 }
 
 let routerStateObservable: Observable<RouterState> = EMPTY;
@@ -177,6 +199,7 @@ function checkConfigurationObs(
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
+    b: MOCK_ROUTER_STATE_WITH_TEMPLATE,
   });
   configurationCreateObservable = cold(configurationServiceMarbels, {
     x: configRead,
@@ -232,6 +255,10 @@ describe('ConfigurationFormComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
+          MockCxIconComponent,
+          MockConfiguratorPriceComponent,
+          MockFocusDirective,
+          MockFeatureLevelDirective,
           ConfiguratorFormComponent,
           ConfiguratorAttributeHeaderComponent,
           ConfiguratorAttributeFooterComponent,
@@ -239,13 +266,10 @@ describe('ConfigurationFormComponent', () => {
           ConfiguratorAttributeInputFieldComponent,
           ConfiguratorAttributeDropDownComponent,
           ConfiguratorAttributeReadOnlyComponent,
-
           ConfiguratorAttributeCheckBoxComponent,
           ConfiguratorAttributeCheckBoxListComponent,
           ConfiguratorAttributeMultiSelectionImageComponent,
           ConfiguratorAttributeSingleSelectionImageComponent,
-          MockCxIconComponent,
-          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -303,7 +327,7 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
     spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
-    configuratorUtils.setOwnerKey(owner);
+    configuratorUtils.setOwnerKey(OWNER);
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -457,16 +481,29 @@ describe('ConfigurationFormComponent', () => {
     });
   });
 
-  it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
-    checkConfigurationObs('aa', '---xy', '----xy');
-  });
+  describe('configuration$ observable', () => {
+    it('should emit twice if router emits faster than commons service', () => {
+      checkConfigurationObs('aa', '---xy', '----xy');
+    });
 
-  it('should get 3 emissions of product configurations if both services emit fast', () => {
-    checkConfigurationObs('aa', 'xy', 'xxy');
-  });
+    it('should emit 3 times if both services emit fast', () => {
+      checkConfigurationObs('aa', 'xy', 'xxy');
+    });
 
-  it('should get the maximum 4 emissions of product configurations if router pauses between emissions', () => {
-    checkConfigurationObs('a---a', 'xy', 'xy--xy');
+    it('should emit 4 times if router pauses between emissions', () => {
+      checkConfigurationObs('a---a', 'xy', 'xy--xy');
+    });
+
+    it('should forward configuration template ID to facade service', () => {
+      spyOn(
+        configuratorCommonsService,
+        'getOrCreateConfiguration'
+      ).and.callThrough();
+      checkConfigurationObs('b', 'x', 'x');
+      expect(
+        configuratorCommonsService.getOrCreateConfiguration
+      ).toHaveBeenCalledWith(OWNER, CONFIG_ID_TEMPLATE);
+    });
   });
 
   it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
@@ -481,7 +518,7 @@ describe('ConfigurationFormComponent', () => {
     checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
   });
 
-  it('check update configuration', () => {
+  it('should update a configuration through the facade layer ', () => {
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
     isConfigurationLoadingObservable = cold('xy', {
       x: true,
@@ -489,7 +526,7 @@ describe('ConfigurationFormComponent', () => {
     });
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
-      ownerKey: owner.key,
+      ownerKey: OWNER.key,
       changedAttribute: ConfigurationTestData.attributeCheckbox,
     });
 
@@ -546,7 +583,7 @@ describe('ConfigurationFormComponent', () => {
     });
   });
 
-  describe('expMode', () => {
+  describe('with regards to expMode', () => {
     it("should check whether expert mode status is set to 'true'", () => {
       createComponent();
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
@@ -575,6 +612,18 @@ describe('ConfigurationFormComponent', () => {
           })
           .unsubscribe();
       }
+    });
+
+    it('should state that expert mode is requested if the router demands that', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { expMode: 'true' },
+        },
+      });
+      createComponent().ngOnInit();
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalled();
     });
   });
 

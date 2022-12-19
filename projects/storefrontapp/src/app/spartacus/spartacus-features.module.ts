@@ -73,6 +73,7 @@ import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
+import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
@@ -85,6 +86,7 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
+import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 
 const featureModules = [];
 
@@ -94,7 +96,8 @@ if (environment.b2b) {
     AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
-    OrganizationUserRegistrationFeatureModule
+    OrganizationUserRegistrationFeatureModule,
+    UnitOrderFeatureModule
   );
 }
 
@@ -109,6 +112,9 @@ if (environment.digitalPayments) {
 }
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
+}
+if (environment.s4om) {
+  featureModules.push(S4OMFeatureModule);
 }
 
 @NgModule({
