@@ -27,7 +27,7 @@
     "cy:run:ci:cdc": "cypress run  --config-file cypress.config.ci.ts --env API_URL=https://backoffice.cp96avkh5f-sapcxteam1-d1-public.model-t.cc.commerce.ondemand.com --record --key $CYPRESS_KEY --tag \"2005,cdc,cy-upgrade\" --group CDC --spec \"cypress/e2e/vendor/cdc/**/*e2e.cy.ts\"",
     "cy:run:ci:digital-payments": "cypress run  --config-file cypress.config.ci.ts --env API_URL=https://backoffice.cp96avkh5f-sapcxteam1-d5-public.model-t.cc.commerce.ondemand.com --record --key $CYPRESS_KEY --tag \"2105,digital-payments,cy-upgrade\" --group DIGITAL-PAYMENTS --spec \"cypress/e2e/vendor/digital-payments/*e2e.cy.ts\"",
     "cy:run:ci:epd-visualization": "cypress run  --config-file cypress.config.ci.ts --env API_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com,BASE_SITE=powertools-epdvisualization-spa --record --key $CYPRESS_KEY --tag \"2105,epd-visualization,cy-upgrade\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/e2e/vendor/epd-visualization/**/*e2e.cy.ts\""
-   },
+  },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.12.1",
     "@testing-library/cypress": "^8.0.3",
