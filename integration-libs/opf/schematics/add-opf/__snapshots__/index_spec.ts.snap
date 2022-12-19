@@ -1,12 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF  feature - No compilerOptions in tsconfig eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF  feature - No compilerOptions in tsconfig eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { OpfModule } from \\"@spartacus/opf\\";
+import { opfTranslationChunksConfig, opfTranslations } from \\"@spartacus/opf/assets\\";
+import { OpfRootModule } from \\"@spartacus/opf/root\\";
 
-exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature eager loading should import appropriate modules 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    OpfRootModule,
+    OpfModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: opfTranslations,
+      chunks: opfTranslationChunksConfig,
+    },
+  })]
+})
+export class OpfFeatureModule { }
+"
+`;
 
-exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { OpfModule } from \\"@spartacus/opf\\";
+import { opfTranslationChunksConfig, opfTranslations } from \\"@spartacus/opf/assets\\";
+import { OpfRootModule } from \\"@spartacus/opf/root\\";
 
-exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup styling should create a proper scss file 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    OpfRootModule,
+    OpfModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: opfTranslations,
+      chunks: opfTranslationChunksConfig,
+    },
+  })]
+})
+export class OpfFeatureModule { }
+"
+`;
+
+exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { opfTranslationChunksConfig, opfTranslations } from \\"@spartacus/opf/assets\\";
+import { OpfRootModule, OPF_FEATURE } from \\"@spartacus/opf/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OpfRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [OPF_FEATURE]: {
+        module: () =>
+          import('@spartacus/opf').then((m) => m.OpfModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: opfTranslations,
+      chunks: opfTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OpfFeatureModule { }
+"
+`;
+
+exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/opf\\";"`;
 
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup styling should update angular.json 1`] = `
 "{
