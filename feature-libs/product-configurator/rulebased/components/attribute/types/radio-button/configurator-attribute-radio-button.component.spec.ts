@@ -14,6 +14,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
 const VALUE_NAME_2 = 'val2';
@@ -73,6 +75,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeRadioButtonComponent,
+          ConfiguratorAttributeInputFieldComponent,
+          ConfiguratorAttributeNumericInputFieldComponent,
           ItemCounterComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
