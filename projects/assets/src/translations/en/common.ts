@@ -175,6 +175,10 @@ export const common = {
     carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
+    labeled: {
+      required: '{{label}} is required',
+      cxInvalidEmail: '{{label}} has not valid email format',
+    },
     globalMessage: 'The form you are trying to submit contains errors.',
     required: 'This field is required',
     cxInvalidEmail: 'This is not a valid email format',

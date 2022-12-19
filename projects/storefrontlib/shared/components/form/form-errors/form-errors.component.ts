@@ -45,7 +45,7 @@ export class FormErrorsComponent implements DoCheck {
    * Emits an array of errors, each represented by a tuple:
    * the error key and error details.
    */
-  errorsDetails$: Observable<Array<[string, string | boolean]>>;
+  errorsDetails$: Observable<Array<[string, any | boolean]>>;
 
   protected differ: KeyValueDiffer<any, any>;
 
@@ -53,6 +53,11 @@ export class FormErrorsComponent implements DoCheck {
    * Prefix prepended to the translation key.
    */
   @Input() prefix = 'formErrors';
+
+  /**
+   * Label of the form control, used to enrich the error details object.
+   */
+  @Input() label: string;
 
   /**
    * Translation params to enrich the error details object.
@@ -76,6 +81,12 @@ export class FormErrorsComponent implements DoCheck {
       map((errors) =>
         Object.entries(errors).filter(([_key, details]) => details)
       )
+      // map((errors) =>
+      //   errors.map(([_key, details]) => [
+      //     _key,
+      //     { ...details, label: this.label },
+      //   ])
+      // )
     );
   }
 
@@ -104,6 +115,13 @@ export class FormErrorsComponent implements DoCheck {
   getTranslationParams(errorDetails?: any): object {
     errorDetails = isObject(errorDetails) ? errorDetails : {};
     return { ...errorDetails, ...this.translationParams };
+  }
+
+  getErrorKey(errorDetails: [string, any | boolean]): string {
+    const bla = this.translationParams?.label
+      ? `${this.prefix}.labeled.${errorDetails[0]}`
+      : `${this.prefix}.${errorDetails[0]}`;
+    return bla;
   }
 
   @HostBinding('class.control-invalid') get invalid() {

@@ -12,7 +12,12 @@
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
-    <cx-form-errors [control]="form.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      [control]="form.get('userId')"
+      [translationParams]="{
+        label: ('loginForm.emailAddress.label' | cxTranslate)
+      }"
+    ></cx-form-errors>
   </label>
 
   <label>
