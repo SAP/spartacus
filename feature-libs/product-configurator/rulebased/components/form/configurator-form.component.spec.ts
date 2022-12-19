@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -36,6 +42,7 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -107,6 +114,13 @@ class MockConfiguratorPriceComponent {
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: string;
 }
 
 let routerStateObservable: Observable<RouterState> = EMPTY;
@@ -241,6 +255,10 @@ describe('ConfigurationFormComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
+          MockCxIconComponent,
+          MockConfiguratorPriceComponent,
+          MockFocusDirective,
+          MockFeatureLevelDirective,
           ConfiguratorFormComponent,
           ConfiguratorAttributeHeaderComponent,
           ConfiguratorAttributeFooterComponent,
@@ -248,13 +266,10 @@ describe('ConfigurationFormComponent', () => {
           ConfiguratorAttributeInputFieldComponent,
           ConfiguratorAttributeDropDownComponent,
           ConfiguratorAttributeReadOnlyComponent,
-
           ConfiguratorAttributeCheckBoxComponent,
           ConfiguratorAttributeCheckBoxListComponent,
           ConfiguratorAttributeMultiSelectionImageComponent,
           ConfiguratorAttributeSingleSelectionImageComponent,
-          MockCxIconComponent,
-          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
