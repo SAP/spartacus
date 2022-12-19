@@ -1,4 +1,4 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -53,12 +53,6 @@ class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
 }
 
-@Directive({
-  selector: '[formControl]',
-})
-export class MockFormControlDirective {
-  @Input('formControl') protected config: any;
-}
 describe('ConfiguratorOverviewFilterComponent', () => {
   describe('in a component test environment', () => {
     beforeEach(
@@ -70,7 +64,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           declarations: [
             ConfiguratorOverviewFilterComponent,
             MockConfiguratorOverviewFilterBarComponent,
-            MockFormControlDirective,
           ],
           providers: [
             {
