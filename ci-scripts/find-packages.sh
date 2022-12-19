@@ -18,19 +18,9 @@ formattedNames=""
 for name in ${names[@]}; do
     formattedNames+="    - ${name}\n"
 done
-echo "$formattedNames"
+result=$(printf " %s" "${names[@]}")
+echo "$result"
 
-
-
-# for name in ${name[@]}; do    
-#     echo $name
+# for i in $result; do
+#     echo $i
 # done
-# # awk -F: '/name:/{print $2}' feature-libs/tracking/package.json
-# variable=$(awk '/name/{print $2}' feature-libs/tracking/package.json)
-# # variable2=`awk '/name/{print $2}' feature-libs/tracking/package.json | sed -e 's/@spartacus\(.*\),/\1/'`
-
-# # variable2=$variable | awk -F[=,] '{print $2}'
-
-# variable2=`awk '/name/{print $2}' feature-libs/tracking/package.json | awk -F[\/,\"] '{print $3}'`
-
-# echo $variable2

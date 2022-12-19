@@ -80,12 +80,16 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline release packages list"
           RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
-          sed -i "s%buildPackages:%buildPackages:\n${RELEASE_PACKAGES}%gi" $AZURE_CONFIG_PATH
+          FORMATTED_LIST=""
+          for i in $result; do
+            FORMATTED_LIST+="    - ${result}\n"
+          done
+          sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_LIST}%gi" $AZURE_CONFIG_PATH
           
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify release packages list has been updated with the generated list"
 
-          if grep -Pzo "buildPackages:\n${RELEASE_PACKAGES}" $AZURE_CONFIG_PATH
+          if grep -Pzo "buildPackages:\n${FORMATTED_LIST}" $AZURE_CONFIG_PATH
           then
               echo "Branch name has successfully been added to the trigger"
           else
