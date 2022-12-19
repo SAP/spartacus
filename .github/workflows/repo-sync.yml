@@ -78,6 +78,22 @@ jobs:
           fi
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Configure azure pipeline release packages list"
+          RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
+          sed -i "s%buildPackages:%buildPackages:\n${RELEASE_PACKAGES}%gi" $AZURE_CONFIG_PATH
+          
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Verify release packages list has been updated with the generated list"
+
+          if grep -Pzo "buildPackages:\n${RELEASE_PACKAGES}" $AZURE_CONFIG_PATH
+          then
+              echo "Branch name has successfully been added to the trigger"
+          else
+              echo "Error. Branch name has NOT been added to the trigger"
+              exit 1
+          fi
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure sonar"
 
           sed -i "s%sonar.branch.name=%sonar.branch.name=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $SONAR_PATH
