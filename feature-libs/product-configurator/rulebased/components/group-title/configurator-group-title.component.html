@@ -1,7 +1,9 @@
 <ng-container *ngIf="displayedGroup$ | async as group; else ghostGroup">
   <div class="cx-group-title">
-    <ng-container *ngIf="isMobile() | async">
-      <cx-hamburger-menu></cx-hamburger-menu>
+    <ng-container *cxFeatureLevel="'5.2'">
+      <ng-container *ngIf="isMobile() | async">
+        <cx-hamburger-menu></cx-hamburger-menu>
+      </ng-container>
     </ng-container>
     {{ getGroupTitle(group) }}
   </div>

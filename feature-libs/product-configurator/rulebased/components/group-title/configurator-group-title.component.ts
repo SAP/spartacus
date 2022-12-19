@@ -12,6 +12,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
@@ -49,7 +50,6 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
   /**
    * @deprecated since 5.1
    */
@@ -59,6 +59,11 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     configRouterExtractorService: ConfiguratorRouterExtractorService
   );
 
+  /**
+   *
+   *  TODO(CXSPA-1014): make ConfiguratorExpertModeService, BreakpointService, ConfiguratorStorefrontUtilsService, HamburgerMenuService required dependencies
+   *  Make featureConfigService are required dependency and for major releases, remove featureConfigService
+   */
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configuratorGroupsService: ConfiguratorGroupsService,
@@ -70,7 +75,9 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    hamburgerMenuService: HamburgerMenuService
+    hamburgerMenuService: HamburgerMenuService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
   );
 
   constructor(
@@ -84,11 +91,18 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     @Optional()
     protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService,
     @Optional()
-    protected hamburgerMenuService?: HamburgerMenuService
+    protected hamburgerMenuService?: HamburgerMenuService,
+    @Optional()
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
-    if (this.hamburgerMenuService && this.configuratorStorefrontUtilsService) {
+    // TODO(CXSPA-1014): remove featureConfigService for major releases
+    if (
+      this.featureConfigService?.isLevel('5.2') &&
+      this.hamburgerMenuService &&
+      this.configuratorStorefrontUtilsService
+    ) {
       this.subscription.add(
         this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
           if (!isExpanded) {

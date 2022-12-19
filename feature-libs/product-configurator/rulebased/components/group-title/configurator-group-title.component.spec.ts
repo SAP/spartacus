@@ -3,7 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeatureLevelDirective,
+  FeaturesConfig,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   IconLoaderService,
@@ -75,6 +81,12 @@ class MockBreakpointService {
 })
 class MockHamburgerMenuComponent {}
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
@@ -94,6 +106,7 @@ describe('ConfigurationGroupTitleComponent', () => {
         declarations: [
           ConfiguratorGroupTitleComponent,
           MockHamburgerMenuComponent,
+          FeatureLevelDirective,
         ],
         providers: [
           HamburgerMenuService,
@@ -122,8 +135,18 @@ describe('ConfigurationGroupTitleComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
+          },
         ],
-      });
+      }).compileComponents();
     })
   );
   beforeEach(() => {
