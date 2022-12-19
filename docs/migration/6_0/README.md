@@ -1,4 +1,4 @@
-This folder holds the files that contain the documentation input for his major release's breaking changes.
+This folder holds the files that contain the documentation input for this major release's breaking changes.
 
 To streamline the process, different change categories go in in different files.  Here is a list of changes and their corresponding file:
 
