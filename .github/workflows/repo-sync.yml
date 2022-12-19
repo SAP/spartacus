@@ -81,8 +81,8 @@ jobs:
           echo "Configure azure pipeline release packages list"
           RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
           FORMATTED_LIST=""
-          for i in $result; do
-            FORMATTED_LIST+="    - ${RELEASE_PACKAGES}\n"
+          for i in $RELEASE_PACKAGES; do
+            FORMATTED_LIST+="    - ${i}\n"
           done
           sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_LIST}%gi" $AZURE_CONFIG_PATH
           
