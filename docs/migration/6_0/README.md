@@ -1,7 +1,6 @@
-This folder holds the files that contain the documentation input for this major release's breaking changes.
+This folder contains the documentation input for a major release breaking changes.
 
-To streamline the process, different change categories go in in different files.  Here is a list of changes and their corresponding file:
-
+To streamline the process, different change types go in in different files.  Here is a list of changes and their corresponding file:
 
 * Migration comment for top level api elements: `migration-comments-api-elements.json`
 * Migration comment for class members: `migration-comments-members.json`

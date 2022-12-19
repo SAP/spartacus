@@ -1,3 +1,3 @@
 <!--
-  This file contains the styling related breaking changes.
+  This file contains styling breaking changes.
 -->
