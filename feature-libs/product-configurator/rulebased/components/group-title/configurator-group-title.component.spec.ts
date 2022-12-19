@@ -182,7 +182,18 @@ describe('ConfigurationGroupTitleComponent', () => {
     hamburgerMenuService = TestBed.inject(
       HamburgerMenuService as Type<HamburgerMenuService>
     );
-    spyOn(hamburgerMenuService, 'toggle').and.stub();
+    spyOn(hamburgerMenuService, 'toggle').and.callThrough();
+  });
+
+  it('should create component with expanded hamburger menu icon', () => {
+    hamburgerMenuService.toggle(false);
+    spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+    fixture.detectChanges();
+    expect(component).toBeDefined();
+    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
   });
 
   it('should create component with hamburger menu icon', () => {
@@ -194,11 +205,15 @@ describe('ConfigurationGroupTitleComponent', () => {
       htmlElem,
       'cx-hamburger-menu'
     );
+    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
   });
 
   it('should create component without hamburger menu icon', () => {
-    hamburgerMenuService = undefined;
-    configuratorStorefrontUtilsService = undefined;
+    component['hamburgerMenuService'] = undefined;
+    component['configuratorStorefrontUtilsService'] = undefined;
     fixture.detectChanges();
     expect(component).toBeDefined();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -247,6 +262,21 @@ describe('ConfigurationGroupTitleComponent', () => {
   });
 
   describe('isMobile', () => {
+    it('should not render hamburger menu because breakpointService is not defined', () => {
+      component['breakpointService'] = undefined;
+      fixture.detectChanges();
+
+      component.isMobile().subscribe((isMobile) => {
+        expect(isMobile).toBe(false);
+      });
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-hamburger-menu'
+      );
+    });
+
     it('should not render hamburger menu in desktop mode', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       fixture.detectChanges();
