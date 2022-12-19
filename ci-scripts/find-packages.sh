@@ -16,7 +16,7 @@ done
 formattedNames=""
 
 for name in ${names[@]}; do
-    formattedNames+="    - ${name}\n"
+    formattedNames+="\t- ${name}\n"
 done
 echo $formattedNames
 
