@@ -168,7 +168,7 @@ describe('ConfigTabBarComponent', () => {
           'configurator.tabBar.configuration'
         );
       });
-      
+
       it("should contain a element with 'aria-selected' attribute set to true if the configuration page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
@@ -259,8 +259,8 @@ describe('ConfigTabBarComponent', () => {
           'false',
           'configurator.tabBar.overview'
         );
-      });   
-      
+      });
+
       it("should contain a element with 'aria-selected' attribute set to true if the overview page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
@@ -274,7 +274,7 @@ describe('ConfigTabBarComponent', () => {
           'true',
           'configurator.tabBar.overview'
         );
-      }); 
+      });
 
       it("should contain a element with 'role' attribute that defines the link as a tab", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
