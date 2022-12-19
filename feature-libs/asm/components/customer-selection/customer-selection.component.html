@@ -4,9 +4,22 @@
       required="true"
       #searchTerm
       type="text"
+      id="customerSearch"
       formControlName="searchTerm"
       [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      role="combobox"
+      autocomplete="off"
+      [attr.aria-controls]="listboxId"
+      [attr.aria-expanded]="expanded"
+      [attr.aria-activedescendant]="activeDescendant"
+      (focus)="focus($event)"
+      (blur)="blur($event)"
+      (keydown.arrowup)="keydownArrowup($event)"
+      (keydown.arrowdown)="keydownArrowdown($event)"
+      (keydown.enter)="keydownEnter($event)"
+      (keydown.space)="keydownSpace($event)"
+      (keydown.escape)="keydownEscape($event)"
     />
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
@@ -24,9 +37,20 @@
   </button>
 </form>
 
-<div *ngIf="searchResults | async as results" class="asm-results" #resultList>
+<div
+  *ngIf="searchResults | async as results"
+  [id]="listboxId"
+  role="listbox"
+  class="asm-results"
+  #resultList
+>
   <button
-    *ngFor="let result of results.entries"
+    *ngFor="let result of results.entries; let i = index"
+    role="option"
+    [id]="optionId(i)"
+    [attr.aria-selected]="focusIndex === i"
+    [class.focused]="focusIndex === i"
+    [cxScrollIntoView]="focusIndex === i"
     (click)="selectCustomerFromList(result)"
   >
     <span class="result-name">{{ result.name }}</span>

@@ -32,7 +32,10 @@ import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-fo
 import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { defaultCustomerListLayoutConfig } from './customer-list/default-customer-list-layout.config';
-import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
+import {
+  CustomerSelectionComponent,
+  ScrollIntoViewDirective,
+} from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
@@ -65,6 +68,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    ScrollIntoViewDirective,
   ],
   exports: [
     AsmBindCartDialogComponent,

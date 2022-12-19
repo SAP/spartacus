@@ -134,7 +134,9 @@
         flex-direction: row;
       }
 
-      &:hover {
+      &:hover,
+      &:focus,
+      &.focused {
         color: #32363a;
         background-color: #d3d6db;
       }
