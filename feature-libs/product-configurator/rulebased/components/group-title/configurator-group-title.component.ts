@@ -62,7 +62,7 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
   /**
    *
    *  TODO(CXSPA-1014): make ConfiguratorExpertModeService, BreakpointService, ConfiguratorStorefrontUtilsService, HamburgerMenuService required dependencies
-   *  Make featureConfigService are required dependency and for major releases, remove featureConfigService
+   *  Make featureConfigService are required dependency and for major releases, remove featureConfigService from constructor in 6.0.
    */
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
@@ -98,28 +98,29 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // TODO(CXSPA-1014): remove featureConfigService for major releases
-    if (
-      this.featureConfigService?.isLevel('5.2') &&
-      this.hamburgerMenuService &&
-      this.configuratorStorefrontUtilsService
-    ) {
-      this.subscription.add(
-        this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
-          if (!isExpanded) {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'none'
-            );
-          } else {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'block'
-            );
-          }
-        })
-      );
+    if (this.featureConfigService?.isLevel('5.2')) {
+      if (
+        this.hamburgerMenuService &&
+        this.configuratorStorefrontUtilsService
+      ) {
+        this.subscription.add(
+          this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
+            if (!isExpanded) {
+              this.configuratorStorefrontUtilsService?.changeStyling(
+                '.PreHeader',
+                'display',
+                'none'
+              );
+            } else {
+              this.configuratorStorefrontUtilsService?.changeStyling(
+                '.PreHeader',
+                'display',
+                'block'
+              );
+            }
+          })
+        );
+      }
     }
   }
 
