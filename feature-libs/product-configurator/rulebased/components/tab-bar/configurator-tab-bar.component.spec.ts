@@ -168,6 +168,51 @@ describe('ConfigTabBarComponent', () => {
           'configurator.tabBar.configuration'
         );
       });
+      
+      it("should contain a element with 'aria-selected' attribute set to true if the configuration page is displayed", () => {
+        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          0,
+          'aria-selected',
+          'true',
+          'configurator.tabBar.configuration'
+        );
+      });
+
+      it("should contain a element with 'aria-selected' attribute set to false if the overview page is displayed", () => {
+        mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          0,
+          'aria-selected',
+          'false',
+          'configurator.tabBar.configuration'
+        );
+      });
+
+      it("should contain a element with 'role' attribute that defines the link as a tab", () => {
+        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          0,
+          'role',
+          'tab',
+          'configurator.tabBar.configuration'
+        );
+      });
     });
 
     describe('Overview tag', () => {
@@ -197,6 +242,51 @@ describe('ConfigTabBarComponent', () => {
           1,
           'aria-label',
           'configurator.a11y.overviewPageLink',
+          'configurator.tabBar.overview'
+        );
+      });
+
+      it("should contain a element with 'aria-selected' attribute set to false if the configuration page is displayed", () => {
+        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          1,
+          'aria-selected',
+          'false',
+          'configurator.tabBar.overview'
+        );
+      });   
+      
+      it("should contain a element with 'aria-selected' attribute set to true if the overview page is displayed", () => {
+        mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          1,
+          'aria-selected',
+          'true',
+          'configurator.tabBar.overview'
+        );
+      }); 
+
+      it("should contain a element with 'role' attribute that defines the link as a tab", () => {
+        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'a',
+          undefined,
+          1,
+          'role',
+          'tab',
           'configurator.tabBar.overview'
         );
       });
