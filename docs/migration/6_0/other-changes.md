@@ -1,3 +1,13 @@
+<!--
+ This file should contain "other" changes not addressed by the rest of the migration files.
+ The main category of changes that are documented here are:
+   * An html template breaking change.
+   * A Typescript breaking change that is either a high level change, that is a behaviour
+     change, or anything that is a breaking change not apparent while comparting the public api
+     between the older release and the current release (and therefore will not be picked up by 
+     the breaking change detection tool.)
+-->
+
 # Technical Changes in Spartacus 6.0
 
 ## SSR and Prerendering
