@@ -20,6 +20,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -114,7 +115,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
-        declarations: [ConfiguratorAttributeHeaderComponent],
+        declarations: [
+          ConfiguratorAttributeHeaderComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {

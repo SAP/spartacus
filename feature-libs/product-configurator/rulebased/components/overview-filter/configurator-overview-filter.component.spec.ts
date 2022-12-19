@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -44,6 +45,14 @@ function initTestComponent() {
   fixture.detectChanges();
 }
 
+@Component({
+  selector: 'cx-configurator-overview-filter-bar',
+  template: '',
+})
+class MockConfiguratorOverviewFilterBarComponent {
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
+
 describe('ConfiguratorOverviewFilterComponent', () => {
   describe('in a component test environment', () => {
     beforeEach(
@@ -52,7 +61,10 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         initMocks();
         TestBed.configureTestingModule({
           imports: [I18nTestingModule],
-          declarations: [ConfiguratorOverviewFilterComponent],
+          declarations: [
+            ConfiguratorOverviewFilterComponent,
+            MockConfiguratorOverviewFilterBarComponent,
+          ],
           providers: [
             {
               provide: ConfiguratorCommonsService,
