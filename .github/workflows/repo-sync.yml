@@ -78,7 +78,7 @@ jobs:
           fi
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
-          echo "Configure azure pipeline release packages list"
+          echo "Configure azure pipeline build packages list"
 
           RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
           
