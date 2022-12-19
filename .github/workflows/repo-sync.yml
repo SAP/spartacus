@@ -30,6 +30,7 @@ jobs:
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
           SONAR_PATH="./sonar-project.properties"
+          RELEASE_PACKAGES_LIST_GENERATOR="./ci-scripts/release-packages-list-generator.sh"
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
@@ -80,7 +81,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline build packages list"
 
-          RELEASE_PACKAGES=$(ci-scripts/find-packages.sh)
+          RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
           
           FORMATTED_RELEASE_PACKAGES=""
           for PACKAGE in $RELEASE_PACKAGES; do
