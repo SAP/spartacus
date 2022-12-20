@@ -211,7 +211,7 @@ describe('ConfigurationGroupTitleComponent', () => {
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
   });
 
-  it('should create component without hamburger menu icon', () => {
+  it('should create component without hamburger menu icon in case dependencies are not defined', () => {
     component['hamburgerMenuService'] = undefined;
     component['configuratorStorefrontUtilsService'] = undefined;
     fixture.detectChanges();
@@ -262,7 +262,7 @@ describe('ConfigurationGroupTitleComponent', () => {
   });
 
   describe('isMobile', () => {
-    it('should not render hamburger menu because breakpointService is not defined', () => {
+    it('should not render hamburger menu in case breakpointService is not defined', () => {
       component['breakpointService'] = undefined;
       fixture.detectChanges();
 
