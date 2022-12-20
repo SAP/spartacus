@@ -197,12 +197,17 @@ function setInitialCurrentGroup(
   if (flatGroups && flatGroups.length > 0) {
     initialCurrentGroup = flatGroups[0]?.id;
   }
-
+  const menuParentGroup = initialCurrentGroup?.startsWith(
+    Configurator.ConflictIdPrefix
+  )
+    ? Configurator.ConflictHeaderId
+    : undefined;
   const result = {
     ...state,
     interactionState: {
       ...state.interactionState,
       currentGroup: initialCurrentGroup,
+      menuParentGroup: menuParentGroup,
     },
   };
 
