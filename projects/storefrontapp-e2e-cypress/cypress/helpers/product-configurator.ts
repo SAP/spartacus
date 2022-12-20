@@ -456,7 +456,7 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
  * Clicks the group menu.
  */
 export function clickHamburger(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]')
+  cy.get('cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]')
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
@@ -467,7 +467,9 @@ export function clickHamburger(): void {
  * Verifies whether the group menu is displayed.
  */
 export function checkHamburgerDisplayed(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
+  cy.get(
+    'cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]'
+  ).should('be.visible');
 }
 
 /**
