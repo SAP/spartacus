@@ -75,7 +75,8 @@ export abstract class CustomerTicketingFacade {
   ): Observable<unknown>;
 
   abstract downloadAttachment(
-    eventCode: string,
-    attachmentId: string
+    eventCode: string | undefined,
+    attachmentId: string | undefined
   ): Observable<unknown>;
 }
+
