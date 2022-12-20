@@ -11,10 +11,10 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable, Subscription } from 'rxjs';
+import { NEVER, Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,14 +29,15 @@ export class ConfiguratorConflictSolverDialogEventListener
 
   conflictGroups$: Observable<Configurator.Group[] | undefined> =
     this.routerData$.pipe(
-      filter((routerData) => {
-        return (
-          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
-        );
-      }),
-      switchMap((routerData) =>
-        this.configuratorGroupsService.getConflictGroups(routerData.owner)
-      )
+      switchMap((routerData) => {
+        if (routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION) {
+          return this.configuratorGroupsService.getConflictGroups(
+            routerData.owner
+          );
+        } else {
+          return NEVER;
+        }
+      })
     );
 
   constructor(

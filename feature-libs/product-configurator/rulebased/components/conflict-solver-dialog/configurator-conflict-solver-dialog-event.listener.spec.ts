@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ElementRef, Type, ViewContainerRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorConflictSolverDialogEventListener } from './configurator-conflict-solver-dialog-event.listener';
@@ -15,6 +15,11 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { cold, hot } from 'jasmine-marbles';
+
+const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
+const PRODUCT_CODE = 'CONF_LAPTOP';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -26,8 +31,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
   closeDialog(_reason: string): void {}
 }
-
-const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const defaultMockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
@@ -42,11 +45,12 @@ const defaultMockRouterData: ConfiguratorRouter.Data = {
   forceReload: false,
   resolveIssues: false,
 };
-let mockRouterData: ConfiguratorRouter.Data;
 
+let mockRouterData: ConfiguratorRouter.Data;
+let routerData$: Observable<ConfiguratorRouter.Data>;
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
+    return routerData$;
   }
 }
 
@@ -61,18 +65,14 @@ function createListOfGroups(amount: number): Configurator.Group[] {
 }
 
 let groups: Configurator.Group[] = [];
-
+let groups$: Observable<Configurator.Group[] | undefined>;
 class MockConfiguratorGroupsService {
   getConflictGroups(): Observable<Configurator.Group[] | undefined> {
-    return of(groups);
+    return groups$;
   }
 }
 
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
-
-let mockRouterState: any;
-
+let mockRouterState: RouterState;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return of(mockRouterState);
@@ -82,8 +82,14 @@ class MockRoutingService {
 describe('ConfiguratorConflictSolverDialogEventListener', () => {
   let listener: ConfiguratorConflictSolverDialogEventListener;
   let launchDialogService: LaunchDialogService;
-  let configuratorGroupsService: ConfiguratorGroupsService;
   let mockRoutingService: MockRoutingService = new MockRoutingService();
+
+  function initEventListener() {
+    listener = TestBed.inject(ConfiguratorConflictSolverDialogEventListener);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -107,10 +113,12 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
         },
       ],
     });
-
     groups = createListOfGroups(5);
+    groups$ = of(groups);
 
     mockRouterData = structuredClone(defaultMockRouterData);
+    routerData$ = of(mockRouterData);
+
     mockRouterState = {
       navigationId: 1,
       state: {
@@ -122,17 +130,6 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
         semanticRoute: CONFIGURATOR_ROUTE,
       },
     };
-
-    listener = TestBed.inject(ConfiguratorConflictSolverDialogEventListener);
-    launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(launchDialogService, 'openDialog').and.stub();
-
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
-
-    spyOn(configuratorGroupsService, 'getConflictGroups').and.callThrough();
   });
 
   afterEach(() => {
@@ -142,37 +139,48 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
   describe('conflictGroups observable', () => {
     it('should emit group data when routing pageType = "configuration"', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-      listener.conflictGroups$
-        .subscribe((receivedGroups) => {
-          expect(receivedGroups).toEqual(groups);
-        })
-        .unsubscribe();
+      routerData$ = hot('a---', { a: mockRouterData });
+      groups$ = hot('-a--', { a: groups });
+      initEventListener();
+      expect(listener.conflictGroups$).toBeObservable(
+        cold('-a--', { a: groups })
+      );
     });
 
     it('should not emit group data when routing pageType = "overview"', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-      listener.conflictGroups$
-        .subscribe(() => {
-          fail(
-            'entity with mockRouterData.pageType = "overview" should have been filtered out and not emitted'
-          );
-        })
-        .unsubscribe();
+      routerData$ = hot('b---', { b: mockRouterData });
+      groups$ = hot('-a--', { a: groups });
+      initEventListener();
+      expect(listener.conflictGroups$).toBeObservable(cold('----'));
+    });
+
+    it('should stop emitting group data when navigation to overview', () => {
+      const mockRouterDataOv = structuredClone(mockRouterData);
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      mockRouterDataOv.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+      routerData$ = hot('ab--', { a: mockRouterData, b: mockRouterDataOv });
+      groups$ = cold('--a-', { a: groups });
+      initEventListener();
+      expect(listener.conflictGroups$).toBeObservable(cold('----'));
     });
   });
 
   describe('isConfiguratorRelatedRoute', () => {
     it('should return false because semanticRoute is not defined', () => {
+      initEventListener();
       expect(listener['isConfiguratorRelatedRoute']()).toBe(false);
     });
 
     it('should return false because semanticRoute does not contain configure', () => {
+      initEventListener();
       expect(listener['isConfiguratorRelatedRoute'](OVERVIEW_ROUTE)).toBe(
         false
       );
     });
 
     it('should return true because semanticRoute contains configure', () => {
+      initEventListener();
       expect(listener['isConfiguratorRelatedRoute'](CONFIGURATOR_ROUTE)).toBe(
         true
       );
@@ -181,12 +189,14 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
 
   describe('openConflictSolverDialog', () => {
     it('should open conflict solver dialog because there are some conflict groups', () => {
+      initEventListener();
       listener['openConflictSolverDialog']();
       expect(launchDialogService.openDialog).toHaveBeenCalled();
     });
 
     it('should close conflict solver dialog because there are not any conflict groups', () => {
-      groups = [];
+      initEventListener();
+      groups$ = of([]);
       listener['openConflictSolverDialog']();
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -195,6 +205,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
     });
 
     it('should close conflict solver dialog because no configurator related route', () => {
+      initEventListener();
       mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
       listener['openConflictSolverDialog']();
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
@@ -206,6 +217,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
 
   describe('closeModal', () => {
     it('should close conflict solver dialog', () => {
+      initEventListener();
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
     });
