@@ -7,7 +7,7 @@
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 
-export const defaultConflictSolverLayoutConfig: LayoutConfig = {
+export const defaultConfiguratorConflictSolverLayoutConfig: LayoutConfig = {
   launch: {
     CONFLICT_SOLVER: {
       inlineRoot: true,
