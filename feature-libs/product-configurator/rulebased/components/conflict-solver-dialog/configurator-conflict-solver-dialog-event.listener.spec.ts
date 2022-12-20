@@ -160,7 +160,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       mockRouterDataOv.pageType = ConfiguratorRouter.PageType.OVERVIEW;
       routerData$ = hot('ab--', { a: mockRouterData, b: mockRouterDataOv });
-      groups$ = cold('--a-', { a: groups });
+      groups$ = hot('--a-', { a: groups });
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(cold('----'));
     });
