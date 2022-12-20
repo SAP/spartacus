@@ -103,7 +103,7 @@ export class DeliveryPointsService {
             )
         ).pipe(
           map((storeDetails) => {
-            const STORE_DETAILS_MAP:Record<string, any> = storeDetails
+            const STORE_DETAILS_MAP: Record<string, any> = storeDetails
               .filter((_storeDetails) => !!_storeDetails)
               .reduce(
                 (accumulator, value) => ({

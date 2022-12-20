@@ -12,6 +12,7 @@ import {
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import {
   BrowserLocationActions,
@@ -97,7 +98,14 @@ export class PickupLocationsSearchService
   }
 
   loadStoreDetails(storeName: string): void {
-    this.store.dispatch(GetStoreDetailsById({ payload: storeName }));
+    this.getStoreDetails(storeName)
+      .pipe(
+        filter((storeDetails) => !storeDetails),
+        tap((_storeDetails) =>
+          this.store.dispatch(GetStoreDetailsById({ payload: storeName }))
+        )
+      )
+      .subscribe();
   }
 
   getStoreDetails(name: string): Observable<PointOfService> {

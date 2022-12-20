@@ -72,7 +72,12 @@ export class PickupLocationEffect {
             quantity
           )
           .pipe(
-            map(() => PickupLocationActions.SetPickupOptionToDeliverySuccess())
+            map(() => {
+              setTimeout(() => {
+                this.activeCartFacade.reloadActiveCart();
+              }, 500);
+              return PickupLocationActions.SetPickupOptionToDeliverySuccess();
+            })
           )
       )
     )

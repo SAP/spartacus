@@ -7,12 +7,14 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { CmsService, Page } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
@@ -25,7 +27,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { EMPTY, iif, Observable, of } from 'rxjs';
+import { EMPTY, iif, Observable, of, Subscription } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -84,7 +86,7 @@ export function cartWithIdAndUserId(
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
 })
-export class CartPickupOptionsContainerComponent implements OnInit {
+export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
 
   pickupOption$: Observable<PickupOption | undefined>;
@@ -97,6 +99,8 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   quantity: number;
   userId: string;
   private displayNameIsSet = false;
+  page?: string;
+  subscription = new Subscription();
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -105,18 +109,28 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected pickupOptionFacade: PickupOptionFacade,
     protected preferredStoreService: PreferredStoreService,
     protected vcr: ViewContainerRef,
+    protected cmsService: CmsService,
     @Optional() protected outlet: OutletContextData<OrderEntry>
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
-    this.pickupOptionFacade.setPageContext('CART');
     const outletContext =
-      this.outlet?.context$?.pipe(
-        tap((item) => console.log('Item=====>', item)),
-        filter(orderEntryWithRequiredFields)
-      ) ?? EMPTY;
+      this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
+      EMPTY;
+
+    this.cmsService
+      .getCurrentPage()
+      .pipe(
+        filter<Page>(Boolean),
+        take(1),
+        tap((cmsPage) => {
+          this.page = cmsPage.pageId;
+          this.pickupOptionFacade.setPageContext(cmsPage.pageId ?? '');
+        })
+      )
+      .subscribe();
 
     this.availableForPickup$ = outletContext.pipe(
       map((orderEntry) => !!orderEntry.product.availableForPickup),
@@ -173,6 +187,10 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   onPickupOptionChange(pickupOption: PickupOption): void {
     this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
     if (pickupOption === 'delivery') {
@@ -183,6 +201,19 @@ export class CartPickupOptionsContainerComponent implements OnInit {
         this.productCode,
         this.quantity
       );
+
+      // this.subscription.add(
+      //   this.pickupOptionFacade
+      //     .getPageContext()
+      //     .pipe(
+      //       filter((pageContext) => pageContext === 'CheckoutDeliveryMode'),
+      //       tap((pageContext) => {
+      //         console.log('pageContext', pageContext);
+      //       }),
+      //       tap(() => this.activeCartFacade.reloadActiveCart())
+      //     )
+      //     .subscribe()
+      // );
       return;
     }
 
