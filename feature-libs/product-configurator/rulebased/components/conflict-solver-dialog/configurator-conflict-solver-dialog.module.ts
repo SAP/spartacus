@@ -52,7 +52,9 @@ import { ConfiguratorExitButtonModule } from '../exit-button/configurator-exit-b
     ConfiguratorConflictSuggestionModule,
     ConfiguratorExitButtonModule,
   ],
-  providers: [provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig)],
+  providers: [
+    provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
+  ],
   declarations: [ConfiguratorConflictSolverDialogComponent],
   exports: [ConfiguratorConflictSolverDialogComponent],
 })
