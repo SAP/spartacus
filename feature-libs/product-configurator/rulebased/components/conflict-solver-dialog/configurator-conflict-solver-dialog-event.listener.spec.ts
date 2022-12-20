@@ -137,32 +137,37 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
   });
 
   describe('conflictGroups observable', () => {
+    let configRouterData: ConfiguratorRouter.Data;
+    let overviewRouterData: ConfiguratorRouter.Data;
+    beforeEach(() => {
+      configRouterData = structuredClone(defaultMockRouterData);
+      configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      overviewRouterData = structuredClone(defaultMockRouterData);
+      overviewRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+    });
     it('should emit group data when routing pageType = "configuration"', () => {
-      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-      routerData$ = hot('a---', { a: mockRouterData });
-      groups$ = hot('-a--', { a: groups });
+      routerData$ = hot('     c---', { c: configRouterData });
+      groups$ = hot('         -g--', { g: groups });
+      const expected$ = cold('-g--', { g: groups });
       initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(
-        cold('-a--', { a: groups })
-      );
+      expect(listener.conflictGroups$).toBeObservable(expected$);
     });
 
     it('should not emit group data when routing pageType = "overview"', () => {
-      mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-      routerData$ = hot('b---', { b: mockRouterData });
-      groups$ = hot('-a--', { a: groups });
+      routerData$ = hot('     o---', { o: overviewRouterData });
+      groups$ = hot('         -g--', { g: groups });
+      const expected$ = cold('----');
       initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(cold('----'));
+      expect(listener.conflictGroups$).toBeObservable(expected$);
     });
 
     it('should stop emitting group data when navigation to overview', () => {
-      const mockRouterDataOv = structuredClone(mockRouterData);
-      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-      mockRouterDataOv.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-      routerData$ = hot('ab--', { a: mockRouterData, b: mockRouterDataOv });
-      groups$ = hot('--a-', { a: groups });
+      const routerData = { a: configRouterData, o: overviewRouterData };
+      routerData$ = hot('     ao--', routerData);
+      groups$ = hot('         --a-', { a: groups });
+      const expected$ = cold('----');
       initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(cold('----'));
+      expect(listener.conflictGroups$).toBeObservable(expected$);
     });
   });
 
