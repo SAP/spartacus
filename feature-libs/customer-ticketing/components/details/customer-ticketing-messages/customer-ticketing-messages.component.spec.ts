@@ -3,7 +3,7 @@ import { EventService, I18nTestingModule } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   TicketEvent,
-} from 'feature-libs/customer-ticketing/root';
+} from '@spartacus/customer-ticketing/root';
 import { BehaviorSubject, of } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;

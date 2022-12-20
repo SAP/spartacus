@@ -12,7 +12,7 @@ import {
 import {
   CustomerTicketingFacade,
   TicketDetails,
-} from 'feature-libs/customer-ticketing/root';
+} from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { CustomerTicketingPageMetaResolver } from './customer-ticketing-page-meta.resolver';
 import createSpy = jasmine.createSpy;

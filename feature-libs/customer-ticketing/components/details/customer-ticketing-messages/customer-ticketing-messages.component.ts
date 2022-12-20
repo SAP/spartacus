@@ -22,7 +22,6 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
@@ -41,17 +40,17 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
 
   subscription = new Subscription();
 
-  messageEvents$: Observable<Array<MessageEvent> | undefined> =
+  messageEvents$: Observable<Array<MessageEvent>> =
     this.prepareMessageEvents();
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  onSend(event: { files: FileList | undefined; message: string }) {
+  onSend(event: { files: FileList | File |undefined; message: string }) {
     this.subscription.add(
       this.customerTicketingFacade
         .createTicketEvent(this.prepareTicketEvent(event.message))
         .subscribe((createdEvent: TicketEvent) => {
-          if (event.files?.length && createdEvent.code) {
+          if (event.files instanceof FileList && event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0) as File,
               createdEvent.code
@@ -65,9 +64,9 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   }
 
   downloadAttachment(event: {
-    messageCode: string;
-    attachmentId: string;
-    fileName: string;
+    messageCode: string | undefined;
+    attachmentId: string | undefined;
+    fileName: string | undefined;
   }) {
     this.subscription.add(
       this.customerTicketingFacade
@@ -76,25 +75,25 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           const downloadURL = window.URL.createObjectURL(data as any);
           const link = document.createElement('a');
           link.href = downloadURL;
-          link.download = event.fileName;
+          link.download = event.fileName?? '';
           link.click();
         })
     );
   }
 
   protected prepareMessageEvents(): Observable<
-    Array<MessageEvent> | undefined
+    Array<MessageEvent>
   > {
     return this.ticketDetails$.pipe(
       map((ticket) =>
         ticket?.ticketEvents?.map(
           (event: TicketEvent): MessageEvent => ({
             ...event,
-            text: event.message,
+            text: event.message ?? '',
             rightAlign: event.addedByAgent || false,
-            attachments: event.ticketEventAttachments,
+            attachments: event.ticketEventAttachments ?? [],
           })
-        )
+        ) ?? []
       )
     );
   }
