@@ -3,6 +3,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
@@ -13,6 +14,7 @@ const CONFIG_ID = '1234-234';
 const CART_ID = '000000001';
 const ENTRY_NUMBER = '0';
 const USER_ID = 'user';
+const GROUP_ID_1 = 'GROUP';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: PRODUCT_CODE,
@@ -492,6 +494,19 @@ describe('Configurator reducer', () => {
       expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
+    });
+  });
+
+  describe('ChangeGroup action', () => {
+    it('should set conflict resolution mode', () => {
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: configuration,
+        groupId: GROUP_ID_1,
+        conflictResolutionMode: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.isConflictResolutionMode).toBe(true);
     });
   });
 });

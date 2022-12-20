@@ -172,6 +172,17 @@ export function configuratorReducer(
         },
       };
     }
+    case ConfiguratorActions.CHANGE_GROUP: {
+      const isConflictResolutionMode = action.payload.conflictResolutionMode;
+
+      return {
+        ...state,
+        interactionState: {
+          ...state.interactionState,
+          isConflictResolutionMode: isConflictResolutionMode,
+        },
+      };
+    }
   }
   return state;
 }

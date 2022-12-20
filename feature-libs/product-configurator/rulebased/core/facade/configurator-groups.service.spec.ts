@@ -327,6 +327,7 @@ describe('ConfiguratorGroupsService', () => {
           configuration: productConfigurationWithConflicts,
           groupId: productConfigurationWithConflicts.flatGroups[0].id,
           parentGroupId: productConfigurationWithConflicts.groups[0].id,
+          conflictResolutionMode: true,
         })
       );
     });
@@ -353,6 +354,7 @@ describe('ConfiguratorGroupsService', () => {
           configuration: productConfiguration,
           groupId: productConfiguration.flatGroups[0].id,
           parentGroupId: undefined,
+          conflictResolutionMode: false,
         })
       );
     });
