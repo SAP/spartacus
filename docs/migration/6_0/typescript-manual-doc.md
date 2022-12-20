@@ -1,11 +1,11 @@
 <!--
-  Most typescript breaking changes should be detected and documented automatically by a script.  If a change is apparent when comparing the public API of the previous version vs the public API of the new major version, it should be detected and documented automatically.
+  Most typescript breaking changes should be detected and documented automatically by a script if a change is apparent when comparing the public API of the previous version vs the public API of the new major version.
 
-  This file should contain typescript change documentation for changes not immediately apparent while comparting the public api between the older release and the current release and therefore will not be detected by the breaking change detection script.
+  This file should contain typescript change documentation for changes not immediately apparent while comparing the public api between the older release and the current release and therefore will not be detected by the breaking change detection script.
 
   Examples of typescript breaking changes that are not detectable by the script are:
-    * High level changes or refactpring
-    * Behaviour changes that are not backwards compatible and worth mentionning 
+    * High level changes or refactoring
+    * Behaviour changes that are not backwards compatible and worth mentioning 
 -->
 
 ## SSR and Prerendering
@@ -34,7 +34,7 @@ If explicitly set, this option will take precedence over the express server.
 
 ### OnNavigateService
 
-- When using Spartacus's implementation for Scroll Position Restoration we need to disables automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
+- When using Spartacus's implementation for Scroll Position Restoration we need to disable automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
 
 ### UpdatePasswordComponentService
 
