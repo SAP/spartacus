@@ -6,12 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  PickupLocationsSearchFacade,
-  DeliveryPointOfServiceItems,
-} from '@spartacus/pickup-in-store/root';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
-import { combineLatest, Observable } from 'rxjs';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+import { combineLatest, iif, of } from 'rxjs';
+import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 /**
  * A service to get the Delivery Points Of Service for items to be picked up in store for the active cart
@@ -42,81 +39,88 @@ export class DeliveryPointsService {
         Some of the below involves turning array data into lookup object data simply because this is easier to deal with
 
     */
-  getDeliveryPointsOfService(): Observable<Array<DeliveryPointOfServiceItems>> {
+  getDeliveryPointsOfService() {
     return this.activeCartFacade.getActive().pipe(
-      filter((cart) => !!cart.entries),
-      filter((cart) => !!(cart.entries as Array<OrderEntry>).length),
+      filter((cart) => !!cart.entries && !!cart.entries.length),
       map((cart): Array<OrderEntry> => cart.entries as Array<OrderEntry>),
       map((entries) =>
         entries.filter((entry) => !!entry.deliveryPointOfService)
       ),
-      map((entries) => {
-        const COPY = [...entries];
-        COPY.sort(
-          (a: OrderEntry, b: OrderEntry) =>
-            a.deliveryPointOfService?.name?.localeCompare(
-              b.deliveryPointOfService?.name || ''
-            ) || 0
-        );
-        return COPY;
-      }),
-      map((sortedArray) =>
-        sortedArray.reduce((accumulator: Record<string, any>, value) => {
-          const DELIVERY_POINT_OF_SERVICE: string = value.deliveryPointOfService
-            ?.name as string;
-          const existingValue: Array<OrderEntry> = accumulator[
-            DELIVERY_POINT_OF_SERVICE
-          ]
-            ? accumulator[DELIVERY_POINT_OF_SERVICE]
-            : [];
-          return {
-            ...accumulator,
-            [DELIVERY_POINT_OF_SERVICE]: [...existingValue, value],
-          };
-        }, {})
-      ),
-      map((deliveryPointOfServiceMap) =>
-        Object.keys(deliveryPointOfServiceMap).map((key) => ({
-          name: key,
-          value: deliveryPointOfServiceMap[key],
-        }))
-      ),
-      tap(
-        (
-          deliveryPointOfServiceMap: Array<{
-            name: string;
-            value: Array<Object>;
-          }>
-        ) =>
-          deliveryPointOfServiceMap
-            .map((deliveryPointOfService) => deliveryPointOfService.name)
-            .forEach((name) =>
-              this.pickupLocationsSearchService.loadStoreDetails(name)
-            )
-      ),
-      mergeMap((deliveryPointOfServiceMap) =>
-        combineLatest(
-          deliveryPointOfServiceMap
-            .map((deliveryPointOfService) => deliveryPointOfService.name)
-            .map((name) =>
-              this.pickupLocationsSearchService.getStoreDetails(name)
-            )
-        ).pipe(
-          map((storeDetails) => {
-            const STORE_DETAILS_MAP: Record<string, any> = storeDetails
-              .filter((_storeDetails) => !!_storeDetails)
-              .reduce(
-                (accumulator, value) => ({
-                  ...accumulator,
-                  [value.name as string]: value,
-                }),
-                {}
+      switchMap((entries) =>
+        iif(
+          () => !!entries.length,
+          of(entries).pipe(
+            map((entries) => {
+              const COPY = [...entries];
+              COPY.sort(
+                (a: OrderEntry, b: OrderEntry) =>
+                  a.deliveryPointOfService?.name?.localeCompare(
+                    b.deliveryPointOfService?.name || ''
+                  ) || 0
               );
-            return deliveryPointOfServiceMap.map((store) => ({
-              ...store,
-              storeDetails: STORE_DETAILS_MAP[store.name as string],
-            }));
-          })
+              return COPY;
+            }),
+            map((sortedArray) =>
+              sortedArray.reduce((accumulator: Record<string, any>, value) => {
+                const DELIVERY_POINT_OF_SERVICE: string = value
+                  .deliveryPointOfService?.name as string;
+                const existingValue: Array<OrderEntry> = accumulator[
+                  DELIVERY_POINT_OF_SERVICE
+                ]
+                  ? accumulator[DELIVERY_POINT_OF_SERVICE]
+                  : [];
+                return {
+                  ...accumulator,
+                  [DELIVERY_POINT_OF_SERVICE]: [...existingValue, value],
+                };
+              }, {})
+            ),
+            map((deliveryPointOfServiceMap) =>
+              Object.keys(deliveryPointOfServiceMap).map((key) => ({
+                name: key,
+                value: deliveryPointOfServiceMap[key],
+              }))
+            ),
+            tap(
+              (
+                deliveryPointOfServiceMap: Array<{
+                  name: string;
+                  value: Array<Object>;
+                }>
+              ) =>
+                deliveryPointOfServiceMap
+                  .map((deliveryPointOfService) => deliveryPointOfService.name)
+                  .forEach((name) =>
+                    this.pickupLocationsSearchService.loadStoreDetails(name)
+                  )
+            ),
+            mergeMap((deliveryPointOfServiceMap) =>
+              combineLatest(
+                deliveryPointOfServiceMap
+                  .map((deliveryPointOfService) => deliveryPointOfService.name)
+                  .map((name) =>
+                    this.pickupLocationsSearchService.getStoreDetails(name)
+                  )
+              ).pipe(
+                map((storeDetails) => {
+                  const STORE_DETAILS_MAP: Record<string, any> = storeDetails
+                    .filter((_storeDetails) => !!_storeDetails)
+                    .reduce(
+                      (accumulator, value) => ({
+                        ...accumulator,
+                        [value.name as string]: value,
+                      }),
+                      {}
+                    );
+                  return deliveryPointOfServiceMap.map((store) => ({
+                    ...store,
+                    storeDetails: STORE_DETAILS_MAP[store.name as string],
+                  }));
+                })
+              )
+            )
+          ),
+          of([])
         )
       )
     );

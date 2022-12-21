@@ -9,18 +9,16 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 @Component({
-  selector: 'cx-pick-up-in-store-details',
-  templateUrl: 'pickup-in-store-details.component.html',
-  styleUrls: ['pickup-in-store-details.component.scss'],
+  selector: 'cx-checkout-pick-up-in-store-details',
+  templateUrl: 'checkout-pickup-in-store-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PickUpInStoreDetailsComponent {
-  // TODO Remove the pickup-in-store-details.component.scss and move to its proper place
+export class CheckoutPickUpInStoreDetailsComponent {
   readonly CartOutlets = CartOutlets;
   readonly ICON_TYPE = ICON_TYPE;
+  compact = false;
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
-  compact = false;
 
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
 }

@@ -28,7 +28,9 @@ export const SET_PICKUP_OPTION_TO_PICKUP_IN_STORE =
   '[Pickup Locations] Set Pickup Option To Pickup In Store';
 export const SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS =
   '[Pickup Locations] Set Pickup Option To Pickup In Store Success';
-
+export const CART_RELOAD_SUCCESS = '[Pickup Locations] CART_RELOAD_SUCCESS';
+export const DELIVERY_MODE_SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS =
+  '[Pickup Locations CHECKOUT] CHECKOUT_SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS';
 export type AddLocationProps = {
   payload: {
     productCode: string;
@@ -93,6 +95,7 @@ export const SetPickupOptionToDelivery = createAction(
       userId: string;
       productCode: string;
       quantity: number;
+      page?: string;
     };
   }>()
 );
@@ -117,3 +120,9 @@ export const SetPickupOptionToPickupInStore = createAction(
 export const SetPickupOptionToPickupInStoreSuccess = createAction(
   SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
 );
+
+export const DeliveryModeSetPickupOptionToDeliverySuccess = createAction(
+  DELIVERY_MODE_SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
+);
+
+export const ReloadCartSuccess = createAction(CART_RELOAD_SUCCESS);

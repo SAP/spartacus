@@ -62,24 +62,38 @@ export class PickupLocationEffect {
           >
         ) => action.payload
       ),
-      switchMap(({ cartId, entryNumber, userId, productCode, quantity }) =>
-        this.pickupLocationConnector
-          .setPickupOptionToDelivery(
-            cartId,
-            entryNumber,
-            userId,
-            productCode,
-            quantity
-          )
-          .pipe(
-            map(() => {
-              setTimeout(() => {
-                this.activeCartFacade.reloadActiveCart();
-              }, 500);
-              return PickupLocationActions.SetPickupOptionToDeliverySuccess();
-            })
-          )
+      switchMap(
+        ({ cartId, entryNumber, userId, productCode, quantity, page }) =>
+          this.pickupLocationConnector
+            .setPickupOptionToDelivery(
+              cartId,
+              entryNumber,
+              userId,
+              productCode,
+              quantity
+            )
+            .pipe(
+              map(() => {
+                if (page === 'CheckoutDeliveryMode') {
+                  return PickupLocationActions.DeliveryModeSetPickupOptionToDeliverySuccess();
+                } else {
+                  return PickupLocationActions.SetPickupOptionToDeliverySuccess();
+                }
+              })
+            )
       )
+    )
+  );
+
+  reloadCartDeliveryModeToShip$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        PickupLocationActions.DELIVERY_MODE_SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
+      ),
+      map(() => {
+        this.activeCartFacade.reloadActiveCart();
+        return PickupLocationActions.ReloadCartSuccess();
+      })
     )
   );
 

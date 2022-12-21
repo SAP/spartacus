@@ -14,7 +14,7 @@ import {
   OutletModule,
 } from '@spartacus/storefront';
 import { StoreModule } from '../../presentational/store';
-import { PickUpInStoreDetailsComponent } from './pickup-in-store-details.component';
+import { CheckoutPickUpInStoreDetailsComponent } from './checkout-pickup-in-store-details.component';
 @NgModule({
   imports: [
     CardModule,
@@ -27,12 +27,12 @@ import { PickUpInStoreDetailsComponent } from './pickup-in-store-details.compone
     ConfigModule.withConfig({
       cmsComponents: {
         PickupInStoreDetails: {
-          component: PickUpInStoreDetailsComponent,
+          component: CheckoutPickUpInStoreDetailsComponent,
         },
       },
     } as CmsConfig),
   ],
-  exports: [PickUpInStoreDetailsComponent],
-  declarations: [PickUpInStoreDetailsComponent],
+  exports: [CheckoutPickUpInStoreDetailsComponent],
+  declarations: [CheckoutPickUpInStoreDetailsComponent],
 })
-export class PickupInStoreDetailsModule {}
+export class CheckoutPickUpInStoreDetailsModule {}

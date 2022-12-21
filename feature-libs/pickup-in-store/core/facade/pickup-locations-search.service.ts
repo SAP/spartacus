@@ -119,7 +119,8 @@ export class PickupLocationsSearchService
     entryNumber: number,
     userId: string,
     productCode: string,
-    quantity: number
+    quantity: number,
+    page?: string
   ): void {
     this.store.dispatch(
       PickupLocationActions.SetPickupOptionToDelivery({
@@ -129,6 +130,7 @@ export class PickupLocationsSearchService
           userId,
           productCode,
           quantity,
+          page,
         },
       })
     );

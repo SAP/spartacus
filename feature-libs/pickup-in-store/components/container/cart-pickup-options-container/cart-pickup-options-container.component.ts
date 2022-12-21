@@ -199,21 +199,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         this.entryNumber,
         this.userId,
         this.productCode,
-        this.quantity
+        this.quantity,
+        this.page
       );
 
-      // this.subscription.add(
-      //   this.pickupOptionFacade
-      //     .getPageContext()
-      //     .pipe(
-      //       filter((pageContext) => pageContext === 'CheckoutDeliveryMode'),
-      //       tap((pageContext) => {
-      //         console.log('pageContext', pageContext);
-      //       }),
-      //       tap(() => this.activeCartFacade.reloadActiveCart())
-      //     )
-      //     .subscribe()
-      // );
       return;
     }
 

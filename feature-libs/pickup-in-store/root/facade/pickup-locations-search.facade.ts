@@ -68,7 +68,8 @@ export abstract class PickupLocationsSearchFacade {
     entryNumber: number,
     userId: string,
     productCode: string,
-    quantity: number
+    quantity: number,
+    page?: string
   ): void;
   abstract setPickupOptionToPickupInStore(
     cartId: string,

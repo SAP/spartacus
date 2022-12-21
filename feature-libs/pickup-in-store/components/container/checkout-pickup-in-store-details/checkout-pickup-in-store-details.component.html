@@ -1,18 +1,20 @@
 <ng-container
   *ngIf="deliveryPointsOfService$ | async as deliveryPointsOfService"
 >
-  <p class="cx-checkout-title-pickup-in-store d-none d-lg-block d-xl-block">
+  <p
+    *ngIf="deliveryPointsOfService.length"
+    class="cx-checkout-pickup-in-store-heading d-lg-block d-xl-block"
+  >
     Items to be Picked Up
   </p>
   <div
     *ngFor="
       let deliveryPointOfService of deliveryPointsOfService;
-      let last = last;
       let index = index
     "
   >
     <div class="cx-checkout-pickup-in-store-details">
-      <div style="display: flex; margin-top: 1.5rem">
+      <div>
         <div>
           <p class="cx-checkout-pickup-in-store-details-heading">
             Pick Up Store Address {{ index + 1 }}
@@ -92,10 +94,12 @@
         </div>
 
         <!-- Item Delivery Details Outlet -->
-        <ng-template
-          [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
-          [cxOutletContext]="item"
-        ></ng-template>
+        <div class="col-12 mt-2">
+          <ng-template
+            [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
+            [cxOutletContext]="item"
+          ></ng-template>
+        </div>
       </div>
     </div>
   </div>
