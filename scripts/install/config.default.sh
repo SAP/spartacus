@@ -62,7 +62,7 @@ CSR_APP_NAME="csr"
 SSR_APP_NAME="ssr"
 SSR_PWA_APP_NAME="ssr-pwa"
 
-ADD_B2B_LIBS=false
+ADD_B2B_LIBS=true
 
 ADD_CPQ=false
 ADD_CDC=false
