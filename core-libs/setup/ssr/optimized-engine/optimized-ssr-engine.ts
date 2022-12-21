@@ -60,10 +60,24 @@ export class OptimizedSsrEngine {
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
   ) {
+    this.logOptions();
+  }
+
+  protected logOptions(): void {
+    if (!this.ssrOptions) {
+      return;
+    }
+
+    const replacer = (_key: string, value: unknown): unknown => {
+      if (typeof value === 'function') {
+        return value.toString();
+      }
+      return value;
+    };
+
+    const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
     this.log(
-      `[spartacus] SSR optimization engine initialized with the following options:\n${JSON.stringify(
-        this.ssrOptions
-      )}`,
+      `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
       false
     );
   }
