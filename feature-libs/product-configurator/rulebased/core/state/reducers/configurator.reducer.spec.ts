@@ -41,6 +41,13 @@ const configuration: Configurator.Configuration = {
   isCartEntryUpdateRequired: false,
   interactionState: interactionState,
 };
+const configurationWithConflict: Configurator.Configuration = {
+  ...configuration,
+  flatGroups: [
+    ConfiguratorTestUtils.createGroup(Configurator.ConflictIdPrefix + '5A6542'),
+  ],
+  interactionState: {},
+};
 const configurationWithoutOv: Configurator.Configuration = {
   configId: 'ds',
   productCode: PRODUCT_CODE,
@@ -103,6 +110,16 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(configuration);
       expect(state.interactionState.currentGroup).toEqual(
         configuration.groups[0].id
+      );
+    });
+
+    it('should set menuParentGroup in case first group is conflict', () => {
+      const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+        configurationWithConflict
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.menuParentGroup).toEqual(
+        Configurator.ConflictHeaderId
       );
     });
   });
