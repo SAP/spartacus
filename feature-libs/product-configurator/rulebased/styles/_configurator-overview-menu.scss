@@ -21,6 +21,10 @@
           background-color: transparent;
           transition: all 50ms ease-in-out 50ms; /*This small transition makes setting of the active state smooth */
 
+          span {
+            margin-inline-end: 5px;
+          }
+
           cx-icon {
             visibility: hidden;
           }
@@ -48,8 +52,8 @@
           &.active {
             cx-icon {
               visibility: visible;
-              margin-inline-start: 5px;
             }
+
             /**
             &:after {
               align-self: center;

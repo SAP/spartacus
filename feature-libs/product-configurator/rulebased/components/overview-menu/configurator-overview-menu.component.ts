@@ -162,4 +162,8 @@ export class ConfiguratorOverviewMenuComponent {
       groupId
     );
   }
+
+  numSequence(n: number): Array<number> {
+    return Array(n);
+  }
 }

@@ -30,7 +30,9 @@
           (click)="navigateToGroup(idPrefix, group.id)"
         >
           <span aria-hidden="true"> {{ group.groupDescription }}</span>
-          <cx-icon [type]="iconTypes.CARET_LEFT" aria-hidden="true"></cx-icon>
+          <ng-container *ngFor='let number of numSequence(level)'>
+            <cx-icon [type]="iconTypes.CARET_RIGHT" aria-hidden="true"></cx-icon>
+          </ng-container>
         </button>
         <ng-container *ngIf="group.subGroups?.length > 0">
           <ng-container
