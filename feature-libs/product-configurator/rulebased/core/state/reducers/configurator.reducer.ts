@@ -202,7 +202,7 @@ function setInitialCurrentGroup(
   )
     ? Configurator.ConflictHeaderId
     : undefined;
-  const result = {
+  return {
     ...state,
     interactionState: {
       ...state.interactionState,
@@ -210,8 +210,6 @@ function setInitialCurrentGroup(
       menuParentGroup: menuParentGroup,
     },
   };
-
-  return result;
 }
 
 function takeOverChanges(
