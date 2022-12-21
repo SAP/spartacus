@@ -29,10 +29,7 @@ export const initialStatePendingChanges = 0;
 
 function handleActionUpdateConfigurationFinalizeSuccess(
   state: Configurator.Configuration,
-  action:
-    | ConfiguratorActions.ConfiguratorAction
-    | ConfiguratorActions.ConfiguratorCartAction
-    | ConfiguratorActions.ConfiguratorVariantAction
+  action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ): Configurator.Configuration | undefined {
   if (
     action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS
@@ -46,10 +43,7 @@ function handleActionUpdateConfigurationFinalizeSuccess(
 
 function handleActionUpdateCartEntry(
   state: Configurator.Configuration,
-  action:
-    | ConfiguratorActions.ConfiguratorAction
-    | ConfiguratorActions.ConfiguratorCartAction
-    | ConfiguratorActions.ConfiguratorVariantAction
+  action: ConfiguratorActions.UpdateCartEntry
 ): Configurator.Configuration | undefined {
   if (action.type === ConfiguratorActions.UPDATE_CART_ENTRY) {
     const result = { ...state };
@@ -63,9 +57,7 @@ function handleReadSucess(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationSuccess
-    | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
-    | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   return setInitialCurrentGroup(takeOverChanges(action, state));
 }

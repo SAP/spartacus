@@ -127,10 +127,6 @@ export class ConfiguratorBasicEffects {
       //(which only sends one changed attribute at a time),
       //so we must not cancel inner emissions
       mergeMap((payload: Configurator.Configuration) => {
-        console.log(
-          'CHHI before update: ' +
-            payload.interactionState.isConflictResolutionMode
-        );
         return this.configuratorCommonsConnector
           .updateConfiguration(payload)
           .pipe(
@@ -278,10 +274,6 @@ export class ConfiguratorBasicEffects {
                 ),
                 take(1),
                 map((currentGroupId) => {
-                  console.log(
-                    'CHHI effect, conflic res mode: ' +
-                      payload.interactionState.isConflictResolutionMode
-                  );
                   // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
