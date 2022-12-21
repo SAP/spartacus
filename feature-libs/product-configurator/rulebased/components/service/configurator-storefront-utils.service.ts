@@ -321,9 +321,7 @@ export class ConfiguratorStorefrontUtilsService {
   getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
       return Array.from(
-        this.windowRef.document.querySelectorAll(
-          querySelector
-        ) as NodeListOf<HTMLElement>
+        this.windowRef.document.querySelectorAll(querySelector)
       );
     }
   }

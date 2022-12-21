@@ -140,14 +140,10 @@ export class ConfiguratorOverviewMenuComponent {
    * @return {string} - unique group id
    */
   getGroupId(idPrefix: string, groupId: string): string {
-    return this.configuratorStorefrontUtilsService
-      ? this.configuratorStorefrontUtilsService.createOvGroupId(
-          idPrefix,
-          groupId
-        )
-      : idPrefix
-      ? idPrefix + '--' + groupId + this.OV_GROUP
-      : groupId + this.OV_GROUP;
+    return this.configuratorStorefrontUtilsService.createOvGroupId(
+      idPrefix,
+      groupId
+    );
   }
 
   /**
@@ -158,13 +154,9 @@ export class ConfiguratorOverviewMenuComponent {
    * @return {string} - unique group id
    */
   getMenuItemId(idPrefix: string, groupId: string): string {
-    return this.configuratorStorefrontUtilsService
-      ? this.configuratorStorefrontUtilsService.createOvMenuItemId(
-          idPrefix,
-          groupId
-        )
-      : idPrefix
-      ? idPrefix + '--' + groupId + this.OV_MENU_ITEM
-      : groupId + this.OV_MENU_ITEM;
+    return this.configuratorStorefrontUtilsService.createOvMenuItemId(
+      idPrefix,
+      groupId
+    );
   }
 }

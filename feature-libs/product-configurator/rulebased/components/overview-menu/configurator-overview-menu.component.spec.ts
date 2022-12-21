@@ -198,15 +198,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
     });
 
-    it('should cope with utils service not present', () => {
+    it('should cope with undefined idPrefix', () => {
       initialize();
-      component['configuratorStorefrontUtilsService'] = undefined;
-      expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
-    });
-
-    it('should cope with utils service not present and idPrefix is undefined', () => {
-      initialize();
-      component['configuratorStorefrontUtilsService'] = undefined;
       expect(component.getGroupId(undefined, 'B')).toBe('B-ovGroup');
     });
   });
@@ -217,15 +210,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
     });
 
-    it('should cope with utils service not present', () => {
+    it('should cope with undefined idPrefix', () => {
       initialize();
-      component['configuratorStorefrontUtilsService'] = undefined;
-      expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
-    });
-
-    it('should cope with utils service not present and idPrefix is undefined', () => {
-      initialize();
-      component['configuratorStorefrontUtilsService'] = undefined;
       expect(component.getMenuItemId(undefined, 'B')).toBe('B-ovMenuItem');
     });
   });
