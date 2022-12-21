@@ -53,7 +53,7 @@
           ></cx-pagination>
         </div>
       </div>
-      <ng-container *ngIf="(show$ | async) > 70">
+      <ng-container *ngIf="show$ | async">
         <ng-container *cxFeatureLevel="'5.1'">
           <table
             id="product-interests-table"
