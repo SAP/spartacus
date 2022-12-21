@@ -100,10 +100,7 @@ export class ConfiguratorGroupsService {
       .pipe(take(1))
       .subscribe((configuration) => {
         const groupId = this.getFirstConflictGroup(configuration)?.id;
-        if (
-          groupId &&
-          groupId !== configuration.interactionState.currentGroup
-        ) {
+        if (groupId) {
           this.navigateToGroup(configuration, groupId, true);
         }
       });
