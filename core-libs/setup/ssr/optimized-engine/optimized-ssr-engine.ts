@@ -59,7 +59,13 @@ export class OptimizedSsrEngine {
   constructor(
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
-  ) {}
+  ) {
+    this.log(
+      `[spartacus] SSR optimization engine initialized with the following options:\n${JSON.stringify(
+        this.ssrOptions
+      )}`
+    );
+  }
 
   /**
    * When SSR page can not be returned in time, we're returning index.html of
