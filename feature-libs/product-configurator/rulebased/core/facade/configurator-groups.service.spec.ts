@@ -28,6 +28,7 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
   interactionState: {
     ...productConfigurationWithConflicts.interactionState,
     currentGroup: GROUP_ID_CONFLICT_3,
+    isConflictResolutionMode:true
   },
 };
 
@@ -340,7 +341,7 @@ describe('ConfiguratorGroupsService', () => {
         })
       );
     });
-    it('should not trigger change group action in case current group is already the first conflict group', () => {
+    it('should also trigger change group action in case current group is already the first conflict group because group menu component relies on interactionState.issueNavigationDone', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT)
       );
@@ -348,7 +349,14 @@ describe('ConfiguratorGroupsService', () => {
         PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.owner
       );
 
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT,
+          groupId: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.flatGroups[0].id,
+          parentGroupId: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.groups[0].id,
+          conflictResolutionMode:true
+        })
+      );
     });
     it('should not navigate in case no conflict group is present', () => {
       const consistentConfiguration =
