@@ -268,4 +268,7 @@ export namespace Configurator {
     USER_INPUT = 'USER_INPUT',
     PRICE_RELEVANT = 'PRICE_RELEVANT',
   }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

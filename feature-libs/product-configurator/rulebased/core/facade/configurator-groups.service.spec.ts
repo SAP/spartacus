@@ -9,6 +9,7 @@ import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
+  GROUP_ID_CONFLICT_3,
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
@@ -21,6 +22,14 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
+
+const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
+  ...productConfigurationWithConflicts,
+  interactionState: {
+    ...productConfigurationWithConflicts.interactionState,
+    currentGroup: GROUP_ID_CONFLICT_3,
+  },
+};
 
 class MockActiveCartService {}
 class MockConfiguratorCartService {
@@ -314,7 +323,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('navigateToConflictSolver', () => {
-    it('should go to conflict solver', () => {
+    it('should trigger change group action in case conflict group deviates from current one', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfigurationWithConflicts)
       );
@@ -330,6 +339,16 @@ describe('ConfiguratorGroupsService', () => {
           conflictResolutionMode: true,
         })
       );
+    });
+    it('should not trigger change group action in case current group is already the first conflict group', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT)
+      );
+      classUnderTest.navigateToConflictSolver(
+        PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.owner
+      );
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
     it('should not navigate in case no conflict group is present', () => {
       const consistentConfiguration =
