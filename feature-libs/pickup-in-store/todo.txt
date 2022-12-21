@@ -1,1 +1,2 @@
 1 The cart reload is slow shall we show a loader in meantime ?
+2 Check if rather that page location if we can use data argument for cms to distinguish between the location
