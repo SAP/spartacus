@@ -22,26 +22,48 @@ function clear_root {
 
 # Package is built and set at the root level
 function pack {
-    PACKAGE=$1
-    cd sub-folder
-
-    if [[ -z "$PACKAGE" ]]; then
-        echo "Package cannot be empty"
-        exit 1
-    elif [[ $PACKAGE == 'styles' ]]; then
-        cp -r projects/storefrontstyles/* ../.
-    elif [[ $PACKAGE == 'schematics' ]]; then
-        yarn build:schematics
-        cp -r projects/schematics/* ../.
-    else
-        yarn build:$PACKAGE
-        cp -r dist/$PACKAGE/* ../.
-    fi
+    arr=("core"
+    "styles"
+    "assets"
+    "storefrontlib"
+    "smartedit"
+    "qualtrics"
+    "tracking"
+    "user"
+    "product"
+    "cart"
+    "order"
+    "storefinder"
+    "asm"
+    "checkout"
+    "setup"
+    "organization"
+    "product-configurator"
+    "cds"
+    "cdc"
+    "digital-payments"
+    "epd-visualization"
+    "schematics"
+    "s4om")
+    for PACKAGE in "${arr[@]}"; do
+        echo $PACKAGE
+    done
+    for PACKAGE in "${arr[@]}"; do
+        if [[ -z "$PACKAGE" ]]; then
+            echo "Package cannot be empty"
+            exit 1
+        elif [[ $PACKAGE == 'styles' ]]; then
+            echo "hi"
+        elif [[ $PACKAGE == 'schematics' ]]; then
+            yarn build:schematics
+        else
+            yarn build:$PACKAGE
+        fi
+    done
 }
 
 if [[ $1 == 'configure' ]]; then
     configure_project
 else 
-    clear_root
-    pack "$1"
+    pack
 fi 
