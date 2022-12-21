@@ -149,7 +149,8 @@ export class ConfiguratorCartEffects {
                       interactionState: {
                         currentGroup:
                           this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                            result
+                            result,
+                            true
                           ),
                       },
                     })
