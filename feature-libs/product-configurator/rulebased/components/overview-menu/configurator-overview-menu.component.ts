@@ -11,6 +11,7 @@ import {
   Input,
 } from '@angular/core';
 import {
+  ICON_TYPE,
   IntersectionOptions,
   IntersectionService,
 } from '@spartacus/storefront';
@@ -29,6 +30,8 @@ export class ConfiguratorOverviewMenuComponent {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,

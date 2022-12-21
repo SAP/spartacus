@@ -9,8 +9,8 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { Type } from '@angular/core';
-import { IntersectionService } from '@spartacus/storefront';
+import { Component, Input, Type } from '@angular/core';
+import { ICON_TYPE, IntersectionService } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 
 const OWNER: CommonConfigurator.Owner =
@@ -28,6 +28,14 @@ const CONFIGURATION: Configurator.ConfigurationWithOverview = {
 
 class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -76,7 +84,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [ConfiguratorOverviewMenuComponent],
+        declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
         providers: [
           {
             provide: ConfiguratorGroupsService,

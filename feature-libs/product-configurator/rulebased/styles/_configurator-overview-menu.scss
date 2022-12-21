@@ -21,6 +21,10 @@
           background-color: transparent;
           transition: all 50ms ease-in-out 50ms; /*This small transition makes setting of the active state smooth */
 
+          cx-icon {
+            visibility: hidden;
+          }
+
           &.active,
           &:hover {
             cursor: pointer;
@@ -31,22 +35,32 @@
             &:last-child {
               text-decoration: underline;
 
-              &:before {
-                content: none !important;
+              cx-icon {
+                visibility: hidden;
+              }
+
+              &:after {
+                //content: none !important;
               }
             }
           }
 
           &.active {
-            &:before {
+            cx-icon {
+              visibility: visible;
+              margin-inline-start: 5px;
+            }
+            /**
+            &:after {
               align-self: center;
               content: '';
               border-radius: 0.5rem;
               height: 0.5rem;
               width: 0.5rem;
-              margin-inline-end: 0.5rem;
+              margin-inline-start: 0.5rem;
               background-color: var(--cx-color-primary);
             }
+            */
           }
 
           span {
