@@ -25,6 +25,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
 
+  protected readonly CX_MENU_GROUP = 'cx-menu-group';
+  protected readonly OV_MENU_ITEM = '-ovMenuItem';
+  protected readonly OV_GROUP = '-ovGroup';
+  protected readonly ACTIVE_CLASS = 'active';
+
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService
@@ -41,27 +46,23 @@ export class ConfiguratorOverviewMenuComponent {
     };
     const groups =
       this.configuratorStorefrontUtilsService.getElements('div.cx-group');
-    if (groups) {
-      for (let index = 0; index < groups.length; index++) {
-        this.intersectionService
-          .isIntersecting(groups[index], options, intersectingCondition)
-          .subscribe((isIntersecting) => {
-            const id = groups[index]?.id.replace('-ovGroup', '-ovMenuItem');
-            if (id) {
-              const querySelector = '#' + id;
-              let groupItem =
-                this.configuratorStorefrontUtilsService.getElement(
-                  querySelector
-                );
-              if (isIntersecting) {
-                this.makeMenuItemsActive(groupItem);
-              } else {
-                groupItem?.classList.remove('active');
-              }
+    groups?.forEach((group) => {
+      this.intersectionService
+        .isIntersecting(group, options, intersectingCondition)
+        .subscribe((isIntersecting) => {
+          const id = group?.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
+          if (id) {
+            const querySelector = '#' + id;
+            const groupItem =
+              this.configuratorStorefrontUtilsService.getElement(querySelector);
+            if (isIntersecting) {
+              this.makeMenuItemsActive(groupItem);
+            } else {
+              groupItem?.classList.remove(this.ACTIVE_CLASS);
             }
-          });
-      }
-    }
+          }
+        });
+    });
   }
 
   protected addMenuItem(
@@ -69,30 +70,26 @@ export class ConfiguratorOverviewMenuComponent {
     parent: HTMLElement | undefined
   ): void {
     const child = parent?.querySelector('.cx-menu-item');
-    if (child) {
-      if (menuItems.indexOf(child) === -1) {
-        menuItems.push(child);
-      }
+    if (child && menuItems.indexOf(child) === -1) {
+      menuItems.push(child);
     }
   }
 
   protected collectMenuItems(element: HTMLElement | undefined): Element[] {
-    let menuItems: Element[] = [];
-    if (element) {
-      while (element) {
-        if (element?.parentElement?.classList?.contains('cx-menu-group')) {
-          this.addMenuItem(menuItems, element?.parentElement);
-          element = element?.parentElement;
-        } else if (
-          element?.parentElement?.parentElement?.classList?.contains(
-            'cx-menu-group'
-          )
-        ) {
-          this.addMenuItem(menuItems, element?.parentElement?.parentElement);
-          element = element?.parentElement?.parentElement;
-        } else {
-          element = undefined;
-        }
+    const menuItems: Element[] = [];
+    while (element) {
+      if (element?.parentElement?.classList?.contains(this.CX_MENU_GROUP)) {
+        this.addMenuItem(menuItems, element?.parentElement);
+        element = element?.parentElement;
+      } else if (
+        element?.parentElement?.parentElement?.classList?.contains(
+          this.CX_MENU_GROUP
+        )
+      ) {
+        this.addMenuItem(menuItems, element?.parentElement?.parentElement);
+        element = element?.parentElement?.parentElement;
+      } else {
+        element = undefined;
       }
     }
     return menuItems;
@@ -101,8 +98,8 @@ export class ConfiguratorOverviewMenuComponent {
   protected makeMenuItemsActive(element: HTMLElement | undefined) {
     if (element) {
       this.collectMenuItems(element).forEach((node) => {
-        if (!node?.classList.contains('active')) {
-          node?.classList.add('active');
+        if (!node?.classList.contains(this.ACTIVE_CLASS)) {
+          node?.classList.add(this.ACTIVE_CLASS);
         }
       });
     }
@@ -115,7 +112,7 @@ export class ConfiguratorOverviewMenuComponent {
    * @return {string} - corresponding style classes
    */
   getGroupLevelStyleClasses(level: number): string {
-    return 'cx-menu-group' + ' groupLevel' + level;
+    return this.CX_MENU_GROUP + ' groupLevel' + level;
   }
 
   /**
@@ -149,8 +146,8 @@ export class ConfiguratorOverviewMenuComponent {
           groupId
         )
       : idPrefix
-      ? idPrefix + '--' + groupId + '-ovGroup'
-      : groupId + '-ovGroup';
+      ? idPrefix + '--' + groupId + this.OV_GROUP
+      : groupId + this.OV_GROUP;
   }
 
   /**
@@ -167,7 +164,7 @@ export class ConfiguratorOverviewMenuComponent {
           groupId
         )
       : idPrefix
-      ? idPrefix + '--' + groupId + '-ovMenuItem'
-      : groupId + '-ovMenuItem';
+      ? idPrefix + '--' + groupId + this.OV_MENU_ITEM
+      : groupId + this.OV_MENU_ITEM;
   }
 }
