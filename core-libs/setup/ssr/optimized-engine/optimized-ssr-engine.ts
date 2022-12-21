@@ -63,7 +63,8 @@ export class OptimizedSsrEngine {
     this.log(
       `[spartacus] SSR optimization engine initialized with the following options:\n${JSON.stringify(
         this.ssrOptions
-      )}`
+      )}`,
+      false
     );
   }
 
