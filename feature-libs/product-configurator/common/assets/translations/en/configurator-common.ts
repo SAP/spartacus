@@ -14,6 +14,7 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveIssue: 'Resolve Issue',
       resolveConflicts: 'Resolve Conflicts',
       conflictWarning: 'Conflict must be resolved to continue',
       updateMessage: 'The configuration is being updated in the background',

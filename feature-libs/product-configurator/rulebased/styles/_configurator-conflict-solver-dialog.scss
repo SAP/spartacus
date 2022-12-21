@@ -43,7 +43,8 @@
         .cx-dialog-header {
           padding-inline-start: 16px;
           padding-inline-end: 0px;
-          padding-block-end: 12px;
+          padding-block-start: 12px;
+          padding-block-end: 0px;
 
           @include media-breakpoint-down(md) {
             padding-inline-end: 0px;
