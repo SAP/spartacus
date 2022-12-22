@@ -292,4 +292,106 @@ describe('ConfigTabBarComponent', () => {
       });
     });
   });
+
+  describe('getTabIndexOverviewTab', () => {
+    it('should return tabindex 0 if on overview page', () => {
+      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+      expect(component.getTabIndexOverviewTab()).toBe(0);
+    });
+
+    it('should return tabindex -1 if on configuration page', () => {
+      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+      expect(component.getTabIndexOverviewTab()).toBe(-1);
+    });
+  });
+
+  describe('getTabIndexConfigTab', () => {
+    it('should return tabindex -1 if on overview page', () => {
+      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
+      expect(component.getTabIndexConfigTab()).toBe(-1);
+    });
+
+    it('should return tabindex 0 if on configuration page', () => {
+      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
+      expect(component.getTabIndexConfigTab()).toBe(0);
+    });
+  });
+
+  describe('switchTabOnArrowPress', () => {
+    it('should focus overview tab if right arrow pressed and if current tab is config tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
+      });
+      component.switchTabOnArrowPress(event, '#configTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+    });
+
+    it('should focus overview tab if left arrow pressed and if current tab is config tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(event, '#configTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+    });
+
+    it('should not change focus if up arrow pressed', () => {
+      fixture.detectChanges();
+      const leftEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(leftEvent, '#configTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+      const downEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      component.switchTabOnArrowPress(downEvent, '#configTab');
+      document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+    });
+
+    it('should not change focus if down arrow pressed', () => {
+      fixture.detectChanges();
+      const leftEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(leftEvent, '#configTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+      const downEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      component.switchTabOnArrowPress(downEvent, '#configTab');
+      document.activeElement;
+      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
+    });
+
+    it('should focus config tab if right arrow pressed and if current tab is overview tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
+      });
+      component.switchTabOnArrowPress(event, '#overviewTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        'configurator.tabBar.configuration'
+      );
+    });
+
+    it('should focus config tab if left arrow pressed and if current tab is overview tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(event, '#overviewTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        'configurator.tabBar.configuration'
+      );
+    });
+  });
 });
