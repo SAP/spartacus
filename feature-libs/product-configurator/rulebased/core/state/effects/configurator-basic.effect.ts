@@ -274,7 +274,7 @@ export class ConfiguratorBasicEffects {
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
-                      currentGroupId?.startsWith('CONFLICT')
+                      currentGroupId?.startsWith(Configurator.ConflictIdPrefix)
                     );
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
