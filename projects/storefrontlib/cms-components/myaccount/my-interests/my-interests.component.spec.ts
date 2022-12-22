@@ -189,7 +189,7 @@ const emptyInterests: ProductInterestSearchResult = {
   pagination: {},
 };
 
-xdescribe('MyInterestsComponent', () => {
+describe('MyInterestsComponent', () => {
   let component: MyInterestsComponent;
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;

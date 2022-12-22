@@ -2,6 +2,8 @@ import * as notification from '../../../helpers/notification';
 import * as orderDetail from '../../../helpers/consignment-tracking';
 import { viewportContext } from '../../../helpers/viewport-context';
 
+const k = Cypress.env('cypress_repeat_k');
+
 describe('My interests', () => {
   viewportContext(['mobile'], () => {
     describe('Customer', () => {
@@ -44,6 +46,14 @@ describe('My interests', () => {
 
       it('should page and sort', () => {
         notification.verifyPagingAndSorting();
+      });
+    });
+
+    describe('FAIL', () => {
+      it('should fail on first run', () => {
+        if (k < 2) {
+          cy.get('nothing');
+        }
       });
     });
   });

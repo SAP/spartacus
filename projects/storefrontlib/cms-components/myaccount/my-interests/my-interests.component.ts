@@ -23,7 +23,7 @@ import {
   TranslationService,
   UserInterestsService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
@@ -62,9 +62,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
-  show$: BehaviorSubject<boolean> = new BehaviorSubject(
-    Math.random() * 100 > 55
-  );
 
   // TODO(#499): make asmService and modalService are required dependency
   constructor(
