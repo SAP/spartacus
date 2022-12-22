@@ -17,7 +17,7 @@ export abstract class TranslationService {
    * @param whitespaceUntilLoaded if true, immediately emits a non-breaking space
    */
   translate: (
-    key: string,
+    key: string | string[],
     options?: any,
     whitespaceUntilLoaded?: boolean
   ) => Observable<string>;

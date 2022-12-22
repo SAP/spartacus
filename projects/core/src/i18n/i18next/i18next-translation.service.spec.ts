@@ -8,10 +8,13 @@ import { I18NEXT_INSTANCE } from './i18next-instance';
 import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
+const testFallbackKey = 'testFallbackKey';
+const testSecondFallbackKey = 'testSecondFallbackKey';
+const testChunk = 'testChunk';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
 
-describe('I18nextTranslationService', () => {
+fdescribe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
   let i18next: i18n;
 
@@ -19,7 +22,7 @@ describe('I18nextTranslationService', () => {
     const mockTranslationChunk = {
       getChunkNameForKey: jasmine
         .createSpy('getChunkNameForKey')
-        .and.returnValue('testChunk'),
+        .and.returnValue(testChunk),
     };
 
     TestBed.configureTestingModule({
@@ -48,143 +51,163 @@ describe('I18nextTranslationService', () => {
     });
   });
 
-  describe('translate', () => {
-    beforeEach(() => {
-      i18next.isInitialized = true;
-    });
+  [
+    testKey,
+    [testKey, testFallbackKey],
+    [testKey, testFallbackKey, testSecondFallbackKey],
+  ].forEach((key) => {
+    describe(`${
+      typeof testKey === 'string'
+        ? 'one translation key'
+        : 'few translation keys'
+    }  `, () => {
+      const namespacedKeys = Array.isArray(key)
+        ? key.map((k) => `${testChunk}:${k}`)
+        : [`${testChunk}:${key}`];
+      describe('translate', () => {
+        beforeEach(() => {
+          i18next.isInitialized = true;
+        });
 
-    describe(', when key exists,', () => {
-      beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValue(true);
-      });
+        describe(', when key exists,', () => {
+          beforeEach(() => {
+            spyOn(i18next, 'exists').and.returnValue(true);
+          });
 
-      it('should emit result of i18next.t', () => {
-        spyOn(i18next, 't').and.returnValue('value');
-        let result;
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe((x) => (result = x));
+          it('should emit result of i18next.t', () => {
+            spyOn(i18next, 't').and.returnValue('value');
+            let result;
+            service
+              .translate(key, testOptions)
+              .pipe(take(namespacedKeys.length))
+              .subscribe((x) => (result = x));
 
-        expect(i18next.t).toHaveBeenCalledWith(
-          'testChunk:testKey',
-          testOptions
-        );
-        expect(result).toBe('value');
-      });
-    });
+            expect(i18next.t).toHaveBeenCalledWith(namespacedKeys, testOptions);
+            expect(result).toBe('value');
+          });
+        });
 
-    describe(', when key does NOT exist,', () => {
-      beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValue(false);
-        spyOn(i18next, 'loadNamespaces').and.returnValue(new Promise(() => {}));
-      });
+        describe(', when key does NOT exist,', () => {
+          beforeEach(() => {
+            spyOn(i18next, 'exists').and.returnValue(false);
+            spyOn(i18next, 'loadNamespaces').and.returnValue(
+              new Promise(() => {})
+            );
+          });
 
-      it('should emit non-breaking space if whitespaceUntilLoaded is true', () => {
-        let result;
-        service
-          .translate(testKey, testOptions, true)
-          .pipe(first())
-          .subscribe((x) => (result = x));
-        expect(result).toBe(nonBreakingSpace);
-      });
+          it('should emit non-breaking space if whitespaceUntilLoaded is true', () => {
+            let result;
+            service
+              .translate(key, testOptions, true)
+              .pipe(first())
+              .subscribe((x) => (result = x));
+            expect(result).toBe(nonBreakingSpace);
+          });
 
-      it('should NOT emit any value if whitespaceUntilLoaded is false', () => {
-        let result = 'initial value';
-        service
-          .translate(testKey, testOptions, false)
-          .pipe(first())
-          .subscribe((x) => (result = x));
-        expect(result).toBe('initial value');
-      });
+          it('should NOT emit any value if whitespaceUntilLoaded is false', () => {
+            let result = 'initial value';
+            service
+              .translate(key, testOptions, false)
+              .pipe(first())
+              .subscribe((x) => (result = x));
+            expect(result).toBe('initial value');
+          });
 
-      it('should load chunk of key', () => {
-        service.translate(testKey, testOptions).pipe(first()).subscribe();
+          it('should load chunk of key', () => {
+            service.translate(key, testOptions).pipe(first()).subscribe();
 
-        expect(i18next.loadNamespaces).toHaveBeenCalledWith(
-          'testChunk',
-          jasmine.any(Function)
-        );
-      });
-    });
+            expect(i18next.loadNamespaces).toHaveBeenCalledWith(
+              Array(namespacedKeys.length).fill(`${testChunk}`),
+              jasmine.any(Function)
+            );
+          });
+        });
 
-    describe(', when key does NOT exist even after chunk was loaded,', () => {
-      beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValues(false, false);
-        spyOn(i18next, 'loadNamespaces').and.callFake(((
-          _namespaces,
-          onChunkLoad
-        ) => onChunkLoad()) as any);
-      });
+        describe(', when key does NOT exist even after chunk was loaded,', () => {
+          beforeEach(() => {
+            spyOn(i18next, 'exists').and.returnValue(false);
+            spyOn(i18next, 'loadNamespaces').and.callFake(((
+              _namespaces,
+              onChunkLoad
+            ) => onChunkLoad()) as any);
+          });
 
-      it('should emit key in brackets for non-production', () => {
-        let result;
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe((x) => (result = x));
-        expect(result).toBe(`[testChunk:testKey]`);
-      });
+          it('should emit key in brackets for non-production', () => {
+            let result;
+            service
+              .translate(key, testOptions)
+              .pipe(first())
+              .subscribe((x) => (result = x));
+            expect(result).toEqual(
+              namespacedKeys.map((k) => `[${k}]`).join(',')
+            );
+          });
 
-      it('should return non-breaking space for production', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-        let result;
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe((x) => (result = x));
-        expect(result).toBe(nonBreakingSpace);
-      });
-    });
+          it('should return non-breaking space for production', () => {
+            spyOnProperty(AngularCore, 'isDevMode').and.returnValue(
+              () => false
+            );
+            let result;
+            service
+              .translate(key, testOptions)
+              .pipe(first())
+              .subscribe((x) => (result = x));
+            expect(result).toBe(nonBreakingSpace);
+          });
+        });
 
-    describe(', when key does NOT exist firstly, but it comes with loaded chunk,', () => {
-      beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValues(false, true);
-        spyOn(i18next, 'loadNamespaces').and.callFake(((
-          _namespaces,
-          onChunkLoad
-        ) => onChunkLoad()) as any);
-      });
+        // describe(', when key does NOT exist firstly, but it comes with loaded chunk,', () => {
+        //   beforeEach(() => {
+        //     const existsValues = Array(namespacedKeys.length * 2).fill(false);
+        //     existsValues[existsValues.length - 1] = true;
+        //     spyOn(i18next, 'exists').and.returnValues(...existsValues);
+        //     spyOn(i18next, 'loadNamespaces').and.callFake(((
+        //       _namespaces,
+        //       onChunkLoad
+        //     ) => onChunkLoad()) as any);
+        //   });
 
-      it('should emit result of i18next.t', () => {
-        spyOn(i18next, 't').and.returnValue('value');
-        let result;
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe((x) => (result = x));
-        expect(i18next.t).toHaveBeenCalledWith(
-          'testChunk:testKey',
-          testOptions
-        );
-        expect(result).toBe('value');
-      });
-    });
+        //   it('should emit result of i18next.t', () => {
+        //     spyOn(i18next, 't').and.returnValue('value');
+        //     let result;
+        //     service
+        //       .translate(key, testOptions)
+        //       .pipe(take(namespacedKeys.length))
+        //       .subscribe((x) => (result = x));
+        //     expect(i18next.t).toHaveBeenCalledWith(
+        //       [namespacedKeys[namespacedKeys.length - 1]],
+        //       testOptions
+        //     );
+        //     expect(result).toBe('value');
+        //   });
+        // });
 
-    describe(', when language changed,', () => {
-      it('should emit result of i18next.t in new language', () => {
-        let languageChangedCallback;
-        spyOn(i18next, 'off');
-        spyOn(i18next, 'on').and.callFake(
-          (_event, callback) => (languageChangedCallback = callback)
-        );
-        spyOn(i18next, 'exists').and.returnValue(true);
-        spyOn(i18next, 't').and.returnValues('value1', 'value2');
+        describe(', when language changed,', () => {
+          it('should emit result of i18next.t in new language', () => {
+            let languageChangedCallback;
+            spyOn(i18next, 'off');
+            spyOn(i18next, 'on').and.callFake(
+              (_event, callback) => (languageChangedCallback = callback)
+            );
+            spyOn(i18next, 'exists').and.returnValue(true);
+            spyOn(i18next, 't').and.returnValues('value1', 'value2');
 
-        let result;
-        service
-          .translate(testKey, testOptions)
-          .pipe(take(2))
-          .subscribe((x) => (result = x));
-        expect(result).toBe('value1');
+            let result;
+            service
+              .translate(key, testOptions)
+              .pipe(take(2))
+              .subscribe((x) => (result = x));
+            expect(result).toBe('value1');
 
-        languageChangedCallback();
-        expect(result).toBe('value2');
+            languageChangedCallback();
+            expect(result).toBe('value2');
 
-        expect(i18next.off).toHaveBeenCalledWith(
-          'languageChanged',
-          languageChangedCallback
-        );
+            expect(i18next.off).toHaveBeenCalledWith(
+              'languageChanged',
+              languageChangedCallback
+            );
+          });
+        });
       });
     });
   });

@@ -25,7 +25,7 @@ export class I18nextTranslationService implements TranslationService {
   ) {}
 
   translate(
-    key: string,
+    key: string | string[],
     options: any = {},
     whitespaceUntilLoaded: boolean = false
   ): Observable<string> {
@@ -36,28 +36,41 @@ export class I18nextTranslationService implements TranslationService {
     // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
     // which together with `switchMap` operator may lead to an infinite loop.
 
-    const chunkName = this.translationChunk.getChunkNameForKey(key);
-    const namespacedKey = this.getNamespacedKey(key, chunkName);
+    const keys = Array.isArray(key) ? key : [key];
+
+    const chunkNamesByKeys: Map<string, string> = new Map();
+
+    keys.forEach((key) => {
+      const chunkName = this.translationChunk.getChunkNameForKey(key);
+      const namespacedKey = this.getNamespacedKey(key, chunkName);
+      chunkNamesByKeys.set(namespacedKey, chunkName);
+    });
 
     return new Observable<string>((subscriber) => {
       const translate = () => {
         if (!this.i18next.isInitialized) {
           return;
         }
-        if (this.i18next.exists(namespacedKey, options)) {
-          subscriber.next(this.i18next.t(namespacedKey, options));
-        } else {
-          if (whitespaceUntilLoaded) {
-            subscriber.next(this.NON_BREAKING_SPACE);
+        let namespacesLoaded = false;
+        this.i18next.loadNamespaces([...chunkNamesByKeys.values()], () => {
+          namespacesLoaded = true;
+          if (this.i18next.exists([...chunkNamesByKeys.keys()], options)) {
+            subscriber.next(
+              this.i18next.t([...chunkNamesByKeys.keys()], options)
+            );
+          } else {
+            this.reportMissingKey(
+              chunkNamesByKeys.keys().next().value,
+              chunkNamesByKeys.values().next().value
+            );
+            subscriber.next(
+              this.getFallbackValue([...chunkNamesByKeys.keys()])
+            );
           }
-          this.i18next.loadNamespaces(chunkName, () => {
-            if (!this.i18next.exists(namespacedKey, options)) {
-              this.reportMissingKey(key, chunkName);
-              subscriber.next(this.getFallbackValue(namespacedKey));
-            } else {
-              subscriber.next(this.i18next.t(namespacedKey, options));
-            }
-          });
+        });
+
+        if (!namespacesLoaded && whitespaceUntilLoaded) {
+          subscriber.next(this.NON_BREAKING_SPACE);
         }
       };
 
@@ -73,10 +86,12 @@ export class I18nextTranslationService implements TranslationService {
 
   /**
    * Returns a fallback value in case when the given key is missing
-   * @param key
+   * @param keys
    */
-  protected getFallbackValue(key: string): string {
-    return isDevMode() ? `[${key}]` : this.NON_BREAKING_SPACE;
+  protected getFallbackValue(keys: string[]): string {
+    return isDevMode()
+      ? `${keys.map((key) => `[${key}]`)}`
+      : this.NON_BREAKING_SPACE;
   }
 
   private reportMissingKey(key: string, chunkName: string) {

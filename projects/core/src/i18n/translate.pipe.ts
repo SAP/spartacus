@@ -29,7 +29,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ) {}
 
   transform(
-    input: Translatable | string,
+    input: Translatable | string | string[],
     options: TranslatableParams = {}
   ): string {
     if (!input) {
@@ -45,8 +45,9 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       return (input as Translatable).raw ?? '';
     }
 
-    const key = typeof input === 'string' ? input : input.key;
-    if (typeof input !== 'string') {
+    const key =
+      typeof input === 'string' || Array.isArray(input) ? input : input.key;
+    if (!Array.isArray(input) && typeof input === 'object') {
       options = { ...options, ...input.params };
     }
 
