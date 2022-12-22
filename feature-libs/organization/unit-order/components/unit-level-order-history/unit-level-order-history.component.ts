@@ -10,7 +10,7 @@ import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 
 @Component({
   selector: 'cx-unit-level-order-history',

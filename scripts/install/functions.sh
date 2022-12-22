@@ -251,34 +251,10 @@ function install_from_sources {
 
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
-    prepare_install
-
     npm set @spartacus:registry http://localhost:4873/
 
-    printh "Cloning Spartacus source code."
-    clone_repo
-
-    printh "Checking Packages"
-    local project_packages=()
-    local project_sources=()
-    for project in ${SPARTACUS_PROJECTS[@]}; do
-        local proj_pck_dir=${project%%:*}
-        local proj_src_dir=${project#*:}
-
-        local pkg_src_path="${CLONE_DIR}/${proj_src_dir}"
-        if [ ! -d "${pkg_src_path}" ]; then
-            WARNINGS+=("[PACKAGE_MISSING] Path not existing ($pkg_src_path).")
-            printf " \033[33m[!]\033[m ${proj_pck_dir}: ${proj_src_dir}\n"
-            continue
-        fi
-
-        project_packages+=( "${proj_pck_dir}" )
-        project_sources+=( "${proj_src_dir}" )
-        echo " [+] ${proj_pck_dir}: ${proj_src_dir}"
-    done
-
     printh "Installing dependencies."
-    ( cd ${CLONE_DIR} && yarn install && ./ci-scripts/release-packer.sh)
+    ( cd ${CLONE_DIR} && yarn install && yarn build:organization)
 
     # printh "Updating projects versions."
     # update_projects_versions ${project_sources[@]}
@@ -292,10 +268,7 @@ function install_from_sources {
 
     (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
-    printh "Publish Packages"
-    for project in ${project_packages[@]}; do
-        publish_package "${CLONE_DIR}/${project}"
-    done
+    publish_package "${CLONE_DIR}/dist/organization"
 
     create_apps
 
