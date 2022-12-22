@@ -63,7 +63,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
   show$: BehaviorSubject<boolean> = new BehaviorSubject(
-    Math.random() * 100 > 50
+    Math.random() * 100 > 70
   );
 
   // TODO(#499): make asmService and modalService are required dependency
