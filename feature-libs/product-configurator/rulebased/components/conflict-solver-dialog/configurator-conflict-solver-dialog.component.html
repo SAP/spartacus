@@ -66,31 +66,6 @@
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-radio-button>
 
-              <!-- Single Selection Product Bundle -->
-              <cx-configurator-attribute-single-selection-bundle
-                (selectionChange)="updateConfiguration($event)"
-                [attribute]="attribute"
-                [ownerKey]="routerData.owner.key"
-                *ngIf="attribute.uiType === uiType.RADIOBUTTON_PRODUCT"
-              ></cx-configurator-attribute-single-selection-bundle>
-
-              <!-- Multi Selection Product Bundle -->
-              <cx-configurator-attribute-multi-selection-bundle
-                (selectionChange)="updateConfiguration($event)"
-                [attribute]="attribute"
-                [ownerKey]="routerData.owner.key"
-                *ngIf="attribute.uiType === uiType.CHECKBOXLIST_PRODUCT"
-              ></cx-configurator-attribute-multi-selection-bundle>
-
-              <!-- Single Selection Dropdown Product Bundle -->
-              <cx-configurator-attribute-single-selection-bundle-dropdown
-                *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
-                [attribute]="attribute"
-                [group]="conflictGroups[0].id"
-                [ownerKey]="routerData.owner.key"
-                (selectionChange)="updateConfiguration($event)"
-              ></cx-configurator-attribute-single-selection-bundle-dropdown>
-
               <!-- Single Selection Dropdown -->
               <cx-configurator-attribute-drop-down
                 *ngIf="
@@ -104,6 +79,7 @@
                 [language]="activeLanguage"
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-drop-down>
+
               <cx-configurator-attribute-input-field
                 *ngIf="attribute.uiType === uiType.STRING"
                 [attribute]="attribute"
@@ -132,6 +108,7 @@
                 [ownerKey]="routerData.owner.key"
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-checkbox-list>
+
               <cx-configurator-attribute-checkbox
                 *ngIf="attribute.uiType === uiType.CHECKBOX"
                 [attribute]="attribute"
@@ -139,17 +116,20 @@
                 [ownerKey]="routerData.owner.key"
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-checkbox>
+
               <cx-configurator-attribute-read-only
                 *ngIf="attribute.uiType === uiType.READ_ONLY"
                 [attribute]="attribute"
                 [group]="conflictGroups[0].id"
               ></cx-configurator-attribute-read-only>
+
               <cx-configurator-attribute-multi-selection-image
                 *ngIf="attribute.uiType === uiType.MULTI_SELECTION_IMAGE"
                 [attribute]="attribute"
                 [ownerKey]="routerData.owner.key"
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-multi-selection-image>
+
               <cx-configurator-attribute-single-selection-image
                 *ngIf="attribute.uiType === uiType.SINGLE_SELECTION_IMAGE"
                 [attribute]="attribute"
@@ -166,11 +146,6 @@
           </div>
         </ng-container>
       </ng-container>
-    </div>
-
-    <!-- Modal Footer -->
-    <div class="cx-modal-footer">
-      <!--TODO: here comes 'DONE' button-->
     </div>
   </div>
 </div>

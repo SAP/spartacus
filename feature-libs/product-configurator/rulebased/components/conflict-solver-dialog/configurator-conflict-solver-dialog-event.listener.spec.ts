@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ElementRef, ViewContainerRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorConflictSolverDialogEventListener } from './configurator-conflict-solver-dialog-event.listener';
@@ -22,13 +22,11 @@ const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
+  openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
-  ) {
-    return of();
-  }
+    _data?: any
+  ) {}
   closeDialog(_reason: string): void {}
 }
 
@@ -88,7 +86,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
     listener = TestBed.inject(ConfiguratorConflictSolverDialogEventListener);
     launchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
   }
 
   beforeEach(() => {
@@ -196,7 +194,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
     it('should open conflict solver dialog because there are some conflict groups', () => {
       initEventListener();
       listener['openConflictSolverDialog']();
-      expect(launchDialogService.openDialog).toHaveBeenCalled();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     });
 
     it('should close conflict solver dialog because there are not any conflict groups', () => {

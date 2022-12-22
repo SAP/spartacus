@@ -49,6 +49,12 @@ export class ConfiguratorConflictSolverDialogComponent
     this.routerData$ = routerData;
   }
 
+  /**
+   * Updates a configuration, specified by a ConfigFormUpdateEvent
+   * that contains information about a configuration owner key, a changed attribute and an update type.
+   *
+   * @param event - ConfigFormUpdateEvent
+   */
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
@@ -69,6 +75,11 @@ export class ConfiguratorConflictSolverDialogComponent
     this.subscription?.unsubscribe();
   }
 
+  /**
+   * Closes a modal with a certain reason.
+   *
+   * @param reason - Reason
+   */
   dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }

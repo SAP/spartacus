@@ -120,7 +120,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       const reason = 'Close conflict solver dialog';
       component.ngOnInit();
       component.dismissModal(reason);
-      expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
     });
   });

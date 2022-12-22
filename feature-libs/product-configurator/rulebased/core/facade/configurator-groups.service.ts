@@ -168,6 +168,12 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Retrieves a list of conflict groups.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   * @return {Observable<Configurator.Group[] | undefined} - A list of conflict groups
+   */
   getConflictGroups(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group[] | undefined> {

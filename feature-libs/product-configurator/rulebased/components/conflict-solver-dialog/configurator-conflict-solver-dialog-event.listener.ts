@@ -14,7 +14,7 @@ import {
 import { NEVER, Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -80,21 +80,14 @@ export class ConfiguratorConflictSolverDialogEventListener
   }
 
   protected openModal(): void {
-    const dialogData = {
-      conflictGroups: this.conflictGroups$,
-      routerData: this.routerData$,
-    };
-
-    const dialog = this.launchDialogService.openDialog(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.CONFLICT_SOLVER,
       undefined,
-      undefined,
-      dialogData
+      {
+        conflictGroups: this.conflictGroups$,
+        routerData: this.routerData$,
+      }
     );
-
-    if (dialog) {
-      dialog.pipe(take(1)).subscribe();
-    }
   }
 
   protected closeModal(reason?: any): void {

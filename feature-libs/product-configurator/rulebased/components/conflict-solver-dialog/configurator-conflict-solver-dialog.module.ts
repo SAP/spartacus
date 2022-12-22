@@ -27,7 +27,6 @@ import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/ty
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
 import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configurator-conflict-solver-layout.config';
-import { ConfiguratorExitButtonModule } from '../exit-button/configurator-exit-button.module';
 
 @NgModule({
   imports: [
@@ -50,7 +49,6 @@ import { ConfiguratorExitButtonModule } from '../exit-button/configurator-exit-b
     ConfiguratorAttributeMultiSelectionImageModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
-    ConfiguratorExitButtonModule,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
