@@ -13,9 +13,6 @@ import { UnitOrderStoreModule } from './store/unit-order-store.module';
 
 @NgModule({
   imports: [UnitOrderStoreModule],
-  providers: [
-
-  ]
 })
 export class UnitOrderCoreModule {
   static forRoot(): ModuleWithProviders<UnitOrderCoreModule> {
