@@ -131,9 +131,13 @@ export class ConfiguratorBasicEffects {
           .updateConfiguration(payload)
           .pipe(
             map((configuration: Configurator.Configuration) => {
-              return new ConfiguratorActions.UpdateConfigurationSuccess(
-                configuration
-              );
+              return new ConfiguratorActions.UpdateConfigurationSuccess({
+                ...configuration,
+                interactionState: {
+                  isConflictResolutionMode:
+                    payload.interactionState.isConflictResolutionMode,
+                },
+              });
             }),
             catchError((error) => {
               const errorPayload = normalizeHttpError(error);
@@ -274,7 +278,7 @@ export class ConfiguratorBasicEffects {
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
-                      currentGroupId?.startsWith(Configurator.ConflictIdPrefix)
+                      payload.interactionState.isConflictResolutionMode
                     );
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(
