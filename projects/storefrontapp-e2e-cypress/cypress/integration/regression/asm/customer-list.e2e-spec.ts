@@ -18,5 +18,4 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
   });
-
 });
