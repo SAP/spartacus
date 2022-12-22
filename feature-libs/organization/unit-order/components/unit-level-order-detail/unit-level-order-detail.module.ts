@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
+import { UnitLevelOrdersViewerGuard } from '../../core/guards';
 import {
   UnitLevelOrderOverviewComponent,
   UnitLevelOrderOverviewModule,
