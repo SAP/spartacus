@@ -41,7 +41,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='unit-level-order-tests'
+BRANCH='unit-order-test-stuffz'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
