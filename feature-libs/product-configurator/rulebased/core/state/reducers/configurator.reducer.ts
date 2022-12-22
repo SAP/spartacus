@@ -27,6 +27,90 @@ export const initialState: Configurator.Configuration = {
 };
 export const initialStatePendingChanges = 0;
 
+let reducerMap: Map<string, any>;
+
+export function configuratorReducer(
+  state = initialState,
+  action:
+    | ConfiguratorActions.ConfiguratorAction
+    | ConfiguratorActions.ConfiguratorCartAction
+    | ConfiguratorActions.ConfiguratorVariantAction
+): Configurator.Configuration {
+  ensureReducerMapCreated();
+  if (reducerMap.has(action.type)) {
+    return reducerMap.get(action.type)(state, action);
+  } else {
+    return state;
+  }
+}
+
+function ensureReducerMapCreated() {
+  if (reducerMap === undefined) {
+    reducerMap = new Map();
+    reducerMap.set(
+      ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS,
+      handleActionUpdateConfigurationFinalizeSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.UPDATE_CART_ENTRY,
+      handleActionUpdateCartEntry
+    );
+    reducerMap.set(
+      ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS,
+      handleReadSucess
+    );
+    reducerMap.set(
+      ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
+      handleReadSucess
+    );
+    reducerMap.set(
+      ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS,
+      handleReadSucess
+    );
+    reducerMap.set(
+      ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS,
+      handleUpdatePriceSummarySuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS,
+      handleGetConfigurationOverviewSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS,
+      handleUpdateConfigurationOverviewSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.SEARCH_VARIANTS_SUCCESS,
+      handleSearchVariantsSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS,
+      handleReadOrderEntryConfigurationSuccess
+    );
+    reducerMap.set(
+      ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
+      handleSetNextOwnerCartEntry
+    );
+    reducerMap.set(
+      ConfiguratorActions.SET_INTERACTION_STATE,
+      handleSetInteractionState
+    );
+    reducerMap.set(
+      ConfiguratorActions.SET_CURRENT_GROUP,
+      handleSetCurrentGroup
+    );
+    reducerMap.set(
+      ConfiguratorActions.SET_MENU_PARENT_GROUP,
+      handleSetMenuParentGroup
+    );
+    reducerMap.set(
+      ConfiguratorActions.SET_GROUPS_VISITED,
+      handleSetGroupsVisited
+    );
+    reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
+  }
+}
+
 function handleActionUpdateConfigurationFinalizeSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
@@ -233,79 +317,6 @@ function handleChangeGroup(
       isConflictResolutionMode: isConflictResolutionMode,
     },
   };
-}
-
-export function configuratorReducer(
-  state = initialState,
-  action:
-    | ConfiguratorActions.ConfiguratorAction
-    | ConfiguratorActions.ConfiguratorCartAction
-    | ConfiguratorActions.ConfiguratorVariantAction
-): Configurator.Configuration {
-  const reducerMap = new Map();
-  reducerMap.set(
-    ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS,
-    handleActionUpdateConfigurationFinalizeSuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.UPDATE_CART_ENTRY,
-    handleActionUpdateCartEntry
-  );
-  reducerMap.set(
-    ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS,
-    handleReadSucess
-  );
-  reducerMap.set(
-    ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
-    handleReadSucess
-  );
-  reducerMap.set(
-    ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS,
-    handleReadSucess
-  );
-  reducerMap.set(
-    ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS,
-    handleUpdatePriceSummarySuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS,
-    handleGetConfigurationOverviewSuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS,
-    handleUpdateConfigurationOverviewSuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.SEARCH_VARIANTS_SUCCESS,
-    handleSearchVariantsSuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS,
-    handleReadOrderEntryConfigurationSuccess
-  );
-  reducerMap.set(
-    ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
-    handleSetNextOwnerCartEntry
-  );
-  reducerMap.set(
-    ConfiguratorActions.SET_INTERACTION_STATE,
-    handleSetInteractionState
-  );
-  reducerMap.set(ConfiguratorActions.SET_CURRENT_GROUP, handleSetCurrentGroup);
-  reducerMap.set(
-    ConfiguratorActions.SET_MENU_PARENT_GROUP,
-    handleSetMenuParentGroup
-  );
-  reducerMap.set(
-    ConfiguratorActions.SET_GROUPS_VISITED,
-    handleSetGroupsVisited
-  );
-  reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
-  if (reducerMap.has(action.type)) {
-    return reducerMap.get(action.type)(state, action);
-  } else {
-    return state;
-  }
 }
 
 function setGroupsVisited(
