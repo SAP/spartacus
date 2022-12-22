@@ -111,6 +111,34 @@ const getCurrentConcurrency = (
 };
 
 describe('OptimizedSsrEngine', () => {
+  describe('logOptions', () => {
+    it('should log the provided options', () => {
+      new TestEngineRunner({
+        timeout: 50,
+        renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+      });
+
+      expect(console.log).toMatchInlineSnapshot(`
+        [MockFunction] {
+          "calls": [
+            [
+              "[spartacus] SSR optimization engine initialized with the following options: {
+          "timeout": 50,
+          "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
+        }",
+            ],
+          ],
+          "results": [
+            {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      `);
+    });
+  });
+
   describe('timeout option', () => {
     it('should fallback to CSR if rendering exceeds timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
