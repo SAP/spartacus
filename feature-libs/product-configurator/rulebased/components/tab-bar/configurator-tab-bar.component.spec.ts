@@ -139,7 +139,7 @@ describe('ConfigTabBarComponent', () => {
 
   describe('Accessibility', () => {
     describe('Configuration tag', () => {
-      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
+      it("should contain an element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -154,7 +154,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
+      it("should contain an element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -169,7 +169,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-selected' attribute set to true if the configuration page is displayed", () => {
+      it("should contain an element with 'aria-selected' attribute set to true if the configuration page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -184,7 +184,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-selected' attribute set to false if the overview page is displayed", () => {
+      it("should contain an element with 'aria-selected' attribute set to false if the overview page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -199,7 +199,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'role' attribute that defines the link as a tab", () => {
+      it("should contain an element with 'role' attribute that defines the link as a tab", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -216,7 +216,7 @@ describe('ConfigTabBarComponent', () => {
     });
 
     describe('Overview tag', () => {
-      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
+      it("should contain an element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -231,7 +231,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
+      it("should contain an element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -246,7 +246,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-selected' attribute set to false if the configuration page is displayed", () => {
+      it("should contain an element with 'aria-selected' attribute set to false if the configuration page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -261,7 +261,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-selected' attribute set to true if the overview page is displayed", () => {
+      it("should contain an element with 'aria-selected' attribute set to true if the overview page is displayed", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -276,7 +276,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'role' attribute that defines the link as a tab", () => {
+      it("should contain an element with 'role' attribute that defines the link as a tab", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
