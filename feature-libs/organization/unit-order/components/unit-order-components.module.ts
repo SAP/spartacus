@@ -6,6 +6,8 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UnitOrderDetailsOrderEntriesContextToken } from '@spartacus/organization/unit-order/root';
+import { UnitOrderDetailsOrderEntriesContext } from './page-context';
 import { UnitLevelOrderDetailModule } from './unit-level-order-detail/unit-level-order-detail.module';
 import { UnitLevelOrderHistoryModule } from './unit-level-order-history';
 
@@ -15,5 +17,11 @@ import { UnitLevelOrderHistoryModule } from './unit-level-order-history';
     UnitLevelOrderHistoryModule,
     UnitLevelOrderDetailModule,
   ],
+  providers: [
+    {
+      provide: UnitOrderDetailsOrderEntriesContextToken,
+      useExisting: UnitOrderDetailsOrderEntriesContext,
+    },
+  ]
 })
 export class UnitOrderComponentsModule {}
