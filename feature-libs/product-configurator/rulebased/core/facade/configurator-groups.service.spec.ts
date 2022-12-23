@@ -28,6 +28,7 @@ const PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT: Configurator.Configuration = {
   interactionState: {
     ...productConfigurationWithConflicts.interactionState,
     currentGroup: GROUP_ID_CONFLICT_3,
+    isConflictResolutionMode: true,
   },
 };
 
@@ -336,6 +337,7 @@ describe('ConfiguratorGroupsService', () => {
           configuration: productConfigurationWithConflicts,
           groupId: productConfigurationWithConflicts.flatGroups[0].id,
           parentGroupId: productConfigurationWithConflicts.groups[0].id,
+          conflictResolutionMode: true,
         })
       );
     });
@@ -352,6 +354,7 @@ describe('ConfiguratorGroupsService', () => {
           configuration: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT,
           groupId: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.flatGroups[0].id,
           parentGroupId: PRODUCT_CONFIG_CURRENT_GROUP_IS_CONFLICT.groups[0].id,
+          conflictResolutionMode: true,
         })
       );
     });
@@ -378,6 +381,7 @@ describe('ConfiguratorGroupsService', () => {
           configuration: productConfiguration,
           groupId: productConfiguration.flatGroups[0].id,
           parentGroupId: undefined,
+          conflictResolutionMode: false,
         })
       );
     });
