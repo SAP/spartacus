@@ -611,7 +611,18 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
           id: GROUP_ID_CONFLICT_3,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
-          attributes: undefined,
+          attributes: [
+            {
+              name: 'ATTRIBUTE_1_CHECKBOX',
+              key: 'ATTRIBUTE_1',
+              uiType: Configurator.UiType.CHECKBOX,
+            },
+            {
+              name: 'ATTRIBUTE_2_RADIOBUTTON',
+              key: 'ATTRIBUTE_2',
+              uiType: Configurator.UiType.RADIOBUTTON,
+            },
+          ],
           description: GROUP_ID_CONFLICT_3,
         },
         {
@@ -622,12 +633,14 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
             { name: 'ATTRIBUTE_1_CHECKBOX', key: 'ATTRIBUTE_1' },
             { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
           ],
+          description: GROUP_ID_CONFLICT_1,
         },
         {
           id: GROUP_ID_CONFLICT_2,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
           attributes: [{ name: 'ATTRIBUTE_5_STRING', key: 'ATTRIBUTE_5' }],
+          description: GROUP_ID_CONFLICT_2,
         },
       ],
     },

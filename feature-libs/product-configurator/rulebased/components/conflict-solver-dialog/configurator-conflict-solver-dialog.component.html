@@ -53,7 +53,7 @@
                 [isNavigationToGroupEnabled]="false"
               >
               </cx-configurator-attribute-header>
-              <!-- Single Selection Radio Button -->
+
               <cx-configurator-attribute-radio-button
                 *ngIf="
                   attribute.uiType === uiType.RADIOBUTTON ||
@@ -66,7 +66,6 @@
                 (selectionChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-radio-button>
 
-              <!-- Single Selection Dropdown -->
               <cx-configurator-attribute-drop-down
                 *ngIf="
                   attribute.uiType === uiType.DROPDOWN ||
@@ -100,7 +99,6 @@
                 (inputChange)="updateConfiguration($event)"
               ></cx-configurator-attribute-numeric-input-field>
 
-              <!-- Multi Selection Checkbox -->
               <cx-configurator-attribute-checkbox-list
                 *ngIf="attribute.uiType === uiType.CHECKBOXLIST"
                 [attribute]="attribute"
