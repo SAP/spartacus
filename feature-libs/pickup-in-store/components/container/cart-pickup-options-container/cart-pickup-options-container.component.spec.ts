@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   PickupLocationsSearchFacade,
@@ -43,6 +43,12 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
       },
       entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
+  }
+}
+
+class MockCmsService {
+  getCurrentPage(): Observable<Page> {
+    return of();
   }
 }
 
@@ -96,6 +102,7 @@ describe('CartPickupOptionsContainerComponent', () => {
           provide: PickupOptionFacade,
           useClass: MockPickupOptionFacade,
         },
+        { provide: CmsService, useClass: MockCmsService },
       ],
     });
 

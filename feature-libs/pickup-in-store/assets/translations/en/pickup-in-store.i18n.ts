@@ -71,6 +71,13 @@ export const storeFinderPickupInStore = {
   heading: 'My Store',
 };
 
+/** Translation keys for Pickup In Store In Checkout */
+
+export const checkoutPickupInStore = {
+  heading: 'Items to be Picked Up',
+  storeItemHeading: 'Pick Up Store Address'
+};
+
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInfo,
@@ -83,4 +90,5 @@ export const pickupInStore = {
   storeSearch,
   addressBookPickupInStore,
   storeFinderPickupInStore,
+  checkoutPickupInStore
 };

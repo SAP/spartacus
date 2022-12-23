@@ -5,7 +5,7 @@
     *ngIf="deliveryPointsOfService.length"
     class="cx-checkout-pickup-in-store-heading d-lg-block d-xl-block"
   >
-    Items to be Picked Up
+    {{ 'checkoutPickupInStore.heading' | cxTranslate }}
   </p>
   <div
     *ngFor="
@@ -17,7 +17,8 @@
       <div>
         <div>
           <p class="cx-checkout-pickup-in-store-details-heading">
-            Pick Up Store Address {{ index + 1 }}
+            {{ 'checkoutPickupInStore.storeItemHeading' | cxTranslate }}
+            {{ index + 1 }}
           </p>
           <cx-store-address
             [storeDetails]="deliveryPointOfService?.storeDetails"

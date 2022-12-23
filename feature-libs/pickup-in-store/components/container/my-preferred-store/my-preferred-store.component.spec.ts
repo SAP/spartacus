@@ -9,9 +9,10 @@ import {
   Page,
   RoutingService,
 } from '@spartacus/core';
+import { StoreModule } from '@spartacus/pickup-in-store/components';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { PickupLocationsSearchFacade } from 'feature-libs/pickup-in-store/root/facade';
@@ -41,9 +42,11 @@ describe('MyPreferredStoreComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [MyPreferredStoreComponent],
       imports: [
+        CardModule,
         CommonModule,
         I18nTestingModule,
         IconTestingModule,
+        StoreModule,
         ConfigModule.withConfig({
           cmsComponents: {
             MyPreferredStore: {
