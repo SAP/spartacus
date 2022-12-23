@@ -59,7 +59,28 @@ export class OptimizedSsrEngine {
   constructor(
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
-  ) {}
+  ) {
+    this.logOptions();
+  }
+
+  protected logOptions(): void {
+    if (!this.ssrOptions) {
+      return;
+    }
+
+    const replacer = (_key: string, value: unknown): unknown => {
+      if (typeof value === 'function') {
+        return value.toString();
+      }
+      return value;
+    };
+
+    const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
+    this.log(
+      `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
+      false
+    );
+  }
 
   /**
    * When SSR page can not be returned in time, we're returning index.html of
@@ -216,7 +237,7 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    let requestTimeout: NodeJS.Timeout | undefined;
+    let requestTimeout: ReturnType<typeof setTimeout> | undefined;
     if (this.shouldTimeout(request)) {
       // establish timeout for rendering
       const timeout = this.getTimeout(request);
@@ -277,9 +298,7 @@ export class OptimizedSsrEngine {
     let doc = this.templateCache.get(filePath);
 
     if (!doc) {
-      // fs.readFileSync could be missing in a browser, specifically
-      // in a unit tests with { node: { fs: 'empty' } } webpack configuration
-      doc = fs?.readFileSync ? fs.readFileSync(filePath, 'utf-8') : '';
+      doc = fs.readFileSync(filePath, 'utf-8');
       this.templateCache.set(filePath, doc);
     }
 
@@ -368,18 +387,19 @@ export class OptimizedSsrEngine {
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
     // After the configured `maxRenderTime` passes, we consider the rendering task as hanging,
     // and release the concurrency slot and forget all callbacks waiting for the render's result.
-    let maxRenderTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      this.renderingCache.clear(renderingKey);
-      maxRenderTimeout = undefined;
-      this.currentConcurrency--;
-      if (this.ssrOptions?.reuseCurrentRendering) {
-        this.renderCallbacks.delete(renderingKey);
-      }
-      this.log(
-        `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
-        false
-      );
-    }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
+    let maxRenderTimeout: ReturnType<typeof setTimeout> | undefined =
+      setTimeout(() => {
+        this.renderingCache.clear(renderingKey);
+        maxRenderTimeout = undefined;
+        this.currentConcurrency--;
+        if (this.ssrOptions?.reuseCurrentRendering) {
+          this.renderCallbacks.delete(renderingKey);
+        }
+        this.log(
+          `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
+          false
+        );
+      }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
 
     this.log(`Rendering started (${request?.originalUrl})`);
     this.renderingCache.setAsRendering(renderingKey);

@@ -228,4 +228,28 @@ describe('ConfiguratorActions', () => {
       });
     });
   });
+
+  describe('ChangeGroup actions', () => {
+    it('should allow to state that conflict resolution mode is active', () => {
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: CONFIGURATION,
+        groupId: GROUP_ID,
+        conflictResolutionMode: true,
+      });
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.CHANGE_GROUP,
+        payload: {
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
+          conflictResolutionMode: true,
+        },
+        meta: {
+          entityType: CONFIGURATOR_DATA,
+          entityId: OWNER_KEY,
+          loader: { load: true },
+        },
+      });
+    });
+  });
 });
