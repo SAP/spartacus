@@ -86,7 +86,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     initialize();
     fixture.debugElement
       .query(By.css('.cx-dialog-header button'))
-      .triggerEventHandler('click');
+      .triggerEventHandler('click', new Event('click'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
       'Close Filtering'
     );
@@ -96,7 +96,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     initialize();
     fixture.debugElement
       .query(By.css('.cx-modal-container'))
-      .triggerEventHandler('click');
+      .triggerEventHandler('click', new Event('click'));
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
       'Close Filtering'
     );
@@ -106,7 +106,7 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
     initialize();
     fixture.debugElement
       .query(By.css('.cx-modal-content'))
-      .triggerEventHandler('click');
+      .triggerEventHandler('click', new Event('click'));
     expect(mockLaunchDialogService.closeDialog).not.toHaveBeenCalled();
   });
 

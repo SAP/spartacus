@@ -196,6 +196,7 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
        * Id of parent group. Can be undefined for groups on root level
        */
       parentGroupId?: string;
+      conflictResolutionMode?: boolean;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
