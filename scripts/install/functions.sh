@@ -278,10 +278,11 @@ function install_from_sources {
     done
 
     printh "Installing dependencies."
-    ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
+    ( cd ${CLONE_DIR} && yarn install && ./ci-scripts/release-packer.sh)
 
-    printh "Updating projects versions."
-    update_projects_versions ${project_sources[@]}
+
+    # printh "Updating projects versions."
+    # update_projects_versions ${project_sources[@]}
 
     verdaccio --config ./config.yaml &
 
