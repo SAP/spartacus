@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
+import { ConfiguratorDefaultFormModule } from './default-form/configurator-default-form.module';
 import { ConfiguratorFormModule } from './form/configurator-form.module';
 import { ConfiguratorGroupMenuModule } from './group-menu/configurator-group-menu.module';
 import { ConfiguratorGroupTitleModule } from './group-title/configurator-group-title.module';
@@ -34,6 +35,7 @@ import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurat
     ConfiguratorGroupMenuModule,
     ConfiguratorProductTitleModule,
     ConfiguratorTabBarModule,
+    ConfiguratorDefaultFormModule,
     ConfiguratorFormModule,
     ConfiguratorGroupTitleModule,
     ConfiguratorUpdateMessageModule,

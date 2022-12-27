@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
@@ -71,69 +71,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-configurator-conflict-description',
+  selector: 'cx-configurator-default-form',
   template: '',
 })
-class MockConfiguratorConflictDescriptionComponent {
-  @Input() currentGroup: Configurator.Group;
-}
-
-@Component({
-  selector: 'cx-configurator-conflict-suggestion',
-  template: '',
-})
-class MockConfiguratorConflictSuggestionComponent {
-  @Input() currentGroup: Configurator.Group;
-  @Input() attribute: Configurator.Attribute;
-  @Input() suggestionNumber: number;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-header',
-  template: '',
-})
-class MockConfiguratorAttributeHeaderComponent {
-  @Input() attribute: Configurator.Attribute;
+class MockConfiguratorDefaultFormComponent {
+  @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-  @Input() groupType: Configurator.GroupType;
-  @Input() expMode: boolean;
-  @Input() isNavigationToGroupEnabled = true;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-footer',
-  template: '',
-})
-class MockConfiguratorAttributeFooterComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-checkbox',
-  template: '',
-})
-class MockConfiguratorAttributeCheckBoxComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-radio-button',
-  template: '',
-})
-class MockConfiguratorAttributeRadioButtonComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
 describe('ConfiguratorConflictSolverDialogComponent', () => {
@@ -154,12 +97,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, IconModule],
         declarations: [
-          MockConfiguratorConflictDescriptionComponent,
-          MockConfiguratorConflictSuggestionComponent,
-          MockConfiguratorAttributeHeaderComponent,
-          MockConfiguratorAttributeFooterComponent,
-          MockConfiguratorAttributeCheckBoxComponent,
-          MockConfiguratorAttributeRadioButtonComponent,
+          MockConfiguratorDefaultFormComponent,
           ConfiguratorConflictSolverDialogComponent,
         ],
         providers: [
@@ -258,35 +196,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configurator-conflict-description'
-    );
-
-    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-      expect,
-      htmlElem,
-      '.cx-group-attribute',
-      2
-    );
-
-    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-conflict-suggestion',
-      2
-    );
-
-    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-header',
-      2
-    );
-
-    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-footer',
-      2
+      'cx-configurator-default-form'
     );
   });
 

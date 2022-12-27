@@ -19,7 +19,7 @@ import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfigFormUpdateEvent } from '../../../default-form/configurator-default-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({

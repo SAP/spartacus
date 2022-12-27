@@ -15,7 +15,7 @@ import { LanguageService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
+import { ConfigFormUpdateEvent } from '../default-form/configurator-default-form.event';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
