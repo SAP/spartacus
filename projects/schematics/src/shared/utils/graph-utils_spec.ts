@@ -168,6 +168,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Administration",
           "Account-Summary",
+          "Unit-Order",
           "Organization-User-Registration",
           "Order-Approval",
           "S4HANA-Order-Management",
