@@ -216,7 +216,7 @@ export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
 export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
   'Organization-User-Registration';
 
-export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = "Unit-Order";
+export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = 'Unit-Order';
 
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
