@@ -167,52 +167,47 @@ export const ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG: SchematicConfig =
     dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
   };
 
-  export const ORGANIZATION_UNIT_ORDER_MODULE =
-  'UnitOrderModule';
-export const ORGANIZATION_UNIT_ORDER_MODULE_NAME =
-  'OrganizationUnitOrder';
-export const ORGANIZATION_UNIT_ORDER_ROOT_MODULE =
-  'UnitOrderRootModule';
+export const ORGANIZATION_UNIT_ORDER_MODULE = 'UnitOrderModule';
+export const ORGANIZATION_UNIT_ORDER_MODULE_NAME = 'OrganizationUnitOrder';
+export const ORGANIZATION_UNIT_ORDER_ROOT_MODULE = 'UnitOrderRootModule';
 export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_UNIT_ORDER_FEATURE';
-export const ORGANIZATION_UNIT_ORDER_TRANSLATIONS =
-  'unitOrderTranslations';
+export const ORGANIZATION_UNIT_ORDER_TRANSLATIONS = 'unitOrderTranslations';
 export const ORGANIZATION_UNIT_ORDER_TRANSLATION_CHUNKS_CONFIG =
   'unitOrderTranslationChunksConfig';
 
-export const ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG: SchematicConfig =
-  {
-    library: {
-      featureName: ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
-      mainScope: SPARTACUS_ORGANIZATION,
-      featureScope: SPARTACUS_ORGANIZATION_UNIT_ORDER,
-      b2b: true,
-    },
-    folderName: ORGANIZATION_FOLDER_NAME,
-    moduleName: ORGANIZATION_UNIT_ORDER_MODULE_NAME,
-    featureModule: {
-      name: ORGANIZATION_UNIT_ORDER_MODULE,
-      importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER,
-    },
-    rootModule: {
-      name: ORGANIZATION_UNIT_ORDER_ROOT_MODULE,
-      importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT,
-      namedImports: [ORGANIZATION_UNIT_ORDER_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: ORGANIZATION_UNIT_ORDER_TRANSLATIONS,
-      chunks: ORGANIZATION_UNIT_ORDER_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS,
-    },
-    styles: {
-      scssFileName: ORGANIZATION_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_ORGANIZATION,
-    },
-    dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
-  };
+export const ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
+    mainScope: SPARTACUS_ORGANIZATION,
+    featureScope: SPARTACUS_ORGANIZATION_UNIT_ORDER,
+    b2b: true,
+  },
+  folderName: ORGANIZATION_FOLDER_NAME,
+  moduleName: ORGANIZATION_UNIT_ORDER_MODULE_NAME,
+  featureModule: {
+    name: ORGANIZATION_UNIT_ORDER_MODULE,
+    importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER,
+  },
+  rootModule: {
+    name: ORGANIZATION_UNIT_ORDER_ROOT_MODULE,
+    importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT,
+    namedImports: [ORGANIZATION_UNIT_ORDER_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: ORGANIZATION_UNIT_ORDER_TRANSLATIONS,
+    chunks: ORGANIZATION_UNIT_ORDER_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS,
+  },
+  styles: {
+    scssFileName: ORGANIZATION_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_ORGANIZATION,
+  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
+};
 
 export const ORGANIZATION_ACCOUNT_SUMMARY_MODULE_NAME =
   'organizationAccountSummary';
