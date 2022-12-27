@@ -15,7 +15,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { UnitOrderFacade } from '../../root/facade';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 
 @Injectable({
   providedIn: 'root',
