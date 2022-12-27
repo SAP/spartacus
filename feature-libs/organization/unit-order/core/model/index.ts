@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-core.model'
+export * from './augmented-core.model';
 // Imported for side effects (module augmentation)
 import './augmented-core.model';

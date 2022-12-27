@@ -22,6 +22,6 @@ import { UnitLevelOrderHistoryModule } from './unit-level-order-history';
       provide: UnitOrderDetailsOrderEntriesContextToken,
       useExisting: UnitOrderDetailsOrderEntriesContext,
     },
-  ]
+  ],
 })
 export class UnitOrderComponentsModule {}
