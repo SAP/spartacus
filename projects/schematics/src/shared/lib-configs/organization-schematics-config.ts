@@ -176,9 +176,9 @@ export const ORGANIZATION_UNIT_ORDER_ROOT_MODULE =
 export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_UNIT_ORDER_FEATURE';
 export const ORGANIZATION_UNIT_ORDER_TRANSLATIONS =
-  'UnitOrderTranslations';
+  'unitOrderTranslations';
 export const ORGANIZATION_UNIT_ORDER_TRANSLATION_CHUNKS_CONFIG =
-  'UnitOrderTranslationChunksConfig';
+  'unitOrderTranslationChunksConfig';
 
 export const ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG: SchematicConfig =
   {
