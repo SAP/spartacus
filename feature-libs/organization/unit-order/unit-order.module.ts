@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { UnitOrderComponentsModule } from './components/unit-order-components.module';
-import { UnitOrderCoreModule } from './core/unit-order-core.module';
-import { UnitOrderOccModule } from './occ';
+import { UnitOrderComponentsModule } from '@spartacus/organization/unit-order/components';
+import { UnitOrderCoreModule } from '@spartacus/organization/unit-order/core';
+import { UnitOrderOccModule } from '@spartacus/organization/unit-order/occ';
 
 @NgModule({
   imports: [
