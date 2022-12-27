@@ -14,7 +14,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { UnitOrderAdapter } from '../../core/connectors/unit-order.adapter';
+import { UnitOrderAdapter } from '@spartacus/organization/unit-order/core';
 
 @Injectable()
 export class OccUnitOrderAdapter implements UnitOrderAdapter {
