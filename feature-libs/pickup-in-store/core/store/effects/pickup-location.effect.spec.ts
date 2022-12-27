@@ -13,6 +13,7 @@ import {
   MockPickupLocationConnectorWithError,
 } from '../../connectors/pickup-location.connector.spec';
 import {
+  DeliveryModeSetPickupOptionToDeliverySuccess,
   GetStoreDetailsById,
   SetPickupOptionToDelivery,
   SetPickupOptionToDeliverySuccess,
@@ -72,6 +73,29 @@ describe('PickupLocationEffect', () => {
       payload: { cartId, entryNumber, userId, productCode, quantity },
     });
     const actionSuccess = SetPickupOptionToDeliverySuccess();
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(b)', { b: actionSuccess });
+    expect(pickupLocationEffects.setPickupOptionToDelivery$).toBeObservable(
+      expected
+    );
+  });
+
+  it('should call the connection on the SET_PICKUP_OPTION_TO_DELIVERY action and create DeliveryModeSetPickupOptionToDeliverySuccess action', () => {
+    spyOn(
+      pickupLocationConnector,
+      'setPickupOptionToDelivery'
+    ).and.callThrough();
+    const action = SetPickupOptionToDelivery({
+      payload: {
+        cartId,
+        entryNumber,
+        userId,
+        productCode,
+        quantity,
+        page: 'CheckoutDeliveryMode',
+      },
+    });
+    const actionSuccess = DeliveryModeSetPickupOptionToDeliverySuccess();
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(pickupLocationEffects.setPickupOptionToDelivery$).toBeObservable(

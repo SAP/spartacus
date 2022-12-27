@@ -12,7 +12,6 @@ import {
   StockLevelActions,
   ToggleHideOutOfStockOptionsAction,
 } from '../store';
-import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
 export class MockPickupLocationsSearchService

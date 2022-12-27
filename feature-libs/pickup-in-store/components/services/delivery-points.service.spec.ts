@@ -12,6 +12,7 @@ class MockActiveCartFacade {
       entries: [
         { deliveryPointOfService: { name: 'A Store' } },
         { deliveryPointOfService: { name: 'B Store' } },
+        {},
       ],
     };
     return of(CART);
@@ -63,7 +64,7 @@ describe('DeliveryPointsService', () => {
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
       'A Store'
     );
-    
+
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledWith(
       'B Store'
     );

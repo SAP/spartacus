@@ -92,6 +92,12 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should getDirectionsToStore', () => {
-    component.getDirectionsToStore();
+    spyOn(window, 'open');
+
+    const getDirectionBtn =
+      fixture.debugElement.nativeElement.querySelector('.cx-action-link');
+    getDirectionBtn.click();
+
+    expect(window.open).toHaveBeenCalled();
   });
 });
