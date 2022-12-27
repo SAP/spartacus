@@ -64,8 +64,8 @@ function prepare_install {
 
     ng config -g cli.packageManager yarn
 
-    git config user.name 'github-actions[bot]'
-    git config user.email 'github-actions[bot]@users.noreply.github.com'
+    git config --global user.name 'github-actions[bot]'
+    git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
