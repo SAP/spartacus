@@ -168,17 +168,17 @@ export const ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG: SchematicConfig =
   };
 
   export const ORGANIZATION_UNIT_ORDER_MODULE =
-  'OrganizationUnitOrderModule';
+  'UnitOrderModule';
 export const ORGANIZATION_UNIT_ORDER_MODULE_NAME =
   'OrganizationUnitOrder';
 export const ORGANIZATION_UNIT_ORDER_ROOT_MODULE =
-  'OrganizationUnitOrderRootModule';
+  'UnitOrderRootModule';
 export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_UNIT_ORDER_FEATURE';
 export const ORGANIZATION_UNIT_ORDER_TRANSLATIONS =
-  'organizationUnitOrderTranslations';
+  'UnitOrderTranslations';
 export const ORGANIZATION_UNIT_ORDER_TRANSLATION_CHUNKS_CONFIG =
-  'organizationUnitOrderTranslationChunksConfig';
+  'UnitOrderTranslationChunksConfig';
 
 export const ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG: SchematicConfig =
   {
