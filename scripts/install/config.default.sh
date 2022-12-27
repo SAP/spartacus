@@ -10,7 +10,7 @@ BACKEND_URL="https://40.76.109.9:9002"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE=
+BASE_SITE=powertools-spa
 
 OCC_PREFIX="/occ/v2/"
 
@@ -41,7 +41,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='test-unit-order-develop'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -52,7 +52,7 @@ INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
 ANGULAR_CLI_VERSION='^14.2.3'
-SPARTACUS_VERSION='latest'
+SPARTACUS_VERSION='5.1.0-1'
 
 CSR_PORT="4200"
 SSR_PORT="4100"
@@ -62,7 +62,7 @@ CSR_APP_NAME="csr"
 SSR_APP_NAME="ssr"
 SSR_PWA_APP_NAME="ssr-pwa"
 
-ADD_B2B_LIBS=false
+ADD_B2B_LIBS=true
 
 ADD_CPQ=false
 ADD_CDC=false
