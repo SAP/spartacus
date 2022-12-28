@@ -13,14 +13,16 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  getProperty,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupOption,
   PickupOptionFacade,
   RequiredDeepPath,
 } from '@spartacus/pickup-in-store/root';
-import { getProperty } from '@spartacus/pickup-in-store/utils/utils';
 import {
   CurrentProductService,
   LaunchDialogService,
