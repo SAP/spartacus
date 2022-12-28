@@ -14,6 +14,7 @@ import {
   MyPreferredStoreModule,
   PdpPickupOptionsContainerModule,
   PickupInfoContainerModule,
+  PickupInStoreDetailsReviewModule,
 } from './container/index';
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {
     PickupInfoContainerModule,
     MyPreferredStoreModule,
     CheckoutPickUpInStoreDetailsModule,
+    PickupInStoreDetailsReviewModule,
   ],
   providers: [provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)],
 })
