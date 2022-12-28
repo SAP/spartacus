@@ -92,12 +92,12 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should getDirectionsToStore', () => {
-    spyOn(window, 'open');
+    spyOn(component, 'getDirectionsToStore');
 
     const getDirectionBtn =
       fixture.debugElement.nativeElement.querySelector('.cx-action-link');
     getDirectionBtn.click();
 
-    expect(window.open).toHaveBeenCalled();
+    expect(component.getDirectionsToStore).toHaveBeenCalled();
   });
 });
