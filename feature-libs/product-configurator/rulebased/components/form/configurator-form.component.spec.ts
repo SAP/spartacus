@@ -183,7 +183,8 @@ function createComponentWithoutData(): ConfiguratorFormComponent {
 const configuration: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
-const group: Configurator.Group = ConfigurationTestData.productConfiguration.groups[0];
+const group: Configurator.Group =
+  ConfigurationTestData.productConfiguration.groups[0];
 
 function createComponentWithData(): ConfiguratorFormComponent {
   fixture = TestBed.createComponent(ConfiguratorFormComponent);
@@ -310,7 +311,6 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledWith(OWNER, CONFIG_ID_TEMPLATE);
     });
   });
-
 
   describe('currentGroup$ observable', () => {
     it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {

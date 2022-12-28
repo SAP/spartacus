@@ -24,11 +24,9 @@ import {
 } from '@spartacus/product-configurator/common';
 
 export class MockIconFontLoaderService {
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-circle';
-  }
-  addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
+  getStyleClasses(_iconType: ICON_TYPE): void {}
+  addLinkResource(): void {}
+  getHtml(_iconType: ICON_TYPE): void {}
   getFlipDirection(): void {}
 }
 
@@ -36,28 +34,18 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-
-const defaultMockRouterData: ConfiguratorRouter.Data = {
-  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-  isOwnerCartEntry: false,
+const mockRouterData: ConfiguratorRouter.Data = {
   owner: {
     key: 'OWNER_KEY',
     type: CommonConfigurator.OwnerType.PRODUCT,
-    id: PRODUCT_CODE,
+    id: 'CONF_LAPTOP',
     configuratorType: ConfiguratorType.CPQ,
   },
-  displayOnly: false,
-  forceReload: false,
-  resolveIssues: false,
 };
 
-const conflictConfiguration: Configurator.Configuration =
-  ConfigurationTestData.productConfigurationWithConflicts;
-
 const mockData: any = {
-  conflictGroups: of(conflictConfiguration.groups[0].subGroups),
-  routerData: of(defaultMockRouterData),
+  conflictGroups: of(ConfigurationTestData.productConfiguration.groups),
+  routerData: of(mockRouterData),
 };
 
 const mockDialogData$ = new BehaviorSubject<any>(mockData);
@@ -79,7 +67,7 @@ class MockConfiguratorDefaultFormComponent {
   @Input() owner: CommonConfigurator.Owner;
 }
 
-describe('ConfiguratorConflictSolverDialogComponent', () => {
+fdescribe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
   let htmlElem: HTMLElement;
@@ -135,69 +123,71 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     component.ngOnDestroy();
   });
 
-  it('should render a conflict solver dialog correctly', () => {
-    expect(component).toBeTruthy();
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-modal-container'
-    );
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-modal-content'
-    );
-    // HEADER
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-dialog-header'
-    );
+  describe('Rendering', () => {
+    it('should render a conflict solver dialog correctly', () => {
+      expect(component).toBeTruthy();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-modal-container'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-modal-content'
+      );
+      // HEADER
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-dialog-header'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-dialog-title',
-      'configurator.header.resolveIssue'
-    );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-dialog-title',
+        'configurator.header.resolveIssue'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-dialog-header button.close'
-    );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-dialog-header button.close'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-dialog-header button span cx-icon'
-    );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-dialog-header button span cx-icon'
+      );
 
-    //  CONTENT
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-dialog-body'
-    );
+      //  CONTENT
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-dialog-body'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-msg-warning'
-    );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-msg-warning'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-msg-warning',
-      'configurator.header.conflictWarning'
-    );
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-msg-warning',
+        'configurator.header.conflictWarning'
+      );
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-default-form'
-    );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-default-form'
+      );
+    });
   });
 
   describe('updateConfiguration', () => {
