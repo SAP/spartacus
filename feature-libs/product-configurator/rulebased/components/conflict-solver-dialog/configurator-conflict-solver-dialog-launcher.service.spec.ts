@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorConflictSolverDialogEventListener } from './configurator-conflict-solver-dialog-event.listener';
+import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
@@ -78,12 +78,12 @@ class MockRoutingService {
 }
 
 describe('ConfiguratorConflictSolverDialogEventListener', () => {
-  let listener: ConfiguratorConflictSolverDialogEventListener;
+  let listener: ConfiguratorConflictSolverDialogLauncherService;
   let launchDialogService: LaunchDialogService;
   let mockRoutingService: MockRoutingService = new MockRoutingService();
 
   function initEventListener() {
-    listener = TestBed.inject(ConfiguratorConflictSolverDialogEventListener);
+    listener = TestBed.inject(ConfiguratorConflictSolverDialogLauncherService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(launchDialogService, 'closeDialog').and.stub();
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
@@ -92,7 +92,7 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ConfiguratorConflictSolverDialogEventListener,
+        ConfiguratorConflictSolverDialogLauncherService,
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,

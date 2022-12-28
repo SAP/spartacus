@@ -429,4 +429,36 @@ describe('ConfiguratorGroupsService', () => {
       classUnderTest.isConflictGroupType(Configurator.GroupType.ATTRIBUTE_GROUP)
     ).toBe(false);
   });
+
+  describe('getConflictGroups', () => {
+    it('should return no conflict groups', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const conflictGroups = classUnderTest.getConflictGroups(
+        productConfiguration.owner
+      );
+
+      expect(conflictGroups).toBeDefined();
+      conflictGroups.subscribe((groups) => {
+        expect(groups.length).toBe(0);
+        done();
+      });
+    });
+
+    it('should return conflict groups', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      const conflictGroups = classUnderTest.getConflictGroups(
+        productConfigurationWithConflicts.owner
+      );
+
+      expect(conflictGroups).toBeDefined();
+      conflictGroups.subscribe((groups) => {
+        expect(groups.length).toBe(3);
+        done();
+      });
+    });
+  });
 });

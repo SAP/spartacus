@@ -19,7 +19,7 @@ import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguratorConflictSolverDialogEventListener
+export class ConfiguratorConflictSolverDialogLauncherService
   implements OnDestroy
 {
   protected subscription = new Subscription();
