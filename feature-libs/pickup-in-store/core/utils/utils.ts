@@ -19,7 +19,7 @@ export function storeHasStock({ stockInfo }: PointOfServiceStock): boolean {
 }
 
 export const getProperty = (
-  o: Object | undefined | null,
+  o: Record<string, any> | undefined | null,
   property: string
 ): any | null => {
   if (!o) {
