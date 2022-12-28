@@ -6,7 +6,7 @@
     "paths": {
       "@spartacus/core": ["../../projects/core/public_api"]
     },
-
+    "declaration": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
