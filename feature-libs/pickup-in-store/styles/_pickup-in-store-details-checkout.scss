@@ -50,6 +50,15 @@ cx-checkout-pick-up-in-store-details {
 
     > div {
       display: flex;
+      width: 100%;
+
+      > div:first-child {
+        flex-basis: 30%;
+      }
+      > div:last-child {
+        flex-basis: 70%;
+        margin: 0 0 0 12rem;
+      }
     }
   }
   .cx-checkout-btns {
