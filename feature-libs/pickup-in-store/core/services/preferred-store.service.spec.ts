@@ -155,6 +155,16 @@ describe('PreferredStoreService', () => {
   it('clearPreferredStore should be void', () => {
     expect(preferredStoreService.clearPreferredStore()).toBeUndefined();
   });
+
+  describe('without localStorage', () => {
+    beforeEach(() => {
+      configureTestingModule(false, false);
+    });
+    it('clearPreferredStore should be void', () => {
+      preferredStoreService.clearPreferredStore();
+      expect(preferredStoreService.clearPreferredStore()).toBeUndefined();
+    });
+  });
 });
 
 export class MockPreferredStoreService {

@@ -46,6 +46,22 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
+export class MockAnonymousUserActiveCartFacade
+  implements Partial<ActiveCartFacade>
+{
+  getActive(): Observable<Cart> {
+    return of({
+      name: 'test-active-cart',
+      code: 'test-active-cart-code',
+      guid: 'cartGuid',
+      user: {
+        uid: 'anonymous',
+      },
+      entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
+    });
+  }
+}
+
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of();
@@ -185,6 +201,9 @@ describe('CartPickupOptionsContainerComponent', () => {
           useValue: {
             context$: of(mockOutletContextForDelivery),
           },
+        })
+        .overrideProvider(ActiveCartFacade, {
+          useValue: new MockAnonymousUserActiveCartFacade(),
         })
         .compileComponents();
       stubServiceAndCreateComponent();
