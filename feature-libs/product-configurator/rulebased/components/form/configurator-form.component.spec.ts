@@ -172,13 +172,36 @@ function checkCurrentGroupObs(
   );
 }
 
-describe('ConfigurationFormComponent', () => {
-  let configuratorCommonsService: ConfiguratorCommonsService;
-  let configuratorGroupsService: ConfiguratorGroupsService;
-  let htmlElem: HTMLElement;
-  let fixture: ComponentFixture<ConfiguratorFormComponent>;
-  //let component: ConfiguratorFormComponent;
+function createComponentWithoutData(): ConfiguratorFormComponent {
+  fixture = TestBed.createComponent(ConfiguratorFormComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+  return component;
+}
 
+const configuration: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
+
+const group: Configurator.Group = ConfigurationTestData.productConfiguration.groups[0];
+
+function createComponentWithData(): ConfiguratorFormComponent {
+  fixture = TestBed.createComponent(ConfiguratorFormComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  component.configuration$ = of(configuration);
+  component.currentGroup$ = of(group);
+  fixture.detectChanges();
+  return component;
+}
+
+let configuratorCommonsService: ConfiguratorCommonsService;
+let configuratorGroupsService: ConfiguratorGroupsService;
+let fixture: ComponentFixture<ConfiguratorFormComponent>;
+let component: ConfiguratorFormComponent;
+let htmlElem: HTMLElement;
+
+describe('ConfigurationFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -230,21 +253,37 @@ describe('ConfigurationFormComponent', () => {
     isConfigurationLoadingObservable = of(false);
   });
 
-  function createComponent(): ConfiguratorFormComponent {
-    fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    htmlElem = fixture.nativeElement;
-    return fixture.componentInstance;
-  }
+  describe('Rendering', () => {
+    it('should render ghost view if no data is present', () => {
+      createComponentWithoutData();
 
-  it('should render ghost view if no data is present', () => {
-    createComponent();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectNumberOfElements(
-      expect,
-      htmlElem,
-      '.cx-ghost-attribute',
-      6
-    );
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        '.cx-ghost-attribute',
+        6
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-default-form'
+      );
+    });
+
+    it('should render configuration form', () => {
+      createComponentWithData();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-default-form'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-attribute'
+      );
+    });
   });
 
   describe('configuration$ observable', () => {
@@ -272,15 +311,18 @@ describe('ConfigurationFormComponent', () => {
     });
   });
 
-  it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
-    checkCurrentGroupObs('aa', '---uv', '----uv');
-  });
 
-  it('should get 4 emissions of current groups if configurations service emits fast', () => {
-    checkCurrentGroupObs('a---a', '--uv', '--uv--uv');
-  });
+  describe('currentGroup$ observable', () => {
+    it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
+      checkCurrentGroupObs('aa', '---uv', '----uv');
+    });
 
-  it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
-    checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
+    it('should get 4 emissions of current groups if configurations service emits fast', () => {
+      checkCurrentGroupObs('a---a', '--uv', '--uv--uv');
+    });
+
+    it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
+      checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
+    });
   });
 });
