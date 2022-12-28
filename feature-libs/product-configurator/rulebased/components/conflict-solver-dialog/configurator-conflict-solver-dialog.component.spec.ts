@@ -67,7 +67,7 @@ class MockConfiguratorDefaultFormComponent {
   @Input() owner: CommonConfigurator.Owner;
 }
 
-fdescribe('ConfiguratorConflictSolverDialogComponent', () => {
+describe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
   let htmlElem: HTMLElement;

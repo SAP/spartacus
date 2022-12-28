@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  EventEmitter,
   Input,
   Type,
+  Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +21,11 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import {
+  ConfigFormUpdateEvent,
+  ConfiguratorConflictSuggestionComponent,
+  ConfiguratorStorefrontUtilsService,
+} from '@spartacus/product-configurator/rulebased';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -33,7 +39,6 @@ import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/config
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
 import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
-import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from '../attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component';
 import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/radio-button/configurator-attribute-radio-button.component';
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
@@ -72,12 +77,88 @@ const conflictGroup: Configurator.Group = {
     { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
   ],
 };
+
+@Component({
+  selector: 'cx-configurator-conflict-description',
+  template: '',
+})
+class MockConfiguratorConflictDescriptionComponent {
+  @Input() ownerType: CommonConfigurator.OwnerType;
+  @Input() currentGroup: Configurator.Group;
+}
+
 @Component({
   selector: 'cx-configurator-price',
   template: '',
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
+  template: '',
+})
+class MockConfiguratorAttributeSingleSelectionBundleDropdownComponent {
+  @Input() group: string;
+  @Input() attribute: Configurator.Attribute;
+  @Input() ownerKey: string;
+  @Input() language: string;
+  @Input() ownerType: string;
+  @Input() expMode: boolean;
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-single-selection-bundle',
+  template: '',
+})
+class MockConfiguratorAttributeSingleSelectionBundleComponent {
+  @Input() group: string;
+  @Input() attribute: Configurator.Attribute;
+  @Input() ownerKey: string;
+  @Input() language: string;
+  @Input() ownerType: string;
+  @Input() expMode: boolean;
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-multi-selection-bundle',
+  template: '',
+})
+class MockConfiguratorAttributeMultiSelectionBundleComponent {
+  @Input() attribute: Configurator.Attribute;
+  @Input() ownerKey: string;
+  @Input() expMode: boolean;
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-input-field',
+  template: '',
+})
+class MockConfiguratorAttributeInputFieldComponent {
+  @Input() ownerType: CommonConfigurator.OwnerType;
+  @Input() attribute: Configurator.Attribute;
+  @Input() group: string;
+  @Input() ownerKey: string;
+
+  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-numeric-input-field',
+  template: '',
+})
+class MockConfiguratorAttributeNumericInputFieldComponent {
+  @Input() ownerType: CommonConfigurator.OwnerType;
+  @Input() attribute: Configurator.Attribute;
+  @Input() group: string;
+  @Input() ownerKey: string;
+  @Input() language: string;
+
+  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
 @Component({
@@ -189,16 +270,22 @@ describe('ConfiguratorDefaultFormComponent', () => {
           MockFocusDirective,
           MockFeatureLevelDirective,
           ConfiguratorDefaultFormComponent,
+          MockConfiguratorConflictDescriptionComponent,
+          ConfiguratorConflictSuggestionComponent,
           ConfiguratorAttributeHeaderComponent,
           ConfiguratorAttributeFooterComponent,
           ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeInputFieldComponent,
           ConfiguratorAttributeDropDownComponent,
           ConfiguratorAttributeReadOnlyComponent,
           ConfiguratorAttributeCheckBoxComponent,
           ConfiguratorAttributeCheckBoxListComponent,
           ConfiguratorAttributeMultiSelectionImageComponent,
           ConfiguratorAttributeSingleSelectionImageComponent,
+          MockConfiguratorAttributeInputFieldComponent,
+          MockConfiguratorAttributeNumericInputFieldComponent,
+          MockConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          MockConfiguratorAttributeSingleSelectionBundleComponent,
+          MockConfiguratorAttributeMultiSelectionBundleComponent,
         ],
         providers: [
           {
@@ -269,15 +356,162 @@ describe('ConfiguratorDefaultFormComponent', () => {
     return fixture.componentInstance;
   }
 
-  it('should call configurator group service to check group type', () => {
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
-    createComponent().isConflictGroupType(
-      Configurator.GroupType.CONFLICT_GROUP
-    );
-    expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalledWith(
-      Configurator.GroupType.CONFLICT_GROUP
-    );
+  describe('Rendering', () => {
+    beforeEach(() => {
+      const component = createComponent();
+      component.group = ConfigurationTestData.productConfiguration.groups[0];
+      fixture.detectChanges();
+    });
+
+    it('should display header and footer for all attribute types', () => {
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-header',
+        component.group.attributes.length
+      );
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        '.cx-group-attribute',
+        component.group.attributes.length
+      );
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-footer',
+        component.group.attributes.length
+      );
+    });
+
+    it('should display message for not supported attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'em',
+        'configurator.attribute.notSupported'
+      );
+    });
+
+    it('should support read only attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-read-only'
+      );
+    });
+
+    it('should support input field attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should support numeric input field attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+
+    it('should support radio button attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button'
+      );
+    });
+
+    it('should support single selection image attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-single-selection-image'
+      );
+    });
+
+    it('should support multi selection image attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-multi-selection-image'
+      );
+    });
+
+    it('should support drop-down attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-drop-down'
+      );
+    });
+
+    it('should support checkbox attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-checkbox'
+      );
+    });
+
+    it('should support checkbox-list attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-checkbox-list'
+      );
+    });
+
+    it('should support single selection bundle attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-single-selection-bundle'
+      );
+    });
+
+    it('should support single selection bundle dropdown attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-single-selection-bundle-dropdown'
+      );
+    });
+
+    it('should support multi selection bundle attribute type', () => {
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-multi-selection-bundle'
+      );
+    });
+  });
+
+  describe('isConflictGroupType', () => {
+    it('should not call configurator group service to check group type', () => {
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+      createComponent().isConflictGroupType(undefined);
+      expect(
+        configuratorGroupsService.isConflictGroupType
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call configurator group service to check group type', () => {
+      routerStateObservable = of(mockRouterState);
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+      createComponent().isConflictGroupType(
+        Configurator.GroupType.CONFLICT_GROUP
+      );
+      expect(
+        configuratorGroupsService.isConflictGroupType
+      ).toHaveBeenCalledWith(Configurator.GroupType.CONFLICT_GROUP);
+    });
   });
 
   describe('resolve issues navigation', () => {
@@ -406,10 +640,63 @@ describe('ConfiguratorDefaultFormComponent', () => {
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
       ownerKey: OWNER.key,
-      changedAttribute: ConfigurationTestData.attributeCheckbox,
+      changedAttribute: ConfigurationTestData.attributeCheckBoxes,
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
+  });
+
+  describe('displayConflictDescription', () => {
+    it('should return true if group is conflict group and has a name', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        true
+      );
+    });
+
+    it('should return false if group is standard group', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        false
+      );
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-conflict-description'
+      );
+    });
+
+    it('should return false if group is conflict group and does not have a name', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      conflictGroup.name = '';
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-conflict-description'
+      );
+    });
+
+    it('should return false if group type is undefined', () => {
+      conflictGroup.groupType = undefined;
+      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
+        false
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-conflict-description'
+      );
+    });
   });
 
   describe('createGroupId', () => {
@@ -419,40 +706,6 @@ describe('ConfiguratorDefaultFormComponent', () => {
 
     it('should return group ID string', () => {
       expect(createComponent().createGroupId('1234')).toBe('1234-group');
-    });
-  });
-
-  describe('Rendering', () => {
-    it('should support radio button attribute type', () => {
-      const component = createComponent();
-      component.group = ConfigurationTestData.productConfiguration.groups[0];
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectNumberOfElements(
-        expect,
-        htmlElem,
-        'cx-configurator-attribute-radio-button',
-        1
-      );
-    });
-
-    it('should display the radio button component for attribute type RADIOBUTTON_ADDITIONAL_INPUT', () => {
-      const component = createComponent();
-      const configurationWithAdditionalValueType =
-        ConfigurationTestData.productConfiguration;
-      configurationWithAdditionalValueType.groups[0].attributes?.push({
-        name: 'AdditionalVal',
-        uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
-      });
-      component.group = configurationWithAdditionalValueType.groups[0];
-      fixture.detectChanges();
-      //now we expect 2 attributes resulting in a radio button component
-      CommonConfiguratorTestUtilsService.expectNumberOfElements(
-        expect,
-        htmlElem,
-        'cx-configurator-attribute-radio-button',
-        2
-      );
     });
   });
 
@@ -497,40 +750,6 @@ describe('ConfiguratorDefaultFormComponent', () => {
       });
       createComponent().ngOnInit();
       expect(configExpertModeService.setExpModeRequested).toHaveBeenCalled();
-    });
-  });
-
-  describe('displayConflictDescription', () => {
-    it('should return true if group is conflict group and has a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        true
-      );
-    });
-    it('should return false if group is standard group', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        false
-      );
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
-    });
-    it('should return false if group is conflict group and does not have a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
-      conflictGroup.name = '';
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
-    });
-    it('should return false if group type is undefined', () => {
-      conflictGroup.groupType = undefined;
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
     });
   });
 });

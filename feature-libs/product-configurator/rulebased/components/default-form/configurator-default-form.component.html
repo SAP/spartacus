@@ -105,7 +105,6 @@
         *ngIf="attribute.uiType === uiType.CHECKBOXLIST"
         [attribute]="attribute"
         [group]="group.id"
-        [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
       ></cx-configurator-attribute-checkbox-list>
