@@ -290,7 +290,7 @@ describe('PickupOptionsComponent', () => {
                 name: 'preferredStore',
                 displayName: 'London School',
                 pickupOption: 'pickup',
-              } as AugmentedPointOfService),
+              }),
           },
         })
         .compileComponents();

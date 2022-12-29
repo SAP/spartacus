@@ -7,7 +7,6 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   Optional,
   ViewChild,
@@ -27,7 +26,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { EMPTY, iif, Observable, of, Subscription } from 'rxjs';
+import { EMPTY, iif, Observable, of } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -86,7 +85,7 @@ export function cartWithIdAndUserId(
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
 })
-export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
+export class CartPickupOptionsContainerComponent implements OnInit {
   @ViewChild('open') element: ElementRef;
 
   pickupOption$: Observable<PickupOption | undefined>;
@@ -100,7 +99,6 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   userId: string;
   private displayNameIsSet = false;
   page?: string;
-  subscription = new Subscription();
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -185,10 +183,6 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
       filter((displayName): displayName is string => !!displayName),
       tap((_) => (this.displayNameIsSet = true))
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
