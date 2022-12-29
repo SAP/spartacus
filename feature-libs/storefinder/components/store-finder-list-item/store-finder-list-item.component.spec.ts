@@ -8,6 +8,7 @@ import { StoreFinderListItemComponent } from './store-finder-list-item.component
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
+import { OutletModule } from '@spartacus/storefront';
 
 const weekday = {
   closingTime: {
@@ -93,6 +94,7 @@ class MockStoreFinderService implements Partial<StoreFinderService> {
   callFindStoresAction = createSpy('callFindStoresAction');
   getStoreLatitude = createSpy('getStoreLatitude');
   getStoreLongitude = createSpy('getStoreLongitude');
+  getDirections = createSpy('getDirections');
 }
 
 describe('StoreFinderListItemComponent', () => {
@@ -107,6 +109,7 @@ describe('StoreFinderListItemComponent', () => {
           ReactiveFormsModule,
           I18nTestingModule,
           RouterTestingModule,
+          OutletModule,
         ],
         declarations: [StoreFinderListItemComponent],
         providers: [
