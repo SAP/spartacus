@@ -150,6 +150,7 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -171,6 +172,7 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -191,6 +193,7 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -688,7 +691,7 @@ function parseInstallArgs {
                 shift
                 ;;
             s4om)
-                ADD_EPD_VISUALIZATION=true
+                ADD_S4OM=true
                 echo "➖ Added S4OM"   
                 shift
                 ;;
