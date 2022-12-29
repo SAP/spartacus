@@ -11,8 +11,8 @@ describe('CheckoutPickUpInStoreDetailsComponent', () => {
   let component: CheckoutPickUpInStoreDetailsComponent;
   let fixture: ComponentFixture<CheckoutPickUpInStoreDetailsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       declarations: [CheckoutPickUpInStoreDetailsComponent],
       imports: [
         CommonModule,
@@ -28,9 +28,6 @@ describe('CheckoutPickUpInStoreDetailsComponent', () => {
         },
       ],
     }).compileComponents();
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPickUpInStoreDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
