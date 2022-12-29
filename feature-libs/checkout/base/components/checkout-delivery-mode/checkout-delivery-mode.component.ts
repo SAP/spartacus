@@ -23,7 +23,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -82,7 +81,6 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     this.selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
       .getSelectedDeliveryModeState()
       .pipe(
-        tap((item) => console.log(item)),
         filter((state) => !state.loading),
         map((state) => state.data),
         map((deliveryMode) => deliveryMode?.code)
@@ -115,10 +113,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     this.busy$.next(true);
 
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
-      complete: () => {
-        console.log('Completed');
-        this.onSuccess();
-      },
+      complete: () => this.onSuccess(),
       error: () => this.onError(),
     });
   }

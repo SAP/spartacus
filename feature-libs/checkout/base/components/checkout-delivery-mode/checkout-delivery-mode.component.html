@@ -11,7 +11,7 @@
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div [formGroup]="mode">
     <div class="row">
-      <div class="col-md-12 col-lg-12" role="radiogroup">
+      <div class="col-md-12 col-lg-9" role="radiogroup">
         <div
           class="form-check"
           *ngFor="let mode of supportedDeliveryModes$ | async"
