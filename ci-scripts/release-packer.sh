@@ -32,6 +32,8 @@ function pack {
         cp -r projects/storefrontstyles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
         cp -r projects/schematics/* ../.
+    elif [[ $PACKAGE == 'storefront' ]]; then
+        cp -r dist/storefrontlib/* ../.
     else
         cp -r dist/$PACKAGE/* ../.
     fi
