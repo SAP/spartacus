@@ -517,6 +517,26 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(
         take(1),
         map(([cartId, userId]) => {
+          debugger;
+          this.multiCartFacade.loadCart({
+            cartId,
+            userId,
+            extraData: { active: true },
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  /**
+   * Reloads current active cart
+   */
+  reloadCurrentActiveCart() {
+    const cartId = OCC_CART_ID_CURRENT;
+    this.userIdService.takeUserId()
+      .pipe(
+        take(1),
+        map((userId) => {
           this.multiCartFacade.loadCart({
             cartId,
             userId,

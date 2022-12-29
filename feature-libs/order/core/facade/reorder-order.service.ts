@@ -19,7 +19,7 @@ import {
 } from '@spartacus/order/root';
 import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -36,22 +36,7 @@ export class ReorderOrderService
     ({ orderId, userId }) =>
     this.reorderOrderConnector
     .reorder(orderId, userId)
-    .pipe(
-      tap((cartModifications) => {
-        //this.orderFacade.setPlacedOrder(replenishmentOrder);
-        console.log(cartModifications);
-        /* this.eventService.dispatch(
-          {
-            userId,
-            cartId,
-            cartCode: cartId,
-            replenishmentOrder,
-          },
-          ReplenishmentOrderScheduledEvent
-        ); */
-      })
-    ),
-    {
+    ,{
       strategy: CommandStrategy.CancelPrevious,
     }
   );
@@ -92,7 +77,6 @@ export class ReorderOrderService
     orderId: string,
     userId: string
   ): Observable<CartModificationList> {
-    debugger;
     return this.reorderCommand.execute({
       orderId,
       userId

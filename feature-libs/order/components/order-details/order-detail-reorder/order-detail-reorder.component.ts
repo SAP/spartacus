@@ -5,8 +5,9 @@
  */
 
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ActiveCartService, MultiCartService } from '@spartacus/cart/base/core';
 import { CartOutlets, OrderEntriesContext, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { EventService, UserIdService } from '@spartacus/core';
 import { ContextService, LaunchDialogService } from '@spartacus/storefront';
 import { ReorderOrderService } from 'feature-libs/order/core/facade/reorder-order.service';
 import { Observable } from 'rxjs';
@@ -25,9 +26,13 @@ export class OrderDetailReorderComponent implements OnInit {
     protected vcr: ViewContainerRef,
     protected contextService: ContextService,
     protected userIdService: UserIdService,
-    protected reorderOrderService: ReorderOrderService) {}
+    protected reorderOrderService: ReorderOrderService,
+    protected activeCartService: ActiveCartService,
+    protected multiCartService: MultiCartService,
+    protected eventService: EventService) {}
 
   order$: Observable<any>;
+  userId: string;
 
   context$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
@@ -38,6 +43,9 @@ export class OrderDetailReorderComponent implements OnInit {
     this.order$ = this.orderDetailsService.getOrderDetails();
     this.orderDetailsService.getOrderDetails().subscribe((order) => {
         console.log(order);
+    });
+    this.userIdService.getUserId().subscribe((userId) => {
+      this.userId = userId;
     });
   }
 
@@ -51,13 +59,11 @@ export class OrderDetailReorderComponent implements OnInit {
     ); */
     const orderId = order.code;
 
-    this.userIdService.getUserId().subscribe((userId) => {
-      this.reorderOrderService.reorder(orderId, userId)
+    
+      this.reorderOrderService.reorder(orderId, this.userId)
       .subscribe((response) => {
         console.log(response);
-      });
-    });
-    
-    
+        this.activeCartService.reloadCurrentActiveCart();
+      }); 
   }
 }
