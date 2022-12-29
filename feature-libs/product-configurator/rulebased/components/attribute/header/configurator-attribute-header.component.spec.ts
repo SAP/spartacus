@@ -73,7 +73,7 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
-fdescribe('ConfigAttributeHeaderComponent', () => {
+describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
@@ -974,7 +974,7 @@ fdescribe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  fdescribe('isNavigationToConflictEnabled', () => {
+  describe('isNavigationToConflictEnabled', () => {
     it('should return false if productConfigurator setting is not provided', () => {
       uiConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
