@@ -12,12 +12,12 @@ export abstract class TranslationService {
    * If key is missing, it tries to load the chunk and emits a value when chunk is loaded.
    * If key is missing after loaded chunk, a fallback value is emitted
    *
-   * @param key translation key
+   * @param key translation key or array of keys
    * @param options values for interpolation in translation
    * @param whitespaceUntilLoaded if true, immediately emits a non-breaking space
    */
   translate: (
-    key: string,
+    key: string | string[],
     options?: any,
     whitespaceUntilLoaded?: boolean
   ) => Observable<string>;

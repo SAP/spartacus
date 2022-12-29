@@ -29,7 +29,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ) {}
 
   transform(
-    input: Translatable | string,
+    input: Translatable | string | string[],
     options: TranslatableParams = {}
   ): string {
     if (!input) {
@@ -41,14 +41,15 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       return '';
     }
 
-    if ((input as Translatable).raw) {
-      return (input as Translatable).raw ?? '';
+    if (this.isTranslatable(input) && input.raw) {
+      return input.raw;
     }
 
-    const key = typeof input === 'string' ? input : input.key;
-    if (typeof input !== 'string') {
+    if (this.isTranslatable(input) && input.params) {
       options = { ...options, ...input.params };
     }
+
+    const key = this.isTranslatable(input) ? input.key : input;
 
     this.translate(key, options);
     return this.translatedValue;
@@ -74,6 +75,10 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private markForCheck(value: string) {
     this.translatedValue = value;
     this.cd.markForCheck();
+  }
+
+  private isTranslatable(input: any): input is Translatable {
+    return typeof input !== 'string' && ('key' in input || 'raw' in input);
   }
 
   ngOnDestroy(): void {

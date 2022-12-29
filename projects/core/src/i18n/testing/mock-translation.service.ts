@@ -12,7 +12,7 @@ import { mockTranslate } from './mock-translate';
 @Injectable()
 export class MockTranslationService implements TranslationService {
   translate(
-    key: string,
+    key: string | string[],
     options: any = {},
     _whitespaceUntilLoaded: boolean = false
   ): Observable<string> {

@@ -5,7 +5,7 @@
  */
 
 export interface Translatable {
-  key?: string;
+  key?: string | string[];
   params?: TranslatableParams;
   raw?: string;
 }
