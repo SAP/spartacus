@@ -38,7 +38,7 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
   @Input() expMode: boolean;
-  @Input() isNavigationToGroupEnabled = true;
+  @Input() isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -255,12 +255,19 @@ export class ConfiguratorAttributeHeaderComponent
       .subscribe(callback);
   }
   /**
-   * @returns true only if navigation to conflict groups is enabled.
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
-    return (
+    if (
+      this.isNavigationToGroupEnabled &&
       this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict ?? false
-    );
+        ?.enableNavigationToConflict
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

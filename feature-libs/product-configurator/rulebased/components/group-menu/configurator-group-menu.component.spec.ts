@@ -1619,4 +1619,41 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
   });
+
+  describe('displayMenuItem', () => {
+    it('should display conflict header menu item', (done) => {
+      let configurationWithConflicts =
+        ConfigurationTestData.productConfigurationWithConflicts;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(true);
+          done();
+        });
+    });
+
+    it('should not display conflict header menu item', (done) => {
+      let configurationWithConflicts =
+        ConfigurationTestData.productConfigurationWithConflicts;
+      configurationWithConflicts.immediateConflictResolution = true;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(false);
+          done();
+        });
+    });
+  });
 });

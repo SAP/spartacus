@@ -637,4 +637,19 @@ export class ConfiguratorGroupMenuComponent {
     }
     return title;
   }
+
+  displayMenuItem(group: Configurator.Group): Observable<boolean> {
+    return this.configuration$.pipe(
+      map((configuration) => {
+        let displayMenuItem = true;
+        if (
+          configuration.immediateConflictResolution &&
+          group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+        ) {
+          displayMenuItem = false;
+        }
+        return displayMenuItem;
+      })
+    );
+  }
 }

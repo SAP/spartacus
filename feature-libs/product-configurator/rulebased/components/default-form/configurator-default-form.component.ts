@@ -32,7 +32,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class ConfiguratorDefaultFormComponent implements OnInit {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
-  @Input() isNavigationToGroupEnabled = true;
+  @Input() isNavigationToGroupEnabled: boolean;
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;

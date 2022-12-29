@@ -73,7 +73,7 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
-describe('ConfigAttributeHeaderComponent', () => {
+fdescribe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
@@ -169,6 +169,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.incomplete = true;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+    component.isNavigationToGroupEnabled = true;
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -973,23 +974,33 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isNavigationToConflictEnabled', () => {
+  fdescribe('isNavigationToConflictEnabled', () => {
     it('should return false if productConfigurator setting is not provided', () => {
       uiConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return false if enableNavigationToConflict setting is not provided', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
         undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return true if enableNavigationToConflict setting is true', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
-      expect(component.isNavigationToConflictEnabled()).toBeTruthy();
+      expect(component.isNavigationToConflictEnabled()).toBe(true);
     });
+
     it('should return false if enableNavigationToConflict setting is false', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+
+    it('should return false if enableNavigationToConflict setting is true and isNavigationToGroupEnabled is false', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
     });
   });
 });

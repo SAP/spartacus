@@ -10,7 +10,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { map, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -49,4 +49,16 @@ export class ConfiguratorFormComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
+
+  isNavigationToGroupEnabled(): Observable<boolean> {
+    return this.configuration$.pipe(
+      map((configuration) => {
+        let isNavigationToGroupEnabled = true;
+        if (configuration.immediateConflictResolution) {
+          isNavigationToGroupEnabled = false;
+        }
+        return isNavigationToGroupEnabled;
+      })
+    );
+  }
 }

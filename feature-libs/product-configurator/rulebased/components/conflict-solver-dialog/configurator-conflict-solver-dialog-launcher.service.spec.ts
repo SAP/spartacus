@@ -65,7 +65,9 @@ function createListOfGroups(amount: number): Configurator.Group[] {
 let groups: Configurator.Group[] = [];
 let groups$: Observable<Configurator.Group[] | undefined>;
 class MockConfiguratorGroupsService {
-  getConflictGroupsForImmediateConflictResolution(): Observable<Configurator.Group[] | undefined> {
+  getConflictGroupsForImmediateConflictResolution(): Observable<
+    Configurator.Group[] | undefined
+  > {
     return groups$;
   }
 }

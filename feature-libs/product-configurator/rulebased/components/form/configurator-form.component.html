@@ -2,7 +2,7 @@
   <cx-configurator-default-form
     [group]="currentGroup$ | async"
     [owner]="configuration.owner"
-    [isNavigationToGroupEnabled]="true"
+    [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
   >
   </cx-configurator-default-form>
 </ng-container>
