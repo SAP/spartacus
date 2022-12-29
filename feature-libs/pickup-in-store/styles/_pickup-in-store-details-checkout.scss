@@ -14,8 +14,11 @@ cx-checkout-pick-up-in-store-details {
   .cx-checkout-pickup-in-store-details-heading {
     margin-bottom: 1rem;
     margin-top: 1rem;
+    font-size: var(--cx-font-size, 1.125rem);
     font-weight: var(--cx-font-weight-semi);
+    line-height: var(--cx-line-height, 1.2222222222);
   }
+
   .cx-delivery-pointof-service-item {
     border: 1px solid #d3d6db;
     padding: 1rem 1rem 1rem 2rem;
@@ -46,7 +49,6 @@ cx-checkout-pick-up-in-store-details {
     margin: 0;
     padding: 1rem 1rem 1rem 2rem;
     font-size: var(--cx-font-size, 1.125rem);
-    line-height: var(--cx-line-height, 1.2222222222);
   }
 
   .cx-total {
