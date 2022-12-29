@@ -43,7 +43,7 @@
       class="cx-delivery-pointof-service-item"
       *ngFor="let item of deliveryPointOfService.value"
     >
-      <div [ngClass]="compact ? 'cx-compact row' : 'row'">
+      <div [ngClass]="'row'">
         <!-- Item Image -->
         <div class="col-2 cx-image-container col-offset-1">
           <a tabindex="0">
@@ -57,7 +57,7 @@
         <div class="cx-info col-9">
           <div class="cx-info-container row">
             <!-- Item Description -->
-            <div [ngClass]="compact ? '' : ' col-md-7 col-lg-7 col-xl-7'">
+            <div [ngClass]="'col-md-7 col-lg-7 col-xl-7'">
               <div *ngIf="item.product?.name" class="cx-name">
                 <p class="cx-name-value">{{ item.product?.name }}</p>
               </div>
@@ -84,15 +84,32 @@
             <div
               *ngIf="item.basePrice"
               class="cx-price"
-              [ngClass]="compact ? '' : ' col-md-2 col-lg-2 col-xl-2'"
+              [ngClass]="'col-lg-2 col-md-2 col-sm-12 col-xs-12'"
             >
               <div *ngIf="item.basePrice" class="cx-value">
+                <span
+                  class="cx-label"
+                  [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                >
+                  {{ 'cartItems.itemPrice' | cxTranslate }}
+                </span>
                 {{ item.basePrice?.formattedValue }}
               </div>
             </div>
             <!-- Item Quantity -->
-            <div class="cx-quantity" [ngClass]="compact ? '' : 'col-2'">
+            <div
+              class="cx-quantity"
+              [ngClass]="'col-lg-2 col-md-2 col-sm-12 col-xs-12'"
+            >
               <div class="cx-value">
+                <span
+                  class="cx-label"
+                  [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                  placement="left"
+                  title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+                >
+                  {{ 'cartItems.quantity' | cxTranslate }}
+                </span>
                 {{ item.quantity }}
               </div>
             </div>
@@ -100,9 +117,17 @@
             <div
               *ngIf="item.totalPrice"
               class="cx-total"
-              [ngClass]="compact ? '' : ' col-md-1 col-xl-1'"
+              [ngClass]="' col-md-1 col-xl-1 col-sm-12 col-xs-12'"
             >
-              <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+              <div class="cx-value">
+                <span
+                  class="cx-label"
+                  [ngClass]="' d-md-none d-lg-none d-xl-none'"
+                >
+                  {{ 'cartItems.total' | cxTranslate }}
+                </span>
+                {{ item.totalPrice.formattedValue }}
+              </div>
             </div>
           </div>
         </div>

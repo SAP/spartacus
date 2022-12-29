@@ -17,7 +17,6 @@ export class CheckoutPickUpInStoreDetailsComponent {
   @Input() displayLocation: string;
   readonly CartOutlets = CartOutlets;
   readonly ICON_TYPE = ICON_TYPE;
-  compact = false;
   deliveryPointsOfService$ =
     this.deliveryPointsService.getDeliveryPointsOfService();
 
