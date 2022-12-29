@@ -78,6 +78,10 @@ export const checkoutPickupInStore = {
   storeItemHeading: 'Pick Up Store Address',
 };
 
+export const cartItems = {
+  item: 'Item',
+};
+
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInfo,
@@ -91,4 +95,5 @@ export const pickupInStore = {
   addressBookPickupInStore,
   storeFinderPickupInStore,
   checkoutPickupInStore,
+  cartItems,
 };
