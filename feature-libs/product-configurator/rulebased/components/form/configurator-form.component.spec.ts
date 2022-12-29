@@ -26,6 +26,7 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
+  @Input() isNavigationToGroupEnabled = true;
 }
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

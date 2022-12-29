@@ -363,6 +363,28 @@ describe('ConfiguratorDefaultFormComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should display conflict description and suggestions for a conflict group', () => {
+      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
+        true
+      );
+      const component = createComponent();
+      component.group =
+        ConfigurationTestData.productConfigurationWithConflicts.groups[0].subGroups[0];
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-conflict-description'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-conflict-suggestion'
+      );
+    });
+
     it('should display header and footer for all attribute types', () => {
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,

@@ -65,6 +65,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
+  @Input() isNavigationToGroupEnabled = true;
 }
 
 describe('ConfiguratorConflictSolverDialogComponent', () => {

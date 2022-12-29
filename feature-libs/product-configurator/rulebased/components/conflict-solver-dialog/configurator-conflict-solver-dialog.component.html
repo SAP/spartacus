@@ -32,6 +32,7 @@
         <cx-configurator-default-form
           [group]="conflictGroups[0]"
           [owner]="(routerData$ | async)?.owner"
+          [isNavigationToGroupEnabled]="false"
         >
         </cx-configurator-default-form>
       </ng-container>

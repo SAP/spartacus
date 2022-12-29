@@ -32,6 +32,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class ConfiguratorDefaultFormComponent implements OnInit {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
+  @Input() isNavigationToGroupEnabled = true;
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
@@ -78,6 +79,11 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
       });
   }
 
+  /**
+   * Updates a configuration, specified by the configuration form update event.
+   *
+   * @param {ConfigFormUpdateEvent} event - Configuration form update event
+   */
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
@@ -86,6 +92,12 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
     );
   }
 
+  /**
+   * Verifies whether the current group type is conflict one.
+   *
+   * @param {Configurator.GroupType | undefined} groupType - Group type
+   * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
+   */
   isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
     return groupType
       ? this.configuratorGroupsService.isConflictGroupType(groupType)
@@ -94,8 +106,9 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
 
   /**
    * Display group description box only for conflict groups with a given group name (i.e. a conflict description)
-   * @param group
-   * @returns true if conflict description box should be displayed
+   *
+   * @param {Configurator.Group} group - Group
+   * @returns {boolean} - 'True' if conflict description box should be displayed, otherwise 'false'.
    */
   displayConflictDescription(group: Configurator.Group): boolean {
     return (
@@ -115,6 +128,11 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
     return this.configUtils.createGroupId(groupId);
   }
 
+  /**
+   * Retrieves information whether the expert mode is active.
+   *
+   * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.
+   */
   get expMode(): Observable<boolean> | undefined {
     return this.configExpertModeService?.getExpModeActive();
   }
