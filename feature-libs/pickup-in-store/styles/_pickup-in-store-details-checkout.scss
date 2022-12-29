@@ -29,15 +29,15 @@ cx-checkout-pick-up-in-store-details {
     margin: 0;
     padding: 0.5rem;
     .cx-price-header {
-      text-align: center;
+      text-align: var(--cx-text-align, center);
       padding: 0;
     }
     .cx-quantity-header {
-      text-align: left;
+      text-align: var(--cx-text-align, start);
       padding: 0;
     }
     .cx-total-header {
-      text-align: center;
+      text-align: var(--cx-text-align, center);
       padding: 0;
     }
   }
