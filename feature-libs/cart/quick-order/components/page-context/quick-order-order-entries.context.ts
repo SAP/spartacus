@@ -43,6 +43,7 @@ export class QuickOrderOrderEntriesContext
   constructor(
     protected quickOrderService: QuickOrderFacade,
     protected productConnector: ProductConnector,
+    // TODO: (CXSPA-612) Remove FeatureConfigService for 6.0
     @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
@@ -56,6 +57,7 @@ export class QuickOrderOrderEntriesContext
         this.quickOrderService
           .canAdd(
             productData.productCode,
+            // TODO: (CXSPA-612) Remove feature flag and use productsData parameter for 6.0
             this.featureConfigService?.isLevel('5.2') ? productsData : undefined
           )
           .pipe(
