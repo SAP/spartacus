@@ -7,6 +7,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { of } from 'rxjs';
+import { OutletModule } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 import { OutletModule } from '@spartacus/storefront';
 
