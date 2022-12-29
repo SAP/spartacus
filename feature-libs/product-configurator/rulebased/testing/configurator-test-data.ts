@@ -733,6 +733,7 @@ export const OV_GROUP_DESCRIPTION = 'Group 1';
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  immediateConflictResolution: false,
   priceSummary: {
     basePrice: { formattedValue: '$123.56', currencyIso: 'USD', value: 123.56 },
     selectedOptions: { formattedValue: '$500', currencyIso: 'USD', value: 500 },
@@ -928,6 +929,7 @@ export const productConfiguration: Configurator.Configuration = {
 export const productConfigurationWithConflicts: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  immediateConflictResolution: false,
   totalNumberOfIssues: 3,
   groups: [
     {

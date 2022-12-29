@@ -169,23 +169,25 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Retrieves a list of conflict groups.
+   * Retrieves a list of conflict groups for immediate conflict resolution.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @return {Observable<Configurator.Group[]} - A list of conflict groups
    */
-  getConflictGroups(
+  getConflictGroupsForImmediateConflictResolution(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group[]> {
-    return this.configuratorCommonsService
-      .getConfiguration(owner)
-      .pipe(
-        map((configuration) =>
-          configuration.flatGroups.filter(
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      map((configuration) => {
+        let conflictGroups: Configurator.Group[] = [];
+        if (configuration.immediateConflictResolution) {
+          conflictGroups = configuration.flatGroups.filter(
             (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
-          )
-        )
-      );
+          );
+        }
+        return conflictGroups;
+      })
+    );
   }
 
   /**

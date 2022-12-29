@@ -65,7 +65,7 @@ function createListOfGroups(amount: number): Configurator.Group[] {
 let groups: Configurator.Group[] = [];
 let groups$: Observable<Configurator.Group[] | undefined>;
 class MockConfiguratorGroupsService {
-  getConflictGroups(): Observable<Configurator.Group[] | undefined> {
+  getConflictGroupsForImmediateConflictResolution(): Observable<Configurator.Group[] | undefined> {
     return groups$;
   }
 }
@@ -77,7 +77,7 @@ class MockRoutingService {
   }
 }
 
-describe('ConfiguratorConflictSolverDialogEventListener', () => {
+describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   let listener: ConfiguratorConflictSolverDialogLauncherService;
   let launchDialogService: LaunchDialogService;
   let mockRoutingService: MockRoutingService = new MockRoutingService();
@@ -137,12 +137,14 @@ describe('ConfiguratorConflictSolverDialogEventListener', () => {
   describe('conflictGroups observable', () => {
     let configRouterData: ConfiguratorRouter.Data;
     let overviewRouterData: ConfiguratorRouter.Data;
+
     beforeEach(() => {
       configRouterData = structuredClone(defaultMockRouterData);
       configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       overviewRouterData = structuredClone(defaultMockRouterData);
       overviewRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
     });
+
     it('should emit group data when routing pageType = "configuration"', () => {
       routerData$ = hot('     c---', { c: configRouterData });
       groups$ = hot('         -g--', { g: groups });

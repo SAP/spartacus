@@ -50,10 +50,10 @@ export class ConfiguratorConflictSolverDialogComponent
   }
 
   /**
-   * Updates a configuration, specified by a ConfigFormUpdateEvent
+   * Updates a configuration, specified by the configuration form update event
    * that contains information about a configuration owner key, a changed attribute and an update type.
    *
-   * @param event - ConfigFormUpdateEvent
+   * @param {ConfigFormUpdateEvent} event - ConfigFormUpdateEvent
    */
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
@@ -78,7 +78,7 @@ export class ConfiguratorConflictSolverDialogComponent
   /**
    * Closes a modal with a certain reason.
    *
-   * @param reason - Reason
+   * @param {any} reason - Reason
    */
   dismissModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);

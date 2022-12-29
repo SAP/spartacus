@@ -430,14 +430,15 @@ describe('ConfiguratorGroupsService', () => {
     ).toBe(false);
   });
 
-  describe('getConflictGroups', () => {
+  describe('getConflictGroupsForImmediateConflictResolution', () => {
     it('should return no conflict groups', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
-      const conflictGroups = classUnderTest.getConflictGroups(
-        productConfiguration.owner
-      );
+      const conflictGroups =
+        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+          productConfiguration.owner
+        );
 
       expect(conflictGroups).toBeDefined();
       conflictGroups.subscribe((groups) => {
@@ -447,12 +448,14 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return conflict groups', (done) => {
+      productConfigurationWithConflicts.immediateConflictResolution = true;
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfigurationWithConflicts)
       );
-      const conflictGroups = classUnderTest.getConflictGroups(
-        productConfigurationWithConflicts.owner
-      );
+      const conflictGroups =
+        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+          productConfigurationWithConflicts.owner
+        );
 
       expect(conflictGroups).toBeDefined();
       conflictGroups.subscribe((groups) => {

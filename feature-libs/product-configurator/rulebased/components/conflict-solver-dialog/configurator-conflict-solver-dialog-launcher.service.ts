@@ -31,7 +31,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
     this.routerData$.pipe(
       switchMap((routerData) => {
         if (routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION) {
-          return this.configuratorGroupsService.getConflictGroups(
+          return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
             routerData.owner
           );
         } else {
