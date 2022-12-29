@@ -6,7 +6,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  UrlModule,
+} from '@spartacus/core';
 import {
   CardModule,
   IconModule,
@@ -24,6 +30,8 @@ import { CheckoutPickUpInStoreDetailsComponent } from './checkout-pickup-in-stor
     I18nModule,
     IconModule,
     OutletModule,
+    RouterModule,
+    UrlModule,
     ConfigModule.withConfig({
       cmsComponents: {
         PickupInStoreDetails: {

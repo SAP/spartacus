@@ -15,7 +15,7 @@
   >
     <div class="cx-checkout-pickup-in-store-details">
       <div>
-        <div>
+        <div class="cx-checkout-pickup-in-store-store-address">
           <p class="cx-checkout-pickup-in-store-details-heading">
             {{ 'checkoutPickupInStore.storeItemHeading' | cxTranslate }}
             {{ index + 1 }}
@@ -24,10 +24,18 @@
             [storeDetails]="deliveryPointOfService?.storeDetails"
           ></cx-store-address>
         </div>
-        <div>
+        <div class="cx-checkout-pickup-in-store-store-schedule">
           <cx-store-schedule
             [storeDetails]="deliveryPointOfService?.storeDetails"
           ></cx-store-schedule>
+        </div>
+        <div
+          *ngIf="displayLocation"
+          class="cx-checkout-pickup-in-store-edit-icon"
+        >
+          <a [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+            ><cx-icon [type]="ICON_TYPE.PENCIL"></cx-icon
+          ></a>
         </div>
       </div>
     </div>
@@ -100,7 +108,7 @@
         </div>
 
         <!-- Item Delivery Details Outlet -->
-        <div class="col-12 mt-2">
+        <div *ngIf="!(displayLocation === 'review')" class="col-12 mt-2">
           <ng-template
             [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
             [cxOutletContext]="item"

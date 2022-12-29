@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
@@ -14,6 +14,7 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutPickUpInStoreDetailsComponent {
+  @Input() displayLocation: string;
   readonly CartOutlets = CartOutlets;
   readonly ICON_TYPE = ICON_TYPE;
   compact = false;

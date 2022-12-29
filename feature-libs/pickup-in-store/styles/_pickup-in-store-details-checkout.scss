@@ -52,12 +52,22 @@ cx-checkout-pick-up-in-store-details {
       display: flex;
       width: 100%;
 
-      > div:first-child {
-        flex-basis: 30%;
+      > .cx-checkout-pickup-in-store-store-address {
+        flex: 0 0 50%;
       }
-      > div:last-child {
-        flex-basis: 70%;
-        margin: 0 0 0 12rem;
+
+      > .cx-checkout-pickup-in-store-store-schedule {
+        flex: 0 0 40%;
+        .cx-store-schedule-container {
+          width: 100%;
+          margin-top: 1rem;
+        }
+      }
+      > .cx-checkout-pickup-in-store-edit-icon {
+        flex: 0 0 10%;
+        text-align: center;
+        margin-top: 1rem;
+        color: var(--cx-color-primary);
       }
     }
   }
