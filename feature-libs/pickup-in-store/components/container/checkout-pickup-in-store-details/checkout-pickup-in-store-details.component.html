@@ -40,6 +40,15 @@
       </div>
     </div>
     <div
+      [ngClass]="'d-none d-md-flex'"
+      class="row cx-delivery-pointof-service-item-header"
+    >
+      <div class="col-md-7 cx-image-container-header">ITEM</div>
+      <div class="cx-price-header col-md-2">PRICE</div>
+      <div class="cx-quantity-header col-md-1">QUANTITY</div>
+      <div class="cx-total-header col-md-2">TOTAL</div>
+    </div>
+    <div
       class="cx-delivery-pointof-service-item"
       *ngFor="let item of deliveryPointOfService.value"
     >

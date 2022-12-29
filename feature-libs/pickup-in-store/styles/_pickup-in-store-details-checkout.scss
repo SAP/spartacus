@@ -6,7 +6,6 @@ cx-checkout-pick-up-in-store-details {
   }
   .cx-name-value {
     margin-bottom: 0.25rem;
-    margin-top: 0.5rem;
     font-weight: var(--cx-font-weight-semi);
     text-decoration: var(--cx-text-decoration, underline);
     text-decoration-color: #d3d6db;
@@ -21,6 +20,24 @@ cx-checkout-pick-up-in-store-details {
     border: 1px solid #d3d6db;
     padding: 1rem 1rem 1rem 2rem;
   }
+  .cx-delivery-pointof-service-item-header {
+    font-size: var(--cx-font-size, 0.9rem);
+    font-weight: var(--cx-font-weight-bold);
+    margin: 0;
+    padding: 0.5rem;
+    .cx-price-header {
+      text-align: center;
+      padding: 0;
+    }
+    .cx-quantity-header {
+      text-align: left;
+      padding: 0;
+    }
+    .cx-total-header {
+      text-align: center;
+      padding: 0;
+    }
+  }
 
   .cx-checkout-pickup-in-store-heading {
     border: 1px solid #d3d6db;
@@ -29,6 +46,7 @@ cx-checkout-pick-up-in-store-details {
     margin: 0;
     padding: 1rem 1rem 1rem 2rem;
     font-size: var(--cx-font-size, 1.125rem);
+    line-height: var(--cx-line-height, 1.2222222222);
   }
 
   .cx-total {
