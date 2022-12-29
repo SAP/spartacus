@@ -32,6 +32,7 @@ const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
   placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
   scheduleReplenishmentOrder:
     'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+  reorder: 'orgUsers/${userId}/cartFromOrder?orderCode=${orderCode}',
 };
 
 export const defaultB2bOccConfig: OccConfig = {

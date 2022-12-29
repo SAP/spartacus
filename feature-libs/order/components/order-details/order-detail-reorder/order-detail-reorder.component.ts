@@ -5,8 +5,10 @@
  */
 
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { CartOutlets, OrderEntriesContext, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
+import { UserIdService } from '@spartacus/core';
+import { ContextService, LaunchDialogService } from '@spartacus/storefront';
+import { ReorderOrderService } from 'feature-libs/order/core/facade/reorder-order.service';
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -20,9 +22,15 @@ export class OrderDetailReorderComponent implements OnInit {
 
   constructor(protected orderDetailsService: OrderDetailsService, 
     protected launchDialogService: LaunchDialogService, 
-    protected vcr: ViewContainerRef,) {}
+    protected vcr: ViewContainerRef,
+    protected contextService: ContextService,
+    protected userIdService: UserIdService,
+    protected reorderOrderService: ReorderOrderService) {}
 
   order$: Observable<any>;
+
+  context$: Observable<OrderEntriesContext | undefined> =
+    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
   readonly CartOutlets = CartOutlets;
 
@@ -33,12 +41,23 @@ export class OrderDetailReorderComponent implements OnInit {
     });
   }
 
-  onReorderClick() {
-    console.log("Clicked");
-    this.launchDialogService.openDialog(
+  onReorderClick(order: any) {
+
+    /* this.launchDialogService.openDialog(
         LAUNCH_CALLER.REORDER,
         this.element,
-        this.vcr
-    );
+        this.vcr,
+        { products, orderEntriesContext }
+    ); */
+    const orderId = order.code;
+
+    this.userIdService.getUserId().subscribe((userId) => {
+      this.reorderOrderService.reorder(orderId, userId)
+      .subscribe((response) => {
+        console.log(response);
+      });
+    });
+    
+    
   }
 }

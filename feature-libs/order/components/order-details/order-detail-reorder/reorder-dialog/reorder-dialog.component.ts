@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AddOrderEntriesContext,
   OrderEntriesSource,
@@ -18,7 +18,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 
 @Component({
@@ -26,7 +26,8 @@ import { finalize, pluck } from 'rxjs/operators';
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReorderDialogComponent {
+export class ReorderDialogComponent implements OnInit, OnDestroy{
+  protected subscriptions = new Subscription();
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -46,15 +47,52 @@ export class ReorderDialogComponent {
     errorMessages: [],
   });
 
+  products: ProductData[];
+  addOrderEntriesContext: AddOrderEntriesContext;
   context$: Observable<AddOrderEntriesContext> =
     this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
   constructor(protected launchDialogService: LaunchDialogService) {
-    console.log("Constructor called");
   }
 
-  isNewCartForm(context: AddOrderEntriesContext) {
-    return context.type === OrderEntriesSource.NEW_SAVED_CART;
+  ngOnInit() {
+    this.subscriptions.add(
+      this.launchDialogService.data$.subscribe(
+        (data: any) => {
+          debugger;
+          this.products = data.products;
+          this.addOrderEntriesContext = data.orderEntriesContext as AddOrderEntriesContext;
+
+          this.formState = false;
+          this.summary$.next({
+            ...this.summary$.value,
+            loading: true,
+            total: this.products.length,
+          });
+          this.addOrderEntriesContext
+            .addEntries(this.products, undefined)
+            .pipe(
+              finalize(() => {
+                this.summary$.next({
+                  ...this.summary$.value,
+                  loading: false,
+                });
+              })
+            )
+            .subscribe((action: ProductImportInfo) => {
+              this.populateSummary(action);
+            });
+        }
+      )
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  isNewCartForm() {
+    return this.addOrderEntriesContext.type === OrderEntriesSource.ORDER_DETAILS;
   }
 
   close(reason: string): void {

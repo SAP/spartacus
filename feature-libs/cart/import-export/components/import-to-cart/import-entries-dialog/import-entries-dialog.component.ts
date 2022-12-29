@@ -72,8 +72,6 @@ export class ImportEntriesDialogComponent {
       };
     }
   ): void {
-    console.log("Jatt");
-    debugger;
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,

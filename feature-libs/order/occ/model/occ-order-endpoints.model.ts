@@ -77,6 +77,10 @@ export interface OrderOccEndpoints {
    * Endpoint for scheduling a replenishment order
    */
   scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * Endpoint to create a new cart from an existing order
+   */
+  reorder?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
