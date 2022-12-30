@@ -13,6 +13,9 @@
 
     <section main class="details" [formGroup]="form">
       <fieldset class="full-width">
+        <legend class="label-content required">
+          {{ 'orgUser.roles' | cxTranslate }}
+        </legend>
         <label class="form-check" *ngFor="let role of availableRoles">
           <input
             type="checkbox"
@@ -21,6 +24,21 @@
           />
           <span class="form-check-label">
             {{ 'organization.userRoles.' + role | cxTranslate }}
+          </span>
+        </label>
+      </fieldset>
+      <fieldset class="full-width">
+        <legend class="label-content required">
+          {{ 'orgUser.rights' | cxTranslate }}
+        </legend>
+        <label class="form-check" *ngFor="let right of availableRights">
+          <input
+            type="checkbox"
+            [formControlName]="right"
+            (change)="save(form)"
+          />
+          <span class="form-check-label">
+            {{ 'organization.userRights.' + right | cxTranslate }}
           </span>
         </label>
       </fieldset>

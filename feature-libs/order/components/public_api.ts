@@ -7,6 +7,7 @@
 export * from './amend-order/index';
 export * from './guards/index';
 export * from './order-components.module';
+export * from './order-confirmation/index';
 export * from './order-details/index';
 export * from './order-history/order-history.component';
 export * from './order-history/order-history.module';

@@ -21,6 +21,7 @@ import {
   MINI_CART_MODULE,
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
+  S4OM_ROOT_MODULE,
 } from './lib-configs';
 import {
   ASM_FEATURE_NAME,
@@ -32,10 +33,12 @@ import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
   ORDER_FEATURE_NAME,
+  S4OM_FEATURE_NAME,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_CHECKOUT,
   SPARTACUS_ORDER,
+  SPARTACUS_S4OM,
 } from './libs-constants';
 import {
   generateMappings,
@@ -57,6 +60,7 @@ describe('schematics-config-mappings', () => {
       ]);
       expect(result.get(SPARTACUS_ORDER)).toEqual([ORDER_FEATURE_NAME]);
       expect(result.get(SPARTACUS_CDC)).toEqual([CDC_FEATURE_NAME]);
+      expect(result.get(SPARTACUS_S4OM)).toEqual([S4OM_FEATURE_NAME]);
     });
   });
 
@@ -105,6 +109,7 @@ describe('schematics-config-mappings', () => {
       expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(CDS_FEATURE_NAME)).toEqual([]);
       expect(result.get(DIGITAL_PAYMENTS_FEATURE_NAME)).toEqual([]);
+      expect(result.get(S4OM_FEATURE_NAME)).toEqual([S4OM_ROOT_MODULE]);
     });
   });
 

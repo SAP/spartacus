@@ -73,6 +73,12 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
+  updateConfigurationOverview(): Observable<Configurator.Overview> {
+    throw new Error(
+      'Update the configuration overview is not supported for the CPQ configurator'
+    );
+  }
+
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {

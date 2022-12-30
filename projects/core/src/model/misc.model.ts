@@ -122,4 +122,5 @@ export interface BaseSite {
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
   requiresAuthentication?: boolean;
+  isolated?: boolean;
 }

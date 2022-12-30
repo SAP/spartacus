@@ -100,6 +100,9 @@ export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organiza
 export const SPARTACUS_ORGANIZATION_USER_REGISTRATION = `@spartacus/organization/user-registration`;
 export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ROOT = `@spartacus/organization/user-registration/root`;
 export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ASSETS = `@spartacus/organization/user-registration/assets`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER = `@spartacus/organization/unit-order`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT = `@spartacus/organization/unit-order/root`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS = `@spartacus/organization/unit-order/assets`;
 
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
@@ -176,8 +179,11 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
-export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
+export const SPARTACUS_S4OM = '@spartacus/s4om';
+export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
+export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -210,6 +216,8 @@ export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
 export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
   'Organization-User-Registration';
 
+export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = 'Unit-Order';
+
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
@@ -241,4 +249,6 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+
+export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 /***** Feature name end *****/

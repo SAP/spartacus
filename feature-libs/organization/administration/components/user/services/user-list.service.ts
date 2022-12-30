@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
+  B2BUserRole,
   EntitiesModel,
   isNotUndefined,
   PaginationModel,
@@ -68,12 +69,16 @@ export class UserListService extends ListService<UserModel> {
     sorts,
     values,
   }: EntitiesModel<B2BUser>): EntitiesModel<UserModel> {
+    const availableRoles: B2BUserRole[] = this.userService.getAllRoles();
     const userModels: EntitiesModel<UserModel> = {
       pagination,
       sorts,
       values: values.map((value: any) => ({
         ...value,
         unit: value.orgUnit,
+        roles: value.roles?.filter((role: any) =>
+          availableRoles.includes(role)
+        ),
       })),
     };
     return userModels;

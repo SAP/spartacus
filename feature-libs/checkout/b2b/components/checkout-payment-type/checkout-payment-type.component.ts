@@ -81,6 +81,7 @@ export class CheckoutPaymentTypeComponent {
             });
           return availablePaymentTypes[0];
         }
+        return undefined;
       }
     ),
     filter(isNotUndefined),

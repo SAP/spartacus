@@ -100,6 +100,10 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
   }
 
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
+  }
+
   export interface InteractionState {
     currentGroup?: string;
     menuParentGroup?: string;
@@ -107,6 +111,7 @@ export namespace Configurator {
       [id: string]: boolean;
     };
     issueNavigationDone?: boolean;
+    isConflictResolutionMode?: boolean;
   }
 
   export interface Overview {
@@ -117,6 +122,9 @@ export namespace Configurator {
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;
+    attributeFilters?: OverviewFilter[];
+    groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
@@ -255,4 +263,12 @@ export namespace Configurator {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
   }
+  export enum OverviewFilter {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
+  }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

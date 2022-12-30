@@ -21,19 +21,17 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import {
-  ANGULAR_PLATFORM_BROWSER,
-  NGUNIVERSAL_EXPRESS_ENGINE,
-} from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
+  commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
@@ -43,10 +41,7 @@ import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import {
-  addImport,
-  addToModuleImportsAndCommitChanges,
-} from '../shared/utils/module-file-utils';
+import { addToModuleProviders } from '../shared/utils/module-file-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
@@ -58,7 +53,7 @@ const DEPENDENCY_NAMES: string[] = [
   'ts-loader',
 ];
 
-function modifyAppServerModuleFile(): Rule {
+export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
@@ -72,17 +67,24 @@ function modifyAppServerModuleFile(): Rule {
       );
     }
 
-    addImport(
+    const importChange = insertImport(
+      getTsSourceFile(tree, appServerModulePath),
+      appServerModulePath,
+      `provideServer`,
+      `@spartacus/setup/ssr`,
+      false
+    );
+    const providerChanges = addToModuleProviders(
       tree,
       appServerModulePath,
-      'ServerTransferStateModule',
-      '@angular/platform-server'
+      `
+     ...provideServer({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),`
     );
-    addToModuleImportsAndCommitChanges(
-      tree,
-      appServerModulePath,
-      `ServerTransferStateModule`
-    );
+    const changes = [importChange, ...providerChanges];
+    commitChanges(tree, appServerModulePath, changes);
+
     context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
     return tree;
   };
@@ -119,43 +121,6 @@ function provideServerFile(options: SpartacusOptions): Source {
     }),
     move('.'),
   ]);
-}
-
-function modifyAppModuleFile(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const appModulePath = getPathResultsForFile(
-      tree,
-      'app.module.ts',
-      '/src'
-    )[0];
-
-    if (!appModulePath) {
-      throw new SchematicsException(`Project file "app.module.ts" not found.`);
-    }
-
-    const moduleSource = getTsSourceFile(tree, appModulePath);
-    if (
-      !isImported(
-        moduleSource,
-        'BrowserTransferStateModule',
-        ANGULAR_PLATFORM_BROWSER
-      )
-    ) {
-      addImport(
-        tree,
-        appModulePath,
-        'BrowserTransferStateModule',
-        ANGULAR_PLATFORM_BROWSER
-      );
-      addToModuleImportsAndCommitChanges(
-        tree,
-        appModulePath,
-        `BrowserTransferStateModule`
-      );
-    }
-    context.logger.log('info', `✅️ Modified app.module.ts file.`);
-    return tree;
-  };
 }
 
 function prepareDependencies(): NodeDependency[] {
@@ -198,7 +163,6 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
-      modifyAppModuleFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };

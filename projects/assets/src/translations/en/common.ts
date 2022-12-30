@@ -30,6 +30,8 @@ export const common = {
     selectFile: 'Select file',
     clear: 'Clear',
     loaded: 'Loaded',
+    results: 'Results',
+    of: 'of',
   },
   pageMetaResolver: {
     category: {

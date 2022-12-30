@@ -21,20 +21,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {
-            lg: {
-              slots: [
-                'SiteLogo',
-                'VariantConfigOverviewExitButton',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: [
-                'SiteLogo',
-                'VariantConfigOverviewExitButton',
-                'MiniCart',
-              ],
-            },
+            slots: ['SiteLogo', 'VariantConfigOverviewExitButton', 'MiniCart'],
           },
           headerDisplayOnly: {
             lg: {
@@ -56,7 +43,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
             slots: [
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewBanner',
-              'VariantConfigOverviewSidebar',
+              'VariantConfigOverviewNavigation',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
@@ -64,6 +51,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
           slots: [
             'VariantConfigOverviewHeader',
             'VariantConfigOverviewBanner',
+            'VariantConfigOverviewFilterButton',
             'VariantConfigOverviewContent',
             'VariantConfigOverviewBottombar',
           ],

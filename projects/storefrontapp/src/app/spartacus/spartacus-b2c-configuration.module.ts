@@ -18,9 +18,11 @@ import { environment } from '../../environments/environment';
 const defaultBaseSite = [
   'electronics-spa',
   'electronics',
+  'electronics-standalone',
   'apparel-de',
   'apparel-uk',
   'apparel-uk-spa',
+  'apparel-uk-standalone',
 ];
 const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)

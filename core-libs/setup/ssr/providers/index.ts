@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { getServerRequestProviders } from './ssr-providers';
+export * from './model';
+export * from './ssr-providers';
