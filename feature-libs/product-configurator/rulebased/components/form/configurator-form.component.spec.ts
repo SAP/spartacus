@@ -18,6 +18,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { productConfiguration } from '../../testing/configurator-test-data';
 
 @Component({
   selector: 'cx-configurator-default-form',
@@ -182,10 +183,11 @@ function createComponentWithoutData(): ConfiguratorFormComponent {
 }
 
 const configuration: Configurator.Configuration =
-  ConfigurationTestData.productConfiguration;
+  structuredClone(productConfiguration);
 
-const group: Configurator.Group =
-  ConfigurationTestData.productConfiguration.groups[0];
+const group: Configurator.Group = structuredClone(
+  productConfiguration.groups[0]
+);
 
 function createComponentWithData(): ConfiguratorFormComponent {
   fixture = TestBed.createComponent(ConfiguratorFormComponent);
@@ -324,6 +326,25 @@ describe('ConfigurationFormComponent', () => {
 
     it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
       checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
+    });
+  });
+
+  describe('isNavigationToGroupEnabled()', () => {
+    it('should return true in case immediateConflictResolution is set to false', (done) => {
+      createComponentWithData();
+      component.isNavigationToGroupEnabled().subscribe((value) => {
+        expect(value).toBe(true);
+        done();
+      });
+    });
+
+    it('should return false in case immediateConflictResolution is set to true', (done) => {
+      configuration.immediateConflictResolution = true;
+      createComponentWithData();
+      component.isNavigationToGroupEnabled().subscribe((value) => {
+        expect(value).toBe(false);
+        done();
+      });
     });
   });
 });

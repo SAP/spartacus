@@ -532,7 +532,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-label for group menu item
    *
-   * @param {string} groupId - group ID
+   * @param {Configurator.Group} group - group
    * @returns {string | undefined} - generated group ID
    */
   getAriaLabel(group: Configurator.Group): string {
@@ -562,7 +562,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates an id for icons.
    *
-   * @param {string} prefix - prefix for type of icon
+   * @param {ICON_TYPE} type - icon type
    * @param {string} groupId - group id
    * @returns {string | undefined} - generated icon id
    */
