@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
+import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
