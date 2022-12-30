@@ -32,6 +32,7 @@ import {
   GROUP_ID_7,
   mockRouterState,
   productConfiguration,
+  productConfigurationWithConflicts,
   PRODUCT_CODE,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -1554,8 +1555,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
@@ -1567,8 +1567,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(
@@ -1622,8 +1621,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   describe('displayMenuItem', () => {
     it('should display conflict header menu item', (done) => {
-      let configurationWithConflicts =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      let configurationWithConflicts = productConfigurationWithConflicts;
 
       productConfigurationObservable = of(configurationWithConflicts);
       routerStateObservable = of(mockRouterState);
@@ -1639,8 +1637,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
 
     it('should not display conflict header menu item', (done) => {
-      let configurationWithConflicts =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
       configurationWithConflicts.immediateConflictResolution = true;
 
       productConfigurationObservable = of(configurationWithConflicts);

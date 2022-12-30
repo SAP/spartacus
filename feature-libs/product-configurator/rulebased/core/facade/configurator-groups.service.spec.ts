@@ -265,13 +265,14 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return null in case configuration is in immediate conflict resolution and previous group is a conflict one', (done) => {
-      productConfigurationWithConflicts.immediateConflictResolution = true;
+      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
+      configurationWithConflicts.immediateConflictResolution = true;
 
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(productConfigurationWithConflicts)
+        of(configurationWithConflicts)
       );
       const currentGroup = classUnderTest.getPreviousGroupId(
-        productConfigurationWithConflicts.owner
+        configurationWithConflicts.owner
       );
 
       expect(currentGroup).toBeDefined();
@@ -282,17 +283,18 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return a previous group ID in case configuration is in immediate conflict resolution and previous group not is a conflict one', (done) => {
-      productConfigurationWithConflicts.immediateConflictResolution = true;
-      productConfigurationWithConflicts.interactionState.currentGroup =
+      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
+      configurationWithConflicts.immediateConflictResolution = true;
+      configurationWithConflicts.interactionState.currentGroup =
         GROUP_ID_2;
-      productConfigurationWithConflicts.interactionState.menuParentGroup =
+      configurationWithConflicts.interactionState.menuParentGroup =
         GROUP_ID_3;
 
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(productConfigurationWithConflicts)
+        of(configurationWithConflicts)
       );
       const currentGroup = classUnderTest.getPreviousGroupId(
-        productConfigurationWithConflicts.owner
+        configurationWithConflicts.owner
       );
 
       expect(currentGroup).toBeDefined();
