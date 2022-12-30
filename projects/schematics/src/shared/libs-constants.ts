@@ -102,7 +102,7 @@ export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ROOT = `@spartacus/organiz
 export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ASSETS = `@spartacus/organization/user-registration/assets`;
 export const SPARTACUS_ORGANIZATION_UNIT_ORDER = `@spartacus/organization/unit-order`;
 export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT = `@spartacus/organization/unit-order/root`;
-export const SSPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS = `@spartacus/organization/unit-order/assets`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS = `@spartacus/organization/unit-order/assets`;
 
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
@@ -215,6 +215,8 @@ export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
 
 export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
   'Organization-User-Registration';
+
+export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = 'Unit-Order';
 
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 
