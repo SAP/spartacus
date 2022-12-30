@@ -3,3 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+export interface OrderHistoryQueryParams {
+  currentPage?: number;
+  sortCode?: string;
+  filters?: string;
+}

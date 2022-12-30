@@ -4,13 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './components/index';
-export * from './core/connectors/index';
-export * from './core/guards/index';
-export * from './core/model/index';
-export * from './core/services/index';
-export * from './core/store/actions/index';
-export * from './core/store/unit-order-state';
-export * from './core/store/selectors/index';
-export * from './occ/index';
 export * from './unit-order.module';

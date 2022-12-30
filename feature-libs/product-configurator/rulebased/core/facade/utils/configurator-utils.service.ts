@@ -151,7 +151,10 @@ export class ConfiguratorUtilsService {
       configId: configuration.configId,
       groups: [],
       flatGroups: [],
-      interactionState: {},
+      interactionState: {
+        isConflictResolutionMode:
+          configuration.interactionState.isConflictResolutionMode,
+      },
       owner: configuration.owner,
       productCode: configuration.productCode,
       updateType,

@@ -9,6 +9,7 @@ import { ConfiguratorTestUtils } from './../../../testing/configurator-test-util
 import * as ConfiguratorActions from './configurator.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CONFIG_ID_TEMPLATE = 'abcde-5464-9852-54682';
 const CONFIG_ID = '15468-5464-9852-54682';
 const GROUP_ID = 'GROUP1';
 const OWNER_KEY = 'product/' + PRODUCT_CODE;
@@ -29,13 +30,25 @@ const CONFIGURATION: Configurator.Configuration = {
 
 describe('ConfiguratorActions', () => {
   it('should provide create action with proper type', () => {
-    const createAction = new ConfiguratorActions.CreateConfiguration(OWNER);
+    const createAction = new ConfiguratorActions.CreateConfiguration({
+      owner: OWNER,
+    });
     expect(createAction.type).toBe(ConfiguratorActions.CREATE_CONFIGURATION);
   });
 
   it('should provide create action that carries productCode as a payload', () => {
-    const createAction = new ConfiguratorActions.CreateConfiguration(OWNER);
-    expect(createAction.payload.id).toBe(PRODUCT_CODE);
+    const createAction = new ConfiguratorActions.CreateConfiguration({
+      owner: OWNER,
+    });
+    expect(createAction.payload.owner.id).toBe(PRODUCT_CODE);
+  });
+
+  it('should provide create action that carries configuration template ID as a payload', () => {
+    const createAction = new ConfiguratorActions.CreateConfiguration({
+      owner: OWNER,
+      configIdTemplate: CONFIG_ID_TEMPLATE,
+    });
+    expect(createAction.payload.configIdTemplate).toBe(CONFIG_ID_TEMPLATE);
   });
 
   describe('ReadConfiguration Actions', () => {
@@ -211,6 +224,30 @@ describe('ConfiguratorActions', () => {
           entityType: CONFIGURATOR_DATA,
           entityId: OWNER_KEY,
           loader: { success: true },
+        },
+      });
+    });
+  });
+
+  describe('ChangeGroup actions', () => {
+    it('should allow to state that conflict resolution mode is active', () => {
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: CONFIGURATION,
+        groupId: GROUP_ID,
+        conflictResolutionMode: true,
+      });
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.CHANGE_GROUP,
+        payload: {
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
+          conflictResolutionMode: true,
+        },
+        meta: {
+          entityType: CONFIGURATOR_DATA,
+          entityId: OWNER_KEY,
+          loader: { load: true },
         },
       });
     });
