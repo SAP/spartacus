@@ -40,7 +40,6 @@ import { ConfiguratorStorefrontUtilsService } from './../service/configurator-st
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
