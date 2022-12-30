@@ -36,19 +36,20 @@ export class I18nextTranslationService implements TranslationService {
     // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
     // which together with `switchMap` operator may lead to an infinite loop.
 
-    const keys = Array.isArray(key) ? key : [key];
+    const translationKeys = Array.isArray(key) ? key : [key];
 
     const chunkNamesByKeys: Map<string, string> = new Map();
     const chunksNames: string[] = [];
     const namespacedKeys: string[] = [];
 
-    keys.forEach((key) => {
-      const chunkName = this.translationChunk.getChunkNameForKey(key);
-      const namespacedKey = this.getNamespacedKey(key, chunkName);
+    translationKeys.forEach((translationKey) => {
+      const chunkName =
+        this.translationChunk.getChunkNameForKey(translationKey);
+      const namespacedKey = this.getNamespacedKey(translationKey, chunkName);
       chunksNames.push(chunkName);
       namespacedKeys.push(namespacedKey);
 
-      chunkNamesByKeys.set(key, chunkName);
+      chunkNamesByKeys.set(translationKey, chunkName);
     });
 
     return new Observable<string>((subscriber) => {
@@ -94,7 +95,7 @@ export class I18nextTranslationService implements TranslationService {
    */
   protected getFallbackValue(keys: string[]): string {
     return isDevMode()
-      ? `${keys.map((key) => `[${key}]`)}`
+      ? keys.map((key) => `[${key}]`).join(this.NON_BREAKING_SPACE)
       : this.NON_BREAKING_SPACE;
   }
 

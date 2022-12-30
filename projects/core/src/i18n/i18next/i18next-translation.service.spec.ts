@@ -166,7 +166,7 @@ describe('I18nextTranslationService', () => {
               .pipe(first())
               .subscribe((x) => (result = x));
             expect(result).toEqual(
-              namespacedKeys.map((key) => `[${key}]`).join(',')
+              namespacedKeys.map((key) => `[${key}]`).join(nonBreakingSpace)
             );
           });
 
