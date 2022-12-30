@@ -9,7 +9,6 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { of } from 'rxjs';
 import { OutletModule } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
-import { OutletModule } from '@spartacus/storefront';
 
 const weekday = {
   closingTime: {
