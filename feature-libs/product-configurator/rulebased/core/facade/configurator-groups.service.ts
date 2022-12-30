@@ -322,7 +322,7 @@ export class ConfiguratorGroupsService {
     groupType: Configurator.GroupType | undefined,
     immediateConflictResolution = false
   ): boolean {
-    if (groupType && immediateConflictResolution) {
+    if (groupType) {
       return (
         groupType === Configurator.GroupType.CONFLICT_GROUP &&
         immediateConflictResolution
