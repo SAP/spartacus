@@ -12,9 +12,3 @@ declare module '@spartacus/order/root' {
     orgCustomer?: B2BUser;
   }
 }
-
-export interface OrderHistoryQueryParams {
-  currentPage?: number;
-  sortCode?: string;
-  filters?: string;
-}
