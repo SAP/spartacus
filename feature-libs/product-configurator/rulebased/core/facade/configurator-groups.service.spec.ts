@@ -509,47 +509,25 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('isConflictGroupInImmediateConflictResolutionMode', () => {
-    it('should return false in case both group type and immediateConflictResolution attributes are undefined', () => {
-      expect(
-        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
-          undefined,
-          undefined
-        )
-      ).toBe(false);
-    });
-
     it('should return false in case group type is undefined', () => {
       expect(
         classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
-          undefined,
-          false
-        )
-      ).toBe(false);
-    });
-
-    it('should return false in case immediateConflictResolution is set to undefined', () => {
-      expect(
-        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
-          Configurator.GroupType.ATTRIBUTE_GROUP,
           undefined
         )
       ).toBe(false);
     });
 
     it('should return false in case group type is AttributeGroup', () => {
-      expect(
-        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
-          Configurator.GroupType.ATTRIBUTE_GROUP,
-          true
-        )
-      ).toBe(false);
+      const result = classUnderTest[
+        'isConflictGroupInImmediateConflictResolutionMode'
+      ](Configurator.GroupType.ATTRIBUTE_GROUP, true);
+      expect(result).toBe(false);
     });
 
     it('should return false in case immediateConflictResolution attributes is set to false', () => {
       expect(
         classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
-          Configurator.GroupType.CONFLICT_GROUP,
-          false
+          Configurator.GroupType.CONFLICT_GROUP
         )
       ).toBe(false);
     });

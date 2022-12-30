@@ -320,7 +320,7 @@ export class ConfiguratorGroupsService {
 
   protected isConflictGroupInImmediateConflictResolutionMode(
     groupType: Configurator.GroupType | undefined,
-    immediateConflictResolution: boolean | undefined
+    immediateConflictResolution = false
   ): boolean {
     if (groupType && immediateConflictResolution) {
       return (
@@ -351,18 +351,15 @@ export class ConfiguratorGroupsService {
               if (
                 group.id === currentGroupId &&
                 configuration?.flatGroups &&
-                configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
+                configuration?.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
+                !this.isConflictGroupInImmediateConflictResolutionMode(
+                  configuration?.flatGroups[index + neighboringIndex]
+                    ?.groupType,
+                  configuration?.immediateConflictResolution
+                )
               ) {
-                if (
-                  !this.isConflictGroupInImmediateConflictResolutionMode(
-                    configuration?.flatGroups[index + neighboringIndex]
-                      ?.groupType,
-                    configuration?.immediateConflictResolution
-                  )
-                ) {
-                  nextGroup =
-                    configuration?.flatGroups[index + neighboringIndex].id;
-                }
+                nextGroup =
+                  configuration?.flatGroups[index + neighboringIndex].id;
               }
             });
             return nextGroup;
