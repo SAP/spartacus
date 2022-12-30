@@ -318,6 +318,19 @@ export class ConfiguratorGroupsService {
     return this.configuratorUtilsService.hasSubGroups(group);
   }
 
+  protected isConflictGroupInImmediateConflictResolutionMode(
+    groupType: Configurator.GroupType | undefined,
+    immediateConflictResolution: boolean | undefined
+  ): boolean {
+    if (groupType && immediateConflictResolution) {
+      return (
+        groupType === Configurator.GroupType.CONFLICT_GROUP &&
+        immediateConflictResolution
+      );
+    }
+    return false;
+  }
+
   /**
    * Retrieves a group ID of the neighboring group.
    *
@@ -340,8 +353,16 @@ export class ConfiguratorGroupsService {
                 configuration?.flatGroups &&
                 configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
               ) {
-                nextGroup =
-                  configuration?.flatGroups[index + neighboringIndex].id;
+                if (
+                  !this.isConflictGroupInImmediateConflictResolutionMode(
+                    configuration?.flatGroups[index + neighboringIndex]
+                      ?.groupType,
+                    configuration?.immediateConflictResolution
+                  )
+                ) {
+                  nextGroup =
+                    configuration?.flatGroups[index + neighboringIndex].id;
+                }
               }
             });
             return nextGroup;

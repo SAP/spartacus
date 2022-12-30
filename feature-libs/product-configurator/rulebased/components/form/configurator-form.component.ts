@@ -53,11 +53,10 @@ export class ConfiguratorFormComponent {
   isNavigationToGroupEnabled(): Observable<boolean> {
     return this.configuration$.pipe(
       map((configuration) => {
-        let isNavigationToGroupEnabled = true;
         if (configuration.immediateConflictResolution) {
-          isNavigationToGroupEnabled = false;
+          return false;
         }
-        return isNavigationToGroupEnabled;
+        return true;
       })
     );
   }

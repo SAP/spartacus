@@ -1198,8 +1198,8 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
     configuratorType: ConfiguratorType.VARIANT,
   },
   interactionState: {
-    currentGroup: GROUP_ID_2,
-    menuParentGroup: GROUP_ID_3,
+    currentGroup: GROUP_ID_1,
+    menuParentGroup: undefined,
     groupsVisited: {},
   },
 };

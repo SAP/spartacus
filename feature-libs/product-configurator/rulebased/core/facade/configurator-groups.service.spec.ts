@@ -8,6 +8,7 @@ import {
   CONFIG_ID,
   GROUP_ID_1,
   GROUP_ID_2,
+  GROUP_ID_3,
   GROUP_ID_4,
   GROUP_ID_CONFLICT_3,
   productConfiguration,
@@ -262,6 +263,44 @@ describe('ConfiguratorGroupsService', () => {
         done();
       });
     });
+
+    it('should return null in case configuration is in immediate conflict resolution and previous group is a conflict one', (done) => {
+      productConfigurationWithConflicts.immediateConflictResolution = true;
+
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      const currentGroup = classUnderTest.getPreviousGroupId(
+        productConfigurationWithConflicts.owner
+      );
+
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return a previous group ID in case configuration is in immediate conflict resolution and previous group not is a conflict one', (done) => {
+      productConfigurationWithConflicts.immediateConflictResolution = true;
+      productConfigurationWithConflicts.interactionState.currentGroup =
+        GROUP_ID_2;
+      productConfigurationWithConflicts.interactionState.menuParentGroup =
+        GROUP_ID_3;
+
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      const currentGroup = classUnderTest.getPreviousGroupId(
+        productConfigurationWithConflicts.owner
+      );
+
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBe(GROUP_ID_1);
+        done();
+      });
+    });
   });
 
   describe('setGroupStatusVisited', () => {
@@ -462,6 +501,62 @@ describe('ConfiguratorGroupsService', () => {
         expect(groups.length).toBe(3);
         done();
       });
+    });
+  });
+
+  describe('isConflictGroupInImmediateConflictResolutionMode', () => {
+    it('should return false in case both group type and immediateConflictResolution attributes are undefined', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          undefined,
+          undefined
+        )
+      ).toBe(false);
+    });
+
+    it('should return false in case group type is undefined', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          undefined,
+          false
+        )
+      ).toBe(false);
+    });
+
+    it('should return false in case immediateConflictResolution is set to undefined', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          Configurator.GroupType.ATTRIBUTE_GROUP,
+          undefined
+        )
+      ).toBe(false);
+    });
+
+    it('should return false in case group type is AttributeGroup', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          Configurator.GroupType.ATTRIBUTE_GROUP,
+          true
+        )
+      ).toBe(false);
+    });
+
+    it('should return false in case immediateConflictResolution attributes is set to false', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          Configurator.GroupType.CONFLICT_GROUP,
+          false
+        )
+      ).toBe(false);
+    });
+
+    it('should return true in case group type is ConflictGroup and immediateConflictResolution is set to true', () => {
+      expect(
+        classUnderTest['isConflictGroupInImmediateConflictResolutionMode'](
+          Configurator.GroupType.CONFLICT_GROUP,
+          true
+        )
+      ).toBe(true);
     });
   });
 });
