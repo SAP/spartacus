@@ -1637,7 +1637,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
 
     it('should not display conflict header menu item', (done) => {
-      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
       configurationWithConflicts.immediateConflictResolution = true;
 
       productConfigurationObservable = of(configurationWithConflicts);

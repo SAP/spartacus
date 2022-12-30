@@ -265,7 +265,9 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return null in case configuration is in immediate conflict resolution and previous group is a conflict one', (done) => {
-      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
       configurationWithConflicts.immediateConflictResolution = true;
 
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
@@ -283,12 +285,12 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return a previous group ID in case configuration is in immediate conflict resolution and previous group not is a conflict one', (done) => {
-      let configurationWithConflicts = structuredClone(productConfigurationWithConflicts);
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
       configurationWithConflicts.immediateConflictResolution = true;
-      configurationWithConflicts.interactionState.currentGroup =
-        GROUP_ID_2;
-      configurationWithConflicts.interactionState.menuParentGroup =
-        GROUP_ID_3;
+      configurationWithConflicts.interactionState.currentGroup = GROUP_ID_2;
+      configurationWithConflicts.interactionState.menuParentGroup = GROUP_ID_3;
 
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configurationWithConflicts)
