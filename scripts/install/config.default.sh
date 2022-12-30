@@ -41,7 +41,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='feature/CXSPA-2128'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
