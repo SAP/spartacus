@@ -196,10 +196,10 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     getDate: (value: string) => Date | undefined
-  ): (_: UntypedFormGroup) => ValidationErrors | undefined {
+  ): (_: UntypedFormGroup) => ValidationErrors | null {
     const validator = (
       formGroup: UntypedFormGroup
-    ): ValidationErrors | undefined => {
+    ): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
@@ -216,7 +216,7 @@ export class CustomFormValidators {
           }
         }
       }
-      return;
+      return null;
     };
     return validator;
   }
