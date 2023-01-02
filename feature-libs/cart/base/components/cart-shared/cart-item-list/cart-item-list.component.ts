@@ -134,7 +134,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * Resolves items passed to component input and updates 'items' field
    */
   protected resolveItems(items: OrderEntry[]): void {
-    this.clearItems(items);
+    if (!items) {
+      this._items = [];
+      return;
+    }
 
     // The items we're getting from the input do not have a consistent model.
     // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
@@ -152,7 +155,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
       let offset = 0;
-      for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
+      for (
+        let i = 0;
+        i - offset < Math.max(items.length, this._items.length);
+        i++
+      ) {
         const index = i - offset;
         if (
           JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
@@ -168,16 +175,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
         }
       }
-    }
-  }
-
-  /**
-   * If passed empty array of items, set component items array to empty.
-   */
-  protected clearItems(items: OrderEntry[]) {
-    if (!items) {
-      this._items = [];
-      return;
     }
   }
 
