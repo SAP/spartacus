@@ -134,10 +134,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * Resolves items passed to component input and updates 'items' field
    */
   protected resolveItems(items: OrderEntry[]): void {
-    if (!items) {
-      this._items = [];
-      return;
-    }
+    this.clearItems(items);
 
     // The items we're getting from the input do not have a consistent model.
     // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
@@ -160,8 +157,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         if (
           JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
         ) {
-          if (this._items[index]) {
-            this.form?.removeControl(this.getControlName(this._items[index]));
+          if (this._items[index] && this.form) {
+            this.form.removeControl(this.getControlName(this._items[index]));
           }
           if (!items[index]) {
             this._items.splice(index, 1);
@@ -171,6 +168,16 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
+  }
+
+  /**
+   * If passed empty array of items, set component items array to empty.
+   */
+  protected clearItems(items: OrderEntry[]) {
+    if (!items) {
+      this._items = [];
+      return;
     }
   }
 
