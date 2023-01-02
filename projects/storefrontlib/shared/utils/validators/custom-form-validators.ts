@@ -216,7 +216,7 @@ export class CustomFormValidators {
           endDateControl.setErrors({ min: true });
         }
       }
-      return null;
+      return formGroup.errors;
     };
     return validator;
   }
