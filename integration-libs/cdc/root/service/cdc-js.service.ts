@@ -265,6 +265,39 @@ export class CdcJsService implements OnDestroy {
       });
     });
   }
+  /**
+   * Retrieves the organization selected by the logged in user
+   *
+   */
+  getOrganizationContext(): Observable<{ orgId: string }> {
+    return new Observable<{ orgId: string }>((gotContext) => {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.b2b?.getOrganizationContext({
+        callback: (response: any) => {
+          if (response?.status === 'OK') {
+            gotContext.next(response);
+            gotContext.complete();
+          } else {
+            gotContext.error(response);
+          }
+        },
+      });
+    });
+  }
+  /**
+   * Opens the Organization Management dashboard and logs in the user
+   * if they currently have a valid Gigya session on the site
+   *
+   * @param orgId
+   */
+  openDelegatedAdminLogin(orgId: string) {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.b2b?.openDelegatedAdminLogin({
+      orgId: orgId,
+    });
+  }
 
   /**
    * Show failure message to the user in case registration fails.
