@@ -204,17 +204,16 @@ export class CustomFormValidators {
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
       const endDate = getDate(endDateControl.value);
-      if (!startDate || !endDate) {
-        return;
-      }
-      if (!startDateControl.errors?.pattern) {
-        if (startDate > endDate) {
-          startDateControl.setErrors({ max: true });
+      if (startDate && endDate) {
+        if (!startDateControl.errors?.pattern) {
+          if (startDate > endDate) {
+            startDateControl.setErrors({ max: true });
+          }
         }
-      }
-      if (!endDateControl.errors?.pattern) {
-        if (endDate < startDate) {
-          endDateControl.setErrors({ min: true });
+        if (!endDateControl.errors?.pattern) {
+          if (endDate < startDate) {
+            endDateControl.setErrors({ min: true });
+          }
         }
       }
       return;
