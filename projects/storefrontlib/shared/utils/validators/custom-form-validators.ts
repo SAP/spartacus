@@ -195,16 +195,16 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     getDate: (value: string) => Date | undefined
-  ): (_: UntypedFormGroup) => ValidationErrors | null {
+  ): (_: UntypedFormGroup) => ValidationErrors | undefined {
     const validator = (
       formGroup: UntypedFormGroup
-    ): ValidationErrors | null => {
+    ): ValidationErrors | undefined => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
       const endDate = getDate(endDateControl.value);
       if (!startDate || !endDate) {
-        return null;
+        return;
       }
       if (!startDateControl.errors?.pattern) {
         if (startDate > endDate) {
@@ -216,7 +216,7 @@ export class CustomFormValidators {
           endDateControl.setErrors({ min: true });
         }
       }
-      return formGroup.errors;
+      return;
     };
     return validator;
   }
