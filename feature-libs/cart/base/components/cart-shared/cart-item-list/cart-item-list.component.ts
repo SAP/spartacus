@@ -153,16 +153,20 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
+      let offset = 0;
       for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
-        if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-          if (this._items[i] && this.form) {
-            this.form.removeControl(this.getControlName(this._items[i]));
+        const index = i - offset;
+        if (
+          JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
+        ) {
+          if (this._items[index]) {
+            this.form?.removeControl(this.getControlName(this._items[index]));
           }
-          if (!items[i]) {
-            this._items.splice(i, 1);
-            i--;
+          if (!items[index]) {
+            this._items.splice(index, 1);
+            offset++;
           } else {
-            this._items[i] = items[i];
+            this._items[index] = items[index];
           }
         }
       }
