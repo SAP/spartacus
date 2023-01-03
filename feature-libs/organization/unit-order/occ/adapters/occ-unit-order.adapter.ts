@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { UnitOrderAdapter } from '../../core/connectors/unit-order.adapter';
+import { UnitOrderAdapter } from '@spartacus/organization/unit-order/core';
 
 @Injectable()
 export class OccUnitOrderAdapter implements UnitOrderAdapter {

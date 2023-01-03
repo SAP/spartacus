@@ -148,7 +148,7 @@ describe('Graph utils', () => {
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
-        Array [
+        [
           "User-Account",
           "User-Profile",
           "Cart",
@@ -168,6 +168,7 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Administration",
           "Account-Summary",
+          "Unit-Order",
           "Organization-User-Registration",
           "Order-Approval",
           "S4HANA-Order-Management",

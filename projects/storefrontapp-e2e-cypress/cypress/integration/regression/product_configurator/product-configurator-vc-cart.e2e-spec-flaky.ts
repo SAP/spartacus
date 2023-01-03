@@ -77,7 +77,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      const commerceIsAtLeast2205 = false;
+      const commerceIsAtLeast2205 = true;
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',

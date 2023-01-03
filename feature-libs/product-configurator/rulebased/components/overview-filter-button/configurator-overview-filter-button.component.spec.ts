@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -63,6 +64,14 @@ function initMocks() {
   asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(of());
 }
 
+@Component({
+  selector: 'cx-configurator-overview-filter-bar',
+  template: '',
+})
+class MockConfiguratorOverviewFilterBarComponent {
+  @Input() config: Configurator.ConfigurationWithOverview;
+}
+
 describe('ConfigurationOverviewFilterButtonComponent', () => {
   describe('in a component test environment', () => {
     beforeEach(
@@ -71,7 +80,10 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
         initMocks();
         TestBed.configureTestingModule({
           imports: [I18nTestingModule],
-          declarations: [ConfiguratorOverviewFilterButtonComponent],
+          declarations: [
+            ConfiguratorOverviewFilterButtonComponent,
+            MockConfiguratorOverviewFilterBarComponent,
+          ],
           providers: [
             { provide: LaunchDialogService, useValue: mockLaunchDialogService },
             {
