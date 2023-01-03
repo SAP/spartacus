@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { OrderHistoryQueryParams } from '../../../core/model/augmented-core.model';
+import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
 @Pipe({

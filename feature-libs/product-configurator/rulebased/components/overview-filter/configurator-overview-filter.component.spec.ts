@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormControl } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -42,6 +42,7 @@ function initTestComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.config = ovConfig;
+  component.ngOnChanges();
   fixture.detectChanges();
 }
 
@@ -60,7 +61,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
         initTestData();
         initMocks();
         TestBed.configureTestingModule({
-          imports: [I18nTestingModule],
+          imports: [I18nTestingModule, ReactiveFormsModule],
           declarations: [
             ConfiguratorOverviewFilterComponent,
             MockConfiguratorOverviewFilterBarComponent,
@@ -137,7 +138,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-option input'))
         .forEach((element) => {
-          element.triggerEventHandler('change');
+          element.nativeElement.dispatchEvent(new InputEvent('change'));
         });
 
       expect(

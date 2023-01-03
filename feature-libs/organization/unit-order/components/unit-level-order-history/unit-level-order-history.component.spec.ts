@@ -20,7 +20,7 @@ import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
-import { OrderHistoryQueryParams } from '../../core/model/augmented-core.model';
+import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [
