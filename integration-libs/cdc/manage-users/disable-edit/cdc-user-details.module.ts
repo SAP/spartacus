@@ -17,7 +17,7 @@ import {
   ToggleStatusModule,
   UserDetailsModule,
 } from '@spartacus/organization/administration/components';
-import { ItemExistsModule } from 'feature-libs/organization/administration/components/shared/item-exists.module';
+import { ItemExistsModule } from '../../../../feature-libs/organization/administration/components/shared/item-exists.module';
 @NgModule({
   imports: [
     CommonModule,
