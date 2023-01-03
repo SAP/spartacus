@@ -1,0 +1,19 @@
+.cx-schedule-line-info {
+    display: flex;
+
+    .cx-label{
+        font-weight: var(--cx-font-weight-normal);
+        padding-inline-end: 0.188rem;
+    }
+
+    @include media-breakpoint-only(lg) {
+        .cx-value{
+            padding-inline-start: 1em;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        justify-content: flex-start;
+        padding: 0 0 0.625rem 0;
+    }
+}
