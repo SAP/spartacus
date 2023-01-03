@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,7 +59,28 @@ export class OptimizedSsrEngine {
   constructor(
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
-  ) {}
+  ) {
+    this.logOptions();
+  }
+
+  protected logOptions(): void {
+    if (!this.ssrOptions) {
+      return;
+    }
+
+    const replacer = (_key: string, value: unknown): unknown => {
+      if (typeof value === 'function') {
+        return value.toString();
+      }
+      return value;
+    };
+
+    const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
+    this.log(
+      `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
+      false
+    );
+  }
 
   /**
    * When SSR page can not be returned in time, we're returning index.html of

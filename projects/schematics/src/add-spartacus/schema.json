@@ -33,6 +33,7 @@
           "Administration",
           "Order-Approval",
           "Organization-User-Registration",
+          "Unit-Order",
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
@@ -140,6 +141,10 @@
           {
             "value": "Organization-User-Registration",
             "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
           },
           {
             "value": "Account-Summary",
