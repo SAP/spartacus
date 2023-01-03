@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import { RoutingService, UserIdService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import {
   StateWithUnitOrder,
   UnitOrderActions,
