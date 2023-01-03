@@ -40,7 +40,6 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
-  disableEnableStep = createSpy();
   getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
 }
 
@@ -56,7 +55,6 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 
 class MockCartService implements Partial<ActiveCartFacade> {
   isGuestCart = createSpy().and.returnValue(of(false));
-  hasDeliveryItems = createSpy().and.returnValue(of(true));
 }
 
 describe(`CheckoutGuard`, () => {
@@ -157,50 +155,6 @@ describe(`CheckoutGuard`, () => {
               mockCheckoutStepService.getCheckoutStepRoute(
                 CheckoutStepType.REVIEW_ORDER
               ) as string
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
-  });
-
-  it(`should redirect to review order`, (done) => {
-    expressCheckoutService.trySetDefaultCheckoutDetails =
-      createSpy().and.returnValue(of(true));
-
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutStepService.getCheckoutStepRoute(
-                CheckoutStepType.REVIEW_ORDER
-              ) as string
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
-  });
-
-  it(`should disable delivery address step, and redirect to next step`, (done) => {
-    cartService.hasDeliveryItems = createSpy().and.returnValue(of(false));
-    mockCheckoutStepService.steps$.next([mockCheckoutSteps[1]]);
-
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(mockCheckoutStepService.disableEnableStep).toHaveBeenCalledWith(
-          CheckoutStepType.DELIVERY_ADDRESS,
-          true
-        );
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[1].routeName
             )?.paths?.[0]
           }`
         );

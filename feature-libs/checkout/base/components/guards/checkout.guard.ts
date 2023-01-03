@@ -10,7 +10,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -39,16 +39,6 @@ export class CheckoutGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    this.activeCartFacade
-      .hasDeliveryItems()
-      .pipe(take(1))
-      .subscribe((hasDeliveryItems) =>
-        this.checkoutStepService.disableEnableStep(
-          CheckoutStepType.DELIVERY_ADDRESS,
-          !hasDeliveryItems
-        )
-      );
-
     const expressCheckout$ = this.expressCheckoutService
       .trySetDefaultCheckoutDetails()
       .pipe(

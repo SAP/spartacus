@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -88,11 +89,17 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   );
 }
 
+class MockCartService implements Partial<ActiveCartFacade> {
+  hasDeliveryItems = createSpy().and.returnValue(of(false));
+}
+
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
+  let activeCartFacade: ActiveCartFacade;
+  let checkoutStepService: CheckoutStepService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -113,6 +120,7 @@ describe(`CheckoutStepsSetGuard`, () => {
           useClass: MockCheckoutPaymentFacade,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: ActiveCartFacade, useClass: MockCartService },
       ],
     });
 
@@ -122,6 +130,18 @@ describe(`CheckoutStepsSetGuard`, () => {
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(CheckoutStepService);
+  });
+
+  describe('should be able to disable/enable delivery address step', () => {
+    it('should be able to disable delivery address step', () => {
+      expect(activeCartFacade.hasDeliveryItems).toHaveBeenCalled();
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_ADDRESS,
+        true
+      );
+    });
   });
 
   describe('there is no checkout data set yet', () => {

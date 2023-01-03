@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
   UrlTree,
 } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -19,14 +20,23 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutStepsSetGuard implements CanActivate {
+export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
+  protected subscription: Subscription;
+  protected activeCartFacade: ActiveCartFacade;
+
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
@@ -34,7 +44,19 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router
-  ) {}
+  ) {
+    this.activeCartFacade = inject(ActiveCartFacade);
+
+    this.subscription = this.activeCartFacade
+      .hasDeliveryItems()
+      .pipe(distinctUntilChanged())
+      .subscribe((hasDeliveryItems) => {
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.DELIVERY_ADDRESS,
+          !hasDeliveryItems
+        );
+      });
+  }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;
@@ -133,5 +155,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
     return this.router.parseUrl(
       this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
