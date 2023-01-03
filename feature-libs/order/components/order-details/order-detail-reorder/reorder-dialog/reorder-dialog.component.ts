@@ -14,6 +14,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { CartValidationStatusCode } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-reorder-dialog',
@@ -41,9 +42,8 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
     this.subscriptions.add(
       this.launchDialogService.data$.subscribe(
         (data: any) => {
-          this.loading$.next(data.loading);
           this.cartModifications = data.cartModificationList?.cartModifications;
-          this.populateSummary();
+          this.loading$.next(data.loading);
         }
       )
     );
@@ -56,8 +56,7 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
-
-  protected populateSummary(): void {
-    
+  public get cartValidationStatusCode(): typeof CartValidationStatusCode {
+    return CartValidationStatusCode; 
   }
 }

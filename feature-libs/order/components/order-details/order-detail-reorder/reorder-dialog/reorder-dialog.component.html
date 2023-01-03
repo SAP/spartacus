@@ -26,10 +26,45 @@
     <div class="cx-dialog-body modal-body">
       <ng-container>
         <ng-container *ngIf="!(loading$ | async); else loading">
-          Placeholder for reorder messages
+          <p>
+            <ng-container *ngIf="!(cartModifications.length); else cartResponse">
+              <span class="cx-cart-mod-entry-container">
+                <span class="alert-icon">
+                  <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+                </span>
+                {{ 'reorder.dialog.messages.success' | cxTranslate }}
+              </span>
+            </ng-container>
+            <ng-template #cartResponse>
+              <span *ngFor="let cartModification of cartModifications" class="cx-cart-mod-entry-container">
+                <ng-container *ngIf="cartModification.statusCode === cartValidationStatusCode.LOW_STOCK; else errorIcon">
+                  <span class="alert-icon">
+                    <cx-icon class="warning" [type]="iconTypes.INFO"></cx-icon>
+                  </span>
+                </ng-container>
+                <ng-template #errorIcon>
+                  <span class="alert-icon">
+                    <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
+                  </span>
+                </ng-template>
+                <span>
+                  {{
+                    'reorder.dialog.messages.' + cartModification.statusCode
+                      | cxTranslate
+                        : {
+                            quantity: cartModification.quantity,
+                            quantityAdded: cartModification.quantityAdded,
+                            productCode: cartModification.entry.product.code,
+                            productName: cartModification.entry.product.name
+                          }
+                  }}
+                </span>
+              </span>
+            </ng-template>
+          </p>
         </ng-container>
         <ng-template #loading>
-          <div class="cx-spinner small">
+          <div class="cx-spinner">
             <cx-spinner></cx-spinner>
           </div>
         </ng-template>
