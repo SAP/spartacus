@@ -329,6 +329,11 @@
       [items]="customerListsPage?.userGroups"
       bindLabel="name"
       bindValue="uid"
+      [cxFocus]="customerListSelectorFocus"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+      (keydown.shift.tab)="onLeave($event)"
+      (keydown.tab)="onLeave($event)"
       [cxNgSelectA11y]="{
         ariaLabel: getGroupName(customerListsPage, selectedUserGroupId),
         ariaControls: 'asm-cusomer-list-table'

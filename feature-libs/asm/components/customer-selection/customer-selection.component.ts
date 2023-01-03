@@ -18,8 +18,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
@@ -30,9 +31,12 @@ import { debounceTime, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-selection',
   templateUrl: './customer-selection.component.html',
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
-  customerSelectionForm: UntypedFormGroup;
+  customerSelectionForm: FormGroup<{ searchTerm: FormControl<string | null> }>;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -44,11 +48,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   expanded = false;
   focusIndex = -1;
   activeDescendant: string = '';
-  listboxId = 'customerSearch';
+  listboxId = 'customerSearchResults';
   selectedIndex = -1;
-  get hasSelection(): boolean {
-    return this.selectedIndex !== -1;
-  }
   optionId(optionIndex: number): string {
     return `${this.listboxId}-opt-${optionIndex}`;
   }
@@ -78,6 +79,24 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.selectCustomerFromList(this.items[this.selectedIndex]);
   }
 
+  focus(event: Event) {
+    console.log('focus', event);
+  }
+  blur(event: FocusEvent) {
+    console.log('blur', event);
+
+    if (this.expanded) {
+      if (
+        event.relatedTarget &&
+        this.resultList.nativeElement.contains(event.relatedTarget as Node)
+      ) {
+        // user is clicking on option
+      } else {
+        this.close();
+      }
+    }
+  }
+
   keydownArrowdown(event: Event) {
     // opens menu
     // if item selected, focus selected item
@@ -88,21 +107,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       event.preventDefault();
       this.moveFocus(this.focusIndex + 1);
     } else {
-      this.open();
       this.handleSearchTerm(
         this.customerSelectionForm.controls.searchTerm.value
       );
       this.actionQueue.push(() => {
-        this.moveFocus(this.hasSelection ? this.selectedIndex : 0);
+        this.moveFocus(this.selectedCustomer ? this.selectedIndex : 0);
       });
     }
-  }
-  focus(event: Event) {
-    console.log('focus', event);
-  }
-  blur(event: Event) {
-    console.log('blur', event);
-    this.close();
   }
   keydownArrowup(event: Event) {
     // if popup closed, opens popup with focus on last element
@@ -112,7 +123,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       event.preventDefault();
       this.moveFocus(this.focusIndex - 1);
     } else {
-      this.open();
       this.handleSearchTerm(
         this.customerSelectionForm.controls.searchTerm.value
       );
@@ -130,9 +140,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  keydownSpace(event: Event) {
-    console.log('keydownSpace', event);
-  }
   keydownEscape(event: Event) {
     // Dismisses the popup if visible.
     // (optional) if the popup is hidden, clear selection
@@ -147,11 +154,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @Output()
   submitEvent = new EventEmitter<{ customerId?: string }>();
 
-  @ViewChild('resultList') resultList: ElementRef;
-  @ViewChild('searchTerm') searchTerm: ElementRef;
+  @ViewChild('resultList') resultList: ElementRef<HTMLElement>;
+  @ViewChild('searchTerm') searchTerm: ElementRef<HTMLInputElement>;
 
   constructor(
-    protected fb: UntypedFormBuilder,
+    protected fb: FormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig,
     protected windowRef: WindowRef
@@ -186,9 +193,15 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected handleSearchTerm(searchTermValue: string) {
+  protected handleSearchTerm(searchTermValue: string | null) {
+    if (this.customerSelectionForm.invalid) {
+      this.customerSelectionForm.markAllAsTouched();
+    }
+    if (!searchTermValue) {
+      searchTermValue = '';
+    }
     if (
-      !!this.selectedCustomer &&
+      this.selectedCustomer &&
       searchTermValue !== this.selectedCustomer.name
     ) {
       this.selectedCustomer = undefined;
@@ -208,19 +221,32 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   selectCustomerFromList(customer: User) {
     this.selectedCustomer = customer;
     this.customerSelectionForm.controls.searchTerm.setValue(
-      this.selectedCustomer.name
+      this.selectedCustomer.name as string
     );
     this.asmService.customerSearchReset();
+    this.searchTerm.nativeElement.focus();
   }
 
   onSubmit(): void {
-    if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
+    if (this.customerSelectionForm.valid && this.selectedCustomer) {
       this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }
   }
 
+  onDocumentClick(event: Event) {
+    if (this.resultList) {
+      if (
+        this.resultList.nativeElement.contains(event.target as Node) ||
+        this.searchTerm.nativeElement.contains(event.target as Node)
+      ) {
+        return;
+      } else {
+        this.close();
+      }
+    }
+  }
   closeResults() {
     this.asmService.customerSearchReset();
   }

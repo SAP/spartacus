@@ -10,6 +10,7 @@
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
       role="combobox"
       autocomplete="off"
+      aria-autocomplete="list"
       [attr.aria-controls]="listboxId"
       [attr.aria-expanded]="expanded"
       [attr.aria-activedescendant]="activeDescendant"
@@ -18,7 +19,6 @@
       (keydown.arrowup)="keydownArrowup($event)"
       (keydown.arrowdown)="keydownArrowdown($event)"
       (keydown.enter)="keydownEnter($event)"
-      (keydown.space)="keydownSpace($event)"
       (keydown.escape)="keydownEscape($event)"
     />
     <cx-form-errors
@@ -47,6 +47,7 @@
   <button
     *ngFor="let result of results.entries; let i = index"
     role="option"
+    tabindex="-1"
     [id]="optionId(i)"
     [attr.aria-selected]="focusIndex === i"
     [class.focused]="focusIndex === i"

@@ -13,10 +13,16 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmCustomerListFacade,
+  CustomerList,
   CustomerListColumnActionType,
   CustomerListsPage,
 } from '@spartacus/asm/root';
-import { SortModel, TranslationService, User } from '@spartacus/core';
+import {
+  isNotUndefined,
+  SortModel,
+  TranslationService,
+  User,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -24,8 +30,15 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import {
+  combineLatest,
+  forkJoin,
+  NEVER,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
+import { concatMap, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
 @Component({
@@ -39,6 +52,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     trap: true,
     block: true,
     autofocus: 'customer-list-selector',
+    focusOnEscape: true,
+    key: 'customerList',
+  };
+
+  customerListSelectorFocus: FocusConfig = {
+    key: 'customerListList',
+    trap: true,
+    // block: true,
     focusOnEscape: true,
   };
 
@@ -78,6 +99,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   listsEmpty = false;
 
+  customerListDetails: { [customerListId: string]: CustomerList } = {};
+
   protected teardown: Subscription = new Subscription();
 
   constructor(
@@ -89,6 +112,24 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmCustomerListFacade: AsmCustomerListFacade
   ) {
     this.breakpoint$ = this.getBreakpoint();
+  }
+
+  onFocus(e: Event) {
+    console.log('focus', e);
+    this.customerListSelectorFocus = {
+      ...this.customerListSelectorFocus,
+      trap: true,
+    };
+  }
+  onBlur(e: Event) {
+    console.log('blur', e);
+  }
+  onLeave(e: Event) {
+    console.log('leave', e);
+    this.customerListSelectorFocus = {
+      ...this.customerListSelectorFocus,
+      trap: false,
+    };
   }
 
   ngOnInit(): void {
@@ -108,6 +149,23 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           }
         }),
         distinctUntilChanged(),
+        concatMap((result) => {
+          if (result?.userGroups?.length) {
+            return forkJoin(
+              result.userGroups
+                .map((userGroup) => userGroup?.uid)
+                .filter(isNotUndefined)
+                .map((listId) =>
+                  this.asmCustomerListFacade.getCustomerList(listId).pipe(
+                    tap((customerList) => {
+                      this.customerListDetails[listId] = customerList;
+                    })
+                  )
+                )
+            ).pipe(map(() => result));
+          }
+          return of(result);
+        }),
         tap((result) => {
           // set the first value of this.customerListsPage$ to be selected
           if (!this.selectedUserGroupId) {
