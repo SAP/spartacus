@@ -1,6 +1,6 @@
 # E2E testing guidelines
 
-## About
+## About 
 
 This document describes practices we use for our cypress tests. As a baseline we use [Cypress best practices](https://docs.cypress.io/guides/references/best-practices.html). Below you will find a series of recommendations we developed that help us keep tests maintainable and fast.
 
