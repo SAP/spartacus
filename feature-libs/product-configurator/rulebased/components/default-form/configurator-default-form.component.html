@@ -43,18 +43,18 @@
 
       <!-- Single Selection Product Bundle -->
       <cx-configurator-attribute-single-selection-bundle
+        *ngIf="attribute.uiType === uiType.RADIOBUTTON_PRODUCT"
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        *ngIf="attribute.uiType === uiType.RADIOBUTTON_PRODUCT"
       ></cx-configurator-attribute-single-selection-bundle>
 
       <!-- Multi Selection Product Bundle -->
       <cx-configurator-attribute-multi-selection-bundle
+        *ngIf="attribute.uiType === uiType.CHECKBOXLIST_PRODUCT"
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        *ngIf="attribute.uiType === uiType.CHECKBOXLIST_PRODUCT"
       ></cx-configurator-attribute-multi-selection-bundle>
 
       <!-- Single Selection Dropdown Product Bundle -->
@@ -106,6 +106,7 @@
         *ngIf="attribute.uiType === uiType.CHECKBOXLIST"
         [attribute]="attribute"
         [group]="group.id"
+        [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
       ></cx-configurator-attribute-checkbox-list>
