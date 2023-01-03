@@ -27,6 +27,7 @@ export const checkout = {
     deliveryMethod: 'Delivery Method',
     standardDelivery: 'Standard Delivery',
     premiumDelivery: 'Premium Delivery',
+    shippedEntries: 'Items to be Shipped',
   },
   checkoutReview: {
     review: 'Review',
