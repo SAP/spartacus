@@ -31,14 +31,16 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.timeLeft = this.getTimerStartDelayInSeconds();
+    console.log(`AsmSessionTimer timeLeft: ${this.timeLeft}`);
     this.interval = setInterval(() => {
+      console.log(this.timeLeft);
       if (this.timeLeft > 0) {
         this.timeLeft--;
+        this.changeDetectorRef.markForCheck();
       } else {
         clearInterval(this.interval);
         this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }
-      this.changeDetectorRef.markForCheck();
     }, 1000);
 
     this.resetOnNavigate();
