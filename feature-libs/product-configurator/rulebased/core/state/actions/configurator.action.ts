@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -196,6 +196,7 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
        * Id of parent group. Can be undefined for groups on root level
        */
       parentGroupId?: string;
+      conflictResolutionMode?: boolean;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);

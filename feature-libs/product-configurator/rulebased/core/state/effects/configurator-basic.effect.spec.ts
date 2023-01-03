@@ -107,6 +107,7 @@ const productConfiguration: Configurator.Configuration = {
   priceSummary: {},
   priceSupplements: [],
   pricingEnabled: true,
+  interactionState: { isConflictResolutionMode: undefined },
 };
 
 const productConfigurationWithConflict: Configurator.Configuration = {
@@ -135,6 +136,7 @@ const productConfigurationWithConflict: Configurator.Configuration = {
   priceSummary: {},
   priceSupplements: [],
   pricingEnabled: true,
+  interactionState: { isConflictResolutionMode: true },
 };
 
 const productConfigurationWithoutPricing: Configurator.Configuration = {
@@ -544,24 +546,27 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of attribute group in case conflicts exist but current group is not a conflict group', () => {
-      const payloadInput = productConfigurationWithConflict;
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of attribute group in case conflicts exist but conflict resolution mode is not active', () => {
+      const payloadInput: Configurator.Configuration = {
+        ...productConfigurationWithConflict,
+        interactionState: { isConflictResolutionMode: false },
+      };
       const action = new ConfiguratorActions.UpdateConfigurationSuccess(
         payloadInput
       );
       const finalizeSuccess =
         new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-          productConfigurationWithConflict
+          payloadInput
         );
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
         ...productConfigurationWithConflict,
         interactionState: { currentGroup: groupId },
       });
       const searchVariantsAction = new ConfiguratorActions.SearchVariants(
-        productConfigurationWithConflict
+        payloadInput
       );
       const changeGroup = new ConfiguratorActions.ChangeGroup({
-        configuration: productConfigurationWithConflict,
+        configuration: payloadInput,
         groupId: groupId,
         parentGroupId: undefined,
       });
