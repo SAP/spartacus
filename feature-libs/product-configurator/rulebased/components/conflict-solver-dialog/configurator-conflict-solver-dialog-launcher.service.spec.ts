@@ -15,7 +15,7 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { cold, hot } from 'jasmine-marbles';
+import { cold } from 'jasmine-marbles';
 
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
@@ -148,16 +148,16 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     });
 
     it('should emit group data when routing pageType = "configuration"', () => {
-      routerData$ = hot('     c---', { c: configRouterData });
-      groups$ = hot('         -g--', { g: groups });
+      routerData$ = cold('    c---', { c: configRouterData });
+      groups$ = cold('        -g--', { g: groups });
       const expected$ = cold('-g--', { g: groups });
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
     });
 
     it('should not emit group data when routing pageType = "overview"', () => {
-      routerData$ = hot('     o---', { o: overviewRouterData });
-      groups$ = hot('         -g--', { g: groups });
+      routerData$ = cold('    o---', { o: overviewRouterData });
+      groups$ = cold('        -g--', { g: groups });
       const expected$ = cold('----');
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
@@ -165,8 +165,8 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
     it('should stop emitting group data when navigation to overview', () => {
       const routerData = { a: configRouterData, o: overviewRouterData };
-      routerData$ = hot('     ao--', routerData);
-      groups$ = hot('         --a-', { a: groups });
+      routerData$ = cold('    ao--', routerData);
+      groups$ = cold('        --a-', { a: groups });
       const expected$ = cold('----');
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
