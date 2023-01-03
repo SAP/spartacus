@@ -181,4 +181,9 @@ export const order = {
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
     caption: 'Order contents.',
   },
+  reorder: {
+    dialog: {
+      reorderProducts: 'Reorder products'
+    }
+  },
 };

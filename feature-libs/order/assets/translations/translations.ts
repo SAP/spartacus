@@ -18,5 +18,6 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
     'AccountOrderHistoryTabContainer',
     'returnRequestList',
     'returnRequest',
+    'reorder',
   ],
 };

@@ -4,22 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActiveCartService, MultiCartService } from '@spartacus/cart/base/core';
-import { CartOutlets, OrderEntriesContext, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
+import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
 import { EventService, UserIdService } from '@spartacus/core';
-import { ContextService, LaunchDialogService } from '@spartacus/storefront';
+import { ContextService, LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ReorderOrderService } from 'feature-libs/order/core/facade/reorder-order.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-reorder',
   templateUrl: './order-detail-reorder.component.html',
 })
-export class OrderDetailReorderComponent implements OnInit {
+export class OrderDetailReorderComponent implements OnInit, OnDestroy {
 
   @ViewChild('element') element: ElementRef;
+  protected subscription = new Subscription();
 
   constructor(protected orderDetailsService: OrderDetailsService, 
     protected launchDialogService: LaunchDialogService, 
@@ -34,9 +36,6 @@ export class OrderDetailReorderComponent implements OnInit {
   order$: Observable<any>;
   userId: string;
 
-  context$: Observable<OrderEntriesContext | undefined> =
-    this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
-
   readonly CartOutlets = CartOutlets;
 
   ngOnInit() {
@@ -50,20 +49,31 @@ export class OrderDetailReorderComponent implements OnInit {
   }
 
   onReorderClick(order: any) {
-
-    /* this.launchDialogService.openDialog(
-        LAUNCH_CALLER.REORDER,
-        this.element,
-        this.vcr,
-        { products, orderEntriesContext }
-    ); */
-    const orderId = order.code;
-
-    
-      this.reorderOrderService.reorder(orderId, this.userId)
-      .subscribe((response) => {
-        console.log(response);
+    this.launchDialog();  
+    this.reorderOrderService.reorder(order.code, this.userId)
+      .subscribe((cartModificationList: CartModificationList) => {
+        console.log(cartModificationList);
         this.activeCartService.reloadCurrentActiveCart();
-      }); 
+        this.launchDialogService.emitData({ loading: false, cartModificationList });
+      });
+  }
+
+  launchDialog() {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.REORDER,
+      this.element,
+      this.vcr,
+      { loading: true }
+    );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -6,20 +6,14 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  AddOrderEntriesContext,
-  OrderEntriesSource,
-  ProductData,
-  ProductImportInfo,
-  ProductImportStatus,
-  ProductImportSummary,
+  CartModification,
 } from '@spartacus/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-reorder-dialog',
@@ -32,25 +26,13 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: 'button',
+    autofocus: true,
     focusOnEscape: true,
   };
 
-  formState: boolean = true;
-  summary$ = new BehaviorSubject<ProductImportSummary>({
-    loading: false,
-    cartName: '',
-    count: 0,
-    total: 0,
-    successesCount: 0,
-    warningMessages: [],
-    errorMessages: [],
-  });
+  cartModifications: CartModification[];
 
-  products: ProductData[];
-  addOrderEntriesContext: AddOrderEntriesContext;
-  context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
+  loading$ = new BehaviorSubject(false);
 
   constructor(protected launchDialogService: LaunchDialogService) {
   }
@@ -59,29 +41,9 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
     this.subscriptions.add(
       this.launchDialogService.data$.subscribe(
         (data: any) => {
-          debugger;
-          this.products = data.products;
-          this.addOrderEntriesContext = data.orderEntriesContext as AddOrderEntriesContext;
-
-          this.formState = false;
-          this.summary$.next({
-            ...this.summary$.value,
-            loading: true,
-            total: this.products.length,
-          });
-          this.addOrderEntriesContext
-            .addEntries(this.products, undefined)
-            .pipe(
-              finalize(() => {
-                this.summary$.next({
-                  ...this.summary$.value,
-                  loading: false,
-                });
-              })
-            )
-            .subscribe((action: ProductImportInfo) => {
-              this.populateSummary(action);
-            });
+          this.loading$.next(data.loading);
+          this.cartModifications = data.cartModificationList?.cartModifications;
+          this.populateSummary();
         }
       )
     );
@@ -91,70 +53,11 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
     this.subscriptions.unsubscribe();
   }
 
-  isNewCartForm() {
-    return this.addOrderEntriesContext.type === OrderEntriesSource.ORDER_DETAILS;
-  }
-
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
-  importProducts(
-    context: AddOrderEntriesContext,
-    {
-      products,
-      savedCartInfo,
-    }: {
-      products: ProductData[];
-      savedCartInfo?: {
-        name: string;
-        description: string;
-      };
-    }
-  ): void {
-    console.log("Jatt");
-    debugger;
-    this.formState = false;
-    this.summary$.next({
-      ...this.summary$.value,
-      loading: true,
-      total: products.length,
-      cartName: savedCartInfo?.name,
-    });
-    context
-      .addEntries(products, savedCartInfo)
-      .pipe(
-        finalize(() => {
-          this.summary$.next({
-            ...this.summary$.value,
-            loading: false,
-          });
-        })
-      )
-      .subscribe((action: ProductImportInfo) => {
-        this.populateSummary(action);
-      });
-  }
-
-  protected populateSummary(action: ProductImportInfo): void {
-    if (action.statusCode === ProductImportStatus.SUCCESS) {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        successesCount: this.summary$.value.successesCount + 1,
-      });
-    } else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        warningMessages: [...this.summary$.value.warningMessages, action],
-      });
-    } else {
-      this.summary$.next({
-        ...this.summary$.value,
-        count: this.summary$.value.count + 1,
-        errorMessages: [...this.summary$.value.errorMessages, action],
-      });
-    }
+  protected populateSummary(): void {
+    
   }
 }

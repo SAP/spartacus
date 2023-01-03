@@ -7,7 +7,7 @@
     <ng-container>
       <div class="cx-dialog-header modal-header">
         <div class="cx-dialog-title modal-title">
-          {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+          {{ 'reorder.dialog.reorderProducts' | cxTranslate }}
         </div>
         <button
           type="button"
@@ -23,12 +23,17 @@
     </ng-container>
 
     <!-- Modal Body -->
-    <ng-container>
-        <cx-import-entries-summary
-          [summary]="summary$ | async"
-          [type]="addOrderEntriesContext.type"
-          (closeEvent)="close('Close Reorder Products Dialog')"
-        ></cx-import-entries-summary>
-    </ng-container>
+    <div class="cx-dialog-body modal-body">
+      <ng-container>
+        <ng-container *ngIf="!(loading$ | async); else loading">
+          Placeholder for reorder messages
+        </ng-container>
+        <ng-template #loading>
+          <div class="cx-spinner small">
+            <cx-spinner></cx-spinner>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
   </div>
 </div>
