@@ -1,3 +1,10 @@
+/*
+ * Copyright Google LLC All Rights Reserved.
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   DefaultTreeDocument,
@@ -5,14 +12,6 @@ import {
   DefaultTreeNode,
   parse as parseHtml,
 } from 'parse5';
-
-/*
- * Copyright Google LLC All Rights Reserved.
- 
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
 
 /** Appends the given element HTML fragment to the `<head>` element of the specified HTML file. */
 export function appendHtmlElementToHead(
