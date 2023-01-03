@@ -228,8 +228,17 @@
       "@spartacus/organization/unit-order/assets": [
         "../../feature-libs/organization/unit-order/assets/public_api"
       ],
+      "@spartacus/organization/unit-order/components": [
+        "../../feature-libs/organization/unit-order/components/public_api"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "../../feature-libs/organization/unit-order/core/public_api"
+      ],
       "@spartacus/organization/unit-order": [
         "../../feature-libs/organization/unit-order/public_api"
+      ],
+      "@spartacus/organization/unit-order/occ": [
+        "../../feature-libs/organization/unit-order/occ/public_api"
       ],
       "@spartacus/organization/unit-order/root": [
         "../../feature-libs/organization/unit-order/root/public_api"
@@ -424,6 +433,11 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/s4om/assets": [
+        "../../integration-libs/s4om/assets/public_api"
+      ],
+      "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
+      "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]

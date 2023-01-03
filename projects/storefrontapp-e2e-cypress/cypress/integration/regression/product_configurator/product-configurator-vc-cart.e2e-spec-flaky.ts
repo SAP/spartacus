@@ -77,7 +77,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      const commerceIsAtLeast2205 = false;
+      const commerceIsAtLeast2205 = true;
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
@@ -137,7 +137,7 @@ context('Product Configuration', () => {
       configuration.clickOnNextBtn(GENERAL);
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationOverviewVc.registerConfigurationOvOCC();
+      configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.clickAddToCartBtn();
       cy.log('Configuration has been added to the cart');
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
@@ -175,7 +175,7 @@ context('Product Configuration', () => {
       );
       cy.log('Conflicting value again has been de-selected');
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
-      configurationOverviewVc.registerConfigurationOvOCC();
+      configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.clickAddToCartBtn();
       cy.log('Done button has been clicked');
       configurationOverviewVc.verifyNotificationBannerOnOP();
@@ -188,7 +188,7 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
-      configurationOverviewVc.registerConfigurationOvOCC();
+      configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
 

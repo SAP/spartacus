@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,8 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration>;
 
   /**

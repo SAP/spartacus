@@ -12,7 +12,13 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { CONFIG_ID } from '../../../testing/configurator-test-data';
+import {
+  CONFIG_ID,
+  GROUP_ID_CONFLICT_HEADER,
+  GROUP_ID_CONFLICT_1,
+  GROUP_ID_CONFLICT_2,
+  ATTRIBUTE_1_CHECKBOX,
+} from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -27,6 +33,7 @@ import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-abcd';
 const groupId = 'GROUP-1';
 const parentGroupid = 'GROUP-PARENT';
 const groupIdA = 'a';
@@ -59,6 +66,21 @@ const groupWithSubGroup: Configurator.Group = {
   ],
   subGroups: [group],
 };
+
+const conflictGroup: Configurator.Group = {
+  id: GROUP_ID_CONFLICT_HEADER,
+  groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+  attributes: [],
+  subGroups: [
+    {
+      id: GROUP_ID_CONFLICT_1,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
+      subGroups: [],
+    },
+  ],
+};
+
 const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('a', owner),
   productCode: productCode,
@@ -85,6 +107,36 @@ const productConfiguration: Configurator.Configuration = {
   priceSummary: {},
   priceSupplements: [],
   pricingEnabled: true,
+  interactionState: { isConflictResolutionMode: undefined },
+};
+
+const productConfigurationWithConflict: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  productCode: productCode,
+  complete: true,
+  consistent: false,
+  overview: {
+    configId: CONFIG_ID,
+    productCode: productCode,
+    groups: [
+      {
+        id: groupIdA,
+        groupDescription: 'a',
+        attributes: [
+          {
+            attribute: 'a',
+            value: 'A',
+          },
+        ],
+      },
+    ],
+  },
+  groups: [conflictGroup, group, groupWithSubGroup],
+  flatGroups: [conflictGroup, group],
+  priceSummary: {},
+  priceSupplements: [],
+  pricingEnabled: true,
+  interactionState: { isConflictResolutionMode: true },
 };
 
 const productConfigurationWithoutPricing: Configurator.Configuration = {
@@ -175,48 +227,76 @@ describe('ConfiguratorEffect', () => {
     expect(configEffects).toBeTruthy();
   });
 
-  it('should emit a success action with content for an action of type createConfiguration', () => {
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
+  describe('Effect createConfiguration', () => {
+    it('should emit a success action with content', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+      });
 
-    const configurationSuccessAction =
-      new ConfiguratorActions.CreateConfigurationSuccess(productConfiguration);
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
 
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-(bc)', {
-      b: configurationSuccessAction,
-      c: searchVariantsAction,
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
     });
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
-  });
+    it('should forward configuration template ID', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+        configIdTemplate: CONFIG_ID_TEMPLATE,
+      });
 
-  it('must not emit anything in case source action is not covered, createConfiguration', () => {
-    const actionNotCovered = new ConfiguratorActions.CreateConfigurationSuccess(
-      productConfiguration
-    );
-    actions$ = hot('-a', { a: actionNotCovered });
-    const expected = cold('-');
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
-  });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
 
-  it('should emit a fail action in case something goes wrong', () => {
-    createMock.and.returnValue(throwError(errorResponse));
-
-    const action = new ConfiguratorActions.CreateConfiguration(
-      productConfiguration.owner
-    );
-
-    const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
-      ownerKey: productConfiguration.owner.key,
-      error: normalizeHttpError(errorResponse),
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+      expect(createMock).toHaveBeenCalledWith(owner, CONFIG_ID_TEMPLATE);
     });
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-b', { b: completionFailure });
 
-    expect(configEffects.createConfiguration$).toBeObservable(expected);
+    it('must not emit anything in case source action is not covered', () => {
+      const actionNotCovered =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
+      actions$ = hot('-a', { a: actionNotCovered });
+      const expected = cold('-');
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+    });
+
+    it('should emit a fail action in case something goes wrong', () => {
+      createMock.and.returnValue(throwError(errorResponse));
+
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+      });
+
+      const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: normalizeHttpError(errorResponse),
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completionFailure });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+    });
   });
 
   describe('Effect readConfiguration', () => {
@@ -452,6 +532,83 @@ describe('ConfiguratorEffect', () => {
         configuration: productConfiguration,
         groupId: groupId,
         parentGroupId: undefined,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: searchVariantsAction,
+        e: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of attribute group in case conflicts exist but conflict resolution mode is not active', () => {
+      const payloadInput: Configurator.Configuration = {
+        ...productConfigurationWithConflict,
+        interactionState: { isConflictResolutionMode: false },
+      };
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          payloadInput
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfigurationWithConflict,
+        interactionState: { currentGroup: groupId },
+      });
+      const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+        payloadInput
+      );
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: undefined,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: searchVariantsAction,
+        e: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of conflict group in case conflicts exist but current group is a conflict group', () => {
+      store.dispatch(
+        new ConfiguratorActions.SetCurrentGroup({
+          entityKey: productConfiguration.owner.key,
+          currentGroup: GROUP_ID_CONFLICT_2,
+        })
+      );
+      const payloadInput = productConfigurationWithConflict;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfigurationWithConflict
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfigurationWithConflict,
+        interactionState: { currentGroup: GROUP_ID_CONFLICT_1 },
+      });
+      const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+        productConfigurationWithConflict
+      );
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfigurationWithConflict,
+        groupId: GROUP_ID_CONFLICT_1,
+        parentGroupId: GROUP_ID_CONFLICT_HEADER,
       });
 
       actions$ = hot('-a', { a: action });

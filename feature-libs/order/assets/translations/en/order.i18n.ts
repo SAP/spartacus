@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,7 @@ export const order = {
     deliveryStatus_PICKUP_COMPLETE: 'Pickup Complete',
     deliveryStatus_DELIVERY_COMPLETED: 'Delivery Complete',
     deliveryStatus_PAYMENT_NOT_CAPTURED: 'Payment Issue',
+    deliveryStatus_IN_PROCESS: 'In Process',
     deliveryStatus_READY: 'In Process',
     deliveryStatus_DELIVERY_REJECTED: 'Delivery Rejected',
     deliveryStatus_SHIPPED: 'Shipped',
