@@ -13,7 +13,8 @@ context('Assisted Service Module', () => {
 
     cy.intercept('/occ/v2/**', (request) => {
       request.on('response', (res) => {
-        if (res.statusCode === 401) {
+        const allowlist = new RegExp(['/products', '/components'].join('|'));
+        if (res.statusCode === 401 && !allowlist.test(res.url)) {
           throw new Error(res.url);
         }
       });
