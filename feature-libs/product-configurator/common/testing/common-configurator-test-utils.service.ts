@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,6 +68,43 @@ export class CommonConfiguratorTestUtilsService {
       text = htmlElement.querySelector(querySelector)?.textContent;
     }
     expect(text ? text.trim() : '').toBe(expectedText);
+  }
+
+  /**
+   * Helper function for proving whether an element's attribute has a certain value.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {string} attributeName - name of attribute to check
+   * @param {string} expectedValue - expected attribute value
+   * @param {number?} index - optional - index of the element identified by the query selector
+   */
+  static expectElementToHaveAttributeWithValue(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    attributeName: string,
+    expectedValue: string,
+    index: number = 0
+  ) {
+    const element = htmlElement.querySelectorAll(querySelector)[index];
+    expect(element)
+      .withContext(
+        `expected element identified by selector '${querySelector}[${index}]'
+        to be present, but it has NOT!`
+      )
+      .toBeDefined();
+
+    const attributeValue = element?.getAttribute(attributeName);
+    expect(attributeValue)
+      .withContext(
+        `expected element identified by selector '${querySelector}[${index}]'
+         to have an attribute with name '${attributeName}', but it has NOT!`
+      )
+      .not.toBe(null);
+
+    expect(attributeValue ? attributeValue.trim() : '').toEqual(expectedValue);
   }
 
   /**

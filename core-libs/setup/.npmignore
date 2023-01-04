@@ -1,0 +1,6 @@
+setup-jest.ts
+jest.config.js
+tsconfig.spec.json
+**/*_spec.ts
+**/*_spec.ts.snap
+.eslintrc.json

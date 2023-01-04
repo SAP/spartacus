@@ -9,8 +9,13 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2020", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -156,10 +161,18 @@
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
       ],
-      "@spartacus/order/core": ["feature-libs/order/core/public_api"],
-      "@spartacus/order": ["feature-libs/order/public_api"],
-      "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
-      "@spartacus/order/root": ["feature-libs/order/root/public_api"],
+      "@spartacus/order/core": [
+        "feature-libs/order/core/public_api"
+      ],
+      "@spartacus/order": [
+        "feature-libs/order/public_api"
+      ],
+      "@spartacus/order/occ": [
+        "feature-libs/order/occ/public_api"
+      ],
+      "@spartacus/order/root": [
+        "feature-libs/order/root/public_api"
+      ],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
       ],
@@ -242,6 +255,24 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "feature-libs/organization/user-registration/root/public_api"
+      ],
+      "@spartacus/organization/unit-order/assets": [
+        "feature-libs/organization/unit-order/assets/public_api"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "feature-libs/organization/unit-order/components/public_api"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "feature-libs/organization/unit-order/core/public_api"
+      ],
+      "@spartacus/organization/unit-order": [
+        "feature-libs/organization/unit-order/public_api"
+      ],
+      "@spartacus/organization/unit-order/occ": [
+        "feature-libs/organization/unit-order/occ/public_api"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "feature-libs/organization/unit-order/root/public_api"
       ],
       "@spartacus/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
@@ -391,16 +422,24 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/core": [
+        "integration-libs/cdc/core/public_api"
+      ],
+      "@spartacus/cdc": [
+        "integration-libs/cdc/public_api"
+      ],
+      "@spartacus/cdc/root": [
+        "integration-libs/cdc/root/public_api"
+      ],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
-      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
-      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
-      "@spartacus/cds": ["integration-libs/cds/public_api"],
+      "@spartacus/cds": [
+        "integration-libs/cds/public_api"
+      ],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
@@ -425,9 +464,24 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
+      "@spartacus/s4om/assets": [
+        "integration-libs/s4om/assets/public_api"
+      ],
+      "@spartacus/s4om": [
+        "integration-libs/s4om/public_api"
+      ],
+      "@spartacus/s4om/root": [
+        "integration-libs/s4om/root/public_api"
+      ],
+      "@spartacus/assets": [
+        "projects/assets/src/public_api"
+      ],
+      "@spartacus/core": [
+        "projects/core/public_api"
+      ],
+      "@spartacus/storefront": [
+        "projects/storefrontlib/public_api"
+      ]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]

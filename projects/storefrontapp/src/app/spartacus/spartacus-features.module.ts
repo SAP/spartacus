@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,8 +71,10 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
+import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
+import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
 import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
@@ -81,11 +83,11 @@ import { ImageZoomFeatureModule } from './features/product/product-image-zoom-fe
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
+import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 
 const featureModules = [];
 
@@ -95,7 +97,8 @@ if (environment.b2b) {
     AccountSummaryFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
-    OrganizationUserRegistrationFeatureModule
+    OrganizationUserRegistrationFeatureModule,
+    UnitOrderFeatureModule
   );
 }
 
@@ -110,6 +113,9 @@ if (environment.digitalPayments) {
 }
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
+}
+if (environment.s4om) {
+  featureModules.push(S4OMFeatureModule);
 }
 
 if (environment.pickupInStore) {

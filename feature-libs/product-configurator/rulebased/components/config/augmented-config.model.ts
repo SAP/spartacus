@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,4 +14,10 @@ declare module '@spartacus/product-configurator/common' {
     extends ProductConfiguratorUISettingsConfig,
       ProductConfiguratorMessageConfig,
       ProductConfiguratorCoreConfig {}
+}
+
+declare module '@spartacus/storefront' {
+  const enum LAUNCH_CALLER {
+    CONFIGURATOR_OV_FILTER = 'CONFIGURATOR_OV_FILTER',
+  }
 }

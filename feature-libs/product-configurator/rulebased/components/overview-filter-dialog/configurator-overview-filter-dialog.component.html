@@ -1,0 +1,35 @@
+<div
+  class="cx-configurator-overview-filter-dialog cx-modal-container"
+  (click)="closeFilterModal()"
+>
+  <div
+    class="cx-modal-content"
+    (click)="$event.stopPropagation()"
+    [cxFocus]="focusConfig"
+    (esc)="closeFilterModal()"
+  >
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'configurator.overviewFilter.title' | cxTranslate }}
+      </div>
+      <button
+        title="{{ 'configurator.a11y.closeFilterMenu' | cxTranslate }}"
+        type="button"
+        class="close"
+        (click)="closeFilterModal()"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <ng-container *ngIf="config$ | async as config">
+      <div class="cx-dialog-body modal-body">
+        <cx-configurator-overview-filter
+          [config]="config"
+          [showFilterBar]="false"
+        ></cx-configurator-overview-filter>
+      </div>
+    </ng-container>
+  </div>
+</div>

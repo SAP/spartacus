@@ -75,7 +75,7 @@ export class SpartacusConfigurationModule {}
 exports[`scaffold app structure When the new app structure is already in place should not touch it 3`] = `
 "
 import { NgModule } from '@angular/core';
-import { BaseStorefrontModule } from \\"@spartacus/storefront\\";
+import { BaseStorefrontModule } from "@spartacus/storefront";
 import {MyFeature} from './my-feature.module';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';

@@ -1,8 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import * as configurationOverview from './product-configurator-overview';
 
 /**
  * Verifies whether the group header displayed.
@@ -11,19 +13,14 @@ export function checkGroupHeaderDisplayed(
   groupName: string,
   groupIdx: number
 ): void {
-  cy.get('cx-configurator-overview-form .cx-group h2')
-    .eq(groupIdx)
-    .should('contain.text', groupName);
+  configurationOverview.checkGroupHeaderDisplayed(groupName, groupIdx);
 }
 
 /**
  * Verifies whether the group header is not displayed.
  */
 export function checkGroupHeaderNotDisplayed(groupName: string): void {
-  cy.get('cx-configurator-overview-form .cx-group').should(
-    'not.contain.text',
-    groupName
-  );
+  configurationOverview.checkGroupHeaderNotDisplayed(groupName);
 }
 
 /**
@@ -34,23 +31,11 @@ export function checkAttrDisplayed(
   valueName: string,
   attributeIdx: number
 ): void {
-  cy.get(
-    'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
-  )
-    .eq(attributeIdx)
-    .within(() => {
-      cy.log('Attribute name: ' + attributeName);
-      if (attributeName) {
-        cy.get('.cx-attribute-label').should('contain.text', attributeName);
-      } else {
-        cy.get('.cx-attribute-label').should('not.be.visible');
-      }
-      cy.log('Value name: ' + valueName);
-      cy.get('.cx-value-info, .cx-attribute-value').should(
-        'contain.text',
-        valueName
-      );
-    });
+  configurationOverview.checkAttrDisplayed(
+    attributeName,
+    valueName,
+    attributeIdx
+  );
 }
 
 /**
@@ -60,17 +45,7 @@ export function checkAttrPriceDisplayed(
   priceString: string,
   attributeIdx: number
 ): void {
-  cy.get(
-    'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
-  )
-    .eq(attributeIdx)
-    .within(() => {
-      if (priceString) {
-        cy.get('cx-configurator-price').should('contain.text', priceString);
-      } else {
-        cy.get('cx-configurator-price').should('not.be.visible');
-      }
-    });
+  configurationOverview.checkAttrPriceDisplayed(priceString, attributeIdx);
 }
 
 /**
