@@ -26,14 +26,14 @@ export class AppServerModule {}
 
 exports[`add-ssr index.html should contain occ-backend-base-url attribute in meta tags 1`] = `
 "<!doctype html>
-<html lang="en">
+<html lang=\\"en\\">
 <head>
-  <meta charset="utf-8">
+  <meta charset=\\"utf-8\\">
   <title>SchematicsTest</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="occ-backend-base-url" content="https://localhost:9002" />
+  <base href=\\"/\\">
+  <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\">
+  <link rel=\\"icon\\" type=\\"image/x-icon\\" href=\\"favicon.ico\\">
+  <meta name=\\"occ-backend-base-url\\" content=\\"https://localhost:9002\\" />
 </head>
 <body>
   <app-root></app-root>
