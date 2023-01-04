@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AsmCustomer360Response } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import {
   AsmUi,
   CustomerSearchOptions,
@@ -151,5 +153,35 @@ describe('AsmService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.CustomerListCustomersSearchReset()
     );
+  });
+
+  it('should dispatch an action to fetch customer 360 data', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.fetchCustomer360Data({
+      queries: [],
+    });
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.Customer360Get({
+        queries: [],
+      })
+    );
+  });
+
+  it('should return customer 360 data', (done) => {
+    const customer360Response: AsmCustomer360Response = {
+      value: [],
+    };
+
+    store.dispatch(new AsmActions.Customer360GetSuccess(customer360Response));
+
+    service
+      .getCustomer360Data()
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toEqual(customer360Response);
+        done();
+      });
   });
 });
