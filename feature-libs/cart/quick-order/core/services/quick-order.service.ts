@@ -418,10 +418,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
             .map((entry) => entry.product?.code)
             .includes(product.productCode)
       ) || [];
-    const missingProductIndex = missingProducts.findIndex(
-      (product) => product.productCode === code
-    );
-    return missingProductIndex;
+    return missingProducts.findIndex((product) => product.productCode === code);
   }
 
   private createQuickOrderResultEvent(
