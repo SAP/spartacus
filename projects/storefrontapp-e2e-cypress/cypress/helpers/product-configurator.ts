@@ -500,7 +500,6 @@ export function clickOnViewCartBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/cart');
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });
 }

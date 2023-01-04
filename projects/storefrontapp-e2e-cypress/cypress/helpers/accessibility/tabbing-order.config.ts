@@ -232,6 +232,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Menu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Filter',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },

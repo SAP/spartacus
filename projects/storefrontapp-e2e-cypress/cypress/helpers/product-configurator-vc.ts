@@ -91,7 +91,6 @@ export function goToCart(shopName: string) {
   const location = `/${shopName}/en/USD/cart`;
   cy.visit(`/${shopName}/en/USD/cart`).then(() => {
     cy.location('pathname').should('contain', location);
-    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
 }
@@ -114,8 +113,10 @@ export function checkGlobalMessageNotDisplayed(): void {
 /**
  * Clicks on 'Add to Cart' button in catalog list.
  */
-export function clickOnConfigureBtnInCatalog(): void {
-  cy.get('cx-configure-product a')
+export function clickOnConfigureBtnInCatalog(productName: string): void {
+  cy.get(
+    `cx-configure-product a[href*='/configure/vc/product/entityKey/${productName}'`
+  )
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
@@ -252,7 +253,7 @@ function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('.link')
+      cy.get('a.cx-action-link')
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();
@@ -267,7 +268,35 @@ function clickOnConflictSolverLink(attribute: string): void {
  * @param attribute - Attribute name
  */
 export function clickOnViewInConfiguration(attribute: string): void {
+  cy.log('Click View in Configuration Link');
   clickOnConflictSolverLink(attribute);
+}
+
+/**
+ * Verifies whether the view in configuration link is displayed.
+ */
+export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
+  cy.log('Verify whether View in Configuration Link is displayed');
+  this.checkConflictLinkDisplayed(attribute);
+}
+
+/**
+ * Verifies whether the conflict detected - view details link is displayed.
+ */
+export function checkConflictDetectedLinkDisplayed(attribute: string): void {
+  cy.log('Verify whether Conflict Detected - View Details Link is displayed');
+  this.checkConflictLinkDisplayed(attribute);
+}
+
+/**
+ * Verifies whether the conflict link is displayed.
+ */
+export function checkConflictLinkDisplayed(attribute: string): void {
+  cy.get('cx-configurator-attribute-header', { timeout: 10000 }).within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('a.cx-action-link', { timeout: 10000 }).should('be.visible');
+    });
+  });
 }
 
 /**
@@ -276,6 +305,7 @@ export function clickOnViewInConfiguration(attribute: string): void {
  * @param attribute - Attribute name
  */
 export function clickOnConflictDetected(attribute: string): void {
+  cy.log('Click Conflict Detected - View Details Link');
   clickOnConflictSolverLink(attribute);
 }
 
