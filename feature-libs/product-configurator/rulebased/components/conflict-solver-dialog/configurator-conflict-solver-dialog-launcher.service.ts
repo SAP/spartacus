@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { EventService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
   ConfiguratorRouter,
@@ -42,29 +42,24 @@ export class ConfiguratorConflictSolverDialogLauncherService
 
   constructor(
     protected launchDialogService: LaunchDialogService,
+    protected eventService: EventService,
     protected routingService: RoutingService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorGroupsService: ConfiguratorGroupsService
   ) {
-    this.openConflictSolverDialog();
+    this.controlDialog();
   }
 
   protected isConfiguratorRelatedRoute(semanticRoute?: string): boolean {
     return semanticRoute ? semanticRoute.includes('configure') : false;
   }
 
-  protected openConflictSolverDialog() {
+  protected controlDialog() {
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
         if (conflictGroups && conflictGroups?.length > 0) {
           this.openModal();
-        }
-      })
-    );
-
-    this.subscription.add(
-      this.conflictGroups$.subscribe((conflictGroups) => {
-        if (conflictGroups && conflictGroups?.length === 0) {
+        } else {
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
         }
       })

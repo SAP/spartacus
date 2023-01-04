@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconLoaderService,
@@ -74,15 +74,9 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let launchDialogService: LaunchDialogService;
-  let mockLanguageService;
 
   beforeEach(
     waitForAsync(() => {
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of('en')),
-      };
-
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, IconModule],
         declarations: [
@@ -91,7 +85,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -194,7 +187,9 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   describe('updateConfiguration', () => {
     it('should update a configuration through the facade layer ', () => {
       const event: ConfigFormUpdateEvent = {
-        changedAttribute: undefined,
+        changedAttribute: {
+          name: 'ATT_01',
+        },
         ownerKey: 'product/TEST_PRODUCT',
         updateType: Configurator.UpdateType.ATTRIBUTE,
       };
