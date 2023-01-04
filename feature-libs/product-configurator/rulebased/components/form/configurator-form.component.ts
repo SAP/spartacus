@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, filter, switchMap } from 'rxjs/operators';
+import { map, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -20,7 +20,7 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent {
+export class ConfiguratorFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       filter(
@@ -49,6 +49,15 @@ export class ConfiguratorFormComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {}
+
+  ngOnInit(): void {
+    this.configuration$.pipe(
+      take(1)).subscribe((configuration)=>{
+        if (configuration.immediateConflictResolution){
+          this.configuratorCommonsService.checkConflictSolverDialogue(configuration.owner);
+        }
+      })
+  }
 
   isNavigationToGroupEnabled(): Observable<boolean> {
     return this.configuration$.pipe(

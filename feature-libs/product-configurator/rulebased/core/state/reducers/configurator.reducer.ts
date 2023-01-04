@@ -172,6 +172,9 @@ function handleActionCheckConflictSolverDialogue(
   console.log('CHHI check showConflictSolverDialogue');
   const result: Configurator.Configuration = {
     ...state,
+    interactionState:{
+      ...state.interactionState
+    }
  
     };
     checkConflictSolverDialogue(result);
