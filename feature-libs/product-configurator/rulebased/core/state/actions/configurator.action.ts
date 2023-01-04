@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,8 +68,13 @@ export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: CommonConfigurator.Owner) {
-    super(CONFIGURATOR_DATA, payload.key);
+  constructor(
+    public payload: {
+      owner: CommonConfigurator.Owner;
+      configIdTemplate?: string;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -191,6 +196,7 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
        * Id of parent group. Can be undefined for groups on root level
        */
       parentGroupId?: string;
+      conflictResolutionMode?: boolean;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);

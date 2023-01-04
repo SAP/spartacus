@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -678,6 +678,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Unit-Level Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Wish List',
       type: TabbingOrderTypes.LINK,
     },
@@ -1127,6 +1131,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {

@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
+import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
@@ -50,6 +50,7 @@ export class UnitUserRolesFormComponent {
   );
 
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
+  availableRights: B2BUserRight[] = this.userService.getAllRights();
 
   constructor(
     protected itemService: ItemService<B2BUser>,
@@ -60,9 +61,13 @@ export class UnitUserRolesFormComponent {
 
   save(form: UntypedFormGroup) {
     form.disable();
-    const roles = [...this.availableRoles].filter((r) => !!form.get(r)?.value);
+    const rolesAndRights: (B2BUserRole | B2BUserRight)[] = [
+      ...this.availableRoles,
+      ...this.availableRights,
+    ].filter((role: B2BUserRole | B2BUserRight) => !!form.get(role)?.value);
+
     this.userItemService
-      .update(this.item?.customerId ?? '', { roles })
+      .update(this.item?.customerId ?? '', { roles: rolesAndRights })
       .pipe(
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)

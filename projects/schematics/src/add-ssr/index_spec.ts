@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -90,34 +90,26 @@ describe('add-ssr', () => {
     });
 
     it('should contain additional build scripts', async () => {
-      const buffer = appTree.read('package.json');
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const packageJsonFileObject = JSON.parse(buffer.toString(UTF_8));
-        expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
-        expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
-      }
+      const packageJson = appTree.readContent('package.json');
+
+      const packageJsonFileObject = JSON.parse(packageJson);
+      expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
+      expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
+      expect(packageJsonFileObject.scripts['dev:ssr']).toBeTruthy();
+    });
+  });
+
+  describe('server.ts', () => {
+    it('should be configured properly', async () => {
+      const serverTs = appTree.readContent('/server.ts');
+      expect(serverTs).toMatchSnapshot();
     });
   });
 
   describe('app.server.module.ts', () => {
-    it('should contain ServerTransferStateModule import', async () => {
-      const appServerModulePath = getPathResultsForFile(
-        appTree,
-        'app.server.module.ts',
-        '/src'
-      )[0];
-      const buffer = appTree.read(appServerModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const appServerModule = buffer.toString(UTF_8);
-        expect(
-          appServerModule.includes('ServerTransferStateModule')
-        ).toBeTruthy();
-        expect(
-          appServerModule.includes('@angular/platform-server')
-        ).toBeTruthy();
-      }
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.server.module.ts');
+      expect(content).toMatchSnapshot();
     });
   });
 
@@ -128,31 +120,8 @@ describe('add-ssr', () => {
         'index.html',
         '/src'
       )[0];
-      const buffer = appTree.read(indexHtmlPath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const indexHtmlFile = buffer.toString(UTF_8);
-        expect(
-          indexHtmlFile.includes('meta name="occ-backend-base-url"')
-        ).toBeTruthy();
-      }
-    });
-  });
-
-  describe('app.module.ts', () => {
-    it('should contain BrowserTransferStateModule import', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        '/src'
-      )[0];
-      const buffer = appTree.read(appModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const appModule = buffer.toString('utf-8');
-        expect(appModule.includes('BrowserTransferStateModule')).toBeTruthy();
-        expect(appModule.includes('@angular/platform-browser')).toBeTruthy();
-      }
+      const indexHtml = appTree.readContent(indexHtmlPath);
+      expect(indexHtml).toMatchSnapshot();
     });
   });
 });
