@@ -1,14 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "../../out-tsc/spec",
     "module": "CommonJs",
     "types": ["jest"],
     "paths": {
       "@spartacus/core": ["../../projects/core/public_api"]
     },
-
+    "declaration": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -19,7 +17,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["index.ts", "src/**/*.ts"],
   "exclude": [
