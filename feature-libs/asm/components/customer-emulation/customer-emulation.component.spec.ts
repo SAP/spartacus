@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -21,13 +21,12 @@ describe('CustomerEmulationComponent', () => {
     isCustomerEmulationSessionInProgress(): Observable<boolean> {
       return of(true);
     }
+    handleAsmDialogAction(): void {}
   }
 
   const dialogClose$ = new BehaviorSubject<any>('');
   class MockLaunchDialogService implements Partial<LaunchDialogService> {
-    openDialogAndSubscribe() {
-      return of();
-    }
+    openDialogAndSubscribe() {}
     get dialogClose() {
       return dialogClose$.asObservable();
     }
@@ -100,5 +99,31 @@ describe('CustomerEmulationComponent', () => {
 
     //assert
     expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
+  });
+
+  it('should open customer 360 dialog', () => {
+    const launchDialogService = TestBed.inject(LaunchDialogService);
+
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+
+    spyOn(asmComponentService, 'handleAsmDialogAction').and.stub();
+
+    component.openCustomer360();
+
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(1);
+    const [caller, , data] = (<jasmine.Spy>(
+      launchDialogService.openDialogAndSubscribe
+    )).calls.argsFor(0);
+    expect(caller).toBe(LAUNCH_CALLER.ASM_CUSTOMER_360);
+    expect(data).toEqual({ customer: {} });
+
+    expect(asmComponentService.handleAsmDialogAction).not.toHaveBeenCalled();
+
+    dialogClose$.next({});
+
+    expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledTimes(1);
+    expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledWith(
+      {} as any
+    );
   });
 });
