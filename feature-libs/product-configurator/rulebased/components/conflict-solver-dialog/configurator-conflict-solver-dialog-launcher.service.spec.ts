@@ -194,17 +194,17 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     });
   });
 
-  describe('openConflictSolverDialog', () => {
+  describe('controlDialog', () => {
     it('should open conflict solver dialog because there are some conflict groups', () => {
       initEventListener();
-      listener['openConflictSolverDialog']();
+      listener['controlDialog']();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     });
 
     it('should close conflict solver dialog because there are not any conflict groups', () => {
       initEventListener();
       groups$ = of([]);
-      listener['openConflictSolverDialog']();
+      listener['controlDialog']();
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
@@ -214,7 +214,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     it('should close conflict solver dialog because no configurator related route', () => {
       initEventListener();
       mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
-      listener['openConflictSolverDialog']();
+      listener['controlDialog']();
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON'
