@@ -53,7 +53,7 @@ context('Product Configuration - 2205', () => {
   });
 
   describe('Conflict Solver', () => {
-    it.only('should support the conflict solving process', () => {
+    it('should support the conflict solving process', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
