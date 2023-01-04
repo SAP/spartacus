@@ -13,3 +13,7 @@ export interface Translatable {
 export interface TranslatableParams {
   [param: string]: any;
 }
+
+export function isTranslatable(input: any): input is Translatable {
+  return typeof input !== 'string' && ('key' in input || 'raw' in input);
+}

@@ -13,7 +13,11 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ObjectComparisonUtils } from '../util/object-comparison-utils';
-import { Translatable, TranslatableParams } from './translatable';
+import {
+  isTranslatable,
+  Translatable,
+  TranslatableParams,
+} from './translatable';
 import { TranslationService } from './translation.service';
 
 @Pipe({ name: 'cxTranslate', pure: false })
@@ -41,15 +45,15 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       return '';
     }
 
-    if (this.isTranslatable(input) && input.raw) {
+    if (isTranslatable(input) && input.raw) {
       return input.raw;
     }
 
-    if (this.isTranslatable(input) && input.params) {
+    if (isTranslatable(input) && input.params) {
       options = { ...options, ...input.params };
     }
 
-    const key = this.isTranslatable(input) ? input.key : input;
+    const key = isTranslatable(input) ? input.key : input;
 
     this.translate(key, options);
     return this.translatedValue;
@@ -75,10 +79,6 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private markForCheck(value: string) {
     this.translatedValue = value;
     this.cd.markForCheck();
-  }
-
-  private isTranslatable(input: any): input is Translatable {
-    return typeof input !== 'string' && ('key' in input || 'raw' in input);
   }
 
   ngOnDestroy(): void {
