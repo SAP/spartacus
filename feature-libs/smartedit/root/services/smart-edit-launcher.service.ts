@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
@@ -23,38 +23,25 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
-  // TODO: make scriptLoader as required dependency and remove featureModules
-  constructor(
-    config: SmartEditConfig,
-    location: Location,
-    featureModules: FeatureModulesService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scriptLoader: ScriptLoader
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(
-    config: SmartEditConfig,
-    location: Location,
-    featureModules: FeatureModulesService
-  );
+  protected scriptLoader: ScriptLoader;
+
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
     /**
      * @deprecated since 5.2
      */
-    protected featureModules: FeatureModulesService,
-    @Optional() protected scriptLoader?: ScriptLoader
-  ) {}
+    protected featureModules: FeatureModulesService
+  ) {
+    this.scriptLoader = inject(ScriptLoader);
+  }
 
   /**
    * load webApplicationInjector.js first when Spartacus launched inside SmartEdit
    */
   load(): void {
     if (this.isLaunchedInSmartEdit()) {
-      this.scriptLoader?.embedScript({
+      this.scriptLoader.embedScript({
         src: 'assets/webApplicationInjector.js',
         params: undefined,
         attributes: {
