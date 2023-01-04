@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { delay, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -178,9 +178,11 @@ export class ConfiguratorGroupsService {
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group[]> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      //needed because we need have the form to react first on showConflictSolverDialogue
+      delay(0),
       map((configuration) => {
         let conflictGroups: Configurator.Group[] = [];
-        if (configuration.immediateConflictResolution) {
+        if (configuration.interactionState.showConflictSolverDialogue) {
           conflictGroups = configuration.flatGroups.filter(
             (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
           );

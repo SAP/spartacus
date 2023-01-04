@@ -58,7 +58,7 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
             .hasConflicts(routingData.owner)
             .pipe(take(1))
             .subscribe((hasConflicts) => {
-              if (hasConflicts && !routingData.skipConflicts) {
+              if (hasConflicts && !routingData.skipConflicts ) {
                 this.configuratorGroupsService.navigateToConflictSolver(
                   routingData.owner
                 );
