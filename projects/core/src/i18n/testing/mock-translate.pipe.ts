@@ -11,7 +11,7 @@ import { mockTranslate } from './mock-translate';
 @Pipe({ name: 'cxTranslate' })
 export class MockTranslatePipe implements PipeTransform {
   transform(
-    input: Translatable | string,
+    input: Translatable | string | string[],
     options: object = {}
   ): string | undefined {
     if (isTranslatable(input) && input.raw) {
