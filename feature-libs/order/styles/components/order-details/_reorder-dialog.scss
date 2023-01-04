@@ -1,34 +1,34 @@
 cx-reorder-dialog {
-    .cx-modal-container {
-        .cx-modal-content {
-          .modal-header{
-            align-items: center;
-            button {
-              bottom: 0;
-            }
-          }
-          .cx-dialog-body {
-            p {
-             .cx-cart-mod-entry-container {
-              display: block;
-              .alert-icon {  
-                vertical-align: initial;
-                cx-icon {
-                  padding-inline-end: 5px;
-                  &.success {
-                    color: var(--cx-color-success);
-                  }
-                  &.warning {
-                    color: var(--cx-color-warning);
-                  }
-                  &.error {
-                    color: var(--cx-color-danger);
-                  }
+  .cx-modal-container {
+    .cx-modal-content {
+      .modal-header {
+        align-items: center;
+        button {
+          bottom: 0;
+        }
+      }
+      .cx-dialog-body {
+        p {
+          .cx-cart-mod-entry-container {
+            display: block;
+            .alert-icon {
+              vertical-align: initial;
+              cx-icon {
+                padding-inline-end: 5px;
+                &.success {
+                  color: var(--cx-color-success);
+                }
+                &.warning {
+                  color: var(--cx-color-warning);
+                }
+                &.error {
+                  color: var(--cx-color-danger);
                 }
               }
-            } 
             }
           }
         }
       }
     }
+  }
+}

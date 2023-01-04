@@ -1,11 +1,10 @@
 <ng-container *ngIf="order$ | async as order">
   <div class="cx-nav row">
-    <div class="col-xs-12 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-md-10 col-lg-8">
       <button #element
-        class="btn btn-block btn-action" (click)="onReorderClick(order)">
+        class="btn btn-primary" (click)="onReorderClick(order)">
         Reorder
       </button>
     </div>
   </div>
 </ng-container>
-  

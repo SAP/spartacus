@@ -85,6 +85,12 @@ const moduleComponents = [
         AccountOrderDetailsShippingComponent: {
           component: OrderDetailShippingComponent,
         },
+        AccountOrderDetailsReorderComponent: {
+          component: OrderDetailReorderComponent,
+          data: {
+            enableReorder: true,
+          },
+        },
       },
       features: {
         consignmentTracking: '1.2',
