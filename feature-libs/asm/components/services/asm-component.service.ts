@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import {
   AsmDialogActionEvent,
+  AsmDialogActionType,
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
@@ -39,7 +40,7 @@ export class AsmComponentService {
     this.authService.logout();
   }
 
-  startCustomerEmulationSession(customerId: string): boolean {
+  startCustomerEmulationSession(customerId: string | undefined): boolean {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       return true;
@@ -57,7 +58,10 @@ export class AsmComponentService {
   }
 
   handleAsmDialogAction(event: AsmDialogActionEvent | string): void {
-    if (typeof event === 'object' && event.actionType === 'NAVIGATE') {
+    if (
+      typeof event === 'object' &&
+      event.actionType === AsmDialogActionType.NAVIGATE
+    ) {
       this.routingService.go(event.route);
     }
   }
