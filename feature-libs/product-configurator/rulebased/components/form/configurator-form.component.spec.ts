@@ -19,6 +19,7 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { productConfiguration } from '../../testing/configurator-test-data';
+import { ConfiguratorExpertModeService } from '@spartacus/product-configurator/rulebased';
 
 @Component({
   selector: 'cx-configurator-default-form',
@@ -100,7 +101,9 @@ class MockConfiguratorCommonsService {
     return isConfigurationLoadingObservable;
   }
 
-  hasConflicts(): void {}
+  hasConflicts(): Observable<boolean> {
+    return hasConfigurationConflictsObservable;
+  }
 }
 
 class MockConfiguratorGroupsService {
@@ -129,6 +132,16 @@ class MockConfiguratorGroupsService {
   navigateToFirstIncompleteGroup(): void {}
 
   isConflictGroupType() {}
+}
+
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+
+  getExpModeRequested() {}
+
+  setExpModeActive(): void {}
+
+  getExpModeActive() {}
 }
 
 function checkConfigurationObs(
@@ -204,6 +217,8 @@ let configuratorGroupsService: ConfiguratorGroupsService;
 let fixture: ComponentFixture<ConfiguratorFormComponent>;
 let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
+let configExpertModeService: ConfiguratorExpertModeService;
+let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 
 describe('ConfigurationFormComponent', () => {
   beforeEach(
@@ -227,6 +242,10 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
+          },
+          {
+            provide: ConfiguratorExpertModeService,
+            useClass: MockConfiguratorExpertModeService,
           },
         ],
       })
@@ -255,6 +274,134 @@ describe('ConfigurationFormComponent', () => {
     ).and.callThrough();
 
     isConfigurationLoadingObservable = of(false);
+
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
+    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+
+    hasConfigurationConflictsObservable = of(false);
+  });
+
+  describe('resolve issues navigation', () => {
+    it('should go to neither conflict solver nor first incomplete group', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+
+      createComponentWithData().ngOnInit();
+
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should go to conflict solver in case the router requires this - has conflicts', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true' },
+        },
+      });
+
+      hasConfigurationConflictsObservable = of(true);
+      createComponentWithData();
+
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should go to first incomplete group in case the router requires this - has conflicts, but should be skipped', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true', skipConflicts: 'true' },
+        },
+      });
+      hasConfigurationConflictsObservable = of(true);
+      createComponentWithData();
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true' },
+        },
+      });
+      createComponentWithData();
+
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call setExpMode method', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { expMode: 'false' },
+        },
+      });
+      createComponentWithData().ngOnInit();
+      expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
+        0
+      );
+    });
   });
 
   describe('Rendering', () => {

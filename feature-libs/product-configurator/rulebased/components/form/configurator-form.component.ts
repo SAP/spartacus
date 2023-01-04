@@ -14,6 +14,7 @@ import { map, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -21,8 +22,11 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorFormComponent implements OnInit {
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
+
   configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
+    this.routerData$.pipe(
       filter(
         (routerData) =>
           routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
@@ -35,30 +39,52 @@ export class ConfiguratorFormComponent implements OnInit {
       })
     );
 
-  currentGroup$: Observable<Configurator.Group> =
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
+  currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+    )
+  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   ngOnInit(): void {
-    this.configuration$.pipe(
-      take(1)).subscribe((configuration)=>{
-        if (configuration.immediateConflictResolution){
-          this.configuratorCommonsService.checkConflictSolverDialogue(configuration.owner);
-        }
-      })
+    this.routerData$.pipe(take(1)).subscribe((routingData) => {
+      //In case of resolving issues, check if the configuration contains conflicts,
+      //if not, check if the configuration contains missing mandatory fields and show the group
+      if (routingData.resolveIssues) {
+        this.configuratorCommonsService
+          .hasConflicts(routingData.owner)
+          .pipe(take(1))
+          .subscribe((hasConflicts) => {
+            if (hasConflicts && !routingData.skipConflicts) {
+              this.configuratorGroupsService.navigateToConflictSolver(
+                routingData.owner
+              );
+
+              //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
+            } else {
+              this.configuratorGroupsService.navigateToFirstIncompleteGroup(
+                routingData.owner
+              );
+            }
+          });
+      }
+      if (routingData.expMode) {
+        this.configExpertModeService?.setExpModeRequested(routingData.expMode);
+      }
+    });
   }
 
+  /**
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {Observable<boolean>} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
+   */
   isNavigationToGroupEnabled(): Observable<boolean> {
     return this.configuration$.pipe(
       map((configuration) => {
