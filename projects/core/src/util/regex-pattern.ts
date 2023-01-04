@@ -10,3 +10,12 @@ export const EMAIL_PATTERN =
 
 export const PASSWORD_PATTERN =
   /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/;
+
+export const MIN_ONE_UPPER_CASE_CHARACTER_PATTERN = /^(?=.*?[A-Z]).*$/;
+
+export const MIN_ONE_DIGIT_PATTERN = /^(?=.*?[0-9]).*$/;
+
+export const MIN_ONE_SPECIAL_CHARACTER_PATTERN =
+  /^(?=.*?[!@#$%^*()_\-+{};:.,]).*$/;
+
+export const MIN_SIX_CHARACTERS_PATTERN = /^.{6,}$/;

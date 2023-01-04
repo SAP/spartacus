@@ -45,6 +45,9 @@
                 formControlName="firstName"
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'register.firstName.label' | cxTranslate
+                }"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
             </label>
@@ -66,6 +69,9 @@
                 formControlName="lastName"
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'register.lastName.label' | cxTranslate
+                }"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
             </label>
@@ -87,6 +93,9 @@
                 formControlName="email"
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'register.emailAddress.label' | cxTranslate
+                }"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
             </label>
@@ -112,6 +121,9 @@
                 cxPasswordVisibilitySwitch
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'register.password.label' | cxTranslate
+                }"
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
             </label>
@@ -137,6 +149,9 @@
                 cxPasswordVisibilitySwitch
               />
               <cx-form-errors
+                [translationParams]="{
+                  label: 'register.confirmPassword.label' | cxTranslate
+                }"
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
             </label>
@@ -179,6 +194,9 @@
                   </a>
                 </span>
                 <cx-form-errors
+                  [translationParams]="{
+                    label: 'register.termsAndConditions' | cxTranslate
+                  }"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
               </label>

@@ -71,7 +71,12 @@
             class="form-control"
             formControlName="title"
           />
-          <cx-form-errors [control]="reviewForm.get('title')"></cx-form-errors>
+          <cx-form-errors
+            [translationParams]="{
+              label: 'productReview.reviewTitle' | cxTranslate
+            }"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -86,6 +91,9 @@
             formControlName="comment"
           ></textarea>
           <cx-form-errors
+            [translationParams]="{
+              label: 'productReview.writeYourComments' | cxTranslate
+            }"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
         </label>
@@ -107,7 +115,12 @@
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>
-          <cx-form-errors [control]="reviewForm.get('rating')"></cx-form-errors>
+          <cx-form-errors
+            [translationParams]="{
+              label: 'productReview.rating' | cxTranslate
+            }"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">

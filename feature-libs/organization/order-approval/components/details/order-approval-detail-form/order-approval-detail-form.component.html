@@ -39,6 +39,12 @@
             maxlength="255"
           ></textarea>
           <cx-form-errors
+            [translationParams]="{
+              label:
+                'orderApprovalDetails.form.comment_' +
+                  approvalDecision +
+                  '.label' | cxTranslate
+            }"
             [control]="approvalForm.get('comment')"
           ></cx-form-errors>
         </label>

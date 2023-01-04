@@ -47,9 +47,15 @@
           {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
         <cx-form-errors
+          [translationParams]="{
+            label: 'quickOrderCartForm.productCodeLabel' | cxTranslate
+          }"
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
         <cx-form-errors
+          [translationParams]="{
+            label: 'quickOrderCartForm.quantityLabel' | cxTranslate
+          }"
           [control]="quickOrderForm.get('quantity')"
         ></cx-form-errors>
       </div>

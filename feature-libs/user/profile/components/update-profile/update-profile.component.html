@@ -36,7 +36,12 @@
       }}"
       formControlName="firstName"
     />
-    <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+    <cx-form-errors
+      [translationParams]="{
+        label: 'updateProfileForm.firstName.label' | cxTranslate
+      }"
+      [control]="form.get('firstName')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -51,7 +56,12 @@
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
     />
-    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    <cx-form-errors
+      [translationParams]="{
+        label: 'updateProfileForm.lastName.label' | cxTranslate
+      }"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -66,7 +76,12 @@
       formControlName="customerId"
       readonly
     />
-    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+    <cx-form-errors
+      [translationParams]="{
+        label: 'updateProfileForm.customerId' | cxTranslate
+      }"
+      [control]="form.get('lastName')"
+    ></cx-form-errors>
   </label>
 
   <a

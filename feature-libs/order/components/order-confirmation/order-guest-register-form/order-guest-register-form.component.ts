@@ -28,7 +28,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     {
       password: [
         '',
-        [Validators.required, CustomFormValidators.passwordValidator],
+        [Validators.required, ...CustomFormValidators.passwordValidators],
       ],
       passwordconf: ['', Validators.required],
     },

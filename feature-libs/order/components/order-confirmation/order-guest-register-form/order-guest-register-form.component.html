@@ -25,6 +25,9 @@
             cxPasswordVisibilitySwitch
           />
           <cx-form-errors
+            [translationParams]="{
+              label: 'register.password.label' | cxTranslate
+            }"
             [control]="guestRegisterForm.get('password')"
           ></cx-form-errors>
         </label>
@@ -50,6 +53,9 @@
             cxPasswordVisibilitySwitch
           />
           <cx-form-errors
+            [translationParams]="{
+              label: 'register.confirmPassword.label' | cxTranslate
+            }"
             [control]="guestRegisterForm.get('passwordconf')"
           ></cx-form-errors>
         </label>

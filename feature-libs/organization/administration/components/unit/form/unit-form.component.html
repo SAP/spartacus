@@ -12,7 +12,12 @@
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgUnit.name' | cxTranslate
+        }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -26,7 +31,12 @@
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
       />
-      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgUnit.uid' | cxTranslate
+        }"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
     </label>
 
     <label formGroupName="approvalProcess" class="full-width">
@@ -45,6 +55,9 @@
       >
       </ng-select>
       <cx-form-errors
+        [translationParams]="{
+          label: 'orgUnit.approvalProcess' | cxTranslate
+        }"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
@@ -66,6 +79,9 @@
         >
         </ng-select>
         <cx-form-errors
+          [translationParams]="{
+            label: 'orgUnit.form.parentOrgUnit' | cxTranslate
+          }"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>
       </label>

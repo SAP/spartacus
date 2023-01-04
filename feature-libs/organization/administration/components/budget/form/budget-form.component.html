@@ -12,7 +12,12 @@
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgBudget.name' | cxTranslate
+        }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -26,7 +31,12 @@
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
       />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgBudget.code' | cxTranslate
+        }"
+        [control]="form.get('code')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -38,6 +48,7 @@
         [max]="form.get('endDate')?.value"
         [required]="true"
         (update)="form.get('endDate')?.updateValueAndValidity()"
+        label="orgBudget.startDate"
       ></cx-date-picker>
     </label>
 
@@ -48,6 +59,7 @@
         [min]="form.get('startDate')?.value"
         [required]="true"
         (update)="form.get('startDate')?.updateValueAndValidity()"
+        label="orgBudget.endDate"
       ></cx-date-picker>
     </label>
 
@@ -68,7 +80,12 @@
         [placeholder]="'orgBudget.currency' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgBudget.currency' | cxTranslate
+        }"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -81,7 +98,12 @@
         formControlName="budget"
         min="0"
       />
-      <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgBudget.amount' | cxTranslate
+        }"
+        [control]="form.get('budget')"
+      ></cx-form-errors>
     </label>
 
     <label
@@ -104,7 +126,12 @@
         [placeholder]="'orgBudget.businessUnits' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'orgBudget.businessUnits' | cxTranslate
+        }"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

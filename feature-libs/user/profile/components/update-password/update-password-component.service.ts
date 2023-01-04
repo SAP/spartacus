@@ -63,7 +63,7 @@ export class UpdatePasswordComponentService {
       oldPassword: new UntypedFormControl('', Validators.required),
       newPassword: new UntypedFormControl('', [
         Validators.required,
-        CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
       ]),
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },

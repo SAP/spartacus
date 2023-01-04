@@ -26,6 +26,9 @@
               >
               </ng-select>
               <cx-form-errors
+                [translationParams]="{
+                  label: 'addressForm.country' | cxTranslate
+                }"
                 [control]="addressForm.get('country.isocode')"
               ></cx-form-errors>
             </label>
@@ -72,6 +75,9 @@
             formControlName="firstName"
           />
           <cx-form-errors
+            [translationParams]="{
+              label: 'addressForm.firstName.label' | cxTranslate
+            }"
             [control]="addressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -89,6 +95,9 @@
             formControlName="lastName"
           />
           <cx-form-errors
+            [translationParams]="{
+              label: 'addressForm.lastName.label' | cxTranslate
+            }"
             [control]="addressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -105,7 +114,12 @@
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
             formControlName="line1"
           />
-          <cx-form-errors [control]="addressForm.get('line1')"></cx-form-errors>
+          <cx-form-errors
+            [translationParams]="{
+              label: 'addressForm.address1' | cxTranslate
+            }"
+            [control]="addressForm.get('line1')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -135,6 +149,9 @@
               formControlName="town"
             />
             <cx-form-errors
+              [translationParams]="{
+                label: 'addressForm.city.label' | cxTranslate
+              }"
               [control]="addressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -154,6 +171,9 @@
               formControlName="postalCode"
             />
             <cx-form-errors
+              [translationParams]="{
+                label: 'addressForm.zipCode.label' | cxTranslate
+              }"
               [control]="addressForm.get('postalCode')"
             ></cx-form-errors>
           </label>
@@ -185,6 +205,9 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  [translationParams]="{
+                    label: 'addressForm.state' | cxTranslate
+                  }"
                   [control]="addressForm.get('region.isocode')"
                 ></cx-form-errors>
               </label>
