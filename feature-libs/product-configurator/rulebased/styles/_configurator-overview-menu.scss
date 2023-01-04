@@ -1,7 +1,7 @@
 %cx-configurator-overview-menu {
   &:not(:empty) {
     ul {
-      list-style-type: none !important;
+      list-style-type: none;
       padding-inline-start: 0px;
       padding-block-start: 5px;
       padding-block-end: 0px;
@@ -10,7 +10,7 @@
       .cx-menu-group {
         padding-block-start: 10px;
         margin-inline-start: 20px;
-        list-style-type: none !important;
+        list-style-type: none;
 
         .cx-menu-item {
           display: flex;
