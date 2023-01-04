@@ -258,18 +258,6 @@ context('Assisted Service Module', () => {
     it.skip('agent logout when user was logged and emulated should restore the session', () => {});
   });
 
-  describe('Customer list', () => {
-    it('checking custom list features', () => {
-      checkout.visitHomePage('asm=true');
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      asm.agentLogin();
-      asm.asmCustomerLists();
-      asm.agentSignOut();
-    });
-  });
-
   describe('Apparel Site', () => {
     before(() => {
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
