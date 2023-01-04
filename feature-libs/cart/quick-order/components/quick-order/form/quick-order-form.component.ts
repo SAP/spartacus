@@ -163,7 +163,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   isResultsBoxOpen(): boolean {
     return this.winRef
-      ? !!this.winRef.document.querySelector(SEARCH_BOX_ACTIVE_CLASS)
+      ? !!this.winRef.document.querySelector(`.${SEARCH_BOX_ACTIVE_CLASS}`)
       : false;
   }
 
