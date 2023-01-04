@@ -114,7 +114,7 @@ function ensureReducerMapCreated() {
     reducerMap.set(
       ConfiguratorActions.CHECK_CONFLICT_DIALOGUE,
       handleActionCheckConflictSolverDialogue
-    );    
+    );
     reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
   }
 }
@@ -137,14 +137,11 @@ function handleActionUpdateConfigurationFinalizeSuccess(
 function checkConflictSolverDialogue(
   configuration: Configurator.Configuration
 ): void {
-  let showConflictSolverDialogue = false;
-  if (configuration.immediateConflictResolution && !configuration.consistent) {
-    showConflictSolverDialogue = true;
-    console.log('CHHI configuration requires showConflictSolverDialogue');
-    //TODO CHHI refactor
-  }
   configuration.interactionState.showConflictSolverDialogue =
-    showConflictSolverDialogue;
+    configuration.immediateConflictResolution && !configuration.consistent;
+  if (configuration.interactionState.showConflictSolverDialogue) {
+    configuration.interactionState.issueNavigationDone = true;
+  }
 }
 
 function handleActionDismissConflictSolverDialogue(
@@ -159,30 +156,22 @@ function handleActionDismissConflictSolverDialogue(
         showConflictSolverDialogue: false,
       },
     };
-
-    console.log('CHHI dismiss showConflictSolverDialogue');
     return result;
   }
 }
 
 function handleActionCheckConflictSolverDialogue(
-  state: Configurator.Configuration,
-  
+  state: Configurator.Configuration
 ): Configurator.Configuration | undefined {
-  console.log('CHHI check showConflictSolverDialogue');
   const result: Configurator.Configuration = {
     ...state,
-    interactionState:{
-      ...state.interactionState
-    }
- 
-    };
-    checkConflictSolverDialogue(result);
-  
+    interactionState: {
+      ...state.interactionState,
+    },
+  };
+  checkConflictSolverDialogue(result);
 
-  
-    return result;
-  
+  return result;
 }
 
 function handleActionUpdateCartEntry(
@@ -312,17 +301,16 @@ function handleSetCurrentGroup(
   action: ConfiguratorActions.SetCurrentGroup
 ): Configurator.Configuration | undefined {
   const newCurrentGroup: string = action.payload.currentGroup;
- 
- const result = {
-  ...state,
-  interactionState: {
-    ...state.interactionState,
-    currentGroup: newCurrentGroup,
-  },
-};
-checkConflictSolverDialogue(result);
-return result;
- 
+
+  const result = {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+      currentGroup: newCurrentGroup,
+    },
+  };
+  checkConflictSolverDialogue(result);
+  return result;
 }
 
 function handleSetMenuParentGroup(

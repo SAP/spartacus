@@ -69,8 +69,7 @@ export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
 export const DISMISS_CONFLICT_DIALOGUE =
   '[Configurator] Dismiss conflict dialogue';
 
-  export const CHECK_CONFLICT_DIALOGUE =
-  '[Configurator] Check conflict dialogue';  
+export const CHECK_CONFLICT_DIALOGUE = '[Configurator] Check conflict dialogue';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
