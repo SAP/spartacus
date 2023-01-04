@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, isDevMode, Optional } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -26,7 +26,11 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Product, ProductConnector } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  Product,
+  ProductConnector,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +42,9 @@ export class QuickOrderOrderEntriesContext
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productConnector: ProductConnector
+    protected productConnector: ProductConnector,
+    // TODO: (CXSPA-612) Remove FeatureConfigService for 6.0
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
@@ -48,32 +54,38 @@ export class QuickOrderOrderEntriesContext
   addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
     return merge(
       productsData.map((productData) =>
-        this.quickOrderService.canAdd(productData.productCode).pipe(
-          switchMap((canAdd) => {
-            if (canAdd) {
-              return this.productConnector.get(productData.productCode).pipe(
-                filter((product) => !!product),
-                tap((product) => {
-                  this.quickOrderService.addProduct(
-                    product,
-                    productData.quantity
-                  );
-                }),
-                map((product) => this.handleResults(product, productData)),
-                catchError((response: HttpErrorResponse) => {
-                  return of(
-                    this.handleErrors(response, productData.productCode)
-                  );
-                })
-              );
-            } else {
-              return of({
-                productCode: productData.productCode,
-                statusCode: ProductImportStatus.LIMIT_EXCEEDED,
-              });
-            }
-          })
-        )
+        this.quickOrderService
+          .canAdd(
+            productData.productCode,
+            // TODO: (CXSPA-612) Remove feature flag and use productsData parameter for 6.0
+            this.featureConfigService?.isLevel('5.2') ? productsData : undefined
+          )
+          .pipe(
+            switchMap((canAdd) => {
+              if (canAdd) {
+                return this.productConnector.get(productData.productCode).pipe(
+                  filter((product) => !!product),
+                  tap((product) => {
+                    this.quickOrderService.addProduct(
+                      product,
+                      productData.quantity
+                    );
+                  }),
+                  map((product) => this.handleResults(product, productData)),
+                  catchError((response: HttpErrorResponse) => {
+                    return of(
+                      this.handleErrors(response, productData.productCode)
+                    );
+                  })
+                );
+              } else {
+                return of({
+                  productCode: productData.productCode,
+                  statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                });
+              }
+            })
+          )
       )
     ).pipe(mergeAll(), take(productsData.length));
   }
