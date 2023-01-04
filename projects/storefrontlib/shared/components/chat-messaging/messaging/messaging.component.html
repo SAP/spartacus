@@ -11,18 +11,18 @@
       <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': message.rightAlign }"
+          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false}"
         >
-          <cx-avatar [message]="message"> </cx-avatar>
+          <cx-avatar [message]="message!"> </cx-avatar>
 
           <div>
             <label>{{
-              message.createdAt
-                | cxDate: messagingConfigs?.dateFormat ?? dateFormat
+             ( message?.createdAt
+                | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
             }}</label>
             <div
               [ngClass]="
-                message.rightAlign
+                (message?.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -32,18 +32,18 @@
                 'chatMessaging.informationLabel'
                   | cxTranslate
                     : {
-                        author: message.author,
-                        text: message.text,
+                        author: message?.author!,
+                        text: message?.text!,
                         date:
-                          message.createdAt
-                          | cxDate: messagingConfigs?.dateFormat ?? dateFormat
+                          (message?.createdAt
+                          | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
                       }
               "
             >
-              {{ message.text }}
+              {{ message?.text! }}
             </div>
             <a
-              *ngFor="let attachment of message.attachments"
+              *ngFor="let attachment of message?.attachments ?? []"
               class="cx-attachment"
               (click)="
                 triggerDownload(
