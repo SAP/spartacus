@@ -56,6 +56,10 @@ export const fontawesomeIconConfig: IconConfig = {
       ORDER: 'fas fa-clipboard-list',
       DOWNLOAD: 'fas fa-download',
       FILE: 'fas fa-file',
+      ARROW_LEFT: 'fas fa-arrow-left',
+      ARROW_RIGHT: 'fas  fa-arrow-right',
+      ARROW_DOWN: 'fas  fa-arrow-down',
+      ARROW_UP: 'fas  fa-arrow-up',
     },
     resources: [
       {

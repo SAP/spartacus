@@ -42,10 +42,6 @@
               cx-icon {
                 visibility: hidden;
               }
-
-              &:after {
-                //content: none !important;
-              }
             }
           }
 
@@ -53,18 +49,6 @@
             cx-icon {
               visibility: visible;
             }
-
-            /**
-            &:after {
-              align-self: center;
-              content: '';
-              border-radius: 0.5rem;
-              height: 0.5rem;
-              width: 0.5rem;
-              margin-inline-start: 0.5rem;
-              background-color: var(--cx-color-primary);
-            }
-            */
           }
 
           span {

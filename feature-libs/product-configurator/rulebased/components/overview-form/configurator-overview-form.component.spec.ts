@@ -545,4 +545,14 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toEqual('cx-group subgroup subgroupLevel3');
     });
   });
+
+  describe('createOvGroupId', () => {
+    it('should create a group id from its 1 parameter', () => {
+      expect(component['createOvGroupId'](undefined, 'B')).toBe('B-ovGroup');
+    });
+
+    it('should create a group id from its 2 parameters', () => {
+      expect(component['createOvGroupId']('A', 'B')).toBe(OV_GROUP_ID);
+    });
+  });
 });

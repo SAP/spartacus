@@ -55,6 +55,10 @@ export enum ICON_TYPE {
   ORDER = 'ORDER',
   DOWNLOAD = 'DOWNLOAD',
   FILE = 'FILE',
+  ARROW_LEFT = 'ARROW_LEFT',
+  ARROW_RIGHT = 'ARROW_RIGHT',
+  ARROW_DOWN = 'ARROW_DOWN',
+  ARROW_UP = 'ARROW_UP',
 }
 
 @Injectable({

@@ -30,6 +30,7 @@ export class ConfiguratorOverviewMenuComponent {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+  protected readonly TOP = 25;
 
   iconTypes = ICON_TYPE;
 
@@ -44,7 +45,7 @@ export class ConfiguratorOverviewMenuComponent {
     const intersectingCondition = (entry: IntersectionObserverEntry) => {
       return (
         entry.intersectionRatio > 0 &&
-        entry.target.getBoundingClientRect().top <= 25
+        entry.target.getBoundingClientRect().top <= this.TOP
       );
     };
     const groups =

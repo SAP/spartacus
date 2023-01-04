@@ -203,8 +203,10 @@ export class ConfiguratorOverviewFormComponent {
           idPrefix,
           groupId
         )
-      : idPrefix
-      ? idPrefix + '--' + groupId + '-ovGroup'
-      : groupId + '-ovGroup';
+      : this.createOvGroupId(idPrefix, groupId);
+  }
+
+  protected createOvGroupId(prefix: string, groupId: string): string {
+    return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
   }
 }
