@@ -4,19 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LanguageService } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -29,7 +20,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   templateUrl: './configurator-default-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorDefaultFormComponent implements OnInit {
+export class ConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;
@@ -40,44 +31,10 @@ export class ConfiguratorDefaultFormComponent implements OnInit {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected languageService: LanguageService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
-
-  ngOnInit(): void {
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(take(1))
-      .subscribe((routingData) => {
-        //In case of resolving issues, check if the configuration contains conflicts,
-        //if not, check if the configuration contains missing mandatory fields and show the group
-        if (routingData.resolveIssues) {
-          this.configuratorCommonsService
-            .hasConflicts(routingData.owner)
-            .pipe(take(1))
-            .subscribe((hasConflicts) => {
-              if (hasConflicts && !routingData.skipConflicts) {
-                this.configuratorGroupsService.navigateToConflictSolver(
-                  routingData.owner
-                );
-
-                //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
-              } else {
-                this.configuratorGroupsService.navigateToFirstIncompleteGroup(
-                  routingData.owner
-                );
-              }
-            });
-        }
-        if (routingData.expMode) {
-          this.configExpertModeService?.setExpModeRequested(
-            routingData.expMode
-          );
-        }
-      });
-  }
 
   /**
    * Updates a configuration, specified by the configuration form update event.
