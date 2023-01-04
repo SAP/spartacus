@@ -25,6 +25,8 @@ import {
   take,
 } from 'rxjs/operators';
 
+const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
+
 @Component({
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
@@ -68,7 +70,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     event?.preventDefault();
 
     if (this.isResultsBoxOpen()) {
-      this.toggleBodyClass('quick-order-searchbox-is-active', false);
+      this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
     }
 
     const product = this.form.get('product')?.value;
@@ -161,7 +163,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   isResultsBoxOpen(): boolean {
     return this.winRef
-      ? !!this.winRef.document.querySelector('.quick-order-searchbox-is-active')
+      ? !!this.winRef.document.querySelector(SEARCH_BOX_ACTIVE_CLASS)
       : false;
   }
 
@@ -170,7 +172,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   open(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', true);
+    this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, true);
   }
 
   // Return result list as HTMLElement array
@@ -187,7 +189,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected blurSuggestionBox(event: UIEvent): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+    this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
 
     if (event && event.target) {
       (<HTMLElement>event.target).blur();

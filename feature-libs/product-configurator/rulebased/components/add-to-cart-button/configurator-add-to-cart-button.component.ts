@@ -35,8 +35,10 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
+const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
+
 @Component({
-  selector: 'cx-configurator-add-to-cart-button',
+  selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -361,17 +363,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         )
         .subscribe((isIntersecting) => {
           if (isIntersecting) {
-            this.configUtils.changeStyling(
-              'cx-configurator-add-to-cart-button',
-              'position',
-              'sticky'
-            );
+            this.configUtils.changeStyling(CX_SELECTOR, 'position', 'sticky');
           } else {
-            this.configUtils.changeStyling(
-              'cx-configurator-add-to-cart-button',
-              'position',
-              'fixed'
-            );
+            this.configUtils.changeStyling(CX_SELECTOR, 'position', 'fixed');
           }
         })
     );

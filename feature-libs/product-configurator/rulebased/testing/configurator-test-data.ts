@@ -38,6 +38,7 @@ export const VALUE_02 = 'VALUE_02';
 export const VALUE_03 = 'VALUE_03';
 
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+export const DESCRIPTION_FOR = 'Description for ';
 
 export const mockRouterState: any = {
   state: {
@@ -67,7 +68,7 @@ const groupsWithoutIssues: Configurator.Group = {
 export const subGroupWith2Attributes: Configurator.Group = {
   id: GROUP_ID_4,
   configurable: true,
-  description: 'Description for ' + GROUP_ID_4,
+  description: DESCRIPTION_FOR + GROUP_ID_4,
   subGroups: [],
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -202,7 +203,7 @@ export const productConfigurationWithoutBasePrice: Configurator.Configuration =
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckbox],
         subGroups: [],
@@ -262,7 +263,7 @@ export const mockProductConfigurationWithoutTotalPrice: Configurator.Configurati
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckbox],
         subGroups: [],
@@ -322,7 +323,7 @@ export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.C
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckbox],
         subGroups: [],
@@ -382,7 +383,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckbox],
         subGroups: [],
@@ -433,7 +434,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_1,
+      description: DESCRIPTION_FOR + GROUP_ID_1,
       name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [attributeCheckbox],
@@ -442,14 +443,14 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_2,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_2,
+      description: DESCRIPTION_FOR + GROUP_ID_2,
       attributes: [attributeRadioButton],
       subGroups: [],
     },
     {
       id: GROUP_ID_3,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_3,
+      description: DESCRIPTION_FOR + GROUP_ID_3,
       attributes: [
         {
           name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
@@ -463,7 +464,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_5,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_5,
+      description: DESCRIPTION_FOR + GROUP_ID_5,
       attributes: [
         {
           name: 'ATTRIBUTE_5_STRING',
@@ -482,7 +483,7 @@ export const productConfiguration: Configurator.Configuration = {
         {
           id: GROUP_ID_6,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_6,
+          description: DESCRIPTION_FOR + GROUP_ID_6,
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           subGroups: [],
           attributes: [
@@ -496,12 +497,12 @@ export const productConfiguration: Configurator.Configuration = {
         },
         {
           id: GROUP_ID_7,
-          description: 'Description for ' + GROUP_ID_7,
+          description: DESCRIPTION_FOR + GROUP_ID_7,
           subGroups: [
             {
               id: GROUP_ID_8,
               configurable: false,
-              description: 'Description for ' + GROUP_ID_8,
+              description: DESCRIPTION_FOR + GROUP_ID_8,
               subGroups: [],
               attributes: [],
             },
@@ -513,12 +514,12 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_9,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_9,
+      description: DESCRIPTION_FOR + GROUP_ID_9,
       subGroups: [
         {
           id: GROUP_ID_10,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_10,
+          description: DESCRIPTION_FOR + GROUP_ID_10,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
