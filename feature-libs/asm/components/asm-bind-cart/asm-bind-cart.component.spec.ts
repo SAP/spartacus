@@ -2,7 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   GlobalMessageEntities,
@@ -16,9 +20,13 @@ import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
-class MockActiveCartService {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return EMPTY;
+  }
+
+  getActive(): Observable<Cart> {
+    return of({});
   }
 }
 
@@ -68,6 +76,10 @@ describe('AsmBindCartComponent', () => {
   let savedCartFacade: SavedCartFacade;
 
   const prevActiveCartId = '00001122';
+  const prevActiveCart: Cart = {
+    code: prevActiveCartId,
+    deliveryItemsQuantity: 1,
+  };
   const testCartId = '00001234';
 
   beforeEach(async () => {
@@ -100,6 +112,7 @@ describe('AsmBindCartComponent', () => {
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
+    spyOn(activeCartFacade, 'getActive').and.returnValue(of(prevActiveCart));
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
     spyOn(savedCartFacade, 'saveCart').and.callThrough();
@@ -143,6 +156,18 @@ describe('AsmBindCartComponent', () => {
       fixture.detectChanges();
 
       component.cartId.setValue(testCartId);
+    });
+
+    it('should bind cart without saving the active cart when active cart is empty', () => {
+      const emptyCart: Cart = { ...prevActiveCart, deliveryItemsQuantity: 0 };
+      (activeCartFacade.getActive as jasmine.Spy).and.returnValue(
+        of(emptyCart)
+      );
+
+      component.bindCartToCustomer();
+
+      expect(savedCartFacade.saveCart).not.toHaveBeenCalled();
+      expect(asmBindCartFacade.bindCart).toHaveBeenCalledWith(testCartId);
     });
 
     it('should open the bind cart dialog', () => {
