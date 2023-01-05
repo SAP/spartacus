@@ -115,8 +115,14 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         filter(([loading, valid]) => !loading && valid),
         tap(() => this.loading$.next(true)),
         concatMap(() =>
+          this.activeCartFacade.getActive().pipe(
+            map((cart) => cart.deliveryItemsQuantity ?? 0),
+            take(1)
+          )
+        ),
+        concatMap((cartItemCount) =>
           iif(
-            () => Boolean(this.activeCartId),
+            () => Boolean(this.activeCartId && cartItemCount),
             this.openDialog(this.activeCartId, anonymousCartId as string),
             this.simpleBindCart(anonymousCartId as string)
           )
