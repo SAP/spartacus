@@ -92,23 +92,18 @@ context('Product Configuration - 2205', () => {
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
       configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-      let isConflictLinkClicked =
-        configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
-      if (isConflictLinkClicked) {
-        configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
-        configurationVc.checkConflictDescriptionDisplayed(
-          Conflict_msg_gaming_console
-        );
+      configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
+      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.checkConflictDescriptionDisplayed(
+        Conflict_msg_gaming_console
+      );
 
-        // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
-        configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-        isConflictLinkClicked =
-          configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
-        if (isConflictLinkClicked) {
-          configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-          configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
-        }
-      }
+      // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
+      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
+      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
+      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+
       // finally navigate to overview page and check conflict behavior on it
       configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.clickAddToCartBtn();

@@ -249,28 +249,21 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  *
  * @param attribute - Attribute name
  */
-function clickOnConflictSolverLink(
-  attribute: string,
-  linkName: string
-): boolean {
+function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
-  let isAttached = isConflictLinkAttached(attribute);
+  isConflictLinkAttached(attribute);
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
     }).within(() => {
-      cy.log('Click ' + linkName);
-      if (isAttached) {
-        cy.get('a.cx-action-link')
-          .click()
-          .then(() => {
-            checkGhostAnimationNotDisplayed();
-          });
-        return true;
-      }
+      cy.log('Click conflict link ' + linkName);
+      cy.get('a.cx-action-link')
+        .click()
+        .then(() => {
+          checkGhostAnimationNotDisplayed();
+        });
     });
   });
-  return false;
 }
 
 /**
@@ -278,21 +271,14 @@ function clickOnConflictSolverLink(
  *
  * @param attribute - Attribute name
  */
-export function isConflictLinkAttached(attribute: string): boolean {
-  let isAttached = false;
+export function isConflictLinkAttached(attribute: string): void {
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
     }).within(() => {
-      cy.get('a.cx-action-link')
-        .wait(1000)
-        .then(($el) => {
-          isAttached = Cypress.dom.isAttached($el);
-          cy.log('Is element attached to the DOM? ' + isAttached);
-        });
+      cy.get('a.cx-action-link').wait(1000);
     });
   });
-  return isAttached;
 }
 
 /**
@@ -300,9 +286,9 @@ export function isConflictLinkAttached(attribute: string): boolean {
  *
  * @param attribute - Attribute name
  */
-export function clickOnViewInConfiguration(attribute: string): boolean {
+export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  return clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
 }
 
 /**
@@ -344,12 +330,9 @@ export function checkConflictLinkDisplayed(
  *
  * @param attribute - Attribute name
  */
-export function clickOnConflictDetected(attribute: string): boolean {
+export function clickOnConflictDetected(attribute: string): void {
   cy.log('Click Conflict Detected - View Details Link');
-  return clickOnConflictSolverLink(
-    attribute,
-    'Conflict Detected - View Details Link'
-  );
+  clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
 }
 
 /**
