@@ -6,9 +6,14 @@
  */
 
 import { Component } from '@angular/core';
+import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
   selector: 'cx-pickup-in-store-details-review',
   templateUrl: './review-pickup-in-store-details.component.html',
 })
-export class PickupInStoreDetailsReviewComponent {}
+export class PickupInStoreDetailsReviewComponent {
+  deliveryPointsOfService$ =
+    this.deliveryPointsService.getDeliveryPointsOfService();
+  constructor(protected deliveryPointsService: DeliveryPointsService) {}
+}

@@ -7,32 +7,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  MediaModule,
-  OutletModule,
-} from '@spartacus/storefront';
-import { StoreModule } from '../../presentational/store';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { PickUpItemsDetailsModule } from '../../presentational';
 import { CheckoutPickUpInStoreDetailsComponent } from './checkout-pickup-in-store-details.component';
 @NgModule({
   imports: [
-    CardModule,
-    StoreModule,
     CommonModule,
-    MediaModule,
-    I18nModule,
-    IconModule,
-    OutletModule,
-    RouterModule,
-    UrlModule,
+    PickUpItemsDetailsModule,
     ConfigModule.withConfig({
       cmsComponents: {
         PickupInStoreDetails: {

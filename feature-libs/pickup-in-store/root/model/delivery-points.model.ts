@@ -13,3 +13,9 @@ export type DeliveryPointOfServiceItems = {
   storeDetails: PointOfService;
   value: Array<OrderEntry>;
 };
+
+export type DeliveryPointOfService = {
+  name: string;
+  value: Array<OrderEntry>;
+  storeDetails: PointOfService;
+};

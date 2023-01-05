@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { I18nTestingModule, UrlModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { PickUpItemsDetailsModule } from '../../presentational';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 import { DeliveryPointsServiceMock } from '../../services/delivery-points.service.spec';
 import { CheckoutPickUpInStoreDetailsComponent } from './checkout-pickup-in-store-details.component';
@@ -14,13 +12,7 @@ describe('CheckoutPickUpInStoreDetailsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CheckoutPickUpInStoreDetailsComponent],
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        IconTestingModule,
-        RouterModule,
-        UrlModule,
-      ],
+      imports: [CommonModule, PickUpItemsDetailsModule],
       providers: [
         {
           provide: DeliveryPointsService,

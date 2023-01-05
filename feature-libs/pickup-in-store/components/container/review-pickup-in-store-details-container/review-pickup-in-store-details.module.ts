@@ -7,19 +7,15 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
-import { StoreModule } from '../../presentational/store';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { PickUpItemsDetailsModule } from '../../presentational';
 import { PickupInStoreDetailsReviewComponent } from './review-pickup-in-store-details.component';
-import { CheckoutPickUpInStoreDetailsModule } from '../checkout-pickup-in-store-details/checkout-pickup-in-store-details.module';
 @NgModule({
   exports: [PickupInStoreDetailsReviewComponent],
   declarations: [PickupInStoreDetailsReviewComponent],
   imports: [
-    StoreModule,
     CommonModule,
-    I18nModule,
-    IconModule,
+    PickUpItemsDetailsModule,
     ConfigModule.withConfig({
       cmsComponents: {
         PickupInStoreDetailsReviewComponent: {
@@ -27,7 +23,6 @@ import { CheckoutPickUpInStoreDetailsModule } from '../checkout-pickup-in-store-
         },
       },
     } as CmsConfig),
-    CheckoutPickUpInStoreDetailsModule,
   ],
 })
 export class PickupInStoreDetailsReviewModule {}

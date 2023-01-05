@@ -75,6 +75,7 @@ export class PickupLocationEffect {
             )
             .pipe(
               map(() => {
+                /** Will be refactored there is a query pending with matausz for reloading cart race condition */
                 if (page === 'CheckoutDeliveryMode') {
                   return PickupLocationActions.DeliveryModeSetPickupOptionToDeliverySuccess();
                 } else {

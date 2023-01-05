@@ -1,3 +1,4 @@
-<cx-checkout-pick-up-in-store-details
-  [displayLocation]="'review'"
-></cx-checkout-pick-up-in-store-details>
+<cx-pick-up-in-store-items-details
+  [itemsDetails]="deliveryPointsOfService$ | async"
+  [showEdit]="true"
+></cx-pick-up-in-store-items-details>

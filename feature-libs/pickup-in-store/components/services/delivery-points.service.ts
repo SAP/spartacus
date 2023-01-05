@@ -7,8 +7,12 @@
 
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
-import { combineLatest, iif, of } from 'rxjs';
+import { PointOfService } from '@spartacus/core';
+import {
+  DeliveryPointOfService,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
+import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 /**
@@ -25,7 +29,7 @@ export class DeliveryPointsService {
 
   /*
         deliveryPointsOfService$ comprises arrays within an array.
-        It has an array of stores, and then for each store, and array of products to be collected from that store.
+        It has an array of stores, and then for each store, an array of products to be collected from that store.
         We need to get data from two diferent services. One of the services has the product data, ie the prodcuts to be picked up from in store.
         This data only has the store name, no other information about the store eg address etc.
         We then use another service to get data about the store. This service has two methods that must be called.
@@ -40,18 +44,19 @@ export class DeliveryPointsService {
         Some of the below involves turning array data into lookup object data simply because this is easier to deal with
 
     */
-  getDeliveryPointsOfService() {
+  getDeliveryPointsOfService(): Observable<Array<DeliveryPointOfService>> {
     return this.activeCartFacade.getActive().pipe(
       filter((cart) => !!cart.entries && !!cart.entries.length),
       map((cart): Array<OrderEntry> => cart.entries as Array<OrderEntry>),
-      map((entries) =>
-        entries.filter((entry) => !!entry.deliveryPointOfService)
+      map(
+        (entries): Array<OrderEntry> =>
+          entries.filter((entry) => !!entry.deliveryPointOfService)
       ),
       switchMap((entries) =>
         iif(
           () => !!entries.length,
           of(entries).pipe(
-            map((entries) => {
+            map((entries): Array<OrderEntry> => {
               const COPY = [...entries];
               COPY.sort(
                 (a: OrderEntry, b: OrderEntry) =>
@@ -62,38 +67,38 @@ export class DeliveryPointsService {
               return COPY;
             }),
             map((sortedArray) =>
-              sortedArray.reduce((accumulator: Record<string, any>, value) => {
-                const DELIVERY_POINT_OF_SERVICE: string = value
-                  .deliveryPointOfService?.name as string;
-                const existingValue: Array<OrderEntry> = accumulator[
-                  DELIVERY_POINT_OF_SERVICE
-                ]
-                  ? accumulator[DELIVERY_POINT_OF_SERVICE]
-                  : [];
-                return {
-                  ...accumulator,
-                  [DELIVERY_POINT_OF_SERVICE]: [...existingValue, value],
-                };
-              }, {})
+              sortedArray.reduce(
+                (accumulator: Record<string, Array<OrderEntry>>, value) => {
+                  const DELIVERY_POINT_OF_SERVICE: string = value
+                    .deliveryPointOfService?.name as string;
+                  const existingValue: Array<OrderEntry> = accumulator[
+                    DELIVERY_POINT_OF_SERVICE
+                  ]
+                    ? accumulator[DELIVERY_POINT_OF_SERVICE]
+                    : [];
+                  return {
+                    ...accumulator,
+                    [DELIVERY_POINT_OF_SERVICE]: [...existingValue, value],
+                  };
+                },
+                {}
+              )
             ),
-            map((deliveryPointOfServiceMap) =>
-              Object.keys(deliveryPointOfServiceMap).map((key) => ({
-                name: key,
-                value: deliveryPointOfServiceMap[key],
-              }))
-            ),
-            tap(
+            map(
               (
-                deliveryPointOfServiceMap: Array<{
-                  name: string;
-                  value: Array<Object>;
-                }>
-              ) =>
                 deliveryPointOfServiceMap
-                  .map((deliveryPointOfService) => deliveryPointOfService.name)
-                  .forEach((name) =>
-                    this.pickupLocationsSearchService.loadStoreDetails(name)
-                  )
+              ): Array<{ name: string; value: Array<OrderEntry> }> =>
+                Object.keys(deliveryPointOfServiceMap).map((key) => ({
+                  name: key,
+                  value: deliveryPointOfServiceMap[key],
+                }))
+            ),
+            tap((deliveryPointOfServiceMap) =>
+              deliveryPointOfServiceMap
+                .map((deliveryPointOfService) => deliveryPointOfService.name)
+                .forEach((name) =>
+                  this.pickupLocationsSearchService.loadStoreDetails(name)
+                )
             ),
             mergeMap((deliveryPointOfServiceMap) =>
               combineLatest(
@@ -104,19 +109,27 @@ export class DeliveryPointsService {
                   )
               ).pipe(
                 map((storeDetails) => {
-                  const STORE_DETAILS_MAP: Record<string, any> = storeDetails
+                  const STORE_DETAILS_MAP = storeDetails
                     .filter((_storeDetails) => !!_storeDetails)
                     .reduce(
-                      (accumulator, value) => ({
+                      (accumulator, value): Record<string, PointOfService> => ({
                         ...accumulator,
                         [value.name as string]: value,
                       }),
-                      {}
+                      {} as Record<string, PointOfService>
                     );
-                  return deliveryPointOfServiceMap.map((store) => ({
-                    ...store,
-                    storeDetails: STORE_DETAILS_MAP[store.name as string],
-                  }));
+                  return deliveryPointOfServiceMap.map(
+                    (
+                      store
+                    ): {
+                      name: string;
+                      value: Array<OrderEntry>;
+                      storeDetails: PointOfService;
+                    } => ({
+                      ...store,
+                      storeDetails: STORE_DETAILS_MAP[store.name as string],
+                    })
+                  );
                 })
               )
             )
