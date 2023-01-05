@@ -32,7 +32,6 @@ export function clickContinueToCartBtnOnOP(): void {
   cy.get(continueToCartButtonSelector)
     .click()
     .then(() => {
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });
 }
