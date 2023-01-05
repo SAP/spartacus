@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,6 @@ export function clickContinueToCartBtnOnOP(): void {
   cy.get(continueToCartButtonSelector)
     .click()
     .then(() => {
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });
 }

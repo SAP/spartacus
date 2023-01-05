@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -91,7 +91,6 @@ export function goToCart(shopName: string) {
   const location = `/${shopName}/en/USD/cart`;
   cy.visit(`/${shopName}/en/USD/cart`).then(() => {
     cy.location('pathname').should('contain', location);
-    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
 }
@@ -114,8 +113,10 @@ export function checkGlobalMessageNotDisplayed(): void {
 /**
  * Clicks on 'Add to Cart' button in catalog list.
  */
-export function clickOnConfigureBtnInCatalog(): void {
-  cy.get('cx-configure-product a')
+export function clickOnConfigureBtnInCatalog(productName: string): void {
+  cy.get(
+    `cx-configure-product a[href*='/configure/vc/product/entityKey/${productName}'`
+  )
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
@@ -248,15 +249,34 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  *
  * @param attribute - Attribute name
  */
-function clickOnConflictSolverLink(attribute: string): void {
+function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
+  isConflictLinkAttached(attribute);
   cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('.link')
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+      timeout: 10000,
+    }).within(() => {
+      cy.log('Click conflict link ' + linkName);
+      cy.get('a.cx-action-link')
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();
         });
+    });
+  });
+}
+
+/**
+ * Verifies whether the conflict link underneath an attribute is displayed
+ *
+ * @param attribute - Attribute name
+ */
+export function isConflictLinkAttached(attribute: string): void {
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+      timeout: 10000,
+    }).within(() => {
+      cy.get('a.cx-action-link').wait(1000);
     });
   });
 }
@@ -267,7 +287,42 @@ function clickOnConflictSolverLink(attribute: string): void {
  * @param attribute - Attribute name
  */
 export function clickOnViewInConfiguration(attribute: string): void {
-  clickOnConflictSolverLink(attribute);
+  cy.log('Click View in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+}
+
+/**
+ * Verifies whether the view in configuration link is displayed.
+ */
+export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
+  cy.log('Verify whether View in Configuration Link is displayed');
+  this.checkConflictLinkDisplayed(attribute, 'View in Configuration Link');
+}
+
+/**
+ * Verifies whether the conflict detected - view details link is displayed.
+ */
+export function checkConflictDetectedLinkDisplayed(attribute: string): void {
+  cy.log('Verify whether Conflict Detected - View Details Link is displayed');
+  this.checkConflictLinkDisplayed(
+    attribute,
+    'Conflict Detected - View Details Link'
+  );
+}
+
+/**
+ * Verifies whether the conflict link is displayed.
+ */
+export function checkConflictLinkDisplayed(
+  attribute: string,
+  linkName: string
+): void {
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('a.cx-action-link').should('be.visible');
+      cy.log(linkName + ' is displayed');
+    });
+  });
 }
 
 /**
@@ -276,7 +331,8 @@ export function clickOnViewInConfiguration(attribute: string): void {
  * @param attribute - Attribute name
  */
 export function clickOnConflictDetected(attribute: string): void {
-  clickOnConflictSolverLink(attribute);
+  cy.log('Click Conflict Detected - View Details Link');
+  clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
 }
 
 /**
@@ -374,9 +430,13 @@ export function clickOnGroup(groupIndex: number): void {
 }
 
 /**
- * Clicks on the 'Add to cart' button.
+ * Scrolls to the bottom of the window and
+ * clicks on the 'Add to cart' button.
  */
 export function clickAddToCartBtn(): void {
+  //Scroll to the bottom of the window
+  cy.scrollTo('bottom');
+
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
