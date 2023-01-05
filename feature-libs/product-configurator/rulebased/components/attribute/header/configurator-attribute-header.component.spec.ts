@@ -9,11 +9,14 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-  ConfiguratorUISettingsConfig,
-} from '@spartacus/product-configurator/rulebased';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import {
   IconLoaderService,
   IconModule,
@@ -23,11 +26,6 @@ import { cold } from 'jasmine-marbles';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../../testing/configurator-test-data';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {

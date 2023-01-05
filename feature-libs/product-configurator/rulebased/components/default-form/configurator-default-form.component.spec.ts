@@ -21,11 +21,9 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import {
-  ConfigFormUpdateEvent,
-  ConfiguratorConflictSuggestionComponent,
-  ConfiguratorStorefrontUtilsService,
-} from '@spartacus/product-configurator/rulebased';
+import { ConfigFormUpdateEvent } from './configurator-default-form.event';
+import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';

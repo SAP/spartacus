@@ -14,7 +14,6 @@ import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../default-form/configurator-default-form.event';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -44,20 +43,6 @@ export class ConfiguratorConflictSolverDialogComponent
   ): void {
     this.conflictGroups$ = conflictGroups;
     this.routerData$ = routerData;
-  }
-
-  /**
-   * Updates a configuration, specified by the configuration form update event
-   * that contains information about a configuration owner key, a changed attribute and an update type.
-   *
-   * @param {ConfigFormUpdateEvent} event - ConfigFormUpdateEvent
-   */
-  updateConfiguration(event: ConfigFormUpdateEvent): void {
-    this.configuratorCommonsService.updateConfiguration(
-      event.ownerKey,
-      event.changedAttribute,
-      event.updateType
-    );
   }
 
   ngOnInit(): void {

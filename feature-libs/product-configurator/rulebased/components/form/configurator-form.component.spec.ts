@@ -19,7 +19,7 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { productConfiguration } from '../../testing/configurator-test-data';
-import { ConfiguratorExpertModeService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-default-form',

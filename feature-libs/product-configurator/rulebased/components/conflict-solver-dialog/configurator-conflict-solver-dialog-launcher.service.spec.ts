@@ -9,10 +9,8 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorGroupsService,
-} from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from '../../core/model/configurator.model';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { cold } from 'jasmine-marbles';

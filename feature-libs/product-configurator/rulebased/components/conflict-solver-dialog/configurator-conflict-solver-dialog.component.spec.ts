@@ -9,11 +9,8 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  ConfigFormUpdateEvent,
-  Configurator,
-  ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -180,29 +177,6 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-default-form'
-      );
-    });
-  });
-
-  describe('updateConfiguration', () => {
-    it('should update a configuration through the facade layer ', () => {
-      const event: ConfigFormUpdateEvent = {
-        changedAttribute: {
-          name: 'ATT_01',
-        },
-        ownerKey: 'product/TEST_PRODUCT',
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      };
-
-      component.updateConfiguration(event);
-
-      expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
-      expect(
-        configuratorCommonsService.updateConfiguration
-      ).toHaveBeenCalledWith(
-        event.ownerKey,
-        event.changedAttribute,
-        event.updateType
       );
     });
   });
