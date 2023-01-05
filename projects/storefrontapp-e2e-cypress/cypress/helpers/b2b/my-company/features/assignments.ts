@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -175,17 +175,17 @@ export function assignmentsTest(config: MyCompanyConfig) {
         });
       }
 
-      if (subConfig.rolesConfig) {
-        it('should modify user roles', () => {
+      if (subConfig.rolesAndRightsConfig) {
+        it('should modify user roles and rights', () => {
           cy.get('cx-org-sub-list cx-table tr td')
-            .contains(ASSIGNMENT_LABELS.ROLES)
+            .contains(ASSIGNMENT_LABELS.ROLES_AND_RIGHTS)
             .click();
 
           checkRoles();
           checkRoles(true);
 
           function checkRoles(uncheck?: boolean) {
-            subConfig.rolesConfig.rows.forEach((row) => {
+            subConfig.rolesAndRightsConfig.rows.forEach((row) => {
               cy.get('cx-org-card cx-view[position="3"] label span')
                 .contains(row.updateValue)
                 .parent()

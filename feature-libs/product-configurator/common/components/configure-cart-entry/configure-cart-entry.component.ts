@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Params } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -98,6 +99,18 @@ export class ConfigureCartEntryComponent {
   getResolveIssuesA11yDescription(): string | undefined {
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
     return !this.readOnly && this.msgBanner ? errorMsgId : undefined;
+  }
+
+  /**
+   * Compiles query parameters for the router link. 'resolveIssues' is only set if the component is
+   * rendered in the context of the message banner, and if issues exist at all
+   * @returns Query parameters
+   */
+  getQueryParams(): Params {
+    return {
+      forceReload: true,
+      resolveIssues: this.msgBanner && this.hasIssues(),
+    };
   }
 
   constructor(

@@ -33,6 +33,8 @@
           "Customer-Ticketing",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
@@ -41,6 +43,7 @@
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
@@ -137,6 +140,14 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
             "value": "Account-Summary",
             "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
           },
@@ -167,6 +178,10 @@
           {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",

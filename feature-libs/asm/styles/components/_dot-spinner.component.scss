@@ -15,6 +15,9 @@
     &:nth-child(1) {
       animation-delay: -0.2s;
     }
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
 
     @keyframes spinner-dots-pulse {
       0%,

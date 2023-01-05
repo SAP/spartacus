@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,11 +70,16 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
   ],
 };
 
-export const userRolesConfig: MyCompanyConfig = {
+export const userRolesAndRightsConfig: MyCompanyConfig = {
   rows: [
     {
       formLabel: 'Roles',
       updateValue: 'Manager',
+      inputType: INPUT_TYPE.CHECKBOX,
+    },
+    {
+      formLabel: 'Rights',
+      updateValue: 'View Unit-Level Orders',
       inputType: INPUT_TYPE.CHECKBOX,
     },
   ],
@@ -205,7 +210,7 @@ export const unitConfig: MyCompanyConfig = {
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
       createConfig: userConfig,
-      rolesConfig: userRolesConfig,
+      rolesAndRightsConfig: userRolesAndRightsConfig,
     },
     {
       name: 'Approvers',

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -155,7 +155,9 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   cy.wait('@cart_page').its('response.statusCode').should('eq', 200);
 
-  checkProductInCart(products[0]);
+  return checkProductInCart(
+    products.find((product) => product.code === productCode)
+  );
 }
 
 export function checkBasicCart() {

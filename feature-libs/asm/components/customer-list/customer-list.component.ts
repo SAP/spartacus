@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
 @Component({
@@ -70,7 +70,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   customerSearchLoading$: Observable<boolean>;
 
+  customerSearchError$: Observable<boolean>;
+
   pageSize: number;
+
+  listsError = false;
+
+  listsEmpty = false;
 
   protected teardown: Subscription = new Subscription();
 
@@ -91,11 +97,21 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.customerListConfig = this.asmConfig?.asm?.customerList;
 
     this.customerListsPage$ =
-      this.asmCustomerListFacade.getCustomerLists()?.pipe(
+      this.asmCustomerListFacade.getCustomerListsState().pipe(
+        tap((state) => (this.listsError = !!state.error)),
+        map((state) => {
+          if (state?.data?.userGroups?.length === 0) {
+            this.listsEmpty = true;
+            return undefined;
+          } else {
+            return state.data;
+          }
+        }),
+        distinctUntilChanged(),
         tap((result) => {
           // set the first value of this.customerListsPage$ to be selected
           if (!this.selectedUserGroupId) {
-            this.selectedUserGroupId = result?.userGroups?.[0].uid;
+            this.selectedUserGroupId = result?.userGroups?.[0]?.uid;
             this.sorts = null;
             this.fetchCustomers();
           }
@@ -107,6 +123,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       .pipe(tap((loading) => (this.loaded = !loading)));
     this.teardown.add(this.customerSearchLoading$.subscribe());
     this.teardown.add(() => this.asmService.customerListCustomersSearchReset());
+
+    this.customerSearchError$ =
+      this.asmService.getCustomerListCustomersSearchResultsError();
 
     this.customerSearchPage$ = this.asmService
       .getCustomerListCustomersSearchResults()
