@@ -26,7 +26,7 @@ import {
   property,
   SortOrder,
   whenType,
-} from 'feature-libs/asm/core/utils/sort';
+} from '@spartacus/asm/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
