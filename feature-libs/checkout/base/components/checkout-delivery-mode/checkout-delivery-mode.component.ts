@@ -79,6 +79,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   readonly CartOutlets = CartOutlets;
 
   shippedEntries$: Observable<OrderEntry[]>;
+  hasShippedEntries: boolean;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -97,7 +98,9 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   );
 
   get deliveryModeInvalid(): boolean {
-    return this.mode.controls['deliveryModeId'].invalid;
+    return this.hasShippedEntries
+      ? this.mode.controls['deliveryModeId'].invalid
+      : false;
   }
 
   constructor(
@@ -111,13 +114,14 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.shippedEntries$ = this.activeCartFacade
-      .getEntries()
-      .pipe(
-        map((entries) =>
-          entries.filter((entry) => entry.deliveryPointOfService === undefined)
-        )
-      );
+    this.shippedEntries$ = this.activeCartFacade.getEntries().pipe(
+      map((entries) =>
+        entries.filter((entry) => entry.deliveryPointOfService === undefined)
+      ),
+      tap(
+        (shippedEntries) => (this.hasShippedEntries = shippedEntries.length > 0)
+      )
+    );
   }
 
   changeMode(code: string): void {
@@ -130,9 +134,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.mode.valid && this.mode.value) {
-      this.checkoutStepService.next(this.activatedRoute);
-    }
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {
