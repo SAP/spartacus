@@ -1,15 +1,20 @@
+cx-schedule-lines {
+    .cx-code {
+        padding-top: 0px;
+    }
+}
+
 .cx-schedule-line-info {
     display: flex;
 
     .cx-label{
         font-weight: var(--cx-font-weight-normal);
+        font-size: var(--cx-font-size, 1rem);
         padding-inline-end: 0.188rem;
     }
 
-    @include media-breakpoint-only(lg) {
-        .cx-value{
-            padding-inline-start: 1em;
-        }
+    .cx-value {
+        padding-inline-start: 0em;
     }
 
     @include media-breakpoint-down(sm) {
