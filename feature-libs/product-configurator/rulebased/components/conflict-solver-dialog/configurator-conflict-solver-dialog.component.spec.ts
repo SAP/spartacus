@@ -9,11 +9,9 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  ConfigFormUpdateEvent,
-  Configurator,
-  ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
+import { ConfigFormUpdateEvent } from '../default-form/configurator-default-form.event';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

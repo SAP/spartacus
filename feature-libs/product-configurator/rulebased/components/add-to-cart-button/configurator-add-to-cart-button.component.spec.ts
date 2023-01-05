@@ -19,13 +19,13 @@ import { OrderHistoryFacade } from 'feature-libs/order/root/facade';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorStorefrontUtilsService } from '../service';
-import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
