@@ -416,7 +416,9 @@ export function testCustomerEmulation() {
 }
 
 export function bindCart(options?: {
+  /** Providing an action expects dialog to appear */
   dialogAction?: 'replace' | 'cancel';
+  /** Expected cart ID for save request */
   previousCart?: string;
 }) {
   const bindingRequest = listenForCartBindingRequest();
