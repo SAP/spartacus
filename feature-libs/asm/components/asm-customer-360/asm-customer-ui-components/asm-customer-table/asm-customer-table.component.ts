@@ -73,18 +73,18 @@ export class AsmCustomerTableComponent implements OnChanges {
     }
   }
 
-  sortEntriesAndUpdatePages(property: string): void {
+  sortEntriesAndUpdatePages(sortProperty: string): void {
     const currentProperty = this.sortProperty;
 
     let newSortOrder: SortOrder;
-    if (property !== currentProperty) {
+    if (sortProperty !== currentProperty) {
       newSortOrder = SortOrder.ASC;
     } else {
       newSortOrder =
         this.listSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     }
 
-    this.sortProperty = property;
+    this.sortProperty = sortProperty;
     this.listSortOrder = newSortOrder;
 
     this.entries = this.sortEntries(

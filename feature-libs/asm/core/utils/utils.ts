@@ -16,7 +16,7 @@ export function getAsmDialogActionEvent(
   action: AsmDialogActionType,
   route?: UrlCommand
 ): AsmDialogActionEvent {
-  let event: AsmDialogActionEvent = {
+  const event: AsmDialogActionEvent = {
     actionType: action,
     selectedUser: customerEntry,
     route: route,

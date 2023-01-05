@@ -16,6 +16,7 @@ import {
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
   USER_ACCOUNT_FEATURE_NAME,
@@ -82,6 +83,8 @@ describe('dependency-util', () => {
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
       ]);
@@ -99,6 +102,7 @@ describe('dependency-util', () => {
         SPARTACUS_USER,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_CHECKOUT,
         SPARTACUS_ASM,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -114,6 +118,8 @@ describe('dependency-util', () => {
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
       ]);

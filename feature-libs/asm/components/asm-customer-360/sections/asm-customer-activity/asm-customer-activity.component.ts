@@ -105,49 +105,45 @@ export class AsmCustomerActivityComponent implements OnInit {
           );
         }
 
-        if (savedCarts) {
-          savedCarts.forEach((cart) => {
-            entries.push({
-              typeId: 'savedCart',
-              id: cart.code,
-              created: cart?.saveTime
-                ? Date.parse(String(cart?.saveTime))
-                : undefined,
-              category: '',
-            });
-            this.saveLocalization(
-              cart.code,
-              'type',
-              'asm.customer360.activity.savedCart'
-            );
-            this.saveLocalization(
-              cart.code,
-              'description',
-              'asm.customer360.activity.numberOfCartItems',
-              {
-                count: cart.totalItems ?? 0,
-              }
-            );
+        savedCarts?.forEach((cart) => {
+          entries.push({
+            typeId: 'savedCart',
+            id: cart.code,
+            created: cart?.saveTime
+              ? Date.parse(String(cart?.saveTime))
+              : undefined,
+            category: '',
           });
-        }
+          this.saveLocalization(
+            cart.code,
+            'type',
+            'asm.customer360.activity.savedCart'
+          );
+          this.saveLocalization(
+            cart.code,
+            'description',
+            'asm.customer360.activity.numberOfCartItems',
+            {
+              count: cart.totalItems ?? 0,
+            }
+          );
+        });
         // Notes: order history order doesn't have totalItems
-        if (orderHistory.orders?.length) {
-          orderHistory.orders.forEach((order) => {
-            entries.push({
-              typeId: 'orderHistory',
-              id: order.code,
-              created: order?.placed
-                ? Date.parse(String(order?.placed))
-                : undefined,
-              category: order.statusDisplay,
-            });
-            this.saveLocalization(
-              order.code,
-              'type',
-              'asm.customer360.activity.order'
-            );
+        orderHistory.orders?.forEach((order) => {
+          entries.push({
+            typeId: 'orderHistory',
+            id: order.code,
+            created: order?.placed
+              ? Date.parse(String(order?.placed))
+              : undefined,
+            category: order.statusDisplay,
           });
-        }
+          this.saveLocalization(
+            order.code,
+            'type',
+            'asm.customer360.activity.order'
+          );
+        });
         return this.getLocalizations().pipe(
           map((valueLocalizations) => {
             valueLocalizations.forEach((valueLocalization) => {

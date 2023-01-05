@@ -10,7 +10,7 @@ import { Address, PaymentDetails } from '@spartacus/core';
 export interface CustomerProfileData {
   billingAddress?: Address;
   deliveryAddress?: Address;
-  phone1?: String;
-  phone2?: String;
+  phone1?: string;
+  phone2?: string;
   paymentInfoList?: PaymentDetails[];
 }

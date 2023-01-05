@@ -14,8 +14,8 @@ export function itemsWith<T>(
   ...fns: Array<Comparator<T>>
 ): (a: T, b: T) => -1 | 0 | 1 {
   return (a: T, b: T) => {
-    for (let i = 0; i < fns.length; i++) {
-      const result = fns[i](a, b);
+    for (const fn of fns) {
+      const result = fn(a, b);
       if (result !== 0) {
         return result;
       }

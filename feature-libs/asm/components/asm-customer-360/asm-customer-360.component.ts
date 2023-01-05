@@ -107,8 +107,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
    * If there is a link within the modal, use this method to redirect the user and close the modal.
    */
   navigateTo(route: UrlCommand): void {
-    let event: AsmDialogActionEvent;
-    event = getAsmDialogActionEvent(
+    const event: AsmDialogActionEvent = getAsmDialogActionEvent(
       this.customer,
       AsmDialogActionType.NAVIGATE,
       route
@@ -134,6 +133,8 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
             return (response as AsmCustomer360Response).value.find(
               (data) => data.type === requestData.customer360Type
             );
+          } else {
+            return undefined;
           }
         });
       })
