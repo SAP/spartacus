@@ -15,7 +15,7 @@ context('Assisted Service Module', () => {
       request.on('response', (res) => {
         const allowlist = new RegExp(['/products', '/components'].join('|'));
         if (res.statusCode === 401 && !allowlist.test(res.url)) {
-          throw new Error(res.url);
+          throw new Error(`${res.url} ${res.headers.Authorization}`);
         }
       });
     });
