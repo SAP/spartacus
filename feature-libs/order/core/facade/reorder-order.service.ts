@@ -5,21 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, CartModificationList } from '@spartacus/cart/base/root';
+import { CartModificationList } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  EventService,
-  OCC_USER_ID_ANONYMOUS,
-  UserIdService,
 } from '@spartacus/core';
-import {
-  OrderFacade,
-} from '@spartacus/order/root';
 import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
-import { combineLatest, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -42,33 +35,9 @@ export class ReorderOrderService
   );
 
   constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected reorderOrderConnector: ReorderOrderConnector,
-    protected eventService: EventService,
-    protected orderFacade: OrderFacade
   ) {}
-
-  protected checkoutPreconditions(): Observable<[string, string]> {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
-      this.activeCartFacade.isGuestCart(),
-    ]).pipe(
-      take(1),
-      map(([userId, cartId, isGuestCart]) => {
-        if (
-          !userId ||
-          !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
-        ) {
-          throw new Error('Order conditions not met');
-        }
-        return [userId, cartId];
-      })
-    );
-  }
 
   /**
    * Schedule a replenishment order
