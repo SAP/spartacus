@@ -31,8 +31,8 @@
           *ngFor="let column of columns"
           (click)="sortEntriesAndUpdatePages(column.property)"
           [class.active]="sortProperty === column.property"
-          [class.asc]="sortOrder === SortOrder.ASC"
-          [class.desc]="sortOrder !== SortOrder.ASC"
+          [class.asc]="listSortOrder === SortOrder.ASC"
+          [class.desc]="listSortOrder !== SortOrder.ASC"
         >
           <span *ngIf="column?.i18nTextKey">{{
             column.i18nTextKey | cxTranslate

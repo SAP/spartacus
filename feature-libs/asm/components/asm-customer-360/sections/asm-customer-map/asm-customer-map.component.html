@@ -35,7 +35,7 @@
     <div class="store-details">
       <img
         *ngIf="selectedStore.storeImages?.[0]"
-        [src]="selectedStore.storeImages[0].url"
+        [src]="selectedStore.storeImages?.[0].url"
         width="110px"
         height="110px"
       />
@@ -56,22 +56,29 @@
       [src]="googleMapsUrl"
     >
     </iframe>
-    <div class="store-openings" *ngIf="selectedStore?.openingHours">
-      <div class="store-openings-dates">
+    <div
+      class="store-openings"
+      *ngIf="selectedStore?.openingHours as openingHours"
+    >
+      <div
+        class="store-openings-dates"
+        *ngIf="openingHours.weekDayOpeningList as weekDayOpeningList"
+      >
         <div
           class="store-openings-date"
-          *ngFor="let opening of selectedStore.openingHours.weekDayOpeningList"
+          *ngFor="let opening of weekDayOpeningList"
         >
           <span class="store-openings-day bold">{{ opening.weekDay }}</span
           >{{ getStoreOpening(opening) | async }}
         </div>
       </div>
-      <div class="store-openings-dates">
+      <div
+        class="store-openings-dates"
+        *ngIf="openingHours.specialDayOpeningList as specialDayOpeningList"
+      >
         <div
           class="store-openings-date"
-          *ngFor="
-            let opening of selectedStore.openingHours.specialDayOpeningList
-          "
+          *ngFor="let opening of specialDayOpeningList"
         >
           <span class="store-openings-day bold">{{ opening.weekDay }}</span
           >{{ getStoreOpening(opening) | async }}
