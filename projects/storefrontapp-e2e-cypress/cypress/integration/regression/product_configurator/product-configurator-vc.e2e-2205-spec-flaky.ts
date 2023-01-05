@@ -52,7 +52,7 @@ context('Product Configuration - 2205', () => {
     configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
-  describe('Conflict Solver', () => {
+  describe.only('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,

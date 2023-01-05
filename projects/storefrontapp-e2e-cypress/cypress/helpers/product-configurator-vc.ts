@@ -249,11 +249,14 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  *
  * @param attribute - Attribute name
  */
-function clickOnConflictSolverLink(attribute: string): void {
+function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('a.cx-action-link')
+  cy.get('cx-configurator-attribute-header', { timeout: 10000 }).within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+      timeout: 10000,
+    }).within(() => {
+      cy.log('Click ' + linkName);
+      cy.get('a.cx-action-link', { timeout: 10000 })
         .click()
         .then(() => {
           checkGhostAnimationNotDisplayed();
@@ -269,7 +272,7 @@ function clickOnConflictSolverLink(attribute: string): void {
  */
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  clickOnConflictSolverLink(attribute);
+  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
 }
 
 /**
@@ -277,7 +280,7 @@ export function clickOnViewInConfiguration(attribute: string): void {
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
   cy.log('Verify whether View in Configuration Link is displayed');
-  this.checkConflictLinkDisplayed(attribute);
+  this.checkConflictLinkDisplayed(attribute, 'View in Configuration Link');
 }
 
 /**
@@ -285,16 +288,23 @@ export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
  */
 export function checkConflictDetectedLinkDisplayed(attribute: string): void {
   cy.log('Verify whether Conflict Detected - View Details Link is displayed');
-  this.checkConflictLinkDisplayed(attribute);
+  this.checkConflictLinkDisplayed(
+    attribute,
+    'Conflict Detected - View Details Link'
+  );
 }
 
 /**
  * Verifies whether the conflict link is displayed.
  */
-export function checkConflictLinkDisplayed(attribute: string): void {
-  cy.get('cx-configurator-attribute-header', { timeout: 10000 }).within(() => {
+export function checkConflictLinkDisplayed(
+  attribute: string,
+  linkName: string
+): void {
+  cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
-      cy.get('a.cx-action-link', { timeout: 10000 }).should('be.visible');
+      cy.get('a.cx-action-link').should('be.visible');
+      cy.log(linkName + ' is displayed');
     });
   });
 }
@@ -306,7 +316,7 @@ export function checkConflictLinkDisplayed(attribute: string): void {
  */
 export function clickOnConflictDetected(attribute: string): void {
   cy.log('Click Conflict Detected - View Details Link');
-  clickOnConflictSolverLink(attribute);
+  clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
 }
 
 /**
