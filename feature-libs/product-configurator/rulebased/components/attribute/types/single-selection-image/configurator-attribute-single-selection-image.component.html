@@ -19,8 +19,8 @@
       formcontrolname="attributeRadioButtonForm"
       [formControl]="attributeRadioButtonForm"
       [value]="value.valueCode"
-      name="{{ createAttributeIdForConfigurator(attribute) }}"
-      attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+      name="{{ createAttributeIdForConfigurator(attribute, uiKeyPrefix) }}"
+      attr.name="{{ createAttributeIdForConfigurator(attribute, uiKeyPrefix) }}"
       [attr.required]="attribute.required"
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
@@ -43,7 +43,13 @@
       "
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
       (click)="onClick(value.valueCode)"
-      [cxFocus]="{ key: attribute.name + '-' + value.name }"
+      [cxFocus]="{
+        key:
+          (uiKeyPrefix ? uiKeyPrefix + '-' : '') +
+          attribute.name +
+          '-' +
+          value.name
+      }"
       role="radio"
     />
     <div class="cx-label-container">

@@ -30,6 +30,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   @Input() group: string;
+  @Input() uiKeyPrefix: string = '';
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,

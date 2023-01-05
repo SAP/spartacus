@@ -23,9 +23,11 @@
           [formControl]="attributeRadioButtonForm"
           [attr.required]="attribute.required"
           [value]="value.valueCode"
-          name="{{ createAttributeIdForConfigurator(attribute) }}"
-          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          name="{{ createAttributeIdForConfigurator(attribute, uiKeyPrefix) }}"
+          attr.name="{{ createAttributeIdForConfigurator(attribute, uiKeyPrefix) }}"
+          [cxFocus]="{
+            key: uiKeyPrefix + '-' + attribute.name + '-' + value.name
+          }"
           [attr.aria-label]="getAriaLabel(value, attribute)"
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode

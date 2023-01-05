@@ -62,10 +62,17 @@ export class ConfiguratorAttributeBaseComponent {
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    */
-  createAttributeUiKey(prefix: string, attributeId: string): string {
+  createAttributeUiKey(
+    prefix: string,
+    attributeId: string,
+    additionalPrefix?: string
+  ): string {
     return (
       ConfiguratorAttributeBaseComponent.PREFIX +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
+      (additionalPrefix
+        ? additionalPrefix + ConfiguratorAttributeBaseComponent.SEPERATOR
+        : '') +
       prefix +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
       attributeId
@@ -77,11 +84,13 @@ export class ConfiguratorAttributeBaseComponent {
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
-    currentAttribute: Configurator.Attribute
+    currentAttribute: Configurator.Attribute,
+    uiKeyPrefix?: string
   ): string {
     return this.createAttributeUiKey(
       this.getUiType(currentAttribute),
-      currentAttribute.name
+      currentAttribute.name,
+      uiKeyPrefix
     );
   }
 

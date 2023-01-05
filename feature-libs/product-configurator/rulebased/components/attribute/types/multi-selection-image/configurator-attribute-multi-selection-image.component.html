@@ -13,7 +13,7 @@
       class="form-input"
       [value]="value.valueCode"
       [formControl]="attributeCheckBoxForms[i]"
-      name="{{ createAttributeIdForConfigurator(attribute) }}"
+      name="{{ createAttributeIdForConfigurator(attribute, uiKeyPrefix) }}"
       (click)="onSelect(i)"
       [attr.aria-label]="
         value.valuePrice && value.valuePrice?.value !== 0
@@ -30,7 +30,13 @@
       "
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
       [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
-      [cxFocus]="{ key: attribute.name + '-' + value.name }"
+      [cxFocus]="{
+        key:
+          (uiKeyPrefix ? uiKeyPrefix + '-' : '') +
+          attribute.name +
+          '-' +
+          value.name
+      }"
     />
     <div class="cx-label-container">
       <label
