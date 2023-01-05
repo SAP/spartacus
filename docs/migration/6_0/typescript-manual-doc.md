@@ -49,3 +49,7 @@ If explicitly set, this option will take precedence over the express server.
 ### CloseAccoutModalComponent
 
 - The `onSuccess()` method now uses `authService.coreLogout()` to log user out before routing to homepage.
+
+### QuickOrderOrderEntriesContext
+
+- `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
