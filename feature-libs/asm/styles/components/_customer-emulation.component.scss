@@ -62,7 +62,7 @@
     }
 
     &:nth-of-type(n + 2) {
-      margin-left: 8px;
+      margin: 0 0 0 8px;
     }
 
     &.cx-360-button {
@@ -74,7 +74,7 @@
       color: #aa0808;
       background-color: #ffd6ea;
       border: 1px solid #ffd6ea;
-      margin-left: 15px;
+      margin: 0 0 0 15px;
     }
   }
 

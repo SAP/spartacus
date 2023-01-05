@@ -39,7 +39,9 @@
       flex-direction: column;
 
       &:nth-of-type(n + 2) {
-        border-left: 1px solid $asmBorderColor;
+        border-color: $asmBorderColor;
+        border-style: solid;
+        border-left-width: 1px;
       }
     }
 
@@ -66,7 +68,9 @@
     }
     .cart {
       &-divider {
-        border-right: 1px solid #afafaf;
+        border-color: #afafaf;
+        border-style: solid;
+        border-right-width: 1px;
         height: 20px;
       }
 

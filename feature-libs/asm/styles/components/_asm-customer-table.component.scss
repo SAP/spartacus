@@ -63,7 +63,7 @@
     }
     th,
     td {
-      text-align: left;
+      text-align: start;
       vertical-align: top;
       padding: 19px 10px;
     }
@@ -104,8 +104,10 @@
         &.asc::after {
           content: '';
           margin-inline-start: 8px;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
+          border-color: transparent;
+          border-style: solid;
+          border-left-width: 5px;
+          border-right-width: 5px;
           position: relative;
         }
 

@@ -25,7 +25,7 @@
     margin-bottom: 12px;
 
     &-info {
-      margin-left: 8px;
+      margin: 0 0 0 8px;
     }
   }
 
@@ -71,7 +71,7 @@
       flex: 0 0 100px;
       justify-content: center;
       padding: 0 4px;
-      margin-left: auto;
+      margin: 0 0 0 auto;
     }
   }
 
@@ -98,7 +98,7 @@
 
     &-day {
       display: inline-block;
-      margin-right: 4px;
+      margin: 0 4px 0 0;
       overflow-x: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
