@@ -42,6 +42,9 @@ export class ConfiguratorDefaultFormComponent {
    * @param {ConfigFormUpdateEvent} event - Configuration form update event
    */
   updateConfiguration(event: ConfigFormUpdateEvent): void {
+    if (event.changedAttribute.name.startsWith('conflict--')) {
+      event.changedAttribute.name = event.changedAttribute.name.substring(10);
+    }
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
       event.changedAttribute,

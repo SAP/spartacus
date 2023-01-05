@@ -14,7 +14,7 @@ import {
 import { NEVER, Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -79,7 +79,17 @@ export class ConfiguratorConflictSolverDialogLauncherService
       LAUNCH_CALLER.CONFLICT_SOLVER,
       undefined,
       {
-        conflictGroups: this.conflictGroups$,
+        conflictGroups: this.conflictGroups$.pipe(
+          map((groups) => {
+            let patchedGroups: Configurator.Group[] = structuredClone(groups);
+            patchedGroups?.forEach((group) => {
+              group?.attributes?.forEach((attribute) => {
+                attribute.name = 'conflict--' + attribute.name;
+              });
+            });
+            return patchedGroups;
+          })
+        ),
         routerData: this.routerData$,
       }
     );
