@@ -14,7 +14,6 @@
       [attr.aria-controls]="listboxId"
       [attr.aria-expanded]="expanded"
       [attr.aria-activedescendant]="activeDescendant"
-      (focus)="focus($event)"
       (blur)="blur($event)"
       (keydown.arrowup)="keydownArrowup($event)"
       (keydown.arrowdown)="keydownArrowdown($event)"
@@ -52,6 +51,7 @@
     [attr.aria-selected]="focusIndex === i"
     [class.focused]="focusIndex === i"
     [cxScrollIntoView]="focusIndex === i"
+    [cxScrollIntoViewContainer]="resultList"
     (click)="selectCustomerFromList(result)"
   >
     <span class="result-name">{{ result.name }}</span>

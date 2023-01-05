@@ -9,6 +9,7 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  Injectable,
   Input,
   OnChanges,
   OnDestroy,
@@ -42,6 +43,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   searchResults: Observable<CustomerSearchPage>;
   selectedCustomer: User | undefined;
 
+  /** Queue to defer action until result list has opened */
   actionQueue: (() => void)[] = [];
 
   items: User[] = [];
@@ -50,106 +52,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   activeDescendant: string = '';
   listboxId = 'customerSearchResults';
   selectedIndex = -1;
-  optionId(optionIndex: number): string {
-    return `${this.listboxId}-opt-${optionIndex}`;
-  }
-  open() {
-    this.expanded = true;
-  }
-
-  close() {
-    this.expanded = false;
-    this.activeDescendant = '';
-    this.closeResults();
-  }
-
-  moveFocus(newIndex: number) {
-    if (newIndex >= this.items.length) {
-      newIndex = 0;
-    }
-    if (newIndex < 0) {
-      newIndex = this.items.length - 1;
-    }
-    this.focusIndex = newIndex;
-    this.activeDescendant = this.optionId(this.focusIndex);
-  }
-
-  selectItem(index: number) {
-    this.selectedIndex = index;
-    this.selectCustomerFromList(this.items[this.selectedIndex]);
-  }
-
-  focus(event: Event) {
-    console.log('focus', event);
-  }
-  blur(event: FocusEvent) {
-    console.log('blur', event);
-
-    if (this.expanded) {
-      if (
-        event.relatedTarget &&
-        this.resultList.nativeElement.contains(event.relatedTarget as Node)
-      ) {
-        // user is clicking on option
-      } else {
-        this.close();
-      }
-    }
-  }
-
-  keydownArrowdown(event: Event) {
-    // opens menu
-    // if item selected, focus selected item
-    // else focus first item
-    console.log('keydownArrowdown', event);
-    if (this.expanded) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.moveFocus(this.focusIndex + 1);
-    } else {
-      this.handleSearchTerm(
-        this.customerSelectionForm.controls.searchTerm.value
-      );
-      this.actionQueue.push(() => {
-        this.moveFocus(this.selectedCustomer ? this.selectedIndex : 0);
-      });
-    }
-  }
-  keydownArrowup(event: Event) {
-    // if popup closed, opens popup with focus on last element
-    console.log('keydownArrowup', event);
-    if (this.expanded) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.moveFocus(this.focusIndex - 1);
-    } else {
-      this.handleSearchTerm(
-        this.customerSelectionForm.controls.searchTerm.value
-      );
-      this.actionQueue.push(() => {
-        this.moveFocus(this.items.length - 1);
-      });
-    }
-  }
-  keydownEnter(event: Event) {
-    console.log('keydownEnter', event);
-    if (this.expanded) {
-      event.preventDefault();
-      this.selectItem(this.focusIndex);
-      this.close();
-    }
-  }
-
-  keydownEscape(event: Event) {
-    // Dismisses the popup if visible.
-    // (optional) if the popup is hidden, clear selection
-    console.log('keydownEscape', event);
-    if (this.expanded) {
-      // event.preventDefault();
-      event.stopPropagation();
-      this.close();
-    }
-  }
 
   @Output()
   submitEvent = new EventEmitter<{ customerId?: string }>();
@@ -193,6 +95,135 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.asmService.customerSearchReset();
+  }
+
+  selectCustomerFromList(customer: User) {
+    this.selectedCustomer = customer;
+    this.customerSelectionForm.controls.searchTerm.setValue(
+      this.selectedCustomer.name as string
+    );
+    this.asmService.customerSearchReset();
+    this.searchTerm.nativeElement.focus();
+  }
+
+  optionId(optionIndex: number): string {
+    return `${this.listboxId}-opt-${optionIndex}`;
+  }
+
+  moveFocus(newIndex: number) {
+    if (newIndex >= this.items.length) {
+      newIndex = 0;
+    }
+    if (newIndex < 0) {
+      newIndex = this.items.length - 1;
+    }
+    this.focusIndex = newIndex;
+    this.activeDescendant = this.optionId(this.focusIndex);
+  }
+
+  selectItem(index: number) {
+    this.selectedIndex = index;
+    this.selectCustomerFromList(this.items[this.selectedIndex]);
+  }
+
+  blur(event: FocusEvent) {
+    if (this.expanded) {
+      if (
+        event.relatedTarget &&
+        this.resultList.nativeElement.contains(event.relatedTarget as Node)
+      ) {
+        // user is clicking on option
+      } else {
+        this.closeResults();
+      }
+    }
+  }
+
+  keydownArrowdown(event: Event) {
+    // opens menu
+    // if item selected, focus selected item
+    // else focus first item
+    if (this.expanded) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.moveFocus(this.focusIndex + 1);
+    } else {
+      this.handleSearchTerm(
+        this.customerSelectionForm.controls.searchTerm.value
+      );
+      this.actionQueue.push(() => {
+        this.moveFocus(this.selectedCustomer ? this.selectedIndex : 0);
+      });
+    }
+  }
+  keydownArrowup(event: Event) {
+    // if popup closed, opens popup with focus on last element
+    if (this.expanded) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.moveFocus(this.focusIndex - 1);
+    } else {
+      this.handleSearchTerm(
+        this.customerSelectionForm.controls.searchTerm.value
+      );
+      this.actionQueue.push(() => {
+        this.moveFocus(this.items.length - 1);
+      });
+    }
+  }
+
+  keydownEnter(event: Event) {
+    if (this.expanded) {
+      event.preventDefault();
+      this.selectItem(this.focusIndex);
+      this.closeResults();
+    }
+  }
+
+  keydownEscape(event: Event) {
+    // Dismisses the popup if visible.
+    // (optional) if the popup is hidden, clear selection
+    if (this.expanded) {
+      // event.preventDefault();
+      event.stopPropagation();
+      this.closeResults();
+    }
+  }
+
+  onSubmit(): void {
+    if (this.customerSelectionForm.valid && this.selectedCustomer) {
+      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+    } else {
+      this.customerSelectionForm.markAllAsTouched();
+    }
+  }
+
+  onDocumentClick(event: Event) {
+    if (this.resultList) {
+      if (
+        this.resultList.nativeElement.contains(event.target as Node) ||
+        this.searchTerm.nativeElement.contains(event.target as Node)
+      ) {
+        return;
+      } else {
+        this.closeResults();
+      }
+    }
+  }
+
+  open() {
+    this.expanded = true;
+  }
+
+  closeResults() {
+    this.expanded = false;
+    this.activeDescendant = '';
+    this.asmService.customerSearchReset();
+  }
+
   protected handleSearchTerm(searchTermValue: string | null) {
     if (this.customerSelectionForm.invalid) {
       this.customerSelectionForm.markAllAsTouched();
@@ -217,80 +248,39 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  selectCustomerFromList(customer: User) {
-    this.selectedCustomer = customer;
-    this.customerSelectionForm.controls.searchTerm.setValue(
-      this.selectedCustomer.name as string
-    );
-    this.asmService.customerSearchReset();
-    this.searchTerm.nativeElement.focus();
-  }
-
-  onSubmit(): void {
-    if (this.customerSelectionForm.valid && this.selectedCustomer) {
-      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
-    } else {
-      this.customerSelectionForm.markAllAsTouched();
-    }
-  }
-
-  onDocumentClick(event: Event) {
-    if (this.resultList) {
-      if (
-        this.resultList.nativeElement.contains(event.target as Node) ||
-        this.searchTerm.nativeElement.contains(event.target as Node)
-      ) {
-        return;
-      } else {
-        this.close();
-      }
-    }
-  }
-  closeResults() {
-    this.asmService.customerSearchReset();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.asmService.customerSearchReset();
-  }
 }
 
-@Directive({
-  selector: '[cxScrollIntoView]',
-})
-export class ScrollIntoViewDirective implements OnChanges {
-  constructor(
-    protected windowRef: WindowRef,
-    protected host: ElementRef<HTMLElement>
-  ) {}
+@Injectable({ providedIn: 'root' })
+export class ScrollIntoViewService {
+  constructor(protected windowRef: WindowRef) {}
 
-  @Input() cxScrollIntoView = false;
+  scrollIntoView(element: HTMLElement, containerElement?: HTMLElement) {
+    let containerHeight: number;
+    let containerWidth: number;
 
-  ngOnChanges(changes: SimpleChanges) {
-    if ('cxScrollIntoView' in changes) {
-      const change = changes.cxScrollIntoView;
-      if (!change.previousValue && change.currentValue) {
-        if (this.windowRef.nativeWindow) {
-          this.scrollIntoView(this.host.nativeElement);
-        }
-      }
+    if (!this.windowRef.nativeWindow) {
+      return;
     }
-  }
 
-  scrollIntoView(element: HTMLElement) {
-    var bounding = element.getBoundingClientRect();
-    const topIn = bounding.top >= 0;
-    const leftIn = bounding.left >= 0;
-    const bottomIn =
-      bounding.bottom <=
-      (this.windowRef.nativeWindow?.innerHeight ??
-        this.windowRef.document.documentElement.clientHeight);
-    const rightIn =
-      bounding.right <=
-      (this.windowRef.nativeWindow?.innerWidth ??
-        this.windowRef.document.documentElement.clientWidth);
+    if (containerElement) {
+      let containerBounding = containerElement.getBoundingClientRect();
+      containerHeight = containerElement.clientHeight + containerBounding.top;
+      containerWidth = containerElement.clientWidth + containerBounding.left;
+    } else {
+      // use window properties with fallback to document
+      containerHeight =
+        this.windowRef.nativeWindow?.innerHeight ??
+        this.windowRef.document.documentElement.clientHeight;
+      containerWidth =
+        this.windowRef.nativeWindow?.innerWidth ??
+        this.windowRef.document.documentElement.clientWidth;
+    }
+
+    var elementBounding = element.getBoundingClientRect();
+    const topIn = elementBounding.top >= 0;
+    const leftIn = elementBounding.left >= 0;
+    const bottomIn = elementBounding.bottom <= containerHeight;
+    const rightIn = elementBounding.right <= containerWidth;
 
     console.log(
       'topIn',
@@ -302,10 +292,38 @@ export class ScrollIntoViewDirective implements OnChanges {
       'rightIn',
       rightIn
     );
-    if (topIn && leftIn && bottomIn && rightIn) {
-      return;
-    } else {
-      element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (!topIn && !leftIn && !bottomIn && !rightIn) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
+  }
+}
+
+@Directive({
+  selector: '[cxScrollIntoView]',
+})
+export class ScrollIntoViewDirective implements OnChanges {
+  constructor(
+    protected scrollIntoViewService: ScrollIntoViewService,
+    protected host: ElementRef<HTMLElement>
+  ) {}
+
+  @Input() cxScrollIntoView = false;
+  @Input() cxScrollIntoViewContainer: HTMLElement;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('cxScrollIntoView' in changes) {
+      const change = changes.cxScrollIntoView;
+      if (!change.previousValue && change.currentValue) {
+        console.log(this.cxScrollIntoViewContainer);
+        this.scrollIntoView(
+          this.host.nativeElement,
+          this.cxScrollIntoViewContainer
+        );
+      }
+    }
+  }
+
+  scrollIntoView(element: HTMLElement, _container: HTMLElement) {
+    this.scrollIntoViewService.scrollIntoView(element /* _container */);
   }
 }

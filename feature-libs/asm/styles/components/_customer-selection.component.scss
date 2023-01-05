@@ -105,6 +105,8 @@
     border-radius: 4px;
     width: 100%;
     max-width: 50vw;
+    max-height: 70vh;
+    overflow-y: auto;
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);

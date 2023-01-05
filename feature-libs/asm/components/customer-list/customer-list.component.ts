@@ -13,16 +13,10 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmCustomerListFacade,
-  CustomerList,
   CustomerListColumnActionType,
   CustomerListsPage,
 } from '@spartacus/asm/root';
-import {
-  isNotUndefined,
-  SortModel,
-  TranslationService,
-  User,
-} from '@spartacus/core';
+import { SortModel, TranslationService, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -30,15 +24,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import {
-  combineLatest,
-  forkJoin,
-  NEVER,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
-import { concatMap, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
 @Component({
@@ -99,8 +86,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   listsEmpty = false;
 
-  customerListDetails: { [customerListId: string]: CustomerList } = {};
-
   protected teardown: Subscription = new Subscription();
 
   constructor(
@@ -149,23 +134,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           }
         }),
         distinctUntilChanged(),
-        concatMap((result) => {
-          if (result?.userGroups?.length) {
-            return forkJoin(
-              result.userGroups
-                .map((userGroup) => userGroup?.uid)
-                .filter(isNotUndefined)
-                .map((listId) =>
-                  this.asmCustomerListFacade.getCustomerList(listId).pipe(
-                    tap((customerList) => {
-                      this.customerListDetails[listId] = customerList;
-                    })
-                  )
-                )
-            ).pipe(map(() => result));
-          }
-          return of(result);
-        }),
         tap((result) => {
           // set the first value of this.customerListsPage$ to be selected
           if (!this.selectedUserGroupId) {
