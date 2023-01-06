@@ -1,12 +1,12 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="hasScheduleLines(orderEntry)">
-    <table class="cx-code">
-      <tr
+    <div class="cx-code">
+      <div
         *ngFor="let scheduleLine of orderEntry.scheduleLines; let i = index"
         class="cx-schedule-line-info"
         attr.aria-describedby="{{ getScheduleLineInfoId(i) }}"
       >
-        <td id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
+        <div id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
           {{
             's4omScheduleLines.a11y.scheduleLineEntryInfo'
               | cxTranslate
@@ -15,17 +15,17 @@
                     date: getLongDate(scheduleLine.confirmedAt)
                   }
           }}
-        </td>
-        <td class="cx-value" aria-hidden="true">
-          {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }} &nbsp;
-        </td>
-        <td class="cx-label" aria-hidden="true">
-          {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp;
-        </td>
-        <td class="cx-value" aria-hidden="true">
+        </div>
+        <div class="cx-value" aria-hidden="true">
+          {{ scheduleLine?.confirmedAt | cxDate: 'M/d/yyyy' }}
+        </div>
+        <div class="cx-label" aria-hidden="true">
+          {{ 's4omScheduleLines.quantity' | cxTranslate }}
+        </div>
+        <div class="cx-value" aria-hidden="true">
           {{ scheduleLine?.confirmedQuantity }}
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
   </ng-container>
 </ng-container>
