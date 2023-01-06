@@ -799,4 +799,58 @@ describe('ActiveCartService', () => {
       });
     });
   });
+
+  describe('hasPickupItems and hasDeliveryItems', () => {
+    it('should be able to get whether cart has pickup items', (done) => {
+      let mockCart: Cart = {
+        pickupItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasPickupItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeTruthy();
+        done();
+      });
+
+      mockCart = {
+        code: 'test',
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasPickupItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeFalsy();
+        done();
+      });
+    });
+
+    it('should be able to get whether cart has delivery items', (done) => {
+      let mockCart: Cart = {
+        deliveryItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasDeliveryItems().subscribe((hasDelivery) => {
+        expect(hasDelivery).toBeTruthy();
+        done();
+      });
+
+      mockCart = {
+        code: 'test',
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasDeliveryItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeFalsy();
+        done();
+      });
+    });
+  });
 });

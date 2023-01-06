@@ -11,6 +11,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -44,6 +45,7 @@ export class CheckoutB2BStepsSetGuard
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade
   ) {
@@ -53,7 +55,8 @@ export class CheckoutB2BStepsSetGuard
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
       checkoutDeliveryModesFacade,
-      router
+      router,
+      activeCartFacade
     );
   }
 

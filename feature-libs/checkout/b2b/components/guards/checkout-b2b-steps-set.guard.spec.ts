@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
   DeliveryMode,
   PaymentDetails,
   PaymentType,
@@ -135,6 +136,10 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   }
 }
 
+class MockCartService implements Partial<ActiveCartFacade> {
+  hasDeliveryItems = createSpy().and.returnValue(of(false));
+}
+
 describe(`CheckoutB2BStepsSetGuard`, () => {
   let guard: CheckoutB2BStepsSetGuard;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
@@ -169,6 +174,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
           useClass: MockCheckoutPaymentFacade,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: ActiveCartFacade, useClass: MockCartService },
       ],
     });
 

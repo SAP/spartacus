@@ -4,7 +4,8 @@
 
 <ng-container
   *ngIf="
-    (supportedDeliveryModes$ | async)?.length && !(isUpdating$ | async);
+    !(isUpdating$ | async) &&
+      (supportedDeliveryModes$ | async) as supportedDeliveryModes;
     else loading
   "
 >
@@ -12,10 +13,7 @@
   <div [formGroup]="mode">
     <div class="row">
       <div class="col-md-12 col-lg-9" role="radiogroup">
-        <div
-          class="form-check"
-          *ngFor="let mode of supportedDeliveryModes$ | async"
-        >
+        <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
           <input
             [attr.aria-checked]="getAriaChecked(mode.code)"
             class="form-check-input"
@@ -32,7 +30,7 @@
           >
             <div class="cx-delivery-mode">{{ mode.name }}</div>
             <div class="cx-delivery-price">
-              {{ mode.deliveryCost.formattedValue }}
+              {{ mode.deliveryCost?.formattedValue }}
             </div>
             <div class="cx-delivery-details">{{ mode.description }}</div>
           </label>

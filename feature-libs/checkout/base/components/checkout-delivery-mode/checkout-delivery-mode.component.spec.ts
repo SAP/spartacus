@@ -105,13 +105,18 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get supported delivery modes', () => {
+  it('should get supported delivery modes', (done) => {
     checkoutDeliveryModesFacade.getSupportedDeliveryModes =
       createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-    component.ngOnInit();
+    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: undefined })
+      );
 
+    component.ngOnInit();
     component.supportedDeliveryModes$.subscribe((modes) => {
-      expect(modes).toBe(mockSupportedDeliveryModes);
+      expect(modes).toEqual(mockSupportedDeliveryModes);
+      done();
     });
   });
 
@@ -126,13 +131,33 @@ describe('CheckoutDeliveryModeComponent', () => {
       createSpy().and.returnValue(mockDeliveryMode1.code);
 
     component.ngOnInit();
-
+    fixture.detectChanges();
     expect(checkoutConfigService.getPreferredDeliveryMode).toHaveBeenCalledWith(
       mockSupportedDeliveryModes
     );
     expect(component.mode.controls['deliveryModeId'].value).toBe(
       mockDeliveryMode1.code
     );
+  });
+
+  it('should remove pickup from supported delivery modes', (done) => {
+    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+      createSpy().and.returnValue(of([{ code: 'pickup' }]));
+    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: undefined })
+      );
+    checkoutConfigService.getPreferredDeliveryMode =
+      createSpy().and.returnValue({ code: 'pickup' });
+
+    component.ngOnInit();
+    component.supportedDeliveryModes$.subscribe((modes) => {
+      expect(modes).toEqual([]);
+      expect(
+        checkoutConfigService.getPreferredDeliveryMode
+      ).toHaveBeenCalledWith([{ code: 'pickup' }]);
+      done();
+    });
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
@@ -146,7 +171,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       createSpy().and.returnValue(mockDeliveryMode1.code);
 
     component.ngOnInit();
-
+    fixture.detectChanges();
     expect(
       checkoutConfigService.getPreferredDeliveryMode
     ).not.toHaveBeenCalled();
@@ -171,19 +196,19 @@ describe('CheckoutDeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
-    const setDeliveryModeId = (value: string | undefined) => {
-      component.mode.controls['deliveryModeId'].setValue(value);
-    };
 
     beforeEach(() => {
       checkoutDeliveryModesFacade.getSupportedDeliveryModes =
         createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockDeliveryMode1 })
+        );
+
       component.isUpdating$ = of(false);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      setDeliveryModeId(mockDeliveryMode1.code);
-
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -193,7 +218,6 @@ describe('CheckoutDeliveryModeComponent', () => {
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
 
-      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
@@ -209,6 +233,10 @@ describe('CheckoutDeliveryModeComponent', () => {
     it('should call "back" function after being clicked', () => {
       checkoutDeliveryModesFacade.getSupportedDeliveryModes =
         createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockDeliveryMode1 })
+        );
       component.isUpdating$ = of(false);
 
       spyOn(component, 'back');
