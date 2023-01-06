@@ -13,6 +13,7 @@ import {
   CheckoutPickUpInStoreDetailsModule,
   defaultPickupOptionsDialogLayoutConfig,
   MyPreferredStoreModule,
+  OrderConfirmationPickupInStoreModule,
   PdpPickupOptionsContainerModule,
   PickupInfoContainerModule,
   PickupInStoreDetailsReviewModule,
@@ -26,6 +27,7 @@ import {
     MyPreferredStoreModule,
     CheckoutPickUpInStoreDetailsModule,
     PickupInStoreDetailsReviewModule,
+    OrderConfirmationPickupInStoreModule,
   ],
   providers: [provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)],
 })

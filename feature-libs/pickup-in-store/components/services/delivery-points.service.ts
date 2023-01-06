@@ -8,6 +8,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   DeliveryPointOfService,
   PickupLocationsSearchFacade,
@@ -24,7 +25,8 @@ import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 export class DeliveryPointsService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected orderFacade: OrderFacade
   ) {}
 
   /*
@@ -138,5 +140,14 @@ export class DeliveryPointsService {
         )
       )
     );
+  }
+
+  getDeliveryPointsOfServiceOrderConfirmation(): Observable<
+    Array<DeliveryPointOfService>
+  > {
+    this.orderFacade
+      .getOrderDetails()
+      .pipe(tap((orders) => console.log(orders)));
+    return of([]);
   }
 }
