@@ -17,7 +17,7 @@ export class OccReorderOrderNormalizer
 {
   constructor() {}
 
-  convert(source: Occ.CartModificationList, target: CartModificationList) {
+  convert(source: Occ.CartModificationList, target?: CartModificationList) {
     if (target === undefined) {
       target = { ...(source as any) } as CartModificationList;
     }
