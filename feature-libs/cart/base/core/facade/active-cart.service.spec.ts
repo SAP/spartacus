@@ -853,4 +853,35 @@ describe('ActiveCartService', () => {
       });
     });
   });
+
+  describe('getPickupEntries and getDeliveryEntries', () => {
+    const entries: OrderEntry[] = [
+      { orderCode: 'pickupEntry', deliveryPointOfService: { name: 'test' } },
+      { orderCode: 'deliveryEntry' },
+    ];
+
+    it('should be able to get pickup entries', (done) => {
+      service.getEntries = jasmine
+        .createSpy('getEntries')
+        .and.returnValue(of(entries));
+
+      service.getPickupEntries().subscribe((pickupEntries) => {
+        expect(pickupEntries.length).toEqual(1);
+        expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
+        done();
+      });
+    });
+
+    it('should be able to get delivery entries', (done) => {
+      service.getEntries = jasmine
+        .createSpy('getEntries')
+        .and.returnValue(of(entries));
+
+      service.getDeliveryEntries().subscribe((deliveryEntries) => {
+        expect(deliveryEntries.length).toEqual(1);
+        expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
+        done();
+      });
+    });
+  });
 });

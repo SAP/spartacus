@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
@@ -74,8 +78,11 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode2,
 ];
 
+const deliveryEntries$ = new BehaviorSubject<OrderEntry[]>([
+  { orderCode: 'testEntry' },
+]);
 class MockCartService implements Partial<ActiveCartFacade> {
-  getEntries = createSpy().and.returnValue(of([{ code: 'testEntry' }]));
+  getDeliveryEntries = () => deliveryEntries$.asObservable();
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -83,7 +90,6 @@ describe('CheckoutDeliveryModeComponent', () => {
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
-  let cartService: ActiveCartFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -109,7 +115,6 @@ describe('CheckoutDeliveryModeComponent', () => {
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
-      cartService = TestBed.inject(ActiveCartFacade);
     })
   );
 
@@ -123,13 +128,11 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should get shipped entries', () => {
-    component.ngOnInit();
-
     let shippedEntries;
     component.deliveryEntries$.subscribe((value) => {
       shippedEntries = value;
     });
-    expect(shippedEntries).toEqual([{ code: 'testEntry' }]);
+    expect(shippedEntries).toEqual([{ orderCode: 'testEntry' }]);
   });
 
   it('should get supported delivery modes', () => {
@@ -199,7 +202,6 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should get deliveryModeInvalid()', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     const invalid = component.deliveryModeInvalid;
@@ -208,11 +210,8 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   describe('UI without delivery method section', () => {
     it('should not display delivery method section if there is no shipped entries', () => {
-      cartService.getEntries = createSpy().and.returnValue(
-        of([{ code: 'testEntry', deliveryPointOfService: { name: 'test' } }])
-      );
+      deliveryEntries$.next([]);
 
-      component.ngOnInit();
       fixture.detectChanges();
 
       const deliveryMethod = fixture.debugElement.query(
@@ -245,9 +244,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     it('should be enabled when delivery mode is selected', () => {
       setDeliveryModeId(mockDeliveryMode1.code);
 
-      component.ngOnInit();
       fixture.detectChanges();
-
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
 
