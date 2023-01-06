@@ -113,7 +113,7 @@ export const organization = {
         unknown: 'Server validation error.',
       },
     },
-    hint: 'hint',
+    information: 'Information',
   },
 
   // sub feature labels are added below
