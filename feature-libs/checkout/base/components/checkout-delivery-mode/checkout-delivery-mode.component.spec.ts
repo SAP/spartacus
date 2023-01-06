@@ -244,7 +244,6 @@ describe('CheckoutDeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
-
     const setDeliveryModeId = (value: string | undefined) => {
       component.mode.controls['deliveryModeId'].setValue(value);
     };
