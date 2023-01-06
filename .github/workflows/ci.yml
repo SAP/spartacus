@@ -98,6 +98,24 @@ jobs:
       - name: Run unit tests for integration libs
         run: |
           ci-scripts/unit-tests.sh
+  sonarqube_scan:
+    needs: no_retries
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectKey=composable-storefront
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonar.tools.sap
+    if: github.event_name == 'pull_request'
   linting:
     needs: no_retries
     name: Validations and static code checks
@@ -219,7 +237,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
-    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -233,6 +251,7 @@ jobs:
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
           needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
           needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
+          needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
@@ -303,4 +322,3 @@ jobs:
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' && 
           github.ref_name == 'develop'
-

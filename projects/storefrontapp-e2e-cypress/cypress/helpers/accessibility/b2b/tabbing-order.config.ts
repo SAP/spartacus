@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -494,6 +494,28 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  userRegistrationForm: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.TEXT_AREA },
+    {
+      value: 'Register',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Already registered? Go to Sign in',
+      type: TabbingOrderTypes.LINK,
     },
   ],
 };

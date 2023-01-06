@@ -163,6 +163,42 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
+      "@spartacus/organization/user-registration/assets": [
+        "../../dist/organization/user-registration/assets"
+      ],
+      "@spartacus/organization/user-registration/components": [
+        "../../dist/organization/user-registration/components"
+      ],
+      "@spartacus/organization/user-registration/core": [
+        "../../dist/organization/user-registration/core"
+      ],
+      "@spartacus/organization/user-registration": [
+        "../../dist/organization/user-registration"
+      ],
+      "@spartacus/organization/user-registration/occ": [
+        "../../dist/organization/user-registration/occ"
+      ],
+      "@spartacus/organization/user-registration/root": [
+        "../../dist/organization/user-registration/root"
+      ],
+      "@spartacus/organization/unit-order/assets": [
+        "../../dist/organization/unit-order/assets"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "../../dist/organization/unit-order/components"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "../../dist/organization/unit-order/core"
+      ],
+      "@spartacus/organization/unit-order": [
+        "../../dist/organization/unit-order"
+      ],
+      "@spartacus/organization/unit-order/occ": [
+        "../../dist/organization/unit-order/occ"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "../../dist/organization/unit-order/root"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
       ],
@@ -267,11 +303,11 @@
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
-      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
-      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
+      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
+      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
@@ -293,6 +329,9 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
+      "@spartacus/s4om": ["../../dist/s4om"],
+      "@spartacus/s4om/root": ["../../dist/s4om/root"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

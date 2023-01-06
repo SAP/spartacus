@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -217,10 +217,12 @@ export interface CmsVideoComponent extends CmsComponent {
   mute?: string;
   containerSize?: ContainerSizeOptions;
   containerBackground?: ContainerBackgroundOptions;
+  thumbnailSelector?: ContainerBackgroundOptions;
   videoContainerHeight?: number;
   video?: CmsBannerComponentMedia;
   container?: boolean;
   videoMedia?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  thumbnail?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   url?: string;
   category?: string;
   product?: string;
@@ -230,6 +232,7 @@ export interface CmsVideoComponent extends CmsComponent {
 export enum ContainerBackgroundOptions {
   NO_BACKGROUND = 'NO_BACKGROUND',
   UPLOAD_RESPONSIVE_IMAGE = 'UPLOAD_RESPONSIVE_IMAGE',
+  UPLOAD_THUMBNAIL = 'UPLOAD_THUMBNAIL',
 }
 
 export enum ContainerSizeOptions {

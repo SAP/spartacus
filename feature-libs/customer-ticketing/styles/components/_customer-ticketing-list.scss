@@ -39,6 +39,7 @@
 
     td {
       padding: 1.625rem 1.25rem;
+      font-size: var(--cx-font-size, 1rem);
 
       a {
         min-height: 0px;
@@ -90,10 +91,16 @@
     }
   }
 
+  .cx-ticketing-list-id {
+    text-decoration: underline;
+  }
+
   .cx-ticketing-list-value {
     color: var(--cx-color-text);
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-word;
+    hyphens: auto;
 
     @include media-breakpoint-up(sm) {
       display: -webkit-box;
@@ -150,13 +157,10 @@
 
   .cx-text-green {
     color: var(--cx-color-success);
+    font-weight: var(--cx-font-weight-bold);
   }
 
   .cx-text-grey {
     color: var(--cx-color-secondary);
-  }
-
-  .cx-text-red {
-    color: var(--cx-color-primary);
   }
 }

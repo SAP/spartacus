@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,6 +43,10 @@ export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
+export const organizationUserRegistrationFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-user-registration-feature.module.ts';
+export const organizationUnitOrderFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
 export const productBulkPricingFeatureModulePath =

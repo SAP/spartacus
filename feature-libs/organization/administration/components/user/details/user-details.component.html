@@ -38,13 +38,30 @@
     <div class="property">
       <label>{{ 'orgUser.roles' | cxTranslate }}</label>
       <ul class="value">
-        <li
-          *ngFor="let role of model.roles; let isLast = last"
-          [innerText]="'organization.userRoles.' + role | cxTranslate"
-        ></li>
+        <ng-container *ngFor="let role of model.roles">
+          <li
+            *ngIf="availableRoles.includes(role)"
+            [innerText]="'organization.userRoles.' + role | cxTranslate"
+          ></li>
+        </ng-container>
         <li *ngIf="model.roles?.length === 0">-</li>
       </ul>
     </div>
+
+    <ng-container *ngIf="hasRight(model)">
+      <div class="property">
+        <label>{{ 'orgUser.rights' | cxTranslate }}</label>
+        <ul class="value">
+          <ng-container *ngFor="let role of model.roles">
+            <li
+              *ngIf="availableRights.includes(role)"
+              [innerText]="'organization.userRights.' + role | cxTranslate"
+            ></li>
+          </ng-container>
+          <li *ngIf="model.roles?.length === 0">-</li>
+        </ul>
+      </div>
+    </ng-container>
 
     <div class="property">
       <label>{{ 'orgUser.orgUnit' | cxTranslate }}</label>

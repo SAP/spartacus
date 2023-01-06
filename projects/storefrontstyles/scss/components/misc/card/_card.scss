@@ -13,10 +13,11 @@
 
   .cx-text-green {
     color: var(--cx-color-success);
+    font-weight: var(--cx-font-weight-bold);
   }
 
   .cx-text-gray {
-    color: #6c7079;
+    color: var(--cx-color-secondary);
   }
 
   .cx-card-title {
