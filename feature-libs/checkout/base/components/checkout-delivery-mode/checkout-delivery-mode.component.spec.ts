@@ -5,11 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-  QueryState,
-} from '@spartacus/core';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -92,12 +88,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-          OutletModule,
-        ],
+        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
         declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {

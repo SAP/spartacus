@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -40,7 +35,6 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutDeliveryModeComponent implements OnInit {
   protected busy$ = new BehaviorSubject(false);
-  protected activeCartFacade: ActiveCartFacade;
 
   selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
     .getSelectedDeliveryModeState()
@@ -105,10 +99,9 @@ export class CheckoutDeliveryModeComponent implements OnInit {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {
-    this.activeCartFacade = inject(ActiveCartFacade);
-  }
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected activeCartFacade: ActiveCartFacade
+  ) {}
 
   ngOnInit(): void {
     this.shippedEntries$ = this.activeCartFacade.getEntries().pipe(
