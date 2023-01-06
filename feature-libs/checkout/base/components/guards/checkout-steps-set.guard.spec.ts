@@ -135,11 +135,20 @@ describe(`CheckoutStepsSetGuard`, () => {
   });
 
   describe('should be able to disable/enable delivery address step', () => {
-    it('should be able to disable delivery address step', () => {
+    it('should disable delivery address step', () => {
       expect(activeCartFacade.hasDeliveryItems).toHaveBeenCalled();
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
         true
+      );
+    });
+
+    it('should enable delivery address step', () => {
+      activeCartFacade.hasDeliveryItems = createSpy().and.returnValue(of(true));
+      expect(activeCartFacade.hasDeliveryItems).toHaveBeenCalled();
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_ADDRESS,
+        false
       );
     });
   });

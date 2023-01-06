@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -35,7 +35,6 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
   protected subscription: Subscription;
-  protected activeCartFacade: ActiveCartFacade;
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -43,10 +42,9 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router
+    protected router: Router,
+    protected activeCartFacade: ActiveCartFacade
   ) {
-    this.activeCartFacade = inject(ActiveCartFacade);
-
     this.subscription = this.activeCartFacade
       .hasDeliveryItems()
       .pipe(distinctUntilChanged())
