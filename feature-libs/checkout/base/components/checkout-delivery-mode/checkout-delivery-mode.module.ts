@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   OutletModule,
   PageComponentModule,
@@ -28,7 +23,6 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
     ReactiveFormsModule,
     I18nModule,
     SpinnerModule,
-    FeaturesConfigModule,
     OutletModule,
     PageComponentModule,
   ],

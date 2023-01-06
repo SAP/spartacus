@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   QueryState,
@@ -112,12 +111,6 @@ describe('CheckoutDeliveryModeComponent', () => {
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
-          },
         ],
       }).compileComponents();
 

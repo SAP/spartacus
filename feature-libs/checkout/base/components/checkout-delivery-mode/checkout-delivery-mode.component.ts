@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -23,7 +22,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -39,9 +38,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
-  // TODO: subscriptions and ngOnDestroy can be removed
-  protected subscriptions = new Subscription();
+export class CheckoutDeliveryModeComponent implements OnInit {
   protected busy$ = new BehaviorSubject(false);
   protected activeCartFacade: ActiveCartFacade;
 
@@ -151,9 +148,5 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.busy$.next(false);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }
