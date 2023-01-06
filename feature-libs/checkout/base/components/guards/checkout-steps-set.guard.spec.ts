@@ -89,8 +89,9 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   );
 }
 
+const hasDeliveryItems$ = new BehaviorSubject<boolean>(false);
 class MockCartService implements Partial<ActiveCartFacade> {
-  hasDeliveryItems = createSpy().and.returnValue(of(false));
+  hasDeliveryItems = () => hasDeliveryItems$.asObservable();
 }
 
 describe(`CheckoutStepsSetGuard`, () => {
@@ -98,7 +99,6 @@ describe(`CheckoutStepsSetGuard`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
-  let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(() => {
@@ -130,13 +130,11 @@ describe(`CheckoutStepsSetGuard`, () => {
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
     checkoutStepService = TestBed.inject(CheckoutStepService);
   });
 
   describe('should be able to disable/enable delivery address step', () => {
     it('should disable delivery address step', () => {
-      expect(activeCartFacade.hasDeliveryItems).toHaveBeenCalled();
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
         true
@@ -144,8 +142,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     it('should enable delivery address step', () => {
-      activeCartFacade.hasDeliveryItems = createSpy().and.returnValue(of(true));
-      expect(activeCartFacade.hasDeliveryItems).toHaveBeenCalled();
+      hasDeliveryItems$.next(true);
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
         false
