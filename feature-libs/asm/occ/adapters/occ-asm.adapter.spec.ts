@@ -11,7 +11,7 @@ import {
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import { AsmCustomer360Response, CustomerListsPage } from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
@@ -336,4 +336,6 @@ describe('OccAsmAdapter', () => {
 
     mockReq.flush(null);
   });
+
+  xit('should get customer 360 data', () => {});
 });

@@ -111,7 +111,6 @@ describe('sortArrayAlphabetically()', () => {
       )
     );
     const singleASC = data.map((item) => item.valueNumber);
-    console.log(singleASC);
     const isEqualASC = arrayEquals(singleASC, [1, 2, 3, 4]);
     expect(isEqualASC).toBe(true);
 
