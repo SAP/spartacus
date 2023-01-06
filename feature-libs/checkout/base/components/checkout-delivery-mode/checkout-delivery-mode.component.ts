@@ -4,18 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  ActiveCartFacade,
-  CartOutlets,
-  OrderEntry,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
@@ -33,8 +29,9 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutDeliveryModeComponent implements OnInit {
+export class CheckoutDeliveryModeComponent {
   protected busy$ = new BehaviorSubject(false);
+  readonly CartOutlets = CartOutlets;
 
   selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
     .getSelectedDeliveryModeState()
@@ -67,10 +64,15 @@ export class CheckoutDeliveryModeComponent implements OnInit {
       )
     );
 
-  readonly CartOutlets = CartOutlets;
-
-  shippedEntries$: Observable<OrderEntry[]>;
-  hasShippedEntries: boolean;
+  hasDeliveryEntries: boolean;
+  deliveryEntries$ = this.activeCartFacade
+    .getDeliveryEntries()
+    .pipe(
+      tap(
+        (shippedEntries) =>
+          (this.hasDeliveryEntries = shippedEntries.length > 0)
+      )
+    );
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -89,7 +91,7 @@ export class CheckoutDeliveryModeComponent implements OnInit {
   );
 
   get deliveryModeInvalid(): boolean {
-    return this.hasShippedEntries
+    return this.hasDeliveryEntries
       ? this.mode.controls['deliveryModeId'].invalid
       : false;
   }
@@ -102,17 +104,6 @@ export class CheckoutDeliveryModeComponent implements OnInit {
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected activeCartFacade: ActiveCartFacade
   ) {}
-
-  ngOnInit(): void {
-    this.shippedEntries$ = this.activeCartFacade.getEntries().pipe(
-      map((entries) =>
-        entries.filter((entry) => entry.deliveryPointOfService === undefined)
-      ),
-      tap(
-        (shippedEntries) => (this.hasShippedEntries = shippedEntries.length > 0)
-      )
-    );
-  }
 
   changeMode(code: string): void {
     this.busy$.next(true);

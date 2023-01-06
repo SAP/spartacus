@@ -126,7 +126,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     component.ngOnInit();
 
     let shippedEntries;
-    component.shippedEntries$.subscribe((value) => {
+    component.deliveryEntries$.subscribe((value) => {
       shippedEntries = value;
     });
     expect(shippedEntries).toEqual([{ code: 'testEntry' }]);

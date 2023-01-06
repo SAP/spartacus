@@ -1,12 +1,12 @@
-<ng-container *ngIf="shippedEntries$ | async as shippedEntries">
-  <ng-container *ngIf="shippedEntries.length > 0">
+<ng-container *ngIf="deliveryEntries$ | async as deliveryEntries">
+  <ng-container *ngIf="deliveryEntries.length > 0">
     <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-      {{ 'checkoutMode.shippedEntries' | cxTranslate }}
+      {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>
 
     <ng-template
       [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-      [cxOutletContext]="{ items: shippedEntries, readonly: true }"
+      [cxOutletContext]="{ items: deliveryEntries, readonly: true }"
     >
     </ng-template>
 
