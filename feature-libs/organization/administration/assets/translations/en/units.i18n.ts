@@ -52,6 +52,8 @@ export const orgUnit = {
   tree: {
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
+    expand: 'Expand',
+    collapse: 'collapse',
   },
 
   children: {
