@@ -7,7 +7,7 @@
 
 import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
-import { MessageEvent } from '../messaging/index';
+import { MessageEvent } from '../messaging/messaging.model';
 
 @Component({
   selector: 'cx-avatar',

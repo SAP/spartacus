@@ -5,4 +5,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './index';
+export * from './adapters/index';
+export * from './customer-ticketing-occ.module';
+export * from './model/index';

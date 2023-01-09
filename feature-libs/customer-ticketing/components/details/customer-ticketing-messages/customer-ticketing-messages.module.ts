@@ -15,15 +15,15 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import { MessagingModule } from '@spartacus/storefront';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChatMessagingModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
     CommonModule,
     I18nModule,
     UrlModule,
-    MessagingModule,
+    ChatMessagingModule,
     ReactiveFormsModule,
     FormsModule,
   ],

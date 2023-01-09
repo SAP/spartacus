@@ -46,7 +46,7 @@
 
       <div>
         <cx-file-upload
-          [formControl]="form.get('file')"
+          [formControl]="$any(form.get('file'))"
           [accept]="allowedTypes"
         >
           <ng-template>

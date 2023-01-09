@@ -14,7 +14,7 @@ import {
   CUSTOMER_TICKETING_CREATE_NORMALIZER,
   CUSTOMER_TICKETING_EVENT_NORMALIZER,
   CUSTOMER_TICKETING_FILE_NORMALIZER,
-} from 'feature-libs/customer-ticketing/core';
+} from '@spartacus/customer-ticketing/core';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
 

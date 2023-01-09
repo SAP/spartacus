@@ -4,25 +4,25 @@
     <div
       class="cx-messages"
       id="cx-messages"
-      (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($any($event))"
+      (keydown.arrowup)="focusPreviousChild($any($event))"
       [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
     >
       <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': message.rightAlign }"
+          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false}"
         >
-          <cx-avatar [message]="message"> </cx-avatar>
+          <cx-avatar [message]="message!"> </cx-avatar>
 
           <div>
             <label>{{
-              message.createdAt
-                | cxDate: messagingConfigs?.dateFormat ?? dateFormat
+             ( message?.createdAt
+                | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
             }}</label>
             <div
               [ngClass]="
-                message.rightAlign
+                (message?.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -32,24 +32,24 @@
                 'chatMessaging.informationLabel'
                   | cxTranslate
                     : {
-                        author: message.author,
-                        text: message.text,
+                        author: message?.author!,
+                        text: message?.text!,
                         date:
-                          message.createdAt
-                          | cxDate: messagingConfigs?.dateFormat ?? dateFormat
+                          (message?.createdAt
+                          | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
                       }
               "
             >
-              {{ message.text }}
+              {{ message?.text! }}
             </div>
             <a
-              *ngFor="let attachment of message.attachments"
+              *ngFor="let attachment of message?.attachments ?? []"
               class="cx-attachment"
               (click)="
                 triggerDownload(
                   message?.code,
-                  attachment.id,
-                  attachment.filename
+                  attachment?.id,
+                  attachment?.filename
                 )
               "
               target="_blank"
@@ -101,16 +101,15 @@
       </label>
       <div class="cx-message-footer-info" id="cx-message-footer">
         <cx-file-upload
-          [formControl]="form.get('file')"
-          [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
-          multiple="maxEntries > 1"
+          [formControl]="$any(form.get('file'))"
+          [accept]="allowedTypes"
           *ngIf="messagingConfigs?.enableFileUploadOption"
         >
           <ng-template>
             <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
-            <span class="cx-message-footer-text">{{
-              'chatMessaging.uploadFile' | cxTranslate
-            }}</span>
+            <span class="cx-message-footer-text"
+              >{{ 'chatMessaging.uploadFile' | cxTranslate }}
+            </span>
           </ng-template>
         </cx-file-upload>
 

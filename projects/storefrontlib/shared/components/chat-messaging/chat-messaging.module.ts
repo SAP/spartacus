@@ -7,12 +7,12 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessagingComponent } from './messaging.component';
-import { I18nModule } from '@spartacus/core';
-import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AvatarModule } from '../avatar/avatar.module';
-import { FileUploadModule, FormErrorsModule } from '../../form/index';
+import { I18nModule } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { AvatarComponent } from './avatar';
+import { MessagingComponent } from './messaging';
+import { FileUploadModule, FormErrorsModule } from '../form';
 
 @NgModule({
   imports: [
@@ -21,11 +21,10 @@ import { FileUploadModule, FormErrorsModule } from '../../form/index';
     IconModule,
     FormsModule,
     ReactiveFormsModule,
-    AvatarModule,
     FileUploadModule,
     FormErrorsModule,
   ],
-  declarations: [MessagingComponent],
-  exports: [MessagingComponent],
+  declarations: [AvatarComponent, MessagingComponent],
+  exports: [AvatarComponent, MessagingComponent],
 })
-export class MessagingModule {}
+export class ChatMessagingModule {}
