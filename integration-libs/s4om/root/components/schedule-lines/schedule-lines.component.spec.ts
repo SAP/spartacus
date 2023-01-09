@@ -140,11 +140,11 @@ describe('ScheduleLinesCartEntryComponent', () => {
         fixture.detectChanges();
       });
 
-      it("should contain td element with class name 'cx-visually-hidden' that contains a hidden schedule line info", function () {
+      it("should contain div element with class name 'cx-visually-hidden' that contains a hidden schedule line info", function () {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'td',
+          'div',
           'cx-visually-hidden',
           0,
           undefined,
@@ -157,7 +157,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'tr',
+          'div',
           'cx-schedule-line-info',
           undefined,
           'aria-describedby',
@@ -165,11 +165,11 @@ describe('ScheduleLinesCartEntryComponent', () => {
         );
       });
 
-      it("should contain td element with class name 'cx-visually-hidden' that refers to a corresponding attribute-value pair", () => {
+      it("should contain div element with class name 'cx-visually-hidden' that refers to a corresponding attribute-value pair", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'td',
+          'div',
           'cx-visually-hidden',
           1,
           undefined,
@@ -178,11 +178,11 @@ describe('ScheduleLinesCartEntryComponent', () => {
         );
       });
 
-      it('should contain td elements for label and value with corresponding content', () => {
+      it('should contain div elements for label and value with corresponding content', () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'td',
+          'div',
           'cx-label',
           undefined,
           'aria-hidden',
@@ -193,7 +193,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'td',
+          'div',
           'cx-value',
           0,
           'aria-hidden',
@@ -204,7 +204,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'td',
+          'div',
           'cx-value',
           1,
           'aria-hidden',
