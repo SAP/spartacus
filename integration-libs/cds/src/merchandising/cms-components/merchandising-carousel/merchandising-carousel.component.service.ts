@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductService, ProductScope } from '@spartacus/core';
+import { ProductService } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
@@ -146,9 +146,7 @@ export class MerchandisingCarouselComponentService {
   ): Observable<MerchandisingProduct>[] {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
-        this.productService
-          .get(strategyProduct.id, [ProductScope.DETAILS, ProductScope.PRICE])
-          .pipe(
+          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
             map((product) => ({
               ...product,
               metadata: this.getCarouselItemMetadata(
@@ -157,7 +155,7 @@ export class MerchandisingCarouselComponentService {
               ),
             }))
           )
-      )
+        )
       : [EMPTY];
   }
 
