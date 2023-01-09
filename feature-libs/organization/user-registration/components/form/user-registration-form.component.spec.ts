@@ -3,7 +3,14 @@ import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, Title, Country, Region } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Title,
+  Country,
+  Region,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -118,12 +125,19 @@ describe('UserRegistrationFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
+          FeaturesConfigModule,
         ],
         declarations: [UserRegistrationFormComponent, MockUrlPipe],
         providers: [
           {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
           },
         ],
       });
