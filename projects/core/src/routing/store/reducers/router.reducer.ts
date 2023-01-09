@@ -151,46 +151,26 @@ export class CustomSerializer
     // let's lookup the routing configuration to find the semantic route that has exactly the same configured path as the current URL.
     // This will work only for simple URLs without any dynamic routing parameters.
     semanticRoute = semanticRoute || this.lookupSemanticRoute(urlString);
-
     const { params } = state;
-    // we give smartedit preview page a PageContext
-    if (
-      state.url.length > 0 &&
-      state.url[0].path === 'cx-preview' &&
-      state.queryParams.cmsTicketId !== undefined
-    ) {
-      context = {
-        id: SMART_EDIT_CONTEXT,
-        type: PageType.CONTENT_PAGE,
-      };
-    } else {
-      if (params['productCode']) {
-        context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-      } else if (params['categoryCode']) {
-        context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['brandCode']) {
-        context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (state.data.pageLabel !== undefined) {
-        context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-      } else if (!context) {
-        if (state.url.length > 0) {
-          const pageLabel =
-            '/' + state.url.map((urlSegment) => urlSegment.path).join('/');
-          context = {
-            id: pageLabel,
-            type: PageType.CONTENT_PAGE,
-          };
-        } else {
-          context = {
-            // We like URLs to be driven by the backend, the CMS actually returns the homepage
-            // if no page label is given. Our logic however requires an id. undefined doesn't work.
-            id: HOME_PAGE_CONTEXT,
+    context = this.getPageContext(state);
+    if (!context) {
+      if (state.url.length > 0) {
+        const pageLabel =
+          '/' + state.url.map((urlSegment) => urlSegment.path).join('/');
+        context = {
+          id: pageLabel,
+          type: PageType.CONTENT_PAGE,
+        };
+      } else {
+        context = {
+          // We like URLs to be driven by the backend, the CMS actually returns the homepage
+          // if no page label is given. Our logic however requires an id. undefined doesn't work.
+          id: HOME_PAGE_CONTEXT,
 
-            // We currently need to support a hardcoded page type, since the internal store uses the page
-            // type to store the content.
-            type: PageType.CONTENT_PAGE,
-          };
-        }
+          // We currently need to support a hardcoded page type, since the internal store uses the page
+          // type to store the content.
+          type: PageType.CONTENT_PAGE,
+        };
       }
     }
 
@@ -202,6 +182,33 @@ export class CustomSerializer
       cmsRequired,
       semanticRoute,
     };
+  }
+
+  private getPageContext(
+    state: CmsActivatedRouteSnapshot
+  ): PageContext | undefined {
+    const { params } = state;
+    // we give smartedit preview page a PageContext
+    if (
+      state.url.length > 0 &&
+      state.url[0].path === 'cx-preview' &&
+      state.queryParams.cmsTicketId !== undefined
+    ) {
+      return {
+        id: SMART_EDIT_CONTEXT,
+        type: PageType.CONTENT_PAGE,
+      };
+    } else {
+      if (params['productCode']) {
+        return { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+      } else if (params['categoryCode']) {
+        return { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['brandCode']) {
+        return { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+      } else if (state.data.pageLabel !== undefined) {
+        return { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+      }
+    }
   }
 
   /**
