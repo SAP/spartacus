@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '4.1'
+      level: '5.1'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -306,7 +306,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '4.1'
+      level: '5.1'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -540,7 +540,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '4.1'
+      level: '5.1'
     }
   })]
 })
