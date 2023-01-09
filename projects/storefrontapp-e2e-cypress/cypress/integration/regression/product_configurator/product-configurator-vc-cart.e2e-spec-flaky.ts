@@ -48,8 +48,20 @@ const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
 context('Product Configuration', () => {
+  let configUISettings: any;
+
   beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableNavigationToConflict: true,
+      },
+    };
+    cy.cxConfig(configUISettings);
     cy.visit('/');
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
   describe('Navigate to Product Configuration Page', () => {

@@ -42,6 +42,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
+      const commerceIsAtLeast2211 = false;
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
@@ -60,10 +61,19 @@ context('Product Configuration', () => {
       configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
-      verifyTabbingOrder(
-        containerSelectorOverviewForm,
-        tabConfig.productConfigurationOverview
-      );
+      if (commerceIsAtLeast2211) {
+        cy.log('Post 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverviewPost2211
+        ); //post 2211
+      } else {
+        cy.log('Pre 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverview
+        ); // pre 2211
+      }
     });
   });
 

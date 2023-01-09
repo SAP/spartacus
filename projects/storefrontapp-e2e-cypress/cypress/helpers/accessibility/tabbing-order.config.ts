@@ -236,6 +236,37 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
+
+  productConfigurationOverviewPost2211: [
+    {
+      value: 'show more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Menu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Filter',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   cart: [
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
