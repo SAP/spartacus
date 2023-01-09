@@ -1,4 +1,4 @@
-<!--copied from core module and disabled 'edit' button-->
+<!--copied from core module and disabled 'edit' and 'disable' buttons-->
 <cx-org-card
   *ngIf="model$ | async as model"
   i18nRoot="orgUser.details"
@@ -12,6 +12,7 @@
     actions
     key="customerId"
     i18nRoot="orgUser"
+    [disabled]="true"
   ></cx-org-toggle-status>
 
   <cx-org-disable-info info i18nRoot="orgUser"> </cx-org-disable-info>

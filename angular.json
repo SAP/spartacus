@@ -1012,5 +1012,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -21,7 +21,7 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
         },
         {
           baseSite: 'powertools-spa',
-          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
+          javascriptUrl: 'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3__pAj9UsaNXJAaDi-d8xvhzNBvGXDYx0GlTg1R9YQWVgTIQbdBZzR98_y-nFZWUNl',
           sessionExpiration: 3600,
         },
       ],
