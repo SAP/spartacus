@@ -146,18 +146,18 @@ export class MerchandisingCarouselComponentService {
   ): Observable<MerchandisingProduct>[] {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
-          this.productService
-            .get(strategyProduct.id, [ProductScope.DETAILS, ProductScope.PRICE])
-            .pipe(
-              map((product) => ({
-                ...product,
-                metadata: this.getCarouselItemMetadata(
-                  strategyProduct,
-                  index + 1
-                ),
-              }))
-            )
-        )
+        this.productService
+          .get(strategyProduct.id, [ProductScope.DETAILS, ProductScope.PRICE])
+          .pipe(
+            map((product) => ({
+              ...product,
+              metadata: this.getCarouselItemMetadata(
+                strategyProduct,
+                index + 1
+              ),
+            }))
+          )
+      )
       : [EMPTY];
   }
 
