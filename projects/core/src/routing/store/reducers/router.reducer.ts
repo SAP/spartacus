@@ -152,7 +152,8 @@ export class CustomSerializer
     // This will work only for simple URLs without any dynamic routing parameters.
     semanticRoute = semanticRoute || this.lookupSemanticRoute(urlString);
     const { params } = state;
-    context = this.getPageContext(state);
+    context = this.getPageContext(state) ?? context;
+
     if (!context) {
       if (state.url.length > 0) {
         const pageLabel =
