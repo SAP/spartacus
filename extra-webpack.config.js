@@ -49,6 +49,7 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
 };
