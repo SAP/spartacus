@@ -101,7 +101,9 @@ export class MultiCartEffects {
    * @param action
    * @returns cart type needed on load
    */
-  private getActiveCartTypeOnLoad(action: CartActions.LoadCart): CartActions.SetCartTypeIndex | undefined {
+  private getActiveCartTypeOnLoad(
+    action: CartActions.LoadCart
+  ): CartActions.SetCartTypeIndex | undefined {
     if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
       return new CartActions.SetCartTypeIndex({
         cartType: CartType.ACTIVE,
@@ -116,7 +118,9 @@ export class MultiCartEffects {
    * @param action
    * @returns cart type needed on creation
    */
-  private getActiveCartTypeOnCreate(action: CartActions.CreateCart): CartActions.SetCartTypeIndex | undefined {
+  private getActiveCartTypeOnCreate(
+    action: CartActions.CreateCart
+  ): CartActions.SetCartTypeIndex | undefined {
     if (action?.payload?.extraData?.active) {
       return new CartActions.SetCartTypeIndex({
         cartType: CartType.ACTIVE,
