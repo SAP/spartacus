@@ -71,7 +71,7 @@
           } | cxUrl
         "
       >
-        {{ model.orgUnit?.name }}
+        {{ model.orgUnit?.name ? model.orgUnit?.name : model.orgUnit?.uid }}
       </a>
     </div>
     <div class="property full-width">
