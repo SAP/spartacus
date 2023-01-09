@@ -272,7 +272,7 @@
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
-    "@sapui5/ts-types-esm": "1.98.0",
+    "@sapui5/ts-types-esm": "1.107.1",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
