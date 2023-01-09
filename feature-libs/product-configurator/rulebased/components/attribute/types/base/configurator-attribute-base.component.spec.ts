@@ -182,5 +182,37 @@ describe('ConfigUIKeyGeneratorService', () => {
       const techLabel = label + ' / [' + techName + ']';
       expect(classUnderTest.getLabel(true, label, techName)).toEqual(techLabel);
     });
+    it('should return label without technical name but with positive price', () => {
+      const label = 'label';
+      const techname = undefined;
+      const priceDetails: Configurator.PriceDetails = {
+        currencyIso: '',
+        formattedValue: '$3.20',
+        value: 3.2,
+      };
+      const configuratorValue: Configurator.Value = {
+        valueCode: 'valueCode',
+        valuePrice: priceDetails,
+      };
+      expect(
+        classUnderTest.getLabel(false, label, techname, configuratorValue)
+      ).toEqual('label [+$3.20]');
+    });
+    it('should return label without technical name but with negative price', () => {
+      const label = 'label';
+      const techname = undefined;
+      const priceDetails: Configurator.PriceDetails = {
+        currencyIso: '',
+        formattedValue: '-$3.20',
+        value: -3.2,
+      };
+      const configuratorValue: Configurator.Value = {
+        valueCode: 'valueCode',
+        valuePrice: priceDetails,
+      };
+      expect(
+        classUnderTest.getLabel(false, label, techname, configuratorValue)
+      ).toEqual('label [-$3.20]');
+    });
   });
 });

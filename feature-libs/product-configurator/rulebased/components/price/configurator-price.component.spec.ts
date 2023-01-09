@@ -100,6 +100,57 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('+$10');
     });
 
+    it('should be defined: value price less than zero', () => {
+      component.formula = createTestData(0, -10, 0, false, true);
+      component.formula = {
+        quantity: 0,
+        price: {
+          currencyIso: '$',
+          formattedValue: '-$10',
+          value: -10,
+        },
+        priceTotal: undefined,
+        isLightedUp: true,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-quantity-price'
+      );
+
+      expect(component.price).toEqual('-$10');
+    });
+    it('should be defined: value price is undefined', () => {
+      component.formula = createTestData(0, 0, 0, false, true);
+      component.formula = {
+        quantity: 0,
+        price: undefined,
+        priceTotal: undefined,
+        isLightedUp: true,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-quantity-price'
+      );
+
+      expect(component.price).toEqual('');
+    });
+
     it('should be defined: value price greater than zero and value is selected', () => {
       component.formula = createTestData(0, 10, 10, true);
       fixture.detectChanges();
@@ -158,6 +209,55 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.priceTotal).toEqual('+$150');
     });
 
+    it('should be defined: value price total less than zero', () => {
+      component.formula = createTestData(0, 0, -150, true);
+      component.formula = {
+        quantity: 0,
+        price: undefined,
+        priceTotal: {
+          currencyIso: '$',
+          formattedValue: '-$150',
+          value: -150,
+        },
+        isLightedUp: true,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-quantity-price'
+      );
+      expect(component.priceTotal).toEqual('-$150');
+    });
+    it('should be defined: value price total is undefined', () => {
+      component.formula = createTestData(0, 0, 0, true);
+      component.formula = {
+        quantity: 0,
+        price: undefined,
+        priceTotal: undefined,
+        isLightedUp: true,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-quantity-price'
+      );
+      expect(component.priceTotal).toEqual('');
+    });
+
     it('should be defined: complete price formula', () => {
       component.formula = createTestData(2, 10, 20);
       fixture.detectChanges();
@@ -201,6 +301,11 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price',
         'configurator.price.selectedItem'
       );
+    });
+    it('should be defined: value is not lightedUp since lightedUp is undefined', () => {
+      component.formula = createTestData(0, 0, 0, undefined);
+      component.formula.isLightedUp = undefined;
+      expect(component.isPriceLightedUp()).toEqual(false);
     });
   });
 

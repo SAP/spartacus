@@ -146,27 +146,30 @@ export class ConfiguratorAttributeBaseComponent {
    * @param expMode - Is expert mode set?
    * @param label - value label
    * @param techName - value technical name
-   * @param value - item Object which contains the valuePrice
+   * @param configuratorValue - item Object which contains the valuePrice
    * @param isSelected - is item in dropdownlist selected
    */
   getLabel(
     expMode: boolean,
     label: string | undefined,
     techName: string | undefined,
-    value?: Configurator.Value | undefined
+    configuratorValue?: Configurator.Value | undefined
   ): string {
     let title = label ? label : '';
     if (expMode && techName) {
       title += ` / [${techName}]`;
     }
-    if (value && !value.selected) {
-      if (value.valuePrice?.value !== undefined && value.valuePrice.value < 0) {
-        title += `  [${value.valuePrice?.formattedValue}]`;
-      } else if (
-        value.valuePrice?.value !== undefined &&
-        value.valuePrice.value >= 0
+    if (configuratorValue && !configuratorValue.selected) {
+      if (
+        configuratorValue.valuePrice?.value !== undefined &&
+        configuratorValue.valuePrice.value < 0
       ) {
-        title += `  [+${value.valuePrice?.formattedValue}]`;
+        title += ` [${configuratorValue.valuePrice?.formattedValue}]`;
+      } else if (
+        configuratorValue.valuePrice?.value !== undefined &&
+        configuratorValue.valuePrice.value >= 0
+      ) {
+        title += ` [+${configuratorValue.valuePrice?.formattedValue}]`;
       }
     }
     return title;
