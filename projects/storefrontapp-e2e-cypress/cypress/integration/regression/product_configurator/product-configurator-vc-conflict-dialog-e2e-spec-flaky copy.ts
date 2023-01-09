@@ -22,9 +22,10 @@ context('Product Configuration', () => {
     configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'E'); // CONFLICT 1
     configurationVc.selectAttributeAndWait('CAMERA_APERTURE', RB, 'F3\\.5'); // CONFLICT 2
 
-    conflictDialog.checkConflictDialogClosed();
+    conflictDialog.checkIsClosed();
     configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600'); // Triggers the conflicts
-    conflictDialog.checkConflictDialogOpen();
+    conflictDialog.checkIsOpen();
+    conflictDialog.checkDisplayedConflict();
 
     //CHECK conflict Dialog
 
