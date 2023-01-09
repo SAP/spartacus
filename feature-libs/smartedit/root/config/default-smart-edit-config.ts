@@ -9,7 +9,6 @@ import { SmartEditConfig } from './smart-edit-config';
 export const defaultSmartEditConfig: SmartEditConfig = {
   smartEdit: {
     storefrontPreviewRoute: 'cx-preview',
-    allowOrigin:
-      'backoffice.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud',
+    allowOrigin: 'localhost:9002',
   },
 };
