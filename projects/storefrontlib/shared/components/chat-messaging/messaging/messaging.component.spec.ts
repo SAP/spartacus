@@ -5,7 +5,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { IconModule } from 'projects/storefrontlib/cms-components';
 import { of } from 'rxjs';
 import { FileUploadModule, FormErrorsModule } from '../../form';
-import { AvatarModule } from '../avatar';
 import { MessagingComponent } from './messaging.component';
 import { MessageEvent } from './messaging.model';
 
@@ -30,7 +29,6 @@ describe('MessagingComponent', () => {
         IconModule,
         FileUploadModule,
         FormErrorsModule,
-        AvatarModule,
         ReactiveFormsModule,
       ],
       declarations: [MessagingComponent],
