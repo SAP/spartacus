@@ -27,6 +27,7 @@
     "@spartacus/core": "5.1.0-2",
     "@spartacus/schematics": "5.1.0-2",
     "@spartacus/storefront": "5.1.0-2",
+    "@spartacus/styles": "5.1.0-2",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
