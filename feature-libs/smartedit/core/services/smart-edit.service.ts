@@ -27,6 +27,9 @@ export class SmartEditService {
   private defaultPreviewProductCode: string | undefined;
   private defaultPreviewCategoryCode: string | undefined;
 
+  /**
+   * TODO: (#CXSPA-776) Remove ScriptLoader in 6.0
+   */
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
