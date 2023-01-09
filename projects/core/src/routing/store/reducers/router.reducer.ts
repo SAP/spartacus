@@ -153,8 +153,13 @@ export class CustomSerializer
     semanticRoute = semanticRoute || this.lookupSemanticRoute(urlString);
 
     const { params } = state;
+    console.log('state', state.queryParams.cmsTicketId);
     // we give smartedit preview page a PageContext
-    if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
+    if (
+      state.url.length > 0 &&
+      state.url[0].path === 'cx-preview' &&
+      state.queryParams.cmsTicketId !== undefined
+    ) {
       context = {
         id: SMART_EDIT_CONTEXT,
         type: PageType.CONTENT_PAGE,
