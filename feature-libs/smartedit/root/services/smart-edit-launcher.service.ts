@@ -54,14 +54,18 @@ export class SmartEditLauncherService {
    */
   load(): void {
     if (this.isLaunchedInSmartEdit()) {
-      this.scriptLoader?.embedScript({
-        src: 'assets/webApplicationInjector.js',
-        params: undefined,
-        attributes: {
-          id: 'text/smartedit-injector',
-          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
-        },
-      });
+      setTimeout(() => {
+        this.scriptLoader?.embedScript({
+          src: 'assets/webApplicationInjector.js',
+          params: undefined,
+          attributes: {
+            id: 'text/smartedit-injector',
+            'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+          },
+        });
+        console.log('2', this.config.smartEdit?.allowOrigin);
+        console.log('abc');
+      }, 10000);
     }
   }
 

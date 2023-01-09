@@ -40,6 +40,7 @@ export class SmartEditService {
      */
     protected scriptLoader: ScriptLoader
   ) {
+    console.log('i; am cocalled');
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing
