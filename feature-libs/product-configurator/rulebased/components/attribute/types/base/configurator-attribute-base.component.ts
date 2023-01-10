@@ -60,12 +60,21 @@ export class ConfiguratorAttributeBaseComponent {
   /**
    * Creates unique key for config attribute on the UI
    * @param prefix for key depending on usage (e.g. uiType, label)
-   * @param attributeId
+   * @param attributeId id of the attribute
+   * @param uiContextKey optional ui context key,
+   * so key is still unique if same attribute is used simultaneously in different ui contexts
    */
-  createAttributeUiKey(prefix: string, attributeId: string): string {
+  createAttributeUiKey(
+    prefix: string,
+    attributeId: string,
+    uiContextKey?: string
+  ): string {
     return (
       ConfiguratorAttributeBaseComponent.PREFIX +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
+      (uiContextKey
+        ? uiContextKey + ConfiguratorAttributeBaseComponent.SEPERATOR
+        : '') +
       prefix +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
       attributeId
@@ -77,11 +86,13 @@ export class ConfiguratorAttributeBaseComponent {
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
-    currentAttribute: Configurator.Attribute
+    currentAttribute: Configurator.Attribute,
+    uiContextKey?: string
   ): string {
     return this.createAttributeUiKey(
       this.getUiType(currentAttribute),
-      currentAttribute.name
+      currentAttribute.name,
+      uiContextKey
     );
   }
 
@@ -134,10 +145,25 @@ export class ConfiguratorAttributeBaseComponent {
    * Creates a unique key for focus handling for the given attribute and value
    * @param attributeId
    * @param valueCode
+   * @param uiContextKey optional ui context key,
+   * so key is still unique if same attribute is used simultaneously in different ui contexts
    * @returns focus key
    */
-  createFocusId(attributeId: string, valueCode: string): string {
-    return `${attributeId}--${valueCode}--focus`;
+  createFocusId(
+    attributeId: string,
+    valueCode: string,
+    uiContextKey?: string
+  ): string {
+    return (
+      (uiContextKey
+        ? uiContextKey + ConfiguratorAttributeBaseComponent.SEPERATOR
+        : '') +
+      attributeId +
+      ConfiguratorAttributeBaseComponent.SEPERATOR +
+      valueCode +
+      ConfiguratorAttributeBaseComponent.SEPERATOR +
+      'focus'
+    );
   }
 
   /**

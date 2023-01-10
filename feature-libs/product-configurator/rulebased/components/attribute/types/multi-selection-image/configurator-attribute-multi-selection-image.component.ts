@@ -30,6 +30,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Input() expMode: boolean;
+  @Input() uiContextKey: string = '';
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
