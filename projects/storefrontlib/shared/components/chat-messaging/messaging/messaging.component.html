@@ -11,18 +11,18 @@
       <ng-container *ngFor="let message of messageEvents; let i = index">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false}"
+          [ngClass]="{ 'cx-message-display': message?.rightAlign ?? false }"
         >
           <cx-avatar [message]="message!"> </cx-avatar>
 
           <div>
             <label>{{
-             ( message?.createdAt
-                | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
+              (message?.createdAt | cxDate: messagingConfigs?.dateFormat) ??
+                dateFormat
             }}</label>
             <div
               [ngClass]="
-                (message?.rightAlign ?? false)
+                message?.rightAlign ?? false
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -36,7 +36,8 @@
                         text: message?.text!,
                         date:
                           (message?.createdAt
-                          | cxDate: messagingConfigs?.dateFormat) ?? dateFormat
+                            | cxDate: messagingConfigs?.dateFormat) ??
+                          dateFormat
                       }
               "
             >

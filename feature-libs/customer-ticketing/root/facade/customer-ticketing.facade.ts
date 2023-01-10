@@ -80,4 +80,3 @@ export abstract class CustomerTicketingFacade {
     attachmentId: string | undefined
   ): Observable<unknown>;
 }
-
