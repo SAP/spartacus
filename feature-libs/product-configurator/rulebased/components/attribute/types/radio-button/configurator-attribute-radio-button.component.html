@@ -24,8 +24,12 @@
           [attr.required]="attribute.required"
           [value]="value.valueCode"
           name="{{ createAttributeIdForConfigurator(attribute, uiContextKey) }}"
-          attr.name="{{ createAttributeIdForConfigurator(attribute, uiContextKey) }}"
-          [cxFocus]="{ key: createFocusId(attribute.name, value.name, uiContextKey)}"
+          attr.name="{{
+            createAttributeIdForConfigurator(attribute, uiContextKey)
+          }}"
+          [cxFocus]="{
+            key: createFocusId(attribute.name, value.name, uiContextKey)
+          }"
           [attr.aria-label]="getAriaLabel(value, attribute)"
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode

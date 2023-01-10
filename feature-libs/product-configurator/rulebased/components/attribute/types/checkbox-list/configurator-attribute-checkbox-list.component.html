@@ -24,11 +24,15 @@
             }}"
             type="checkbox"
             class="form-check-input"
-            [cxFocus]="{ key: createFocusId(attribute.name, value.name, uiContextKey)}"
+            [cxFocus]="{
+              key: createFocusId(attribute.name, value.name, uiContextKey)
+            }"
             [value]="value.valueCode"
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForms[i]"
-            name="{{ createAttributeIdForConfigurator(attribute, uiContextKey) }}"
+            name="{{
+              createAttributeIdForConfigurator(attribute, uiContextKey)
+            }}"
             [attr.aria-label]="
               value.valuePrice && value.valuePrice?.value !== 0
                 ? value.valuePriceTotal && value.valuePriceTotal?.value !== 0

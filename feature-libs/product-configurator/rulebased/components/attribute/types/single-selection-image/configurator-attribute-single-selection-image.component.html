@@ -20,7 +20,9 @@
       [formControl]="attributeRadioButtonForm"
       [value]="value.valueCode"
       name="{{ createAttributeIdForConfigurator(attribute, uiContextKey) }}"
-      attr.name="{{ createAttributeIdForConfigurator(attribute, uiContextKey) }}"
+      attr.name="{{
+        createAttributeIdForConfigurator(attribute, uiContextKey)
+      }}"
       [attr.required]="attribute.required"
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
@@ -43,7 +45,9 @@
       "
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
       (click)="onClick(value.valueCode)"
-      [cxFocus]="{ key: createFocusId(attribute.name, value.name, uiContextKey)}"
+      [cxFocus]="{
+        key: createFocusId(attribute.name, value.name, uiContextKey)
+      }"
       role="radio"
     />
     <div class="cx-label-container">
