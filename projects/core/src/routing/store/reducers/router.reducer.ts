@@ -128,8 +128,8 @@ export class CustomSerializer
       }
 
       // we use context information embedded in Cms driven routes from any parent route
-      if (state.data && state.data.cxCmsRouteContext) {
-        context = state.data.cxCmsRouteContext;
+      if (state.data?.cxCmsRouteContext) {
+        context = state.data?.cxCmsRouteContext;
       }
 
       // we assume, that any route that has CmsPageGuard or it's child
@@ -137,11 +137,9 @@ export class CustomSerializer
       if (
         !cmsRequired &&
         (context ||
-          (state.routeConfig &&
-            state.routeConfig.canActivate &&
-            state.routeConfig.canActivate.find(
-              (x) => x && x.guardName === 'CmsPageGuard'
-            )))
+          state.routeConfig?.canActivate?.find(
+            (x) => x && x.guardName === 'CmsPageGuard'
+          ))
       ) {
         cmsRequired = true;
       }
@@ -152,7 +150,46 @@ export class CustomSerializer
     // This will work only for simple URLs without any dynamic routing parameters.
     semanticRoute = semanticRoute || this.lookupSemanticRoute(urlString);
     const { params } = state;
-    context = this.getPageContext(state) ?? context;
+    context = this.getPageContext(context, state);
+
+    return {
+      url: routerState.url,
+      queryParams: routerState.root.queryParams,
+      params,
+      context,
+      cmsRequired,
+      semanticRoute,
+    };
+  }
+
+  private getPageContext(
+    cmsRouteContext: PageContext | undefined,
+    state: CmsActivatedRouteSnapshot
+  ): PageContext {
+    let context = cmsRouteContext;
+
+    // we give smartedit preview page a PageContext
+    if (
+      state.url.length > 0 &&
+      state.url[0].path === 'cx-preview' &&
+      state.queryParams.cmsTicketId !== undefined
+    ) {
+      context = {
+        id: SMART_EDIT_CONTEXT,
+        type: PageType.CONTENT_PAGE,
+      };
+    } else {
+      const { params } = state;
+      if (params['productCode']) {
+        context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+      } else if (params['categoryCode']) {
+        context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['brandCode']) {
+        context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+      } else if (state.data.pageLabel !== undefined) {
+        context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+      }
+    }
 
     if (!context) {
       if (state.url.length > 0) {
@@ -175,41 +212,7 @@ export class CustomSerializer
       }
     }
 
-    return {
-      url: routerState.url,
-      queryParams: routerState.root.queryParams,
-      params,
-      context,
-      cmsRequired,
-      semanticRoute,
-    };
-  }
-
-  private getPageContext(
-    state: CmsActivatedRouteSnapshot
-  ): PageContext | undefined {
-    const { params } = state;
-    // we give smartedit preview page a PageContext
-    if (
-      state.url.length > 0 &&
-      state.url[0].path === 'cx-preview' &&
-      state.queryParams.cmsTicketId !== undefined
-    ) {
-      return {
-        id: SMART_EDIT_CONTEXT,
-        type: PageType.CONTENT_PAGE,
-      };
-    } else {
-      if (params['productCode']) {
-        return { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-      } else if (params['categoryCode']) {
-        return { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-      } else if (params['brandCode']) {
-        return { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-      } else if (state.data.pageLabel !== undefined) {
-        return { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-      }
-    }
+    return context;
   }
 
   /**
