@@ -353,8 +353,7 @@ export class ConfiguratorGroupsService {
                 configuration.flatGroups &&
                 configuration.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
                 !this.isConflictGroupInImmediateConflictResolutionMode(
-                  configuration.flatGroups[index + neighboringIndex]
-                    ?.groupType,
+                  configuration.flatGroups[index + neighboringIndex]?.groupType,
                   configuration.immediateConflictResolution
                 )
               ) {
