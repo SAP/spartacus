@@ -73,6 +73,7 @@ describe('StoreFinderSearchComponent', () => {
             useValue: { go: jasmine.createSpy() },
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
           {
             provide: FeaturesConfig,
             useValue: {

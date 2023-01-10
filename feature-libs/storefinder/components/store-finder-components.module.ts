@@ -44,6 +44,7 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
+    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
     FeaturesConfigModule,
   ],
   providers: [
