@@ -32,7 +32,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Input() expMode: boolean;
-  @Input() uiKeyPrefix: string = '';
+  @Input() uiContextKey: string = '';
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 

@@ -25,7 +25,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  @Input() uiKeyPrefix: string = '';
+  @Input() uiContextKey: string = '';
 
   attributeRadioButtonForm = new UntypedFormControl('');
 

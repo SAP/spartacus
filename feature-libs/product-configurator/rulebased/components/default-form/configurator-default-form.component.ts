@@ -24,7 +24,7 @@ export class ConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;
-  @Input() uiKeyPrefix: string = '';
+  @Input() uiContextKey: string = '';
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;

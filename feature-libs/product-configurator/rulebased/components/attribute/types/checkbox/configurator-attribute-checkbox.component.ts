@@ -32,7 +32,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   @Input() ownerKey: string;
   @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-  @Input() uiKeyPrefix: string = '';
+  @Input() uiContextKey: string = '';
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
