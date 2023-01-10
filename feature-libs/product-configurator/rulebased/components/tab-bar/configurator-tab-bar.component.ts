@@ -52,6 +52,11 @@ export class ConfiguratorTabBarComponent {
     )
   );
 
+  /**
+   * Returns the tabindex for the configuration tab.
+   * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
+   * @returns tabindex of the configuration tab
+   */
   getTabIndexConfigTab(): number {
     let tabIndex = 0;
     this.isOverviewPage$.pipe(take(1)).subscribe((isOvPage) => {
@@ -62,6 +67,11 @@ export class ConfiguratorTabBarComponent {
     return tabIndex;
   }
 
+  /**
+   * Returns the tabindex for the overview tab.
+   * The overview tab is excluded from the tab chain if currently the configuration page is displayed.
+   * @returns tabindex of the overview tab
+   */
   getTabIndexOverviewTab(): number {
     let tabIndex = 0;
     this.isOverviewPage$.pipe(take(1)).subscribe((isOvPage) => {
@@ -72,6 +82,11 @@ export class ConfiguratorTabBarComponent {
     return tabIndex;
   }
 
+  /**
+   * Switches the focus of the tabs on pressing left or right arrow key.
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {string} currentTab - Current tab
+   */
   switchTabOnArrowPress(event: KeyboardEvent, currentTab: string): void {
     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
       event.preventDefault();
