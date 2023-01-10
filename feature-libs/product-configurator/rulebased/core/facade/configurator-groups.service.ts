@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -101,7 +101,7 @@ export class ConfiguratorGroupsService {
       .subscribe((configuration) => {
         const groupId = this.getFirstConflictGroup(configuration)?.id;
         if (groupId) {
-          this.navigateToGroup(configuration, groupId, true);
+          this.navigateToGroup(configuration, groupId, true, true);
         }
       });
   }
@@ -198,11 +198,14 @@ export class ConfiguratorGroupsService {
    * @param {Configurator.Configuration}configuration - Configuration
    * @param {string} groupId - Group ID
    * @param {boolean} setStatus - Group status will be set for previous group, default true
+   * @param {boolean} conflictResolutionMode - Parameter with default (false). If set to true, we enter the conflict resolution mode, i.e.
+   *  if a conflict is solved, the system will navigate to the next conflict present
    */
   navigateToGroup(
     configuration: Configurator.Configuration,
     groupId: string,
-    setStatus = true
+    setStatus = true,
+    conflictResolutionMode = false
   ): void {
     if (setStatus) {
       //Set Group status for current group
@@ -226,6 +229,7 @@ export class ConfiguratorGroupsService {
         configuration: configuration,
         groupId: groupId,
         parentGroupId: parentGroup ? parentGroup.id : undefined,
+        conflictResolutionMode: conflictResolutionMode,
       })
     );
   }
