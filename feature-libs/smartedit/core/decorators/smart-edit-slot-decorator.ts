@@ -18,6 +18,10 @@ export class SmartEditSlotDecorator extends SlotDecorator {
 
   decorate(element: Element, renderer: Renderer2, slot: ContentSlotData): void {
     if (slot) {
+      console.log('do I get called override decorate;');
+      console.log('1', element);
+      console.log('2', renderer);
+      console.log('3', slot.properties);
       this.smartEditService.addSmartEditContract(
         element,
         renderer,
