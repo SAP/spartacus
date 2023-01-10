@@ -5,7 +5,8 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy, SecurityContext } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -26,7 +27,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
   constructor(
     private siteContextParams: SiteContextParamsService,
     private serializer: SiteContextUrlSerializer,
-    private injector: Injector
+    private injector: Injector,
+    private sanitizer: DomSanitizer
   ) {}
 
   private subscription = new Subscription();
@@ -53,9 +55,13 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
     this.location = this.injector.get<Location>(Location);
     const routingParams = this.siteContextParams.getUrlEncodingParameters();
-
+    // using DOM APIs, so need to sanitize our URLs manually
+    const sanitizedUrl = this.sanitizer.sanitize(
+      SecurityContext.URL,
+      this.location.path(true)
+    );
     if (routingParams.length) {
-      this.setContextParamsFromRoute(this.location.path(true));
+      this.setContextParamsFromRoute(sanitizedUrl === null ? '' : sanitizedUrl);
       this.subscribeChanges(routingParams);
       this.subscribeRouting();
     }
