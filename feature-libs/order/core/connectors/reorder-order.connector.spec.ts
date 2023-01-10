@@ -13,9 +13,7 @@ const mockCartModificationList: CartModificationList = {
   cartModifications: [],
 };
 
-class MockReorderOrderAdapter
-  implements ReorderOrderAdapter
-{
+class MockReorderOrderAdapter implements ReorderOrderAdapter {
   reorder = createSpy().and.returnValue(of({}));
 }
 
@@ -47,21 +45,13 @@ describe('ReorderOrderConnector', () => {
   });
 
   it('reorder should call adapter', (done) => {
-    adapter.reorder = createSpy().and.returnValue(
-      of(mockCartModificationList)
-    );
+    adapter.reorder = createSpy().and.returnValue(of(mockCartModificationList));
 
     connector
-      .reorder(
-        mockOrderId,
-        mockUserId
-      )
+      .reorder(mockOrderId, mockUserId)
       .pipe(take(1))
       .subscribe((result) => {
-        expect(adapter.reorder).toHaveBeenCalledWith(
-          mockOrderId,
-          mockUserId
-        );
+        expect(adapter.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
         expect(result).toEqual(mockCartModificationList);
         done();
       });

@@ -1,8 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { CartModificationList } from '@spartacus/cart/base/root';
-import {
-  OCC_USER_ID_CURRENT
-} from '@spartacus/core';
+import { OCC_USER_ID_CURRENT } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
@@ -15,12 +13,8 @@ const mockCartModificationList: CartModificationList = {
   cartModifications: [],
 };
 
-class MockReorderOrderOrderConnector
-  implements Partial<ReorderOrderConnector>
-{
-    reorder = createSpy().and.returnValue(
-    of(mockCartModificationList)
-  );
+class MockReorderOrderOrderConnector implements Partial<ReorderOrderConnector> {
+  reorder = createSpy().and.returnValue(of(mockCartModificationList));
 }
 
 describe(`ReorderOrderService`, () => {
@@ -44,24 +38,16 @@ describe(`ReorderOrderService`, () => {
 
   it(`should inject ReorderOrderService`, inject(
     [ReorderOrderService],
-    (
-      reorderOrderService: ReorderOrderService
-    ) => {
+    (reorderOrderService: ReorderOrderService) => {
       expect(reorderOrderService).toBeTruthy();
     }
   ));
 
   describe(`scheduleReplenishmentOrder`, () => {
     it(`should call reorderOrderConnector.reorder`, () => {
-      service.reorder(
-        mockOrderId,
-        mockUserId
-      );
+      service.reorder(mockOrderId, mockUserId);
 
-      expect(connector.reorder).toHaveBeenCalledWith(
-        mockOrderId,
-        mockUserId
-      );
+      expect(connector.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
     });
   });
 });

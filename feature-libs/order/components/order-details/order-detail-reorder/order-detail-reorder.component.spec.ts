@@ -1,4 +1,4 @@
-import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService } from '@spartacus/cart/base/core';
@@ -16,8 +16,8 @@ const mockCartModificationList: CartModificationList = {
 };
 
 const mockOrder: Order = {
-    code: '123',
-  };
+  code: '123',
+};
 
 class MockActiveCartService {
   reloadCurrentActiveCart(): void {}
@@ -38,20 +38,18 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {
     return of();
   }
-  emitData(_data: any): void {
-  }
+  emitData(_data: any): void {}
 }
 
 class MockOrderDetailsService {
-    getOrderDetails() {
-      return of(mockOrder);
-    }
+  getOrderDetails() {
+    return of(mockOrder);
   }
+}
 
 describe('Order detail reorder component', () => {
   let component: OrderDetailReorderComponent;
   let fixture: ComponentFixture<OrderDetailReorderComponent>;
-  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -84,7 +82,6 @@ describe('Order detail reorder component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailReorderComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
   });
 
   it('should be created', () => {
@@ -92,11 +89,10 @@ describe('Order detail reorder component', () => {
   });
 
   it('should read the order details', () => {
-
     fixture.detectChanges();
 
     component.order$.subscribe((order) => {
-        expect(order).toEqual(mockOrder);
+      expect(order).toEqual(mockOrder);
     });
   });
 });

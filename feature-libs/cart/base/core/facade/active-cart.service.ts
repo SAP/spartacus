@@ -533,7 +533,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   reloadCurrentActiveCart() {
     const cartId = OCC_CART_ID_CURRENT;
-    this.userIdService.takeUserId()
+    this.userIdService
+      .takeUserId()
       .pipe(
         take(1),
         map((userId) => {

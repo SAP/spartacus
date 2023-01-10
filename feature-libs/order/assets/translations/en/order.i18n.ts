@@ -185,14 +185,15 @@ export const order = {
     dialog: {
       reorderProducts: 'Reorder products',
       messages: {
-        reviewConfiguration: 'An error occurred with "{{ productCode}}" configuration.',
+        reviewConfiguration:
+          'An error occurred with "{{ productCode}}" configuration.',
         lowStock:
           'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
         noStock: '{{ productName }} is currently out of stock.',
         pricingError: 'Pricing problem with "{{ productCode }}".',
         unresolvableIssues: 'Unrecognized problem with "{{ productCode }}".',
-        success: 'Products have been successfully added to the cart', 
+        success: 'Products have been successfully added to the cart',
       },
-    }
+    },
   },
 };

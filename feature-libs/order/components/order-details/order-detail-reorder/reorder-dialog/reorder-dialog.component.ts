@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  CartModification,
-} from '@spartacus/cart/base/root';
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -21,7 +24,7 @@ import { CartValidationStatusCode } from '@spartacus/cart/base/root';
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReorderDialogComponent implements OnInit, OnDestroy{
+export class ReorderDialogComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
@@ -35,17 +38,14 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
 
   loading$ = new BehaviorSubject(false);
 
-  constructor(protected launchDialogService: LaunchDialogService) {
-  }
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   ngOnInit() {
     this.subscriptions.add(
-      this.launchDialogService.data$.subscribe(
-        (data: any) => {
-          this.cartModifications = data.cartModificationList?.cartModifications;
-          this.loading$.next(data.loading);
-        }
-      )
+      this.launchDialogService.data$.subscribe((data: any) => {
+        this.cartModifications = data.cartModificationList?.cartModifications;
+        this.loading$.next(data.loading);
+      })
     );
   }
 
@@ -57,6 +57,6 @@ export class ReorderDialogComponent implements OnInit, OnDestroy{
     this.launchDialogService.closeDialog(reason);
   }
   public get cartValidationStatusCode(): typeof CartValidationStatusCode {
-    return CartValidationStatusCode; 
+    return CartValidationStatusCode;
   }
 }

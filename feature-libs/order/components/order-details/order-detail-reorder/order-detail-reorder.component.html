@@ -2,8 +2,11 @@
   <ng-container *ngIf="order.code">
     <div class="cx-nav row">
       <div class="col-xs-12 col-md-10 col-lg-8">
-        <button #element
-          class="btn btn-primary" (click)="onReorderClick(order)">
+        <button
+          #element
+          class="btn btn-primary"
+          (click)="onReorderClick(order)"
+        >
           Reorder
         </button>
       </div>

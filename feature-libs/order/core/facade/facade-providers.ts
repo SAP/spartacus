@@ -50,5 +50,5 @@ export const facadeProviders: Provider[] = [
   {
     provide: ReorderOrderFacade,
     useExisting: ReorderOrderService,
-  }
+  },
 ];

@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
@@ -19,14 +26,14 @@ import { OrderDetailsService } from '../order-details.service';
   templateUrl: './order-detail-reorder.component.html',
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
-
   constructor(
-    protected orderDetailsService: OrderDetailsService, 
-    protected launchDialogService: LaunchDialogService, 
+    protected orderDetailsService: OrderDetailsService,
+    protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected userIdService: UserIdService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected activeCartService: ActiveCartService,) {}
+    protected activeCartService: ActiveCartService
+  ) {}
 
   @ViewChild('element') element: ElementRef;
   protected subscription = new Subscription();
@@ -45,10 +52,14 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
 
   onReorderClick(order: any) {
     this.launchDialog();
-    this.reorderOrderFacade.reorder(order.code, this.userId)
+    this.reorderOrderFacade
+      .reorder(order.code, this.userId)
       .subscribe((cartModificationList: CartModificationList) => {
         this.activeCartService.reloadCurrentActiveCart();
-        this.launchDialogService.emitData({ loading: false, cartModificationList });
+        this.launchDialogService.emitData({
+          loading: false,
+          cartModificationList,
+        });
       });
   }
 

@@ -6,10 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
-import {
-  Converter,
-  Occ,
-} from '@spartacus/core';
+import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccReorderOrderNormalizer
@@ -21,6 +18,6 @@ export class OccReorderOrderNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as CartModificationList;
     }
-      return target;
+    return target;
   }
 }

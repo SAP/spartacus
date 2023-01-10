@@ -77,7 +77,7 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
     {
       provide: REORDER_ORDER_NORMALIZER,
       useExisting: OccReorderOrderNormalizer,
-      multi: true
+      multi: true,
     },
   ],
 })

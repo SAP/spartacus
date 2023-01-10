@@ -85,10 +85,13 @@ describe('Order History with orders', () => {
 
   it('should display order details page with the reorder button', () => {
     cy.get('.cx-order-history-value').first().click();
-    cy.get('cx-order-details-reorder div div button').should('contain', 'Reorder')
+    cy.get('cx-order-details-reorder div div button').should(
+      'contain',
+      'Reorder'
+    );
   });
 
-  it('should show result dialog on adding items to the the cart and update the cart', () => {    
+  it('should show result dialog on adding items to the the cart and update the cart', () => {
     cy.get('cx-order-details-reorder div div button').first().click();
     cy.get('.cx-cart-mod-entry-container').should('exist');
 
@@ -97,5 +100,4 @@ describe('Order History with orders', () => {
 
     cart.clearActiveCart();
   });
-  
 });

@@ -27,7 +27,7 @@
       <ng-container>
         <ng-container *ngIf="!(loading$ | async); else loading">
           <p>
-            <ng-container *ngIf="!(cartModifications.length); else cartResponse">
+            <ng-container *ngIf="!cartModifications.length; else cartResponse">
               <span class="cx-cart-mod-entry-container">
                 <span class="alert-icon">
                   <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
@@ -36,8 +36,17 @@
               </span>
             </ng-container>
             <ng-template #cartResponse>
-              <span *ngFor="let cartModification of cartModifications" class="cx-cart-mod-entry-container">
-                <ng-container *ngIf="cartModification.statusCode === cartValidationStatusCode.LOW_STOCK; else errorIcon">
+              <span
+                *ngFor="let cartModification of cartModifications"
+                class="cx-cart-mod-entry-container"
+              >
+                <ng-container
+                  *ngIf="
+                    cartModification.statusCode ===
+                      cartValidationStatusCode.LOW_STOCK;
+                    else errorIcon
+                  "
+                >
                   <span class="alert-icon">
                     <cx-icon class="warning" [type]="iconTypes.INFO"></cx-icon>
                   </span>

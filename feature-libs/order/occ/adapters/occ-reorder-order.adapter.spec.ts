@@ -9,18 +9,15 @@ import {
   OccEndpointsService,
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
-import {
-  REORDER_ORDER_NORMALIZER,
-} from '@spartacus/order/root';
+import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccReorderOrderAdapter } from './occ-reorder-order.adapter';
-
 
 const userId = OCC_USER_ID_CURRENT;
 const orderCode = 'orderCode';
 
 const mockCartModificationList: CartModificationList = {
-    cartModifications: [],
+  cartModifications: [],
 };
 
 describe(`OccReorderOrderAdapter`, () => {
@@ -57,31 +54,20 @@ describe(`OccReorderOrderAdapter`, () => {
 
   describe(`Create cart from order`, () => {
     it(`should create a cart from order`, () => {
-      occAdapter
-        .reorder(
-          orderCode,
-          userId
-        )
-        .subscribe((data) => {
-          expect(data).toEqual(mockCartModificationList);
-        });
-
-      const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'POST' &&
-          req.url === '/reorder'
-        );
+      occAdapter.reorder(orderCode, userId).subscribe((data) => {
+        expect(data).toEqual(mockCartModificationList);
       });
 
-      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
-        'reorder',
-        {
-          urlParams: {
-            userId,
-          },
-          queryParams: { orderCode },
-        }
-      );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'POST' && req.url === '/reorder';
+      });
+
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith('reorder', {
+        urlParams: {
+          userId,
+        },
+        queryParams: { orderCode },
+      });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -91,17 +77,13 @@ describe(`OccReorderOrderAdapter`, () => {
     it('should use converter', () => {
       occAdapter.reorder(orderCode, userId).subscribe();
 
-      httpMock.expectOne((req) => {
-        return (
-          req.method === 'POST' &&
-          req.url === '/reorder'
-        );
-      }).flush({});
+      httpMock
+        .expectOne((req) => {
+          return req.method === 'POST' && req.url === '/reorder';
+        })
+        .flush({});
 
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        REORDER_ORDER_NORMALIZER
-      );
+      expect(converter.pipeable).toHaveBeenCalledWith(REORDER_ORDER_NORMALIZER);
     });
-
   });
 });
