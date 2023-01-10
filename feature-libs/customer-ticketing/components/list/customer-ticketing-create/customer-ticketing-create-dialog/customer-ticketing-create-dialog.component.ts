@@ -90,7 +90,7 @@ export class CustomerTicketingCreateDialogComponent
     ticketAssociatedObjects: AssociatedObject[],
     selectEvent: Event
   ) {
-    var selectedAssociatedObjectIndex = (
+    const selectedAssociatedObjectIndex = (
       selectEvent.target as HTMLSelectElement
     ).selectedIndex;
     this.selectedAssociatedObject =
@@ -101,7 +101,7 @@ export class CustomerTicketingCreateDialogComponent
   }
 
   setSelectedCategory(ticketCategories: Category[], selectEvent: Event): void {
-    var selectedCategoryIndex = (selectEvent.target as HTMLSelectElement)
+    const selectedCategoryIndex = (selectEvent.target as HTMLSelectElement)
       .selectedIndex;
     this.selectedCategory = ticketCategories[selectedCategoryIndex - 1];
     this.form.controls.ticketCategory.setValue(this.selectedCategory.id);

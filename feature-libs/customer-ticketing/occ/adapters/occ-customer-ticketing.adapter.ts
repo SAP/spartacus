@@ -207,7 +207,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     file: File
   ): Observable<unknown> {
     file = this.converter.convert(file, CUSTOMER_TICKETING_FILE_NORMALIZER);
-    let formData: FormData = new FormData();
+    const formData: FormData = new FormData();
     formData.append('ticketEventAttachment', file);
 
     return this.http
