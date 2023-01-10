@@ -56,13 +56,7 @@ export class MultiCartEffects {
     map((action: any) => {
       switch (action.type) {
         case CartActions.LOAD_CART: {
-          if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
-            return new CartActions.SetCartTypeIndex({
-              cartType: CartType.ACTIVE,
-              cartId: '',
-            });
-          }
-          break;
+          return this.getActiveCartTypeOnLoad(action);
         }
         case CartActions.LOAD_CART_SUCCESS: {
           if (action?.payload?.extraData?.active) {
@@ -81,13 +75,7 @@ export class MultiCartEffects {
           break;
         }
         case CartActions.CREATE_CART: {
-          if (action?.payload?.extraData?.active) {
-            return new CartActions.SetCartTypeIndex({
-              cartType: CartType.ACTIVE,
-              cartId: action.meta.entityId as string,
-            });
-          }
-          break;
+          this.getActiveCartTypeOnCreate(action);
         }
         case CartActions.CREATE_CART_SUCCESS: {
           return new CartActions.SetCartTypeIndex({
@@ -103,9 +91,40 @@ export class MultiCartEffects {
             cartId: action.payload,
           });
       }
+      return undefined;
     }),
     filter(isNotUndefined)
   );
+
+  /**
+   * Verifies if cart is the current cart and returns the appropriate cart type
+   * @param action
+   * @returns cart type needed on load
+   */
+  private getActiveCartTypeOnLoad(action: any) {
+    if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
+      return new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
+      });
+    }
+    return undefined;
+  }
+
+  /**
+   * Verifies if cart is active and returns the appropriate cart type
+   * @param action
+   * @returns cart type needed on creation
+   */
+  private getActiveCartTypeOnCreate(action: any) {
+    if (action?.payload?.extraData?.active) {
+      return new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: action.meta.entityId as string,
+      });
+    }
+    return undefined;
+  }
 
   constructor(private actions$: Actions) {}
 }
