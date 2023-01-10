@@ -14,8 +14,8 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   templateUrl: './order-confirmation-pickup-in-store-details.component.html',
 })
 export class OrderConfirmationPickupInStoreComponent {
-  deliveryPointsOfService$ =
-    this.deliveryPointsService.getDeliveryPointsOfServiceOrderConfirmation();
+  getDeliveryPointsOfServiceOrderConfirmation$ =
+    this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder();
 
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
 }

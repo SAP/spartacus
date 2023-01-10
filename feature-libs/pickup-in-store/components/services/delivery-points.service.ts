@@ -8,7 +8,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   DeliveryPointOfService,
   PickupLocationsSearchFacade,
@@ -46,10 +46,32 @@ export class DeliveryPointsService {
         Some of the below involves turning array data into lookup object data simply because this is easier to deal with
 
     */
-  getDeliveryPointsOfService(): Observable<Array<DeliveryPointOfService>> {
+  getDeliveryPointsOfServiceFromCart(): Observable<
+    Array<DeliveryPointOfService>
+  > {
     return this.activeCartFacade.getActive().pipe(
       filter((cart) => !!cart.entries && !!cart.entries.length),
       map((cart): Array<OrderEntry> => cart.entries as Array<OrderEntry>),
+      switchMap((entries) => this.getDeliveryPointsOfService(entries))
+    );
+  }
+
+  getDeliveryPointsOfServiceFromOrder(): Observable<
+    Array<DeliveryPointOfService>
+  > {
+    return this.orderFacade.getOrderDetails().pipe(
+      filter((order) => !!order),
+      map((order): Order => order as Order),
+      filter((order) => !!order.entries && !!order.entries.length),
+      map((order) => order.entries as Array<OrderEntry>),
+      switchMap((entries) => this.getDeliveryPointsOfService(entries))
+    );
+  }
+
+  getDeliveryPointsOfService(
+    entries: Array<OrderEntry>
+  ): Observable<Array<DeliveryPointOfService>> {
+    return of(entries).pipe(
       map(
         (entries): Array<OrderEntry> =>
           entries.filter((entry) => !!entry.deliveryPointOfService)
@@ -58,8 +80,8 @@ export class DeliveryPointsService {
         iif(
           () => !!entries.length,
           of(entries).pipe(
-            map((entries): Array<OrderEntry> => {
-              const COPY = [...entries];
+            map((_entries): Array<OrderEntry> => {
+              const COPY = [..._entries];
               COPY.sort(
                 (a: OrderEntry, b: OrderEntry) =>
                   a.deliveryPointOfService?.name?.localeCompare(
@@ -140,14 +162,5 @@ export class DeliveryPointsService {
         )
       )
     );
-  }
-
-  getDeliveryPointsOfServiceOrderConfirmation(): Observable<
-    Array<DeliveryPointOfService>
-  > {
-    this.orderFacade
-      .getOrderDetails()
-      .pipe(tap((orders) => console.log(orders)));
-    return of([]);
   }
 }

@@ -14,6 +14,6 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
 })
 export class CheckoutPickUpInStoreDetailsComponent {
   deliveryPointsOfService$ =
-    this.deliveryPointsService.getDeliveryPointsOfService();
+    this.deliveryPointsService.getDeliveryPointsOfServiceFromCart();
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
 }
