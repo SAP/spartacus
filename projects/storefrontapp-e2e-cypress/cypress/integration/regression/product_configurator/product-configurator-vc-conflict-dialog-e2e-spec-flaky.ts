@@ -75,6 +75,9 @@ context('Product Configuration', () => {
 
     conflictDialog.close();
     conflictDialog.checkIsClosed();
+    configurationVc.clickAddToCartBtn();
+    conflictDialog.checkIsClosed();
+
     configuration.clickExitConfigurationButton();
     conflictDialog.checkIsClosed();
   });
