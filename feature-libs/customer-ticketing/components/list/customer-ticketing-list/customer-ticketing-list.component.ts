@@ -6,15 +6,16 @@
  */
 
 import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
+  STATUS,
+  TEXT_COLOR_CLASS,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { RoutingService, TranslationService } from '@spartacus/core';
-import { STATUS, TEXT_COLOR_CLASS } from '@spartacus/customer-ticketing/root';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-list',

@@ -94,7 +94,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     if (this.scrollToInput) {
       this.observeScroll();
-      if (this.scrollOnceOnLoad) this.scrollOnLoad();
+      if (this.scrollOnceOnLoad) {
+        this.scrollOnLoad();
+      }
     }
   }
 
@@ -214,7 +216,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
       element?.scrollIntoView({ behavior: 'auto', block: 'end' });
       this.scrollOnceOnLoad = false;
     });
-    if (element) resizeObserver.observe(element);
+    if (element) {
+      resizeObserver.observe(element);
+    }
   }
 
   private getResultElements(): HTMLElement[] {

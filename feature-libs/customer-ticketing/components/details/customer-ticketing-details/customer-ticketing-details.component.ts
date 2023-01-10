@@ -12,12 +12,12 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import {
+  CustomerTicketingFacade,
+  DATE_FORMAT,
+  GetTicketQueryReloadEvent,
   STATUS,
   TEXT_COLOR_CLASS,
   TicketDetails,
-  DATE_FORMAT,
-  CustomerTicketingFacade,
-  GetTicketQueryReloadEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -59,11 +59,12 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
   }
 
   getStatusClass(id?: string): string {
-    return id === STATUS.OPEN || id === STATUS.INPROCESS
-      ? TEXT_COLOR_CLASS.GREEN
-      : id === STATUS.CLOSED
-      ? TEXT_COLOR_CLASS.GREY
-      : '';
+    if (id === STATUS.OPEN || id === STATUS.INPROCESS) {
+      return TEXT_COLOR_CLASS.GREEN;
+    } else if (id === STATUS.CLOSED) {
+      return TEXT_COLOR_CLASS.GREY;
+    }
+    return '';
   }
 
   protected reloadOnRedirection() {
