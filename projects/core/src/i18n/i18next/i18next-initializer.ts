@@ -30,9 +30,6 @@ export class I18nextInitializer implements OnDestroy {
     protected siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
   ) {}
 
-  // SPIKE TODO: remove this property and use WindowRef instead
-  protected serverRequestOrigin = this.windowRef.location.origin;
-
   initialize(): Promise<any> {
     const i18nextConfig = this.getI18nextConfig();
     return this.i18next.init(i18nextConfig, () => {
@@ -70,8 +67,7 @@ export class I18nextInitializer implements OnDestroy {
     const loadPath = this.getLoadPath(
       // SPIKE TODO: improve typing:
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.config.i18n!.backend!.loadPath!,
-      this.serverRequestOrigin
+      this.config.i18n!.backend!.loadPath!
     );
     const backend: BackendOptions = {
       loadPath,
@@ -92,17 +88,16 @@ export class I18nextInitializer implements OnDestroy {
    * - https://github.com/angular/angular/issues/19224
    * - https://github.com/angular/universal/issues/858
    */
-  protected getLoadPath(
-    path: string,
-    serverRequestOrigin: string | undefined
-  ): string {
-    if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
+  protected getLoadPath(path: string): string {
+    // SPIKE NOTE: changed serverRequestOrigin to !this.windowRef.isBrowser()
+    if (!this.windowRef.isBrowser() && !path.match(/^http(s)?:\/\//)) {
       if (path.startsWith('/')) {
         path = path.slice(1);
       }
       if (path.startsWith('./')) {
         path = path.slice(2);
       }
+      const serverRequestOrigin = this.windowRef.location.origin;
       const result = `${serverRequestOrigin}/${path}`;
       return result;
     }
