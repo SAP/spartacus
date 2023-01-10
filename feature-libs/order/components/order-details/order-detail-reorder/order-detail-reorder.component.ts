@@ -7,8 +7,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
-import { CmsOrderDetailReorderComponent, UserIdService } from '@spartacus/core';
-import { CmsComponentData, LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { UserIdService } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -20,13 +20,13 @@ import { OrderDetailsService } from '../order-details.service';
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
 
-  constructor(protected orderDetailsService: OrderDetailsService, 
+  constructor(
+    protected orderDetailsService: OrderDetailsService, 
     protected launchDialogService: LaunchDialogService, 
     protected vcr: ViewContainerRef,
     protected userIdService: UserIdService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected activeCartService: ActiveCartService,
-    protected component: CmsComponentData<CmsOrderDetailReorderComponent>,) {}
+    protected activeCartService: ActiveCartService,) {}
 
   @ViewChild('element') element: ElementRef;
   protected subscription = new Subscription();
@@ -44,7 +44,7 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   }
 
   onReorderClick(order: any) {
-    this.launchDialog();  
+    this.launchDialog();
     this.reorderOrderFacade.reorder(order.code, this.userId)
       .subscribe((cartModificationList: CartModificationList) => {
         this.activeCartService.reloadCurrentActiveCart();
