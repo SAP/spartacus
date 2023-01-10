@@ -41,14 +41,18 @@ export class SmartEditService {
     this.loadScript();
 
     if (winRef.nativeWindow) {
+      console.log('ok native window');
       const window = winRef.nativeWindow as any;
+      console.log('current', window);
+      console.log('what is in smartedit obj', window?.smartedit);
       // rerender components and slots after editing
-      window.smartedit = window.smartedit || {};
+      window.smartedit = window?.smartedit || {};
       window.smartedit.renderComponent = (
         componentId: string,
         componentType: string,
         parentId: string
       ) => {
+        console.log('edit only?');
         return this.renderComponent(componentId, componentType, parentId);
       };
 
@@ -65,6 +69,7 @@ export class SmartEditService {
         take(1)
       )
       .subscribe((site) => {
+        console.log('processed cms page', site);
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
@@ -72,6 +77,7 @@ export class SmartEditService {
           .getCurrentPage()
           .pipe(filter<Page>(Boolean))
           .subscribe((cmsPage) => {
+            console.log('called again current page?', cmsPage);
             this._currentPageId = cmsPage.pageId;
             // before adding contract to page, we need redirect to that page
             this.goToPreviewPage(cmsPage);
@@ -101,13 +107,24 @@ export class SmartEditService {
     const renderer = this.rendererFactory.createRenderer('body', null);
     const element = this.winRef.document.body;
 
+    console.log('body el', element);
+    console.log('body el', Array.from(element.classList));
+
     // remove old page contract
     const previousContract: string[] = [];
-    Array.from(element.classList).forEach((attr) =>
-      previousContract.push(attr)
-    );
-    previousContract.forEach((attr) => renderer.removeClass(element, attr));
+    Array.from(element.classList).forEach((attr) => {
+      // console.log(`${element.outerHTML} = ${attr}`);
+      return previousContract.push(attr);
+    });
 
+    console.log('done loop', previousContract);
+
+    previousContract.forEach((attr) => {
+      // console.log(`removing class using render ${element.outerHTML} = ${attr}`);
+      return renderer.removeClass(element, attr);
+    });
+
+    console.log('cms page', cmsPage);
     // add new page contract
     this.addSmartEditContract(element, renderer, cmsPage.properties);
   }
@@ -147,6 +164,11 @@ export class SmartEditService {
     componentType?: string,
     parentId?: string
   ): boolean {
+    console.log('pretty sure it never gets called', [
+      componentId,
+      componentType,
+      parentId,
+    ]);
     if (componentId) {
       this.zone.run(() => {
         // without parentId, it is slot
@@ -177,6 +199,7 @@ export class SmartEditService {
     renderer: Renderer2,
     properties: any
   ): void {
+    console.log('cmspage props in addcontract', properties);
     if (properties) {
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) => {
