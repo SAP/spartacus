@@ -80,6 +80,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
+                "bundleName": "s4om"
               }
             ],
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",

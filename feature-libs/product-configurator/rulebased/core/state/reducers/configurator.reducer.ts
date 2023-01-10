@@ -115,25 +115,18 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ): Configurator.Configuration | undefined {
-  if (
-    action.type === ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS
-  ) {
-    const result: Configurator.Configuration = takeOverChanges(action, state);
-    result.isCartEntryUpdateRequired = true;
-    result.overview = undefined;
-    return result;
-  }
+  const result: Configurator.Configuration = takeOverChanges(action, state);
+  result.isCartEntryUpdateRequired = true;
+  result.overview = undefined;
+  return result;
 }
 
 function handleActionUpdateCartEntry(
-  state: Configurator.Configuration,
-  action: ConfiguratorActions.UpdateCartEntry
+  state: Configurator.Configuration
 ): Configurator.Configuration | undefined {
-  if (action.type === ConfiguratorActions.UPDATE_CART_ENTRY) {
-    const result = { ...state };
-    result.isCartEntryUpdateRequired = false;
-    return result;
-  }
+  const result = { ...state };
+  result.isCartEntryUpdateRequired = false;
+  return result;
 }
 
 function handleReadSucess(
