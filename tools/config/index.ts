@@ -275,14 +275,14 @@ manageDependencies(repository, options);
 manageTsConfigs(repository, options);
 
 // collect and generate dependencies.json file.
-execSync(`yarn generate:deps --compare=true`);
+execSync(`npm run generate:deps --compare=true`);
 
 /**
  * Format all files.
  */
 if (options.fix) {
   console.log('\nFormatting files (might take some time)...\n');
-  execSync('yarn prettier:fix');
+  execSync('npm run prettier:fix');
   console.log(`✨ ${chalk.green('Update completed')}`);
 }
 

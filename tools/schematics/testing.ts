@@ -116,13 +116,13 @@ function publishLibs(reload = false): void {
 }
 
 function buildLibs(): void {
-  execSync('yarn build:libs', { stdio: 'inherit' });
+  execSync('npm run build:libs', { stdio: 'inherit' });
 }
 
 function buildSchematics(
   options: { publish: boolean } = { publish: false }
 ): void {
-  execSync('yarn build:schematics', { stdio: 'inherit' });
+  execSync('npm run build:schematics', { stdio: 'inherit' });
   if (options.publish) {
     publishLibs();
   }
@@ -194,7 +194,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build user/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
-      buildSchematicsAndPublish(`yarn build:${lib}`);
+      buildSchematicsAndPublish(`npm run build:${lib}`);
       break;
     case 'build all libs':
       buildLibs();
