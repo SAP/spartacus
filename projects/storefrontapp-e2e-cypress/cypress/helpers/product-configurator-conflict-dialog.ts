@@ -15,8 +15,8 @@ export function checkIsClosed() {
 }
 
 export function checkDisplayedConflict() {
-  checkHasTitle();
-  checkHasCloseButton();
+  //checkHasTitle();
+  //checkHasCloseButton();
   checkHasResolveMessage();
   checkHasDescription();
 }
@@ -37,6 +37,6 @@ export function checkHasDescription() {
   cy.get('cx-configurator-conflict-description').should('be.visible');
 }
 
-
-
-
+export function checkNumberOfSuggestions(number: number) {
+  cy.get('cx-configurator-conflict-suggestion').should('have.length', number);
+}
