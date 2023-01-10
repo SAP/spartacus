@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 
@@ -20,6 +25,8 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  @Input() uiContextKey: string = '';
+
   attributeRadioButtonForm = new UntypedFormControl('');
 
   constructor(

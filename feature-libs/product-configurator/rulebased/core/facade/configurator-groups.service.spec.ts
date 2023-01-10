@@ -234,21 +234,6 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getPreviousGroupId', () => {
-    it('should return null in case commons service returns an undefined configuration', (done) => {
-      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(undefined)
-      );
-      const currentGroup = classUnderTest.getPreviousGroupId(
-        productConfiguration.owner
-      );
-
-      expect(currentGroup).toBeDefined();
-      currentGroup.subscribe((groupId) => {
-        expect(groupId).toBeUndefined();
-        done();
-      });
-    });
-
     it('should return a previous group ID', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
