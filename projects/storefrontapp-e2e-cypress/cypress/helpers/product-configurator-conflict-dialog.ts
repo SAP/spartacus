@@ -59,22 +59,20 @@ export function checkAttributeInvolved(
   selectedValueNames: string[],
   uiType: configuration.uiType
 ) {
-  configuration.checkAttributeDisplayed(attributeName, uiType);
-  selectedValueNames.forEach((valueName) =>
-    configuration.checkValueSelected(uiType, attributeName, valueName)
-  );
+  cy.get('cx-configurator-conflict-solver-dialog').within(() => {
+    configuration.checkAttributeDisplayed(attributeName, uiType);
+    selectedValueNames.forEach((valueName) =>
+      configuration.checkValueSelected(uiType, attributeName, valueName)
+    );
+  });
 }
 
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ) {
-  configurationVc.selectAttributeAndWait(
-    attributeName,
-    uiType,
-    valueName,
-    value
+  cy.get('cx-configurator-conflict-solver-dialog').within(() =>
+    configurationVc.selectAttributeAndWait(attributeName, uiType, valueName)
   );
 }

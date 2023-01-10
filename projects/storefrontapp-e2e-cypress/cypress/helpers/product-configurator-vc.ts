@@ -469,10 +469,9 @@ export function registerConfigurationUpdateRoute() {
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
 }
 
