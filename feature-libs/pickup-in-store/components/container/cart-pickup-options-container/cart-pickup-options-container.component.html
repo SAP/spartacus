@@ -1,4 +1,6 @@
-<ng-container *ngIf="availableForPickup$ | async">
+<ng-container
+  *ngIf="(availableForPickup$ | async) && !(outlet?.context$ | async).orderCode"
+>
   <cx-pickup-options
     [displayPickupLocation]="displayName$ | async"
     [selectedOption]="pickupOption$ | async"
