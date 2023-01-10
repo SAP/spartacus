@@ -25,16 +25,19 @@ context('Product Configuration', () => {
     conflictDialog.checkIsClosed();
     configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600'); // Triggers the conflicts
     conflictDialog.checkIsOpen();
-    conflictDialog.checkDisplayedConflict();
+    conflictDialog.checkDisplayedConflict([
+      { name: 'CAMERA_APERTURE', selectedValueNames: ['F3\\.5'], uiType: RB },
+      { name: 'CAMERA_MAX_ISO', selectedValueNames: ['25600'], uiType: RB },
+    ]);
 
-    //CHECK conflict Dialog
+    conflictDialog.selectAttributeAndWait('CAMERA_APERTURE', RB, 'F2\\.8'); // resolve CONFLICT 2
+    conflictDialog.checkIsOpen();
+    conflictDialog.checkDisplayedConflict([
+      { name: 'CAMERA_VIEWFINDER', selectedValueNames: ['E'], uiType: RB },
+      { name: 'CAMERA_MAX_ISO', selectedValueNames: ['25600'], uiType: RB },
+    ]);
 
-    //solve conflict 1
-
-    //CHECK conflict Dialog
-
-    //solve conflict 2
-
-    //CHECK conflict Dialog CLOSED
+    conflictDialog.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R'); // resolve CONFLICT 1
+    conflictDialog.checkIsClosed();
   });
 });
