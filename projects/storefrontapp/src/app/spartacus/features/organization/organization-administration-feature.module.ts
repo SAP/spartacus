@@ -25,7 +25,7 @@ if (environment.cdc) {
 }
 @NgModule({
   declarations: [],
-  imports: [AdministrationRootModule,...extensions],
+  imports: [AdministrationRootModule, ...extensions],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
