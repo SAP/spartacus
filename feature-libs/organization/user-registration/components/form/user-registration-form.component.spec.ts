@@ -133,6 +133,7 @@ describe('UserRegistrationFormComponent', () => {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
           },
+          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
           {
             provide: FeaturesConfig,
             useValue: {
