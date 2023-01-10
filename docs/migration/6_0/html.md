@@ -85,4 +85,4 @@
 
 ### UserRegistrationFormComponent
 
-- Added id attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+- Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
