@@ -39,10 +39,10 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        if (configuration?.interactionState.currentGroup) {
+        if (configuration.interactionState.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
-          return configuration?.groups[0]?.id;
+          return configuration.groups[0]?.id;
         }
       })
     );
@@ -347,19 +347,19 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
             let nextGroup;
-            configuration?.flatGroups.forEach((group, index) => {
+            configuration.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration?.flatGroups &&
-                configuration?.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
+                configuration.flatGroups &&
+                configuration.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
                 !this.isConflictGroupInImmediateConflictResolutionMode(
-                  configuration?.flatGroups[index + neighboringIndex]
+                  configuration.flatGroups[index + neighboringIndex]
                     ?.groupType,
-                  configuration?.immediateConflictResolution
+                  configuration.immediateConflictResolution
                 )
               ) {
                 nextGroup =
-                  configuration?.flatGroups[index + neighboringIndex].id;
+                  configuration.flatGroups[index + neighboringIndex].id;
               }
             });
             return nextGroup;
