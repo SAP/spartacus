@@ -1,12 +1,13 @@
 import * as conflictDialog from '../../../helpers/product-configurator-conflict-dialog';
+import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
+import * as configurationOvVc from '../../../helpers/product-configurator-overview-vc';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
 
 const RB = 'radioGroup';
-//const CBL = 'checkBoxList';
 
 context('Product Configuration', () => {
   beforeEach(() => {
@@ -38,6 +39,43 @@ context('Product Configuration', () => {
     ]);
 
     conflictDialog.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'R'); // resolve CONFLICT 1
+    conflictDialog.checkIsClosed();
+  });
+
+  it('should restrict navigation when immediate conflict resolving is active', () => {
+    configurationVc.clickOnNextBtnAndWait('Specification');
+    configurationVc.selectAttributeAndWait('CAMERA_VIEWFINDER', RB, 'E');
+    configurationVc.selectAttributeAndWait('CAMERA_MAX_ISO', RB, '25600');
+    conflictDialog.checkIsOpen();
+
+    conflictDialog.checkViewInConfigurationLinkNotDisplayed(
+      'CAMERA_VIEWFINDER'
+    );
+    conflictDialog.checkViewInConfigurationLinkNotDisplayed('CAMERA_MAX_ISO');
+
+    conflictDialog.close();
+    configurationVc.checkConflictDetectedLinkNotDisplayed('CAMERA_VIEWFINDER');
+    configurationVc.checkConflictDetectedLinkNotDisplayed('CAMERA_MAX_ISO');
+
+    conflictDialog.checkIsClosed();
+    configurationVc.clickOnGroup(0);
+    conflictDialog.checkIsOpen();
+
+    conflictDialog.close();
+    conflictDialog.checkIsClosed();
+    configurationVc.clickOnNextBtnAndWait('Specification');
+    conflictDialog.checkIsOpen();
+
+    conflictDialog.close();
+    conflictDialog.checkIsClosed();
+    configurationVc.navigateToOverviewPage();
+    conflictDialog.checkIsClosed();
+    configurationOvVc.navigateToConfigurationPage();
+    conflictDialog.checkIsOpen();
+
+    conflictDialog.close();
+    conflictDialog.checkIsClosed();
+    configuration.clickExitConfigurationButton();
     conflictDialog.checkIsClosed();
   });
 });

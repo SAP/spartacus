@@ -571,3 +571,14 @@ export function completeOrderProcess(productName: string): void {
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
 }
+
+/**
+ * Clicks on 'Proceed to Checkout' on the product details page.
+ */
+export function clickExitConfigurationButton(): void {
+  cy.get('cx-configurator-exit-button button')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('not.contain', '/configure/');
+    });
+}
