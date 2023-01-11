@@ -73,3 +73,13 @@
 ### defaultAnonymousConsentLayoutConfig
 
 - Changed `inline: true` to `inlineRoot: true` for keyboard tabbing and VO to work correctly.
+
+
+### StoreFinderSearchComponent
+
+- Added `tabindex="-1"` to avoid tab stop for accessibility improvements.
+
+### UpdateProfileComponent
+
+- Removed empty option(`ng-option`) from the title code selector(`ng-select`).
+
