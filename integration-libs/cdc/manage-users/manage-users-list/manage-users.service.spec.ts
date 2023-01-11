@@ -8,7 +8,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { manageUsersService } from './manage-users.service';
+import { ManageUsersService } from './manage-users.service';
 import createSpy = jasmine.createSpy;
 const orgId: string = 'f5fe0023-a8c4-4379-a3e4-5fbda8895f2e';
 class MockWinRef {
@@ -30,7 +30,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 describe('manageUsersService', () => {
-  let service: manageUsersService;
+  let service: ManageUsersService;
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe('manageUsersService', () => {
         },
       ],
     });
-    service = TestBed.inject(manageUsersService);
+    service = TestBed.inject(ManageUsersService);
     cdcJsService = TestBed.inject(CdcJsService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     TestBed.compileComponents();

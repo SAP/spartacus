@@ -15,7 +15,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class manageUsersService {
+export class ManageUsersService {
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef,

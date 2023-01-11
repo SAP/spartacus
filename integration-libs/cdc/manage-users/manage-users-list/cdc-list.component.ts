@@ -11,7 +11,7 @@ import {
   ListComponent,
   ListService,
 } from '@spartacus/organization/administration/components';
-import { manageUsersService } from '../user-details/manage-users.service';
+import { ManageUsersService } from './manage-users.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -22,7 +22,7 @@ export class CdcListComponent<T extends BaseItem> extends ListComponent {
   constructor(
     protected service: ListService<T>,
     protected organizationItemService: ItemService<T>,
-    protected manageUsersService: manageUsersService
+    protected manageUsersService: ManageUsersService
   ) {
     super(service, organizationItemService);
   }
