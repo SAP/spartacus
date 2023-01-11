@@ -157,13 +157,13 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 
 function testAllSchematics(): void {
   try {
-    execSync('yarn --cwd projects/schematics run test --coverage', {
+    execSync('npm --prefix projects/schematics run test --coverage', {
       stdio: 'inherit',
     });
 
     featureLibsFolders.forEach((lib) =>
       execSync(
-        `yarn --cwd feature-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix feature-libs/${lib} run test:schematics --coverage`,
         {
           stdio: 'inherit',
         }
@@ -171,7 +171,7 @@ function testAllSchematics(): void {
     );
     integrationLibsFolders.forEach((lib) =>
       execSync(
-        `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix integration-libs/${lib} run test:schematics --coverage`,
         {
           stdio: 'inherit',
         }

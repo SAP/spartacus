@@ -256,7 +256,7 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
+"build:asm": "npm --prefix feature-libs/asm run build:schematics && ng build asm --configuration production",
 "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
