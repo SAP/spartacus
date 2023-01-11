@@ -18,7 +18,7 @@
     id="{{ createAttributeIdForConfigurator(attribute) }}"
     class="form-control"
     [formControl]="attributeDropDownForm"
-    [cxFocus]="{ key: attribute.name }"
+    [cxFocus]="{ key: createFocusId(attribute.name, 'values', uiContextKey) }"
     (change)="onSelect(attributeDropDownForm.value)"
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
   >

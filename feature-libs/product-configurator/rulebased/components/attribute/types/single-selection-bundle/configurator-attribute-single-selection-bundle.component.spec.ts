@@ -254,19 +254,27 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
     it('should find second value when first is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
-        '1111--2222--focus'
+        'cx-configurator--1111--2222--focus'
       );
     });
 
     it('should find first value when second is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[1])).toBe(
-        '1111--1111--focus'
+        'cx-configurator--1111--1111--focus'
       );
     });
     it('should find first value when there is only one value', () => {
       component.attribute.values = [values[0]];
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
-        '1111--1111--focus'
+        'cx-configurator--1111--1111--focus'
+      );
+    });
+
+    it('should consider uiContextKey', () => {
+      component.attribute.values = [values[0]];
+      component.uiContextKey = 'context';
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
+        'cx-configurator--context--1111--1111--focus'
       );
     });
   });

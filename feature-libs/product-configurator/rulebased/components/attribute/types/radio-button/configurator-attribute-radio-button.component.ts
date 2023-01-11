@@ -7,7 +7,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
@@ -25,8 +24,6 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  @Input() uiContextKey: string = '';
-
   attributeRadioButtonForm = new UntypedFormControl('');
 
   constructor(
