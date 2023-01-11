@@ -31,6 +31,7 @@ const INTERACTION_STATE: Configurator.InteractionState = {
   groupsVisited: {},
   menuParentGroup: undefined,
   issueNavigationDone: true,
+  showConflictSolverDialogue: undefined,
 };
 const ATTR_VALUE: Configurator.Value = { valueCode: VALUE_CODE };
 const ATTRIBUTE: Configurator.Attribute = {

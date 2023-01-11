@@ -29,6 +29,7 @@ export class MockIconFontLoaderService {
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  dismissConflictSolverDialogue(): void {}
 }
 
 const mockRouterData: ConfiguratorRouter.Data = {
