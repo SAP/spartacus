@@ -104,6 +104,7 @@ class MockConfiguratorCommonsService {
   hasConflicts(): Observable<boolean> {
     return hasConfigurationConflictsObservable;
   }
+  checkConflictSolverDialogue(): void {}
 }
 
 class MockConfiguratorGroupsService {

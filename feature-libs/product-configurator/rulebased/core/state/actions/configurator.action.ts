@@ -66,6 +66,11 @@ export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
   '[Configurator] Remove product bound configurations';
 
+export const DISMISS_CONFLICT_DIALOGUE =
+  '[Configurator] Dismiss conflict dialogue';
+
+export const CHECK_CONFLICT_DIALOGUE = '[Configurator] Check conflict dialogue';
+
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(
@@ -316,6 +321,20 @@ export class RemoveProductBoundConfigurations implements Action {
   }
 }
 
+export class DissmissConflictDialoge extends StateUtils.EntitySuccessAction {
+  readonly type = DISMISS_CONFLICT_DIALOGUE;
+  constructor(public ownerKey: string) {
+    super(CONFIGURATOR_DATA, ownerKey);
+  }
+}
+
+export class CheckConflictDialoge extends StateUtils.EntitySuccessAction {
+  readonly type = CHECK_CONFLICT_DIALOGUE;
+  constructor(public ownerKey: string) {
+    super(CONFIGURATOR_DATA, ownerKey);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -344,4 +363,6 @@ export type ConfiguratorAction =
   | SetMenuParentGroup
   | SetCurrentGroup
   | SetGroupsVisited
-  | RemoveProductBoundConfigurations;
+  | RemoveProductBoundConfigurations
+  | CheckConflictDialoge
+  | DissmissConflictDialoge;

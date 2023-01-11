@@ -107,6 +107,14 @@ function ensureReducerMapCreated() {
       ConfiguratorActions.SET_GROUPS_VISITED,
       handleSetGroupsVisited
     );
+    reducerMap.set(
+      ConfiguratorActions.DISMISS_CONFLICT_DIALOGUE,
+      handleActionDismissConflictSolverDialogue
+    );
+    reducerMap.set(
+      ConfiguratorActions.CHECK_CONFLICT_DIALOGUE,
+      handleActionCheckConflictSolverDialogue
+    );
     reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
   }
 }
@@ -116,8 +124,49 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = takeOverChanges(action, state);
+  checkConflictSolverDialogue(result);
   result.isCartEntryUpdateRequired = true;
   result.overview = undefined;
+  return result;
+}
+
+function checkConflictSolverDialogue(
+  configuration: Configurator.Configuration
+): void {
+  configuration.interactionState.showConflictSolverDialogue =
+    configuration.immediateConflictResolution && !configuration.consistent;
+  if (configuration.interactionState.showConflictSolverDialogue) {
+    configuration.interactionState.issueNavigationDone = true;
+  }
+}
+
+function handleActionDismissConflictSolverDialogue(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.DissmissConflictDialoge
+): Configurator.Configuration | undefined {
+  if (action.type === ConfiguratorActions.DISMISS_CONFLICT_DIALOGUE) {
+    const result: Configurator.Configuration = {
+      ...state,
+      interactionState: {
+        ...state.interactionState,
+        showConflictSolverDialogue: false,
+      },
+    };
+    return result;
+  }
+}
+
+function handleActionCheckConflictSolverDialogue(
+  state: Configurator.Configuration
+): Configurator.Configuration | undefined {
+  const result: Configurator.Configuration = {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+    },
+  };
+  checkConflictSolverDialogue(result);
+
   return result;
 }
 
@@ -136,7 +185,9 @@ function handleReadSucess(
     | ConfiguratorActions.ReadConfigurationSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
-  return setInitialCurrentGroup(takeOverChanges(action, state));
+  const result = setInitialCurrentGroup(takeOverChanges(action, state));
+  checkConflictSolverDialogue(result);
+  return result;
 }
 
 function handleUpdatePriceSummarySuccess(
@@ -244,13 +295,15 @@ function handleSetCurrentGroup(
 ): Configurator.Configuration | undefined {
   const newCurrentGroup: string = action.payload.currentGroup;
 
-  return {
+  const result = {
     ...state,
     interactionState: {
       ...state.interactionState,
       currentGroup: newCurrentGroup,
     },
   };
+  checkConflictSolverDialogue(result);
+  return result;
 }
 
 function handleSetMenuParentGroup(
