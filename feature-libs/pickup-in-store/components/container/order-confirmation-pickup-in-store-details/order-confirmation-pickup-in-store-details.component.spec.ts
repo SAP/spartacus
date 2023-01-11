@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PickUpItemsDetailsModule } from '../../presentational';
 import { OrderConfirmationPickupInStoreComponent } from './order-confirmation-pickup-in-store-details.component';
 
-describe('PickupInStoreDetailsReviewComponent', () => {
+describe('OrderConfirmationPickupInStoreComponent', () => {
   let component: OrderConfirmationPickupInStoreComponent;
   let fixture: ComponentFixture<OrderConfirmationPickupInStoreComponent>;
 
@@ -18,7 +18,7 @@ describe('PickupInStoreDetailsReviewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create OrderConfirmationPickupInStoreComponent component', () => {
     expect(component).toBeDefined();
   });
 });
