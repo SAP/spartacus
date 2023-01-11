@@ -67,6 +67,19 @@ const CONFIGURATION_WITH_CONFLICTS: Configurator.Configuration = {
   ],
   interactionState: {},
 };
+
+const CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION: Configurator.Configuration =
+  {
+    ...CONFIGURATION,
+    immediateConflictResolution: true,
+    consistent: false,
+    flatGroups: [
+      ConfiguratorTestUtils.createGroup(
+        Configurator.ConflictIdPrefix + '5A6542'
+      ),
+    ],
+    interactionState: {},
+  };
 const CONFIGURATION_WITHOUT_OV: Configurator.Configuration = {
   configId: 'ds',
   productCode: PRODUCT_CODE,
@@ -232,6 +245,27 @@ describe('Configurator reducer', () => {
       );
 
       expect(state.overview).toBeUndefined();
+    });
+
+    it('should check on conflict solver dialogue', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialogue).toEqual(true);
+    });
+
+    it('should detect that conflict solver dialogue is not needed in case immediateConflictResolution is not set but conflicts are present', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        {
+          ...CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
+          immediateConflictResolution: false,
+        }
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialogue).toEqual(false);
     });
   });
 
@@ -598,6 +632,33 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.interactionState.isConflictResolutionMode).toBe(true);
+    });
+  });
+
+  describe('DismissConflictDialogue action', () => {
+    it('should discard conflictSolverDialogue setting', () => {
+      const action = new ConfiguratorActions.DissmissConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialogue).toBe(false);
+    });
+  });
+
+  describe('CheckConflictSolverDialogue action', () => {
+    it('should not touch respective setting in case configuration has no conflicts', () => {
+      const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(CONFIGURATION, action);
+
+      expect(state.interactionState.showConflictSolverDialogue).toBe(undefined);
+    });
+    it('should set respective setting in case configuration has conflicts and enforces immediate conflict resolution', () => {
+      const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(
+        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
+        action
+      );
+
+      expect(state.interactionState.showConflictSolverDialogue).toBe(true);
     });
   });
 });
