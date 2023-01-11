@@ -1,6 +1,8 @@
 name: Spartacus core e2e test suite
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
+  pull_request:
+    types: [opened, synchronize]
   workflow_dispatch:
 jobs:
   core-e2e:
