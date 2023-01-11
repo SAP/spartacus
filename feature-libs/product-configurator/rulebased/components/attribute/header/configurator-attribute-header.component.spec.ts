@@ -1001,4 +1001,11 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component.isNavigationToConflictEnabled()).toBe(false);
     });
   });
+
+  describe('isRequiredAttributeWithDomain', () => {
+    it('should return false in case optional attribute is not defined', () => {
+      component.attribute.required = undefined;
+      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
+    });
+  });
 });

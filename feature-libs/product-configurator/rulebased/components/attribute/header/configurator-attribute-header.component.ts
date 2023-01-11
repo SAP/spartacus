@@ -57,9 +57,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
   }
 
   /**
