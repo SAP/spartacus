@@ -21,7 +21,7 @@
     "
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
     [cxFocus]="{
-      key: createAttributeIdForConfigurator(attribute)
+      key: createFocusId(attribute.name, 'value', uiContextKey)
     }"
   />
 </div>
