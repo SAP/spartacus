@@ -1,3 +1,26 @@
 <ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratons">
-  <p>opf-checkout-payments works!</p>
+  <div>
+    <div class="title">Payment option</div>
+    <div class="form-check" *ngFor="let configuration of activeConfiguratons">
+      <input
+        id="paymentId-{{ configuration.id }}"
+        class="form-check-input"
+        role="radio"
+        type="radio"
+        aria-checked="true"
+        (change)="changePayment(configuration)"
+        [value]="configuration.id"
+        [checked]="configuration.id === selectedPaymentId"
+        formControlName="paymentId"
+      />
+      <label
+        class="cx-payment-type-label form-check-label form-radio-label"
+        for="paymentId-{{ configuration.id }}"
+      >
+        <div class="cx-payment-type">
+          {{ configuration.displayName }}
+        </div>
+      </label>
+    </div>
+  </div>
 </ng-container>

@@ -35,8 +35,8 @@ export class OccOpfAdapter implements OpfAdapter {
     this.opfEndpointsService.buildUrl('getActiveConfigurations');
 
     let headers = new HttpHeaders({
-      'X-SAP-OPF-Public-Key': '123',
-      'Accept-Language': 'en-US',
+      // TODO: (OPF) to be changed once backend has stable configuration
+      'sap-commerce-cloud-public-key': '123',
     });
 
     return this.http
