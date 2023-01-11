@@ -274,7 +274,7 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
+ * @param {boolean} waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
  */
 export function selectAttribute(
   attributeName: string,

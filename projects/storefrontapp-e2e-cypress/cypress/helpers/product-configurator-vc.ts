@@ -495,7 +495,6 @@ export function registerConfigurationUpdateRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
