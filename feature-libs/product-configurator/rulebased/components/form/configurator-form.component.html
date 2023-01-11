@@ -1,17 +1,11 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <ng-container
-    *ngIf="
-      configuration.interactionState.showConflictSolverDialogue !== true;
-      else ghostForm
-    "
+  <cx-configurator-default-form
+    [group]="currentGroup$ | async"
+    [owner]="configuration.owner"
+    [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
   >
-    <cx-configurator-default-form
-      [group]="currentGroup$ | async"
-      [owner]="configuration.owner"
-      [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
-    >
-    </cx-configurator-default-form> </ng-container
-></ng-container>
+  </cx-configurator-default-form>
+</ng-container>
 
 <ng-template #ghostForm>
   <ng-container *ngFor="let number of [0, 1, 2]">
