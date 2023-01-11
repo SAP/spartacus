@@ -60,11 +60,18 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
   },
 ];
 
+const testStep: CheckoutStep = {
+  id: 'test',
+  name: 'test',
+  routeName: 'test',
+  type: [CheckoutStepType.PAYMENT_DETAILS],
+};
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
   disableEnableStep = createSpy();
+  getCheckoutStep = createSpy().and.returnValue(testStep);
 }
 
 class MockCheckoutDeliveryAddressFacade
@@ -143,6 +150,7 @@ describe(`CheckoutStepsSetGuard`, () => {
         CheckoutStepType.DELIVERY_MODE,
         true
       );
+      expect(testStep.nameMultiLine).toBeFalsy();
     });
 
     it('should enable delivery address step', () => {
@@ -155,6 +163,7 @@ describe(`CheckoutStepsSetGuard`, () => {
         CheckoutStepType.DELIVERY_MODE,
         false
       );
+      expect(testStep.nameMultiLine).toBeTruthy();
     });
   });
 

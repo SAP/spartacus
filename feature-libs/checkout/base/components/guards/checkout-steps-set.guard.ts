@@ -57,6 +57,15 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
           CheckoutStepType.DELIVERY_MODE,
           !hasDeliveryItems
         );
+
+        this.setStepNameMultiLine(
+          CheckoutStepType.PAYMENT_DETAILS,
+          hasDeliveryItems
+        );
+        this.setStepNameMultiLine(
+          CheckoutStepType.REVIEW_ORDER,
+          hasDeliveryItems
+        );
       });
   }
 
@@ -157,6 +166,16 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
     return this.router.parseUrl(
       this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string
     );
+  }
+
+  protected setStepNameMultiLine(
+    stepType: CheckoutStepType,
+    value: boolean
+  ): void {
+    const step = this.checkoutStepService.getCheckoutStep(stepType);
+    if (step) {
+      step.nameMultiLine = value;
+    }
   }
 
   ngOnDestroy(): void {
