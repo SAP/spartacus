@@ -12,10 +12,11 @@ import {
   CheckoutAuthGuard,
   CartNotEmptyGuard,
 } from '@spartacus/checkout/base/components';
+import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 
 @NgModule({
   declarations: [OPFCheckoutPaymentAndReviewComponent],
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, OpfCheckoutPaymentsModule],
 
   providers: [
     provideDefaultConfig(<CmsConfig>{
