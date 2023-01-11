@@ -296,7 +296,7 @@ export function clickOnViewInConfiguration(attribute: string): void {
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
   cy.log('Verify whether View in Configuration Link is displayed');
-  this.checkConflictLinkDisplayed(attribute, 'View in Configuration Link');
+  this.checkConflictLink(attribute, 'View in Configuration Link', true);
 }
 
 /**
@@ -304,24 +304,55 @@ export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
  */
 export function checkConflictDetectedLinkDisplayed(attribute: string): void {
   cy.log('Verify whether Conflict Detected - View Details Link is displayed');
-  this.checkConflictLinkDisplayed(
+  this.checkConflictLink(
     attribute,
-    'Conflict Detected - View Details Link'
+    'Conflict Detected - View Details Link',
+    true
+  );
+}
+
+/**
+ * Verifies whether the view in configuration link is NOT displayed.
+ */
+export function checkViewInConfigurationLinkNotDisplayed(
+  attribute: string
+): void {
+  cy.log('Verify whether View in Configuration Link is NOT displayed');
+  this.checkConflictLink(attribute, 'View in Configuration Link', false);
+}
+
+/**
+ * Verifies whether the conflict detected - view details link is NOT displayed.
+ */
+export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
+  cy.log(
+    'Verify whether Conflict Detected - View Details Link is NOT displayed'
+  );
+  this.checkConflictLink(
+    attribute,
+    'Conflict Detected - View Details Link',
+    false
   );
 }
 
 /**
  * Verifies whether the conflict link is displayed.
  */
-export function checkConflictLinkDisplayed(
+export function checkConflictLink(
   attribute: string,
-  linkName: string
+  linkName: string,
+  linkDisplayed: boolean
 ): void {
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+  cy.get(
+    `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`
+  ).within(() => {
+    if (linkDisplayed) {
       cy.get('a.cx-action-link').should('be.visible');
       cy.log(linkName + ' is displayed');
-    });
+    } else {
+      cy.get('a.cx-action-link').should('not.to.exist');
+      cy.log(linkName + ' is NOT displayed');
+    }
   });
 }
 
@@ -464,15 +495,13 @@ export function registerConfigurationUpdateRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
 }
 

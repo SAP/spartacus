@@ -274,13 +274,13 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
+ * @param {boolean} waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
  */
 export function selectAttribute(
   attributeName: string,
   uiType: uiType,
   valueName: string,
-  value?: string
+  waitForUpdateMsg: boolean = true
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
@@ -300,14 +300,16 @@ export function selectAttribute(
       cy.get(`#${labelId}`)
         .click({ force: true })
         .then(() => {
-          checkUpdatingMessageNotDisplayed();
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
         });
       break;
     case 'dropdown':
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
       break;
     case 'input':
-      cy.get(`#${valueId}`).clear().type(value);
+      cy.get(`#${valueId}`).clear().type(valueName);
       break;
     case 'dropdownProduct':
       cy.get(`select#${attributeId}`).select(valueName);
@@ -319,7 +321,9 @@ export function selectAttribute(
       cy.get(btnLoc)
         .click({ force: true })
         .then(() => {
-          checkUpdatingMessageNotDisplayed();
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
           //Here we cannot check if the value is selected, as this method is also used
           //for de-selecting items
         });
@@ -330,7 +334,9 @@ export function selectAttribute(
       );
   }
 
-  checkUpdatingMessageNotDisplayed();
+  if (waitForUpdateMsg) {
+    checkUpdatingMessageNotDisplayed();
+  }
 }
 
 /**
@@ -564,4 +570,15 @@ export function completeOrderProcess(productName: string): void {
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
+}
+
+/**
+ * Clicks on 'Proceed to Checkout' on the product details page.
+ */
+export function clickExitConfigurationButton(): void {
+  cy.get('cx-configurator-exit-button button')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('not.contain', '/configure/');
+    });
 }
