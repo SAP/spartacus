@@ -15,6 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',
@@ -63,6 +64,13 @@ export class ConfiguratorConflictSolverDialogComponent
    * @param {any} reason - Reason
    */
   dismissModal(reason?: any): void {
+    this.routerData$
+      .pipe(take(1))
+      .subscribe((routerData) =>
+        this.configuratorCommonsService.dismissConflictSolverDialogue(
+          routerData.owner
+        )
+      );
     this.launchDialogService.closeDialog(reason);
   }
 }

@@ -214,6 +214,28 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Dismisses conflict solver dialogue
+   *
+   * @param owner - Configuration owner
+   */
+  dismissConflictSolverDialogue(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.DissmissConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Check if we need to launch conflict solver dialogue
+   *
+   * @param owner - Configuration owner
+   */
+  checkConflictSolverDialogue(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CheckConflictDialoge(owner.key)
+    );
+  }
+
+  /**
    * Checks if the configuration contains conflicts
    *
    * @param owner - Configuration owner
@@ -225,8 +247,9 @@ export class ConfiguratorCommonsService {
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
+          configuration.immediateConflictResolution === false &&
           configuration.groups[0]?.groupType ===
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
+            Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
     );
   }
