@@ -133,10 +133,14 @@ describe(`CheckoutStepsSetGuard`, () => {
     checkoutStepService = TestBed.inject(CheckoutStepService);
   });
 
-  describe('should be able to disable/enable delivery address step', () => {
+  describe('should be able to disable/enable delivery address and delivery mode step', () => {
     it('should disable delivery address step', () => {
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
+        true
+      );
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
         true
       );
     });
@@ -145,6 +149,10 @@ describe(`CheckoutStepsSetGuard`, () => {
       hasDeliveryItems$.next(true);
       expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.DELIVERY_ADDRESS,
+        false
+      );
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
         false
       );
     });

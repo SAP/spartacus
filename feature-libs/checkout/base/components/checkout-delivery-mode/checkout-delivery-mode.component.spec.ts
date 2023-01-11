@@ -208,22 +208,6 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(invalid).toBe(false);
   });
 
-  describe('UI without delivery method section', () => {
-    it('should not display delivery method section if there is no shipped entries', () => {
-      deliveryEntries$.next([]);
-
-      fixture.detectChanges();
-
-      const deliveryMethod = fixture.debugElement.query(
-        (debugEl) =>
-          debugEl.nativeElement.textContent.indexOf(
-            'checkoutMode.deliveryMethod'
-          ) >= 0
-      );
-      expect(deliveryMethod).toBeNull();
-    });
-  });
-
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));

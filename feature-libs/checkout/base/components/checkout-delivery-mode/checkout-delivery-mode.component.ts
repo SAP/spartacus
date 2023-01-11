@@ -64,15 +64,7 @@ export class CheckoutDeliveryModeComponent {
       )
     );
 
-  hasDeliveryEntries: boolean;
-  deliveryEntries$ = this.activeCartFacade
-    .getDeliveryEntries()
-    .pipe(
-      tap(
-        (shippedEntries) =>
-          (this.hasDeliveryEntries = shippedEntries.length > 0)
-      )
-    );
+  deliveryEntries$ = this.activeCartFacade.getDeliveryEntries();
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -91,9 +83,7 @@ export class CheckoutDeliveryModeComponent {
   );
 
   get deliveryModeInvalid(): boolean {
-    return this.hasDeliveryEntries
-      ? this.mode.controls['deliveryModeId'].invalid
-      : false;
+    return this.mode.controls['deliveryModeId'].invalid;
   }
 
   constructor(

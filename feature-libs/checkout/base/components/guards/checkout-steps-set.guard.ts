@@ -53,6 +53,10 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
           CheckoutStepType.DELIVERY_ADDRESS,
           !hasDeliveryItems
         );
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.DELIVERY_MODE,
+          !hasDeliveryItems
+        );
       });
   }
 
