@@ -21,8 +21,8 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { UserRoutePageMetaResolver } from '../../../feature-libs/organization/administration/components/user/services/user-route-page-meta.resolver';
-import { CdcUserDetailsComponent } from './disable-edit/cdc-user-details.component';
-import { CdcListComponent } from './manage-users-button/cdc-list.component';
+import { CdcUserDetailsComponent } from './user-details/cdc-user-details.component';
+import { CdcListComponent } from './manage-users-list/cdc-list.component';
 
 export const cdcUserCmsConfig: CmsConfig = {
   cmsComponents: {

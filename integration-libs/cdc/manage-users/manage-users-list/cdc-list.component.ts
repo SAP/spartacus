@@ -11,7 +11,7 @@ import {
   ListComponent,
   ListService,
 } from '@spartacus/organization/administration/components';
-import { manageUsersService } from '../manage-users.service';
+import { manageUsersService } from '../user-details/manage-users.service';
 
 @Component({
   selector: 'cx-org-list',

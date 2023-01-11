@@ -14,8 +14,8 @@ import {
   AdministrationRootModule,
   ORGANIZATION_ADMINISTRATION_FEATURE,
 } from '@spartacus/organization/administration/root';
-import { CdcUserDetailsModule } from 'integration-libs/cdc/manage-users/disable-edit/cdc-user-details.module';
-import { CdcListModule } from 'integration-libs/cdc/manage-users/manage-users-button/cdc-list.module';
+import { CdcUserDetailsModule } from 'integration-libs/cdc/manage-users/user-details/cdc-user-details.module';
+import { CdcListModule } from 'integration-libs/cdc/manage-users/manage-users-list/cdc-list.module';
 import { environment } from 'projects/storefrontapp/src/environments/environment';
 
 const extensions: Type<any>[] = [];
