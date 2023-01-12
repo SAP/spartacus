@@ -183,6 +183,7 @@ export const order = {
     caption: 'Order contents.',
   },
   reorder: {
+    button: 'Reorder',
     dialog: {
       reorderProducts: 'Reorder products',
       messages: {
