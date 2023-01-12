@@ -12,7 +12,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
@@ -21,7 +22,10 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
 import { HttpTimeoutInterceptor } from './http-timeout.interceptor';
 
 const testUrl = '/test';
+const BROWSER_TIMEOUT = 1_000;
+const SERVER_TIMEOUT = 2_000;
 
+@Injectable({ providedIn: 'root' })
 class TestDelayInterceptor implements HttpInterceptor {
   delay = 0;
 
@@ -40,6 +44,7 @@ fdescribe('HttpTimeoutInterceptor', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
   let windowRef: WindowRef;
+  let config: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,8 +65,8 @@ fdescribe('HttpTimeoutInterceptor', () => {
           useValue: {
             backend: {
               timeout: {
-                browser: 1_000,
-                server: 2_000,
+                browser: BROWSER_TIMEOUT,
+                server: SERVER_TIMEOUT,
               },
             },
           },
@@ -73,19 +78,27 @@ fdescribe('HttpTimeoutInterceptor', () => {
     httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
     windowRef = TestBed.inject(WindowRef);
+    config = TestBed.inject(OccConfig);
   });
 
-  describe('in platform browser', () => {
-    it('should use the global timeout config for browser', fakeAsync(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+  afterEach(fakeAsync(() => {
+    httpMock.verify();
+    flush();
+  }));
 
+  describe('in platform browser', () => {
+    beforeEach(() => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+    });
+
+    it('should use the global timeout config for browser', fakeAsync(() => {
       let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
-
       const request = httpMock.expectOne(testUrl);
+
       request.event({ type: HttpEventType.Sent });
 
-      tick(999);
+      tick(BROWSER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
@@ -95,7 +108,6 @@ fdescribe('HttpTimeoutInterceptor', () => {
     }));
 
     it('should use the local browser timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
         browser: 5_000,
         server: 6_000,
@@ -120,16 +132,38 @@ fdescribe('HttpTimeoutInterceptor', () => {
   });
 
   describe('in platform server', () => {
-    it('should use the global timeout config for server', fakeAsync(() => {
+    beforeEach(() => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
+    });
 
+    // SPIKE TODO: repeat the following 2 tests for server:
+    // it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
+    //   // SPIKE TODO
+    // }));
+
+    it('should not timeout, when no timeout config is configured at all', fakeAsync(() => {
+      config.backend = { timeout: undefined };
       let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
 
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      tick(1_999);
+      tick(10_000);
+      expect(request.cancelled).toBe(false);
+      expect(error).toBe(undefined);
+
+      request.flush('ok');
+    }));
+
+    it('should use the global timeout config for server', fakeAsync(() => {
+      let error;
+      httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+
+      const request = httpMock.expectOne(testUrl);
+      request.event({ type: HttpEventType.Sent });
+
+      tick(SERVER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
@@ -139,7 +173,6 @@ fdescribe('HttpTimeoutInterceptor', () => {
     }));
 
     it('should use the local server timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
         browser: 5_000,
         server: 6_000,
@@ -163,7 +196,7 @@ fdescribe('HttpTimeoutInterceptor', () => {
     }));
   });
 
-  fit('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
+  it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
     TestBed.inject(TestDelayInterceptor).delay = 10_000;
     spyOn(windowRef, 'isBrowser').and.returnValue(true);
 
@@ -186,16 +219,6 @@ fdescribe('HttpTimeoutInterceptor', () => {
   }));
 });
 
-// SPIKE TODO:
-it(
-  'should respect the local timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG'
-);
-it('should use the global timeout config for server');
-
-it('should count time for timeout only after the request was sent');
-
-it(
-  'in case of timeout, it should throw an error of type HttpErrorResponse with http code 504 (Gateway Timeout)'
-);
-
-it('should not timeout, when no timeout config is configured');
+it('in case of timeout, it should throw an error of type HttpErrorResponse with http code 504 (Gateway Timeout)', () => {
+  // SPIKE TODO
+});
