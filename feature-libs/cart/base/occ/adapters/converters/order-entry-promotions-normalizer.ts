@@ -39,17 +39,16 @@ export class OrderEntryPromotionsNormalizer
     promotions?: PromotionResult[]
   ): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
-    if (promotions) {
-      for (const promotion of promotions) {
-        if (promotion.description && promotion.consumedEntries) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
+    promotions?.forEach((promotion) => {
+      if (promotion.description && promotion.consumedEntries) {
+        for (const consumedEntry of promotion.consumedEntries) {
+          if (this.isConsumedByEntry(consumedEntry, item)) {
+            entryPromotions.push(promotion);
           }
         }
       }
-    }
+    });
+
     return entryPromotions;
   }
 
