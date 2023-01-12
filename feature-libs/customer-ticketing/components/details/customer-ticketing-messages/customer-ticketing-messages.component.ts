@@ -75,7 +75,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       this.customerTicketingFacade
         .downloadAttachment(event.messageCode, event.attachmentId)
         .subscribe((data) => {
-          const downloadURL = window.URL.createObjectURL(data as any);
+          const downloadURL = window.URL.createObjectURL(data as Blob);
           const link = document.createElement('a');
           link.href = downloadURL;
           link.download = event.fileName ?? '';
