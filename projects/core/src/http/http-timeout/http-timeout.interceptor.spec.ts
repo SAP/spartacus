@@ -24,8 +24,12 @@ import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
 import { HttpTimeoutInterceptor } from './http-timeout.interceptor';
 
 const testUrl = '/test';
+
 const BROWSER_TIMEOUT = 1_000;
 const SERVER_TIMEOUT = 2_000;
+const CUSTOM_BROWSER_TIMEOUT = 5_000;
+const CUSTOM_SERVER_TIMEOUT = 6_000;
+
 const VERY_LONG_TIME = 100_000;
 
 describe('HttpTimeoutInterceptor', () => {
@@ -131,8 +135,8 @@ describe('HttpTimeoutInterceptor', () => {
 
     it('should use the local browser timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
-        browser: 5_000,
-        server: 6_000,
+        browser: CUSTOM_BROWSER_TIMEOUT,
+        server: CUSTOM_SERVER_TIMEOUT,
       });
 
       let error;
@@ -143,7 +147,7 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      tick(4_999);
+      tick(CUSTOM_BROWSER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
@@ -215,8 +219,8 @@ describe('HttpTimeoutInterceptor', () => {
 
     it('should use the local server timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
-        browser: 5_000,
-        server: 6_000,
+        browser: CUSTOM_BROWSER_TIMEOUT,
+        server: CUSTOM_SERVER_TIMEOUT,
       });
 
       let error;
@@ -227,7 +231,7 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      tick(5_999);
+      tick(CUSTOM_SERVER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
