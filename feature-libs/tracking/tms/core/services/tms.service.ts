@@ -31,6 +31,7 @@ export class TmsService implements OnDestroy {
    * Called only once to start collecting and dispatching events
    */
   collect(): void {
+    // CHECK SONAR
     if (!this.windowRef.isBrowser()) {
       return;
     }
@@ -101,5 +102,3 @@ export class TmsService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 }
-
-// CHECK SONAR
