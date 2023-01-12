@@ -6,7 +6,7 @@ import { CartModificationList } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
+import { ReorderOrderFacade } from '../../../root/facade/reorder-order.facade';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailReorderComponent } from './order-detail-reorder.component';

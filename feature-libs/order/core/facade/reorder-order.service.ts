@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import { Command, CommandService, CommandStrategy } from '@spartacus/core';
-import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
+import { ReorderOrderFacade } from '../../root/facade/reorder-order.facade';
 import { Observable } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 

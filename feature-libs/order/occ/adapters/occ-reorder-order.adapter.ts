@@ -7,7 +7,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { ReorderOrderAdapter } from 'feature-libs/order/core/connectors/reorder-order.adapter';
+import { ReorderOrderAdapter } from '../../core/connectors/reorder-order.adapter';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

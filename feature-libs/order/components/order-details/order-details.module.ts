@@ -35,7 +35,7 @@ import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-t
 import { OrderOverviewModule } from './order-overview/order-overview.module';
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
-import { ImportOrderEntriesModule } from 'feature-libs/cart/import-export/components/import-to-cart';
+import { ImportOrderEntriesModule } from '../../../cart/import-export/components/import-to-cart';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 const moduleComponents = [
