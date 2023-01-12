@@ -135,40 +135,20 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   });
 
   describe('conflictGroups observable', () => {
-    let configRouterData: ConfiguratorRouter.Data;
-    let overviewRouterData: ConfiguratorRouter.Data;
+    let configRouterData: ConfiguratorRouter.Data;    
 
     beforeEach(() => {
       configRouterData = structuredClone(defaultMockRouterData);
-      configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-      overviewRouterData = structuredClone(defaultMockRouterData);
-      overviewRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+      configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION; 
     });
 
-    it('should emit group data when routing pageType = "configuration"', () => {
+    it('should emit group data', () => {
       routerData$ = cold('    c---', { c: configRouterData });
       groups$ = cold('        -g--', { g: groups });
       const expected$ = cold('-g--', { g: groups });
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
-
-    it('should not emit group data when routing pageType = "overview"', () => {
-      routerData$ = cold('    o---', { o: overviewRouterData });
-      groups$ = cold('        -g--', { g: groups });
-      const expected$ = cold('----');
-      initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
-
-    it('should stop emitting group data when navigation to overview', () => {
-      const routerData = { a: configRouterData, o: overviewRouterData };
-      routerData$ = cold('    ao--', routerData);
-      groups$ = cold('        --a-', { a: groups });
-      const expected$ = cold('----');
-      initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
+    });  
   });
 
   describe('isConfiguratorRelatedRoute', () => {

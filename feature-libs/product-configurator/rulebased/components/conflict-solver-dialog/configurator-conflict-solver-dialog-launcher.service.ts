@@ -11,7 +11,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { NEVER, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { switchMap } from 'rxjs/operators';
@@ -29,14 +29,10 @@ export class ConfiguratorConflictSolverDialogLauncherService
 
   conflictGroups$: Observable<Configurator.Group[] | undefined> =
     this.routerData$.pipe(
-      switchMap((routerData) => {
-        if (routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION) {
+      switchMap((routerData) => {       
           return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
             routerData.owner
           );
-        } else {
-          return NEVER;
-        }
       })
     );
 
@@ -59,7 +55,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
       this.conflictGroups$.subscribe((conflictGroups) => {
         if (conflictGroups && conflictGroups?.length > 0) {
           this.openModal();
-        } else {
+        } else {        
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
         }
       })
@@ -68,6 +64,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
     this.subscription.add(
       this.routingService.getRouterState().subscribe((routerState) => {
         if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
+          console.log("CHHI not config related route");
           this.closeModal('CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON');
         }
       })
