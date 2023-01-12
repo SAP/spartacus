@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductService } from '@spartacus/core';
+import { ProductService, ProductScope } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
@@ -25,8 +25,6 @@ const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
-  protected readonly PRODUCT_SCOPE = 'details';
-
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
     protected productService: ProductService,
@@ -146,15 +144,17 @@ export class MerchandisingCarouselComponentService {
   ): Observable<MerchandisingProduct>[] {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
-          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
-            map((product) => ({
-              ...product,
-              metadata: this.getCarouselItemMetadata(
-                strategyProduct,
-                index + 1
-              ),
-            }))
-          )
+          this.productService
+            .get(strategyProduct.id, [ProductScope.DETAILS, ProductScope.PRICE])
+            .pipe(
+              map((product) => ({
+                ...product,
+                metadata: this.getCarouselItemMetadata(
+                  strategyProduct,
+                  index + 1
+                ),
+              }))
+            )
         )
       : [EMPTY];
   }
