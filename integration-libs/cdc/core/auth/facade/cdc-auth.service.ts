@@ -106,30 +106,7 @@ export class CdcAuthService implements CdcAuthFacade {
     stream$.pipe(take(1)).subscribe((canLogin) => {
       if (canLogin) {
         // Code mostly based on auth lib we use and the way it handles token properties
-        this.authStorageService.setItem('access_token', token.access_token);
-
-        if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
-          this.authStorageService.setItem(
-            'granted_scopes',
-            JSON.stringify(token.granted_scopes)
-          );
-        }
-
-        this.authStorageService.setItem(
-          'access_token_stored_at',
-          '' + Date.now()
-        );
-
-        if (token.expires_in) {
-          const expiresInMilliseconds = token.expires_in * 1000;
-          const now = new Date();
-          const expiresAt = now.getTime() + expiresInMilliseconds;
-          this.authStorageService.setItem('expires_at', '' + expiresAt);
-        }
-
-        if (token.refresh_token) {
-          this.authStorageService.setItem('refresh_token', token.refresh_token);
-        }
+        this.setTokenData(token);
 
         // OCC specific code
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
@@ -142,6 +119,28 @@ export class CdcAuthService implements CdcAuthFacade {
       }
     });
   }
-}
 
-// CHECK SONAR
+  protected setTokenData(token: any): void {
+    this.authStorageService.setItem('access_token', token.access_token);
+
+    if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
+      this.authStorageService.setItem(
+        'granted_scopes',
+        JSON.stringify(token.granted_scopes)
+      );
+    }
+
+    this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
+
+    if (token.expires_in) {
+      const expiresInMilliseconds = token.expires_in * 1000;
+      const now = new Date();
+      const expiresAt = now.getTime() + expiresInMilliseconds;
+      this.authStorageService.setItem('expires_at', '' + expiresAt);
+    }
+
+    if (token.refresh_token) {
+      this.authStorageService.setItem('refresh_token', token.refresh_token);
+    }
+  }
+}
