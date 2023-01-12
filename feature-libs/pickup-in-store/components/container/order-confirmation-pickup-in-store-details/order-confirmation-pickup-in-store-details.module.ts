@@ -8,20 +8,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { PickUpItemsDetailsModule } from '../../presentational';
-import { PickupInStoreDetailsReviewComponent } from './review-pickup-in-store-details.component';
+import { OrderConfirmationPickupInStoreComponent } from './order-confirmation-pickup-in-store-details.component';
 @NgModule({
-  exports: [PickupInStoreDetailsReviewComponent],
-  declarations: [PickupInStoreDetailsReviewComponent],
+  exports: [OrderConfirmationPickupInStoreComponent],
+  declarations: [OrderConfirmationPickupInStoreComponent],
   imports: [
     CommonModule,
     PickUpItemsDetailsModule,
     ConfigModule.withConfig({
       cmsComponents: {
-        PickupInStoreDetailsReviewComponent: {
-          component: PickupInStoreDetailsReviewComponent,
+        OrderConfirmationPickupInStore: {
+          component: OrderConfirmationPickupInStoreComponent,
         },
       },
     } as CmsConfig),
   ],
 })
-export class PickupInStoreDetailsReviewModule {}
+export class OrderConfirmationPickupInStoreModule {}

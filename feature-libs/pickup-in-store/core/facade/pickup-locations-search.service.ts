@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,7 +9,7 @@ import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
-  StockLocationSearchParams,
+  StockLocationSearchParams
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -24,7 +23,7 @@ import {
   StateWithStock,
   StockLevelActions,
   StockSelectors,
-  ToggleHideOutOfStockOptionsAction,
+  ToggleHideOutOfStockOptionsAction
 } from '../store/index';
 
 // TODO jsdoc

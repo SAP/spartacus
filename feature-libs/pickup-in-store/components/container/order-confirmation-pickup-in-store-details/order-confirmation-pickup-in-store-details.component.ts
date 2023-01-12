@@ -5,14 +5,16 @@
  */
 
 import { Component } from '@angular/core';
+
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
-  selector: 'cx-pickup-in-store-details-review',
-  templateUrl: './review-pickup-in-store-details.component.html',
+  selector: 'cx-order-confirmation-pickup-in-store-details',
+  templateUrl: './order-confirmation-pickup-in-store-details.component.html',
 })
-export class PickupInStoreDetailsReviewComponent {
-  deliveryPointsOfService$ =
-    this.deliveryPointsService.getDeliveryPointsOfServiceFromCart();
+export class OrderConfirmationPickupInStoreComponent {
+  getDeliveryPointsOfServiceOrderConfirmation$ =
+    this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder();
+
   constructor(protected deliveryPointsService: DeliveryPointsService) {}
 }
