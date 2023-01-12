@@ -108,12 +108,12 @@ function ensureReducerMapCreated() {
       handleSetGroupsVisited
     );
     reducerMap.set(
-      ConfiguratorActions.DISMISS_CONFLICT_DIALOGUE,
-      handleActionDismissConflictSolverDialogue
+      ConfiguratorActions.DISMISS_CONFLICT_DIALOG,
+      handleActionDismissConflictSolverDialog
     );
     reducerMap.set(
-      ConfiguratorActions.CHECK_CONFLICT_DIALOGUE,
-      handleActionCheckConflictSolverDialogue
+      ConfiguratorActions.CHECK_CONFLICT_DIALOG,
+      handleActionCheckConflictSolverDialog
     );
     reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
   }
@@ -124,39 +124,39 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = takeOverChanges(action, state);
-  checkConflictSolverDialogue(result);
+  checkConflictSolverDialog(result);
   result.isCartEntryUpdateRequired = true;
   result.overview = undefined;
   return result;
 }
 
-function checkConflictSolverDialogue(
+function checkConflictSolverDialog(
   configuration: Configurator.Configuration
 ): void {
-  configuration.interactionState.showConflictSolverDialogue =
+  configuration.interactionState.showConflictSolverDialog =
     configuration.immediateConflictResolution && !configuration.consistent;
-  if (configuration.interactionState.showConflictSolverDialogue) {
+  if (configuration.interactionState.showConflictSolverDialog) {
     configuration.interactionState.issueNavigationDone = true;
   }
 }
 
-function handleActionDismissConflictSolverDialogue(
+function handleActionDismissConflictSolverDialog(
   state: Configurator.Configuration,
   action: ConfiguratorActions.DissmissConflictDialoge
 ): Configurator.Configuration | undefined {
-  if (action.type === ConfiguratorActions.DISMISS_CONFLICT_DIALOGUE) {
+  if (action.type === ConfiguratorActions.DISMISS_CONFLICT_DIALOG) {
     const result: Configurator.Configuration = {
       ...state,
       interactionState: {
         ...state.interactionState,
-        showConflictSolverDialogue: false,
+        showConflictSolverDialog: false,
       },
     };
     return result;
   }
 }
 
-function handleActionCheckConflictSolverDialogue(
+function handleActionCheckConflictSolverDialog(
   state: Configurator.Configuration
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = {
@@ -165,7 +165,7 @@ function handleActionCheckConflictSolverDialogue(
       ...state.interactionState,
     },
   };
-  checkConflictSolverDialogue(result);
+  checkConflictSolverDialog(result);
 
   return result;
 }
@@ -186,7 +186,7 @@ function handleReadSucess(
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   const result = setInitialCurrentGroup(takeOverChanges(action, state));
-  checkConflictSolverDialogue(result);
+  checkConflictSolverDialog(result);
   return result;
 }
 
@@ -302,7 +302,7 @@ function handleSetCurrentGroup(
       currentGroup: newCurrentGroup,
     },
   };
-  checkConflictSolverDialogue(result);
+  checkConflictSolverDialog(result);
   return result;
 }
 

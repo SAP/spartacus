@@ -214,22 +214,22 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Dismisses conflict solver dialogue
+   * Dismisses conflict solver dialog
    *
    * @param owner - Configuration owner
    */
-  dismissConflictSolverDialogue(owner: CommonConfigurator.Owner): void {
+  dismissConflictSolverDialog(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
       new ConfiguratorActions.DissmissConflictDialoge(owner.key)
     );
   }
 
   /**
-   * Check if we need to launch conflict solver dialogue
+   * Check if we need to launch conflict solver dialog
    *
    * @param owner - Configuration owner
    */
-  checkConflictSolverDialogue(owner: CommonConfigurator.Owner): void {
+  checkConflictSolverDialog(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
       new ConfiguratorActions.CheckConflictDialoge(owner.key)
     );

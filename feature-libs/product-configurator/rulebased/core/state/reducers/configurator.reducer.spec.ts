@@ -31,7 +31,7 @@ const INTERACTION_STATE: Configurator.InteractionState = {
   groupsVisited: {},
   menuParentGroup: undefined,
   issueNavigationDone: true,
-  showConflictSolverDialogue: undefined,
+  showConflictSolverDialog: undefined,
 };
 const ATTR_VALUE: Configurator.Value = { valueCode: VALUE_CODE };
 const ATTRIBUTE: Configurator.Attribute = {
@@ -247,16 +247,16 @@ describe('Configurator reducer', () => {
       expect(state.overview).toBeUndefined();
     });
 
-    it('should check on conflict solver dialogue', () => {
+    it('should check on conflict solver dialog', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state.interactionState.showConflictSolverDialogue).toEqual(true);
+      expect(state.interactionState.showConflictSolverDialog).toEqual(true);
     });
 
-    it('should detect that conflict solver dialogue is not needed in case immediateConflictResolution is not set but conflicts are present', () => {
+    it('should detect that conflict solver dialog is not needed in case immediateConflictResolution is not set but conflicts are present', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         {
           ...CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
@@ -265,7 +265,7 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state.interactionState.showConflictSolverDialogue).toEqual(false);
+      expect(state.interactionState.showConflictSolverDialog).toEqual(false);
     });
   });
 
@@ -635,21 +635,21 @@ describe('Configurator reducer', () => {
     });
   });
 
-  describe('DismissConflictDialogue action', () => {
-    it('should discard conflictSolverDialogue setting', () => {
+  describe('DismissConflictDialog action', () => {
+    it('should discard conflictSolverDialog setting', () => {
       const action = new ConfiguratorActions.DissmissConflictDialoge(OWNER.key);
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state.interactionState.showConflictSolverDialogue).toBe(false);
+      expect(state.interactionState.showConflictSolverDialog).toBe(false);
     });
   });
 
-  describe('CheckConflictSolverDialogue action', () => {
+  describe('CheckConflictSolverDialog action', () => {
     it('should not touch respective setting in case configuration has no conflicts', () => {
       const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
       const state = StateReduce.configuratorReducer(CONFIGURATION, action);
 
-      expect(state.interactionState.showConflictSolverDialogue).toBe(undefined);
+      expect(state.interactionState.showConflictSolverDialog).toBe(undefined);
     });
     it('should set respective setting in case configuration has conflicts and enforces immediate conflict resolution', () => {
       const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
@@ -658,7 +658,7 @@ describe('Configurator reducer', () => {
         action
       );
 
-      expect(state.interactionState.showConflictSolverDialogue).toBe(true);
+      expect(state.interactionState.showConflictSolverDialog).toBe(true);
     });
   });
 });
