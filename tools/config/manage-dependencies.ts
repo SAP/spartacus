@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -488,10 +487,10 @@ function filterLocalAbsolutePathFiles(
 /**
  * Update the publishing versions for packages
  */
- function updatePublishingVersions(
+function updatePublishingVersions(
   libraries: Record<string, LibraryWithDependencies>,
   version: string
-): void{
+): void {
   Object.values(libraries).map((library) => {
     library.version = version;
   });
@@ -512,7 +511,7 @@ function categorizeUsageOfDependencies(
           file.endsWith('spec.ts') ||
           file === `${lib.directory}/test.ts` ||
           file === `${lib.directory}/src/test.ts` ||
-          file === `${lib.directory}/test-jest.ts`
+          file === `${lib.directory}/setup-jest.ts`
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {
@@ -1076,7 +1075,9 @@ function updateDependenciesVersions(
     const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
     // If publishing version is defined, update the publishing versions of packages
-    packageJson.version = PUBLISHING_VERSION ? PUBLISHING_VERSION : packageJson.version;
+    packageJson.version = PUBLISHING_VERSION
+      ? PUBLISHING_VERSION
+      : packageJson.version;
     const types = [
       'dependencies',
       'peerDependencies',

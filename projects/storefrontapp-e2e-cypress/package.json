@@ -25,7 +25,7 @@
     "cy:run:ci:cds": "cypress run --config-file cypress.ci.json --record --key $CYPRESS_KEY --tag \"2011,b2c,all-cds\" --group CDS --spec \"cypress/integration/vendor/cds/**/*.core-e2e-spec.ts\"",
     "cy:run:ci:cdc": "cypress run --config-file cypress.ci.json --env API_URL=https://backoffice.cp96avkh5f-sapcxteam1-d1-public.model-t.cc.commerce.ondemand.com --record --key $CYPRESS_KEY --tag \"2005,cdc\" --group CDC --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\"",
     "cy:run:ci:digital-payments": "cypress run --config-file cypress.ci.json --env API_URL=https://backoffice.cp96avkh5f-sapcxteam1-d5-public.model-t.cc.commerce.ondemand.com --record --key $CYPRESS_KEY --tag \"2105,digital-payments\" --group DIGITAL-PAYMENTS --spec \"cypress/integration/vendor/digital-payments/*.e2e-spec.ts\"",
-    "cy:run:ci:epd-visualization": "cypress run --config-file cypress.ci.json --env API_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com,BASE_SITE=powertools-epdvisualization-spa --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/epd-visualization/**/*.e2e-spec.ts\""
+    "cy:run:ci:epd-visualization": "cypress run --config-file cypress.ci.json --env API_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com,BASE_SITE=powertools-epdvisualization-spa --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $BUILD_NUMBER --spec \"cypress/integration/vendor/epd-visualization/**/*.e2e-spec.ts\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.1",
@@ -35,7 +35,7 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "babel-loader": "^8.2.2",
-    "ts-loader": "^6.0.4",
+    "ts-loader": "^9.4.2",
     "typescript": "^4.2.4",
     "webpack": "^5.39.1"
   }

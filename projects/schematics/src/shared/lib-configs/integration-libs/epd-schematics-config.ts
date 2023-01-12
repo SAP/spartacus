@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -76,7 +75,7 @@ function buildCdsConfig(
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         epdVisualization: {
           ui5: {
-            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js"
+            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.107.1/resources/sap-ui-core.js"
           },
 
           apis: {

@@ -1,13 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { FeatureModulesService } from '@spartacus/core';
+import { Injectable, Optional } from '@angular/core';
+import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**
@@ -24,21 +23,45 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
+  // TODO: make scriptLoader as required dependency and remove featureModules
+  constructor(
+    config: SmartEditConfig,
+    location: Location,
+    featureModules: FeatureModulesService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    scriptLoader: ScriptLoader
+  );
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    config: SmartEditConfig,
+    location: Location,
+    featureModules: FeatureModulesService
+  );
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected featureModules: FeatureModulesService
+    /**
+     * @deprecated since 5.2
+     */
+    protected featureModules: FeatureModulesService,
+    @Optional() protected scriptLoader?: ScriptLoader
   ) {}
 
   /**
-   * Lazy loads modules when Spartacus launced inside Smart Edit
+   * load webApplicationInjector.js first when Spartacus launched inside SmartEdit
    */
   load(): void {
-    if (
-      this.isLaunchedInSmartEdit() &&
-      this.featureModules.isConfigured('smartEdit')
-    ) {
-      this.featureModules.resolveFeature('smartEdit').subscribe();
+    if (this.isLaunchedInSmartEdit()) {
+      this.scriptLoader?.embedScript({
+        src: 'assets/webApplicationInjector.js',
+        params: undefined,
+        attributes: {
+          id: 'text/smartedit-injector',
+          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+        },
+      });
     }
   }
 

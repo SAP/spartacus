@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -9,7 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
   IconModule,
@@ -40,6 +44,8 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
+    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig({

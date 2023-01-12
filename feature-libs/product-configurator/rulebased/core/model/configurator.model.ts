@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -112,6 +111,7 @@ export namespace Configurator {
       [id: string]: boolean;
     };
     issueNavigationDone?: boolean;
+    isConflictResolutionMode?: boolean;
   }
 
   export interface Overview {
@@ -268,4 +268,7 @@ export namespace Configurator {
     USER_INPUT = 'USER_INPUT',
     PRICE_RELEVANT = 'PRICE_RELEVANT',
   }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -24,7 +23,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
         { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'orgUser.roles' | cxTranslate }}
+      {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

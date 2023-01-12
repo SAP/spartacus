@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -89,7 +88,7 @@ export class CommonConfiguratorTestUtilsService {
     expectedValue: string,
     index: number = 0
   ) {
-    let element = htmlElement.querySelectorAll(querySelector)[index];
+    const element = htmlElement.querySelectorAll(querySelector)[index];
     expect(element)
       .withContext(
         `expected element identified by selector '${querySelector}[${index}]'
@@ -97,7 +96,7 @@ export class CommonConfiguratorTestUtilsService {
       )
       .toBeDefined();
 
-    let attributeValue = element?.getAttribute(attributeName);
+    const attributeValue = element?.getAttribute(attributeName);
     expect(attributeValue)
       .withContext(
         `expected element identified by selector '${querySelector}[${index}]'

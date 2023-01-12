@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -116,8 +115,14 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         filter(([loading, valid]) => !loading && valid),
         tap(() => this.loading$.next(true)),
         concatMap(() =>
+          this.activeCartFacade.getActive().pipe(
+            map((cart) => cart.deliveryItemsQuantity ?? 0),
+            take(1)
+          )
+        ),
+        concatMap((cartItemCount) =>
           iif(
-            () => Boolean(this.activeCartId),
+            () => Boolean(this.activeCartId && cartItemCount),
             this.openDialog(this.activeCartId, anonymousCartId as string),
             this.simpleBindCart(anonymousCartId as string)
           )

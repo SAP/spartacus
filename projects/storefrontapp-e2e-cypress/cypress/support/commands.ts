@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -20,6 +19,8 @@ import './require-delivery-address-added.commands';
 import './require-delivery-method-selected.commands';
 import './require-logged-in.commands';
 import './require-payment-done.commands';
+import './require-payment-type-selected.commands';
+import './require-costcenter-selected.commands';
 import './require-payment-method-added.commands';
 import './require-placed-order.commands';
 import './require-product-added-to-cart.commands';

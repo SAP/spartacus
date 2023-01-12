@@ -68,8 +68,9 @@ ADD_CPQ=false
 ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
+ADD_S4OM=false
 
-# The base URL (origin) of the SAP EPD Fiori launchpad
+# The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
 
 #NPM connection info

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -53,7 +52,10 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.CREATE_CONFIGURATION),
       mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
         return this.configuratorCommonsConnector
-          .createConfiguration(action.payload)
+          .createConfiguration(
+            action.payload.owner,
+            action.payload.configIdTemplate
+          )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
               const currentGroup =
@@ -76,7 +78,7 @@ export class ConfiguratorBasicEffects {
             }),
             catchError((error) => [
               new ConfiguratorActions.CreateConfigurationFail({
-                ownerKey: action.payload.key,
+                ownerKey: action.payload.owner.key,
                 error: normalizeHttpError(error),
               }),
             ])
@@ -129,9 +131,13 @@ export class ConfiguratorBasicEffects {
           .updateConfiguration(payload)
           .pipe(
             map((configuration: Configurator.Configuration) => {
-              return new ConfiguratorActions.UpdateConfigurationSuccess(
-                configuration
-              );
+              return new ConfiguratorActions.UpdateConfigurationSuccess({
+                ...configuration,
+                interactionState: {
+                  isConflictResolutionMode:
+                    payload.interactionState.isConflictResolutionMode,
+                },
+              });
             }),
             catchError((error) => {
               const errorPayload = normalizeHttpError(error);
@@ -268,9 +274,11 @@ export class ConfiguratorBasicEffects {
                 ),
                 take(1),
                 map((currentGroupId) => {
+                  // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
                   const groupIdFromPayload =
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                      payload
+                      payload,
+                      payload.interactionState.isConflictResolutionMode
                     );
                   const parentGroupFromPayload =
                     this.configuratorGroupUtilsService.getParentGroup(

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -23,12 +22,14 @@ import { CDC_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdc-schema
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
+import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
   ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
+  ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
 import {
   PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
@@ -78,6 +79,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
   ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
+  ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
 
   PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
@@ -109,6 +111,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
 
   EPD_SCHEMATICS_CONFIG,
+
+  S4OM_SCHEMATICS_CONFIG,
 ];
 
 /**

@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -30,4 +29,5 @@ export const environment: Environment = {
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
+  s4om: buildProcess.env.CX_S4OM ?? false,
 };

@@ -16,6 +16,7 @@ import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-aaab';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
 const CONFIGURATOR_TYPE = 'cpqconfig';
@@ -143,38 +144,52 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter on createConfiguration', () => {
-    let result;
-    service
-      .createConfiguration(productConfiguration.owner)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('createConfiguration' + productConfiguration.owner);
+  describe('createConfiguration', () => {
+    it('should call adapter', () => {
+      let result;
+      service
+        .createConfiguration(productConfiguration.owner)
+        .subscribe((res) => (result = res));
+      expect(result).toBe('createConfiguration' + productConfiguration.owner);
 
-    expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
-      productConfiguration.owner
-    );
-  });
-
-  it('should throw an error in case no adapter present for configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        'unknown'
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        undefined
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toThrow();
-  });
+    });
 
-  it('should not throw an error in case an adapter is present for owners configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        CONFIGURATOR_TYPE
+    it('should forward configuration template ID', () => {
+      service
+        .createConfiguration(productConfiguration.owner, CONFIG_ID_TEMPLATE)
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toBeDefined();
+    });
+
+    it('should throw an error in case no adapter present for configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          'unknown'
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toThrow();
+    });
+
+    it('should not throw an error in case an adapter is present for owners configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          CONFIGURATOR_TYPE
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toBeDefined();
+    });
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
