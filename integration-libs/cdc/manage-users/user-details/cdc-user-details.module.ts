@@ -15,7 +15,6 @@ import {
   CardModule,
   DisableInfoModule,
   ToggleStatusModule,
-  UserDetailsModule,
 } from '@spartacus/organization/administration/components';
 import { ItemExistsModule } from '../../../../feature-libs/organization/administration/components/shared/item-exists.module';
 @NgModule({
@@ -34,4 +33,4 @@ import { ItemExistsModule } from '../../../../feature-libs/organization/administ
   declarations: [CdcUserDetailsComponent],
   exports: [CdcUserDetailsComponent],
 })
-export class CdcUserDetailsModule extends UserDetailsModule {}
+export class CdcUserDetailsModule {}

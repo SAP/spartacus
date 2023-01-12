@@ -19,10 +19,7 @@ import {
 } from '@spartacus/storefront';
 import { CdcListComponent } from './cdc-list.component';
 import { PopoverModule } from '@spartacus/storefront';
-import {
-  ListModule,
-  MessageModule,
-} from '@spartacus/organization/administration/components';
+import { MessageModule } from '@spartacus/organization/administration/components';
 import { cdcUserCmsConfig } from '../cdc-user.config';
 
 @NgModule({
@@ -45,4 +42,4 @@ import { cdcUserCmsConfig } from '../cdc-user.config';
   declarations: [CdcListComponent],
   exports: [CdcListComponent],
 })
-export class CdcListModule extends ListModule {}
+export class CdcListModule {}
