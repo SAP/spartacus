@@ -10,7 +10,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  ICON_TYPE,
+  FocusConfig,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
@@ -27,6 +31,13 @@ export class ConfiguratorConflictSolverDialogComponent
 {
   iconTypes = ICON_TYPE;
   uiType = Configurator.UiType;
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
   protected subscription = new Subscription();
 
