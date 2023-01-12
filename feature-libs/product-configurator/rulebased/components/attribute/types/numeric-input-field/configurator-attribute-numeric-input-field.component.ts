@@ -369,5 +369,3 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     }
   }
 }
-
-// CHECK SONAR

@@ -315,5 +315,3 @@ export class ConfiguratorAttributeNumericInputFieldService {
     return isError ? { wrongFormat: {} } : null;
   }
 }
-
-// CHECK SONAR

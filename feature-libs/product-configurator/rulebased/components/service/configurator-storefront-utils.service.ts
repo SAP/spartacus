@@ -298,5 +298,3 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 }
-
-// CHECK SONAR

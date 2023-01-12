@@ -219,5 +219,3 @@ export class CommonConfiguratorTestUtilsService {
     }
   }
 }
-
-// CHECK SONAR

@@ -95,5 +95,3 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     );
   }
 }
-
-// CHECK SONAR
