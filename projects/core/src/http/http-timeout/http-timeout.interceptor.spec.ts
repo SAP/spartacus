@@ -1,11 +1,13 @@
 import {
   HttpClient,
   HttpContext,
+  HttpErrorResponse,
   HttpEvent,
   HttpEventType,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
@@ -14,7 +16,7 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { Observable } from 'rxjs';
+import { Observable, TimeoutError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
@@ -91,6 +93,39 @@ fdescribe('HttpTimeoutInterceptor', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
     });
 
+    it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
+      let response;
+      let error;
+      httpClient.get(testUrl).subscribe({
+        error: (e) => (error = e),
+        next: (r) => (response = r),
+      });
+
+      const request = httpMock.expectOne(testUrl);
+      request.event({ type: HttpEventType.Sent });
+
+      tick(BROWSER_TIMEOUT - 1);
+      request.event(new HttpResponse({ body: 'ok' }));
+
+      expect(error).toBe(undefined);
+      expect(response).toBe('ok');
+    }));
+
+    it('should NOT timeout, when no timeout config is configured', fakeAsync(() => {
+      config.backend = { timeout: undefined };
+      let error;
+      httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+
+      const request = httpMock.expectOne(testUrl);
+      request.event({ type: HttpEventType.Sent });
+
+      tick(10_000);
+      expect(request.cancelled).toBe(false);
+      expect(error).toBe(undefined);
+
+      request.flush('ok');
+    }));
+
     it('should use the global timeout config for browser', fakeAsync(() => {
       let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
@@ -136,12 +171,25 @@ fdescribe('HttpTimeoutInterceptor', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
     });
 
-    // SPIKE TODO: repeat the following 2 tests for server:
-    // it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
-    //   // SPIKE TODO
-    // }));
+    it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
+      let response;
+      let error;
+      httpClient.get(testUrl).subscribe({
+        error: (e) => (error = e),
+        next: (r) => (response = r),
+      });
 
-    it('should not timeout, when no timeout config is configured at all', fakeAsync(() => {
+      const request = httpMock.expectOne(testUrl);
+      request.event({ type: HttpEventType.Sent });
+
+      tick(SERVER_TIMEOUT - 1);
+      request.event(new HttpResponse({ body: 'ok' }));
+
+      expect(error).toBe(undefined);
+      expect(response).toBe('ok');
+    }));
+
+    it('should not timeout, when no timeout config is configured', fakeAsync(() => {
       config.backend = { timeout: undefined };
       let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
@@ -198,7 +246,7 @@ fdescribe('HttpTimeoutInterceptor', () => {
 
   it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
     TestBed.inject(TestDelayInterceptor).delay = 10_000;
-    spyOn(windowRef, 'isBrowser').and.returnValue(true);
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     let error;
     httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
@@ -209,7 +257,7 @@ fdescribe('HttpTimeoutInterceptor', () => {
     expect(error).toBe(undefined);
     request.event({ type: HttpEventType.Sent });
 
-    tick(999);
+    tick(SERVER_TIMEOUT - 1);
     expect(request.cancelled).toBe(false);
     expect(error).toBe(undefined);
 
@@ -217,8 +265,23 @@ fdescribe('HttpTimeoutInterceptor', () => {
     expect(request.cancelled).toBe(true);
     expect(error).not.toBe(undefined);
   }));
-});
 
-it('in case of timeout, it should throw an error of type HttpErrorResponse with http code 504 (Gateway Timeout)', () => {
-  // SPIKE TODO
+  it('in case of timeout, it should throw HttpErrorResponse with url, statusText and original error', fakeAsync(() => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+    let error: any;
+    httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+
+    const request = httpMock.expectOne(testUrl);
+    request.event({ type: HttpEventType.Sent });
+
+    tick(10_000);
+
+    expect(error.url).toEqual(testUrl);
+    expect(error instanceof HttpErrorResponse).toBe(true);
+    expect(error.error instanceof TimeoutError).toBe(true);
+    expect(error.statusText).toEqual(
+      `[Spartacus] Timeout: Request exceeded time ${SERVER_TIMEOUT}ms and was terminated`
+    );
+  }));
 });
