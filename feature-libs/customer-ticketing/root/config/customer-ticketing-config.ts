@@ -6,13 +6,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config, OccConfig } from '@spartacus/core';
+import { Config } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CustomerTicketingConfig extends OccConfig {
+export abstract class CustomerTicketingConfig {
   customerTicketing?: {
     agentSessionTimer?: {
       startingDelayInSeconds?: number;
