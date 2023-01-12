@@ -10,7 +10,7 @@ export const defaultBackendHttpTimeoutConfig: OccConfig = {
   backend: {
     timeout: {
       // TODO CXSPA-2234 (breaking change): uncomment it only in the next major (v6.0?):
-      // server: 5_000,
+      // server: 10_000,
     },
   },
 };
