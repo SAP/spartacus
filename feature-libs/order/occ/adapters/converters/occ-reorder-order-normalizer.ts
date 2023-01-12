@@ -12,8 +12,6 @@ import { Converter, Occ } from '@spartacus/core';
 export class OccReorderOrderNormalizer
   implements Converter<Occ.CartModificationList, CartModificationList>
 {
-  constructor() {}
-
   convert(source: Occ.CartModificationList, target?: CartModificationList) {
     if (target === undefined) {
       target = { ...(source as any) } as CartModificationList;

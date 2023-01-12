@@ -82,7 +82,7 @@ describe('Order History with orders', () => {
     cy.get('.cx-order-history-po a').should('contain', poNumber);
     cy.get('.cx-order-history-cost-center a').should('contain', costCenter);
   });
-  
+
   it('should display order details page with the reorder button', () => {
     cy.get('.cx-order-history-value').first().click();
     cy.get('cx-order-details-reorder div div button').should(
