@@ -83,3 +83,10 @@
 
 - Removed empty option(`ng-option`) from the title code selector(`ng-select`).
 
+### UserRegistrationFormComponent
+
+- Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+
+### CardComponent
+
+- Replaced `a` tag with `button` for accessibility improvements.
