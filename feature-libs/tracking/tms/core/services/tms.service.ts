@@ -31,7 +31,6 @@ export class TmsService implements OnDestroy {
    * Called only once to start collecting and dispatching events
    */
   collect(): void {
-    // CHECK SONAR
     if (!this.windowRef.isBrowser()) {
       return;
     }
