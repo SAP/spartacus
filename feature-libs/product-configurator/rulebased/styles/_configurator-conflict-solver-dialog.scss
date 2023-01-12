@@ -11,14 +11,13 @@
     $modal-dialog-margin-sm: 0 !important;
 
     .cx-modal-container {
-      height: 90%;
+      height: auto !important;
+      margin-block-start: 80px;
 
       @include media-breakpoint-down(md) {
         margin: $modal-dialog-margin-sm;
         min-width: $modal-max-width-sm;
         max-width: $modal-min-width-sm;
-        overflow-y: auto;
-        height: 100%;
       }
 
       @include media-breakpoint-up(lg) {
@@ -36,8 +35,6 @@
           margin: $modal-dialog-margin-sm;
           min-width: $modal-max-width-sm;
           max-width: $modal-min-width-sm;
-          overflow-y: auto;
-          height: 100%;
         }
 
         .cx-dialog-header {
