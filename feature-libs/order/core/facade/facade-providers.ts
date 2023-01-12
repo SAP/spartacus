@@ -12,9 +12,11 @@ import {
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
+import { ReorderOrderFacade } from 'feature-libs/order/root/facade/reorder-order.facade';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
+import { ReorderOrderService } from './reorder-order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
@@ -43,5 +45,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: OrderFacade,
     useExisting: OrderService,
+  },
+  ReorderOrderService,
+  {
+    provide: ReorderOrderFacade,
+    useExisting: ReorderOrderService,
   },
 ];

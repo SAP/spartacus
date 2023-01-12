@@ -182,4 +182,19 @@ export const order = {
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
     caption: 'Order contents.',
   },
+  reorder: {
+    dialog: {
+      reorderProducts: 'Reorder products',
+      messages: {
+        reviewConfiguration:
+          'An error occurred with "{{ productCode}}" configuration.',
+        lowStock:
+          'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
+        noStock: '{{ productName }} is currently out of stock.',
+        pricingError: 'Pricing problem with "{{ productCode }}".',
+        unresolvableIssues: 'Unrecognized problem with "{{ productCode }}".',
+        success: 'Products have been successfully added to the cart',
+      },
+    },
+  },
 };

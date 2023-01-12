@@ -15,6 +15,7 @@ import {
   interceptOrdersEndpoint,
   waitForResponse,
 } from '../../../../helpers/order-history';
+import * as cart from '../../../../helpers/cart';
 
 describe('Order History with orders', () => {
   before(() => {
@@ -80,5 +81,23 @@ describe('Order History with orders', () => {
     cy.get('cx-order-history h2').should('contain', 'Order history');
     cy.get('.cx-order-history-po a').should('contain', poNumber);
     cy.get('.cx-order-history-cost-center a').should('contain', costCenter);
+  });
+  
+  it('should display order details page with the reorder button', () => {
+    cy.get('.cx-order-history-value').first().click();
+    cy.get('cx-order-details-reorder div div button').should(
+      'contain',
+      'Reorder'
+    );
+  });
+
+  it('should show result dialog on adding items to the the cart and update the cart', () => {
+    cy.get('cx-order-details-reorder div div button').first().click();
+    cy.get('.cx-cart-mod-entry-container').should('exist');
+
+    cart.goToCart();
+    cart.verifyCartNotEmpty();
+
+    cart.clearActiveCart();
   });
 });
