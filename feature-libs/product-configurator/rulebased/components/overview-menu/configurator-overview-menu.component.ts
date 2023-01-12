@@ -60,53 +60,13 @@ export class ConfiguratorOverviewMenuComponent {
             const groupItem =
               this.configuratorStorefrontUtilsService.getElement(querySelector);
             if (isIntersecting) {
-              this.makeMenuItemsActive(groupItem);
+              groupItem?.classList.add(this.ACTIVE_CLASS);
             } else {
               groupItem?.classList.remove(this.ACTIVE_CLASS);
             }
           }
         });
     });
-  }
-
-  protected addMenuItem(
-    menuItems: Element[],
-    parent: HTMLElement | undefined
-  ): void {
-    const child = parent?.querySelector('.cx-menu-item');
-    if (child && menuItems.indexOf(child) === -1) {
-      menuItems.push(child);
-    }
-  }
-
-  protected collectMenuItems(element: HTMLElement | undefined): Element[] {
-    const menuItems: Element[] = [];
-    while (element) {
-      if (element?.parentElement?.classList?.contains(this.CX_MENU_GROUP)) {
-        this.addMenuItem(menuItems, element?.parentElement);
-        element = element?.parentElement;
-      } else if (
-        element?.parentElement?.parentElement?.classList?.contains(
-          this.CX_MENU_GROUP
-        )
-      ) {
-        this.addMenuItem(menuItems, element?.parentElement?.parentElement);
-        element = element?.parentElement?.parentElement;
-      } else {
-        element = undefined;
-      }
-    }
-    return menuItems;
-  }
-
-  protected makeMenuItemsActive(element: HTMLElement | undefined) {
-    if (element) {
-      this.collectMenuItems(element).forEach((node) => {
-        if (!node?.classList.contains(this.ACTIVE_CLASS)) {
-          node?.classList.add(this.ACTIVE_CLASS);
-        }
-      });
-    }
   }
 
   /**

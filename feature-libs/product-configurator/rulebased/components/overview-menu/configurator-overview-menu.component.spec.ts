@@ -144,62 +144,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
-  describe('collectMenuItems', () => {
-    beforeEach(() => {
-      initialize();
-    });
-
-    function getParentLevel(element: HTMLElement): number {
-      let level = 0;
-      element?.parentElement?.classList.forEach((className) => {
-        if (className.indexOf('groupLevel') !== -1) {
-          level = Number(className.replace('groupLevel', ''));
-        }
-      });
-      return level;
-    }
-
-    it('should not return any menu items', () => {
-      const menuItems = component['collectMenuItems'](undefined);
-      expect(menuItems.length).toEqual(0);
-    });
-
-    it('should return all collected menu items', () => {
-      const items =
-        fixture.debugElement.nativeElement.querySelectorAll('button');
-      //Get the last item
-      const item: HTMLElement = items[items.length - 1];
-      let level = getParentLevel(item);
-      const menuItems = component['collectMenuItems'](item);
-      expect(menuItems.length).toEqual(level);
-    });
-  });
-
-  describe('makeMenuItemsActive', () => {
-    beforeEach(() => {
-      initialize();
-    });
-
-    it('should make all collected menu items active', () => {
-      const items =
-        fixture.debugElement.nativeElement.querySelectorAll('button');
-      //Get the last item
-      const item: HTMLElement = items[items.length - 1];
-      let menuItems = component['collectMenuItems'](item);
-      //Check whether menu items do not have active class
-      menuItems.forEach((item) => {
-        expect(item?.classList?.contains('active')).toBe(false);
-      });
-
-      component['makeMenuItemsActive'](item);
-      menuItems = component['collectMenuItems'](item);
-      //Check whether menu items have active class
-      menuItems.forEach((item) => {
-        expect(item?.classList?.contains('active')).toBe(true);
-      });
-    });
-  });
-
   describe('getGroupId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
@@ -288,8 +232,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.onScroll();
 
       menuItems = htmlElem.querySelectorAll('button.cx-menu-item');
-      menuItems.forEach((item, index) => {
-        if (index % 2 === 1) {
+      menuItems.forEach((item, index, menuItems) => {
+        if (index === menuItems.length - 1) {
           expect(item.classList?.contains('active')).toBe(true);
         } else {
           expect(item.classList?.contains('active')).toBe(false);

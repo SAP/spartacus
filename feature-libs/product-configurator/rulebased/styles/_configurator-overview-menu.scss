@@ -31,18 +31,7 @@
 
           &.active,
           &:hover {
-            cursor: pointer;
             color: var(--cx-color-primary);
-          }
-
-          &.active {
-            &:last-child {
-              text-decoration: underline;
-
-              cx-icon {
-                visibility: hidden;
-              }
-            }
           }
 
           &.active {
