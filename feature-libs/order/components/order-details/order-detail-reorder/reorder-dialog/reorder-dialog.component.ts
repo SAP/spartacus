@@ -10,7 +10,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartModification, CartValidationStatusCode } from '@spartacus/cart/base/root';
+import {
+  CartModification,
+  CartValidationStatusCode,
+} from '@spartacus/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
