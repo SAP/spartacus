@@ -151,26 +151,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     });  
   });
 
-  describe('isConfiguratorRelatedRoute', () => {
-    it('should return false because semanticRoute is not defined', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute']()).toBe(false);
-    });
-
-    it('should return false because semanticRoute does not contain configure', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute'](OVERVIEW_ROUTE)).toBe(
-        false
-      );
-    });
-
-    it('should return true because semanticRoute contains configure', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute'](CONFIGURATOR_ROUTE)).toBe(
-        true
-      );
-    });
-  });
+  
 
   describe('controlDialog', () => {
     it('should open conflict solver dialog because there are some conflict groups', () => {

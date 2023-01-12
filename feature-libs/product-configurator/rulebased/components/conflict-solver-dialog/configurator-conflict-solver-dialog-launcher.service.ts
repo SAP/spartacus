@@ -45,10 +45,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
   ) {
     this.controlDialog();
   }
-
-  protected isConfiguratorRelatedRoute(semanticRoute?: string): boolean {
-    return semanticRoute ? semanticRoute.includes('configure') : false;
-  }
+ 
 
   protected controlDialog() {
     this.subscription.add(
@@ -59,16 +56,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
         }
       })
-    );
-
-    this.subscription.add(
-      this.routingService.getRouterState().subscribe((routerState) => {
-        if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
-          console.log("CHHI not config related route");
-          this.closeModal('CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON');
-        }
-      })
-    );
+    ); 
   }
 
   protected openModal(): void {
