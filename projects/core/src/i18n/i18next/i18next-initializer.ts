@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -163,7 +162,9 @@ export class I18nextInitializer implements OnDestroy {
     // always update language of i18next on site context (language) change
     this.siteContextSyncSubscription =
       this.siteContextSyncSubscription ??
-      this.languageService.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+      this.languageService
+        .getActive()
+        .subscribe((lang) => i18next.changeLanguage(lang));
   }
 
   ngOnDestroy() {
