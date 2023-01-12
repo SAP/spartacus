@@ -10,14 +10,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
+import { CartModification, CartValidationStatusCode } from '@spartacus/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { CartValidationStatusCode } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-reorder-dialog',
