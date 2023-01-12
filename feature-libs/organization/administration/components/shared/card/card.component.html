@@ -29,6 +29,7 @@
         <ng-content select="[actions]"></ng-content>
       </div>
     </div>
+    <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
     <ng-container *cxFeatureLevel="'!5.2'">
       <a *ngIf="!!previous" class="link close" routerLink="../">
         <cx-icon
