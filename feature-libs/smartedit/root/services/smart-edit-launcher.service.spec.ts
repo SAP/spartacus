@@ -1,10 +1,9 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ScriptLoader } from '@spartacus/core';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
-import { FeatureModulesService } from '@spartacus/core';
 
 class MockLocation {
   path() {
@@ -12,28 +11,27 @@ class MockLocation {
   }
 }
 
-class MockFeatureModulesService implements Partial<FeatureModulesService> {
-  isConfigured = () => true;
-  resolveFeature = () => of(undefined);
+class MockScriptLoader {
+  public embedScript(): void {}
 }
 
 describe('SmartEditLauncherService', () => {
   let smartEditLauncherService: SmartEditLauncherService;
   let location: Location;
-  let featureModules: FeatureModulesService;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
-        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
     smartEditLauncherService = TestBed.inject(SmartEditLauncherService);
     location = TestBed.inject(Location);
-    featureModules = TestBed.inject(FeatureModulesService);
+    scriptLoader = TestBed.inject(ScriptLoader);
   });
 
   it('should be created', () => {
@@ -64,15 +62,13 @@ describe('SmartEditLauncherService', () => {
     });
   });
 
-  describe('should lazy load SmartEditModule', () => {
-    it('lazy load SmartEditModule', () => {
-      spyOn(location, 'path').and.returnValue(
-        '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
-      );
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
+  it('should be able to load webApplicationInjector.js', () => {
+    spyOn(location, 'path').and.returnValue(
+      '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+    );
+    spyOn(scriptLoader, 'embedScript').and.callThrough();
 
-      smartEditLauncherService.load();
-      expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
-    });
+    smartEditLauncherService.load();
+    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 });
