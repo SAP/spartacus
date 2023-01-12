@@ -90,3 +90,7 @@
 ### CardComponent
 
 - Replaced `a` tag with `button` for accessibility improvements.
+
+### ActiveFacetsComponent
+
+- Replaced `h4` tag with `h2` tag header for accessibility improvements.

@@ -1,7 +1,14 @@
 <ng-container *ngIf="facetList$ | async as facetList">
-  <h4 *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
-    {{ 'productList.appliedFilter' | cxTranslate }}
-  </h4>
+  <ng-container *cxFeatureLevel="'5.2'">
+    <h2 *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
+      {{ 'productList.appliedFilter' | cxTranslate }}
+    </h2>
+  </ng-container>
+  <ng-container *cxFeatureLevel="'!5.2'">
+    <h4 *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
+      {{ 'productList.appliedFilter' | cxTranslate }}
+    </h4>
+  </ng-container>
 
   <a
     *ngFor="let facet of facetList?.activeFacets"
