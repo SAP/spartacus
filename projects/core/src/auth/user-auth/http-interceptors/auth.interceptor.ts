@@ -70,10 +70,11 @@ export class AuthInterceptor implements HttpInterceptor {
                   this.authHttpHeaderService.handleExpiredRefreshToken();
                   return of<HttpEvent<any>>();
                 }
-                return;
               };
 
-              const handleBadRequest = (errResponse: HttpErrorResponse) => {
+              const handleBadRequest = (
+                errResponse: HttpErrorResponse
+              ): void => {
                 if (
                   this.errorIsInvalidGrant(errResponse) &&
                   request.body.get('grant_type') === 'refresh_token'
@@ -85,9 +86,14 @@ export class AuthInterceptor implements HttpInterceptor {
 
               switch (errResponse.status) {
                 case 401: // Unauthorized
-                  return handleUnauthorized(errResponse);
+                  const result = handleUnauthorized(errResponse);
+                  if (result) {
+                    return result;
+                  }
+                  break;
                 case 400: // Bad Request
                   handleBadRequest(errResponse);
+                  break;
               }
             }
             return throwError(errResponse);
