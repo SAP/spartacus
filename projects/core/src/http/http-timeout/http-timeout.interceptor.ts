@@ -11,10 +11,9 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NEVER, Observable, of, throwError, TimeoutError } from 'rxjs';
+import { NEVER, Observable, of, TimeoutError } from 'rxjs';
 import { catchError, startWith, switchMap, timeout } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
@@ -51,15 +50,13 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
         }
         return of(event);
       }),
-      catchError((error) =>
-        throwError(
-          this.convertTimeoutToHttpErrorResponse({
-            error,
-            request,
-            timeoutValue,
-          })
-        )
-      )
+      catchError((error) => {
+        throw this.convertTimeoutToHttpErrorResponse({
+          error,
+          request,
+          timeoutValue,
+        });
+      })
     );
   }
 
@@ -99,8 +96,8 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
     if (error instanceof TimeoutError) {
       const httpErrorResponse = new HttpErrorResponse({
         url: request.url,
-        status: this.getHttpErrorStatus(),
-        error: this.getHttpErrorMessage(timeoutValue),
+        statusText: this.getHttpErrorMessage(timeoutValue),
+        error,
       });
       return httpErrorResponse;
     }
@@ -111,13 +108,6 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
    * Returns the error message to be used in the `HttpErrorResponse` object, in case of timeout.
    */
   protected getHttpErrorMessage(timeoutValue: number): string {
-    return `[Spartacus] request timeout: ${timeoutValue} ms`;
-  }
-
-  /**
-   * Returns the HTTP status code 504 to be used in the `HttpErrorResponse` object, in case of timeout.
-   */
-  protected getHttpErrorStatus(): HttpStatusCode {
-    return HttpStatusCode.GatewayTimeout;
+    return `[Spartacus] Timeout: Request exceeded time ${timeoutValue}ms and was terminated`;
   }
 }
