@@ -1,5 +1,14 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import type { i18n } from 'i18next';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { LanguageService } from '../../site-context/facade/language.service';
+import { I18nConfig } from '../config/i18n-config';
+import { I18nextInitializer } from './i18next-initializer';
+import { I18NEXT_INSTANCE } from './i18next-instance';
+
 // SPIKE TODO: write unit tests - possibly reuse from `i18next-init.spec.ts`
-describe('I18nextInitializer', () => {
+fdescribe('I18nextInitializer', () => {
   /*
 
   // SPIKE TODO: possibly extract to separate Injectable class I18nextHttpClient
@@ -14,26 +23,210 @@ describe('I18nextInitializer', () => {
     
       //SPIKE TODO: copy all unit tests of getLoadPath
 
-
-
       when using i18next http backend
         should set i18next config `backend.reloadInterval` to false
 
   -----------------------------------------------------------------------------------
 
-  should set fallbackLang
-  should set debug flag
-  should set interpolation options
-  should set i18next config `ns` to empty array
-  should set i18next config `resources` to empty object
+  // should set fallbackLang
+  // should set debug flag
+  // should set interpolation options
+  // should set i18next config `ns` to empty array
+  // should set i18next config `resources` to empty object
 
-  when i18n.backend.loadPath is provided
-    should set reloadInterval to false
-    should set the i18next http client
-    should set the loadPath
+  // when i18n.backend.loadPath is provided
+  //   should set reloadInterval to false
+  //   should set the i18next http client
+  //   should set the loadPath
 
-  should populate i18next with static translations right after initialization
+  // should populate i18next with static translations right after initialization
 
-  should change i18next language when language is changed
+  // should change i18next language when language is changed
   */
+
+  let i18nextInitializer: I18nextInitializer;
+  let i18next: i18n; // i18next instance
+  let languageService: LanguageService;
+  let config: I18nConfig;
+  let mockActiveLanguage$: BehaviorSubject<string>;
+
+  beforeEach(() => {
+    mockActiveLanguage$ = new BehaviorSubject('en');
+
+    class MockLanguageService implements Partial<LanguageService> {
+      getActive(): Observable<string> {
+        return mockActiveLanguage$;
+      }
+    }
+
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
+        },
+        { provide: I18nConfig, useValue: { i18n: {} } },
+      ],
+      imports: [
+        HttpClientTestingModule, // SPIKE TODO: remove, when extracting I18nextHttpClient
+      ],
+    });
+
+    i18nextInitializer = TestBed.inject(I18nextInitializer);
+    languageService = TestBed.inject(LanguageService);
+    i18next = TestBed.inject(I18NEXT_INSTANCE);
+    config = TestBed.inject(I18nConfig);
+
+    // SPIKE TODO remove
+    console.log(languageService);
+  });
+
+  describe('initialize', () => {
+    it('should initialize i18next instance', () => {
+      spyOn(i18next, 'init');
+      i18nextInitializer.initialize();
+      expect(i18next.init).toHaveBeenCalled();
+    });
+
+    it('should populate config fallbackLang', () => {
+      config.i18n = { fallbackLang: 'en' };
+      spyOn(i18next, 'init');
+
+      i18nextInitializer.initialize();
+
+      expect(i18next.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({ fallbackLng: 'en' }),
+        jasmine.any(Function)
+      );
+    });
+
+    it('should populate config debug flag', () => {
+      config.i18n = { debug: true };
+      spyOn(i18next, 'init');
+
+      i18nextInitializer.initialize();
+
+      expect(i18next.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({ debug: true }),
+        jasmine.any(Function)
+      );
+    });
+
+    it('should disable config interpolation options: escapeValue and skipOnVariables', () => {
+      spyOn(i18next, 'init');
+
+      i18nextInitializer.initialize();
+
+      expect(i18next.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          interpolation: {
+            escapeValue: false,
+            skipOnVariables: false,
+          },
+        }),
+        jasmine.any(Function)
+      );
+    });
+
+    it('should set config  `ns` to empty array', () => {
+      spyOn(i18next, 'init');
+
+      i18nextInitializer.initialize();
+
+      expect(i18next.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({ ns: [] }),
+        jasmine.any(Function)
+      );
+    });
+
+    it('should NOT set config `resources` immediately during i18next initialization', () => {
+      config.i18n = {
+        resources: { en: { testChunk: { testKey: 'testValue' } } },
+      };
+      spyOn(i18next, 'init');
+
+      i18nextInitializer.initialize();
+
+      expect(
+        (i18next.init as jasmine.Spy)['calls'].argsFor(0)[0].resources
+      ).toEqual(undefined);
+    });
+
+    it('should add `resources` right after i18next initialization', (done) => {
+      config.i18n = {
+        resources: { en: { testChunk: { testKey: 'testValue' } } },
+      };
+      spyOn(i18next, 'init').and.callThrough();
+
+      i18next.on('initialized', () => {
+        // method `addResourceBundle` doesn't exist on object i18next before calling i18next.init
+        spyOn(i18next, 'addResourceBundle').and.callThrough();
+      });
+
+      i18nextInitializer.initialize();
+
+      // wait for callback passed to i18next.init to be executed
+      setTimeout(() => {
+        expect(i18next.addResourceBundle as jasmine.Spy).toHaveBeenCalledWith(
+          'en',
+          'testChunk',
+          { testKey: 'testValue' },
+          true,
+          true
+        );
+        done();
+      }, 0);
+    });
+
+    describe('when i18n.backend.loadPath is provided', () => {
+      it('should populate config backend.loadPath', () => {
+        config.i18n = { backend: { loadPath: 'test/path' } };
+        spyOn(i18next, 'init');
+
+        i18nextInitializer.initialize();
+
+        expect(i18next.init).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            backend: jasmine.objectContaining({ loadPath: 'test/path' }),
+          }),
+          jasmine.any(Function)
+        );
+      });
+
+      it('should set config backend.reloadInterval to false', () => {
+        config.i18n = { backend: { loadPath: 'test/path' } };
+        spyOn(i18next, 'init');
+
+        i18nextInitializer.initialize();
+
+        expect(i18next.init).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            backend: jasmine.objectContaining({ reloadInterval: false }),
+          }),
+          jasmine.any(Function)
+        );
+      });
+
+      // SPIKE TODO LATER
+      it('should set the i18next http client', () => {
+        // ...
+      });
+    });
+
+    it('should ensure to update i18next language whenever active language is changed', (done) => {
+      spyOn(i18next, 'init').and.callThrough();
+
+      i18nextInitializer.initialize();
+
+      expect(i18next.language).toEqual(undefined);
+
+      mockActiveLanguage$.next('de');
+
+      // i18next language is updated asynchronously, so we need to wait for it
+      setTimeout(() => {
+        expect(i18next.language).toEqual('de');
+        done();
+      }, 0);
+    });
+  });
 });
