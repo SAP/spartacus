@@ -28,22 +28,7 @@ const BROWSER_TIMEOUT = 1_000;
 const SERVER_TIMEOUT = 2_000;
 const VERY_LONG_TIME = 100_000;
 
-@Injectable({ providedIn: 'root' })
-class TestDelayInterceptor implements HttpInterceptor {
-  delay = 0;
-
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    if (this.delay === 0) {
-      return next.handle(request);
-    }
-    return next.handle(request).pipe(delay(this.delay));
-  }
-}
-
-fdescribe('HttpTimeoutInterceptor', () => {
+describe('HttpTimeoutInterceptor', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
   let windowRef: WindowRef;
@@ -56,11 +41,6 @@ fdescribe('HttpTimeoutInterceptor', () => {
         {
           provide: HTTP_INTERCEPTORS,
           useExisting: HttpTimeoutInterceptor,
-          multi: true,
-        },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useExisting: TestDelayInterceptor,
           multi: true,
         },
         {
@@ -257,28 +237,6 @@ fdescribe('HttpTimeoutInterceptor', () => {
     }));
   });
 
-  it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
-    TestBed.inject(TestDelayInterceptor).delay = VERY_LONG_TIME;
-    spyOn(windowRef, 'isBrowser').and.returnValue(false);
-
-    let error;
-    httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
-
-    const request = httpMock.expectOne(testUrl);
-    tick(VERY_LONG_TIME);
-    expect(request.cancelled).toBe(false);
-    expect(error).toBe(undefined);
-    request.event({ type: HttpEventType.Sent });
-
-    tick(SERVER_TIMEOUT - 1);
-    expect(request.cancelled).toBe(false);
-    expect(error).toBe(undefined);
-
-    tick(1);
-    expect(request.cancelled).toBe(true);
-    expect(error).not.toBe(undefined);
-  }));
-
   it('in case of timeout, it should throw HttpErrorResponse with url, statusText and original error', fakeAsync(() => {
     spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
@@ -296,5 +254,90 @@ fdescribe('HttpTimeoutInterceptor', () => {
     expect(error.statusText).toEqual(
       `[Spartacus] Timeout: Request exceeded time ${SERVER_TIMEOUT}ms and was terminated`
     );
+  }));
+});
+
+describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => {
+  @Injectable({ providedIn: 'root' })
+  class DelayInterceptor implements HttpInterceptor {
+    delay = 0;
+
+    intercept(
+      request: HttpRequest<unknown>,
+      next: HttpHandler
+    ): Observable<HttpEvent<unknown>> {
+      if (this.delay === 0) {
+        return next.handle(request);
+      }
+      return next.handle(request).pipe(delay(this.delay));
+    }
+  }
+
+  let httpMock: HttpTestingController;
+  let httpClient: HttpClient;
+  let windowRef: WindowRef;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useExisting: HttpTimeoutInterceptor,
+          multi: true,
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useExisting: DelayInterceptor,
+          multi: true,
+        },
+        {
+          provide: OccConfig,
+          useValue: {
+            backend: {
+              timeout: {
+                browser: BROWSER_TIMEOUT,
+                server: SERVER_TIMEOUT,
+              },
+            },
+          },
+        },
+        { provide: WindowRef, useValue: { isBrowser: () => {} } },
+      ],
+    });
+
+    httpMock = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    windowRef = TestBed.inject(WindowRef);
+  });
+
+  afterEach(fakeAsync(() => {
+    httpMock.verify();
+    flush();
+  }));
+
+  it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
+    TestBed.inject(DelayInterceptor).delay = VERY_LONG_TIME;
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+    let error;
+    httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+
+    // very long time passes, but the request is not sent yet
+    const request = httpMock.expectOne(testUrl);
+    tick(VERY_LONG_TIME);
+
+    expect(request.cancelled).toBe(false);
+    expect(error).toBe(undefined);
+
+    request.event({ type: HttpEventType.Sent });
+
+    tick(SERVER_TIMEOUT - 1);
+    expect(request.cancelled).toBe(false);
+    expect(error).toBe(undefined);
+
+    tick(1);
+    expect(request.cancelled).toBe(true);
+    expect(error).not.toBe(undefined);
   }));
 });
