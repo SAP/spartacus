@@ -1608,5 +1608,3 @@ export class VisualViewerService implements OnDestroy {
       });
   }
 }
-
-// CHECK SONAR
