@@ -81,11 +81,10 @@ export class AuthInterceptor implements HttpInterceptor {
                     errResponse.url?.includes(
                       this.authConfigService.getTokenEndpoint()
                     ) &&
-                    errResponse.error.error === 'invalid_grant'
+                    errResponse.error.error === 'invalid_grant' &&
+                    request.body.get('grant_type') === 'refresh_token'
                   ) {
-                    if (request.body.get('grant_type') === 'refresh_token') {
-                      this.authHttpHeaderService.handleExpiredRefreshToken();
-                    }
+                    this.authHttpHeaderService.handleExpiredRefreshToken();
                   }
                   break;
               }
@@ -101,4 +100,3 @@ export class AuthInterceptor implements HttpInterceptor {
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }
-//CHECK SONAR
