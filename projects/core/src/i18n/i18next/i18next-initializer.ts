@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { i18n, InitOptions } from 'i18next';
+import type { i18n, InitOptions } from 'i18next';
 import i18nextHttpBackend, {
   BackendOptions,
   RequestCallback,
@@ -157,11 +157,12 @@ export class I18nextInitializer implements OnDestroy {
 
   protected siteContextSyncSubscription: Subscription;
 
-  protected syncWithSiteContext(i18next: i18n, language: LanguageService) {
+  // SPIKE TODO: start using it
+  protected syncWithSiteContext(i18next: i18n) {
     // always update language of i18next on site context (language) change
     this.siteContextSyncSubscription =
       this.siteContextSyncSubscription ??
-      language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+      this.languageService.getActive().subscribe((lang) => i18next.changeLanguage(lang));
   }
 
   ngOnDestroy() {
