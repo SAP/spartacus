@@ -67,7 +67,7 @@ export class ConfiguratorConflictSolverDialogComponent
     this.routerData$
       .pipe(take(1))
       .subscribe((routerData) =>
-        this.configuratorCommonsService.dismissConflictSolverDialogue(
+        this.configuratorCommonsService.dismissConflictSolverDialog(
           routerData.owner
         )
       );

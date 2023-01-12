@@ -178,11 +178,11 @@ export class ConfiguratorGroupsService {
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group[]> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
-      //needed because we need have the form to react first on showConflictSolverDialogue
+      //needed because we need have the form to react first on showConflictSolverDialog
       delay(0),
       map((configuration) => {
         let conflictGroups: Configurator.Group[] = [];
-        if (configuration.interactionState.showConflictSolverDialogue) {
+        if (configuration.interactionState.showConflictSolverDialog) {
           conflictGroups = configuration.flatGroups.filter(
             (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
           );

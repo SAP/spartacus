@@ -54,10 +54,10 @@ export class ConfiguratorFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.routerData$.pipe(take(1)).subscribe((routingData) => {
-      this.configuratorCommonsService.checkConflictSolverDialogue(
+      this.configuratorCommonsService.checkConflictSolverDialog(
         routingData.owner
       );
-      //In case of resolving issues (if no conflict solver dialogue is present!), check if the configuration contains conflicts,
+      //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
       //if not, check if the configuration contains missing mandatory fields and show the group
       if (routingData.resolveIssues) {
         this.configuratorCommonsService

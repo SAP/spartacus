@@ -645,20 +645,20 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('dismissConflictSolverDialogue', () => {
+  describe('dismissConflictSolverDialog', () => {
     it('should call matching action', () => {
       spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.dismissConflictSolverDialogue(OWNER_PRODUCT);
+      serviceUnderTest.dismissConflictSolverDialog(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.DissmissConflictDialoge(OWNER_PRODUCT.key)
       );
     });
   });
 
-  describe('checkConflictSolverDialogue', () => {
+  describe('checkConflictSolverDialog', () => {
     it('should call matching action', () => {
       spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.checkConflictSolverDialogue(OWNER_PRODUCT);
+      serviceUnderTest.checkConflictSolverDialog(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.CheckConflictDialoge(OWNER_PRODUCT.key)
       );

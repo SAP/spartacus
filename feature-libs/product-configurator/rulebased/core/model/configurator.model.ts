@@ -113,7 +113,7 @@ export namespace Configurator {
     };
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
-    showConflictSolverDialogue?: boolean;
+    showConflictSolverDialog?: boolean;
   }
 
   export interface Overview {

@@ -476,7 +476,7 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return conflict groups', (done) => {
-      productConfigurationWithConflicts.interactionState.showConflictSolverDialogue =
+      productConfigurationWithConflicts.interactionState.showConflictSolverDialog =
         true;
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfigurationWithConflicts)
