@@ -16,7 +16,6 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { cold } from 'jasmine-marbles';
 
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -135,11 +134,11 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   });
 
   describe('conflictGroups observable', () => {
-    let configRouterData: ConfiguratorRouter.Data;    
+    let configRouterData: ConfiguratorRouter.Data;
 
     beforeEach(() => {
       configRouterData = structuredClone(defaultMockRouterData);
-      configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION; 
+      configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
     });
 
     it('should emit group data', () => {
@@ -148,10 +147,8 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       const expected$ = cold('-g--', { g: groups });
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
-    });  
+    });
   });
-
-  
 
   describe('controlDialog', () => {
     it('should open conflict solver dialog because there are some conflict groups', () => {
@@ -167,16 +164,6 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
-      );
-    });
-
-    it('should close conflict solver dialog because no configurator related route', () => {
-      initEventListener();
-      mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
-      listener['controlDialog']();
-      expect(launchDialogService.closeDialog).toHaveBeenCalled();
-      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-        'CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON'
       );
     });
   });

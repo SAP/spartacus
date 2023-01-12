@@ -29,10 +29,10 @@ export class ConfiguratorConflictSolverDialogLauncherService
 
   conflictGroups$: Observable<Configurator.Group[] | undefined> =
     this.routerData$.pipe(
-      switchMap((routerData) => {       
-          return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
-            routerData.owner
-          );
+      switchMap((routerData) => {
+        return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
+          routerData.owner
+        );
       })
     );
 
@@ -45,18 +45,17 @@ export class ConfiguratorConflictSolverDialogLauncherService
   ) {
     this.controlDialog();
   }
- 
 
   protected controlDialog() {
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
         if (conflictGroups && conflictGroups?.length > 0) {
           this.openModal();
-        } else {        
+        } else {
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
         }
       })
-    ); 
+    );
   }
 
   protected openModal(): void {
