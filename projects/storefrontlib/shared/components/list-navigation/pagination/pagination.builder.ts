@@ -368,3 +368,5 @@ export class PaginationBuilder {
     );
   }
 }
+
+// CHECK SONAR

@@ -82,3 +82,5 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     );
   }
 }
+
+// CHECK SONAR

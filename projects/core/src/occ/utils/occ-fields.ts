@@ -138,3 +138,5 @@ function getObjectPart<T>(data: T, fields: object): T {
 
   return result;
 }
+
+// CHECK SONAR

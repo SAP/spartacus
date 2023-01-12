@@ -87,3 +87,5 @@ export class ObjectComparisonUtils {
     }
   }
 }
+
+// CHECK SONAR

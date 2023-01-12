@@ -891,3 +891,5 @@ export function finalizeInstallation<OPTIONS extends LibraryOptions>(
     }
   };
 }
+
+// CHECK SONAR

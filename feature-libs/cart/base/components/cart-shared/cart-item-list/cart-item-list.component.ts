@@ -267,3 +267,5 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 }
+
+// CHECK SONAR

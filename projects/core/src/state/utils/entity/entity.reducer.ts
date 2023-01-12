@@ -85,3 +85,5 @@ export function entityReducer<T, V extends Action = Action>(
     return state;
   };
 }
+
+// CHECK SONAR

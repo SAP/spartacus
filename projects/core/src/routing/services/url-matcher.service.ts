@@ -171,3 +171,5 @@ export class UrlMatcherService {
     return matcher;
   }
 }
+
+// CHECK SONAR

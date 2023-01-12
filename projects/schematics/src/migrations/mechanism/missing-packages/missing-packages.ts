@@ -61,3 +61,5 @@ export function migrateMissingPackage(
 
   return tree;
 }
+
+// CHECK SONAR

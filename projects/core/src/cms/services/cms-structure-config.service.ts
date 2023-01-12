@@ -202,3 +202,5 @@ export abstract class CmsStructureConfigService {
       : undefined;
   }
 }
+
+// CHECK SONAR

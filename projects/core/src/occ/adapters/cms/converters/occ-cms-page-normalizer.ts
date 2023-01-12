@@ -212,3 +212,5 @@ export class OccCmsPageNormalizer
     target.robots = robots;
   }
 }
+
+// CHECK SONAR

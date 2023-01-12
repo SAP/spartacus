@@ -233,3 +233,5 @@ export class OccEndpointsService {
     return this.config?.backend?.occ?.prefix ?? '';
   }
 }
+
+// CHECK SONAR

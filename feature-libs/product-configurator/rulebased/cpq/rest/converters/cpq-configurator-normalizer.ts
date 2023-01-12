@@ -405,3 +405,5 @@ export class CpqConfiguratorNormalizer
     );
   }
 }
+
+// CHECK SONAR

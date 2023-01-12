@@ -277,3 +277,5 @@ export class AnonymousConsentsEffects {
     return false;
   }
 }
+
+// CHECK SONAR

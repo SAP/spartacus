@@ -137,3 +137,5 @@ function invalidUrlMessage(propertyName: string, url: string) {
 function invalidUrlProtocolMessage(propertyName: string) {
   return `URL for ${propertyName} must use HTTPS or HTTP protocol.`;
 }
+
+// CHECK SONAR

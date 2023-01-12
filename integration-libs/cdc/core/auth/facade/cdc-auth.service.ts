@@ -143,3 +143,5 @@ export class CdcAuthService implements CdcAuthFacade {
     });
   }
 }
+
+// CHECK SONAR

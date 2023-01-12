@@ -527,3 +527,5 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
     ]);
   };
 }
+
+// CHECK SONAR

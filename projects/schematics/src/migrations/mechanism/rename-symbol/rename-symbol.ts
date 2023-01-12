@@ -82,3 +82,5 @@ export function migrateRenamedSymbols(
 
   return tree;
 }
+
+// CHECK SONAR

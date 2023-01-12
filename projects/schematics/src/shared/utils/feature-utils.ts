@@ -483,3 +483,5 @@ function createDependentFeaturesLog(
     ', '
   )}: ${notSelectedFeatures.join(', ')}\n`;
 }
+
+// CHECK SONAR

@@ -101,3 +101,5 @@ export class TmsService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 }
+
+// CHECK SONAR

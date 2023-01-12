@@ -350,3 +350,5 @@ export class CartEffects {
     private store: Store<StateWithMultiCart>
   ) {}
 }
+
+// CHECK SONAR

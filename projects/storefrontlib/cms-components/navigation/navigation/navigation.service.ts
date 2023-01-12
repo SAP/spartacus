@@ -222,3 +222,5 @@ export class NavigationService {
     }
   }
 }
+
+// CHECK SONAR

@@ -130,3 +130,5 @@ export function migrateComponentMigration(
 
   return tree;
 }
+
+// CHECK SONAR

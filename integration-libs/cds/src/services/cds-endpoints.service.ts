@@ -92,3 +92,5 @@ export class CdsEndpointsService {
     return this.cdsConfig.cds.baseUrl;
   }
 }
+
+// CHECK SONAR

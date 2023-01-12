@@ -74,3 +74,5 @@ export class OrderEntryPromotionsNormalizer
     }
   }
 }
+
+// CHECK SONAR

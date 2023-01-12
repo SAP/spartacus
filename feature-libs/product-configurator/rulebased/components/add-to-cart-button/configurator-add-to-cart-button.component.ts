@@ -380,3 +380,5 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 }
+
+// CHECK SONAR

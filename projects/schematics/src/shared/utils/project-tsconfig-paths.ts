@@ -92,3 +92,5 @@ function getTargetTsconfigPath(
   }
   return null;
 }
+
+// CHECK SONAR

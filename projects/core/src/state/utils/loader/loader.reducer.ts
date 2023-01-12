@@ -78,3 +78,5 @@ export function loaderReducer<T, V extends Action = Action>(
     return state;
   };
 }
+
+// CHECK SONAR

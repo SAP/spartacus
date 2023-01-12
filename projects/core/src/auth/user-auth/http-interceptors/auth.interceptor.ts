@@ -101,3 +101,4 @@ export class AuthInterceptor implements HttpInterceptor {
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }
+//CHECK SONAR
