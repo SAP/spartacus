@@ -26,6 +26,7 @@ import { HttpTimeoutInterceptor } from './http-timeout.interceptor';
 const testUrl = '/test';
 const BROWSER_TIMEOUT = 1_000;
 const SERVER_TIMEOUT = 2_000;
+const VERY_LONG_TIME = 100_000;
 
 @Injectable({ providedIn: 'root' })
 class TestDelayInterceptor implements HttpInterceptor {
@@ -113,17 +114,23 @@ fdescribe('HttpTimeoutInterceptor', () => {
 
     it('should NOT timeout, when no timeout config is configured', fakeAsync(() => {
       config.backend = { timeout: undefined };
+
+      let response;
       let error;
-      httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+      httpClient.get(testUrl).subscribe({
+        error: (e) => (error = e),
+        next: (r) => (response = r),
+      });
 
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      tick(10_000);
+      tick(VERY_LONG_TIME);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      request.flush('ok');
+      request.event(new HttpResponse({ body: 'ok' }));
+      expect(response).toBe('ok');
     }));
 
     it('should use the global timeout config for browser', fakeAsync(() => {
@@ -191,17 +198,23 @@ fdescribe('HttpTimeoutInterceptor', () => {
 
     it('should not timeout, when no timeout config is configured', fakeAsync(() => {
       config.backend = { timeout: undefined };
+
+      let response;
       let error;
-      httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
+      httpClient.get(testUrl).subscribe({
+        error: (e) => (error = e),
+        next: (r) => (response = r),
+      });
 
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      tick(10_000);
+      tick(VERY_LONG_TIME);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      request.flush('ok');
+      request.event(new HttpResponse({ body: 'ok' }));
+      expect(response).toBe('ok');
     }));
 
     it('should use the global timeout config for server', fakeAsync(() => {
@@ -245,14 +258,14 @@ fdescribe('HttpTimeoutInterceptor', () => {
   });
 
   it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
-    TestBed.inject(TestDelayInterceptor).delay = 10_000;
+    TestBed.inject(TestDelayInterceptor).delay = VERY_LONG_TIME;
     spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     let error;
     httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
 
     const request = httpMock.expectOne(testUrl);
-    tick(10_000);
+    tick(VERY_LONG_TIME);
     expect(request.cancelled).toBe(false);
     expect(error).toBe(undefined);
     request.event({ type: HttpEventType.Sent });
@@ -275,7 +288,7 @@ fdescribe('HttpTimeoutInterceptor', () => {
     const request = httpMock.expectOne(testUrl);
     request.event({ type: HttpEventType.Sent });
 
-    tick(10_000);
+    tick(VERY_LONG_TIME);
 
     expect(error.url).toEqual(testUrl);
     expect(error instanceof HttpErrorResponse).toBe(true);
