@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { I18nTestingModule } from '@spartacus/core';
@@ -7,6 +7,7 @@ import {
   IconLoaderService,
   IconModule,
   LaunchDialogService,
+  FocusConfig,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Configurator } from '../../core/model/configurator.model';
@@ -56,6 +57,13 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
+
 @Component({
   selector: 'cx-configurator-default-form',
   template: '',
@@ -80,6 +88,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         declarations: [
           MockConfiguratorDefaultFormComponent,
           ConfiguratorConflictSolverDialogComponent,
+          MockKeyboadFocusDirective,
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
