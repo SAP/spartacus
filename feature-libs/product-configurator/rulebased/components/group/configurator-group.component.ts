@@ -12,15 +12,15 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { ConfigFormUpdateEvent } from './configurator-default-form.event';
+import { ConfigFormUpdateEvent } from './configurator-group.event';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
-  selector: 'cx-configurator-default-form',
-  templateUrl: './configurator-default-form.component.html',
+  selector: 'cx-configurator-group',
+  templateUrl: './configurator-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorDefaultFormComponent {
+export class ConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;

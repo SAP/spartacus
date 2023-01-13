@@ -10,7 +10,7 @@ import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../default-form/configurator-default-form.event';
+import { ConfigFormUpdateEvent } from '../../../group/configurator-group.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';

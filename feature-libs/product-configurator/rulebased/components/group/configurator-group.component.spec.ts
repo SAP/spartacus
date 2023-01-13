@@ -21,7 +21,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfigFormUpdateEvent } from './configurator-default-form.event';
+import { ConfigFormUpdateEvent } from './configurator-group.event';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -42,7 +42,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/ra
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
-import { ConfiguratorDefaultFormComponent } from './configurator-default-form.component';
+import { ConfiguratorGroupComponent } from './configurator-group.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
@@ -245,15 +245,15 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
-describe('ConfiguratorDefaultFormComponent', () => {
+describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configExpertModeService: ConfiguratorExpertModeService;
   let mockLanguageService;
   let htmlElem: HTMLElement;
-  let fixture: ComponentFixture<ConfiguratorDefaultFormComponent>;
-  let component: ConfiguratorDefaultFormComponent;
+  let fixture: ComponentFixture<ConfiguratorGroupComponent>;
+  let component: ConfiguratorGroupComponent;
 
   beforeEach(
     waitForAsync(() => {
@@ -269,7 +269,7 @@ describe('ConfiguratorDefaultFormComponent', () => {
           MockConfiguratorPriceComponent,
           MockFocusDirective,
           MockFeatureLevelDirective,
-          ConfiguratorDefaultFormComponent,
+          ConfiguratorGroupComponent,
           MockConfiguratorConflictDescriptionComponent,
           ConfiguratorConflictSuggestionComponent,
           ConfiguratorAttributeHeaderComponent,
@@ -347,8 +347,8 @@ describe('ConfiguratorDefaultFormComponent', () => {
     isConfigurationLoadingObservable = of(false);
   });
 
-  function createComponent(): ConfiguratorDefaultFormComponent {
-    fixture = TestBed.createComponent(ConfiguratorDefaultFormComponent);
+  function createComponent(): ConfiguratorGroupComponent {
+    fixture = TestBed.createComponent(ConfiguratorGroupComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     component.owner = OWNER;

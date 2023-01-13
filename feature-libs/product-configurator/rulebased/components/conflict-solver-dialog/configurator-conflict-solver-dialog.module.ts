@@ -10,7 +10,7 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
-import { ConfiguratorDefaultFormModule } from '../default-form/configurator-default-form.module';
+import { ConfiguratorGroupModule } from '../group/configurator-group.module';
 import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configurator-conflict-solver-layout.config';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configu
     CommonModule,
     IconModule,
     I18nModule,
-    ConfiguratorDefaultFormModule,
+    ConfiguratorGroupModule,
     KeyboardFocusModule,
   ],
   providers: [
