@@ -296,7 +296,7 @@ export class MultiCartService implements MultiCartFacade {
     pickupStore?: string,
     pickupToDelivery?: boolean
   ): void {
-    if (quantity && quantity <= 0) {
+    if (quantity !== undefined && quantity <= 0) {
       this.removeEntry(userId, cartId, entryNumber);
     } else {
       this.store.dispatch(
