@@ -9,7 +9,7 @@ export { AsmCustomerActivityComponent } from './asm-customer-activity/asm-custom
 
 export { AsmCustomerMapComponent } from './asm-customer-map/asm-customer-map.component';
 
-export { AsmCustomerOverviewComponent } from './asm-customer-overview/asm-customer-overview.component';
+export { AsmCustomerProductInterestsComponent } from './asm-customer-product-interests/asm-customer-product-interests.component';
 
 export { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews/asm-customer-product-reviews.component';
 

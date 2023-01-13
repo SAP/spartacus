@@ -20,7 +20,7 @@ export const customer360 = {
     savedCart: 'Last Saved Cart',
     noSavedCart: 'There are currently no Saved Cart items',
     interests: 'Interests',
-    noInterests: 'There are currently no Interest items',
+    noInterests: 'There are currently no interest items',
     inStock: 'In Stock',
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',

@@ -66,7 +66,9 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
 
-    this.activeCart$ = this.activeCartFacade.getActive();
+    this.activeCart$ = this.activeCartFacade
+      .getActive()
+      .pipe(map((cart) => (cart.totalItems ? cart : undefined)));
     this.orderHistory$ = this.orderHistoryFacade
       .getOrderHistoryList(this.ORDER_LIMIT)
       .pipe(map((orderHistory) => orderHistory ?? {}));

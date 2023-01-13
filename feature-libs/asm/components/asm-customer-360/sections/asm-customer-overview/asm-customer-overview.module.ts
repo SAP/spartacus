@@ -10,11 +10,10 @@ import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { MediaModule } from '@spartacus/storefront';
 import { AsmCustomerOverviewComponent } from './asm-customer-overview.component';
-import { AsmProductItemComponent } from './asm-product-item/asm-product-item.component';
 
 @NgModule({
   imports: [CommonModule, MediaModule, UrlModule, I18nModule],
-  declarations: [AsmCustomerOverviewComponent, AsmProductItemComponent],
+  declarations: [AsmCustomerOverviewComponent],
   exports: [AsmCustomerOverviewComponent],
 })
 export class AsmCustomerOverviewModule {}

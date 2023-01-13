@@ -141,61 +141,6 @@
   </ng-container>
 </div>
 
-<!-- Interests -->
-<div
-  class="cx-asm-overview-section cx-asm-overview-active-interests mt-5"
-  *ngIf="interestProducts$ | async as interests; else emptyInterests"
->
-  <div class="section-header">
-    <div class="header-title">
-      <a
-        tabindex="0"
-        [attr.aria-label]="'asm.customer360.overview.interests' | cxTranslate"
-        role="link"
-        class="cx-overview-title-link"
-        (click)="navigateTo({ cxRoute: 'myInterests' })"
-      >
-        {{ 'asm.customer360.overview.interests' | cxTranslate }}
-      </a>
-    </div>
-  </div>
-  <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
-    <div class="row">
-      <div
-        class="col cx-asm-overview-items cx-asm-overview-interests-items"
-        [class.show-more]="showMoreInterests"
-      >
-        <ng-container
-          *ngFor="let product$ of interests.products; let i = index"
-        >
-          <ng-container *ngIf="product$ | async as product">
-            <cx-asm-product-item
-              class="cx-asm-overview-interests-item"
-              *ngIf="i < numberofColumns * 2 || showMoreInterests"
-              [product]="product"
-              [isOrderEntry]="false"
-              (selectProduct)="
-                navigateTo({ cxRoute: 'product', params: $event })
-              "
-            ></cx-asm-product-item>
-          </ng-container>
-        </ng-container>
-      </div>
-    </div>
-    <ng-template
-      *ngTemplateOutlet="
-        showMoreButton;
-        context: {
-          itemLength: interests.products.length,
-          columnNum: numberofColumns * 2,
-          showMore: showMoreInterests,
-          section: OverviewSection.INTERESTS
-        }
-      "
-    ></ng-template>
-  </ng-container>
-</div>
-
 <ng-template #emptySavedCart>
   <ng-template
     *ngTemplateOutlet="
@@ -215,18 +160,6 @@
       context: {
         title: 'asm.customer360.overview.activeCart' | cxTranslate,
         description: 'asm.customer360.overview.noActiveCart' | cxTranslate
-      }
-    "
-  ></ng-template>
-</ng-template>
-
-<ng-template #emptyInterests>
-  <ng-template
-    *ngTemplateOutlet="
-      emptyResult;
-      context: {
-        title: 'asm.customer360.overview.interests' | cxTranslate,
-        description: 'asm.customer360.overview.noInterests' | cxTranslate
       }
     "
   ></ng-template>

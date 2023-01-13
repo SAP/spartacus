@@ -264,6 +264,36 @@ export class OccAsmAdapter implements AsmAdapter {
           type: AsmCustomer360Type.STORE_LOCATION,
           address: 'New York United States 10001',
         },
+        {
+          type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
+          customerProductInterests: [
+            {
+              product: {
+                code: '280916',
+              },
+            },
+            {
+              product: {
+                code: '482105',
+              },
+            },
+            {
+              product: {
+                code: '872912',
+              },
+            },
+            {
+              product: {
+                code: '1981415',
+              },
+            },
+            {
+              product: {
+                code: '458542',
+              },
+            },
+          ],
+        },
       ],
     };
 

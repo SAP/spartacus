@@ -11,7 +11,6 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { AsmCustomer360Component } from './asm-customer-360.component';
 import { AsmCustomerMapComponentModule } from './sections/asm-customer-map/asm-customer-map.component.module';
 import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
-import { AsmCustomerOverviewModule } from './sections/asm-customer-overview/asm-customer-overview.module';
 import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
 import { AsmCustomerProductReviewsComponentModule } from './sections/asm-customer-product-reviews/asm-customer-product-reviews.component.module';
 import {
@@ -23,10 +22,11 @@ import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm
 import {
   AsmCustomerActivityComponent,
   AsmCustomerMapComponent,
-  AsmCustomerOverviewComponent,
   AsmCustomerProductReviewsComponent,
   AsmCustomerProfileComponent,
 } from './sections/components';
+import { AsmCustomerProductInterestsComponent } from './sections/asm-customer-product-interests/asm-customer-product-interests.component';
+import { AsmCustomerProductInterestsModule } from './sections/asm-customer-product-interests/asm-customer-product-interests.module';
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import {
     IconModule,
     KeyboardFocusModule,
     PageComponentModule,
-    AsmCustomerOverviewModule,
+    AsmCustomerProductInterestsModule,
     AsmCustomerProfileModule,
     AsmCustomerActivityModule,
     AsmCustomerMapComponentModule,
@@ -44,11 +44,11 @@ import {
   providers: [
     provideDefaultConfig({
       cmsComponents: {
-        AsmCustomer360OverviewComponent: {
-          component: AsmCustomerOverviewComponent,
-        },
         AsmCustomer360ProfileComponent: {
           component: AsmCustomerProfileComponent,
+        },
+        AsmCustomer360ProductInterestsComponent: {
+          component: AsmCustomerProductInterestsComponent,
         },
         AsmCustomer360ProductReviewsComponent: {
           component: AsmCustomerProductReviewsComponent,

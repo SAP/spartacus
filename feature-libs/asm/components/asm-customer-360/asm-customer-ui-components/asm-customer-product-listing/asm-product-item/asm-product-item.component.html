@@ -1,0 +1,46 @@
+<a
+  tabindex="0"
+  [attr.aria-label]="product?.name"
+  role="link"
+  (click)="selectProduct.emit(product)"
+>
+  <cx-media
+    [container]="product?.images?.PRIMARY"
+    format="product"
+    [alt]="product?.name ?? ''"
+  ></cx-media>
+</a>
+<div class="cx-asm-product-item-content">
+  <a
+    tabindex="0"
+    [attr.aria-label]="product?.name"
+    role="link"
+    (click)="selectProduct.emit(product)"
+    class="cx-asm-product-item-name"
+    ><span title="{{ product?.name }}">{{ product?.name }}</span></a
+  >
+  <ng-container *ngIf="isOrderEntry; else notOrderEntryTemplate">
+    <div class="cx-asm-product-item-code">
+      {{ product?.code }}
+    </div>
+    <div class="cx-asm-product-item-quantity">
+      {{
+        'asm.customer360.overview.quantity' | cxTranslate: { count: quantity }
+      }}
+    </div>
+    <div class="cx-asm-product-item-price">
+      {{
+        'asm.customer360.overview.itemPrice'
+          | cxTranslate: { price: price?.formattedValue }
+      }}
+    </div>
+  </ng-container>
+  <ng-template #notOrderEntryTemplate>
+    <div
+      class="cx-asm-product-item-out-of-stock"
+      *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
+    >
+      {{ 'asm.customer360.overview.outOfStock' | cxTranslate }}
+    </div>
+  </ng-template>
+</div>

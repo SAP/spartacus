@@ -1,14 +1,6 @@
 %cx-asm-customer-overview {
   width: 100%;
-  .cx-overview-title-link {
-    text-decoration: none;
-    cursor: pointer;
-    color: $asmLinkColor;
-  }
   .cx-asm-overview-header-infor {
-    display: flex;
-  }
-  cx-asm-product-item {
     display: flex;
   }
   .customer-description {
@@ -59,9 +51,6 @@
       flex-flow: row wrap;
       justify-content: space-between;
       margin-bottom: 40px;
-      .header-title {
-        @include type('4', 'semi');
-      }
       .result-wrapper {
         display: flex;
       }
@@ -80,113 +69,6 @@
         color: var(--cx-color-secondary);
         padding: 0 16px;
       }
-    }
-    .cx-asm-overview-items {
-      display: flex;
-      a {
-        cursor: pointer;
-      }
-      .cx-asm-product-item-name {
-        @include type('7', 'bold');
-        color: $asmMainTextColor;
-        text-decoration: none;
-        span {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          display: inline-block;
-        }
-        &:hover {
-          color: var(--cx-color-primary);
-        }
-      }
-      .cx-asm-overview-out-of-stock {
-        font-weight: var(--cx-font-weight-normal);
-        color: var(--cx-color-secondary);
-      }
-    }
-    .cx-asm-overview-items.show-more {
-      flex-wrap: wrap;
-    }
-    .cx-asm-overview-order-items.column-1 {
-      cx-asm-product-item {
-        width: 100%;
-      }
-    }
-    .cx-asm-overview-order-items.column-2 {
-      cx-asm-product-item {
-        width: 50%;
-      }
-    }
-    .cx-asm-overview-order-items.column-3 {
-      cx-asm-product-item {
-        width: 32%;
-      }
-    }
-    .cx-asm-overview-order-items {
-      gap: 1rem;
-      cx-asm-product-item {
-        border: 1px solid $asmBorderColor;
-        border-radius: 10px;
-        max-width: 330px;
-        cx-media {
-          width: 100px;
-          img {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-          }
-        }
-        .cx-asm-product-item-content {
-          padding: 1rem;
-          span {
-            width: 160px;
-          }
-        }
-      }
-    }
-
-    .cx-asm-overview-interests-items {
-      text-align: center;
-      gap: 1rem;
-      cx-asm-product-item {
-        width: 140px;
-        flex-direction: column;
-        row-gap: 1rem;
-        cx-media {
-          max-width: 140px;
-          height: 140px;
-        }
-        .cx-asm-product-item-content {
-          span {
-            width: 140px;
-          }
-        }
-      }
-    }
-  }
-  .show-hide-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    .show-hide-btn {
-      color: $asmLinkColor;
-      @include type('4', 'semi');
-      text-decoration: none;
-    }
-  }
-
-  .cx-asm-overview-empty {
-    display: block;
-    padding: 0 48px;
-    .cx-asm-overview-empty-title {
-      @include type('4', 'semi');
-      line-height: 2rem;
-      border-bottom: 1px solid var(--cx-color-light);
-    }
-    .cx-asm-overview-empty-desc {
-      color: $asmMainSecondaryTextColor;
-      font-size: var(--cx-font-size, 0.875rem);
-      font-weight: var(--cx-font-weight-normal);
     }
   }
 }

@@ -18,8 +18,9 @@ export interface AsmCustomer360Review {
 }
 
 export enum AsmCustomer360Type {
-  REVIEW_LIST = 'C360ReviewList',
-  STORE_LOCATION = 'C360StoreLocation',
+  REVIEW_LIST = 'c360ReviewList',
+  STORE_LOCATION = 'c360StoreLocation',
+  PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
 }
 
 export interface AsmCustomer360ReviewList {
@@ -30,6 +31,15 @@ export interface AsmCustomer360ReviewList {
 export interface AsmCustomer360StoreLocation {
   type: AsmCustomer360Type.STORE_LOCATION;
   address: string;
+}
+
+export interface AsmCustomer360ProductInterestList {
+  type: AsmCustomer360Type.PRODUCT_INTEREST_LIST;
+  customerProductInterests: Array<{
+    product: {
+      code: string;
+    };
+  }>;
 }
 
 export interface AsmCustomer360Params {
@@ -51,6 +61,7 @@ export interface AsmCustomer360Request {
 }
 
 export type AsmCustomer360Data =
+  | AsmCustomer360ProductInterestList
   | AsmCustomer360ReviewList
   | AsmCustomer360StoreLocation;
 
