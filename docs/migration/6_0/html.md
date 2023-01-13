@@ -94,3 +94,4 @@
 ### ActiveFacetsComponent
 
 - Replaced `h4` tag with `h2` tag header for accessibility improvements.
+- Added `h2` style class and we no longer use `h4` style class
