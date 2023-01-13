@@ -29,13 +29,13 @@
           (conflictGroups$ | async) as conflictGroups
         "
       >
-        <cx-configurator-default-form
+        <cx-configurator-group
           [group]="conflictGroups[0]"
           [owner]="(routerData$ | async)?.owner"
           [isNavigationToGroupEnabled]="false"
           [uiContextKey]="'conflict'"
         >
-        </cx-configurator-default-form>
+        </cx-configurator-group>
       </ng-container>
     </div>
   </div>

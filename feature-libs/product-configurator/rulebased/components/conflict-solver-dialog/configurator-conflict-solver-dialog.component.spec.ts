@@ -65,7 +65,7 @@ export class MockKeyboadFocusDirective {
 }
 
 @Component({
-  selector: 'cx-configurator-default-form',
+  selector: 'cx-configurator-group',
   template: '',
 })
 class MockConfiguratorDefaultFormComponent {
@@ -186,7 +186,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-default-form'
+        'cx-configurator-group'
       );
     });
   });

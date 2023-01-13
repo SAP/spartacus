@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../default-form/configurator-default-form.event';
+import { ConfigFormUpdateEvent } from '../../../group/configurator-group.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';

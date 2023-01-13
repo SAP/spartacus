@@ -25,7 +25,7 @@ import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/t
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
-import { ConfiguratorDefaultFormComponent } from './configurator-default-form.component';
+import { ConfiguratorGroupComponent } from './configurator-group.component';
 
 @NgModule({
   imports: [
@@ -55,12 +55,12 @@ import { ConfiguratorDefaultFormComponent } from './configurator-default-form.co
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ConfiguratorForm: {
-          component: ConfiguratorDefaultFormComponent,
+          component: ConfiguratorGroupComponent,
         },
       },
     }),
   ],
-  declarations: [ConfiguratorDefaultFormComponent],
-  exports: [ConfiguratorDefaultFormComponent],
+  declarations: [ConfiguratorGroupComponent],
+  exports: [ConfiguratorGroupComponent],
 })
-export class ConfiguratorDefaultFormModule {}
+export class ConfiguratorGroupModule {}

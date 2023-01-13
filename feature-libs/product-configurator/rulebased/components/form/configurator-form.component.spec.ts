@@ -422,7 +422,7 @@ describe('ConfigurationFormComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'cx-configurator-default-form'
+        'cx-configurator-group'
       );
     });
 
@@ -432,7 +432,7 @@ describe('ConfigurationFormComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-default-form'
+        'cx-configurator-group'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,

@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { ConfiguratorDefaultFormModule } from '../default-form/configurator-default-form.module';
+import { ConfiguratorGroupModule } from '../group/configurator-group.module';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { ConfiguratorDefaultFormModule } from '../default-form/configurator-defa
     CommonModule,
     I18nModule,
     NgSelectModule,
-    ConfiguratorDefaultFormModule,
+    ConfiguratorGroupModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
