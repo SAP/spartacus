@@ -196,8 +196,7 @@ function handleCartEntryReadSucess(
     | ConfiguratorActions.ReadConfigurationSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
-  const result = setInitialCurrentGroup(takeOverChanges(action, state));
-  return result;
+  return setInitialCurrentGroup(takeOverChanges(action, state));
 }
 
 function handleUpdatePriceSummarySuccess(
