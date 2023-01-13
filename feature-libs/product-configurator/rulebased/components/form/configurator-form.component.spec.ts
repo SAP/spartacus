@@ -93,6 +93,10 @@ class MockConfiguratorCommonsService {
     return configurationCreateObservable;
   }
 
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
   removeConfiguration(): void {}
 
   updateConfiguration(): void {}
@@ -493,6 +497,34 @@ describe('ConfigurationFormComponent', () => {
         expect(value).toBe(false);
         done();
       });
+    });
+  });
+
+  describe('ngOnInit()', () => {
+    it('should call getConfiguration in order to prepare conflict check', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
+      createComponentWithData();
+      expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
+        1
+      );
+    });
+
+    it('should call checkConflictSolverDialog on facade in order to launch conflict check', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configRead);
+      spyOn(
+        configuratorCommonsService,
+        'checkConflictSolverDialog'
+      ).and.callThrough();
+      createComponentWithData();
+      expect(
+        configuratorCommonsService.checkConflictSolverDialog
+      ).toHaveBeenCalledTimes(1);
     });
   });
 });

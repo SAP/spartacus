@@ -11,7 +11,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { NEVER, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { switchMap } from 'rxjs/operators';
@@ -30,13 +30,9 @@ export class ConfiguratorConflictSolverDialogLauncherService
   conflictGroups$: Observable<Configurator.Group[] | undefined> =
     this.routerData$.pipe(
       switchMap((routerData) => {
-        if (routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION) {
-          return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
-            routerData.owner
-          );
-        } else {
-          return NEVER;
-        }
+        return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
+          routerData.owner
+        );
       })
     );
 
@@ -50,10 +46,6 @@ export class ConfiguratorConflictSolverDialogLauncherService
     this.controlDialog();
   }
 
-  protected isConfiguratorRelatedRoute(semanticRoute?: string): boolean {
-    return semanticRoute ? semanticRoute.includes('configure') : false;
-  }
-
   protected controlDialog() {
     this.subscription.add(
       this.conflictGroups$.subscribe((conflictGroups) => {
@@ -61,14 +53,6 @@ export class ConfiguratorConflictSolverDialogLauncherService
           this.openModal();
         } else {
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
-        }
-      })
-    );
-
-    this.subscription.add(
-      this.routingService.getRouterState().subscribe((routerState) => {
-        if (!this.isConfiguratorRelatedRoute(routerState.state.semanticRoute)) {
-          this.closeModal('CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON');
         }
       })
     );

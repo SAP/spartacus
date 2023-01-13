@@ -65,7 +65,7 @@ function ensureReducerMapCreated() {
     );
     reducerMap.set(
       ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS,
-      handleReadSucess
+      handleCartEntryReadSucess
     );
     reducerMap.set(
       ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS,
@@ -166,7 +166,6 @@ function handleActionCheckConflictSolverDialog(
     },
   };
   checkConflictSolverDialog(result);
-
   return result;
 }
 
@@ -188,6 +187,16 @@ function handleReadSucess(
   const result = setInitialCurrentGroup(takeOverChanges(action, state));
   checkConflictSolverDialog(result);
   return result;
+}
+
+function handleCartEntryReadSucess(
+  state: Configurator.Configuration,
+  action:
+    | ConfiguratorActions.CreateConfigurationSuccess
+    | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+): Configurator.Configuration | undefined {
+  return setInitialCurrentGroup(takeOverChanges(action, state));
 }
 
 function handleUpdatePriceSummarySuccess(
@@ -420,6 +429,7 @@ function takeOverChanges(
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
+      showConflictSolverDialog: state.interactionState.showConflictSolverDialog,
       issueNavigationDone: true,
     },
   };

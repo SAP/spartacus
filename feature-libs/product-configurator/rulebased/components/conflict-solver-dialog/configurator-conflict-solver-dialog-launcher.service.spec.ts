@@ -16,7 +16,6 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { cold } from 'jasmine-marbles';
 
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-const OVERVIEW_ROUTE = 'overviewCPQCONFIGURATOR';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -136,59 +135,18 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
   describe('conflictGroups observable', () => {
     let configRouterData: ConfiguratorRouter.Data;
-    let overviewRouterData: ConfiguratorRouter.Data;
 
     beforeEach(() => {
       configRouterData = structuredClone(defaultMockRouterData);
       configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-      overviewRouterData = structuredClone(defaultMockRouterData);
-      overviewRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
     });
 
-    it('should emit group data when routing pageType = "configuration"', () => {
+    it('should emit group data', () => {
       routerData$ = cold('    c---', { c: configRouterData });
       groups$ = cold('        -g--', { g: groups });
       const expected$ = cold('-g--', { g: groups });
       initEventListener();
       expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
-
-    it('should not emit group data when routing pageType = "overview"', () => {
-      routerData$ = cold('    o---', { o: overviewRouterData });
-      groups$ = cold('        -g--', { g: groups });
-      const expected$ = cold('----');
-      initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
-
-    it('should stop emitting group data when navigation to overview', () => {
-      const routerData = { a: configRouterData, o: overviewRouterData };
-      routerData$ = cold('    ao--', routerData);
-      groups$ = cold('        --a-', { a: groups });
-      const expected$ = cold('----');
-      initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(expected$);
-    });
-  });
-
-  describe('isConfiguratorRelatedRoute', () => {
-    it('should return false because semanticRoute is not defined', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute']()).toBe(false);
-    });
-
-    it('should return false because semanticRoute does not contain configure', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute'](OVERVIEW_ROUTE)).toBe(
-        false
-      );
-    });
-
-    it('should return true because semanticRoute contains configure', () => {
-      initEventListener();
-      expect(listener['isConfiguratorRelatedRoute'](CONFIGURATOR_ROUTE)).toBe(
-        true
-      );
     });
   });
 
@@ -206,16 +164,6 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
-      );
-    });
-
-    it('should close conflict solver dialog because no configurator related route', () => {
-      initEventListener();
-      mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
-      listener['controlDialog']();
-      expect(launchDialogService.closeDialog).toHaveBeenCalled();
-      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-        'CLOSE_CLICK_EXIT_CANCEL_CONFIGURATION_BUTTON'
       );
     });
   });
