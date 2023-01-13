@@ -27,7 +27,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
-  conflictGroups$: Observable<Configurator.Group[] | undefined> =
+  conflictGroup$: Observable<Configurator.Group | undefined> =
     this.routerData$.pipe(
       switchMap((routerData) => {
         return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
@@ -48,8 +48,8 @@ export class ConfiguratorConflictSolverDialogLauncherService
 
   protected controlDialog() {
     this.subscription.add(
-      this.conflictGroups$.subscribe((conflictGroups) => {
-        if (conflictGroups && conflictGroups?.length > 0) {
+      this.conflictGroup$.subscribe((conflictGroup) => {
+        if (conflictGroup) {
           this.openModal();
         } else {
           this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
@@ -63,7 +63,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
       LAUNCH_CALLER.CONFLICT_SOLVER,
       undefined,
       {
-        conflictGroups: this.conflictGroups$,
+        conflictGroup: this.conflictGroup$,
         routerData: this.routerData$,
       }
     );

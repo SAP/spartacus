@@ -38,9 +38,9 @@ export class ConfiguratorAttributeInputFieldComponent
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
+  @Input() uiContextKey: string = '';
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-  @Input() uiContextKey: string = '';
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,

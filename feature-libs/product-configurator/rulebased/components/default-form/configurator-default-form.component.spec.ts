@@ -104,6 +104,7 @@ class MockConfiguratorAttributeSingleSelectionBundleDropdownComponent {
   @Input() language: string;
   @Input() ownerType: string;
   @Input() expMode: boolean;
+  @Input() uiContextKey: string = '';
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
@@ -118,6 +119,7 @@ class MockConfiguratorAttributeSingleSelectionBundleComponent {
   @Input() language: string;
   @Input() ownerType: string;
   @Input() expMode: boolean;
+  @Input() uiContextKey: string = '';
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
@@ -129,6 +131,7 @@ class MockConfiguratorAttributeMultiSelectionBundleComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Input() expMode: boolean;
+  @Input() uiContextKey: string = '';
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
 
@@ -141,6 +144,7 @@ class MockConfiguratorAttributeInputFieldComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
+  @Input() uiContextKey: string = '';
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 }
@@ -155,6 +159,7 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() group: string;
   @Input() ownerKey: string;
   @Input() language: string;
+  @Input() uiContextKey: string = '';
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 }

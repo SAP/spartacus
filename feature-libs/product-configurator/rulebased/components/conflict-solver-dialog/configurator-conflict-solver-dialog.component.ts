@@ -42,7 +42,7 @@ export class ConfiguratorConflictSolverDialogComponent
   protected subscription = new Subscription();
 
   routerData$: Observable<ConfiguratorRouter.Data>;
-  conflictGroups$: Observable<Configurator.Group[]>;
+  conflictGroup$: Observable<Configurator.Group>;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -50,17 +50,17 @@ export class ConfiguratorConflictSolverDialogComponent
   ) {}
 
   init(
-    conflictGroups: Observable<Configurator.Group[]>,
+    conflictGroup: Observable<Configurator.Group>,
     routerData: Observable<ConfiguratorRouter.Data>
   ): void {
-    this.conflictGroups$ = conflictGroups;
+    this.conflictGroup$ = conflictGroup;
     this.routerData$ = routerData;
   }
 
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((dialogData) => {
-        this.init(dialogData.conflictGroups, dialogData.routerData);
+        this.init(dialogData.conflictGroup, dialogData.routerData);
       })
     );
   }

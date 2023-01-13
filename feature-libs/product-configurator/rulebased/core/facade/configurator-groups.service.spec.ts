@@ -459,7 +459,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getConflictGroupsForImmediateConflictResolution', () => {
-    it('should return no conflict groups', (done) => {
+    it('should return no conflict group', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -469,13 +469,13 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((groups) => {
-        expect(groups.length).toBe(0);
+      conflictGroups.subscribe((group) => {
+        expect(group).toBeUndefined();
         done();
       });
     });
 
-    it('should return conflict groups', (done) => {
+    it('should return a conflict group', (done) => {
       productConfigurationWithConflicts.interactionState.showConflictSolverDialog =
         true;
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
@@ -487,8 +487,9 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((groups) => {
-        expect(groups.length).toBe(3);
+      conflictGroups.subscribe((group) => {
+        expect(group).not.toBeUndefined();
+        expect(group.id).toEqual(GROUP_ID_CONFLICT_3);
         done();
       });
     });

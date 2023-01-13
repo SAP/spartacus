@@ -24,6 +24,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _data?: any
   ) {}
+
   closeDialog(_reason: string): void {}
 }
 
@@ -43,33 +44,32 @@ const defaultMockRouterData: ConfiguratorRouter.Data = {
 
 let mockRouterData: ConfiguratorRouter.Data;
 let routerData$: Observable<ConfiguratorRouter.Data>;
+
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return routerData$;
   }
 }
 
-function createListOfGroups(amount: number): Configurator.Group[] {
-  const groups: Configurator.Group[] = [];
-  for (let index = 1; index <= amount; index++) {
-    const groupId = index + '-TEST_PRODUCT.' + index;
-    const group = ConfiguratorTestUtils.createGroup(groupId);
-    groups.push(group);
-  }
-  return groups;
+function createConflictGroup(): Configurator.Group {
+  const groupId = 'TEST_PRODUCT.1000';
+  const group = ConfiguratorTestUtils.createGroup(groupId);
+  return group;
 }
 
-let groups: Configurator.Group[] = [];
-let groups$: Observable<Configurator.Group[] | undefined>;
+let group: Configurator.Group = undefined;
+let conflictGroup$: Observable<Configurator.Group | undefined>;
+
 class MockConfiguratorGroupsService {
   getConflictGroupsForImmediateConflictResolution(): Observable<
-    Configurator.Group[] | undefined
+    Configurator.Group | undefined
   > {
-    return groups$;
+    return conflictGroup$;
   }
 }
 
 let mockRouterState: RouterState;
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return of(mockRouterState);
@@ -110,8 +110,8 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
         },
       ],
     });
-    groups = createListOfGroups(5);
-    groups$ = of(groups);
+    group = createConflictGroup();
+    conflictGroup$ = of(group);
 
     mockRouterData = structuredClone(defaultMockRouterData);
     routerData$ = of(mockRouterData);
@@ -143,10 +143,10 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
     it('should emit group data', () => {
       routerData$ = cold('    c---', { c: configRouterData });
-      groups$ = cold('        -g--', { g: groups });
-      const expected$ = cold('-g--', { g: groups });
+      conflictGroup$ = cold('        -g--', { g: group });
+      const expected$ = cold('-g--', { g: group });
       initEventListener();
-      expect(listener.conflictGroups$).toBeObservable(expected$);
+      expect(listener.conflictGroup$).toBeObservable(expected$);
     });
   });
 
@@ -159,7 +159,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
     it('should close conflict solver dialog because there are not any conflict groups', () => {
       initEventListener();
-      groups$ = of([]);
+      conflictGroup$ = of(undefined);
       listener['controlDialog']();
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
