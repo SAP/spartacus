@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveConfiguration, OpfCheckoutFacade } from '@spartacus/opf/root';
 import { tap } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCheckoutPaymentsComponent implements OnInit {
+export class OpfCheckoutPaymentsComponent {
   activeConfiguratons$ = this.opfCheckoutService.getActiveConfigurations().pipe(
     tap((activeConfiguratons) => {
       if (activeConfiguratons.length) {
@@ -25,8 +25,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit {
   selectedPaymentId?: number;
 
   constructor(private opfCheckoutService: OpfCheckoutFacade) {}
-
-  ngOnInit(): void {}
 
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
