@@ -9,11 +9,10 @@ import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
-  StockLocationSearchParams
+  StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import {
   BrowserLocationActions,
   HideOutOfStockSelectors,
@@ -23,7 +22,7 @@ import {
   StateWithStock,
   StockLevelActions,
   StockSelectors,
-  ToggleHideOutOfStockOptionsAction
+  ToggleHideOutOfStockOptionsAction,
 } from '../store/index';
 
 // TODO jsdoc
@@ -102,7 +101,9 @@ export class PickupLocationsSearchService
       .pipe(
         filter((storeDetails) => !storeDetails),
         tap((_storeDetails) =>
-          this.store.dispatch(GetStoreDetailsById({ payload: storeName }))
+          this.store.dispatch(
+            PickupLocationActions.GetStoreDetailsById({ payload: storeName })
+          )
         )
       )
       .subscribe();

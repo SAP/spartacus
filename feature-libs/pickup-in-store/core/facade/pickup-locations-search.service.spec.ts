@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -9,6 +9,9 @@ import { EMPTY, Observable, of } from 'rxjs';
 import {
   BrowserLocationActions,
   PickupLocationActions,
+  PickupLocationsState,
+  PICKUP_LOCATIONS_FEATURE,
+  StateWithPickupLocations,
   StockLevelActions,
   ToggleHideOutOfStockOptionsAction,
 } from '../store';
@@ -75,7 +78,7 @@ export class MockPickupLocationsSearchService
 
 describe('PickupLocationsSearchService', () => {
   let service: PickupLocationsSearchService;
-  let store: Store<{}>;
+  let store: MockStore;
 
   const stockLocationSearchParams: StockLocationSearchParams = {
     productCode: 'P0001',
@@ -84,14 +87,23 @@ describe('PickupLocationsSearchService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [PickupLocationsSearchService, Store],
+      providers: [
+        PickupLocationsSearchService,
+        provideMockStore({
+          initialState: <StateWithPickupLocations>{
+            [PICKUP_LOCATIONS_FEATURE]: {
+              defaultPointOfService: { name: 'name', displayName: '' },
+              intendedPickupLocations: {},
+              storeDetails: { storeDetails: { name: 'name' } },
+            } as PickupLocationsState,
+          },
+        }),
+      ],
     });
 
     service = TestBed.inject(PickupLocationsSearchService);
-    store = TestBed.inject(Store);
+    store = TestBed.inject(MockStore);
     spyOn(store, 'dispatch');
-    spyOn(store, 'pipe');
   });
 
   it('should be created', () => {
@@ -116,11 +128,13 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStockLoading', () => {
+    spyOn(store, 'pipe');
     service.isSearchRunning();
     expect(store.pipe).toHaveBeenCalled();
   });
 
   it('getHideOutOfStockState', () => {
+    spyOn(store, 'pipe');
     service.getHideOutOfStock();
     expect(store.pipe).toHaveBeenCalled();
   });
@@ -133,14 +147,17 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('hasSearchBeenStartedForProductCode', () => {
+    spyOn(store, 'pipe');
     service.hasSearchStarted('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
 
   it('getStoresWithStockForProductCode', () => {
+    spyOn(store, 'pipe');
     service.getSearchResults('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
+
   it('Add Browser Location', () => {
     service.setBrowserLocation(1, 1);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -205,19 +222,19 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStoreDetails', () => {
+    spyOn(store, 'pipe');
     service.getStoreDetails('name');
     expect(store.pipe).toHaveBeenCalled();
   });
 
-  /** Todo be fixed  */
-  // it('loadStoreDetails', () => {
-  //   service.loadStoreDetails('name');
-  //   expect(store.dispatch).toHaveBeenCalledWith(
-  //     GetStoreDetailsById({
-  //       payload: 'name',
-  //     })
-  //   );
-  // });
+  it('loadStoreDetails', () => {
+    service.loadStoreDetails('name');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PickupLocationActions.GetStoreDetailsById({
+        payload: 'name',
+      })
+    );
+  });
 
   it('stockLevelAtStore', () => {
     service.stockLevelAtStore('productCode', 'name');
@@ -229,6 +246,7 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('getStockLevelAtStore', () => {
+    spyOn(store, 'pipe');
     service.getStockLevelAtStore('productCode', 'name');
     expect(store.pipe).toHaveBeenCalled();
   });
