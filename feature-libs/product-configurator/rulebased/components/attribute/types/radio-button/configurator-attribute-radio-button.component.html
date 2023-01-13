@@ -67,6 +67,7 @@
       [ownerKey]="ownerKey"
       [language]="language"
       (inputChange)="onSelectAdditionalValue($event)"
+      [uiContextKey]="decorateUiContextKey(uiContextKey, 'additionalValue')"
     ></cx-configurator-attribute-numeric-input-field>
 
     <cx-configurator-attribute-input-field
@@ -76,6 +77,7 @@
       [ownerType]="ownerType"
       [ownerKey]="ownerKey"
       (inputChange)="onSelectAdditionalValue($event)"
+      [uiContextKey]="decorateUiContextKey(uiContextKey, 'additionalValue')"
     >
     </cx-configurator-attribute-input-field>
   </div>

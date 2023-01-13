@@ -59,7 +59,7 @@
   [ownerKey]="ownerKey"
   [language]="language"
   (inputChange)="onSelectAdditionalValue($event)"
-  [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+  [uiContextKey]="decorateUiContextKey(uiContextKey, 'additionalValue')"
 ></cx-configurator-attribute-numeric-input-field>
 
 <cx-configurator-attribute-input-field
@@ -70,5 +70,6 @@
   [ownerKey]="ownerKey"
   (inputChange)="onSelectAdditionalValue($event)"
   [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+  [uiContextKey]="decorateUiContextKey(uiContextKey, 'additionalValue')"
 >
 </cx-configurator-attribute-input-field>

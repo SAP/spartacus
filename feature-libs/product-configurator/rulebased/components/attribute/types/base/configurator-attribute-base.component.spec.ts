@@ -137,6 +137,20 @@ describe('ConfigUIKeyGeneratorService', () => {
     });
   });
 
+  describe('decorateUiContextKey', () => {
+    it('should combine additionalContextKey with current one using separator', () => {
+      expect(
+        classUnderTest.decorateUiContextKey('currentKey', 'additionalKey')
+      ).toBe('currentKey--additionalKey');
+    });
+
+    it('should return additionalContextKey if currentContextKey is empty', () => {
+      expect(classUnderTest.decorateUiContextKey('', 'additionalKey')).toBe(
+        'additionalKey'
+      );
+    });
+  });
+
   describe('getUiType', () => {
     it('should return ui type from attribute if set on attribute level', () => {
       expect(classUnderTest['getUiType'](currentAttribute)).toBe(
