@@ -52,12 +52,10 @@ class MockConfiguratorRouterExtractorService {
 }
 
 function createConflictGroup(): Configurator.Group {
-  const groupId = 'TEST_PRODUCT.1000';
-  const group = ConfiguratorTestUtils.createGroup(groupId);
-  return group;
+  return ConfiguratorTestUtils.createGroup('TEST_PRODUCT.1000');
 }
 
-let group: Configurator.Group = undefined;
+let group: Configurator.Group;
 let conflictGroup$: Observable<Configurator.Group | undefined>;
 
 class MockConfiguratorGroupsService {
