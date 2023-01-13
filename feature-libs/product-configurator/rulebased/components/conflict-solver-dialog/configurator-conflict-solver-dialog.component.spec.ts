@@ -43,7 +43,7 @@ const mockRouterData: ConfiguratorRouter.Data = {
 };
 
 const mockData: any = {
-  conflictGroups: of(ConfigurationTestData.productConfiguration.groups),
+  conflictGroup: of(ConfigurationTestData.productConfiguration.groups[0]),
   routerData: of(mockRouterData),
 };
 
@@ -60,7 +60,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Directive({
   selector: '[cxFocus]',
 })
-export class MockKeyboadFocusDirective {
+export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
@@ -72,6 +72,7 @@ class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled = true;
+  @Input() uiContextKey: string = '';
 }
 
 describe('ConfiguratorConflictSolverDialogComponent', () => {
@@ -88,7 +89,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         declarations: [
           MockConfiguratorDefaultFormComponent,
           ConfiguratorConflictSolverDialogComponent,
-          MockKeyboadFocusDirective,
+          MockKeyboardFocusDirective,
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },

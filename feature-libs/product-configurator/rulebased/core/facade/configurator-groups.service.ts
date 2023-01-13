@@ -169,25 +169,24 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Retrieves a list of conflict groups for immediate conflict resolution.
+   * Retrieves a conflict group for immediate conflict resolution.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @return {Observable<Configurator.Group[]} - A list of conflict groups
+   * @return {Observable<Configurator.Group | undefined} - Conflict group
    */
   getConflictGroupsForImmediateConflictResolution(
     owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Group[]> {
+  ): Observable<Configurator.Group | undefined> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       //needed because we need have the form to react first on showConflictSolverDialog
       delay(0),
       map((configuration) => {
-        let conflictGroups: Configurator.Group[] = [];
         if (configuration.interactionState.showConflictSolverDialog) {
-          conflictGroups = configuration.flatGroups.filter(
+          return configuration.flatGroups.find(
             (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
           );
         }
-        return conflictGroups;
+        return undefined;
       })
     );
   }

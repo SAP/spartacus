@@ -22,15 +22,9 @@
         <cx-icon [type]="iconTypes.ERROR"></cx-icon>
         {{ 'configurator.header.conflictWarning' | cxTranslate }}
       </div>
-
-      <ng-container
-        *ngIf="
-          (conflictGroups$ | async)?.length > 0 &&
-          (conflictGroups$ | async) as conflictGroups
-        "
-      >
+      <ng-container *ngIf="conflictGroup$ | async as conflictGroup">
         <cx-configurator-group
-          [group]="conflictGroups[0]"
+          [group]="conflictGroup"
           [owner]="(routerData$ | async)?.owner"
           [isNavigationToGroupEnabled]="false"
           [uiContextKey]="'conflict'"

@@ -459,7 +459,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getConflictGroupsForImmediateConflictResolution', () => {
-    it('should return no conflict groups', (done) => {
+    it('should not return any conflict group because showConflictSolverDialog is not defined', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -469,26 +469,51 @@ describe('ConfiguratorGroupsService', () => {
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((groups) => {
-        expect(groups.length).toBe(0);
+      conflictGroups.subscribe((group) => {
+        expect(group).toBeUndefined();
         done();
       });
     });
 
-    it('should return conflict groups', (done) => {
-      productConfigurationWithConflicts.interactionState.showConflictSolverDialog =
-        true;
+    it('should not return any conflict group because showConflictSolverDialog is set to false', (done) => {
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configurationWithConflicts.interactionState.showConflictSolverDialog =
+        false;
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(productConfigurationWithConflicts)
+        of(configurationWithConflicts)
       );
       const conflictGroups =
         classUnderTest.getConflictGroupsForImmediateConflictResolution(
-          productConfigurationWithConflicts.owner
+          configurationWithConflicts.owner
         );
 
       expect(conflictGroups).toBeDefined();
-      conflictGroups.subscribe((groups) => {
-        expect(groups.length).toBe(3);
+      conflictGroups.subscribe((group) => {
+        expect(group).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return a conflict group', (done) => {
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configurationWithConflicts.interactionState.showConflictSolverDialog =
+        true;
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configurationWithConflicts)
+      );
+      const conflictGroups =
+        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+          configurationWithConflicts.owner
+        );
+
+      expect(conflictGroups).toBeDefined();
+      conflictGroups.subscribe((group) => {
+        expect(group).not.toBeUndefined();
+        expect(group.id).toEqual(GROUP_ID_CONFLICT_3);
         done();
       });
     });
