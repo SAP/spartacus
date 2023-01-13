@@ -186,6 +186,7 @@ export class ConfiguratorGroupsService {
             (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
           );
         }
+        return undefined;
       })
     );
   }
