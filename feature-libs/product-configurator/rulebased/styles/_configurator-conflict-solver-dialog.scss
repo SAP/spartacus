@@ -13,6 +13,7 @@
     .cx-modal-container {
       height: auto !important;
       margin-block-start: 80px;
+      overflow-x: hidden;
 
       @include media-breakpoint-down(md) {
         margin: $modal-dialog-margin-sm;

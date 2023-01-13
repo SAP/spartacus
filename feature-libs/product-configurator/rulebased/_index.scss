@@ -1,8 +1,8 @@
 @import './styles/index';
 
 $configurator-rulebased-components: cx-configurator-template,
-  cx-configurator-attribute-header, cx-configurator-default-form,
-  cx-configurator-form, cx-configurator-attribute-type, cx-required-error-msg,
+  cx-configurator-attribute-header, cx-configurator-group, cx-configurator-form,
+  cx-configurator-attribute-type, cx-required-error-msg,
   cx-configurator-footer-container, cx-configurator-footer-container-item,
   cx-configurator-form-group, cx-configurator-attribute-radio-button,
   cx-configurator-show-more, cx-configurator-attribute-product-card,
