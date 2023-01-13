@@ -58,16 +58,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   it('should display selectedSingleValue for attribute without domain', () => {
-    CommonConfiguratorTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       '.cx-read-only-label'
-    );
-    CommonConfiguratorTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-read-only-label',
-      'selectedValue'
     );
   });
 
@@ -101,6 +95,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      myValues[0].selected = true;
+      component.attribute.selectedSingleValue = myValues[0].valueCode;
+      component.attribute.values = myValues;
+      fixture.detectChanges();
+    });
+
     describe('Static domain', () => {
       it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -158,8 +159,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             attrCode: 444,
             uiType: Configurator.UiType.READ_ONLY,
             selectedSingleValue: myValues[1].valueCode,
+            values: myValues,
             quantity: 1,
           };
+
+          myValues[0].selected = false;
+          myValues[1].selected = true;
           fixture.detectChanges();
         });
 
@@ -218,8 +223,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             attrCode: 444,
             uiType: Configurator.UiType.READ_ONLY,
             userInput: myValues[1].valueCode,
+            values: myValues,
             quantity: 1,
           };
+
+          myValues[0].selected = false;
+          myValues[1].selected = true;
           fixture.detectChanges();
         });
 

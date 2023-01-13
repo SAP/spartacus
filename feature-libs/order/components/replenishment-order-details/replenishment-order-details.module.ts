@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -45,7 +44,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     RouterModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReplenishmentDetailItemsComponent: {

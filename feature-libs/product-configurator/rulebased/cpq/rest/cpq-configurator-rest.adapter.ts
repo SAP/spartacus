@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,6 +70,12 @@ export class CpqConfiguratorRestAdapter
         configResponse.owner = configuration.owner;
         return configResponse;
       })
+    );
+  }
+
+  updateConfigurationOverview(): Observable<Configurator.Overview> {
+    throw new Error(
+      'Update the configuration overview is not supported for the CPQ configurator'
     );
   }
 

@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -24,13 +24,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import {
-  Title,
-  UserRegisterFacade,
-  UserSignUp,
-} from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { RegisterComponentService } from './register-component.service';
 
 @Component({
   selector: 'cx-register',
@@ -48,7 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
-  registerForm: FormGroup = this.fb.group(
+  registerForm: UntypedFormGroup = this.fb.group(
     {
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -59,7 +56,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
-      newsletter: new FormControl({
+      newsletter: new UntypedFormControl({
         value: false,
         disabled: this.isConsentRequired(),
       }),
@@ -74,17 +71,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    protected registerComponentService: RegisterComponentService
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userRegister.getTitles().pipe(
+    this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
@@ -151,11 +148,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.userRegister
+    this.registerComponentService
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
+        error: () => this.isLoading$.next(false),
       });
   }
 
@@ -192,17 +190,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(): void {
+  protected onRegisterUserSuccess(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
     }
-    this.globalMessageService.add(
-      { key: 'register.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    this.registerComponentService.postRegisterMessage();
   }
 
   toggleAnonymousConsent(): void {

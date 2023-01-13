@@ -33,6 +33,8 @@ const userId = 'theUser';
 const quantity = 1;
 const entryNumber = 0;
 const emptyStatus = '';
+const ATTRIBUTE_NAME = 'attr_name';
+const GROUP_ID_CONFLICT = Configurator.ConflictIdPrefix + '62541';
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -78,7 +80,20 @@ const productConfiguration: Configurator.Configuration = {
       },
     ],
   },
-  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+  groups: [
+    { id: groupId, attributes: [{ name: ATTRIBUTE_NAME }], subGroups: [] },
+  ],
+};
+
+const productConfigurationWithConflict: Configurator.Configuration = {
+  ...productConfiguration,
+  groups: [
+    {
+      id: GROUP_ID_CONFLICT,
+      subGroups: [],
+      attributes: [{ name: ATTRIBUTE_NAME }],
+    },
+  ],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -105,10 +120,12 @@ let entitiesInConfigurationState: {
 } = {};
 let configurationState: any;
 
+let readFromCartEntryObs: Observable<Configurator.Configuration>;
+
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
-  let readConfigurationForCartEntryMock: jasmine.Spy;
+
   let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
 
@@ -119,9 +136,7 @@ describe('ConfiguratorCartEffect', () => {
     updateCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(cartModification));
-    readConfigurationForCartEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
+
     readConfigurationForOrderEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
@@ -129,7 +144,7 @@ describe('ConfiguratorCartEffect', () => {
     class MockConnector {
       addToCart = addToCartMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
-      readConfigurationForCartEntry = readConfigurationForCartEntryMock;
+      readConfigurationForCartEntry = () => readFromCartEntryObs;
       readConfigurationForOrderEntry = readConfigurationForOrderEntryMock;
     }
     TestBed.configureTestingModule({
@@ -308,27 +323,29 @@ describe('ConfiguratorCartEffect', () => {
   });
 
   describe('Effect readConfigurationForCartEntry', () => {
+    const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: owner,
+      };
+    const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+      readFromCartEntry
+    );
+
+    const readCartEntrySuccessAction =
+      new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+        productConfiguration
+      );
+
+    const searchVariantsAction = new ConfiguratorActions.SearchVariants(
+      productConfiguration
+    );
+
     it('should emit a success action and also trigger the price update and variant search', () => {
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-        {
-          owner: owner,
-        };
-      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
-        readFromCartEntry
-      );
-
-      const readCartEntrySuccessAction =
-        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-          productConfiguration
-        );
-
-      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary(
-        productConfiguration
-      );
-
-      const searchVariantsAction = new ConfiguratorActions.SearchVariants(
-        productConfiguration
-      );
+      readFromCartEntryObs = of(productConfiguration);
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
 
       actions$ = cold('-a', { a: action });
       const expected = cold('-(bcd)', {
@@ -342,17 +359,58 @@ describe('ConfiguratorCartEffect', () => {
       );
     });
 
+    it('should trigger the price action for the first group with attributes even if it is a conflict group', () => {
+      readFromCartEntryObs = of(productConfigurationWithConflict);
+
+      const updatePriceActionForConflict =
+        new ConfiguratorActions.UpdatePriceSummary({
+          ...productConfigurationWithConflict,
+          interactionState: { currentGroup: GROUP_ID_CONFLICT },
+        });
+
+      const readCartEntrySuccessActionForConflict =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfigurationWithConflict
+        );
+
+      const searchVariantsActionForConflict =
+        new ConfiguratorActions.SearchVariants(
+          productConfigurationWithConflict
+        );
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessActionForConflict,
+        c: updatePriceActionForConflict,
+        d: searchVariantsActionForConflict,
+      });
+
+      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should trigger the price update without group specified in case service is not present', () => {
+      readFromCartEntryObs = of(productConfiguration);
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+      });
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessAction,
+        c: updatePriceAction,
+        d: searchVariantsAction,
+      });
+
+      configCartEffects['configuratorBasicEffectService'] = undefined;
+      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
     it('should emit a fail action if something goes wrong', () => {
-      readConfigurationForCartEntryMock.and.returnValue(
-        throwError(errorResponse)
-      );
-      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-        {
-          owner: owner,
-        };
-      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
-        readFromCartEntry
-      );
+      readFromCartEntryObs = throwError(errorResponse);
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {

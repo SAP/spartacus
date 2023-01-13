@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,6 @@
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
- *
- * To do:
- * - sonar cloud configuration
  */
 
 import chalk from 'chalk';
@@ -58,7 +55,7 @@ function logViolation(
   violation: string,
   [help, ...extraHelp]: string[]
 ): void {
-  let minLength = 76;
+  const minLength = 76;
   console.log(`
 ${chalk.gray(
   `--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`
@@ -246,8 +243,8 @@ const repository = librariesPaths
     const ngPackageFilesPaths = glob.sync(`${directory}/**/${NG_PACKAGE_JSON}`);
     const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
       const ngPackageFileContent = readJsonFile(ngPackagePath);
-      let pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
-      let pathWithoutNgPackage = pathWithoutLibDirectory.substring(
+      const pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
+      const pathWithoutNgPackage = pathWithoutLibDirectory.substring(
         0,
         pathWithoutLibDirectory.length - `/${NG_PACKAGE_JSON}`.length
       );

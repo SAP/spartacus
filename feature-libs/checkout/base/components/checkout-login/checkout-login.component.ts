@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -16,7 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './checkout-login.component.html',
 })
 export class CheckoutLoginComponent implements OnDestroy {
-  checkoutLoginForm: FormGroup = this.formBuilder.group(
+  checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       emailConfirmation: ['', [Validators.required]],
@@ -31,7 +35,7 @@ export class CheckoutLoginComponent implements OnDestroy {
   sub: Subscription;
 
   constructor(
-    protected formBuilder: FormBuilder,
+    protected formBuilder: UntypedFormBuilder,
     protected authRedirectService: AuthRedirectService,
     protected activeCartFacade: ActiveCartFacade
   ) {}

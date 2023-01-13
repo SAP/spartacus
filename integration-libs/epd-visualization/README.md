@@ -9,7 +9,7 @@ To add sample data for this integration library, please update your SAP Commerce
 This integration library can be added to the existing Spartacus application by running `ng add @spartacus/schematics@latest` and including the `EPD Visualization Integration` module.
 
 Use the following to use the sample data created the `epdvisualizationspartacussampledata` extension:
-`ng add @spartacus/schematics@latest --baseSite=powertools-epdvisualization-spa`
+`ng add @spartacus/schematics@latest --base-site powertools-epdvisualization-spa`
 
 For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://sap.github.io/spartacus-docs/schematics/).
 

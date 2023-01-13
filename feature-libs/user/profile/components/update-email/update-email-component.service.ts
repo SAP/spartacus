@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AuthRedirectService,
   AuthService,
@@ -34,14 +38,14 @@ export class UpdateEmailComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      email: new FormControl('', [
+      email: new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.emailValidator,
       ]),
-      confirmEmail: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      confirmEmail: new UntypedFormControl('', [Validators.required]),
+      password: new UntypedFormControl('', [Validators.required]),
     },
     {
       validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail'),

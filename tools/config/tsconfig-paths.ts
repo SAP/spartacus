@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,9 +70,9 @@ export function manageTsConfigs(
     .map((lib) => {
       return {
         ...lib,
-        spartacusDependencies: Object.keys(
-          lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
+        spartacusDependencies: Object.keys(lib.peerDependencies ?? {}).filter(
+          (dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)
+        ),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
@@ -80,7 +80,7 @@ export function manageTsConfigs(
       return acc;
     }, {});
 
-  handleSchematicsConfigs(libraries, options);
+  handleTestConfigs(libraries, options);
   handleLibConfigs(libraries, options);
   handleRootConfigs(libraries, options);
   handleAppConfigs(libraries, options);
@@ -160,44 +160,75 @@ function handleConfigUpdate(
  * When library have its own schematics ts config (tsconfig.schematics.json exists) and have
  * schematics as peerDependency we add path to `@spartacus/schematics` lib.
  */
-function handleSchematicsConfigs(
+function handleTestConfigs(
   libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
 ): void {
-  const targetPaths = {
-    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'],
-  };
   if (options.fix) {
-    reportProgress('Updating tsconfig.schematics.json files');
+    reportProgress('Updating test tsconig json files');
   } else {
-    reportProgress('Checking tsconfig.schematics.json files');
+    reportProgress('Checking test tsconfig json files');
   }
   let showAllGood = true;
-  Object.values(libraries).forEach((library) => {
-    const schematicsTsConfigPaths = glob.sync(
-      `${library.directory}/tsconfig.schematics.json`
-    );
-    if (
-      schematicsTsConfigPaths.length &&
-      library.spartacusDependencies.includes(SPARTACUS_SCHEMATICS)
-    ) {
-      const hadErrors = handleConfigUpdate(
-        targetPaths,
-        schematicsTsConfigPaths[0],
-        options
-      );
-      if (hadErrors) {
-        showAllGood = false;
+
+  const entryPoints = Object.values(libraries)
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          // We need relative paths, which is why we are adding `../..`
+          acc[entryPoint.entryPoint] = [
+            joinPaths(
+              '../..',
+              curr.directory,
+              entryPoint.directory,
+              entryPoint.entryFile
+            ),
+          ];
+        });
+        return acc;
+      },
+      { [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'] } as {
+        [key: string]: [string];
       }
+    );
+
+  Object.values(libraries).forEach((library) => {
+    if (library.name === SPARTACUS_SCHEMATICS) {
+      return;
+    }
+
+    const tsConfigPaths =
+      library.name === `@spartacus/setup`
+        ? 'core-libs/setup/tsconfig.spec.json'
+        : `${library.directory}/tsconfig.schematics.json`;
+
+    const hadErrors = updateTestTsConfig(tsConfigPaths, entryPoints, options);
+    if (hadErrors) {
+      showAllGood = false;
     }
   });
+
   if (showAllGood) {
     success();
   }
 }
 
+function updateTestTsConfig(
+  path: string,
+  entryPoints: Record<string, string[]>,
+  options: ProgramOptions
+): boolean {
+  const schematicsTsConfigPaths = glob.sync(path);
+  if (!schematicsTsConfigPaths.length) {
+    return false;
+  }
+
+  return handleConfigUpdate(entryPoints, schematicsTsConfigPaths[0], options);
+}
+
 /**
- * Adds paths to spartacus dependencies in `tsconfig.lib.json` files.
+ * Adds paths to spartacus dependencies in `tsconfig.lib.json` and `tsconfig.schematics.json` files.
  * We grab all spartacus dependencies and add for all of them all entry points.
  */
 function handleLibConfigs(
@@ -221,7 +252,7 @@ function handleLibConfigs(
       // We collect the dependencies till we have keep adding.
       while (dependencies.size !== previousSize) {
         previousSize = dependencies.size;
-        let subDependencies = new Set<string>();
+        const subDependencies = new Set<string>();
         dependencies.forEach((dependency) => {
           libraries[dependency].spartacusDependencies.forEach(
             (subDependency) => {
@@ -233,12 +264,12 @@ function handleLibConfigs(
           dependencies.add(subDependency);
         });
       }
-      let dependenciesEntryPoints = Array.from(dependencies)
+      const dependenciesEntryPoints = Array.from(dependencies)
         // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
         .filter((dependency) => dependency !== SPARTACUS_SCHEMATICS)
         .map((library) => libraries[library])
         .reduce((entryPoints, dependency) => {
-          let dependencyEntryPoints = dependency.entryPoints.reduce(
+          const dependencyEntryPoints = dependency.entryPoints.reduce(
             (acc, entry) => {
               return {
                 ...acc,

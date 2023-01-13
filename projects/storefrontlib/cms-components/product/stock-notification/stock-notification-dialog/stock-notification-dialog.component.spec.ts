@@ -6,22 +6,28 @@ import {
   I18nTestingModule,
   NotificationPreference,
 } from '@spartacus/core';
-import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
   let fixture: ComponentFixture<StockNotificationDialogComponent>;
   let el: DebugElement;
+  let launchDialogService: LaunchDialogService;
 
-  const modalService = jasmine.createSpyObj('ModalService', [
-    'dismissActiveModal',
-  ]);
+  class MockLaunchDialogService implements Partial<LaunchDialogService> {
+    get data$(): Observable<any> {
+      return of(undefined);
+    }
+
+    closeDialog(_reason: string): void {}
+  }
+
   const interestsService = jasmine.createSpyObj('interestsService', [
     'resetAddInterestState',
   ]);
@@ -46,10 +52,12 @@ describe('StockNotificationDialogComponent', () => {
           UrlTestingModule,
         ],
         providers: [
-          { provide: ModalService, useValue: modalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           { provide: UserInterestsService, useValue: interestsService },
         ],
       }).compileComponents();
+
+      launchDialogService = TestBed.inject(LaunchDialogService);
     })
   );
 
@@ -60,7 +68,6 @@ describe('StockNotificationDialogComponent', () => {
 
     component.subscribeSuccess$ = of(true);
     component.enabledPrefs = preferences;
-    modalService.dismissActiveModal.and.stub();
     interestsService.resetAddInterestState.and.stub();
   });
 
@@ -72,7 +79,7 @@ describe('StockNotificationDialogComponent', () => {
   it('should show notification dialog', () => {
     fixture.detectChanges();
 
-    expect(el.query(By.css('.modal-header'))).toBeTruthy();
+    expect(el.query(By.css('.cx-modal-header'))).toBeTruthy();
     expect(el.query(By.css('.close'))).toBeTruthy();
     expect(el.queryAll(By.css('.channels'))).toBeTruthy();
     expect(el.query(By.css('.link-prefs'))).toBeTruthy();
@@ -87,15 +94,23 @@ describe('StockNotificationDialogComponent', () => {
   });
 
   it('should be able to close dialog by close button', () => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+
     fixture.detectChanges();
     el.query(By.css('.close')).nativeElement.click();
-    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Button clicked'
+    );
   });
 
   it('should be able to close dialog by OK button', () => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+
     fixture.detectChanges();
     el.query(By.css('.btn-ok')).nativeElement.click();
-    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Button clicked'
+    );
   });
 
   it('should be able to reset the adding state in destory()', () => {

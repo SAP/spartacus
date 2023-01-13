@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -29,6 +29,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 {
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
+  @Input() expMode: boolean;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
@@ -38,17 +39,17 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     super();
   }
 
-  attributeCheckBoxForms = new Array<FormControl>();
+  attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   ngOnInit() {
     const values = this.attribute.values;
     if (values) {
       for (const value of values) {
-        let attributeCheckBoxForm: FormControl;
+        let attributeCheckBoxForm: UntypedFormControl;
         if (value.selected) {
-          attributeCheckBoxForm = new FormControl(true);
+          attributeCheckBoxForm = new UntypedFormControl(true);
         } else {
-          attributeCheckBoxForm = new FormControl(false);
+          attributeCheckBoxForm = new UntypedFormControl(false);
         }
         this.attributeCheckBoxForms.push(attributeCheckBoxForm);
       }

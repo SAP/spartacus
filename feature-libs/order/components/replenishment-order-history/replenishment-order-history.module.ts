@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,6 @@ import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -30,7 +29,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     FeaturesConfigModule,
   ],
   providers: [
-    provideConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountReplenishmentHistoryComponent: {

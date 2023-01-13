@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -20,18 +20,18 @@ export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() isConfirmation = false;
 
-  form$: Observable<FormGroup> = this.orderAmendService.getForm();
+  form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
-  getControl(form: FormGroup, entry: OrderEntry): FormControl {
-    const control = <FormControl>(
+  getControl(form: UntypedFormGroup, entry: OrderEntry): UntypedFormControl {
+    const control = <UntypedFormControl>(
       form.get('entries')?.get(entry.entryNumber?.toString() ?? '')
     );
     return control;
   }
 
-  setAll(form: FormGroup): void {
+  setAll(form: UntypedFormGroup): void {
     this.entries.forEach((entry) =>
       this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
     );

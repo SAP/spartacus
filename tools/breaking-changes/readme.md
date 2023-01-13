@@ -2,6 +2,16 @@
 
 To make sure we get an accurate diff, do not update the dependencies of this tool unless you are sure that we don't need to compare the results with data generated with a previous version of the dependencies.
 
+# Configuration
+
+Set the current (new) major version of Spartacus in the `common.ts` file.
+
+```
+export const NEW_MAJOR_VERSION = '6';
+```
+
+This major version number will dictate, among other things, various input and output file paths for the files implicated in the process.
+
 # Produce the breaking change list
 
 - yarn install
@@ -16,21 +26,30 @@ These will be the 2 versions compared for breaking changes.
 In both ./src/old and ./src/new, run `yarn install` and `yarn build:libs`.
 
 
-- Extract the publiic API.
+- Extract the public API.
 Run `yarn extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
 
 - Parse the public API
 Run `yarn parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.
 
 - Compare old and new public API
-Run `yarn compare`.  This compares both ./src/*/public-api.json files to create aa list ov breaking changes in `./data/breaking`
+Run `yarn compare`.  This compares both ./src/*/public-api.json files to create a list of breaking changes in `./data/*_0/breaking-changes.json`.  This step also requires this input file: `docs/migration/*_0/renamed-api.json`.  It contains manually created mappings about API element that were renamed.
+
+
 
 # Generate migration schematics code
+
+Note: Some of the doc/schematics generators below read from the manual input files as well as the breaking change file.
+Thes input files should be present:
+- tools/breaking-changes/data/*_0/breaking-changes.json (created by comparing the API between 2 versions)
+- docs/migration/*_0/deleted-api.json (developer manual input)
+- docs/migration/*_0/deleted-renamed-api-members.json (developer manual input)
 
 `gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
 
 
 `gen-deleted` : generates the array of migration data for the removed public api schematic in `projects/schematics/src/migrations/*_0/removed-public-api-deprecations`
+
 
 `gen-moved` : generates the array of migration data for the renamed public api schematic in `projects/schematics/src/migrations/*_0/rename-symbol`
 
@@ -46,26 +65,6 @@ Typically the documentation is placed in the folder `docs/migration`
 
 Some cases requires manual review to complete.  The preferable way to deal with those is to update the data in `breaking-changes.json`.  This way, the migration assets can be re-generated to reflect the changes.
 
-
-## Review Deleted Elements
-The API elements that were detected as deleted by the script need human intervention.  There are different cases:
-
-### The API element is deleted
-
-tl/dr: Add a migration comment in `breaking-changes.json`.
-
-The simple case is when the API element is indeed deleted.  In this case, we have to add a `migrationComment` in the corresponding entry in `breaking-changes.json`.  The migration comment is meant to help users understand why the item is deleted and most importantly what to use instead.
-
-### The API element is Renamed
-
-tl/dr: Flag the api element as renamed in `breaking-changes.json` and add any other breaking changes that the api element might contain.  Then regenrate deleted schematics , renamed schematics and docs. 
-
-The alternate case is when the API element was in fact renamed.  The renamed elements will be flagged as deleted by the script because there is no way the script can know that an item was renamed to something else. In this case we need to edit the corresponding entry in `breaking-changes.json` et express a rename instead of a deletion.
-
-Moreover, the renamed item, sinice it was considered deleted, was not comopared with it's new counterpart to fiind breaking changes.  Further breaking changes that might have been made to the API element have to be found manually.
-
-As a general note, rename API element sparingly.  They can cause alot of overhead in the breakiing change handling process.
-
 ## Manual review of the deprecated constructors.
 
 The deprecated construtors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
@@ -80,6 +79,6 @@ It is common that we add optional attributes in the Config abstract classes.  Th
 
 ## Manual review of TypeAlias changes
 
-The script will report any change to TypeAlias kind of APII element.  
+The script will report any change to TypeAlias kind of API element.  
 There are typically not a high volume of TypeAlias changes.
-The manual rview should determine if the change is a breaking change or not.
+The manual review should determine if the change is a breaking change or not.

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -138,6 +138,25 @@ export class ConfiguratorAttributeBaseComponent {
    */
   createFocusId(attributeId: string, valueCode: string): string {
     return `${attributeId}--${valueCode}--focus`;
+  }
+
+  /**
+   * Retrieves label with or without technical name depending whether the expert mode is set or not.
+   *
+   * @param expMode - Is expert mode set?
+   * @param label - value label
+   * @param techName - value technical name
+   */
+  getLabel(
+    expMode: boolean,
+    label: string | undefined,
+    techName: string | undefined
+  ): string {
+    let title = label ? label : '';
+    if (expMode && techName) {
+      title += ` / [${techName}]`;
+    }
+    return title;
   }
 
   /**

@@ -22,7 +22,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    alias: {
+    fallback: {
       '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
       '@spartacus/user': path.join(__dirname, 'feature-libs/user'),
       '@spartacus/organization': path.join(
@@ -49,6 +49,7 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
 };

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ export class ConfiguratorTestUtils {
   static createVariants(): Configurator.Variant[] {
     const variants: Configurator.Variant[] = [];
     for (let index = 0; index < 10; index++) {
-      let variant: Configurator.Variant = {
+      const variant: Configurator.Variant = {
         productCode: 'productCode' + index,
       };
 
@@ -194,7 +194,7 @@ export class ConfiguratorTestUtils {
     numberOfSupplements: number,
     numberOfValues: number
   ): Configurator.AttributeSupplement[] {
-    let attributeSupplements: Configurator.AttributeSupplement[] = [];
+    const attributeSupplements: Configurator.AttributeSupplement[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
       let uiKey = 'group' + groupNr + '@';
@@ -223,11 +223,11 @@ export class ConfiguratorTestUtils {
     attributeNr: number,
     amountOfValues: number
   ): Configurator.Value[] {
-    let values: Configurator.Value[] = [];
+    const values: Configurator.Value[] = [];
     for (let index = 0; index < amountOfValues; index++) {
       const valueNr = index + 1;
       const valueCode: string = 'value_' + attributeNr + '_' + valueNr;
-      let value: Configurator.Value = {
+      const value: Configurator.Value = {
         valueCode: valueCode,
         valuePrice: {
           value: 0,
@@ -271,16 +271,16 @@ export class ConfiguratorTestUtils {
       numberOfSubgroups === 0
         ? Configurator.GroupType.ATTRIBUTE_GROUP
         : Configurator.GroupType.SUB_ITEM_GROUP;
-    let group: Configurator.Group = {
+    const group: Configurator.Group = {
       id: groupId,
       attributes: [],
       groupType: groupType,
       subGroups: [],
     };
     if (numberOfSubgroups > 0) {
-      let subGroupNr = groupNr;
-      let subGroupId = groupId.concat('@subGroup') + subGroupNr;
-      let subGroup = this.createComplexGroup(
+      const subGroupNr = groupNr;
+      const subGroupId = `${groupId}@subGroup${subGroupNr}`;
+      const subGroup = this.createComplexGroup(
         subGroupNr + 1,
         subGroupId,
         numberOfSubgroups - 1,
@@ -311,10 +311,10 @@ export class ConfiguratorTestUtils {
     numberOfAttributes: number,
     numberOfValues: number
   ): Configurator.Group[] {
-    let groups: Configurator.Group[] = [];
+    const groups: Configurator.Group[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
-      let groupId = 'group' + groupNr;
+      const groupId = 'group' + groupNr;
       const group = this.createComplexGroup(
         groupNr,
         groupId,

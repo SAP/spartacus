@@ -23,6 +23,7 @@ describe('Cart', () => {
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
+        cart.registerCartRefreshRoute();
 
         cart.addProductWhenLoggedIn(false);
 
@@ -31,7 +32,7 @@ describe('Cart', () => {
         cart.logOutAndNavigateToEmptyCart();
         cart.addProductAsAnonymous();
         cart.verifyMergedCartWhenLoggedIn();
-        cart.logOutAndEmptyCart();
+        cart.logOutAndNavigateToEmptyCart();
       });
 
       it('should add product and manipulate cart quantity', () => {
@@ -56,13 +57,14 @@ describe('Cart', () => {
     context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
-        cart.loginRegisteredUser();
         visitHomePage();
       });
 
       it('should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
+        cart.registerCartRefreshRoute();
+
         cart.loginRegisteredUser();
         cart.addProductWhenLoggedIn(false);
         cy.window().then((window) => {
@@ -75,6 +77,9 @@ describe('Cart', () => {
             'spartacus⚿electronics-spa⚿cart',
             JSON.stringify(storage)
           );
+
+          cy.wait(2000);
+
           cy.visit('/cart');
           alerts.getErrorAlert().should('contain', 'Cart not found');
           cy.get('.cart-details-wrapper .cx-total').contains(
@@ -177,7 +182,7 @@ describe('Cart', () => {
 
         cart.removeCartItem(cart.products[0]);
 
-        cy.wait('@refresh_cart');
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
         cart.removeCartItem(cart.products[1]);
         cart.validateEmptyCart();

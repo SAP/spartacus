@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ export function createShellObject<T, E>(
   }
 
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
-    return { [previous]: acc } as unknown as T;
+    return { [previous]: acc } as unknown as NonNullable<T>;
   }, value);
   return handleExclusions(key, excludeKeys, shell);
 }

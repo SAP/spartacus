@@ -1,16 +1,16 @@
-import { waitForAsync, TestBed, TestBedStatic } from '@angular/core/testing';
-import { Product, ProductService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  CmsMerchandisingCarouselComponent,
   CdsConfig,
-  ProfileTagEventService,
   CdsMerchandisingProductService,
+  CmsMerchandisingCarouselComponent,
+  MerchandisingCarouselComponentService,
   MerchandisingMetadata,
   MerchandisingProduct,
+  ProfileTagEventService,
   StrategyResponse,
-  MerchandisingCarouselComponentService,
 } from '@spartacus/cds';
+import { Product, ProductService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import {
   MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,
@@ -126,7 +126,7 @@ describe('MerchandisingCarouselComponentService', () => {
   let componentService: MerchandisingCarouselComponentService;
   let profileTagEventService: ProfileTagEventService;
 
-  function configureTestingModule(): TestBedStatic {
+  function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       providers: [
         {

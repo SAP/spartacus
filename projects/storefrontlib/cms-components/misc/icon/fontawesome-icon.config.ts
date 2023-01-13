@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,9 +45,17 @@ export const fontawesomeIconConfig: IconConfig = {
       SORT_DOWN: 'fas fa-sort-down',
       SORT: 'fas fa-sort',
       EXPAND_ARROWS: 'fas fa-expand',
+      CLIPBOARD_LIST: 'fas fa-clipboard-list',
+      ADDRESS_BOOK: 'far fa-address-book',
+      USER_FRIENDS: 'fas fa-user-friends',
+      SORT_AMOUNT_DOWN: 'fas fa-sort-amount-down',
+      SORT_AMOUNT_UP: 'fas fa-sort-amount-up',
       PDF_FILE: 'fas fa-file-pdf',
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
+      ORDER: 'fas fa-clipboard-list',
+      DOWNLOAD: 'fas fa-download',
+      FILE: 'fas fa-file',
     },
     resources: [
       {

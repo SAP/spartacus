@@ -1,17 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as fs from 'fs';
-import stringifyObject from 'stringify-object';
+import * as common from './common';
 
 /**
  * This script generates deleted api elements schematics code.
  *
- * Input: A breaking changes file, likely `./data/breaking-changes.json`
- * Output: A file, `generate-deleted.out.ts`, that contains code paste over in the migration schematics code.
+ * Input: Breaking change data returned by readBreakingChangeFile().  Likely is is ./data/X_0/breaking-change.json.  The folder depends on the major version config.`
+ * Output: A file whose path is in OUTPUT_FILE_PATH const.  The file is a ts file that contains migration data ready to be imported by the schematics.
  *
  */
 
@@ -20,28 +19,24 @@ import stringifyObject from 'stringify-object';
  * Main logic
  * -----------
  */
+const OUTPUT_FILE_PATH = `${common.MIGRATION_SCHEMATICS_HOME}/removed-public-api-deprecations/data/generated-removed-public-api.migration.ts`;
+const OUTPUT_FILE_TEMPLATE_PATH = `generate-deleted.out.template`;
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
-
-console.log(
-  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
-);
+const deletedCommentsData = common.readApiElementMigrationCommentsFile();
+const breakingChangesData = common.readBreakingChangeFile();
 
 const deletedApiSchematics = [];
 for (let index = 0; index < breakingChangesData.length; index++) {
   const apiElement = breakingChangesData[index];
-  if (apiElement.isDeleted) {
+  if (common.isElementDeleted(apiElement)) {
     deletedApiSchematics.push(getSchematicsData(apiElement));
   }
 }
 console.log(`Generated ${deletedApiSchematics.length} entries.`);
-fs.writeFileSync(
-  `generate-deleted.out.ts`,
-  stringifyObject(deletedApiSchematics)
+common.writeSchematicsDataOutput(
+  OUTPUT_FILE_PATH,
+  OUTPUT_FILE_TEMPLATE_PATH,
+  deletedApiSchematics
 );
 
 /**
@@ -51,9 +46,16 @@ fs.writeFileSync(
  */
 
 function getSchematicsData(apiElement: any): any {
+  const migrationComment = common.findApiElementMigrationComment(
+    apiElement,
+    deletedCommentsData
+  );
+
   const schematicsData: any = {};
   schematicsData.node = apiElement.name;
   schematicsData.importPath = apiElement.entryPoint;
-  schematicsData.comment = `${apiElement.deletedComment} ${apiElement.migrationComment}`;
+  schematicsData.comment = `${common.generateTopLevelApiDeletedComment(
+    apiElement
+  )} ${migrationComment}`;
   return schematicsData;
 }

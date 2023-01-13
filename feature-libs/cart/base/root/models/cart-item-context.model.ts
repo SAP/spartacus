@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { OrderEntry } from '../models/cart.model';
 import { CartItemComponentOptions, PromotionLocation } from './cart.model';
@@ -21,7 +21,7 @@ export abstract class CartItemContext {
 
   readonly item$: Observable<OrderEntry>;
 
-  readonly quantityControl$: Observable<FormControl>;
+  readonly quantityControl$: Observable<UntypedFormControl>;
 
   readonly location$: Observable<PromotionLocation>;
 

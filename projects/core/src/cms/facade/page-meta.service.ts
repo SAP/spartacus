@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -96,7 +96,7 @@ export class PageMetaService {
    * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    let resolverMethods: Record<string, string> = {};
+    const resolverMethods: Record<string, string> = {};
     // filter the resolvers to avoid unnecessary processing in CSR
     this.pageMetaConfig?.pageMeta?.resolvers
       ?.filter((resolver) => {

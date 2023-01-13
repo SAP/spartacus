@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -23,7 +23,7 @@ export class ConfiguratorCartEntryInfoComponent {
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
 
-  readonly quantityControl$: Observable<FormControl> =
+  readonly quantityControl$: Observable<UntypedFormControl> =
     this.cartItemContext?.quantityControl$ ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =

@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import { CostCenterItemService } from '../../../../cost-center/services/cost-cen
 })
 export class UnitCostCenterItemService extends CostCenterItemService {
   save(
-    form: FormGroup,
+    form: UntypedFormGroup,
     key?: string
   ): Observable<OrganizationItemStatus<CostCenter>> {
     // we enable the unit so that the underlying

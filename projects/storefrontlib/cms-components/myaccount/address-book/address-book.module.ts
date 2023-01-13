@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UserAddressService,
@@ -17,6 +18,7 @@ import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressFormModule } from './address-form/address-form.module';
+import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
 @NgModule({
   imports: [
@@ -25,6 +27,7 @@ import { AddressFormModule } from './address-form/address-form.module';
     AddressFormModule,
     SpinnerModule,
     I18nModule,
+    FeaturesConfigModule,
   ],
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
@@ -37,6 +40,7 @@ import { AddressFormModule } from './address-form/address-form.module';
         },
       },
     }),
+    provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
     UserAddressService,
   ],
 })

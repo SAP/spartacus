@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -16,6 +20,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -109,8 +114,11 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [ConfiguratorAttributeHeaderComponent],
+        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
+        declarations: [
+          ConfiguratorAttributeHeaderComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {
@@ -128,6 +136,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       })
@@ -148,6 +162,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute = currentAttribute;
     component.attribute.label = 'label of attribute';
     component.attribute.name = '123';
+    component.attribute.visible = true;
     component.owner = owner;
     component.groupId = 'testGroup';
     component.attribute.required = false;
@@ -235,6 +250,31 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Render corresponding part of the component', () => {
+    it('should not render message for not visible attribute', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+    });
+
+    it('should render message for not visible attribute', () => {
+      component.attribute.visible = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg',
+        'configurator.attribute.notVisibleAttributeMsg'
+      );
+    });
+
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -447,7 +487,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'a.cx-conflict-msg'
+        'div.cx-conflict-msg a.link.cx-action-link'
       );
     });
 
@@ -459,7 +499,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div .cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
     });
   });
@@ -473,7 +513,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(

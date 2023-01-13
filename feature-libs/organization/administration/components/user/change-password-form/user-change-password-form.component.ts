@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -21,7 +21,7 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   host: { class: 'content-wrapper' },
 })
 export class UserChangePasswordFormComponent {
-  form$: Observable<FormGroup | null> = this.itemService.current$.pipe(
+  form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
 
@@ -31,7 +31,7 @@ export class UserChangePasswordFormComponent {
     protected messageService: MessageService
   ) {}
 
-  save(form: FormGroup): void {
+  save(form: UntypedFormGroup): void {
     this.itemService.current$
       .pipe(
         first(),

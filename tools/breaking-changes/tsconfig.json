@@ -6,5 +6,6 @@
     "sourceMap": true,
     "allowJs": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": ["src", "data"]
 }

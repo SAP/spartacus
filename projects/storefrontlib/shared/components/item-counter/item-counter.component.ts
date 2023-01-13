@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -36,7 +36,7 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
    */
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
 
   /**
    * This can be used in case an item has a minmum order quantity.

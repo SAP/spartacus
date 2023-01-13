@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ export class CpqConfiguratorNormalizer
       interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
+      pricingEnabled: true,
     };
     source.tabs?.forEach((tab) =>
       this.convertGroup(
@@ -69,7 +70,7 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    let numberOfIssues: number =
+    const numberOfIssues: number =
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
       (source.invalidMessages?.length ?? 0) +
@@ -180,6 +181,7 @@ export class CpqConfiguratorNormalizer
       hasConflicts: sourceAttribute.hasConflict,
       selectedSingleValue: undefined,
       images: [],
+      visible: true,
     };
 
     if (
@@ -219,14 +221,18 @@ export class CpqConfiguratorNormalizer
     sourceAttribute: Cpq.Attribute,
     value: Configurator.Value
   ): void {
-    sourceAttribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
-    sourceValue.selected &&
-    sourceValue.paV_ID === 0
-      ? this.translation
-          .translate('configurator.attribute.dropDownSelectMsg')
-          .pipe(take(1))
-          .subscribe((text) => (value.valueDisplay = text))
-      : value.valueDisplay;
+    if (
+      sourceAttribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
+      sourceValue.selected &&
+      sourceValue.paV_ID === 0
+    ) {
+      this.translation
+        .translate('configurator.attribute.dropDownSelectMsg')
+        .pipe(take(1))
+        .subscribe((text) => (value.valueDisplay = text));
+    } else {
+      value.valueDisplay = sourceValue.valueDisplay;
+    }
   }
 
   protected convertValue(
@@ -241,7 +247,6 @@ export class CpqConfiguratorNormalizer
     const value: Configurator.Value = {
       valueCode: sourceValue.paV_ID.toString(),
       name: sourceValue.valueCode,
-      valueDisplay: sourceValue.valueDisplay,
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
@@ -290,12 +295,11 @@ export class CpqConfiguratorNormalizer
       return Configurator.UiType.READ_ONLY;
     }
 
-    const uiType = this.findUiTypeFromDisplayType(
+    return this.findUiTypeFromDisplayType(
       displayAs,
       displayAsProduct,
       sourceAttribute
     );
-    return uiType;
   }
 
   protected findUiTypeFromDisplayType(
@@ -308,21 +312,21 @@ export class CpqConfiguratorNormalizer
       case Cpq.DisplayAs.RADIO_BUTTON: {
         uiType = displayAsProduct
           ? Configurator.UiType.RADIOBUTTON_PRODUCT
-          : (uiType = Configurator.UiType.RADIOBUTTON);
+          : Configurator.UiType.RADIOBUTTON;
         break;
       }
 
       case Cpq.DisplayAs.DROPDOWN: {
         uiType = displayAsProduct
           ? Configurator.UiType.DROPDOWN_PRODUCT
-          : (uiType = Configurator.UiType.DROPDOWN);
+          : Configurator.UiType.DROPDOWN;
         break;
       }
 
       case Cpq.DisplayAs.CHECK_BOX: {
         uiType = displayAsProduct
           ? Configurator.UiType.CHECKBOXLIST_PRODUCT
-          : (uiType = Configurator.UiType.CHECKBOXLIST);
+          : Configurator.UiType.CHECKBOXLIST;
         break;
       }
 

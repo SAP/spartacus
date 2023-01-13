@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -24,7 +28,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
-  approvalForm: FormGroup = this.fb.group({
+  approvalForm: UntypedFormGroup = this.fb.group({
     comment: [''],
   });
 
@@ -56,7 +60,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
     protected orderApprovalService: OrderApprovalService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }

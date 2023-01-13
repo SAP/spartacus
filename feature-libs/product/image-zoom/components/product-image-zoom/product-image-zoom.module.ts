@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  provideConfig,
-  I18nModule,
-  provideDefaultConfig,
-  CmsConfig,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, CmsConfig } from '@spartacus/core';
 import {
   CarouselModule,
   IconModule,
@@ -39,7 +34,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     RouterModule,
   ],
   providers: [
-    provideConfig(defaultProductImageZoomLayoutConfig),
+    provideDefaultConfig(defaultProductImageZoomLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductImagesComponent: {

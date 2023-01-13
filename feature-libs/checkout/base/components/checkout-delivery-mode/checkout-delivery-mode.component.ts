@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
@@ -38,7 +42,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  mode: FormGroup = this.fb.group({
+  mode: UntypedFormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
   });
 
@@ -57,7 +61,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,

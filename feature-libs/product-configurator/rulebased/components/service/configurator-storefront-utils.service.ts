@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, isDevMode } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
@@ -53,7 +53,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @return {Configurator.Value[]} - list of configurator values
    */
   assembleValuesForMultiSelectAttributes(
-    controlArray: FormControl[],
+    controlArray: UntypedFormControl[],
     attribute: Configurator.Attribute
   ): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
@@ -243,6 +243,18 @@ export class ConfiguratorStorefrontUtilsService {
     if (groupId) {
       return groupId + '-group';
     }
+  }
+
+  /**
+   * Generates a unique overview group ID from the local group ID
+   * and a prefix that reflects the parent groups in the group hierarchy
+   *
+   * @param {string} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - generated group ID
+   */
+  createOvGroupId(prefix: string, groupId: string): string {
+    return `id${prefix}${groupId}-ovGroup`;
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,7 +44,7 @@ export class OccConfiguratorVariantPriceNormalizer
     source: OccConfigurator.Supplements,
     priceSupplements: Configurator.AttributeSupplement[]
   ) {
-    let attributeSupplement: Configurator.AttributeSupplement = {
+    const attributeSupplement: Configurator.AttributeSupplement = {
       attributeUiKey: source?.csticUiKey,
       valueSupplements: [],
     };
@@ -59,7 +59,7 @@ export class OccConfiguratorVariantPriceNormalizer
     source: OccConfigurator.ValueSupplements,
     valueSupplements: Configurator.ValueSupplement[]
   ) {
-    let valueSupplement: Configurator.ValueSupplement = {
+    const valueSupplement: Configurator.ValueSupplement = {
       attributeValueKey: source?.attributeValueKey,
       priceValue: source?.priceValue,
       obsoletePriceValue: source?.obsoletePriceValue,

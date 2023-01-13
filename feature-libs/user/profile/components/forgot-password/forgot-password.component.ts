@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 
@@ -17,7 +17,7 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
 export class ForgotPasswordComponent {
   constructor(protected service: ForgotPasswordComponentService) {}
 
-  form: FormGroup = this.service.form;
+  form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
+  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {

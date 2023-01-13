@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,10 @@ export const configurator = {
       reviewWarnings: 'Review these warnings',
       multipleErrors: 'There are multiple errors.',
       reviewErrors: 'Review these errors',
+      kbKeyName: 'Kb name',
+      kbKeyLogsys: 'Kb logical system',
+      kbKeyVersion: 'Kb version',
+      kbKeyBuildNr: 'Kb build number',
     },
     tabBar: {
       configuration: 'Configuration',
@@ -55,6 +59,7 @@ export const configurator = {
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
       noOptionSelectedMsg: 'No option selected',
+      notVisibleAttributeMsg: 'This attribute is not visible to the user',
     },
     button: {
       previous: 'Previous',
@@ -70,6 +75,14 @@ export const configurator = {
       exitMobile: 'Exit',
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
+      filterOverview: 'Filter',
+      filterOverviewWithCount: 'Filter ({{numAppliedFilters}})',
+    },
+    icon: {
+      groupComplete: 'Complete',
+      groupIncomplete: 'Incomplete',
+      groupConflict: 'Conflict',
+      subgroup: 'has sub-groups',
     },
     priceSummary: {
       basePrice: 'Base Price',
@@ -88,6 +101,22 @@ export const configurator = {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
       itemPrice: 'Item Price',
+    },
+    overviewSidebar: {
+      menu: 'Menu',
+      filter: 'Filter',
+    },
+    overviewFilter: {
+      title: 'Select Filters',
+      byOption: 'Filter by Option',
+      byGroup: 'Filter by Group',
+      byPrice: 'Price-Relevant Options',
+      mySelections: 'My Selections',
+      removeAll: 'Remove All',
+      removeAllFilters: 'Remove All Filters',
+      removeByPrice: 'Remove Price-Relevant Filter',
+      removeMySelections: 'Remove My Selections Filter',
+      removeByGroup: 'Remove Group Filter for group {{group}}',
     },
     group: {
       general: 'General',
@@ -181,6 +210,10 @@ export const configurator = {
       productName: 'Product Name',
       productCode: 'Product Code',
       productDescription: 'Product description',
+      kbKeyName: 'Kb name {{name}}',
+      kbKeyLogsys: 'Kb logical system {{logsys}}',
+      kbKeyVersion: 'Kb version {{version}}',
+      kbKeyBuildNr: 'Kb build number {{number}}',
       configurationPage: 'You are on the configuration page.',
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage:
@@ -206,6 +239,17 @@ export const configurator = {
       additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
+      filterOverview: 'Open configuration overview filter menu',
+      filterOverviewWithCount:
+        'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
+      closeFilterMenu:
+        'Close the configuration overview filter menu and apply the selected filters',
+      filterOverviewByPrice:
+        'Filter configuration overview by price-relevant options',
+      filterOverviewByMySelections:
+        'Filter configuration overview by your selections',
+      filterOverviewByGroup:
+        'Filter configuration overview by group {{groupName}}',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',

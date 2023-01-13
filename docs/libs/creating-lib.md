@@ -15,12 +15,14 @@ This document can also serve as the guideline for the future schematic that can 
   - [Aligning with the other libs](#aligning-with-the-other-libs)
     - [Modifying the generated files](#modifying-the-generated-files)
     - [Additional changes to existing files](#additional-changes-to-existing-files)
+    - [Sample data release entry ONLY if applicable](#sample-data-release-entry-only-if-applicable)
   - [Multi-entry point library](#multi-entry-point-library)
     - [Process](#process)
   - [Testing](#testing)
   - [Schematics](#schematics)
     - [Configuring Schematics](#configuring-schematics)
     - [Testing Schematics](#testing-schematics)
+  - [Installation script](#installation-script)
 
 ## Naming conventions
 
@@ -182,7 +184,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -210,14 +212,14 @@ Use the following template:
 }
 ```
 
-- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+- `tsconfig.spec.json` - add `"target": "es2020", "module": "es2020"` in `"compilerOptions"`:
 
 ```json
 {
   /* ... */
   "compilerOptions": {
     /* ... */
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020"
   }
 }
@@ -264,79 +266,19 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 
-Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
-
-- `.release-it.json`
-
-```json
-{
-  "git": {
-    "requireCleanWorkingDir": true,
-    "requireUpstream": false,
-    "tagName": "TODO:-${version}",
-    "commitMessage": "Bumping TODO: version to ${version}",
-    "tagAnnotation": "Bumping TODO: version to ${version}"
-  },
-  "npm": {
-    "publishPath": "./../../dist/TODO:"
-  },
-  "hooks": {
-    "after:version:bump": "cd ../.. && ng build TODO: --configuration production"
-  },
-  "github": {
-    "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/TODO:@${version}",
-    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib TODO: --to TODO:-${version}"
-  },
-  "plugins": {
-    "../../scripts/release-it/bumper.js": {
-      "out": [
-        {
-          "file": "package.json",
-          "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
-          ]
-        }
-      ]
-    }
-  }
-}
-```
-
 Replace `TODO:` with the appropriate name.
 Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
-- `scripts/changelog.ts`
-
-In the `const libraryPaths` object, add the following (and replace the `my-account` with your lib's name):
-
-```ts
-const libraryPaths = {
-  ...,
-  '@spartacus/my-account': 'feature-libs/my-account',
-};
-```
-
-Also make sure to add the lib to the `switch` statement at the end of the file.
-
-- `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
-
-- `sonar-project.properties` - list your library to this file
-
 - `projects/schematics/package.json` - add the library to the package group
 
-- `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
-
-- `ci-scripts/unit-tests-sonar.sh`
+- `ci-scripts/unit-tests.sh`
 
 Add the library unit tests with code coverage
 
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
-output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -345,6 +287,16 @@ fi
 ```
 
 Replace `TODO:` with the appropriate name.
+
+### Sample data release entry ONLY if applicable
+
+If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
+
+  1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script. This input is the target branch that we would want to release.
+  2. `publish-sample-data.sh`:
+     1. create a variable at the top to use $STOREFRONT_FILE_NAME as a prefix, which is used to name the zip/tar.
+     2. create one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
+     3. add a note for the `gh release` that mentions what that zip is. For example, if the zip is called spartacussampledata-TODO.zip, then make sure it mentions what that TODO is.
 
 ## Multi-entry point library
 
@@ -401,8 +353,63 @@ There are couple of required changes to make sure schematics will work properly
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
-- Create new angular project `ng new schematics-test --style=scss`
+- Create new angular project `ng new schematics-test --style scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
 - Build all libs (if it is first time, if not just build your new lib)
 - Publish
-- Add spartacus to new angular project `ng add @spartacus/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa
+- Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa
+
+## Installation script
+
+[Installation Script for Spartacus](https://github.com/SAP/spartacus/blob/develop/scripts/install/README.md)
+
+If your library is an integration library (that requires a separate integration servers), a separate toggle flag should be implemented in the Installation Script.
+
+In the following examples please replace `TODO` and `todo` with your appropriate library name:
+
+- In `scripts/install/config.default.ts` add a new flag `ADD_TODO=false` (similar to `ADD_CDC=false`)
+
+In `scripts/install/functions.ts`:
+- add a switch-case inside the `function parseInstallArgs` (similar to the case `cdc)`):
+  ```bash
+  function parseInstallArgs {
+    ...
+
+    todo)
+        ADD_TODO=true
+        echo "➖ Added TODO"   
+        shift
+        ;;
+  ```
+
+- create a new function `add_todo` for installing your library (similar to `function add_cdc`):
+  ```bash
+  function add_todo {
+    if [ "$ADD_TODO" = true ] ; then
+          ng add @spartacus/todo@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+      fi
+  }
+  ```
+
+- invoke your installation function `add_todo` in 3 other functions (similar to `add_cdc`):
+  - CSR installation:
+      ```bash
+      function install_spartacus_csr {
+          ...
+          add_todo
+      }
+      ```
+  - SSR installation:
+      ```bash
+      function install_spartacus_ssr {
+          ...
+          add_todo
+      }
+      ```
+  - SSR PWA installation:
+      ```bash
+      function add_spartacus_ssr_pwa {
+          ...
+          add_todo
+      }
+      ```

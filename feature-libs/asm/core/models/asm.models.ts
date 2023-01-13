@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,9 @@ export interface CustomerSearchPage {
 export interface CustomerSearchOptions {
   query?: string;
   pageSize?: number;
+  customerListId?: string;
+  currentPage?: number;
+  sort?: string;
 }
 
 export interface AsmUi {

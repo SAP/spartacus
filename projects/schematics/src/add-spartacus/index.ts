@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,6 +41,10 @@ import {
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
+  getRelativeStyleConfigImportPath,
+  getStylesConfigFilePath,
+} from '../shared/utils/styling-utils';
+import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
@@ -53,18 +57,45 @@ import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
+function createStylesConfig(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const project = getProjectFromWorkspace(tree, options);
+    const styleConfigFilePath = getStylesConfigFilePath(project.sourceRoot);
+    const styleConfigContent = `$styleVersion: ${
+      options.featureLevel || getSpartacusCurrentFeatureLevel()
+    }`;
+    if (tree.exists(styleConfigFilePath)) {
+      context.logger.warn(
+        `Skipping styles config file creation. File ${styleConfigFilePath} already exists.`
+      );
+    } else {
+      tree.create(styleConfigFilePath, styleConfigContent);
+    }
+    return tree;
+  };
+}
+
+export function getMainStyleFilePath(project: WorkspaceProject): string {
+  const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
+  const styleFilePath =
+    typeof rootStyles === 'object'
+      ? ((rootStyles as any)?.input as string)
+      : rootStyles;
+  if (!styleFilePath) {
+    throw new Error(
+      `Could not find main styling file from the project's angular configuration.`
+    );
+  }
+  return styleFilePath;
+}
+
 function installStyles(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
     if (options.debug) {
       context.logger.info(`⌛️ Installing styles...`);
     }
-
     const project = getProjectFromWorkspace(tree, options);
-    const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
-    const styleFilePath =
-      typeof rootStyles === 'object'
-        ? ((rootStyles as any)?.input as string)
-        : rootStyles;
+    const styleFilePath = getMainStyleFilePath(project);
 
     if (!styleFilePath) {
       context.logger.warn(
@@ -99,14 +130,16 @@ function installStyles(options: SpartacusOptions): Rule {
     }
 
     const htmlContent = buffer.toString();
+    const relativeStyleConfigImportPath = getRelativeStyleConfigImportPath(
+      project,
+      styleFilePath
+    );
     let insertion =
-      '\n' +
-      `$styleVersion: ${
-        options.featureLevel || getSpartacusCurrentFeatureLevel()
-      };\n@import '~@spartacus/styles/index';\n`;
+      `\n@import '${relativeStyleConfigImportPath}';\n` +
+      `@import '@spartacus/styles/index';\n`;
 
     if (options?.theme) {
-      insertion += `\n@import '~@spartacus/styles/scss/theme/${options.theme}';\n`;
+      insertion += `\n@import '@spartacus/styles/scss/theme/${options.theme}';\n`;
     }
 
     if (htmlContent.includes(insertion)) {
@@ -252,9 +285,11 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
-function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
+export function createStylePreprocessorOptions(
+  options?: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    if (options.debug) {
+    if (options?.debug) {
       context.logger.info(`⌛️ Updating style preprocessor...`);
     }
 
@@ -305,7 +340,7 @@ function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
     };
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
-    if (options.debug) {
+    if (options?.debug) {
       context.logger.info(`✅ Style preprocessor update complete.`);
     }
     return tree;
@@ -406,7 +441,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
     const dependencies = prepareDependencies(features);
-
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
@@ -425,6 +459,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addSpartacusConfiguration(options),
 
       updateAppModule(options),
+      createStylesConfig(options),
       installStyles(options),
       updateMainComponent(getProjectFromWorkspace(tree, options), options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),

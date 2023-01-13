@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -183,7 +183,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should call form setValue with zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       spyOn(form, 'setValue').and.callThrough();
       component.onChangeQuantity(undefined, form);
       expect(form.setValue).toHaveBeenCalledWith('0');
@@ -281,7 +281,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return 0 as initial if form value equals zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       form.setValue('0');
       fixture.detectChanges();
       const quantityParameters = component.extractQuantityParameters(form);
@@ -297,7 +297,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return attribute quantity as initial if form value does not equal zero', () => {
-      const form = new FormControl('');
+      const form = new UntypedFormControl('');
       form.setValue('5');
       component.attribute.quantity = attributeQuantity;
       fixture.detectChanges();

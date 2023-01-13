@@ -43,11 +43,20 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!(addresses$ | async)?.length || showAddAddressForm">
+  <ng-container
+    *ngIf="
+      (!(addresses$ | async)?.length || showAddAddressForm) &&
+      !showEditAddressForm
+    "
+  >
     <section>
-      <p class="cx-section-msg">
+      <!-- TODO:(CXSPA-1695) for next major releasee remove below p tag and feature level check from the h2 tag-->
+      <p *cxFeatureLevel="'!5.1'" class="cx-section-msg">
         {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
       </p>
+      <h2 *cxFeatureLevel="'5.1'" class="cx-section-msg">
+        {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
+      </h2>
       <cx-address-form
         class="cx-form"
         [showTitleCode]="true"
@@ -64,9 +73,13 @@
 
   <ng-container *ngIf="showEditAddressForm">
     <section>
-      <p class="cx-section-msg">
+      <!-- TODO:(CXSPA-1695) for next major releasee remove below p tag and feature level check from the h2 tag-->
+      <p *cxFeatureLevel="'!5.1'" class="cx-section-msg">
         {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
       </p>
+      <h2 *cxFeatureLevel="'5.1'" class="cx-section-msg">
+        {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
+      </h2>
       <cx-address-form
         [showTitleCode]="true"
         actionBtnLabel="{{ 'addressBook.updateAddress' | cxTranslate }}"

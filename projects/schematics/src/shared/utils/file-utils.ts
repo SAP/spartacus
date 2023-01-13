@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1284,13 +1284,17 @@ export function getMetadataProperty(
 export function getLineFromTSFile(
   host: Tree,
   path: string,
-  position: number
+  position: number,
+  linesToRemove = 1
 ): [number, number] {
   const tsFile = getTsSourceFile(host, path);
 
   const lac = tsFile.getLineAndCharacterOfPosition(position);
   const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+  const nextLineStart = tsFile.getPositionOfLineAndCharacter(
+    lac.line + linesToRemove,
+    0
+  );
 
   return [lineStart, nextLineStart - lineStart];
 }

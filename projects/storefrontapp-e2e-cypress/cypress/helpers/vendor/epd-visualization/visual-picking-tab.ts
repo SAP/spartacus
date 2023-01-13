@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,10 @@ export function configureDefaultProduct() {
 
 export function verifyTabbingOrder() {
   // Ensure the spare parts tab is active
-  cy.get('cx-tab-paragraph-container button').contains('Spare Parts').click();
+  cy.get('cx-tab-paragraph-container button')
+    .contains('Spare Parts')
+    .click()
+    .click();
 
   cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should(
     'be.visible'
@@ -38,7 +41,10 @@ export function verifyTabbingOrder() {
     timeout: 50000,
   }).should('be.visible');
 
-  cy.get('cx-tab-paragraph-container button').contains('Spare Parts').click();
+  cy.get('cx-tab-paragraph-container button')
+    .contains('Spare Parts')
+    .click()
+    .click();
 
   cy.get('cx-icon.fa-home').parent().parent('button').focus();
 
@@ -150,7 +156,17 @@ export function verifyTabbingOrder() {
     .find('cx-icon')
     .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
 
-  // should end up in the footer area
+  // Focus should move to other tabs
+  cy.pressTab();
+  cy.focused().should('include.text', 'Product Details');
+
+  cy.pressTab();
+  cy.focused().should('include.text', 'Specs');
+
+  cy.pressTab();
+  cy.focused().should('include.text', 'Reviews');
+
+  // Focus should move to the footer area
   cy.pressTab();
   cy.get('cx-footer-navigation:focus-within');
 }

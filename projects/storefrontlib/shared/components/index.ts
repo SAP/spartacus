@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,6 @@ export * from './generic-link/index';
 export * from './item-counter/index';
 export * from './list-navigation/index';
 export * from './media/index';
-export * from './modal/index';
 export * from './popover/index';
 export * from './progress-button/index';
 export * from './spinner/index';

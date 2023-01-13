@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -32,7 +32,7 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit
 {
-  quantity = new FormControl(1);
+  quantity = new UntypedFormControl(1);
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;

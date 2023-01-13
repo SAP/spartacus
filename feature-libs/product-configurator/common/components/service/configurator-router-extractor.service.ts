@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,6 +45,8 @@ export class ConfiguratorRouterExtractorService {
           skipConflicts:
             routingData.state.queryParams?.skipConflicts === 'true',
           forceReload: routingData.state.queryParams?.forceReload === 'true',
+          expMode: routingData.state.queryParams?.expMode === 'true',
+          configIdTemplate: routingData.state.queryParams?.configIdTemplate,
           pageType:
             semanticRoute &&
             semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)

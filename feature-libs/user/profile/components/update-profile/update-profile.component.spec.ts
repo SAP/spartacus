@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
@@ -25,11 +33,11 @@ class MockUpdateProfileService
 {
   user$ = of({});
   titles$ = of([]);
-  form: FormGroup = new FormGroup({
-    customerId: new FormControl(),
-    titleCode: new FormControl(),
-    firstName: new FormControl(),
-    lastName: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    customerId: new UntypedFormControl(),
+    titleCode: new UntypedFormControl(),
+    firstName: new UntypedFormControl(),
+    lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   updateProfile = createSpy().and.stub();
@@ -53,12 +61,19 @@ describe('UpdateProfileComponent', () => {
           RouterTestingModule,
           UrlTestingModule,
           NgSelectModule,
+          FeaturesConfigModule,
         ],
         declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
             provide: UpdateProfileComponentService,
             useClass: MockUpdateProfileService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
           },
         ],
       }).compileComponents();

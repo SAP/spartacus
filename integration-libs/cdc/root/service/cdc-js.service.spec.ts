@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
   BaseSiteService,
+  GlobalMessageService,
+  GlobalMessageType,
   LanguageService,
   ScriptLoader,
   WindowRef,
@@ -73,6 +75,10 @@ class MockSubscription {
 const gigya = {
   accounts: {
     addEventHandlers: () => {},
+    register: () => {},
+    initRegistration: () => {},
+    login: () => {},
+    resetPassword: () => {},
   },
 };
 
@@ -80,6 +86,11 @@ const mockedWindowRef = {
   nativeWindow: {
     gigya: gigya,
   },
+};
+
+const mockedGlobalMessageService = {
+  add: () => {},
+  remove: () => {},
 };
 
 describe('CdcJsService', () => {
@@ -91,6 +102,7 @@ describe('CdcJsService', () => {
   let cdcAuth: CdcAuthFacade;
   let winRef: WindowRef;
   let authService: AuthService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -104,6 +116,7 @@ describe('CdcJsService', () => {
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
       ],
     });
 
@@ -115,6 +128,7 @@ describe('CdcJsService', () => {
     cdcAuth = TestBed.inject(CdcAuthFacade);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -274,7 +288,7 @@ describe('CdcJsService', () => {
         id_token: 'id_token',
       };
 
-      service.onLoginEventHandler('electronics-spa', response);
+      service['onLoginEventHandler']('electronics-spa', response);
 
       expect(cdcAuth.loginWithCustomCdcFlow).toHaveBeenCalledWith(
         response.UID,
@@ -288,9 +302,273 @@ describe('CdcJsService', () => {
     it('should not login user when on login event have empty payload', () => {
       spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
-      service.onLoginEventHandler('electronics-spa');
+      service['onLoginEventHandler']('electronics-spa');
 
       expect(cdcAuth.loginWithCustomCdcFlow).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('registerUserWithoutScreenSet', () => {
+    it('should not call register', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
+      service.registerUserWithoutScreenSet({});
+      expect(
+        winRef.nativeWindow['gigya'].accounts.initRegistration
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call register', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'initRegistration'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      spyOn(service as any, 'onInitRegistrationHandler').and.returnValue(
+        of({ status: 'OK' })
+      );
+      expect(service.registerUserWithoutScreenSet).toBeTruthy();
+      service
+        .registerUserWithoutScreenSet({
+          uid: 'uid',
+          password: 'password',
+        })
+        .subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.initRegistration
+          ).toHaveBeenCalled();
+          done();
+        });
+    });
+  });
+
+  describe('onInitRegistrationHandler', () => {
+    it('should register the user', (done) => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'register').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
+      expect(service['onInitRegistrationHandler']).toBeTruthy();
+      service['onInitRegistrationHandler'](
+        {
+          uid: 'uid',
+          password: 'password',
+          firstName: 'fname',
+          lastName: 'lname',
+        },
+        { regToken: 'TOKEN' }
+      ).subscribe({
+        complete: () => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.register
+          ).toHaveBeenCalledWith({
+            email: 'uid',
+            password: 'password',
+            profile: {
+              firstName: 'fname',
+              lastName: 'lname',
+            },
+            regToken: 'TOKEN',
+            finalizeRegistration: true,
+            callback: jasmine.any(Function),
+          });
+          done();
+        },
+      });
+    });
+
+    it('should not do anything', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'register');
+      service['onInitRegistrationHandler']({}, null);
+      expect(
+        winRef.nativeWindow['gigya'].accounts.register
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('loginUserWithoutScreenSet', () => {
+    it('should login user without screenset', (done) => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
+      expect(service.loginUserWithoutScreenSet).toBeTruthy();
+      service.loginUserWithoutScreenSet('uid', 'password').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.login
+        ).toHaveBeenCalledWith({
+          loginID: 'uid',
+          password: 'password',
+          callback: jasmine.any(Function),
+        });
+        done();
+      });
+    });
+
+    it('should not login user without screenset and having empty response', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
+      service.loginUserWithoutScreenSet('uid', 'password');
+
+      expect(
+        winRef.nativeWindow['gigya'].accounts.login
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('resetPasswordWithoutScreenSet', () => {
+    it('should not call reset password', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'resetPassword'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
+      service.resetPasswordWithoutScreenSet('').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.resetPassword
+        ).not.toHaveBeenCalled();
+      });
+      done();
+    });
+
+    it('should call reset password', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'resetPassword'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
+      service.resetPasswordWithoutScreenSet('test@mail.com').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.resetPassword
+        ).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('handleLoginError', () => {
+    it('should not show anything with no response', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleLoginError'](null);
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleLoginError']({
+        status: 'OK',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleLoginError']({
+        status: 'FAIL',
+        statusMessage: 'Error',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: 'Error',
+          },
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+  });
+
+  describe('handleRegisterError', () => {
+    it('should not show anything with no response', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleRegisterError'](null);
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleRegisterError']({
+        status: 'OK',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleRegisterError']({
+        status: 'FAIL',
+        statusMessage: 'Error',
+        validationErrors: [
+          {
+            message: 'Error',
+          },
+        ],
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        'Error',
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+  });
+
+  describe('handleResetPassResponse', () => {
+    it('should not show Error with no response', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleResetPassResponse'](null);
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleResetPassResponse']({
+        status: 'OK',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'forgottenPassword.passwordResetEmailSent' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service['handleResetPassResponse']({
+        status: 'FAIL',
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
   });
 

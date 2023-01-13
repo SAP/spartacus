@@ -37,7 +37,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run lighthouse score validation

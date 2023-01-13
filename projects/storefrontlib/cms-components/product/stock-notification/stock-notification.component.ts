@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -25,9 +28,9 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
-import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../current-product.service';
-import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-stock-notification',
@@ -46,14 +49,17 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscribeSuccess$: Observable<boolean>;
   private subscriptions = new Subscription();
 
+  @ViewChild('element') element: ElementRef;
+
   constructor(
     private currentProductService: CurrentProductService,
     private globalMessageService: GlobalMessageService,
     private translationService: TranslationService,
     private interestsService: UserInterestsService,
-    private modalService: ModalService,
     private notificationPrefService: UserNotificationPreferenceService,
-    private userIdService: UserIdService
+    private userIdService: UserIdService,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit() {
@@ -154,20 +160,26 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   }
 
   private onInterestAddingError() {
-    this.modalService.dismissActiveModal();
+    this.launchDialogService.closeDialog('Interests error');
     this.interestsService.resetAddInterestState();
   }
 
   private openDialog() {
-    const modalInstance = this.modalService.open(
-      StockNotificationDialogComponent,
-      {
-        centered: true,
-        size: 'lg',
-      }
-    ).componentInstance;
-    modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
-    modalInstance.enabledPrefs = this.enabledPrefs;
+    let modalInstanceData = {
+      subscribeSuccess$: this.subscribeSuccess$,
+      enabledPrefs: this.enabledPrefs,
+    };
+
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.STOCK_NOTIFICATION,
+      this.element,
+      this.vcr,
+      modalInstanceData
+    );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
   }
 
   ngOnDestroy(): void {

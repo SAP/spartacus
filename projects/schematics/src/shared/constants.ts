@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,6 +132,7 @@ export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const ACTIVE_CART_FACADE = 'ActiveCartFacade';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
@@ -141,6 +142,8 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const UNIT_LEVEL_ORDER_HISTORY_COMPONENT =
+  'UnitLevelOrderHistoryComponent';
 export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
@@ -151,6 +154,8 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
+export const ADDED_TO_CART_DIALOG_EVENT_LISTENER =
+  'AddedToCartDialogEventListener';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -219,6 +224,7 @@ export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
+export const REGISTER_COMPONENT_SERVICE = 'RegisterComponentService';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
@@ -258,6 +264,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
+export const SUGGESTED_ADDRESS_DIALOG_COMPONENT = `SuggestedAddressDialogComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
@@ -551,6 +558,20 @@ export const CDS_MERCHANDISING_FACET_NORMALIZER =
 export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
   'MerchandisingFacetToQueryparamNormalizer';
 export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
+
+export const CONSIGNMENT_TRACKING_COMPONENT = 'ConsignmentTrackingComponent';
+export const TRACKING_EVENTS_COMPONENT = 'TrackingEventsComponent';
+export const ORDER_HISTORY_FACADE = 'OrderHistoryFacade';
+export const NGB_ACTIVE_MODAL = 'NgbActiveModal';
+export const COUPON_CARD_COMPONENT = 'CouponCardComponent';
+export const COUPON_DIALOG_COMPONENT = 'CouponDialogComponent';
+export const MY_COUPONS_COMPONENT_SERVICE = 'MyCouponsComponentService';
+
+export const STOCK_NOTIFICATION_MODULE = 'StockNotificationtModule';
+export const STOCK_NOTIFICATION_DIALOG_COMPONENT =
+  'StockNotificationDialogComponent';
+
+export const SANITIZE_METHOD = 'sanitize';
 
 /***** Classes end *****/
 
@@ -886,6 +907,13 @@ export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 
 export const B2C_LAYOUT_CONFIG = 'b2cLayoutConfig';
 
+export const MODAL_OPTIONS = 'ModalOptions';
+export const MODAL_REF = 'ModalRef';
+export const MODAL_DIRECTIVE_OPTIONS = 'ModalDirectiveOptions';
+export const MODAL_DIRECTIVE_SERVICE = 'ModalDirectiveService';
+export const MODAL_DIRECTIVE = 'ModalDirective';
+export const MODAL_MODULE = 'ModalModule';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -1111,3 +1139,5 @@ export const CSS_V5_DOCS_URL =
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
+
+export const CDC_JS_SERVICE = 'CdcJsService';

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -189,4 +189,50 @@ export class DeleteCartFailEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'DeleteCartFailEvent';
+}
+
+export class AddCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'AddCartVoucherEvent';
+  voucherId: string;
+}
+
+export class AddCartVoucherSuccessEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherSuccessEvent';
+}
+
+export class AddCartVoucherFailEvent extends AddCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'AddCartVoucherFailEvent';
+  error: unknown;
+}
+
+export class RemoveCartVoucherEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherEvent';
+  voucherId: string;
+}
+
+export class RemoveCartVoucherSuccessEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type: string = 'RemoveCartVoucherSuccessEvent';
+}
+
+export class RemoveCartVoucherFailEvent extends RemoveCartVoucherEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'RemoveCartVoucherFailEvent';
+  error: unknown;
 }

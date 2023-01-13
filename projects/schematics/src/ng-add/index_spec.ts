@@ -122,12 +122,29 @@ describe('Spartacus Schematics: ng-add', () => {
       expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
+  });
 
-    if (appServerModuleBuffer) {
-      const appServerModuleContent = appServerModuleBuffer.toString(UTF_8);
-      expect(
-        appServerModuleContent.includes('ServerTransferStateModule')
-      ).toBeTruthy();
-    }
+  it('should add spartacus properly with both PWA and SSR', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          pwa: true,
+          ssr: true,
+        },
+        appTree
+      )
+      .toPromise();
+
+    const appModule = tree.readContent('src/app/app.module.ts');
+    expect(appModule).toMatchSnapshot();
+
+    const packageJson = tree.readContent('/package.json');
+    expect(packageJson).toMatchSnapshot();
+
+    const appServerModule = tree.readContent('src/app/app.server.module.ts');
+    expect(appServerModule).toMatchSnapshot();
   });
 });

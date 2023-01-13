@@ -1,11 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -15,26 +20,32 @@ import { FormService } from '../../shared/form/form.service';
 })
 export class UserFormService extends FormService<B2BUser> {
   protected build() {
-    const form = new FormGroup({});
-    form.setControl('customerId', new FormControl(''));
-    form.setControl('titleCode', new FormControl(''));
-    form.setControl('firstName', new FormControl('', Validators.required));
-    form.setControl('lastName', new FormControl('', Validators.required));
+    const form = new UntypedFormGroup({});
+    form.setControl('customerId', new UntypedFormControl(''));
+    form.setControl('titleCode', new UntypedFormControl(''));
+    form.setControl(
+      'firstName',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl(
+      'lastName',
+      new UntypedFormControl('', Validators.required)
+    );
     form.setControl(
       'email',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.emailValidator,
       ])
     );
     form.setControl(
       'orgUnit',
-      new FormGroup({
-        uid: new FormControl(undefined, Validators.required),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl(undefined, Validators.required),
       })
     );
-    form.setControl('roles', new FormArray([]));
-    form.setControl('isAssignedToApprovers', new FormControl(false));
+    form.setControl('roles', new UntypedFormArray([]));
+    form.setControl('isAssignedToApprovers', new UntypedFormControl(false));
 
     form.get('roles')?.valueChanges.subscribe((roles: string[]) => {
       if (roles.includes(B2BUserRole.APPROVER)) {
@@ -51,10 +62,10 @@ export class UserFormService extends FormService<B2BUser> {
   protected patchData(item: B2BUser) {
     super.patchData(item);
     if (item) {
-      const roles = this.form?.get('roles') as FormArray;
+      const roles = this.form?.get('roles') as UntypedFormArray;
       item.roles?.forEach((role) => {
         if (!(roles.value as string[]).includes(role)) {
-          roles.push(new FormControl(role));
+          roles.push(new UntypedFormControl(role));
         }
       });
     }

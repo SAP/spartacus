@@ -1,6 +1,10 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -14,8 +18,8 @@ const isBusySubject = new BehaviorSubject(false);
 class MockForgotPasswordService
   implements Partial<ForgotPasswordComponentService>
 {
-  form: FormGroup = new FormGroup({
-    userEmail: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    userEmail: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   requestEmail = createSpy().and.stub();

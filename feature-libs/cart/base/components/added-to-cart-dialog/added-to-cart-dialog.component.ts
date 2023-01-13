@@ -1,19 +1,32 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartUiEventAddToCart,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { RoutingService } from '@spartacus/core';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
@@ -27,8 +40,9 @@ import {
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -38,25 +52,60 @@ export class AddedToCartDialogComponent {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
-  modalIsOpen = false;
 
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
-  form: FormGroup = new FormGroup({});
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
-  protected quantityControl$: Observable<FormControl>;
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.dismissModal('Cross click');
+    }
+  }
+
+  protected quantityControl$: Observable<UntypedFormControl>;
+
+  protected subscription = new Subscription();
 
   constructor(
-    protected modalService: ModalService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected routingService: RoutingService,
+    protected el: ElementRef
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe(
+        (dialogData: CartUiEventAddToCart) => {
+          this.init(
+            dialogData.productCode,
+            dialogData.quantity,
+            dialogData.numberOfEntriesBeforeAdd
+          );
+        }
+      )
+    );
+    this.subscription.add(
+      this.routingService
+        .getRouterState()
+        .pipe(filter((state) => !!state.nextState))
+        .subscribe(() => this.dismissModal('dismiss'))
+    );
+  }
+
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.
    * The quantity can be set to zero in order to remove the entry.
    */
-  getQuantityControl(): Observable<FormControl> {
+  getQuantityControl(): Observable<UntypedFormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
@@ -80,7 +129,7 @@ export class AddedToCartDialogComponent {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity')),
+        map(() => <UntypedFormControl>this.form.get('quantity')),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -115,22 +164,28 @@ export class AddedToCartDialogComponent {
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry?: OrderEntry): FormControl {
+  protected getQuantityFormControl(entry?: OrderEntry): UntypedFormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
+      const quantity = new UntypedFormControl(entry?.quantity, {
+        updateOn: 'blur',
+      });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new FormControl(entry?.entryNumber);
+      const entryNumber = new UntypedFormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     } else {
       // set the real quantity added to cart
       this.form.get('quantity')?.setValue(entry?.quantity);
     }
 
-    return <FormControl>this.form.get('quantity');
+    return <UntypedFormControl>this.form.get('quantity');
   }
 
   dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+    this.launchDialogService.closeDialog(reason);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

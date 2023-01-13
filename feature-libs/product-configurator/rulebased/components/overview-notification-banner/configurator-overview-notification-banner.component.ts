@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
-      let configOv = configuration.overview;
+      const configOv = configuration.overview;
       if (configOv?.totalNumberOfIssues) {
         return configOv.numberOfIncompleteCharacteristics !== undefined
           ? configOv.numberOfIncompleteCharacteristics

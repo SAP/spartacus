@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
@@ -25,7 +25,7 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeDropDownForm = new FormControl('');
+  attributeDropDownForm = new UntypedFormControl('');
   @Input() group: string;
 
   constructor(

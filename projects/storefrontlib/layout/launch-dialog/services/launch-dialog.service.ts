@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
-  private _dialogClose = new BehaviorSubject<string | undefined>(undefined);
+  private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
   get data$(): Observable<any> {
@@ -126,11 +126,11 @@ export class LaunchDialogService {
     }
   }
 
-  get dialogClose(): Observable<string | undefined> {
+  get dialogClose(): Observable<any | undefined> {
     return this._dialogClose.asObservable();
   }
 
-  closeDialog(reason: string) {
+  closeDialog(reason: any) {
     this._dialogClose.next(reason);
   }
 

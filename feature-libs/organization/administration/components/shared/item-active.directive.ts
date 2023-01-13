@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,9 @@ import { BaseItem } from './organization.model';
 @Directive({
   selector: '[cxOrgItemActive]',
 })
-export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
+export class ItemActiveDirective<T extends BaseItem = BaseItem>
+  implements OnInit, OnDestroy
+{
   protected subscription: Subscription;
 
   constructor(

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -31,9 +35,8 @@ import {
 import {
   Card,
   ICON_TYPE,
-  ModalRef,
-  ModalService,
-  SuggestedAddressDialogComponent,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -46,7 +49,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 
@@ -79,7 +81,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
-  paymentForm: FormGroup = this.fb.group({
+  paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
     }),
@@ -91,7 +93,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     defaultPayment: [false],
   });
 
-  billingAddressForm: FormGroup = this.fb.group({
+  billingAddressForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -111,9 +113,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
-    protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected fb: UntypedFormBuilder,
+    protected userAddressService: UserAddressService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -217,25 +219,17 @@ export class CheckoutPaymentFormComponent implements OnInit {
     } as Card;
   }
 
+  //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {
-    if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
-        SuggestedAddressDialogComponent,
-        { centered: true, size: 'lg' }
-      );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress =
-        this.billingAddressForm.value;
-      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
-        results.suggestedAddresses;
-      this.suggestedAddressModalRef.result
-        .then(() => {
-          this.suggestedAddressModalRef = null;
-        })
-        .catch(() => {
-          // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.suggestedAddressModalRef = null;
-        });
-    }
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.SUGGESTED_ADDRESSES,
+      undefined,
+      {
+        enteredAddress: this.billingAddressForm.value,
+        suggestedAddresses: results.suggestedAddresses,
+      }
+    );
+    //TODO: Add logic that handle dialog's actions. Scope of CXSPA-1276
   }
 
   close(): void {
@@ -245,7 +239,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
   back(): void {
     this.goBack.emit();
   }
-
+  /**
+   *TODO: This method is not used, but should be. It triggers suggested addresses modal under the hood.
+   *
+   * See ticket CXSPA-1276
+   */
   verifyAddress(): void {
     if (this.sameAsDeliveryAddress) {
       this.next();

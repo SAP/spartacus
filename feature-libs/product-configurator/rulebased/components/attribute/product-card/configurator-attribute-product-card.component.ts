@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -264,7 +264,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleUnselected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.isValueCodeDefined(
         this.productCardOptions?.productBoundValue?.valueCode
@@ -312,7 +312,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleSelected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -349,7 +349,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleSelectedNoButton(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -383,7 +383,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelMultiSelected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -420,7 +420,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelMultiUnselected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0

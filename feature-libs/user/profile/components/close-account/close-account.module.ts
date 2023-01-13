@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  KeyboardFocusModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
+import { defaultCloseDialogModalLayoutConfig } from './components/close-account-modal/default-close-account-modal-layout.config';
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 
 @NgModule({
@@ -26,6 +31,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     I18nModule,
     IconModule,
     SpinnerModule,
+    KeyboardFocusModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -36,6 +42,7 @@ import { CloseAccountComponent } from './components/close-account/close-account.
         },
       },
     }),
+    provideDefaultConfig(defaultCloseDialogModalLayoutConfig),
   ],
   declarations: [CloseAccountComponent, CloseAccountModalComponent],
 })

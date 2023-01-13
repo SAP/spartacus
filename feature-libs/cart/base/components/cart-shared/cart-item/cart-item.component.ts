@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   CartItemContext,
@@ -28,7 +28,7 @@ export class CartItemComponent implements OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
-  @Input() quantityControl: FormControl;
+  @Input() quantityControl: UntypedFormControl;
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 

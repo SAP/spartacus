@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
-  quantityControl: FormControl;
+  quantityControl: UntypedFormControl;
 
   get entry(): OrderEntry {
     return this._entry;
@@ -31,7 +31,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   @Input('entry') set entry(value: OrderEntry) {
     this._entry = value;
-    this.quantityControl = new FormControl(this.entry.quantity, {
+    this.quantityControl = new UntypedFormControl(this.entry.quantity, {
       updateOn: 'blur',
     });
   }
@@ -71,7 +71,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   protected watchProductAdd(): Subscription {
     return this.quickOrderService.getProductAdded().subscribe((productCode) => {
       if (productCode === this.entry.product?.code) {
-        this.quantityControl = new FormControl(this.entry.quantity);
+        this.quantityControl = new UntypedFormControl(this.entry.quantity);
         this.cd.detectChanges();
       }
     });
