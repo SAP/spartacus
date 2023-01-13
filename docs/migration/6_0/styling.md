@@ -3,4 +3,4 @@
 -->
 ### ActiveFacetsComponent
 
-- Added `h2` style class and we no longer use `h4` style class
+- replaced `h2` style class with `h4` style class
