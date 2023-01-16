@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -149,6 +155,14 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+class MockChangeDetectorRef {
+  detach(): void {
+    console.log('DETACH');
+  }
+  reattach(): void {
+    console.log('REATTACH');
+  }
+}
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -211,8 +225,8 @@ function createComponentWithData(): ConfiguratorFormComponent {
   fixture = TestBed.createComponent(ConfiguratorFormComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
-  component.configuration$ = of(configuration);
   component.currentGroup$ = of(group);
+  component.configuration$ = of(configuration);
   fixture.detectChanges();
   return component;
 }
@@ -224,6 +238,7 @@ let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
+let cdr: ChangeDetectorRef;
 
 describe('ConfigurationFormComponent', () => {
   beforeEach(
@@ -251,6 +266,10 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
+          },
+          {
+            provide: ChangeDetectorRef,
+            useClass: MockChangeDetectorRef,
           },
         ],
       })
@@ -286,6 +305,10 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
 
     hasConfigurationConflictsObservable = of(false);
+
+    cdr = TestBed.inject(ChangeDetectorRef as Type<ChangeDetectorRef>);
+    spyOn(cdr, 'detach').and.callThrough();
+    spyOn(cdr, 'reattach').and.callThrough();
   });
 
   describe('resolve issues navigation', () => {
@@ -525,6 +548,37 @@ describe('ConfigurationFormComponent', () => {
       expect(
         configuratorCommonsService.checkConflictSolverDialog
       ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should subscribe to handle conflict solver mode', () => {
+      createComponentWithData();
+      expect(component['configuration$Subscription']).toBeDefined();
+    });
+  });
+
+  describe('ngOnDestroy ', () => {
+    it('should remove subscriptions', () => {
+      createComponentWithData();
+      const spyUnsubscribe = spyOn(
+        component['configuration$Subscription'],
+        'unsubscribe'
+      );
+      component.ngOnDestroy();
+      expect(spyUnsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('subscribeToHandleConflictSolverDialog ', () => {
+    it('should detach view from change detection if conflict solver opens', () => {
+      configuration.interactionState.showConflictSolverDialog = true;
+      createComponentWithData();
+      expect(cdr.detach).toHaveBeenCalled();
+    });
+
+    it('should reattach view from change detection if conflict solver closes', () => {
+      configuration.interactionState.showConflictSolverDialog = false;
+      createComponentWithData();
+      expect(cdr.reattach).toHaveBeenCalled();
     });
   });
 });
