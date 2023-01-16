@@ -294,7 +294,7 @@ export class MultiCartService implements MultiCartFacade {
     entryNumber: number,
     quantity?: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery: boolean = false
   ): void {
     if (quantity !== undefined && quantity <= 0) {
       this.removeEntry(userId, cartId, entryNumber);
@@ -303,10 +303,10 @@ export class MultiCartService implements MultiCartFacade {
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
-          entryNumber: `${entryNumber}`,
-          quantity: quantity,
           pickupStore,
           pickupToDelivery,
+          entryNumber: `${entryNumber}`,
+          quantity: quantity,
         })
       );
     }

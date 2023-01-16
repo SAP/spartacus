@@ -469,7 +469,7 @@ describe('ActiveCartService', () => {
         1,
         2,
         undefined,
-        undefined
+        false
       );
     });
 
@@ -485,7 +485,7 @@ describe('ActiveCartService', () => {
         1,
         2,
         'pickupStore',
-        undefined
+        false
       );
     });
 

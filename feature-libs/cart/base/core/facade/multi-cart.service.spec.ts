@@ -471,7 +471,7 @@ describe('MultiCartService', () => {
           entryNumber: '0',
           quantity: 2,
           pickupStore: undefined,
-          pickupToDelivery: undefined,
+          pickupToDelivery: false,
         })
       );
     });
@@ -486,7 +486,7 @@ describe('MultiCartService', () => {
           entryNumber: '0',
           quantity: undefined,
           pickupStore: 'pickupStore',
-          pickupToDelivery: undefined,
+          pickupToDelivery: false,
         })
       );
     });

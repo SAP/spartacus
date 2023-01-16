@@ -31,7 +31,7 @@ export class CartEntryConnector {
     entryNumber: string,
     qty?: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery: boolean = false
   ): Observable<CartModification> {
     return this.adapter.update(
       userId,

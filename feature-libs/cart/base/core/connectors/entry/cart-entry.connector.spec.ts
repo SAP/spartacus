@@ -54,7 +54,7 @@ describe('CartEntryConnector', () => {
       '3',
       4,
       undefined,
-      undefined
+      false
     );
   });
 
@@ -67,7 +67,7 @@ describe('CartEntryConnector', () => {
       '3',
       undefined,
       'pickupStore',
-      undefined
+      false
     );
   });
 

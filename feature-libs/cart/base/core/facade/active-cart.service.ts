@@ -428,7 +428,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     entryNumber: number,
     quantity?: number,
     pickupStore?: string,
-    pickupToDelivery?: boolean
+    pickupToDelivery: boolean = false
   ): void {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
