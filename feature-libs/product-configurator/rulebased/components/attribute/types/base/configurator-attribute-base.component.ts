@@ -170,8 +170,6 @@ export class ConfiguratorAttributeBaseComponent {
     uiContextKey?: string
   ): string {
     return (
-      ConfiguratorAttributeBaseComponent.PREFIX +
-      ConfiguratorAttributeBaseComponent.SEPERATOR +
       (uiContextKey
         ? uiContextKey + ConfiguratorAttributeBaseComponent.SEPERATOR
         : '') +

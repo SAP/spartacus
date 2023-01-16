@@ -120,20 +120,20 @@ describe('ConfigUIKeyGeneratorService', () => {
   describe('createFocusId', () => {
     it('should generate focus id for attribute value', () => {
       expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
-        'cx-configurator--attrCode--valueCode--focus'
+        'attrCode--valueCode--focus'
       );
     });
 
     it('should generate focus id with empty ui context key', () => {
       expect(classUnderTest.createFocusId('attrCode', 'valueCode', '')).toBe(
-        'cx-configurator--attrCode--valueCode--focus'
+        'attrCode--valueCode--focus'
       );
     });
 
     it('should generate focus id with with ui context key', () => {
       expect(
         classUnderTest.createFocusId('attrCode', 'valueCode', 'context')
-      ).toBe('cx-configurator--context--attrCode--valueCode--focus');
+      ).toBe('context--attrCode--valueCode--focus');
     });
   });
 

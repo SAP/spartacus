@@ -55,8 +55,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     }
     return this.createFocusId(
       this.getAttributeCode(this.attribute).toString(),
-      this.attribute.values[prevIdx].valueCode,
-      this.uiContextKey
+      this.attribute.values[prevIdx].valueCode
     );
   }
 }

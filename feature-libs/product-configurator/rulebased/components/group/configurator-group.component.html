@@ -48,7 +48,6 @@
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-bundle>
 
       <!-- Multi Selection Product Bundle -->
@@ -57,7 +56,6 @@
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-multi-selection-bundle>
 
       <!-- Single Selection Dropdown Product Bundle -->
@@ -67,7 +65,6 @@
         [group]="group.id"
         [ownerKey]="owner.key"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-bundle-dropdown>
 
       <!-- Single Selection Dropdown -->
@@ -83,7 +80,6 @@
         [language]="activeLanguage"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-drop-down>
 
       <cx-configurator-attribute-input-field
