@@ -7,36 +7,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import type { i18n, InitOptions } from 'i18next';
-import i18nextHttpBackend, {
-  BackendOptions,
-  RequestCallback,
-} from 'i18next-http-backend';
-import { WindowRef } from '../../window/window-ref';
-import { I18nConfig } from '../config/i18n-config';
-import { I18NEXT_INSTANCE } from './i18next-instance';
+import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
+import { WindowRef } from '../../../window/window-ref';
+import { I18nConfig } from '../../config/i18n-config';
+import { I18NEXT_INSTANCE } from '../i18next-instance';
+import { I18nextBackendService } from './i18next-backend.service';
+import {
+  I18nextHttpBackendClient,
+  I18NEXT_HTTP_BACKEND_CLIENT,
+} from './i18next-http-backend-client';
 
 /**
- * Initializes the i18next backend plugin for loading translations from the backend.
+ * Initializes the i18next HTTP backend plugin for loading translations from the backend via HTTP.
  */
 @Injectable({ providedIn: 'root' })
-export class I18nextBackendInitializer {
+export class I18nextHttpBackendService implements I18nextBackendService {
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
+    @Inject(I18NEXT_HTTP_BACKEND_CLIENT)
+    protected i18nextHttpClient: I18nextHttpBackendClient,
     protected config: I18nConfig,
     protected httpClient: HttpClient,
     protected windowRef: WindowRef
   ) {}
 
+  /**
+   * @override Initializes the i18next http backend plugin and returns the configuration for it.
+   */
   initialize(): InitOptions {
     this.i18next.use(i18nextHttpBackend);
-    const backendConfig = this.getHttpBackendConfig();
-    return { backend: backendConfig };
+    return { backend: this.getBackendConfig() };
   }
 
   /**
-   * Returns the configuration for the i18next backend plugin.
+   * Returns the configuration for the i18next http backend plugin.
    */
-  protected getHttpBackendConfig(): BackendOptions {
+  protected getBackendConfig(): BackendOptions {
     const loadPath = this.getLoadPath(
       // SPIKE TODO: improve typing:
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -45,7 +51,7 @@ export class I18nextBackendInitializer {
     const backend: BackendOptions = {
       loadPath,
 
-      request: this.getI18nextHttpClient(),
+      request: this.i18nextHttpClient,
 
       // Disable the periodical reloading. Otherwise SSR would not finish due to the pending task `setInterval()`
       // See source code of `i18next-http-backend` : https://github.com/i18next/i18next-http-backend/blob/00b7e8f67abf8372af17529b51190a7e8b17e3d8/lib/index.js#L40-L41
@@ -73,35 +79,5 @@ export class I18nextBackendInitializer {
       return result;
     }
     return path;
-  }
-
-  /**
-   * Returns a function appropriate for i18next to make http calls for JSON files.
-   * See docs for `i18next-http-backend`: https://github.com/i18next/i18next-http-backend#backend-options
-   *
-   * It uses Angular HttpClient under the hood, so it works in SSR.
-   */
-  protected getI18nextHttpClient(): (
-    options: BackendOptions,
-    url: string,
-    payload: object | string,
-    callback: RequestCallback
-  ) => void {
-    return (
-      _options: BackendOptions,
-      url: string,
-      _payload: object | string,
-      callback: RequestCallback
-    ) => {
-      this.httpClient.get(url, { responseType: 'text' }).subscribe(
-        (data) => callback(null, { status: 200, data }),
-        (error) =>
-          callback(error, {
-            // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
-            data: null as any,
-            status: error.status,
-          })
-      );
-    };
   }
 }

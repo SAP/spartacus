@@ -1,10 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
-import { WindowRef } from '../../window/window-ref';
-import { I18nConfig } from '../config/i18n-config';
-import { I18nextBackendInitializer } from './i18next-backend-initializer';
-import { I18NEXT_INSTANCE } from './i18next-instance';
+import { WindowRef } from '../../../window/window-ref';
+import { I18nConfig } from '../../config/i18n-config';
+import { I18NEXT_INSTANCE } from '../i18next-instance';
+import { I18nextHttpBackendService } from './i18next-http-backend.service';
 
 class MockWindowRef implements Partial<WindowRef> {
   isBrowser() {
@@ -16,7 +16,7 @@ class MockWindowRef implements Partial<WindowRef> {
   }
 }
 
-fdescribe('I18nextBackendInitializer', () => {
+fdescribe('I18nextHttpBackendService', () => {
   /*
 
   // SPIKE TODO: possibly extract to separate Injectable class
@@ -27,21 +27,13 @@ fdescribe('I18nextBackendInitializer', () => {
 
       forwards success response to i18next callback
       forwards failure response to i18next callback
-    
-      //SPIKE TODO: copy all unit tests of getLoadPath
-
-      when using i18next http backend
-        should set i18next config `backend.reloadInterval` to false
-
 
   // when i18n.backend.loadPath is provided
-  //   should set reloadInterval to false
   //   should set the i18next http client
-  //   should set the loadPath
 
   */
 
-  let initializer: I18nextBackendInitializer;
+  let initializer: I18nextHttpBackendService;
   let i18next: i18n; // i18next instance
   let config: I18nConfig;
   let windowRef: WindowRef;
@@ -60,7 +52,7 @@ fdescribe('I18nextBackendInitializer', () => {
       ],
     });
 
-    initializer = TestBed.inject(I18nextBackendInitializer);
+    initializer = TestBed.inject(I18nextHttpBackendService);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
     config = TestBed.inject(I18nConfig);
     windowRef = TestBed.inject(WindowRef);
@@ -77,9 +69,69 @@ fdescribe('I18nextBackendInitializer', () => {
     });
 
     // SPIKE TODO LATER
-    it('should configure i18next backend plugin to use Angular HttpClient', () => {
+    it('should configure Angular HttpClient as a http client of i18next', () => {
       // ...
       throw new Error('not implemented');
+    });
+
+    describe('i18nextGetHttpClient should return a http client that', () => {
+      let httpMock: HttpTestingController;
+      let httpClient: HttpClient;
+      let req: TestRequest;
+      let testCallback: RequestCallback;
+
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [HttpClientTestingModule],
+        });
+
+        httpMock = TestBed.inject(HttpTestingController);
+        httpClient = TestBed.inject(HttpClient);
+
+        const func = i18nextGetHttpClient(httpClient);
+        testCallback = jasmine.createSpy('testCallback');
+        func({}, testUrl, {}, testCallback);
+        req = httpMock.expectOne({ url: testUrl, method: 'GET' });
+      });
+
+      afterEach(() => {
+        httpMock.verify();
+      });
+
+      it('requests for responseType text', () => {
+        expect(req.request.responseType).toBe('text');
+      });
+
+      it('forwards success response to i18next callback', () => {
+        req.flush('testResponse');
+
+        expect(testCallback).toHaveBeenCalledWith(null, {
+          status: 200,
+          data: 'testResponse',
+        });
+      });
+
+      it('forwards failure response to i18next callback', () => {
+        const error = 'test error message';
+        const statusText = 'Not Found';
+        const status = 404;
+        const expectedHttpErrorResponse = new HttpErrorResponse({
+          status,
+          error,
+          statusText,
+          url: testUrl,
+        });
+
+        req.flush(error, {
+          status,
+          statusText,
+        });
+        expect(testCallback).toHaveBeenCalledWith(expectedHttpErrorResponse, {
+          status,
+          // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
+          data: null as any,
+        });
+      });
     });
 
     describe('when config i18n.backend.loadPath is set', () => {

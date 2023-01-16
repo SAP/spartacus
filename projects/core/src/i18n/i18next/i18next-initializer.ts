@@ -10,8 +10,7 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationResources } from '../translation-resources';
-import { I18nextBackendInitializer } from './i18next-backend-initializer';
-import { SiteContextI18nextSynchronizer } from './i18next-init';
+import { I18nextBackendService } from './i18next-backend/i18next-backend.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
 
 /**
@@ -22,9 +21,8 @@ export class I18nextInitializer implements OnDestroy {
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
     protected config: I18nConfig,
-    protected i18nextBackendInitializer: I18nextBackendInitializer,
     protected languageService: LanguageService,
-    protected siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
+    protected i18nextBackendService: I18nextBackendService
   ) {}
 
   /**
@@ -59,7 +57,7 @@ export class I18nextInitializer implements OnDestroy {
     if (this.config.i18n?.backend?.loadPath) {
       i18nextConfig = {
         ...i18nextConfig,
-        ...this.i18nextBackendInitializer.initialize(),
+        ...this.i18nextBackendService.initialize(),
       };
     }
 

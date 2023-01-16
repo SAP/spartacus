@@ -3,12 +3,12 @@ import type { i18n, InitOptions } from 'i18next';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
-import { I18nextBackendInitializer } from './i18next-backend-initializer';
+import { I18nextBackendService } from './i18next-backend/i18next-backend.service';
 import { I18nextInitializer } from './i18next-initializer';
 import { I18NEXT_INSTANCE } from './i18next-instance';
 
-export class MockI18nextBackendInitializer
-  implements Partial<I18nextBackendInitializer>
+export class MockI18nextBackendService
+  implements Partial<I18nextBackendService>
 {
   initialize(): InitOptions {
     return { backend: {} };
@@ -47,7 +47,7 @@ fdescribe('I18nextInitializer', () => {
   */
 
   let initializer: I18nextInitializer;
-  let i18nextBackendInitializer: I18nextBackendInitializer;
+  let i18nextBackendService: I18nextBackendService;
   let i18next: i18n; // i18next instance
   let config: I18nConfig;
   let mockActiveLanguage$: BehaviorSubject<string>;
@@ -69,14 +69,14 @@ fdescribe('I18nextInitializer', () => {
         },
         { provide: I18nConfig, useValue: { i18n: {} } },
         {
-          provide: I18nextBackendInitializer,
-          useClass: MockI18nextBackendInitializer,
+          provide: I18nextBackendService,
+          useClass: MockI18nextBackendService,
         },
       ],
     });
 
     initializer = TestBed.inject(I18nextInitializer);
-    i18nextBackendInitializer = TestBed.inject(I18nextBackendInitializer);
+    i18nextBackendService = TestBed.inject(I18nextBackendService);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
     config = TestBed.inject(I18nConfig);
   });
@@ -186,10 +186,10 @@ fdescribe('I18nextInitializer', () => {
           },
         };
         spyOn(i18next, 'init');
-        spyOn(i18nextBackendInitializer, 'initialize').and.returnValue({
+        spyOn(i18nextBackendService, 'initialize').and.returnValue({
           backend: {
-            loadPath: 'some-path',
-            reloadInterval: false,
+            a: 1,
+            b: 2,
           },
         } as InitOptions);
 
@@ -198,8 +198,8 @@ fdescribe('I18nextInitializer', () => {
         expect(i18next.init).toHaveBeenCalledWith(
           jasmine.objectContaining({
             backend: {
-              loadPath: 'some-path',
-              reloadInterval: false,
+              a: 1,
+              b: 2,
             },
           }),
           jasmine.any(Function)
