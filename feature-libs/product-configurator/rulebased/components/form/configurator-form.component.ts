@@ -97,6 +97,9 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
             }
           });
       }
+       
+      //this.handleNavigationForConflictSolverDialog(routingData);
+
       if (routingData.expMode) {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
@@ -109,6 +112,14 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
         this.cdr.reattach();
       }
     });
+  }
+
+  protected handleNavigationForConflictSolverDialog(routingData: ConfiguratorRouter.Data) {
+    this.configuratorCommonsService.getConfiguration(routingData.owner).pipe(take(1)).subscribe((configuration)=>{
+      if (configuration.interactionState.showConflictSolverDialog){
+        this.configuratorGroupsService.navigateToFirstAttributeGroup(configuration);
+      }
+    })
   }
 
   ngOnDestroy(): void {
