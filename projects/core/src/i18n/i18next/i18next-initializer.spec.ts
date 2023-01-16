@@ -1,11 +1,19 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import type { i18n } from 'i18next';
+import type { i18n, InitOptions } from 'i18next';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
+import { I18nextBackendInitializer } from './i18next-backend-initializer';
 import { I18nextInitializer } from './i18next-initializer';
 import { I18NEXT_INSTANCE } from './i18next-instance';
+
+export class MockI18nextBackendInitializer
+  implements Partial<I18nextBackendInitializer>
+{
+  initialize(i18nextConfig: InitOptions): InitOptions {
+    return i18nextConfig;
+  }
+}
 
 // SPIKE TODO: write unit tests - possibly reuse from `i18next-init.spec.ts`
 fdescribe('I18nextInitializer', () => {
@@ -28,12 +36,6 @@ fdescribe('I18nextInitializer', () => {
 
   -----------------------------------------------------------------------------------
 
-  // should set fallbackLang
-  // should set debug flag
-  // should set interpolation options
-  // should set i18next config `ns` to empty array
-  // should set i18next config `resources` to empty object
-
   // when i18n.backend.loadPath is provided
   //   should set reloadInterval to false
   //   should set the i18next http client
@@ -44,9 +46,9 @@ fdescribe('I18nextInitializer', () => {
   // should change i18next language when language is changed
   */
 
-  let i18nextInitializer: I18nextInitializer;
+  let initializer: I18nextInitializer;
+  let i18nextBackendInitializer: I18nextBackendInitializer;
   let i18next: i18n; // i18next instance
-  let languageService: LanguageService;
   let config: I18nConfig;
   let mockActiveLanguage$: BehaviorSubject<string>;
 
@@ -66,25 +68,23 @@ fdescribe('I18nextInitializer', () => {
           useClass: MockLanguageService,
         },
         { provide: I18nConfig, useValue: { i18n: {} } },
-      ],
-      imports: [
-        HttpClientTestingModule, // SPIKE TODO: remove, when extracting I18nextHttpClient
+        {
+          provide: I18nextBackendInitializer,
+          useClass: MockI18nextBackendInitializer,
+        },
       ],
     });
 
-    i18nextInitializer = TestBed.inject(I18nextInitializer);
-    languageService = TestBed.inject(LanguageService);
+    initializer = TestBed.inject(I18nextInitializer);
+    i18nextBackendInitializer = TestBed.inject(I18nextBackendInitializer);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
     config = TestBed.inject(I18nConfig);
-
-    // SPIKE TODO remove
-    console.log(languageService);
   });
 
   describe('initialize', () => {
     it('should initialize i18next instance', () => {
       spyOn(i18next, 'init');
-      i18nextInitializer.initialize();
+      initializer.initialize();
       expect(i18next.init).toHaveBeenCalled();
     });
 
@@ -92,7 +92,7 @@ fdescribe('I18nextInitializer', () => {
       config.i18n = { fallbackLang: 'en' };
       spyOn(i18next, 'init');
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ fallbackLng: 'en' }),
@@ -104,7 +104,7 @@ fdescribe('I18nextInitializer', () => {
       config.i18n = { debug: true };
       spyOn(i18next, 'init');
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ debug: true }),
@@ -115,7 +115,7 @@ fdescribe('I18nextInitializer', () => {
     it('should disable config interpolation options: escapeValue and skipOnVariables', () => {
       spyOn(i18next, 'init');
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({
@@ -131,7 +131,7 @@ fdescribe('I18nextInitializer', () => {
     it('should set config  `ns` to empty array', () => {
       spyOn(i18next, 'init');
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
         jasmine.objectContaining({ ns: [] }),
@@ -145,7 +145,7 @@ fdescribe('I18nextInitializer', () => {
       };
       spyOn(i18next, 'init');
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(
         (i18next.init as jasmine.Spy)['calls'].argsFor(0)[0].resources
@@ -163,7 +163,7 @@ fdescribe('I18nextInitializer', () => {
         spyOn(i18next, 'addResourceBundle').and.callThrough();
       });
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       // wait for callback passed to i18next.init to be executed
       setTimeout(() => {
@@ -179,44 +179,37 @@ fdescribe('I18nextInitializer', () => {
     });
 
     describe('when i18n.backend.loadPath is provided', () => {
-      it('should populate config backend.loadPath', () => {
-        config.i18n = { backend: { loadPath: 'test/path' } };
+      it('should initialize i18next for loading translations from backend', () => {
+        config.i18n = {
+          backend: {
+            loadPath: 'some-path',
+          },
+        };
         spyOn(i18next, 'init');
+        spyOn(i18nextBackendInitializer, 'initialize').and.callFake(
+          (i18nextConfig: InitOptions) => ({
+            ...i18nextConfig,
+            backend: config?.i18n?.backend,
+          })
+        );
 
-        i18nextInitializer.initialize();
+        initializer.initialize();
 
         expect(i18next.init).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            backend: jasmine.objectContaining({ loadPath: 'test/path' }),
+            backend: {
+              loadPath: 'some-path',
+            },
           }),
           jasmine.any(Function)
         );
-      });
-
-      it('should set config backend.reloadInterval to false', () => {
-        config.i18n = { backend: { loadPath: 'test/path' } };
-        spyOn(i18next, 'init');
-
-        i18nextInitializer.initialize();
-
-        expect(i18next.init).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            backend: jasmine.objectContaining({ reloadInterval: false }),
-          }),
-          jasmine.any(Function)
-        );
-      });
-
-      // SPIKE TODO LATER
-      it('should set the i18next http client', () => {
-        // ...
       });
     });
 
     it('should ensure to update i18next language whenever active language is changed', (done) => {
       spyOn(i18next, 'init').and.callThrough();
 
-      i18nextInitializer.initialize();
+      initializer.initialize();
 
       expect(i18next.language).toEqual(undefined);
 
