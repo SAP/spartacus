@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cart",
-  "version": "5.1.0-3",
+  "version": "5.1.0",
   "description": "",
   "keywords": [
     "spartacus",
@@ -37,11 +37,11 @@
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
-    "@spartacus/core": "5.1.0-3",
-    "@spartacus/schematics": "5.1.0-3",
-    "@spartacus/storefront": "5.1.0-3",
-    "@spartacus/styles": "5.1.0-3",
-    "@spartacus/user": "5.1.0-3",
+    "@spartacus/core": "5.1.0",
+    "@spartacus/schematics": "5.1.0",
+    "@spartacus/storefront": "5.1.0",
+    "@spartacus/styles": "5.1.0",
+    "@spartacus/user": "5.1.0",
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
