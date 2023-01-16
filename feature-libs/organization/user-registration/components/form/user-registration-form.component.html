@@ -6,7 +6,26 @@
       <span class="label-content">{{
         'userRegistrationForm.fields.titleCode.label' | cxTranslate
       }}</span>
+      <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
       <ng-select
+        *cxFeatureLevel="'5.2'"
+        id="title-code-select"
+        formControlName="titleCode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="titles$ | async"
+        bindLabel="name"
+        bindValue="code"
+        placeholder="{{
+          'userRegistrationForm.fields.titleCode.placeholder' | cxTranslate
+        }}"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'userRegistrationForm.fields.titleCode.label' | cxTranslate
+        }"
+      >
+      </ng-select>
+      <ng-select
+        *cxFeatureLevel="'!5.2'"
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
