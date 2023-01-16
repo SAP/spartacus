@@ -9,7 +9,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
 import {
@@ -29,7 +28,7 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorConflictSolverDialogComponent
-  implements OnInit, OnDestroy, AfterViewInit
+  implements OnInit, OnDestroy
 {
   iconTypes = ICON_TYPE;
   uiType = Configurator.UiType;
@@ -37,7 +36,7 @@ export class ConfiguratorConflictSolverDialogComponent
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: false,
+    autofocus: true,
     focusOnEscape: false,
   };
 
@@ -59,13 +58,6 @@ export class ConfiguratorConflictSolverDialogComponent
     this.conflictGroup$ = conflictGroup;
     this.routerData$ = routerData;
   }
-
-  ngAfterViewInit(): void {
-    console.log('BEFORE detect changes');
-    this.cdr.detectChanges();
-    console.log('AFTER detect changes');
-  }
-
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((dialogData) => {

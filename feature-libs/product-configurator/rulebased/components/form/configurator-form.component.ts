@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
-import { map, filter, switchMap, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -21,7 +27,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent implements OnInit {
+export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -44,12 +50,14 @@ export class ConfiguratorFormComponent implements OnInit {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
+  subscriptions: Subscription;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
+    protected cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +101,18 @@ export class ConfiguratorFormComponent implements OnInit {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
     });
+
+    this.subscriptions = this.configuration$.subscribe((config) => {
+      if (config.interactionState.showConflictSolverDialog) {
+        this.cdr.detach();
+      } else {
+        this.cdr.reattach();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   /**
