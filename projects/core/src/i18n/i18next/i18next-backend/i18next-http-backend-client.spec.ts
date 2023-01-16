@@ -10,7 +10,7 @@ import { I18NEXT_HTTP_BACKEND_CLIENT } from './i18next-http-backend-client';
 
 const testUrl = 'test/url';
 
-fdescribe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
+describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
   let httpMock: HttpTestingController;
   let req: TestRequest;
   let testCallback: RequestCallback;

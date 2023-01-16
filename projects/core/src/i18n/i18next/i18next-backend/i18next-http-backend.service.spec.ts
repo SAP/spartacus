@@ -21,7 +21,7 @@ class MockWindowRef implements Partial<WindowRef> {
 
 const mockI18nextHttpBackendClient: I18nextHttpBackendClient = () => {};
 
-fdescribe('I18nextHttpBackendService', () => {
+describe('I18nextHttpBackendService', () => {
   let initializer: I18nextHttpBackendService;
   let i18next: i18n; // i18next instance
   let config: I18nConfig;

@@ -15,7 +15,7 @@ export class MockI18nextBackendService
   }
 }
 
-fdescribe('I18nextInitializer', () => {
+describe('I18nextInitializer', () => {
   let initializer: I18nextInitializer;
   let i18nextBackendService: I18nextBackendService;
   let i18next: i18n; // i18next instance
