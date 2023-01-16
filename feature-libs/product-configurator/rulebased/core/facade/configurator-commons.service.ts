@@ -236,8 +236,8 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Checks if the configuration contains conflicts that are displayed as conflict groups. Note 
-   * that in case conflicts are displayed by the conflict solver dialog, they are not taken into 
+   * Checks if the configuration contains conflicts that are displayed as conflict groups. Note
+   * that in case conflicts are displayed by the conflict solver dialog, they are not taken into
    * account for this method
    *
    * @param owner - Configuration owner
