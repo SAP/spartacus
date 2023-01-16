@@ -52,6 +52,10 @@ export class AuthService {
    */
   async checkOAuthParamsInUrl(): Promise<void> {
     try {
+      if (await this.authMultisiteIsolationService?.isDifferentBaseSite()) {
+        this.logout();
+      }
+
       const loginResult: OAuthTryLoginResult =
         await this.oAuthLibWrapperService.tryLogin();
 
