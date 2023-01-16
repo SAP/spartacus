@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
+import { WindowRef } from '../../window/window-ref';
 import { I18nConfig } from '../config/i18n-config';
 import { I18nextBackendInitializer } from './i18next-backend-initializer';
 import { I18NEXT_INSTANCE } from './i18next-instance';
@@ -33,6 +34,7 @@ fdescribe('I18nextBackendInitializer', () => {
   let initializer: I18nextBackendInitializer;
   let i18next: i18n; // i18next instance
   let config: I18nConfig;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,39 +47,163 @@ fdescribe('I18nextBackendInitializer', () => {
     initializer = TestBed.inject(I18nextBackendInitializer);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
     config = TestBed.inject(I18nConfig);
+    windowRef = TestBed.inject(WindowRef);
   });
 
-  // SPIKE TODO: 3 tests copied, might need fixing:
-  it('should populate config backend.loadPath', () => {
-    config.i18n = { backend: { loadPath: 'test/path' } };
-    spyOn(i18next, 'init');
+  describe('initialize', () => {
+    it('should return "backend" options merged into original options', () => {
+      throw new Error('not implemented');
+    });
 
-    const result = initializer.initialize({});
+    it('should populate config backend.loadPath', () => {
+      config.i18n = { backend: { loadPath: 'test/path' } };
+      spyOn(i18next, 'init');
 
-    expect(result).toEqual({
-      backend: jasmine.objectContaining({
-        loadPath: 'test/path',
-      }),
+      const result = initializer.initialize({});
+
+      expect(result).toEqual({
+        backend: jasmine.objectContaining({
+          loadPath: 'test/path',
+        }),
+      });
+    });
+
+    it('should set config backend.reloadInterval to false', () => {
+      config.i18n = { backend: { loadPath: 'test/path' } };
+      spyOn(i18next, 'init');
+
+      const result = initializer.initialize({});
+
+      expect(result).toEqual({
+        backend: jasmine.objectContaining({
+          reloadInterval: false,
+        }),
+      });
+    });
+
+    // SPIKE TODO LATER
+    it('should set the i18next http client', () => {
+      // ...
+      throw new Error('not implemented');
+    });
+
+    describe('when config i18n.backend.loadPath is set', () => {
+      describe('in non-server platform', () => {
+        beforeEach(() => {
+          spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        });
+
+        describe('with relative path starting with "./"', () => {
+          const path = './path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+
+        describe('with relative path starting with "/"', () => {
+          const path = '/path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+
+        describe('with relative path starting with ""', () => {
+          const path = 'path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+
+        describe('with absolute path starting with "http://"', () => {
+          const path = 'http://path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+
+        describe('with absolute path starting with "https://"', () => {
+          const path = 'https://path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+      });
+
+      describe('in server platform', () => {
+        const serverRequestOrigin = 'http://server.com';
+
+        beforeEach(() => {
+          spyOn(windowRef, 'isBrowser').and.returnValue(false);
+          spyOnProperty(windowRef, 'location', 'get').and.returnValue({
+            origin: serverRequestOrigin,
+          });
+        });
+
+        describe('with relative path starting with "./"', () => {
+          const path = './path';
+
+          it('should return the original path prepended with server request origin', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe('http://server.com/path');
+          });
+        });
+
+        describe('with relative path starting with "/"', () => {
+          const path = '/path';
+
+          it('should return the original path prepended with server request origin', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe('http://server.com/path');
+          });
+        });
+
+        describe('with relative path starting with ""', () => {
+          const path = 'path';
+
+          it('should return the original path prepended with server request origin', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe('http://server.com/path');
+          });
+        });
+
+        describe('with absolute path starting with "http://"', () => {
+          const path = 'http://path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+
+        describe('with absolute path starting with "https://"', () => {
+          const path = 'https://path';
+
+          it('should return the original path', () => {
+            config.i18n = { backend: { loadPath: path } };
+            const result = initializer.initialize({});
+            expect(result.backend?.loadPath).toBe(path);
+          });
+        });
+      });
     });
   });
-
-  it('should set config backend.reloadInterval to false', () => {
-    config.i18n = { backend: { loadPath: 'test/path' } };
-    spyOn(i18next, 'init');
-
-    const result = initializer.initialize({});
-
-    expect(result).toEqual({
-      backend: jasmine.objectContaining({
-        reloadInterval: false,
-      }),
-    });
-  });
-
-  // SPIKE TODO LATER
-  it('should set the i18next http client', () => {
-    // ...
-  });
-
-  // SPIKE TODO: add other
 });
