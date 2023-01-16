@@ -9,7 +9,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ChangeDetectorRef,
 } from '@angular/core';
 import {
   LaunchDialogService,
@@ -37,7 +36,7 @@ export class ConfiguratorConflictSolverDialogComponent
     trap: true,
     block: true,
     autofocus: true,
-    focusOnEscape: false,
+    focusOnEscape: true,
   };
 
   protected subscription = new Subscription();
@@ -47,8 +46,7 @@ export class ConfiguratorConflictSolverDialogComponent
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected launchDialogService: LaunchDialogService,
-    protected cdr: ChangeDetectorRef
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   init(
