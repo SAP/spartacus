@@ -38,7 +38,6 @@ export class ConfiguratorAttributeInputFieldComponent
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
-  @Input() uiContextKey: string = '';
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
