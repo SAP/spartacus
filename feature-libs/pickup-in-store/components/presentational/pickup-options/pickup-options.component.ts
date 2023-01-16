@@ -6,13 +6,41 @@
 
 import {
   Component,
-  EventEmitter,
+  ElementRef,
   Input,
-  OnChanges,
-  Output,
+  OnInit,
+  Optional,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PickupOption } from '@spartacus/pickup-in-store/root';
+import { CartItemContext } from '@spartacus/cart/base/root';
+import { Product } from '@spartacus/core';
+import {
+  getProperty,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+  PickupOption,
+  PickupOptionFacade,
+  RequiredDeepPath,
+} from '@spartacus/pickup-in-store/root';
+import {
+  CurrentProductService,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
+import { iif, Observable, of, Subscription } from 'rxjs';
+import { concatMap, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { orderEntryWithRequiredFields } from '../../container/cart-pickup-options-container/cart-pickup-options-container.component';
+
+function isProductWithCode(
+  product: Product | null
+): product is RequiredDeepPath<Product, 'code'> {
+  return !!product?.code;
+}
 
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
@@ -21,16 +49,117 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
 })
-export class PickupOptionsComponent implements OnChanges {
-  /** The selected option, either `'pickup'` or `'delivery'`. */
-  @Input() selectedOption: PickupOption;
-  /** The location to display in the pickup option. */
-  @Input() displayPickupLocation: string | undefined;
+export class PickupOptionsComponent implements OnInit {
+  @ViewChild('element') element: ElementRef;
 
-  /** Emitted when the selected option is changed. */
-  @Output() pickupOptionChange = new EventEmitter<PickupOption>();
-  /** Emitted when a new store should be selected. */
-  @Output() pickupLocationChange = new EventEmitter<undefined>();
+  @Input() displayPickupLocation$: Observable<string | undefined>;
+
+  @Input() product: Product;
+
+  availableForPickup$: Observable<boolean>;
+
+  subscription = new Subscription();
+
+  displayNameIsSet = false;
+
+  entryNumber: number;
+  productCode: string;
+  quantity: number;
+
+  constructor(
+    protected currentProductService: CurrentProductService,
+    protected pickupOptionFacade: PickupOptionFacade,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected preferredStoreService: PreferredStoreService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef,
+    @Optional() protected cartItemContext?: CartItemContext
+  ) {}
+
+  ngOnInit() {
+    if (this.product) {
+      this.availableForPickup$ = of(!!this.product.availableForPickup);
+    } else {
+      this.availableForPickup$ = this.cartItemContext
+        ? this.cartItemContext.item$.pipe(
+            filter(orderEntryWithRequiredFields),
+            tap((orderEntry) => this.pickupForOrderEntry(orderEntry)),
+            map((orderEntry) => orderEntry.product.availableForPickup ?? false)
+          )
+        : this.currentProductService.getProduct().pipe(
+            filter(isProductWithCode),
+            tap((product) => this.pickupForProduct(product)),
+            map((product) => product.availableForPickup ?? false)
+          );
+    }
+  }
+
+  protected pickupForOrderEntry(orderEntry: any): void {
+    this.productCode = orderEntry.product.code;
+    this.entryNumber = orderEntry.entryNumber;
+    this.quantity = orderEntry.quantity;
+
+    const selectedOption = orderEntry.deliveryPointOfService
+      ? 'pickup'
+      : 'delivery';
+    this.pickupOptionFacade.setPickupOption(
+      orderEntry.entryNumber,
+      selectedOption
+    );
+
+    this.pickupOptionsForm.get('pickupOption')?.setValue(selectedOption);
+
+    const storeName = orderEntry.deliveryPointOfService?.name;
+    this.displayPickupLocation$ = iif(
+      () => !!storeName,
+      of(storeName as string).pipe(
+        tap((storeName) => {
+          return this.pickupLocationsSearchService.loadStoreDetails(storeName);
+        }),
+        concatMap((storeName) =>
+          this.pickupLocationsSearchService.getStoreDetails(storeName)
+        ),
+        filter((storeDetails) => !!storeDetails)
+      ),
+      this.preferredStoreService.getPreferredStoreWithProductInStock(
+        this.productCode
+      )
+    ).pipe(
+      map(({ displayName }) => displayName),
+      filter((displayName): displayName is string => !!displayName),
+      tap((_) => (this.displayNameIsSet = true))
+    );
+  }
+
+  protected pickupForProduct(product: any): void {
+    this.productCode = product.code;
+
+    this.intendedPickupLocationService
+      .getPickupOption(this.productCode)
+      .pipe(take(1))
+      .subscribe((selectedOption) =>
+        this.pickupOptionsForm.get('pickupOption')?.setValue(selectedOption)
+      );
+
+    this.displayPickupLocation$ = this.intendedPickupLocationService
+      .getIntendedLocation(this.productCode)
+      .pipe(
+        switchMap((intendedLocation) =>
+          iif(
+            () =>
+              !!intendedLocation &&
+              getProperty(intendedLocation, 'pickupOption') === 'pickup' &&
+              !!intendedLocation.displayName,
+            of(getProperty(intendedLocation, 'displayName')),
+            this.preferredStoreService
+              .getPreferredStoreWithProductInStock(this.productCode)
+              .pipe(map(({ displayName }) => displayName))
+          )
+        ),
+        tap(() => (this.displayNameIsSet = true))
+      );
+  }
 
   pickupId = `pickup-id:${Math.random().toString(16)}`;
   deliveryId = `delivery-id:${Math.random().toString(16)}`;
@@ -39,19 +168,52 @@ export class PickupOptionsComponent implements OnChanges {
     pickupOption: new FormControl<PickupOption | null>(null),
   });
 
-  ngOnChanges(): void {
-    this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
+  onPickupOptionChange(pickupOption: PickupOption): void {
+    if (this.entryNumber > 0) {
+      this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
+      if (pickupOption === 'delivery') {
+        // this.pickupLocationsSearchService.setPickupOptionToDelivery(
+        //   this.cartId,
+        //   this.entryNumber,
+        //   this.userId,
+        //   this.productCode,
+        //   this.quantity,
+        // );
+
+        return;
+      }
+    } else {
+      this.intendedPickupLocationService.setPickupOption(
+        this.productCode,
+        pickupOption
+      );
+      if (pickupOption === 'delivery') {
+        this.intendedPickupLocationService.removeIntendedLocation(
+          this.productCode
+        );
+        return;
+      }
+    }
+
+    if (!this.displayNameIsSet) {
+      this.openDialog();
+    }
   }
 
-  /** Emit a new selected option. */
-  onPickupOptionChange(option: PickupOption): void {
-    this.pickupOptionChange.emit(option);
-  }
+  openDialog(): void {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.PICKUP_IN_STORE,
+      this.element,
+      this.vcr,
+      {
+        productCode: this.productCode,
+        entryNumber: this.entryNumber,
+        quantity: this.quantity,
+      }
+    );
 
-  /** Emit to indicate a new store should be selected. */
-  onPickupLocationChange(): boolean {
-    this.pickupLocationChange.emit();
-    // Return false to stop `onPickupOptionChange` being called after this
-    return false;
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
   }
 }
