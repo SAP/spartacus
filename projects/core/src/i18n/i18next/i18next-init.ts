@@ -17,6 +17,8 @@ import { ConfigInitializerService } from '../../config/config-initializer/config
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
 
+// SPIKE TODO: remove old i18nextInit and unit tests
+
 export function i18nextInit(
   i18next: i18n,
   configInit: ConfigInitializerService,

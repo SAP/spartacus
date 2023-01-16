@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
 import { WindowRef } from '../../../window/window-ref';
@@ -17,22 +16,6 @@ class MockWindowRef implements Partial<WindowRef> {
 }
 
 fdescribe('I18nextHttpBackendService', () => {
-  /*
-
-  // SPIKE TODO: possibly extract to separate Injectable class
-
-    when config 'i18n.backend.loadPath' is set
-      should use angular http client for loading translations from backend
-      should use the loadPath for loading translations from backend
-
-      forwards success response to i18next callback
-      forwards failure response to i18next callback
-
-  // when i18n.backend.loadPath is provided
-  //   should set the i18next http client
-
-  */
-
   let initializer: I18nextHttpBackendService;
   let i18next: i18n; // i18next instance
   let config: I18nConfig;
@@ -46,9 +29,6 @@ fdescribe('I18nextHttpBackendService', () => {
           provide: WindowRef,
           useClass: MockWindowRef,
         },
-      ],
-      imports: [
-        HttpClientTestingModule, // SPIKE TODO: remove, when extracting I18nextHttpClient
       ],
     });
 
@@ -68,7 +48,7 @@ fdescribe('I18nextHttpBackendService', () => {
       expect(result.backend?.reloadInterval).toBe(false);
     });
 
-    // SPIKE TODO LATER
+    // SPIKE TODO implement unit test for using i18next http client
     it('should configure Angular HttpClient as a http client of i18next', () => {
       // ...
       throw new Error('not implemented');

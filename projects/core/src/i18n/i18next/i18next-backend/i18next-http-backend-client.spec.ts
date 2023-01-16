@@ -1,4 +1,19 @@
-// SPIKE TODO
+/*
+SPIKE TODO: DRAFT PLAN plan:
+
+when config 'i18n.backend.loadPath' is set
+should use angular http client for loading translations from backend
+should use the loadPath for loading translations from backend
+
+forwards success response to i18next callback
+forwards failure response to i18next callback
+*/
+
+// SPIKE TODO: fix the tests below:
+
+// imports: [
+//   HttpClientTestingModule,
+// ],
 
 // describe('i18nextGetHttpClient should return a http client that', () => {
 //   let httpMock: HttpTestingController;
