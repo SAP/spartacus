@@ -3,6 +3,10 @@ import type { i18n } from 'i18next';
 import { WindowRef } from '../../../window/window-ref';
 import { I18nConfig } from '../../config/i18n-config';
 import { I18NEXT_INSTANCE } from '../i18next-instance';
+import {
+  I18nextHttpBackendClient,
+  I18NEXT_HTTP_BACKEND_CLIENT,
+} from './i18next-http-backend-client';
 import { I18nextHttpBackendService } from './i18next-http-backend.service';
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -14,6 +18,8 @@ class MockWindowRef implements Partial<WindowRef> {
     return {};
   }
 }
+
+const mockI18nextHttpBackendClient: I18nextHttpBackendClient = () => {};
 
 fdescribe('I18nextHttpBackendService', () => {
   let initializer: I18nextHttpBackendService;
@@ -28,6 +34,10 @@ fdescribe('I18nextHttpBackendService', () => {
         {
           provide: WindowRef,
           useClass: MockWindowRef,
+        },
+        {
+          provide: I18NEXT_HTTP_BACKEND_CLIENT,
+          useValue: mockI18nextHttpBackendClient,
         },
       ],
     });
@@ -49,9 +59,13 @@ fdescribe('I18nextHttpBackendService', () => {
     });
 
     // SPIKE TODO implement unit test for using i18next http client
-    it('should configure Angular HttpClient as a http client of i18next', () => {
-      // ...
-      throw new Error('not implemented');
+    it('should set config backend.request to use a custom http client', () => {
+      config.i18n = { backend: { loadPath: 'test/path' } };
+      spyOn(i18next, 'init');
+
+      const result = initializer.initialize();
+
+      expect(result.backend?.request).toBe(mockI18nextHttpBackendClient);
     });
 
     describe('when config i18n.backend.loadPath is set', () => {

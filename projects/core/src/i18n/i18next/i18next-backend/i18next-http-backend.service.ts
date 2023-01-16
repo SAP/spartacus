@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import type { i18n, InitOptions } from 'i18next';
 import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
@@ -27,7 +26,6 @@ export class I18nextHttpBackendService implements I18nextBackendService {
     @Inject(I18NEXT_HTTP_BACKEND_CLIENT)
     protected i18nextHttpClient: I18nextHttpBackendClient,
     protected config: I18nConfig,
-    protected httpClient: HttpClient,
     protected windowRef: WindowRef
   ) {}
 
