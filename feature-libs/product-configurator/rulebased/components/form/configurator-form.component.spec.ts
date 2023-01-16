@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -155,14 +149,6 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
-class MockChangeDetectorRef {
-  detach(): void {
-    console.log('DETACH');
-  }
-  reattach(): void {
-    console.log('REATTACH');
-  }
-}
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -238,7 +224,6 @@ let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
-let cdr: ChangeDetectorRef;
 
 describe('ConfigurationFormComponent', () => {
   beforeEach(
@@ -266,10 +251,6 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
-          },
-          {
-            provide: ChangeDetectorRef,
-            useClass: MockChangeDetectorRef,
           },
         ],
       })
@@ -305,10 +286,6 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
 
     hasConfigurationConflictsObservable = of(false);
-
-    cdr = TestBed.inject(ChangeDetectorRef as Type<ChangeDetectorRef>);
-    spyOn(cdr, 'detach').and.callThrough();
-    spyOn(cdr, 'reattach').and.callThrough();
   });
 
   describe('resolve issues navigation', () => {
@@ -551,34 +528,48 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should subscribe to handle conflict solver mode', () => {
-      createComponentWithData();
-      expect(component['configuration$Subscription']).toBeDefined();
+      createComponentWithoutData();
+      expect(component['conflictSolverSubscription']).toBeDefined();
+    });
+
+    it('should detach view from change detection if conflict solver opens', () => {
+      configuration.interactionState.showConflictSolverDialog = true;
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configuration);
+      createComponentWithoutData();
+      // change detector ref can't be accessed via TestBed DI, instead use property of component
+      spyOn(component['cdr'], 'detach').and.callThrough();
+      // hence repeat ngOnInit as first execution was without spy installed
+      component.ngOnInit();
+      expect(component['cdr'].detach).toHaveBeenCalled();
+    });
+
+    it('should reattach view to change detection if conflict solver closes', () => {
+      configuration.interactionState.showConflictSolverDialog = false;
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configuration);
+      createComponentWithoutData();
+      // change detector ref can't be accessed via TestBed DI, instead use property of component
+      spyOn(component['cdr'], 'reattach').and.callThrough();
+      // hence repeat ngOnInit as first execution was without spy installed
+      component.ngOnInit();
+      expect(component['cdr'].reattach).toHaveBeenCalled();
     });
   });
 
   describe('ngOnDestroy ', () => {
     it('should remove subscriptions', () => {
-      createComponentWithData();
+      createComponentWithoutData();
       const spyUnsubscribe = spyOn(
-        component['configuration$Subscription'],
+        component['conflictSolverSubscription'],
         'unsubscribe'
       );
       component.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('subscribeToHandleConflictSolverDialog ', () => {
-    it('should detach view from change detection if conflict solver opens', () => {
-      configuration.interactionState.showConflictSolverDialog = true;
-      createComponentWithData();
-      expect(cdr.detach).toHaveBeenCalled();
-    });
-
-    it('should reattach view from change detection if conflict solver closes', () => {
-      configuration.interactionState.showConflictSolverDialog = false;
-      createComponentWithData();
-      expect(cdr.reattach).toHaveBeenCalled();
     });
   });
 });

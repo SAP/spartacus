@@ -50,7 +50,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  subscriptions: Subscription;
+  conflictSolverSubscription: Subscription;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -100,7 +100,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       if (routingData.expMode) {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
-      this.subscriptions = this.configuratorCommonsService
+      this.conflictSolverSubscription = this.configuratorCommonsService
         .getConfiguration(routingData.owner)
         .subscribe((config) => {
           if (config.interactionState.showConflictSolverDialog) {
@@ -113,7 +113,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.conflictSolverSubscription.unsubscribe();
   }
 
   /**
