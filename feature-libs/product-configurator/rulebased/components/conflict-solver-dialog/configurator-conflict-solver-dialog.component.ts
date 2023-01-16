@@ -20,6 +20,7 @@ import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
+import { ConfiguratorStorefrontUtilsService } from '../service';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',
@@ -45,6 +46,7 @@ export class ConfiguratorConflictSolverDialogComponent
   conflictGroup$: Observable<Configurator.Group>;
 
   constructor(
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected launchDialogService: LaunchDialogService
   ) {}
@@ -70,6 +72,8 @@ export class ConfiguratorConflictSolverDialogComponent
 
   /**
    * Closes a modal with a certain reason.
+   * Scrolls to the top of the configuration form.
+   * Sets focus to the first attribute.
    *
    * @param {any} reason - Reason
    */
@@ -82,5 +86,10 @@ export class ConfiguratorConflictSolverDialogComponent
         )
       );
     this.launchDialogService.closeDialog(reason);
+
+    this.configuratorStorefrontUtilsService.scrollToConfigurationElement(
+      '.VariantConfigurationTemplate'
+    );
+    this.configuratorStorefrontUtilsService.focusFirstAttribute();
   }
 }

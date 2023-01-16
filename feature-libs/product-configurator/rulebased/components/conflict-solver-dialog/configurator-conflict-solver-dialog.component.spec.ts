@@ -14,6 +14,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import {
   CommonConfigurator,
@@ -75,12 +76,19 @@ class MockConfiguratorDefaultFormComponent {
   @Input() uiContextKey: string = '';
 }
 
+class MockConfigUtilsService {
+  scrollToConfigurationElement(): void {}
+
+  focusFirstAttribute(): void {}
+}
+
 describe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
   let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let launchDialogService: LaunchDialogService;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -93,6 +101,10 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -114,6 +126,20 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
+
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'scrollToConfigurationElement'
+    ).and.callThrough();
+
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstAttribute'
+    ).and.callThrough();
 
     spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
 
@@ -198,6 +224,12 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       component.ngOnInit();
       component.dismissModal(reason);
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.focusFirstAttribute
+      ).toHaveBeenCalled();
     });
   });
 
