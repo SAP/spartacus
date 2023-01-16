@@ -33,7 +33,7 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
           component: CheckoutDeliveryModeComponent,
           data: {
             composition: {
-              inner: ['PickupInStoreDetails'],
+              inner: ['CheckoutPickupInStoreDetails'],
             },
           },
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
