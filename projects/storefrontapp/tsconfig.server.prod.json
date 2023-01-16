@@ -290,6 +290,7 @@
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
+      "@spartacus/cdc/manage-users": ["../../dist/cdc/manage-users"],
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cds": ["../../dist/cds"],

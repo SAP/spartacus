@@ -476,6 +476,9 @@
       "@spartacus/cdc/root": [
         "integration-libs/cdc/root/public_api"
       ],
+      "@spartacus/cdc/manage-users": [
+        "integration-libs/cdc/manage-users/public_api"
+      ],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
       ],
