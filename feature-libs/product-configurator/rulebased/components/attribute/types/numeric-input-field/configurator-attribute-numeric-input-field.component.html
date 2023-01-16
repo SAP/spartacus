@@ -19,7 +19,7 @@
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="getAriaLabelComplete()"
     [cxFocus]="{
-      key: createFocusId(attribute.name, 'value', uiContextKey)
+      key: createAttributeIdForConfigurator(attribute)
     }"
   />
 </div>
