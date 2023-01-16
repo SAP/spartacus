@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { inject, InjectionToken } from '@angular/core';
 import type { BackendOptions, RequestCallback } from 'i18next-http-backend';
