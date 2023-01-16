@@ -194,7 +194,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     action: CustomerListColumnActionType
   ): void {
     this.selectedCustomer = customerEntry;
-    let closeValue: CustomerListAction = {
+    const closeValue: CustomerListAction = {
       actionType: action,
       selectedUser: customerEntry,
     };
