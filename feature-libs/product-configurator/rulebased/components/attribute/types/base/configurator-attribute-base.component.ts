@@ -86,21 +86,6 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
-   * Creates unique key for config attribute to be sent to configurator
-   * @param currentAttribute
-   */
-  decorateUiContextKey(
-    currentContextKey: string,
-    additionalUiContext: string
-  ): string {
-    return currentContextKey
-      ? currentContextKey +
-          ConfiguratorAttributeBaseComponent.SEPERATOR +
-          additionalUiContext
-      : additionalUiContext;
-  }
-
-  /**
    * Creates unique key for attribute 'aria-labelledby'
    * @param prefix
    * @param attributeId
