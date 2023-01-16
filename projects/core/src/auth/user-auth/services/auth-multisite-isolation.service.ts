@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { StatePersistenceService } from '../../../state/services/state-persistence.service';
+import { SyncedAuthState } from './auth-state-persistence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,10 @@ import { BaseSiteService } from '../../../site-context/facade/base-site.service'
 export class AuthMultisiteIsolationService {
   protected readonly MULTISITE_SEPARATOR = '|';
 
-  constructor(protected baseSiteService: BaseSiteService) {}
+  constructor(
+    protected baseSiteService: BaseSiteService,
+    protected statePersistenceService: StatePersistenceService
+  ) {}
 
   /**
    * When isolation is turned on, a customer who registers for baseSiteA
@@ -48,5 +53,18 @@ export class AuthMultisiteIsolationService {
     return this.getBaseSiteDecorator().pipe(
       map((decorator) => userId + decorator)
     );
+  }
+
+  async isDifferentBaseSite(): Promise<boolean> {
+    const auth = this.statePersistenceService.readStateFromStorage({
+      key: 'auth',
+    }) as SyncedAuthState;
+
+    let baseSite = await this.getBaseSiteDecorator().toPromise();
+    baseSite = baseSite.replace(this.MULTISITE_SEPARATOR, '');
+
+    const tokenBaseSite = auth.redirectUrl?.split('/')[0];
+
+    return baseSite && baseSite !== tokenBaseSite ? true : false;
   }
 }
