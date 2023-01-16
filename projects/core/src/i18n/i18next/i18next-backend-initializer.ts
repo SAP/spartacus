@@ -27,16 +27,16 @@ export class I18nextBackendInitializer {
     protected windowRef: WindowRef
   ) {}
 
-  initialize(i18nextConfig: InitOptions): InitOptions {
+  initialize(): InitOptions {
     this.i18next.use(i18nextHttpBackend);
-    const backendConfig = this.getI18nextBackendConfig();
-    return { ...i18nextConfig, backend: backendConfig };
+    const backendConfig = this.getHttpBackendConfig();
+    return { backend: backendConfig };
   }
 
   /**
    * Returns the configuration for the i18next backend plugin.
    */
-  protected getI18nextBackendConfig(): BackendOptions {
+  protected getHttpBackendConfig(): BackendOptions {
     const loadPath = this.getLoadPath(
       // SPIKE TODO: improve typing:
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

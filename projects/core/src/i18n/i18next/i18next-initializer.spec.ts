@@ -10,8 +10,8 @@ import { I18NEXT_INSTANCE } from './i18next-instance';
 export class MockI18nextBackendInitializer
   implements Partial<I18nextBackendInitializer>
 {
-  initialize(i18nextConfig: InitOptions): InitOptions {
-    return i18nextConfig;
+  initialize(): InitOptions {
+    return { backend: {} };
   }
 }
 
@@ -186,12 +186,12 @@ fdescribe('I18nextInitializer', () => {
           },
         };
         spyOn(i18next, 'init');
-        spyOn(i18nextBackendInitializer, 'initialize').and.callFake(
-          (i18nextConfig: InitOptions) => ({
-            ...i18nextConfig,
-            backend: config?.i18n?.backend,
-          })
-        );
+        spyOn(i18nextBackendInitializer, 'initialize').and.returnValue({
+          backend: {
+            loadPath: 'some-path',
+            reloadInterval: false,
+          },
+        } as InitOptions);
 
         initializer.initialize();
 
@@ -199,6 +199,7 @@ fdescribe('I18nextInitializer', () => {
           jasmine.objectContaining({
             backend: {
               loadPath: 'some-path',
+              reloadInterval: false,
             },
           }),
           jasmine.any(Function)

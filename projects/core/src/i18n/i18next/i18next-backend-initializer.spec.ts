@@ -51,38 +51,17 @@ fdescribe('I18nextBackendInitializer', () => {
   });
 
   describe('initialize', () => {
-    it('should return "backend" options merged into original options', () => {
-      throw new Error('not implemented');
-    });
-
-    it('should populate config backend.loadPath', () => {
-      config.i18n = { backend: { loadPath: 'test/path' } };
-      spyOn(i18next, 'init');
-
-      const result = initializer.initialize({});
-
-      expect(result).toEqual({
-        backend: jasmine.objectContaining({
-          loadPath: 'test/path',
-        }),
-      });
-    });
-
     it('should set config backend.reloadInterval to false', () => {
       config.i18n = { backend: { loadPath: 'test/path' } };
       spyOn(i18next, 'init');
 
-      const result = initializer.initialize({});
+      const result = initializer.initialize();
 
-      expect(result).toEqual({
-        backend: jasmine.objectContaining({
-          reloadInterval: false,
-        }),
-      });
+      expect(result.backend?.reloadInterval).toBe(false);
     });
 
     // SPIKE TODO LATER
-    it('should set the i18next http client', () => {
+    it('should configure i18next backend plugin to use Angular HttpClient', () => {
       // ...
       throw new Error('not implemented');
     });
@@ -98,7 +77,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -108,7 +87,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -118,7 +97,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -128,7 +107,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -138,7 +117,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -159,7 +138,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path prepended with server request origin', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe('http://server.com/path');
           });
         });
@@ -169,7 +148,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path prepended with server request origin', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe('http://server.com/path');
           });
         });
@@ -179,7 +158,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path prepended with server request origin', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe('http://server.com/path');
           });
         });
@@ -189,7 +168,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
@@ -199,7 +178,7 @@ fdescribe('I18nextBackendInitializer', () => {
 
           it('should return the original path', () => {
             config.i18n = { backend: { loadPath: path } };
-            const result = initializer.initialize({});
+            const result = initializer.initialize();
             expect(result.backend?.loadPath).toBe(path);
           });
         });
