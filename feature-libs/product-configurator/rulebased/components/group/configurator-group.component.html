@@ -39,7 +39,6 @@
         [language]="activeLanguage"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-radio-button>
 
       <!-- Single Selection Product Bundle -->
@@ -110,7 +109,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-checkbox-list>
 
       <cx-configurator-attribute-checkbox
@@ -120,7 +118,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-checkbox>
 
       <cx-configurator-attribute-read-only
@@ -136,7 +133,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-multi-selection-image>
 
       <cx-configurator-attribute-single-selection-image
@@ -145,7 +141,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-image>
 
       <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
