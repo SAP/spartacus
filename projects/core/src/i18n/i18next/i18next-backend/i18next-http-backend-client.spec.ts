@@ -1,14 +1,3 @@
-/*
-SPIKE TODO: DRAFT PLAN plan:
-
-when config 'i18n.backend.loadPath' is set
-should use angular http client for loading translations from backend
-should use the loadPath for loading translations from backend
-
-forwards success response to i18next callback
-forwards failure response to i18next callback
-*/
-
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -18,12 +7,6 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { RequestCallback } from 'i18next-http-backend';
 import { I18NEXT_HTTP_BACKEND_CLIENT } from './i18next-http-backend-client';
-
-// SPIKE TODO: fix the tests below:
-
-// imports: [
-//   HttpClientTestingModule,
-// ],
 
 const testUrl = 'test/url';
 

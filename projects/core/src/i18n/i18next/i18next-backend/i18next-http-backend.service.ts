@@ -42,13 +42,11 @@ export class I18nextHttpBackendService implements I18nextBackendService {
    */
   protected getBackendConfig(): BackendOptions {
     const loadPath = this.getLoadPath(
-      // SPIKE TODO: improve typing:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.config.i18n!.backend!.loadPath!
+      this.config.i18n?.backend?.loadPath ?? ''
     );
+
     const backend: BackendOptions = {
       loadPath,
-
       request: this.i18nextHttpClient,
 
       // Disable the periodical reloading. Otherwise SSR would not finish due to the pending task `setInterval()`

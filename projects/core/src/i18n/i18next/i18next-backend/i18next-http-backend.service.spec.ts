@@ -58,7 +58,6 @@ fdescribe('I18nextHttpBackendService', () => {
       expect(result.backend?.reloadInterval).toBe(false);
     });
 
-    // SPIKE TODO implement unit test for using i18next http client
     it('should set config backend.request to use a custom http client', () => {
       config.i18n = { backend: { loadPath: 'test/path' } };
       spyOn(i18next, 'init');
