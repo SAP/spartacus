@@ -22,7 +22,7 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
-  selector: 'cx-configurator-default-form',
+  selector: 'cx-configurator-group',
   template: '',
 })
 class MockConfiguratorDefaultFormComponent {
@@ -570,6 +570,12 @@ describe('ConfigurationFormComponent', () => {
       );
       component.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
+    });
+
+    it('should not fail if there are no subscriptions', () => {
+      createComponentWithoutData();
+      (component['conflictSolverSubscription'] as any) = null;
+      component.ngOnDestroy();
     });
   });
 });

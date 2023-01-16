@@ -113,7 +113,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.conflictSolverSubscription.unsubscribe();
+    this.conflictSolverSubscription?.unsubscribe();
   }
 
   /**
