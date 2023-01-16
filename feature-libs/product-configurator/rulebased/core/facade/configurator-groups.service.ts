@@ -86,23 +86,28 @@ export class ConfiguratorGroupsService {
       });
   }
 
-    /**
-   * Navigates to the first attribute group. 
+  /**
+   * Navigates to the first attribute group.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
    */
-    navigateToFirstAttributeGroup(configuration: Configurator.Configuration): void { 
-          const groupId =
-            this.getFirstAttributeGroup(
-              configuration
-            )?.id;
-          if (groupId) {
-            this.navigateToGroup(configuration, groupId, true);
-          }        
+  navigateToFirstAttributeGroup(
+    configuration: Configurator.Configuration
+  ): void {
+    const groupId = this.getFirstAttributeGroup(configuration)?.id;
+    if (groupId) {
+      this.navigateToGroup(configuration, groupId, true);
     }
-  protected getFirstAttributeGroup(configuration: Configurator.Configuration):Configurator.Group| undefined {
-    const group = configuration.flatGroups.find((group)=> (group.groupType=== Configurator.GroupType.ATTRIBUTE_GROUP || group.groupType === Configurator.GroupType.SUB_ITEM_GROUP) && 
-    group.attributes?.length);
+  }
+  protected getFirstAttributeGroup(
+    configuration: Configurator.Configuration
+  ): Configurator.Group | undefined {
+    const group = configuration.flatGroups.find(
+      (group) =>
+        (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
+          group.groupType === Configurator.GroupType.SUB_ITEM_GROUP) &&
+        group.attributes?.length
+    );
     return group;
   }
 
