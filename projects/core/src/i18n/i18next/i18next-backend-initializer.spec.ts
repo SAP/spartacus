@@ -6,6 +6,16 @@ import { I18nConfig } from '../config/i18n-config';
 import { I18nextBackendInitializer } from './i18next-backend-initializer';
 import { I18NEXT_INSTANCE } from './i18next-instance';
 
+class MockWindowRef implements Partial<WindowRef> {
+  isBrowser() {
+    return true;
+  }
+
+  get location() {
+    return {};
+  }
+}
+
 fdescribe('I18nextBackendInitializer', () => {
   /*
 
@@ -38,7 +48,13 @@ fdescribe('I18nextBackendInitializer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: I18nConfig, useValue: { i18n: {} } }],
+      providers: [
+        { provide: I18nConfig, useValue: { i18n: {} } },
+        {
+          provide: WindowRef,
+          useClass: MockWindowRef,
+        },
+      ],
       imports: [
         HttpClientTestingModule, // SPIKE TODO: remove, when extracting I18nextHttpClient
       ],
