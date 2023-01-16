@@ -8,6 +8,9 @@
       <button
         type="button"
         class="close"
+        attr.aria-label="{{
+          'configurator.a11y.closeConflictSolverModal' | cxTranslate
+        }}"
         (click)="dismissModal('Close conflict solver dialog')"
       >
         <span aria-hidden="true">
@@ -32,5 +35,15 @@
         </cx-configurator-group>
       </ng-container>
     </div>
+  </div>
+
+  <!-- For screen reader purposes (not visual)-->
+  <div
+    class="cx-visually-hidden"
+    aria-atomic="true"
+    aria-live="assertive"
+    aria-relevant="additions"
+  >
+    {{ 'configurator.header.conflictWarning' | cxTranslate }}
   </div>
 </div>

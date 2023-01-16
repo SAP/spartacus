@@ -200,4 +200,63 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(reason);
     });
   });
+
+  describe('Accessibility', () => {
+    it("should contain action button element with class name 'close' and 'aria-label' attribute that indicates the text for close button", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'close',
+        0,
+        'aria-label',
+        'configurator.a11y.closeConflictSolverModal'
+      );
+    });
+
+    it("should contain action button element with class name 'close' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    });
+
+    it("should contain div element with class name 'cx-visually-hidden' and 'aria-live' attribute that indicates that the appeared conflict solver modal requires the user's immediate attention", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain action button element with class name 'close' and 'aria-relevant' attribute that indicates what notifications a user will be triggered when the HTML tree within a live region is modified", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-visually-hidden',
+        0,
+        'aria-relevant',
+        'additions'
+      );
+    });
+
+    it('should contain a explanatory text that is seen only for a screen reader and explains that the conflicts must be resolved to continue', () => {
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-visually-hidden',
+        'configurator.header.conflictWarning'
+      );
+    });
+  });
 });

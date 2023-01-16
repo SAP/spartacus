@@ -252,6 +252,7 @@ export const configurator = {
         'Filter configuration overview by your selections',
       filterOverviewByGroup:
         'Filter configuration overview by group {{groupName}}',
+      closeConflictSolverModal: 'Close conflict solver modal',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',

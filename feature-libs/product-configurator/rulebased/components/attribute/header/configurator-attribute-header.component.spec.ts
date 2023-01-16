@@ -639,6 +639,29 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isConflictResolutionActive', () => {
+    it("should return 'false' because the navigation to the group is not enabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'false' because the group type is a conflict group", () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'true'", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(true);
+    });
+  });
+
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
@@ -757,52 +780,105 @@ describe('ConfigAttributeHeaderComponent', () => {
         );
       });
 
-      it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'role',
-          'alert'
-        );
-      });
+      describe('Conflict resolution', () => {
+        describe('Enabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = true;
+            fixture.detectChanges();
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-live',
-          'assertive'
-        );
-      });
+          it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'role',
+              'alert'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-atomic',
-          'true'
-        );
-      });
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'assertive'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-label',
-          'configurator.a11y.conflictDetected'
-        );
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'true'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label',
+              'configurator.a11y.conflictDetected'
+            );
+          });
+        });
+
+        describe('Disabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = false;
+            fixture.detectChanges();
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that is set to off", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'off'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that is set to false", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'false'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that is not defined", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label'
+            );
+          });
+        });
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {

@@ -129,6 +129,15 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
+  }
+
+  /**
    * Retrieves a certain conflict link key depending on the current group type for translation.
    *
    * @return {string} - the conflict link key

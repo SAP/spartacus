@@ -24,11 +24,11 @@
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
-  [attr.aria-atomic]="isAttributeGroup() ? true : false"
-  [attr.role]="isAttributeGroup() ? 'alert' : null"
+  [attr.aria-live]="isConflictResolutionActive() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isConflictResolutionActive() ? true : false"
+  [attr.role]="isConflictResolutionActive() ? 'alert' : null"
   [attr.aria-label]="
-    isAttributeGroup()
+    isConflictResolutionActive()
       ? ('configurator.a11y.conflictDetected' | cxTranslate)
       : ''
   "
