@@ -61,7 +61,6 @@ export class I18nextBackendInitializer {
    * - https://github.com/angular/universal/issues/858
    */
   protected getLoadPath(path: string): string {
-    // SPIKE NOTE: changed serverRequestOrigin to !this.windowRef.isBrowser()
     if (!this.windowRef.isBrowser() && !path.match(/^http(s)?:\/\//)) {
       if (path.startsWith('/')) {
         path = path.slice(1);

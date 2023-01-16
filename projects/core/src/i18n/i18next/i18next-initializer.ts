@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationResources } from '../translation-resources';
-import { I18nextBackendInitializer } from './i18next-backend.initializer';
+import { I18nextBackendInitializer } from './i18next-backend-initializer';
 import { SiteContextI18nextSynchronizer } from './i18next-init';
 import { I18NEXT_INSTANCE } from './i18next-instance';
 
