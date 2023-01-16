@@ -508,7 +508,7 @@ describe('ConfigurationFormComponent', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
       createComponentWithData();
       expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
-        1
+        2
       );
     });
 

@@ -100,14 +100,15 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       if (routingData.expMode) {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
-    });
-
-    this.subscriptions = this.configuration$.subscribe((config) => {
-      if (config.interactionState.showConflictSolverDialog) {
-        this.cdr.detach();
-      } else {
-        this.cdr.reattach();
-      }
+      this.subscriptions = this.configuratorCommonsService
+        .getConfiguration(routingData.owner)
+        .subscribe((config) => {
+          if (config.interactionState.showConflictSolverDialog) {
+            this.cdr.detach();
+          } else {
+            this.cdr.reattach();
+          }
+        });
     });
   }
 
