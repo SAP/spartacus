@@ -9,7 +9,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -20,7 +25,6 @@ import {
 import { CdcListComponent } from './cdc-list.component';
 import { PopoverModule } from '@spartacus/storefront';
 import { MessageModule } from '@spartacus/organization/administration/components';
-import { cdcUserCmsConfig } from '../cdc-user.config';
 
 @NgModule({
   imports: [
@@ -37,7 +41,15 @@ import { cdcUserCmsConfig } from '../cdc-user.config';
     MessageModule,
     KeyboardFocusModule,
     PopoverModule,
-    ConfigModule.withConfig(cdcUserCmsConfig),
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ManageUsersListComponent: {
+          component: CdcListComponent,
+        },
+      },
+    }),
   ],
   declarations: [CdcListComponent],
   exports: [CdcListComponent],
