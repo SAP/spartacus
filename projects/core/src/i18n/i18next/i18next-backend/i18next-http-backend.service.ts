@@ -17,7 +17,8 @@ import {
 } from './i18next-http-backend-client';
 
 /**
- * Initializes the i18next HTTP backend plugin for loading translations from the backend via HTTP.
+ * Configures an i18next HTTP backend plugin,
+ * to allow for loading translations from external resources via HTTP.
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextHttpBackendService implements I18nextBackendService {
@@ -30,7 +31,8 @@ export class I18nextHttpBackendService implements I18nextBackendService {
   ) {}
 
   /**
-   * @override Initializes the i18next http backend plugin and returns the configuration for it.
+   * Configures an i18next HTTP backend plugin,
+   * to allow for loading translations from external resources via HTTP.
    */
   initialize(): InitOptions {
     this.i18next.use(i18nextHttpBackend);
