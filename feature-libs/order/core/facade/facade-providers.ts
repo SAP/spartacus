@@ -9,10 +9,10 @@ import {
   OrderFacade,
   OrderHistoryFacade,
   OrderReturnRequestFacade,
+  ReorderOrderFacade,
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
-import { ReorderOrderFacade } from '../../root/facade/reorder-order.facade';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
