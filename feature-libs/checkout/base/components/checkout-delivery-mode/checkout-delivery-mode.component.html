@@ -1,4 +1,14 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+  {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+</h2>
+
+<ng-template
+  [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+  [cxOutletContext]="{ items: deliveryEntries$ | async, readonly: true }"
+>
+</ng-template>
+
+<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
 </h2>
 
@@ -37,23 +47,6 @@
         </div>
       </div>
     </div>
-
-    <div class="row cx-checkout-btns">
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-action" (click)="back()">
-          {{ backBtnText | cxTranslate }}
-        </button>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <button
-          class="btn btn-block btn-primary"
-          [disabled]="deliveryModeInvalid"
-          (click)="next()"
-        >
-          {{ 'common.continue' | cxTranslate }}
-        </button>
-      </div>
-    </div>
   </div>
 </ng-container>
 
@@ -62,3 +55,22 @@
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
+
+<ng-container cxInnerComponentsHost></ng-container>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="btn btn-block btn-primary"
+      [disabled]="deliveryModeInvalid"
+      (click)="next()"
+    >
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>

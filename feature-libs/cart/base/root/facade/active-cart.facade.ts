@@ -37,6 +37,8 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'reloadActiveCart',
         'hasPickupItems',
         'hasDeliveryItems',
+        'getPickupEntries',
+        'getDeliveryEntries',
       ],
       async: true,
     }),
@@ -160,4 +162,14 @@ export abstract class ActiveCartFacade {
    * Return whether cart has delivery items
    */
   abstract hasDeliveryItems(): Observable<boolean>;
+
+  /**
+   * Return cart's pickup entries
+   */
+  abstract getPickupEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Return cart's delivery entries
+   */
+  abstract getDeliveryEntries(): Observable<OrderEntry[]>;
 }
