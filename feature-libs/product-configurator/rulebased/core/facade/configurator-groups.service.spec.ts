@@ -513,7 +513,7 @@ describe('ConfiguratorGroupsService', () => {
       expect(conflictGroups).toBeDefined();
       conflictGroups.subscribe((group) => {
         expect(group).not.toBeUndefined();
-        expect(group.id).toEqual(GROUP_ID_CONFLICT_3);
+        expect(group?.id).toEqual(GROUP_ID_CONFLICT_3);
         done();
       });
     });
@@ -550,6 +550,60 @@ describe('ConfiguratorGroupsService', () => {
           true
         )
       ).toBe(true);
+    });
+  });
+
+  describe('navigateToFirstAttributeGroup', () => {
+    it('should dispatch change group action, targeting first attribute group', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      classUnderTest.navigateToFirstAttributeGroup(
+        productConfigurationWithConflicts
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: productConfigurationWithConflicts,
+          groupId: GROUP_ID_1,
+          parentGroupId: undefined,
+          conflictResolutionMode: false,
+        })
+      );
+    });
+  });
+
+  describe('getFirstAttributeGroup', () => {
+    it('should find first attribute group and ignore conflicts', () => {
+      const group = classUnderTest['getFirstAttributeGroup'](
+        productConfigurationWithConflicts
+      );
+      expect(group?.id).toBe(GROUP_ID_1);
+    });
+
+    it('should return undefined if no groups are defined ', () => {
+      const group = classUnderTest['getFirstAttributeGroup']({
+        ...productConfigurationWithConflicts,
+        flatGroups: [],
+      });
+      expect(group).toBeUndefined();
+    });
+
+    it('should not consider groups without attributes', () => {
+      const configuration: Configurator.Configuration = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configuration.flatGroups[3].attributes = undefined; // that matches group with ID GROUP_ID_1
+      const group = classUnderTest['getFirstAttributeGroup'](configuration);
+      expect(group?.id).toBe(GROUP_ID_2);
+    });
+
+    it('should not consider groups with empty attribute array', () => {
+      const configuration: Configurator.Configuration = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configuration.flatGroups[3].attributes = []; // that matches group with ID GROUP_ID_1
+      const group = classUnderTest['getFirstAttributeGroup'](configuration);
+      expect(group?.id).toBe(GROUP_ID_2);
     });
   });
 });

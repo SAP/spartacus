@@ -75,6 +75,13 @@ const configRead2: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   groups: groups,
 };
+const configWithActiveConflictDialog: Configurator.Configuration = {
+  ...configRead,
+  interactionState: {
+    showConflictSolverDialog: true,
+    currentGroup: 'CONFLICT12234',
+  },
+};
 
 let routerStateObservable: Observable<RouterState> = EMPTY;
 let configurationCreateObservable: Observable<Configurator.Configuration> =
@@ -133,6 +140,8 @@ class MockConfiguratorGroupsService {
   setGroupStatusVisited(): void {}
 
   navigateToConflictSolver(): void {}
+
+  navigateToFirstAttributeGroup(): void {}
 
   navigateToFirstIncompleteGroup(): void {}
 
@@ -527,6 +536,56 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
+    it('should call navigateToFirstAttributeGroup on groups service if conflict solver dialog is active and the current group is a conflict group', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configWithActiveConflictDialog);
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstAttributeGroup'
+      ).and.callThrough();
+      createComponentWithData();
+      expect(
+        configuratorGroupsService.navigateToFirstAttributeGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call navigateToFirstAttributeGroup once even if configuration service emits multiple times', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(
+        configWithActiveConflictDialog,
+        configWithActiveConflictDialog
+      );
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstAttributeGroup'
+      ).and.callThrough();
+      createComponentWithData();
+      expect(
+        configuratorGroupsService.navigateToFirstAttributeGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call navigateToFirstAttributeGroup in case first group is no conflict group', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of({
+        ...configWithActiveConflictDialog,
+        interactionState: { currentGroup: 'GROUP' },
+      });
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstAttributeGroup'
+      ).and.callThrough();
+      createComponentWithData();
+      expect(
+        configuratorGroupsService.navigateToFirstAttributeGroup
+      ).toHaveBeenCalledTimes(0);
+    });
     it('should subscribe to handle conflict solver mode', () => {
       createComponentWithoutData();
       expect(component['conflictSolverSubscription']).toBeDefined();

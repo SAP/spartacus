@@ -16,7 +16,13 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -97,14 +103,31 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
             }
           });
       }
+
       if (routingData.expMode) {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
       this.conflictSolverSubscription = this.configuratorCommonsService
         .getConfiguration(routingData.owner)
+        .pipe(
+          distinctUntilChanged(
+            (a, b) =>
+              a.interactionState.showConflictSolverDialog ===
+              b.interactionState.showConflictSolverDialog
+          )
+        )
         .subscribe((config) => {
+          this.cdr.detach();
           if (config.interactionState.showConflictSolverDialog) {
-            this.cdr.detach();
+            if (
+              config.interactionState.currentGroup?.startsWith(
+                Configurator.ConflictIdPrefix
+              )
+            ) {
+              this.configuratorGroupsService.navigateToFirstAttributeGroup(
+                config
+              );
+            }
           } else {
             this.cdr.reattach();
           }

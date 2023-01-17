@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../group/configurator-group.event';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
