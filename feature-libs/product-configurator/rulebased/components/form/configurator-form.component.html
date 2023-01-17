@@ -1,10 +1,12 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <cx-configurator-group
-    [group]="currentGroup$ | async"
-    [owner]="configuration.owner"
-    [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
-  >
-  </cx-configurator-group>
+  <ng-container *ngIf="!isDialogActive(configuration); else ghostform">
+    <cx-configurator-group
+      [group]="currentGroup$ | async"
+      [owner]="configuration.owner"
+      [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
+    >
+    </cx-configurator-group
+  ></ng-container>
 </ng-container>
 
 <ng-template #ghostForm>

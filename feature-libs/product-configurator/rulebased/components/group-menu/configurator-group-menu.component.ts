@@ -652,4 +652,13 @@ export class ConfiguratorGroupMenuComponent {
       })
     );
   }
+
+  /**
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
+   */
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
+  }
 }
