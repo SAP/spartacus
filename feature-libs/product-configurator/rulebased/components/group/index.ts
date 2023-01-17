@@ -5,5 +5,4 @@
  */
 
 export * from './configurator-group.component';
-export * from './configurator-group.event';
 export * from './configurator-group.module';
