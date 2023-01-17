@@ -6,6 +6,7 @@
  */
 
 import {
+  LIST_VIEW_PAGE_SIZE,
   MAX_INPUT_CHARACTERS,
   MAX_INPUT_CHARACTERS_FOR_SUBJECT,
   MAX_SIZE_FOR_ATTACHMENT,
@@ -32,5 +33,6 @@ export const defaultCustomerTicketingConfig: CustomerTicketingConfig = {
     },
     inputCharactersLimit: MAX_INPUT_CHARACTERS,
     inputCharactersLimitForSubject: MAX_INPUT_CHARACTERS_FOR_SUBJECT,
+    listViewPageSize: LIST_VIEW_PAGE_SIZE,
   },
 };

@@ -8,6 +8,7 @@
 import { Component } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import {
+  CustomerTicketingConfig,
   CustomerTicketingFacade,
   STATUS,
   TEXT_COLOR_CLASS,
@@ -25,9 +26,11 @@ export class CustomerTicketingListComponent {
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected routing: RoutingService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected customerTicketingConfig: CustomerTicketingConfig
   ) {}
-  PAGE_SIZE = 5;
+  PAGE_SIZE =
+    this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;
   iconTypes = ICON_TYPE;
   tickets$: Observable<TicketList | undefined> = this.customerTicketingFacade
