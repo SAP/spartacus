@@ -43,12 +43,13 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
             images[image.imageType] = isList ? [] : {};
           }
 
-          let imageContainer: ImageGroup;
+          let imageContainer: ImageGroup = this.getImageContainer(
+            isList,
+            images,
+            image
+          );
           if (isList) {
-            const imageGroups = images[image.imageType] as ImageGroup[];
-            if (!imageGroups[image.galleryIndex as number]) {
-              imageGroups[image.galleryIndex as number] = {};
-            }
+            const imageGroups = this.getImageGroups(images, image);
             imageContainer = imageGroups[image.galleryIndex as number];
           } else {
             imageContainer = images[image.imageType] as ImageGroup;
@@ -64,6 +65,28 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     }
     return images;
   }
+
+  protected getImageContainer(
+    isList: boolean,
+    images: Images,
+    image: Occ.Image | any
+  ) {
+    if (isList) {
+      const imageGroups = this.getImageGroups(images, image);
+      return imageGroups[image.galleryIndex as number];
+    } else {
+      return images[image.imageType] as ImageGroup;
+    }
+  }
+
+  protected getImageGroups(images: Images, image: Occ.Image | any) {
+    const imageGroups = images[image.imageType] as ImageGroup[];
+    if (!imageGroups[image.galleryIndex as number]) {
+      imageGroups[image.galleryIndex as number] = {};
+    }
+    return imageGroups;
+  }
+
   /**
    * Traditionally, in an on-prem world, medias and other backend related calls
    * are hosted at the same platform, but in a cloud setup, applications are are

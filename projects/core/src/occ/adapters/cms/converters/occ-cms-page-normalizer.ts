@@ -125,13 +125,8 @@ export class OccCmsPageNormalizer
             comp.properties = component.properties;
           }
 
-          if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
-            comp.flexType = component.flexType;
-          } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-            comp.flexType = component.uid;
-          } else {
-            comp.flexType = component.typeCode;
-          }
+          comp.flexType = this.getFlexTypeFromComponent(component);
+
           if (slot.position) {
             const targetSlot = target.page?.slots?.[slot.position];
             if (targetSlot) {
@@ -144,6 +139,18 @@ export class OccCmsPageNormalizer
         }
       }
     }
+  }
+
+  /**
+   * Returns the flex type based on the configuration of component properties
+   */
+  protected getFlexTypeFromComponent(component: Occ.Component | any): string {
+    if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
+      return component.flexType;
+    } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
+      return component.uid;
+    }
+    return component.typeCode;
   }
 
   /**

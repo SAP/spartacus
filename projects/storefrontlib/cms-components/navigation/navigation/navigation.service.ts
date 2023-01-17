@@ -57,26 +57,25 @@ export class NavigationService {
           .pipe(
             tap((items) => {
               if (items === undefined) {
-                this.loadNavigationEntryItems(navigation, true);
-              } else {
-                // we should check whether the existing node items are what expected
-                const expectedItems: {
-                  superType: string | undefined;
-                  id: string | undefined;
-                }[] = [];
-                this.loadNavigationEntryItems(navigation, false, expectedItems);
-                const existingItems = Object.keys(items).map(
-                  (key) => items[key].uid ?? ''
+                return this.loadNavigationEntryItems(navigation, true);
+              }
+              // we should check whether the existing node items are what expected
+              const expectedItems: {
+                superType: string | undefined;
+                id: string | undefined;
+              }[] = [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems = Object.keys(items).map(
+                (key) => items[key].uid ?? ''
+              );
+              const missingItems = expectedItems.filter(
+                (it) => it.id && !existingItems.includes(it.id)
+              );
+              if (missingItems.length > 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid ?? '',
+                  missingItems
                 );
-                const missingItems = expectedItems.filter(
-                  (it) => it.id && !existingItems.includes(it.id)
-                );
-                if (missingItems.length > 0) {
-                  this.cmsService.loadNavigationItems(
-                    navigation.uid ?? '',
-                    missingItems
-                  );
-                }
               }
             }),
             filter(Boolean),

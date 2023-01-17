@@ -333,11 +333,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
           wrapperOptions.markerModuleName,
           markerFeatureConfig
         );
-        if (!markerModuleConfig) {
-          continue;
-        }
-
-        if (markerModuleExists(options, tree, markerModuleConfig)) {
+        if (
+          !markerModuleConfig ||
+          markerModuleExists(options, tree, markerModuleConfig)
+        ) {
           continue;
         }
 
