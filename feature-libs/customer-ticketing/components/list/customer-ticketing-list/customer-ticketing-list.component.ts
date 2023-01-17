@@ -15,7 +15,7 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
@@ -28,11 +28,11 @@ export class CustomerTicketingListComponent {
     protected translation: TranslationService
   ) {}
   PAGE_SIZE = 5;
-  sortType: string = 'byId';
+  sortType: string;
   iconTypes = ICON_TYPE;
-  customerTicketsFlag: boolean = true;
-  tickets$: Observable<TicketList | undefined> =
-    this.customerTicketingFacade.getTickets(this.PAGE_SIZE);
+  tickets$: Observable<TicketList | undefined> = this.customerTicketingFacade
+    .getTickets(this.PAGE_SIZE)
+    .pipe(tap((tickets) => (this.sortType = tickets?.pagination?.sort || '')));
 
   goToTicketDetail(ticketId: string): void {
     this.routing.go({

@@ -213,8 +213,6 @@ Use the following template:
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
     "strictTemplates": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
@@ -301,11 +299,11 @@ Replace `TODO:` with the appropriate name.
 
 If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
 
-  1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script. This input is the target branch that we would want to release.
-  2. `publish-sample-data.sh`:
-     1. create a variable at the top to use $STOREFRONT_FILE_NAME as a prefix, which is used to name the zip/tar.
-     2. create one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
-     3. add a note for the `gh release` that mentions what that zip is. For example, if the zip is called spartacussampledata-TODO.zip, then make sure it mentions what that TODO is.
+1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script. This input is the target branch that we would want to release.
+2. `publish-sample-data.sh`:
+   1. create a variable at the top to use $STOREFRONT_FILE_NAME as a prefix, which is used to name the zip/tar.
+   2. create one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
+   3. add a note for the `gh release` that mentions what that zip is. For example, if the zip is called spartacussampledata-TODO.zip, then make sure it mentions what that TODO is.
 
 ## Multi-entry point library
 
@@ -379,19 +377,22 @@ In the following examples please replace `TODO` and `todo` with your appropriate
 - In `scripts/install/config.default.ts` add a new flag `ADD_TODO=false` (similar to `ADD_CDC=false`)
 
 In `scripts/install/functions.ts`:
+
 - add a switch-case inside the `function parseInstallArgs` (similar to the case `cdc)`):
+
   ```bash
   function parseInstallArgs {
     ...
 
     todo)
         ADD_TODO=true
-        echo "➖ Added TODO"   
+        echo "➖ Added TODO"
         shift
         ;;
   ```
 
 - create a new function `add_todo` for installing your library (similar to `function add_cdc`):
+
   ```bash
   function add_todo {
     if [ "$ADD_TODO" = true ] ; then
@@ -402,23 +403,23 @@ In `scripts/install/functions.ts`:
 
 - invoke your installation function `add_todo` in 3 other functions (similar to `add_cdc`):
   - CSR installation:
-      ```bash
-      function install_spartacus_csr {
-          ...
-          add_todo
-      }
-      ```
+    ```bash
+    function install_spartacus_csr {
+        ...
+        add_todo
+    }
+    ```
   - SSR installation:
-      ```bash
-      function install_spartacus_ssr {
-          ...
-          add_todo
-      }
-      ```
+    ```bash
+    function install_spartacus_ssr {
+        ...
+        add_todo
+    }
+    ```
   - SSR PWA installation:
-      ```bash
-      function add_spartacus_ssr_pwa {
-          ...
-          add_todo
-      }
-      ```
+    ```bash
+    function add_spartacus_ssr_pwa {
+        ...
+        add_todo
+    }
+    ```

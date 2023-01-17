@@ -28,8 +28,6 @@ import { CustomerTicketingMessagesModule } from './details/customer-ticketing-me
     CustomerTicketingMessagesModule,
     CustomerTicketingCreateModule,
   ],
-  declarations: [],
-  exports: [],
   providers: [provideDefaultConfig(defaultCustomerTicketingFormLayoutConfig)],
 })
 export class CustomerTicketingComponentsModule {}

@@ -49,6 +49,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CustomerTicketingCloseComponent,
     CustomerTicketingCloseDialogComponent,
   ],
-  exports: [CustomerTicketingCloseComponent],
+  exports: [
+    CustomerTicketingCloseComponent,
+    CustomerTicketingCloseDialogComponent,
+  ],
 })
 export class CustomerTicketingCloseModule {}
