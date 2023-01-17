@@ -78,7 +78,6 @@ export class NavigationService {
                   missingItems
                 );
               }
-              return;
             }),
             filter(Boolean),
             map((items) => this.populateNavigationNode(navigation, items) ?? {})
