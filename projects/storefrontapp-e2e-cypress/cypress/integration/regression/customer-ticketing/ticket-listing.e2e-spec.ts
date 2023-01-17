@@ -18,7 +18,7 @@ describe('ticket listing', () => {
         });
       });
 
-      it('visit the ticket listing page and see if tickets exist', () => {
+      it('visit the ticket listing page and see if tickets exist (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'something to mindful',
           message: 'nothing to worry about',
