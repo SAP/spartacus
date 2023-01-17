@@ -28,16 +28,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  map,
-  share,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
@@ -48,12 +39,7 @@ export class CheckoutDeliveryModesService
    * Returns the reload events for the supportedDeliveryModes query
    */
   protected getCheckoutSupportedDeliveryModesQueryReloadEvents(): QueryNotifier[] {
-    return [
-      CheckoutSupportedDeliveryModesQueryReloadEvent,
-      this.activeCartFacade
-        .hasDeliveryItems()
-        .pipe(distinctUntilChanged(), share()),
-    ];
+    return [CheckoutSupportedDeliveryModesQueryReloadEvent];
   }
   /**
    * Return the reset events for the supportedDeliveryModes query

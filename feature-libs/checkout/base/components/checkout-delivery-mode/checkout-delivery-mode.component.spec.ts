@@ -3,10 +3,15 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
+import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -19,18 +24,29 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
+const supportedDeliveryModes$ = new BehaviorSubject<DeliveryMode[]>([]);
+const selectedDeliveryModeState$ = new BehaviorSubject<
+  QueryState<DeliveryMode | undefined>
+>({
+  loading: false,
+  error: false,
+  data: undefined,
+});
+
 class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy().and.returnValue(of());
-  getSupportedDeliveryModes = createSpy().and.returnValue(of());
-  getSelectedDeliveryModeState = createSpy().and.returnValue(of());
+  getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();
+  getSelectedDeliveryModeState = () =>
+    selectedDeliveryModeState$.asObservable();
   getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());
 }
 
+const preferredDeliveryMode$ = new BehaviorSubject<string | undefined>('');
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  getPreferredDeliveryMode = createSpy().and.returnValue('');
+  getPreferredDeliveryMode = () => preferredDeliveryMode$.value;
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -62,17 +78,23 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode2,
 ];
 
+const deliveryEntries$ = new BehaviorSubject<OrderEntry[]>([
+  { orderCode: 'testEntry' },
+]);
+class MockCartService implements Partial<ActiveCartFacade> {
+  getDeliveryEntries = () => deliveryEntries$.asObservable();
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
-  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
         declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
@@ -85,10 +107,10 @@ describe('CheckoutDeliveryModeComponent', () => {
             useClass: MockCheckoutConfigService,
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: ActiveCartFacade, useClass: MockCartService },
         ],
       }).compileComponents();
 
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
       checkoutConfigService = TestBed.inject(CheckoutConfigService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
@@ -105,32 +127,29 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get supported delivery modes', (done) => {
-    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-      createSpy().and.returnValue(
-        of({ loading: false, error: false, data: undefined })
-      );
-
-    component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe((modes) => {
-      expect(modes).toEqual(mockSupportedDeliveryModes);
-      done();
+  it('should get shipped entries', () => {
+    let shippedEntries;
+    component.deliveryEntries$.subscribe((value) => {
+      shippedEntries = value;
     });
+    expect(shippedEntries).toEqual([{ orderCode: 'testEntry' }]);
+  });
+
+  it('should get supported delivery modes', () => {
+    supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+
+    let modes;
+    component.supportedDeliveryModes$.subscribe((value) => {
+      modes = value;
+    });
+    expect(modes).toEqual(mockSupportedDeliveryModes);
   });
 
   it('should pre-select preferred delivery mode if not chosen before', () => {
-    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-      createSpy().and.returnValue(
-        of({ loading: false, error: false, data: undefined })
-      );
-    checkoutConfigService.getPreferredDeliveryMode =
-      createSpy().and.returnValue(mockDeliveryMode1.code);
+    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+    preferredDeliveryMode$.next(mockDeliveryMode1.code);
 
-    component.ngOnInit();
     fixture.detectChanges();
     expect(checkoutConfigService.getPreferredDeliveryMode).toHaveBeenCalledWith(
       mockSupportedDeliveryModes
@@ -140,37 +159,32 @@ describe('CheckoutDeliveryModeComponent', () => {
     );
   });
 
-  it('should remove pickup from supported delivery modes', (done) => {
-    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-      createSpy().and.returnValue(of([{ code: 'pickup' }]));
-    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-      createSpy().and.returnValue(
-        of({ loading: false, error: false, data: undefined })
-      );
-    checkoutConfigService.getPreferredDeliveryMode =
-      createSpy().and.returnValue({ code: 'pickup' });
+  it('should remove pickup from supported delivery modes', () => {
+    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    supportedDeliveryModes$.next([{ code: 'pickup' }]);
+    preferredDeliveryMode$.next('pickup');
 
-    component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe((modes) => {
-      expect(modes).toEqual([]);
-      expect(
-        checkoutConfigService.getPreferredDeliveryMode
-      ).toHaveBeenCalledWith([{ code: 'pickup' }]);
-      done();
+    let modes;
+    component.supportedDeliveryModes$.subscribe((value) => {
+      modes = value;
     });
+
+    expect(modes).toEqual([]);
+    expect(checkoutConfigService.getPreferredDeliveryMode).toHaveBeenCalledWith(
+      [{ code: 'pickup' }]
+    );
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
-    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-      createSpy().and.returnValue(
-        of({ loading: false, error: false, data: mockDeliveryMode2 })
-      );
-    checkoutConfigService.getPreferredDeliveryMode =
-      createSpy().and.returnValue(mockDeliveryMode1.code);
+    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+    selectedDeliveryModeState$.next({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode2,
+    });
+    preferredDeliveryMode$.next(mockDeliveryMode1.code);
 
-    component.ngOnInit();
     fixture.detectChanges();
     expect(
       checkoutConfigService.getPreferredDeliveryMode
@@ -188,36 +202,40 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should get deliveryModeInvalid()', () => {
-    const invalid = component.deliveryModeInvalid;
+    fixture.detectChanges();
 
-    expect(invalid).toBe(true);
+    const invalid = component.deliveryModeInvalid;
+    expect(invalid).toBe(false);
   });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+    const setDeliveryModeId = (value: string | undefined) => {
+      component.mode.controls['deliveryModeId'].setValue(value);
+    };
 
     beforeEach(() => {
-      checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-        createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-        createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockDeliveryMode1 })
-        );
-
+      supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+      selectedDeliveryModeState$.next({
+        loading: false,
+        error: false,
+        data: mockDeliveryMode1,
+      });
       component.isUpdating$ = of(false);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.ngOnInit();
-      fixture.detectChanges();
+      setDeliveryModeId(mockDeliveryMode1.code);
 
+      fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
 
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
@@ -231,12 +249,12 @@ describe('CheckoutDeliveryModeComponent', () => {
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
-      checkoutDeliveryModesFacade.getSupportedDeliveryModes =
-        createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-        createSpy().and.returnValue(
-          of({ loading: false, error: false, data: mockDeliveryMode1 })
-        );
+      supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+      selectedDeliveryModeState$.next({
+        loading: false,
+        error: false,
+        data: mockDeliveryMode1,
+      });
       component.isUpdating$ = of(false);
 
       spyOn(component, 'back');
