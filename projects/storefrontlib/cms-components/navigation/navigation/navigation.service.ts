@@ -57,7 +57,8 @@ export class NavigationService {
           .pipe(
             tap((items) => {
               if (items === undefined) {
-                return this.loadNavigationEntryItems(navigation, true);
+                this.loadNavigationEntryItems(navigation, true);
+                return;
               }
               // we should check whether the existing node items are what expected
               const expectedItems: {
@@ -77,6 +78,7 @@ export class NavigationService {
                   missingItems
                 );
               }
+              return;
             }),
             filter(Boolean),
             map((items) => this.populateNavigationNode(navigation, items) ?? {})

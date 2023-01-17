@@ -43,17 +43,11 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
             images[image.imageType] = isList ? [] : {};
           }
 
-          let imageContainer: ImageGroup = this.getImageContainer(
+          const imageContainer: ImageGroup = this.getImageContainer(
             isList,
             images,
             image
           );
-          if (isList) {
-            const imageGroups = this.getImageGroups(images, image);
-            imageContainer = imageGroups[image.galleryIndex as number];
-          } else {
-            imageContainer = images[image.imageType] as ImageGroup;
-          }
 
           const targetImage = { ...image };
           targetImage.url = this.normalizeImageUrl(targetImage.url ?? '');
