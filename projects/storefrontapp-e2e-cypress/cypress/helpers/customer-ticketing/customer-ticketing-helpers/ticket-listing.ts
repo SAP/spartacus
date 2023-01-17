@@ -290,7 +290,7 @@ export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingI
   });
 }
 
-export function visitTicketDetailsOfFirstTicketByItsId(){
+export function visitTicketDetailsOfFirstTicketByItsIdThroughURL(){
   cy.get('cx-customer-ticketing-list')
         .find('tbody')
         .get('tr')
