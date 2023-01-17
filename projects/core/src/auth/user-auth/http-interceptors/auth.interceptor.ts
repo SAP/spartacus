@@ -66,10 +66,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   } else if (
                     // Refresh the expired token
                     // Check if the OAuth endpoint was called and the error is because the refresh token expired
-                    errResponse.url?.includes(
-                      this.authConfigService.getTokenEndpoint()
-                    ) &&
-                    errResponse.error.error === 'invalid_token'
+                    this.errorIsInvalidToken(errResponse)
                   ) {
                     this.authHttpHeaderService.handleExpiredRefreshToken();
                     return of<HttpEvent<any>>();
@@ -77,14 +74,10 @@ export class AuthInterceptor implements HttpInterceptor {
                   break;
                 case 400: // Bad Request
                   if (
-                    errResponse.url?.includes(
-                      this.authConfigService.getTokenEndpoint()
-                    ) &&
-                    errResponse.error.error === 'invalid_grant'
+                    this.errorIsInvalidGrant(errResponse) &&
+                    request.body.get('grant_type') === 'refresh_token'
                   ) {
-                    if (request.body.get('grant_type') === 'refresh_token') {
-                      this.authHttpHeaderService.handleExpiredRefreshToken();
-                    }
+                    this.authHttpHeaderService.handleExpiredRefreshToken();
                   }
                   break;
               }
