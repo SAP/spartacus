@@ -167,7 +167,7 @@ export function checkAttributeDisplayed(
   uiType: uiType
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  cy.get(`#${attributeId}`).should('be.visible');
+  cy.get(`#${attributeId}`).scrollIntoView().should('be.visible');
 }
 
 /**
