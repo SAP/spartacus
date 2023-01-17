@@ -87,16 +87,16 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Navigates to the first attribute group.
+   * Navigates to the first attribute group
    *
-   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   * @param {Configurator.Configuration} configuration - Configuration
    */
   navigateToFirstAttributeGroup(
     configuration: Configurator.Configuration
   ): void {
     const groupId = this.getFirstAttributeGroup(configuration)?.id;
     if (groupId) {
-      this.navigateToGroup(configuration, groupId, true);
+      this.navigateToGroup(configuration, groupId, false);
     }
   }
   protected getFirstAttributeGroup(
