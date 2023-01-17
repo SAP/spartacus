@@ -73,7 +73,6 @@ class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled = true;
-  @Input() uiContextKey: string = '';
 }
 
 class MockConfigUtilsService {

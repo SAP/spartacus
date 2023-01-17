@@ -15,17 +15,11 @@
             class="form-check-input"
             [value]="attribute?.values[0].valueCode"
             [cxFocus]="{
-              key: createFocusId(
-                attribute.name,
-                attribute?.values[0].name,
-                uiContextKey
-              )
+              key: attribute.name + '-' + attribute?.values[0].name
             }"
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
-            name="{{
-              createAttributeIdForConfigurator(attribute, uiContextKey)
-            }}"
+            name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
               attribute?.values[0].valuePrice &&
               attribute?.values[0].valuePrice?.value !== 0

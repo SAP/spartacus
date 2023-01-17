@@ -60,21 +60,12 @@ export class ConfiguratorAttributeBaseComponent {
   /**
    * Creates unique key for config attribute on the UI
    * @param prefix for key depending on usage (e.g. uiType, label)
-   * @param attributeId id of the attribute
-   * @param uiContextKey optional ui context key,
-   * so key is still unique if same attribute is used simultaneously in different ui contexts
+   * @param attributeId
    */
-  createAttributeUiKey(
-    prefix: string,
-    attributeId: string,
-    uiContextKey?: string
-  ): string {
+  createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
       ConfiguratorAttributeBaseComponent.PREFIX +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
-      (uiContextKey
-        ? uiContextKey + ConfiguratorAttributeBaseComponent.SEPERATOR
-        : '') +
       prefix +
       ConfiguratorAttributeBaseComponent.SEPERATOR +
       attributeId
@@ -86,29 +77,12 @@ export class ConfiguratorAttributeBaseComponent {
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
-    currentAttribute: Configurator.Attribute,
-    uiContextKey?: string
+    currentAttribute: Configurator.Attribute
   ): string {
     return this.createAttributeUiKey(
       this.getUiType(currentAttribute),
-      currentAttribute.name,
-      uiContextKey
+      currentAttribute.name
     );
-  }
-
-  /**
-   * Creates unique key for config attribute to be sent to configurator
-   * @param currentAttribute
-   */
-  decorateUiContextKey(
-    currentContextKey: string,
-    additionalUiContext: string
-  ): string {
-    return currentContextKey
-      ? currentContextKey +
-          ConfiguratorAttributeBaseComponent.SEPERATOR +
-          additionalUiContext
-      : additionalUiContext;
   }
 
   /**
@@ -160,27 +134,10 @@ export class ConfiguratorAttributeBaseComponent {
    * Creates a unique key for focus handling for the given attribute and value
    * @param attributeId
    * @param valueCode
-   * @param uiContextKey optional ui context key,
-   * so key is still unique if same attribute is used simultaneously in different ui contexts
    * @returns focus key
    */
-  createFocusId(
-    attributeId: string,
-    valueCode: string,
-    uiContextKey?: string
-  ): string {
-    return (
-      ConfiguratorAttributeBaseComponent.PREFIX +
-      ConfiguratorAttributeBaseComponent.SEPERATOR +
-      (uiContextKey
-        ? uiContextKey + ConfiguratorAttributeBaseComponent.SEPERATOR
-        : '') +
-      attributeId +
-      ConfiguratorAttributeBaseComponent.SEPERATOR +
-      valueCode +
-      ConfiguratorAttributeBaseComponent.SEPERATOR +
-      'focus'
-    );
+  createFocusId(attributeId: string, valueCode: string): string {
+    return `${attributeId}--${valueCode}--focus`;
   }
 
   /**

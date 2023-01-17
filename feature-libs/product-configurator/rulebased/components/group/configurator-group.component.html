@@ -39,7 +39,6 @@
         [language]="activeLanguage"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-radio-button>
 
       <!-- Single Selection Product Bundle -->
@@ -48,7 +47,6 @@
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-bundle>
 
       <!-- Multi Selection Product Bundle -->
@@ -57,7 +55,6 @@
         (selectionChange)="updateConfiguration($event)"
         [attribute]="attribute"
         [ownerKey]="owner.key"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-multi-selection-bundle>
 
       <!-- Single Selection Dropdown Product Bundle -->
@@ -67,7 +64,6 @@
         [group]="group.id"
         [ownerKey]="owner.key"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-bundle-dropdown>
 
       <!-- Single Selection Dropdown -->
@@ -83,7 +79,6 @@
         [language]="activeLanguage"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-drop-down>
 
       <cx-configurator-attribute-input-field
@@ -93,7 +88,6 @@
         [ownerType]="owner.type"
         [ownerKey]="owner.key"
         (inputChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       >
       </cx-configurator-attribute-input-field>
 
@@ -105,7 +99,6 @@
         [ownerKey]="owner.key"
         [language]="activeLanguage"
         (inputChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-numeric-input-field>
 
       <!-- Multi Selection Checkbox -->
@@ -116,7 +109,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-checkbox-list>
 
       <cx-configurator-attribute-checkbox
@@ -126,7 +118,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-checkbox>
 
       <cx-configurator-attribute-read-only
@@ -142,7 +133,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-multi-selection-image>
 
       <cx-configurator-attribute-single-selection-image
@@ -151,7 +141,6 @@
         [ownerKey]="owner.key"
         [expMode]="expMode | async"
         (selectionChange)="updateConfiguration($event)"
-        [uiContextKey]="uiContextKey"
       ></cx-configurator-attribute-single-selection-image>
 
       <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{

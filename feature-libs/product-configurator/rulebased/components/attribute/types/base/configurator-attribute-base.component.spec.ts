@@ -23,24 +23,10 @@ describe('ConfigUIKeyGeneratorService', () => {
     ).toBe('cx-configurator--prefix--attributeId--valueId');
   });
 
-  describe('createAttributeUiKey', () => {
-    it('should generate attribute key', () => {
-      expect(classUnderTest.createAttributeUiKey('prefix', 'attributeId')).toBe(
-        'cx-configurator--prefix--attributeId'
-      );
-    });
-
-    it('should generate attribute key with empty ui context key', () => {
-      expect(
-        classUnderTest.createAttributeUiKey('prefix', 'attributeId', '')
-      ).toBe('cx-configurator--prefix--attributeId');
-    });
-
-    it('should generate attribute key with ui context key', () => {
-      expect(
-        classUnderTest.createAttributeUiKey('prefix', 'attributeId', 'context')
-      ).toBe('cx-configurator--context--prefix--attributeId');
-    });
+  it('should generate attribute key', () => {
+    expect(classUnderTest.createAttributeUiKey('prefix', 'attributeId')).toBe(
+      'cx-configurator--prefix--attributeId'
+    );
   });
 
   it('should return only attribute id for aria-labelledby', () => {
@@ -117,38 +103,10 @@ describe('ConfigUIKeyGeneratorService', () => {
     ).toBe('cx-configurator--radioGroup--attributeId--valueId');
   });
 
-  describe('createFocusId', () => {
-    it('should generate focus id for attribute value', () => {
-      expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
-        'cx-configurator--attrCode--valueCode--focus'
-      );
-    });
-
-    it('should generate focus id with empty ui context key', () => {
-      expect(classUnderTest.createFocusId('attrCode', 'valueCode', '')).toBe(
-        'cx-configurator--attrCode--valueCode--focus'
-      );
-    });
-
-    it('should generate focus id with with ui context key', () => {
-      expect(
-        classUnderTest.createFocusId('attrCode', 'valueCode', 'context')
-      ).toBe('cx-configurator--context--attrCode--valueCode--focus');
-    });
-  });
-
-  describe('decorateUiContextKey', () => {
-    it('should combine additionalContextKey with current one using separator', () => {
-      expect(
-        classUnderTest.decorateUiContextKey('currentKey', 'additionalKey')
-      ).toBe('currentKey--additionalKey');
-    });
-
-    it('should return additionalContextKey if currentContextKey is empty', () => {
-      expect(classUnderTest.decorateUiContextKey('', 'additionalKey')).toBe(
-        'additionalKey'
-      );
-    });
+  it('should generate focus id for attribute value', () => {
+    expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
+      'attrCode--valueCode--focus'
+    );
   });
 
   describe('getUiType', () => {

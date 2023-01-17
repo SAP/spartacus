@@ -22,7 +22,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Input() expMode: boolean;
-  @Input() uiContextKey: string = '';
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {

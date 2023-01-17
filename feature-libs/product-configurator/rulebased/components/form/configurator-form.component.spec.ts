@@ -22,7 +22,7 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
-  selector: 'cx-configurator-default-form',
+  selector: 'cx-configurator-group',
   template: '',
 })
 class MockConfiguratorDefaultFormComponent {
@@ -220,8 +220,8 @@ function createComponentWithData(): ConfiguratorFormComponent {
   fixture = TestBed.createComponent(ConfiguratorFormComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
-  component.configuration$ = of(configuration);
   component.currentGroup$ = of(group);
+  component.configuration$ = of(configuration);
   fixture.detectChanges();
   return component;
 }
@@ -585,6 +585,56 @@ describe('ConfigurationFormComponent', () => {
       expect(
         configuratorGroupsService.navigateToFirstAttributeGroup
       ).toHaveBeenCalledTimes(0);
+    });
+    it('should subscribe to handle conflict solver mode', () => {
+      createComponentWithoutData();
+      expect(component['conflictSolverSubscription']).toBeDefined();
+    });
+
+    it('should detach view from change detection if conflict solver opens', () => {
+      configuration.interactionState.showConflictSolverDialog = true;
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configuration);
+      createComponentWithoutData();
+      // change detector ref can't be accessed via TestBed DI, instead use property of component
+      spyOn(component['cdr'], 'detach').and.callThrough();
+      // hence repeat ngOnInit as first execution was without spy installed
+      component.ngOnInit();
+      expect(component['cdr'].detach).toHaveBeenCalled();
+    });
+
+    it('should reattach view to change detection if conflict solver closes', () => {
+      configuration.interactionState.showConflictSolverDialog = false;
+      routerStateObservable = of({
+        ...mockRouterState,
+      });
+      configurationCreateObservable = of(configuration);
+      createComponentWithoutData();
+      // change detector ref can't be accessed via TestBed DI, instead use property of component
+      spyOn(component['cdr'], 'reattach').and.callThrough();
+      // hence repeat ngOnInit as first execution was without spy installed
+      component.ngOnInit();
+      expect(component['cdr'].reattach).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy ', () => {
+    it('should remove subscriptions', () => {
+      createComponentWithoutData();
+      const spyUnsubscribe = spyOn(
+        component['conflictSolverSubscription'],
+        'unsubscribe'
+      );
+      component.ngOnDestroy();
+      expect(spyUnsubscribe).toHaveBeenCalled();
+    });
+
+    it('should not fail if there are no subscriptions', () => {
+      createComponentWithoutData();
+      (component['conflictSolverSubscription'] as any) = null;
+      component.ngOnDestroy();
     });
   });
 });
