@@ -15,8 +15,8 @@ import {
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
+import { ReorderOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { ReorderOrderFacade } from '../../../root/facade/reorder-order.facade';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
