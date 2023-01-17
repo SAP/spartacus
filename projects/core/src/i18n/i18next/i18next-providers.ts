@@ -10,7 +10,10 @@ import { I18nextInitializer } from './i18next-initializer';
 export const i18nextProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
-    useFactory: () => () => inject(I18nextInitializer).initialize(),
+    useFactory: () => {
+      const i18nextInitializer = inject(I18nextInitializer);
+      return () => i18nextInitializer.initialize();
+    },
     multi: true,
   },
 ];
