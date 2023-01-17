@@ -52,35 +52,33 @@ export class AuthInterceptor implements HttpInterceptor {
       switchMap(({ request, token }) =>
         next.handle(request).pipe(
           catchError((errResponse: any) => {
-            if (errResponse instanceof HttpErrorResponse) {
-              switch (errResponse.status) {
-                case 401: // Unauthorized
-                  if (this.isExpiredToken(errResponse) && shouldCatchError) {
-                    // request failed because of the expired access token
-                    // we should get refresh the token and retry the request, or logout if the refresh is missing / expired
-                    return this.authHttpHeaderService.handleExpiredAccessToken(
-                      request,
-                      next,
-                      token
-                    );
-                  } else if (
-                    // Refresh the expired token
-                    // Check if the OAuth endpoint was called and the error is because the refresh token expired
-                    this.errorIsInvalidToken(errResponse)
-                  ) {
-                    this.authHttpHeaderService.handleExpiredRefreshToken();
-                    return of<HttpEvent<any>>();
-                  }
-                  break;
-                case 400: // Bad Request
-                  if (
-                    this.errorIsInvalidGrant(errResponse) &&
-                    request.body.get('grant_type') === 'refresh_token'
-                  ) {
-                    this.authHttpHeaderService.handleExpiredRefreshToken();
-                  }
-                  break;
-              }
+            switch (errResponse.status) {
+              case 401: // Unauthorized
+                if (this.isExpiredToken(errResponse) && shouldCatchError) {
+                  // request failed because of the expired access token
+                  // we should get refresh the token and retry the request, or logout if the refresh is missing / expired
+                  return this.authHttpHeaderService.handleExpiredAccessToken(
+                    request,
+                    next,
+                    token
+                  );
+                } else if (
+                  // Refresh the expired token
+                  // Check if the OAuth endpoint was called and the error is because the refresh token expired
+                  this.errorIsInvalidToken(errResponse)
+                ) {
+                  this.authHttpHeaderService.handleExpiredRefreshToken();
+                  return of<HttpEvent<any>>();
+                }
+                break;
+              case 400: // Bad Request
+                if (
+                  this.errorIsInvalidGrant(errResponse) &&
+                  request.body.get('grant_type') === 'refresh_token'
+                ) {
+                  this.authHttpHeaderService.handleExpiredRefreshToken();
+                }
+                break;
             }
             return throwError(errResponse);
           })
