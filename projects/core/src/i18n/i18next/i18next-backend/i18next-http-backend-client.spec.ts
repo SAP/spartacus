@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -12,6 +12,7 @@ const testUrl = 'test/url';
 
 describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
   let httpMock: HttpTestingController;
+  let httpClient: HttpClient;
   let req: TestRequest;
   let testCallback: RequestCallback;
 
@@ -21,13 +22,18 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
     });
 
     httpMock = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+
+    spyOn(httpClient, 'get').and.callThrough();
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i18nextHttpBackendClient = TestBed.inject(
       I18NEXT_HTTP_BACKEND_CLIENT
     )!;
     testCallback = jasmine.createSpy('testCallback');
+
     i18nextHttpBackendClient({}, testUrl, {}, testCallback);
+
     req = httpMock.expectOne({ url: testUrl, method: 'GET' });
   });
 
@@ -35,11 +41,15 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
     httpMock.verify();
   });
 
-  it('requests for responseType text', () => {
+  it("should use Angular's HttpClient", () => {
+    expect(httpClient.get).toHaveBeenCalledWith(testUrl, jasmine.any(Object));
+  });
+
+  it('should request for responseType text', () => {
     expect(req.request.responseType).toBe('text');
   });
 
-  it('forwards success response to i18next callback', () => {
+  it('should forward a success response to i18next callback', () => {
     req.flush('testResponse');
 
     expect(testCallback).toHaveBeenCalledWith(null, {
@@ -48,7 +58,7 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
     });
   });
 
-  it('forwards failure response to i18next callback', () => {
+  it('should forward a failure response to i18next callback', () => {
     const error = 'test error message';
     const statusText = 'Not Found';
     const status = 404;
