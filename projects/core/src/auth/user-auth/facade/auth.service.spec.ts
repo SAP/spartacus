@@ -63,6 +63,9 @@ class MockAuthMultisiteIsolationService {
   decorateUserId(): Observable<string> {
     return of('username');
   }
+  isDifferentBaseSite(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
 }
 
 describe('AuthService', () => {
