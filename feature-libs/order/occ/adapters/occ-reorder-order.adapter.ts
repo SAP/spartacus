@@ -12,8 +12,8 @@ import {
   normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
+import { ReorderOrderAdapter } from '@spartacus/order/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { ReorderOrderAdapter } from '../../core/connectors/reorder-order.adapter';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

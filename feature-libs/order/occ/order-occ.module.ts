@@ -10,6 +10,7 @@ import { provideDefaultConfig } from '@spartacus/core';
 import {
   OrderAdapter,
   OrderHistoryAdapter,
+  ReorderOrderAdapter,
   ReplenishmentOrderHistoryAdapter,
   ScheduledReplenishmentOrderAdapter,
 } from '@spartacus/order/core';
@@ -20,7 +21,6 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { ReorderOrderAdapter } from '../core/connectors/reorder-order.adapter';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReorderOrderNormalizer } from './adapters/converters/occ-reorder-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
