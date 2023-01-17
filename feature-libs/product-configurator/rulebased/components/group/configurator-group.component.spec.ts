@@ -21,7 +21,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfigFormUpdateEvent } from './configurator-group.event';
+import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ICON_TYPE } from '@spartacus/storefront';
