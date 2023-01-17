@@ -87,6 +87,31 @@ export class ConfiguratorGroupsService {
   }
 
   /**
+   * Navigates to the first attribute group
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   */
+  navigateToFirstAttributeGroup(
+    configuration: Configurator.Configuration
+  ): void {
+    const groupId = this.getFirstAttributeGroup(configuration)?.id;
+    if (groupId) {
+      this.navigateToGroup(configuration, groupId, false);
+    }
+  }
+  protected getFirstAttributeGroup(
+    configuration: Configurator.Configuration
+  ): Configurator.Group | undefined {
+    const group = configuration.flatGroups.find(
+      (group) =>
+        (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
+          group.groupType === Configurator.GroupType.SUB_ITEM_GROUP) &&
+        group.attributes?.length
+    );
+    return group;
+  }
+
+  /**
    * Navigates to the first conflict group and sets the conflict header as parent group.
    * This method assumes that the configuration has conflicts,
    * the caller has to verify this prior to calling this method. In case no conflict group
