@@ -39,12 +39,13 @@ export function closeTicketRequest(message: string) {
 }
 
 export function reopenTicketRequest(message: string) {
-  const SUBMIT_BUTTON_INDEX = 2;
+  const SUBMIT_BUTTON_INDEX = 3;
   clickReopenRequestButton();
   cy.get('form').within(() => {
     typeTicketRequestMessage(message);
     cy.get('button').eq(SUBMIT_BUTTON_INDEX).click();
   });
+  cy.wait(1000);
 }
 
 export function sendMessage(message: string) {

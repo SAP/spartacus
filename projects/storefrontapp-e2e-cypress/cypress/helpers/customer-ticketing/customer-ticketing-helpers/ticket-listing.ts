@@ -23,6 +23,7 @@ import {
   SUBJECT_DELIMITER,
   TestCategory,
   FIFTH_ROW_TICKET_LIST,
+  visitTicketDetailsForExistingTicket
 } from './customer-ticketing-commons';
 const MESSAGE_BOX = '.form-control';
 
@@ -249,13 +250,13 @@ export function verifyMessageBoxIsEnabled() {
 }
 
 export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds() {
-  const TOTAL_NUMBER_OF_PAGES_TO_VISIT = 3;
+  const TOTAL_NUMBER_OF_PAGES_TO_VISIT = 2;
   for (let page = 1; page < TOTAL_NUMBER_OF_PAGES_TO_VISIT; page++) {
-    getIdInRow(FIFTH_ROW_TICKET_LIST).then((id) => {
+    getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
       const smallerId = parseInt(id.text(), 10);
       var next_page = page + 1;
       cy.get(`[aria-label="page ${next_page}"]`).click();
-      getIdInRow(FIFTH_ROW_TICKET_LIST)
+      getIdInRow(FIRST_ROW_TICKET_LIST)
         .invoke('text')
         .then(parseInt)
         .should('be.lt', smallerId);
@@ -287,4 +288,21 @@ export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingI
       .then(parseInt)
       .should('be.gt', biggerId);
   });
+}
+
+export function visitTicketDetailsOfFirstTicketByItsIdThroughURL(){
+  cy.get('cx-customer-ticketing-list')
+        .find('tbody')
+        .get('tr')
+        .eq(FIRST_ROW_TICKET_LIST)
+        .within(() => {
+          cy.get('td')
+            .eq(ID_COLUMN)
+            .invoke('text')
+            .then((id) => {
+              visitTicketDetailsForExistingTicket(
+                id.substring(ID_DELIMITER).trim()
+              );
+            });
+          });
 }

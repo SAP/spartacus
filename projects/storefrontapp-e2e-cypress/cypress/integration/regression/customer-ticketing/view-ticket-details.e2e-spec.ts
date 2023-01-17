@@ -168,13 +168,7 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        let ticket_details_from_first_row =
-          customerTicketing.extractTicketDetailsFromFirstRowInTicketListingPage();
-        cy.wait(50000);
-        cy.log(ticket_details_from_first_row.id);
-        customerTicketing.visitTicketDetailsForExistingTicket(
-          ticket_details_from_first_row.id
-        );
+        customerTicketing.visitTicketDetailsOfFirstTicketByItsId();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
