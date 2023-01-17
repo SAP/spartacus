@@ -5,7 +5,7 @@ import { Order, OrderFacade } from '@spartacus/order/root';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { DeliveryPointOfServiceItems } from 'feature-libs/pickup-in-store/root/model';
 import { Observable, of } from 'rxjs';
-import { DeliveryPointsService } from './delivery-points.service';
+import { DeliveryPointsService } from './order-delivery-points.service';
 
 class MockActiveCartFacade {
   getActive(): Observable<Cart> {
@@ -27,7 +27,9 @@ class MockPickupLocationsSearchFacade {
   }
 }
 export class DeliveryPointsServiceMock {
-  getDeliveryPointsOfServiceFromCart(): Observable<Array<DeliveryPointOfServiceItems>> {
+  getDeliveryPointsOfServiceFromCart(): Observable<
+    Array<DeliveryPointOfServiceItems>
+  > {
     return of([]);
   }
 }

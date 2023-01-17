@@ -44,13 +44,13 @@
           <a
             role="button"
             [attr.data-store-location-link]="
-              displayPickupLocation ? 'change' : 'select'
+              (displayPickupLocation$ | async) ? 'change' : 'select'
             "
             class="cx-action-link"
             (click)="onPickupLocationChange()"
             tabindex="0"
             >{{
-              (displayPickupLocation
+              ((displayPickupLocation$ | async)
                 ? 'pickupOptions.changeStore'
                 : 'pickupOptions.selectStore'
               ) | cxTranslate

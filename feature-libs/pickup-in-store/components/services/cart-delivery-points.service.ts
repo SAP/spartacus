@@ -7,7 +7,6 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   DeliveryPointOfService,
   PickupLocationsSearchFacade,
@@ -21,11 +20,10 @@ import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class DeliveryPointsService {
+export class CartDeliveryPointsService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected orderFacade: OrderFacade
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade
   ) {}
 
   /*
@@ -45,24 +43,10 @@ export class DeliveryPointsService {
         Some of the below involves turning array data into lookup object data simply because this is easier to deal with
 
     */
-  getDeliveryPointsOfServiceFromCart(): Observable<
-    Array<DeliveryPointOfService>
-  > {
+  getPOS(): Observable<Array<DeliveryPointOfService>> {
     return this.activeCartFacade.getActive().pipe(
       filter((cart) => !!cart.entries && !!cart.entries.length),
       map((cart): Array<OrderEntry> => cart.entries as Array<OrderEntry>),
-      switchMap((entries) => this.getDeliveryPointsOfService(entries))
-    );
-  }
-
-  getDeliveryPointsOfServiceFromOrder(): Observable<
-    Array<DeliveryPointOfService>
-  > {
-    return this.orderFacade.getOrderDetails().pipe(
-      filter((order) => !!order),
-      map((order): Order => order as Order),
-      filter((order) => !!order.entries && !!order.entries.length),
-      map((order) => order.entries as Array<OrderEntry>),
       switchMap((entries) => this.getDeliveryPointsOfService(entries))
     );
   }

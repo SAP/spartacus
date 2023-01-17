@@ -1,4 +1,4 @@
-<ng-container *ngIf="itemsDetails as deliveryPointsOfService">
+<ng-container *ngIf="itemsDetails$ | async as deliveryPointsOfService">
   <p
     *ngIf="deliveryPointsOfService.length"
     class="cx-pickup-items-details-heading d-lg-block d-xl-block"
@@ -27,7 +27,10 @@
             [storeDetails]="deliveryPointOfService?.storeDetails"
           ></cx-store-schedule>
         </div>
-        <div *ngIf="showEdit" class="cx-pickup-items-details-edit-icon">
+        <div
+          *ngIf="showEdit$ | async"
+          class="cx-pickup-items-details-edit-icon"
+        >
           <a [routerLink]="{ cxRoute: 'cart' } | cxUrl"
             ><cx-icon [type]="ICON_TYPE.PENCIL"></cx-icon
           ></a>
@@ -145,7 +148,7 @@
         </div>
 
         <!-- Item Delivery Details Outlet -->
-        <div *ngIf="showDeliveryOptions" class="col-12 mt-2">
+        <div *ngIf="showDeliveryOptions$ | async" class="col-12 mt-2">
           <ng-template
             [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
             [cxOutletContext]="item"

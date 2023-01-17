@@ -14,7 +14,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CartItemContext } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartItemContext,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import {
   getProperty,
@@ -34,12 +38,37 @@ import {
 } from '@spartacus/storefront';
 import { iif, Observable, of, Subscription } from 'rxjs';
 import { concatMap, filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { orderEntryWithRequiredFields } from '../../container/cart-pickup-options-container/cart-pickup-options-container.component';
 
+// these functions should be moved to util
 function isProductWithCode(
   product: Product | null
 ): product is RequiredDeepPath<Product, 'code'> {
   return !!product?.code;
+}
+
+type OrderEntryRequiredFields =
+  | 'entryNumber'
+  | 'quantity'
+  | 'product.code'
+  | 'product.availableForPickup';
+
+/** An order entry with all the fields needed for using pickup in store */
+type OrderEntryWithRequiredFields = RequiredDeepPath<
+  OrderEntry,
+  OrderEntryRequiredFields
+>;
+/** Custom type guard to ensure we have an order entry with all the required fields */
+export function orderEntryWithRequiredFields(
+  orderEntry: OrderEntry | undefined
+): orderEntry is OrderEntryWithRequiredFields {
+  return (
+    !!orderEntry &&
+    orderEntry.entryNumber !== undefined &&
+    orderEntry.quantity !== undefined &&
+    orderEntry.product !== undefined &&
+    orderEntry.product.code !== undefined &&
+    orderEntry.product.availableForPickup !== undefined
+  );
 }
 
 /**
@@ -73,6 +102,7 @@ export class PickupOptionsComponent implements OnInit {
     protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected launchDialogService: LaunchDialogService,
+    protected activeCartFacade: ActiveCartFacade,
     protected vcr: ViewContainerRef,
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -169,16 +199,22 @@ export class PickupOptionsComponent implements OnInit {
   });
 
   onPickupOptionChange(pickupOption: PickupOption): void {
-    if (this.entryNumber > 0) {
+    if (this.entryNumber !== undefined) {
       this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
       if (pickupOption === 'delivery') {
-        // this.pickupLocationsSearchService.setPickupOptionToDelivery(
-        //   this.cartId,
-        //   this.entryNumber,
-        //   this.userId,
-        //   this.productCode,
-        //   this.quantity,
-        // );
+        // use the refactored activeFacade.updateEntry function, so no need cartId and userId
+        this.activeCartFacade
+          .getActive()
+          .pipe(take(1))
+          .subscribe((cart) => {
+            this.pickupLocationsSearchService.setPickupOptionToDelivery(
+              cart.code || '',
+              this.entryNumber,
+              cart.user?.uid || '',
+              this.productCode,
+              this.quantity
+            );
+          });
 
         return;
       }

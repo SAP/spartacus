@@ -9,25 +9,41 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupLocationsSearchFacade,
-  PickupOptionFacade
+  PickupOptionFacade,
+  RequiredDeepPath,
 } from '@spartacus/pickup-in-store/root';
 import {
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService
+  LaunchDialogService,
 } from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
+
+// this function should be moved to util
+/** A cart with the required ids */
+type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid' | 'code'>;
+/** Custom type guard to ensure we have a cart with the required ids */
+export function cartWithIdAndUserId(
+  cart: Cart | undefined
+): cart is CartWithIdAndUserId {
+  return (
+    !!cart &&
+    cart.guid !== undefined &&
+    cart.user !== undefined &&
+    cart.user.uid !== undefined &&
+    cart.code !== undefined
+  );
+}
 
 /**
  * The dialog box to select the pickup location for a product.
