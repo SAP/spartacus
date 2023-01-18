@@ -20,15 +20,14 @@ import { WindowRef } from '../../window/window-ref';
 import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
 
 /**
- * Timeouts requests that take longer than the specified timeout, by throwing
- * an error of type `HttpErrorResponse` with http code `504` (Gateway Timeout).
+ * It throws an error when a request takes longer than the specified time.
  */
 @Injectable({ providedIn: 'root' })
 export class HttpTimeoutInterceptor implements HttpInterceptor {
   constructor(protected windowRef: WindowRef, protected config: OccConfig) {}
 
   /**
-   * It timeouts a request that takes longer than the specified timeout.
+   * It throws an error when a request takes longer than the specified time.
    *
    * It starts counting time for timeout only after the request is sent.
    */
