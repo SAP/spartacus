@@ -65,7 +65,7 @@ export async function prepareRepositoryForApiExtractor(
   }
 
   // Build the libraries from the HEAD branch
-  // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
+  // TODO: We can parallel these builds, when schematics builds won't trigger npm install
   await exec.exec('npm', ['i']);
   await exec.exec('npm', ['run', BUILD_COMMAND]);
 

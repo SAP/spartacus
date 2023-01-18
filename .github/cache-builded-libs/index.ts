@@ -10,7 +10,7 @@ import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
 async function run() {
-  core.startGroup('yarn');
+  core.startGroup('npm');
   let exitCode = await exec.exec('npm', ['i'], {
     ignoreReturnCode: true,
   });
