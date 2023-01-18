@@ -363,13 +363,13 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     }
 
     logDebugInfo(`✅  Application analysis complete.`);
-  };
 
-  function logDebugInfo(message: string) {
-    if (options.debug) {
-      context.logger.info(message);
+    function logDebugInfo(message: string) {
+      if (options.debug) {
+        context.logger.info(message);
+      }
     }
-  }
+  };
 }
 
 function markerModuleExists<OPTIONS extends LibraryOptions>(
