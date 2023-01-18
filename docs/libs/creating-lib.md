@@ -30,7 +30,7 @@ These are some naming guidelines for libraries:
 
 - library names should be abbreviated, if possible (e.g. _cds_)
 - library names should use kebab-case (e.g. `my-account`)
-- the scripts added to `package.json` should _not_ use kebab-case (e.g. `yarn build:myaccount`)
+- the scripts added to `package.json` should _not_ use kebab-case (e.g. `npm run build:myaccount`)
 
 ## Generating a library
 
@@ -225,7 +225,7 @@ Use the following template:
 }
 ```
 
-- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
+- run `npm run config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tslint.json` - remove
 - the rest of the generated files should be removed
@@ -238,7 +238,7 @@ Use the following template:
       }
     },
   ```
-  and then run `yarn config:update` (to fix the formatting)
+  and then run `npm run config:update` (to fix the formatting)
 
 ### Additional changes to existing files
 
@@ -312,7 +312,7 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
-- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
+- run `npm run config:update` script to update `compilerOptions.path` property in tsconfig files
 
 ## Testing
 
@@ -322,8 +322,8 @@ Don't forget to:
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
-  - `yarn build:libs` (build all the libs)
-  - `yarn build`
+  - `npm run build:libs` (build all the libs)
+  - `npm run build`
 
 ## Schematics
 

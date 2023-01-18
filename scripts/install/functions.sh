@@ -41,7 +41,7 @@ function cmd_clean {
     delete_dir ${BASE_DIR}
     delete_dir storage
 
-    yarn cache clean
+    npm cache verify
 }
 
 function prepare_install {
@@ -62,7 +62,7 @@ function prepare_install {
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
-    ng config -g cli.packageManager yarn
+    ng config -g cli.packageManager npm
 
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
@@ -84,10 +84,9 @@ function update_projects_versions {
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    for i in ${projects}
-        do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
-        done
+    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
+    (cd "${CLONE_DIR}" && pwd && npm run config:update -- --generate-deps);
+
 }
 
 function create_shell_app {
@@ -227,7 +226,7 @@ function create_apps {
 function publish_package {
     local PKG_PATH=${1}
     echo "Creating ${PKG_PATH} npm package"
-    (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
+    (cd ${PKG_PATH} && npm publish --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
 
@@ -281,10 +280,13 @@ function install_from_sources {
     done
 
     printh "Installing dependencies."
-    ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
+    ( cd ${CLONE_DIR} && npm install)
 
     printh "Updating projects versions."
     update_projects_versions ${project_sources[@]}
+
+    printh "Building libraries."
+    ( cd ${CLONE_DIR}npm run build:libs)
 
     verdaccio --config ./config.yaml &
 
@@ -337,7 +339,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
+        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && npm run build --configuration production )
     fi
 }
 
@@ -346,7 +348,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
+        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && npm run build && npm run build:ssr )
     fi
 }
 
@@ -355,7 +357,7 @@ function build_ssr_pwa {
         echo "Skipping ssr with PWA app build (No port defined)"
     else
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && npm run build && npm run build:ssr )
     fi
 }
 
@@ -516,7 +518,7 @@ function run_e2e {
         return 0
     fi
 
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
     local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
     local EXIT_CODE=$?
 
@@ -545,7 +547,7 @@ function run_e2e_b2b {
     local EXIT_CODE_1
     local EXIT_CODE_2
 
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
     OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
     EXIT_CODE_1=$?
 

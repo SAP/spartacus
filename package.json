@@ -25,7 +25,7 @@
     "build:organization": "npm --prefix feature-libs/organization run build:schematics && ng build organization --configuration production",
     "build:product": "npm --prefix feature-libs/product run build:schematics && ng build product --configuration production",
     "build:product-configurator": "npm --prefix feature-libs/product-configurator run build:schematics && ng build product-configurator --configuration production",
-    "build:s4om": "yarn --cwd integration-libs/s4om run build:schematics && ng build s4om --configuration production",
+    "build:s4om": "npm --prefix integration-libs/s4om run build:schematics && ng build s4om --configuration production",
     "build:qualtrics": "npm --prefix feature-libs/qualtrics run build:schematics && ng build qualtrics --configuration production",
     "build:schematics": "npm --prefix projects/schematics run build",
     "build:setup": "ng build setup --configuration production",
