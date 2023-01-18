@@ -107,7 +107,7 @@
   <ng-template #deliveryAddress>
     <div
       *ngIf="deliveryAddress$ | async as deliveryAddress"
-      class="cx-review-summary-card cx-review-card-address"
+      class="cx-review-summary-card"
     >
       <cx-card
         [content]="getDeliveryAddressCard(deliveryAddress) | async"
