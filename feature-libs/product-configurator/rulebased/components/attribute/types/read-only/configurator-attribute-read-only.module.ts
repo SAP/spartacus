@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
@@ -16,6 +17,7 @@ import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute
     KeyboardFocusModule,
     FormsModule,
     ReactiveFormsModule,
+    ConfiguratorPriceModule,
     CommonModule,
     I18nModule,
   ],

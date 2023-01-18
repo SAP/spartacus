@@ -1,7 +1,4 @@
-<div
-  id="{{ createAttributeIdForConfigurator(attribute) }}"
-  *ngIf="attribute.values !== undefined && attribute.values.length > 0"
->
+<div class="form-group" id="{{ createAttributeIdForConfigurator(attribute) }}">
   <ng-container
     *ngIf="
       attribute.values !== undefined && attribute.values.length > 0;
@@ -24,10 +21,25 @@
                 }
         }}
       </span>
-      <div class="cx-read-only-label" *ngIf="value.selected" aria-hidden="true">
-        <span aria-hidden="true">{{
-          getLabel(expMode, value.valueDisplay, value.valueCode)
-        }}</span>
+      <div *ngIf="value.selected" aria-hidden="true">
+        <label
+          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+          for="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          aria-hidden="true"
+          class="cx-form-group-readonly-label"
+          >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
+        >
+      </div>
+      <div
+        *ngIf="!withQuantity && value.valuePrice"
+        aria-hidden="true"
+        class="cx-value-price"
+      >
+        <cx-configurator-price
+          [formula]="extractValuePriceFormulaParameters(value)"
+        ></cx-configurator-price>
       </div>
     </ng-container>
   </ng-container>

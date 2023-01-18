@@ -4,17 +4,29 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
   let htmlElem: HTMLElement;
+  let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions;
+
+  const priceDetails: Configurator.PriceDetails = {
+    currencyIso: '$',
+    formattedValue: '$3',
+    value: 3,
+  };
+
   const myValues: Configurator.Value[] = [
     {
       valueCode: 'val1',
       valueDisplay: 'val1',
       selected: false,
+      quantity: 3,
+      valuePrice: priceDetails,
+      valuePriceTotal: priceDetails,
     },
     {
       valueCode: 'val2',
@@ -22,7 +34,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       selected: true,
     },
   ];
-
+  configuratorPriceComponentOptions = {
+    quantity: myValues[0].quantity,
+    price: myValues[0].valuePrice,
+    priceTotal: myValues[0].valuePriceTotal,
+    isLightedUp: myValues[0].selected,
+  };
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -57,27 +74,32 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should test return of extractValuePriceFormulaParameters() method', () => {
+    expect(component.extractValuePriceFormulaParameters(myValues[0])).toEqual(
+      configuratorPriceComponentOptions
+    );
+  });
+
   it('should display selectedSingleValue for attribute without domain', () => {
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-read-only-label'
+      '.cx-form-group-readonly-label'
     );
   });
 
   it('should display valueDisplay of selected value for attribute with domain', () => {
-    myValues[0].selected = false;
     component.attribute.values = myValues;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-read-only-label'
+      '.cx-form-group-readonly-label'
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-read-only-label',
+      '.cx-form-group-readonly-label',
       'val2'
     );
   });
@@ -89,9 +111,19 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-read-only-label'
+      '.cx-form-group-readonly-label'
     );
-    expect(htmlElem.querySelectorAll('.cx-read-only-label').length).toBe(2);
+    expect(
+      htmlElem.querySelectorAll('.cx-form-group-readonly-label').length
+    ).toBe(2);
+  });
+
+  it('should display price component for attribute without domain', () => {
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-value-price'
+    );
   });
 
   describe('Accessibility', () => {
@@ -119,28 +151,27 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
+      it("should contain label element with class name 'cx-form-group-readonly-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'div',
-          'cx-read-only-label',
+          'label',
+          'cx-form-group-readonly-label',
           0,
           'aria-hidden',
           'true'
         );
       });
 
-      it("should contain span element with 'aria-hidden' attribute attribute that removes an element from the accessibility tree", () => {
+      it("should contain price element with class name 'cx-value-price' and 'aria-hidden' attribute that removes an element from the accessibility tree ", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
-          'span',
-          undefined,
-          1,
+          'div',
+          'cx-value-price',
+          0,
           'aria-hidden',
-          'true',
-          component.attribute.selectedSingleValue
+          'true'
         );
       });
     });
@@ -159,12 +190,9 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             attrCode: 444,
             uiType: Configurator.UiType.READ_ONLY,
             selectedSingleValue: myValues[1].valueCode,
-            values: myValues,
+            values: undefined,
             quantity: 1,
           };
-
-          myValues[0].selected = false;
-          myValues[1].selected = true;
           fixture.detectChanges();
         });
 
@@ -223,12 +251,9 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             attrCode: 444,
             uiType: Configurator.UiType.READ_ONLY,
             userInput: myValues[1].valueCode,
-            values: myValues,
+            values: undefined,
             quantity: 1,
           };
-
-          myValues[0].selected = false;
-          myValues[1].selected = true;
           fixture.detectChanges();
         });
 

@@ -1,5 +1,6 @@
 %cx-configurator-attribute-read-only {
   @include cx-configurator-attribute-type();
+  @include cx-configurator-form-group();
 
   .cx-read-only-label {
     padding-inline-start: 20px;
