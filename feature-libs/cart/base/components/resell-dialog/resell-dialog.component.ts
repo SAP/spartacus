@@ -11,7 +11,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { filter, map, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-resell-dialog',
@@ -32,6 +32,9 @@ export class ResellDialogComponent implements OnInit {
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   stage = 'marketplaces';
+
+  orderCode: string;
+  orderEntry: number;
   product: Product;
   itemId: string;
 
@@ -70,6 +73,10 @@ export class ResellDialogComponent implements OnInit {
   ngOnInit() {
     this.launchDialogService.data$
       .pipe(
+        tap(({ orderCode, orderEntry }) => {
+          this.orderCode = orderCode;
+          this.orderEntry = orderEntry;
+        }),
         switchMap(({ product }) =>
           this.productService.get(product.code).pipe(
             filter(

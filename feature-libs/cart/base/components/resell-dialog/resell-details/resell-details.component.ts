@@ -17,6 +17,8 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class ResellDetailsComponent implements OnInit {
   @Input() product: Product;
+  @Input() orderCode: string;
+  @Input() orderEntry: number;
 
   @Output() nextStep = new EventEmitter<string>();
 
@@ -65,6 +67,8 @@ export class ResellDetailsComponent implements OnInit {
     this.resellService
       .loadStockLevels({
         code: this.product.code ?? '',
+        orderCode: this.orderCode,
+        orderEntry: this.orderEntry,
         title: this.form.get('title')?.value ?? '',
         brand: this.product.manufacturer ?? '',
         model: this.product.name ?? '',

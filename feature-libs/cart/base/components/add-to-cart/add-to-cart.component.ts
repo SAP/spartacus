@@ -28,6 +28,7 @@ import {
   isNotNullable,
   Product,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import {
   CmsComponentData,
   CurrentProductService,
@@ -52,6 +53,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    *  a reference to the product model to fetch the stock data.
    */
   @Input() product: Product;
+
+  @Input() order: Order;
 
   //for modal
   @ViewChild('open') element: ElementRef;
@@ -195,7 +198,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.RESELL,
       this.element,
       this.vcr,
-      { product: this.product }
+      { product: this.product, orderCode: this.order.code, orderEntry: 0 }
     );
 
     if (dialog) {

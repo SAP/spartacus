@@ -6,6 +6,8 @@ import { switchMap } from 'rxjs/operators';
 
 export type Listing = {
   code: string;
+  orderCode: string;
+  orderEntry: number;
   title: string;
   brand: string;
   model: string;
