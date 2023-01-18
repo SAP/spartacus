@@ -5,9 +5,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-checkout-review-shipping',
@@ -15,7 +14,9 @@ import { distinctUntilChanged } from 'rxjs/operators';
 })
 export class CheckoutReviewShippingComponent implements OnInit {
 
-  hasShippingItems$: Observable<boolean> = this.activeCartFacade.hasDeliveryItems().pipe(distinctUntilChanged());
+  get entries$(): Observable<OrderEntry[]> {
+    return this.activeCartFacade.getDeliveryEntries();
+  }
 
   constructor(protected activeCartFacade: ActiveCartFacade) { }
 
