@@ -79,36 +79,38 @@ export function checkCurrentGroupActive(currentGroup: string): void {
  * Clicks on 'previous' or 'next' button.
  *
  * @param {string} btnSelector - Button selector
- * @param {string} activeGroup - Name of the group that should be active after click
+ * @param {string} activeGroup - optional - name of the group that should be active after click
  */
 function clickOnPreviousOrNextBtn(
   btnSelector: string,
-  activeGroup: string
+  activeGroup?: string
 ): void {
   cy.get(btnSelector)
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
-      checkCurrentGroupActive(activeGroup);
-      checkUpdatingMessageNotDisplayed();
+      if (activeGroup) {
+        checkCurrentGroupActive(activeGroup);
+        checkUpdatingMessageNotDisplayed();
+      }
     });
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
- * @param {string} nextGroup - Expected next group name
+ * @param {string} nextGroup - optional - expected next group name
  */
-export function clickOnNextBtn(nextGroup: string): void {
+export function clickOnNextBtn(nextGroup?: string): void {
   clickOnPreviousOrNextBtn(nextBtnSelector, nextGroup);
 }
 
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
- * @param {string} previousGroup - Expected previous group name
+ * @param {string} previousGroup - optional - expected previous group name
  */
-export function clickOnPreviousBtn(previousGroup: string): void {
+export function clickOnPreviousBtn(previousGroup?: string): void {
   clickOnPreviousOrNextBtn(previousBtnSelector, previousGroup);
 }
 

@@ -63,7 +63,7 @@ context('Product Configuration', () => {
 
     conflictDialog.close();
     conflictDialog.checkIsClosed();
-    configurationVc.clickOnNextBtnAndWait('Specification');
+    configurationVc.clickOnNextBtnAndWait();
     conflictDialog.checkIsOpen();
 
     conflictDialog.close();
