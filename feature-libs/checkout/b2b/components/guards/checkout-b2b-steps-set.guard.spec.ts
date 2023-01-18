@@ -87,6 +87,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
     mockCheckoutSteps
   );
   disableEnableStep = createSpy();
+  getCheckoutStep = createSpy().and.returnValue({});
 }
 
 class MockCheckoutCostCenterService
