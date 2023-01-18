@@ -1,4 +1,14 @@
 <div class="cx-modal-container">
+  <!-- For screen reader purposes (not visual)-->
+  <div
+    class="cx-visually-hidden"
+    aria-atomic="true"
+    aria-live="assertive"
+    role="alert"
+    aria-relevant="additions"
+  >
+    {{ 'configurator.header.conflictWarning' | cxTranslate }}
+  </div>
   <div class="cx-modal-content" [cxFocus]="focusConfig">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
@@ -34,15 +44,5 @@
         </cx-configurator-group>
       </ng-container>
     </div>
-  </div>
-
-  <!-- For screen reader purposes (not visual)-->
-  <div
-    class="cx-visually-hidden"
-    aria-atomic="true"
-    aria-live="assertive"
-    aria-relevant="additions"
-  >
-    {{ 'configurator.header.conflictWarning' | cxTranslate }}
   </div>
 </div>
