@@ -15,6 +15,7 @@ import {
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_S4OM,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
@@ -129,6 +130,7 @@ describe('Graph utils', () => {
         SPARTACUS_CHECKOUT,
         SPARTACUS_TRACKING,
         SPARTACUS_ASM,
+        SPARTACUS_S4OM,
         SPARTACUS_OPF,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -148,7 +150,7 @@ describe('Graph utils', () => {
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
-        Array [
+        [
           "User-Account",
           "User-Profile",
           "Cart",
@@ -168,7 +170,10 @@ describe('Graph utils', () => {
           "Textfield-Configurator",
           "Administration",
           "Account-Summary",
+          "Unit-Order",
+          "Organization-User-Registration",
           "Order-Approval",
+          "S4HANA-Order-Management",
           "OPF",
           "EPD-Visualization",
           "Digital-Payments",

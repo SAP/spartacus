@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -279,7 +279,7 @@ export class ConfiguratorTestUtils {
     };
     if (numberOfSubgroups > 0) {
       const subGroupNr = groupNr;
-      const subGroupId = groupId.concat('@subGroup') + subGroupNr;
+      const subGroupId = `${groupId}@subGroup${subGroupNr}`;
       const subGroup = this.createComplexGroup(
         subGroupNr + 1,
         subGroupId,

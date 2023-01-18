@@ -82,6 +82,10 @@
                 "bundleName": "epd-visualization"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
+                "bundleName": "s4om"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-opf.scss",
                 "bundleName": "opf"
               }
@@ -217,13 +221,19 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "storefrontapp:build:production",
-            "serverTarget": "storefrontapp:server:production",
             "routes": ["/"]
           },
           "configurations": {
-            "production": {}
-          }
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:server:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development",
+              "serverTarget": "storefrontapp:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },
@@ -669,14 +679,6 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "core-libs/setup/test.ts",
-            "tsConfig": "core-libs/setup/tsconfig.spec.json",
-            "karmaConfig": "core-libs/setup/karma.conf.js"
-          }
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -1020,6 +1022,37 @@
               "feature-libs/order/**/*.ts",
               "feature-libs/order/**/*.html"
             ]
+          }
+        }
+      }
+    },
+    "s4om": {
+      "projectType": "library",
+      "root": "integration-libs/s4om",
+      "sourceRoot": "integration-libs/s4om/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "integration-libs/s4om/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/s4om/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "integration-libs/s4om/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/s4om/test.ts",
+            "tsConfig": "integration-libs/s4om/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/s4om/karma.conf.js"
           }
         }
       }

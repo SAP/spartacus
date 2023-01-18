@@ -59,16 +59,17 @@ context('Product Configuration', () => {
     it('should be able to navigate from the product search result', () => {
       clickAllowAllFromBanner();
       configuration.searchForProduct(testProduct);
-      configurationVc.clickOnConfigureBtnInCatalog();
+      configurationVc.clickOnConfigureBtnInCatalog(testProduct);
     });
 
     it('should be able to navigate from the product details page', () => {
       clickAllowAllFromBanner();
       configurationVc.goToPDPage(electronicsShop, testProduct);
-      configurationVc.clickOnConfigureBtnInCatalog();
+      configurationVc.clickOnConfigureBtnInCatalog(testProduct);
     });
 
     it('should be able to navigate from the overview page', () => {
+      configurationOverviewVc.registerConfigurationOverviewRoute();
       clickAllowAllFromBanner();
       configurationOverviewVc.goToConfigOverviewPage(
         electronicsShop,

@@ -1,0 +1,76 @@
+<ng-container *ngIf="config$ | async as config; else ghostSidebar">
+  <div class="cx-menu-bar" role="tablist">
+    <button
+      role="tab"
+      [attr.aria-selected]="!showFilter"
+      [class.active]="!showFilter"
+      (click)="onMenu()"
+    >
+      {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
+    </button>
+    <button
+      role="tab"
+      [attr.aria-selected]="showFilter"
+      [class.active]="showFilter"
+      (click)="onFilter()"
+    >
+      {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
+    </button>
+  </div>
+
+  <cx-configurator-overview-filter *ngIf="showFilter" [config]="config">
+  </cx-configurator-overview-filter>
+
+  <cx-configurator-overview-menu *ngIf="!showFilter" [config]="config">
+  </cx-configurator-overview-menu>
+</ng-container>
+
+<ng-template #ghostSidebar>
+  <div class="cx-ghost-menu">
+    <div class="cx-ghost-menu-bar ghost"></div>
+    <ng-container *ngFor="let number of [0, 1]">
+      <ng-container *ngFor="let number of [0, 1, 2]; let i = index">
+        <div class="cx-ghost-menu-level1">
+          <div class="cx-ghost-menu-item">
+            <div class="cx-ghost-menu-item-title ghost"></div>
+          </div>
+
+          <ng-container *ngIf="i === 0">
+            <div class="cx-ghost-menu-level2">
+              <div
+                *ngFor="let number of [0, 1, 2, 3]"
+                class="cx-ghost-menu-item"
+              >
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="i === 1">
+            <div class="cx-ghost-menu-level2">
+              <div *ngFor="let number of [0, 1, 2]" class="cx-ghost-menu-item">
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+              <div class="cx-ghost-menu-level3">
+                <div
+                  *ngFor="let number of [0, 1, 2]"
+                  class="cx-ghost-menu-item"
+                >
+                  <div class="cx-ghost-menu-item-title ghost"></div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="i === 2">
+            <div class="cx-ghost-menu-level1">
+              <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
+                <div class="cx-ghost-menu-item-title ghost"></div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

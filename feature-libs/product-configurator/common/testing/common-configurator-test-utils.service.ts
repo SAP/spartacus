@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 /**
  * Common configurator component test utils service provides helper functions for the component tests.
  */
-
 export class CommonConfiguratorTestUtilsService {
   /**
    * Helper function for proving whether the element is present in the DOM tree.
@@ -23,10 +22,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
       0,
-      "expected element identified by selector '" +
-        querySelector +
-        "' to be present, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected element identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -46,10 +42,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       numberOfElements,
-      "expected elements identified by selector '" +
-        querySelector +
-        "' to be present, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected elements identified by selector '${querySelector}' to be present, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -78,6 +71,43 @@ export class CommonConfiguratorTestUtilsService {
   }
 
   /**
+   * Helper function for proving whether an element's attribute has a certain value.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {string} attributeName - name of attribute to check
+   * @param {string} expectedValue - expected attribute value
+   * @param {number?} index - optional - index of the element identified by the query selector
+   */
+  static expectElementToHaveAttributeWithValue(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    attributeName: string,
+    expectedValue: string,
+    index: number = 0
+  ) {
+    const element = htmlElement.querySelectorAll(querySelector)[index];
+    expect(element)
+      .withContext(
+        `expected element identified by selector '${querySelector}[${index}]'
+        to be present, but it has NOT!`
+      )
+      .toBeDefined();
+
+    const attributeValue = element?.getAttribute(attributeName);
+    expect(attributeValue)
+      .withContext(
+        `expected element identified by selector '${querySelector}[${index}]'
+         to have an attribute with name '${attributeName}', but it has NOT!`
+      )
+      .not.toBe(null);
+
+    expect(attributeValue ? attributeValue.trim() : '').toEqual(expectedValue);
+  }
+
+  /**
    * Helper function for proving whether the element is not present in the DOM tree.
    *
    * @param expect - Expectation for a spec.
@@ -91,10 +121,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       0,
-      "expected element identified by selector '" +
-        querySelector +
-        "' to be NOT present, but it is! innerHtml: " +
-        htmlElement.innerHTML
+      `expected element identified by selector '${querySelector}' to be NOT present, but it is! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 
@@ -114,10 +141,7 @@ export class CommonConfiguratorTestUtilsService {
   ) {
     expect(htmlElement.querySelectorAll(querySelector).length).toBe(
       expectedNumber,
-      "expected elements identified by selector '" +
-        querySelector +
-        "' to be present times, but it is NOT! innerHtml: " +
-        htmlElement.innerHTML
+      `expected elements identified by selector '${querySelector}' to be present times, but it is NOT! innerHtml: ${htmlElement.innerHTML}`
     );
   }
 

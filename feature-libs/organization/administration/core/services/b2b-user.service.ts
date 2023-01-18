@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import {
   B2BUser,
   B2BUserRole,
+  B2BUserRight,
   EntitiesModel,
   SearchConfig,
   StateUtils,
@@ -361,6 +362,20 @@ export class B2BUserService {
       B2BUserRole.APPROVER,
       B2BUserRole.ADMIN,
     ];
+  }
+
+  /**
+   * Get list of all rights for B2BUser.
+   *
+   * This list is not driven by the backend (lack of API), but reflects rights
+   * from the backend: `unitorderviewer'.
+   *
+   * If you reconfigure those rights in the backend or extend the list, you should change
+   * this implementation accordingly.
+   */
+
+  getAllRights(): B2BUserRight[] {
+    return [B2BUserRight.UNITORDERVIEWER];
   }
 
   private getB2BUserApproverList(

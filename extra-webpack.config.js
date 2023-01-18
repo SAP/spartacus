@@ -53,6 +53,7 @@ module.exports = {
         __dirname,
         'integration-libs/opf'
       ),
+      '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
 };

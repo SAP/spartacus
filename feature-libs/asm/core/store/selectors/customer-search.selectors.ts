@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,4 +60,13 @@ export const getCustomerListCustomersSearchResultsLoading: MemoizedSelector<
   getCustomerListCustomersSearchResultsLoaderState,
   (state: StateUtils.LoaderState<CustomerSearchPage>) =>
     StateUtils.loaderLoadingSelector(state)
+);
+
+export const getCustomerListCustomersSearchResultsError: MemoizedSelector<
+  StateWithAsm,
+  boolean
+> = createSelector(
+  getCustomerListCustomersSearchResultsLoaderState,
+  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
+    StateUtils.loaderErrorSelector(state)
 );

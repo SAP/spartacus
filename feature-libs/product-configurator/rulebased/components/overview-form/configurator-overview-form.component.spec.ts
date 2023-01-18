@@ -23,12 +23,19 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
+const OV_GROUP_ID = 'idAB-ovGroup';
+const OV_GROUP_ID_2 = 'idCD-ovGroup';
+const OV_ATTRIBUTE: Configurator.AttributeOverview = {
+  attribute: 'Colour',
+  value: 'RED',
+};
 
 const configCreate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
@@ -89,10 +96,17 @@ class MockConfiguratorCommonsService {
   removeConfiguration(): void {}
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  createOvGroupId(): string {
+    return OV_GROUP_ID;
+  }
+}
+
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewFormComponent);
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
+  component.ghostStyle = false;
   fixture.detectChanges();
 }
 
@@ -151,6 +165,10 @@ describe('ConfigurationOverviewFormComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
           },
           {
             provide: FeaturesConfig,
@@ -216,40 +234,77 @@ describe('ConfigurationOverviewFormComponent', () => {
     checkConfigurationOverviewObs('a---a', 'xy', '--uv', '---uv--uv');
   });
 
-  it('should know if a configuration OV has attributes', () => {
-    initialize();
-    expect(component.hasAttributes(configCreate)).toBe(true);
+  describe('hasAttributes', () => {
+    it('should know if a configuration OV has attributes', () => {
+      initialize();
+      expect(component.hasAttributes(configCreate)).toBe(true);
+    });
+
+    it('should detect that a configuration w/o groups has no attributes', () => {
+      initialize();
+      const configWOOverviewGroups: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          configId,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        overview: {
+          configId: ConfigurationTestData.CONFIG_ID,
+          productCode: ConfigurationTestData.PRODUCT_CODE,
+        },
+      };
+      expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
+    });
+
+    it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
+      initialize();
+      const configWOOverviewAttributes: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          configId,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        overview: {
+          configId: ConfigurationTestData.CONFIG_ID,
+          productCode: ConfigurationTestData.PRODUCT_CODE,
+          groups: [{ id: OV_GROUP_ID }],
+        },
+      };
+      expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
+    });
   });
 
-  it('should detect that a configuration w/o groups has no attributes', () => {
-    initialize();
-    const configWOOverviewGroups: Configurator.Configuration = {
-      ...ConfiguratorTestUtils.createConfiguration(
-        configId,
-        ConfiguratorModelUtils.createInitialOwner()
-      ),
-      overview: {
-        configId: ConfigurationTestData.CONFIG_ID,
-        productCode: ConfigurationTestData.PRODUCT_CODE,
-      },
-    };
-    expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
-  });
+  describe('hasGroupWithAttributes', () => {
+    it('should return true if one first level group has attributes', () => {
+      initialize();
+      const ovGroups: Configurator.GroupOverview[] = [
+        { id: OV_GROUP_ID, attributes: [OV_ATTRIBUTE] },
+      ];
+      expect(component['hasGroupWithAttributes'](ovGroups)).toBe(true);
+    });
 
-  it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
-    initialize();
-    const configWOOverviewAttributes: Configurator.Configuration = {
-      ...ConfiguratorTestUtils.createConfiguration(
-        configId,
-        ConfiguratorModelUtils.createInitialOwner()
-      ),
-      overview: {
-        configId: ConfigurationTestData.CONFIG_ID,
-        productCode: ConfigurationTestData.PRODUCT_CODE,
-        groups: [{ id: 'GROUP1' }],
-      },
-    };
-    expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
+    it('should return false if no groups provided', () => {
+      initialize();
+      expect(component['hasGroupWithAttributes'](undefined)).toBe(false);
+    });
+
+    it('should return false if only first level groups exist but no attributes present', () => {
+      initialize();
+      const ovGroups: Configurator.GroupOverview[] = [
+        { id: OV_GROUP_ID },
+        { id: OV_GROUP_ID_2 },
+      ];
+      expect(component['hasGroupWithAttributes'](ovGroups)).toBe(false);
+    });
+
+    it('should return true if no first level attribute group has attributes but attributes exist on second level', () => {
+      initialize();
+      const ovGroups: Configurator.GroupOverview[] = [
+        {
+          id: OV_GROUP_ID,
+          subGroups: [{ id: OV_GROUP_ID_2, attributes: [OV_ATTRIBUTE] }],
+        },
+      ];
+      expect(component['hasGroupWithAttributes'](ovGroups)).toBe(true);
+    });
   });
 
   describe('isSameAttribute', () => {
@@ -288,6 +343,19 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toBe(true);
       result = component.isSameAttribute(attributes, 1);
       expect(result).toBe(true);
+    });
+  });
+
+  describe('getGroupId', () => {
+    it('should dispatch request to utils service', () => {
+      initialize();
+      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
+    });
+
+    it('should cope with utils service not present', () => {
+      initialize();
+      component['configuratorStorefrontUtilsService'] = undefined;
+      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
     });
   });
 
