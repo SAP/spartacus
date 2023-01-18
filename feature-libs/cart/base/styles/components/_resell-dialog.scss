@@ -1,0 +1,65 @@
+cx-resell-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-resell-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @include media-breakpoint-down(sm) {
+      height: min-content;
+    }
+
+    .cx-dialog-content {
+      @extend .modal-content;
+      .cx-dialog-header {
+        .cx-dialog-title {
+          @include type('3');
+          margin-inline-start: var(--cx-margin-left, 0.875rem);
+        }
+      }
+      .cx-dialog-header {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border: none;
+        margin-top: 1.15rem;
+      }
+    }
+    .modal-body {
+      padding-top: 0.75rem;
+
+      .grid-marketplaces {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+        row-gap: 24px;
+
+        .marketplace-card {
+          @include type('4');
+
+          border: 1px solid #d3d6db;
+          padding: 16px;
+          border-radius: 10px;
+
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+
+      .calls-to-action {
+        display: flex;
+        align-items: flex-end;
+
+        button {
+          margin-left: 16px;
+        }
+      }
+    }
+    .cx-dialog-footer {
+      padding-top: 0;
+      padding-inline-end: 1rem;
+      padding-bottom: 0;
+      padding-inline-start: 1rem;
+    }
+    max-width: 50%;
+  }
+}

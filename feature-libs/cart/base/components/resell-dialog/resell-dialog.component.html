@@ -1,0 +1,38 @@
+<div
+  class="cx-resell-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="close(CLOSE_WITHOUT_SELECTION)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cx-pickup-option-dialog-title"
+>
+  <div class="cx-dialog-content">
+    <!-- Modal Header -->
+    <div class="modal-header cx-dialog-header">
+      <div id="cx-pickup-option-dialog-title" class="cx-dialog-title">
+        {{ title }}
+      </div>
+
+      <button
+        (click)="close(CLOSE_WITHOUT_SELECTION)"
+        class="cx-dialog-close close"
+        [attr.aria-label]="'Close'"
+        type="button"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="ICON_TYPE.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <section class="cx-dialog-body modal-body">
+      <cx-marketplaces
+        *ngIf="stage === 'marketplaces'"
+        (nextStep)="next($event)"
+      ></cx-marketplaces>
+      <cx-login *ngIf="stage === 'login'" (nextStep)="next($event)"></cx-login>
+      <cx-resell *ngIf="stage === 'details'"></cx-resell>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<form>
+  <label>
+    <span class="label-content">Email or username</span>
+    <input
+      required="true"
+      type="email"
+      class="form-control"
+      placeholder="Email or username"
+    />
+  </label>
+
+  <label>
+    <span class="label-content">Password</span>
+    <input
+      required="true"
+      type="password"
+      class="form-control"
+      placeholder="Password"
+      cxPasswordVisibilitySwitch
+    />
+  </label>
+
+  <button class="btn btn-block btn-primary" (click)="submitLogin()">
+    Sign in
+  </button>
+</form>

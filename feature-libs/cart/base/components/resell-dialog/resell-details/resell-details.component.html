@@ -1,0 +1,59 @@
+<form (ngSubmit)="submitLogin()" [formGroup]="form">
+  <label>
+    <span class="label-content">Condition</span>
+    <ng-select
+      [inputAttrs]="{ required: 'true' }"
+      formControlName="condition"
+      [searchable]="false"
+      [clearable]="false"
+      [items]="conditions"
+      bindLabel="name"
+      bindValue="code"
+      placeholder="Condition"
+    >
+    </ng-select>
+  </label>
+
+  <label>
+    <span class="label-content">Price</span>
+    <input
+      required="true"
+      class="form-control"
+      placeholder="Price"
+      formControlName="price"
+    />
+  </label>
+
+  <label>
+    <span class="label-content">Postage/Delivery options</span>
+    <ng-select
+      [inputAttrs]="{ required: 'true' }"
+      formControlName="postageOrDeliveryOption"
+      [searchable]="false"
+      [clearable]="false"
+      [items]="postageOrDeliveryOption"
+      bindLabel="name"
+      bindValue="code"
+      placeholder="Optionally Select..."
+    >
+    </ng-select>
+  </label>
+  <label>
+    <span class="label-content">Message</span>
+    <textarea
+      required="false"
+      class="form-control"
+      formControlName="message"
+      rows="5"
+    ></textarea>
+  </label>
+
+  <div class="calls-to-action">
+    <button [attr.aria-label]="" class="btn btn-secondary" type="button">
+      View Summary
+    </button>
+    <button [attr.aria-label]="" class="btn btn-primary" type="button">
+      Submit
+    </button>
+  </div>
+</form>

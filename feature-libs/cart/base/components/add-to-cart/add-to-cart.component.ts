@@ -8,10 +8,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -28,6 +31,8 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  LaunchDialogService,
+  LAUNCH_CALLER,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -47,6 +52,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    *  a reference to the product model to fetch the stock data.
    */
   @Input() product: Product;
+
+  //for modal
+  @ViewChild('open') element: ElementRef;
+  protected vcr: ViewContainerRef;
 
   maxQuantity: number;
 
@@ -70,6 +79,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected launchDialogService: LaunchDialogService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -178,5 +188,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  resell() {
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.RESELL,
+      this.element,
+      this.vcr,
+      {}
+    );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
+    return false;
   }
 }

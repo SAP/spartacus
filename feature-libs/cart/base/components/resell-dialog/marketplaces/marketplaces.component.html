@@ -1,0 +1,8 @@
+<div class="grid-marketplaces">
+  <div *ngFor="let marketplace of marketplaces">
+    <div class="marketplace-card" (click)="goToNextStep(marketplace.id)">
+      <div class="marketplace-name">{{ marketplace.name }}</div>
+      <img src="{{ marketplace.imageUrl }}" />
+    </div>
+  </div>
+</div>
