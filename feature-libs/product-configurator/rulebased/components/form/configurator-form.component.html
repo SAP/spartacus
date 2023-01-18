@@ -1,5 +1,5 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <ng-container *ngIf="!isDialogActive(configuration); else ghostform">
+  <ng-container *ngIf="!isDialogActive(configuration); else ghostForm">
     <cx-configurator-group
       [group]="currentGroup$ | async"
       [owner]="configuration.owner"

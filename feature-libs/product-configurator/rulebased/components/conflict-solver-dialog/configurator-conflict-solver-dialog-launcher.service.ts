@@ -5,7 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { EventService, RoutingService } from '@spartacus/core';
+
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
   ConfiguratorRouter,
@@ -14,7 +14,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { switchMap } from 'rxjs/operators';
+import { delay, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -33,13 +33,13 @@ export class ConfiguratorConflictSolverDialogLauncherService
         return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
           routerData.owner
         );
-      })
+      }),
+      //Delay because we first want the form to react on data changes
+      delay(0)
     );
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected eventService: EventService,
-    protected routingService: RoutingService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorGroupsService: ConfiguratorGroupsService
   ) {

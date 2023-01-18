@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -11,11 +11,9 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { RouterState, RoutingService } from '@spartacus/core';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { cold } from 'jasmine-marbles';
 
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -66,20 +64,11 @@ class MockConfiguratorGroupsService {
   }
 }
 
-let mockRouterState: RouterState;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
-  }
-}
-
 describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   let listener: ConfiguratorConflictSolverDialogLauncherService;
   let launchDialogService: LaunchDialogService;
-  let mockRoutingService: MockRoutingService = new MockRoutingService();
 
-  function initEventListener() {
+  function initLauncherService() {
     listener = TestBed.inject(ConfiguratorConflictSolverDialogLauncherService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(launchDialogService, 'closeDialog').and.stub();
@@ -102,10 +91,6 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-        {
-          provide: RoutingService,
-          useValue: mockRoutingService,
-        },
       ],
     });
     group = createConflictGroup();
@@ -113,18 +98,6 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
     mockRouterData = structuredClone(defaultMockRouterData);
     routerData$ = of(mockRouterData);
-
-    mockRouterState = {
-      navigationId: 1,
-      state: {
-        url: '',
-        queryParams: [],
-        params: [],
-        context: { id: '' },
-        cmsRequired: true,
-        semanticRoute: CONFIGURATOR_ROUTE,
-      },
-    };
   });
 
   afterEach(() => {
@@ -140,35 +113,37 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     });
 
     it('should emit group data', () => {
-      routerData$ = cold('    c---', { c: configRouterData });
-      conflictGroup$ = cold('        -g--', { g: group });
-      const expected$ = cold('-g--', { g: group });
-      initEventListener();
-      expect(listener.conflictGroup$).toBeObservable(expected$);
+      routerData$ = of(configRouterData);
+      conflictGroup$ = of(group);
+
+      initLauncherService();
+      listener.conflictGroup$.subscribe((data) => expect(data).toEqual(group));
     });
   });
 
   describe('controlDialog', () => {
-    it('should open conflict solver dialog because there are some conflict groups', () => {
-      initEventListener();
+    it('should open conflict solver dialog because there are some conflict groups', fakeAsync(() => {
+      initLauncherService();
       listener['controlDialog']();
+      tick(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
-    });
+    }));
 
-    it('should close conflict solver dialog because there are not any conflict groups', () => {
-      initEventListener();
+    it('should close conflict solver dialog because there are not any conflict groups', fakeAsync(() => {
+      initLauncherService();
       conflictGroup$ = of(undefined);
       listener['controlDialog']();
+      tick(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
       );
-    });
+    }));
   });
 
   describe('closeModal', () => {
     it('should close conflict solver dialog', () => {
-      initEventListener();
+      initLauncherService();
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
     });
