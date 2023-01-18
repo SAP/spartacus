@@ -62,8 +62,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected cdr: ChangeDetectorRef
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   ngOnInit(): void {
