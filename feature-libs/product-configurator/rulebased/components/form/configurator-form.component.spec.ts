@@ -590,34 +590,6 @@ describe('ConfigurationFormComponent', () => {
       createComponentWithoutData();
       expect(component['conflictSolverSubscription']).toBeDefined();
     });
-
-    it('should detach view from change detection if conflict solver opens', () => {
-      configuration.interactionState.showConflictSolverDialog = true;
-      routerStateObservable = of({
-        ...mockRouterState,
-      });
-      configurationCreateObservable = of(configuration);
-      createComponentWithoutData();
-      // change detector ref can't be accessed via TestBed DI, instead use property of component
-      spyOn(component['cdr'], 'detach').and.callThrough();
-      // hence repeat ngOnInit as first execution was without spy installed
-      component.ngOnInit();
-      expect(component['cdr'].detach).toHaveBeenCalled();
-    });
-
-    it('should reattach view to change detection if conflict solver closes', () => {
-      configuration.interactionState.showConflictSolverDialog = false;
-      routerStateObservable = of({
-        ...mockRouterState,
-      });
-      configurationCreateObservable = of(configuration);
-      createComponentWithoutData();
-      // change detector ref can't be accessed via TestBed DI, instead use property of component
-      spyOn(component['cdr'], 'reattach').and.callThrough();
-      // hence repeat ngOnInit as first execution was without spy installed
-      component.ngOnInit();
-      expect(component['cdr'].reattach).toHaveBeenCalled();
-    });
   });
 
   describe('ngOnDestroy ', () => {

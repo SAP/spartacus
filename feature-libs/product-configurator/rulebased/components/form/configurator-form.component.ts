@@ -117,7 +117,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe((config) => {
-          this.cdr.detach();
           if (config.interactionState.showConflictSolverDialog) {
             if (
               config.interactionState.currentGroup?.startsWith(
@@ -128,8 +127,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
                 config
               );
             }
-          } else {
-            this.cdr.reattach();
           }
         });
     });
@@ -150,5 +147,14 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
         return !configuration.immediateConflictResolution;
       })
     );
+  }
+
+  /**
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
+   */
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
   }
 }
