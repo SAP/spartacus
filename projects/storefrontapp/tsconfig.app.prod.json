@@ -155,7 +155,16 @@
       "@spartacus/organization/unit-order/assets": [
         "dist/organization/unit-order/assets"
       ],
+      "@spartacus/organization/unit-order/components": [
+        "dist/organization/unit-order/components"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "dist/organization/unit-order/core"
+      ],
       "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
+      "@spartacus/organization/unit-order/occ": [
+        "dist/organization/unit-order/occ"
+      ],
       "@spartacus/organization/unit-order/root": [
         "dist/organization/unit-order/root"
       ],
@@ -267,6 +276,9 @@
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
       "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
+      "@spartacus/s4om/assets": ["dist/s4om/assets"],
+      "@spartacus/s4om": ["dist/s4om"],
+      "@spartacus/s4om/root": ["dist/s4om/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

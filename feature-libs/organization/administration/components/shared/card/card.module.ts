@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { MessageModule } from '../message/message.module';
 import { CardComponent } from './card.component';
@@ -28,6 +28,8 @@ import { PopoverModule } from '@spartacus/storefront';
     UrlModule,
     MessageModule,
     PopoverModule,
+    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+    FeaturesConfigModule,
   ],
   declarations: [CardComponent],
   exports: [CardComponent],

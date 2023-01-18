@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   I18nModule,
   UrlModule,
   NotAuthGuard,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -35,6 +36,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
+    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrganizationUserRegistrationComponent: {

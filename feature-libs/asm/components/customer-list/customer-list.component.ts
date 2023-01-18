@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -194,7 +194,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     action: CustomerListColumnActionType
   ): void {
     this.selectedCustomer = customerEntry;
-    let closeValue: CustomerListAction = {
+    const closeValue: CustomerListAction = {
       actionType: action,
       selectedUser: customerEntry,
     };
