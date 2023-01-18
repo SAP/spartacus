@@ -1,12 +1,17 @@
-<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
-</h2>
+<ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+  </h2>
 
-<ng-template
-  [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-  [cxOutletContext]="{ items: deliveryEntries$ | async, readonly: true }"
->
-</ng-template>
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: activeCartFacade.getDeliveryEntries() | async,
+      readonly: true
+    }"
+  >
+  </ng-template>
+</ng-container>
 
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
