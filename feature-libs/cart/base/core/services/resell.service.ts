@@ -16,6 +16,7 @@ export type Listing = {
     type: string;
     price: number;
   };
+  images: string[];
 };
 
 export type ListingResponse = {

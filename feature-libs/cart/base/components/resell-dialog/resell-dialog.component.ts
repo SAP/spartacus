@@ -90,7 +90,6 @@ export class ResellDialogComponent implements OnInit {
   }
 
   next(reference: string) {
-    console.log('reference :>> ', reference);
     if (reference.startsWith('login')) {
       this.stage = 'login';
     } else if (reference === 'details') {

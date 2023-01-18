@@ -7,7 +7,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResellService } from '@spartacus/cart/base/core';
-import { Product } from '@spartacus/core';
+import { ImageGroup, Product } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class ResellDetailsComponent implements OnInit {
   @Output() nextStep = new EventEmitter<string>();
 
   form = new FormGroup({
-    condition: new FormControl('2750', Validators.required),
+    condition: new FormControl('3000', Validators.required),
     price: new FormControl(0, Validators.required),
     postageOrDeliveryOption: new FormControl('FLAT', Validators.required),
     title: new FormControl('', Validators.required),
@@ -30,7 +30,7 @@ export class ResellDetailsComponent implements OnInit {
 
   conditions = [
     { code: '1000', name: 'New' },
-    { code: '2750', name: 'Like New' },
+    // { code: '2750', name: 'Like New' },
     { code: '3000', name: 'Used' },
     { code: '4000', name: 'Very Good' },
     { code: '5000', name: 'Good' },
@@ -55,13 +55,20 @@ export class ResellDetailsComponent implements OnInit {
   }
 
   submit() {
+    const images: string[] = [];
+    if (this.product.images) {
+      images.push(
+        (this.product.images['PRIMARY'] as ImageGroup)['product'].url ?? ''
+      );
+    }
+
     this.resellService
       .loadStockLevels({
         code: this.product.code ?? '',
         title: this.form.get('title')?.value ?? '',
         brand: this.product.manufacturer ?? '',
         model: this.product.name ?? '',
-        condition: this.form.get('condition')?.value ?? '2750',
+        condition: this.form.get('condition')?.value ?? '3000',
         price: this.form.get('price')?.value ?? 0,
         description: this.form.get('description')?.value ?? '',
         deliveryOption: {
@@ -71,6 +78,7 @@ export class ResellDetailsComponent implements OnInit {
               ? 0
               : 5,
         },
+        images,
       })
       .pipe(
         catchError((_err) => of({ itemId: 'somecode' })),
