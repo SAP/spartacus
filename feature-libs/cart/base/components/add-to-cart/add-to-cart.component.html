@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <button class="link cx-action-link" (click)="resell()">
+  <button *ngIf="options?.displayAddToCart" class="link cx-action-link" (click)="resell()">
     Resell
   </button>
 
