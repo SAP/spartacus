@@ -123,6 +123,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
                 Configurator.ConflictIdPrefix
               )
             ) {
+              console.log("CHHI change group");
               this.configuratorGroupsService.navigateToFirstAttributeGroup(
                 config
               );

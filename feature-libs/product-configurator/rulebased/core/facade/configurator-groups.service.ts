@@ -39,6 +39,7 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
+        console.log("CHHI getCurrentGroupId: " +configuration.interactionState.currentGroup );
         if (configuration.interactionState.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
