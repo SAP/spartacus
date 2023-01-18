@@ -35,7 +35,7 @@ export class I18nextInitializer implements OnDestroy {
     return this.i18next.init(i18nextConfig, () => {
       // Don't use i18next's 'resources' config key for adding static translations,
       // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-      this.i18nextAddTranslations(this.i18next, this.config.i18n?.resources);
+      this.addTranslationResources();
       this.synchronizeLanguage();
     });
   }
@@ -70,13 +70,11 @@ export class I18nextInitializer implements OnDestroy {
    * @param i18next i18next instance
    * @param resources translation resources
    */
-  protected i18nextAddTranslations(
-    i18next: i18n,
-    resources: TranslationResources = {}
-  ): void {
+  protected addTranslationResources(): void {
+    const resources: TranslationResources = this.config.i18n?.resources ?? {};
     Object.keys(resources).forEach((lang) => {
       Object.keys(resources[lang]).forEach((chunkName) => {
-        i18next.addResourceBundle(
+        this.i18next.addResourceBundle(
           lang,
           chunkName,
           resources[lang][chunkName],
