@@ -283,7 +283,6 @@ manageDependencies(repository, options);
 manageTsConfigs(repository, options);
 
 if (options.generateDeps) {
-  console.log('LOL');
   // re-generate dependencies.json file.
   execSync(`npm run generate:deps`);
 } else {

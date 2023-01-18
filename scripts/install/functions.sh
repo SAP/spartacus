@@ -286,7 +286,7 @@ function install_from_sources {
     update_projects_versions ${project_sources[@]}
 
     printh "Building libraries."
-    ( cd ${CLONE_DIR}npm run build:libs)
+    ( cd ${CLONE_DIR} && npm run build:libs)
 
     verdaccio --config ./config.yaml &
 
