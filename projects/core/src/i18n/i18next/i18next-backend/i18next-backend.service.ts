@@ -20,6 +20,8 @@ import { I18nextHttpBackendService } from './i18next-http-backend.service';
 export abstract class I18nextBackendService {
   /**
    * Configures an i18next backend plugin, to allow for loading translations from external resources.
+   *
+   * @returns Additional configuration to be used when initializing the i18next instance.
    */
   abstract initialize(): InitOptions;
 }

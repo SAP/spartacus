@@ -18,7 +18,7 @@ import {
 
 /**
  * Configures an i18next HTTP backend plugin,
- * to allow for loading translations from external resources via HTTP.
+ * to allow for loading translations via HTTP.
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextHttpBackendService implements I18nextBackendService {
@@ -31,8 +31,9 @@ export class I18nextHttpBackendService implements I18nextBackendService {
   ) {}
 
   /**
+   * @override
    * Configures an i18next HTTP backend plugin,
-   * to allow for loading translations from external resources via HTTP.
+   * to allow for loading translations via HTTP.
    */
   initialize(): InitOptions {
     this.i18next.use(i18nextHttpBackend);
@@ -40,7 +41,7 @@ export class I18nextHttpBackendService implements I18nextBackendService {
   }
 
   /**
-   * Returns the configuration for the i18next http backend plugin.
+   * Returns the configuration for the i18next-http-backend plugin.
    */
   protected getBackendConfig(): BackendOptions {
     const loadPath = this.getLoadPath(

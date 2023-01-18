@@ -11,7 +11,7 @@ import type { BackendOptions, RequestCallback } from 'i18next-http-backend';
 export type I18nextHttpBackendClient = BackendOptions['request'];
 
 /**
- * Http client function for loading translations from backend, to be used by the i18next http backend plugin.
+ * Function to be used by the `i18next-http-backend` plugin for loading translations via http.
  */
 export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
   BackendOptions['request']
