@@ -11,7 +11,6 @@ import {
   ConverterService,
   isJaloError,
   normalizeHttpError,
-  OccEndpointsService,
 } from '@spartacus/core';
 import {
   OpfAdapter,
@@ -26,24 +25,20 @@ import { catchError } from 'rxjs/operators';
 export class OccOpfAdapter implements OpfAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
     protected opfEndpointsService: OpfEndpointsService
   ) {}
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    this.opfEndpointsService.buildUrl('getActiveConfigurations');
-
     let headers = new HttpHeaders({
       // TODO: (OPF) to be changed once backend has stable configuration
       'sap-commerce-cloud-public-key': '123',
     });
 
     return this.http
-      .get<ActiveConfiguration[]>(
-        this.opfEndpointsService.buildUrl('getActiveConfigurations'),
-        { headers }
-      )
+      .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
+        headers,
+      })
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
         backOff({
@@ -54,6 +49,6 @@ export class OccOpfAdapter implements OpfAdapter {
   }
 
   protected getActiveConfigurationsEndpoint(): string {
-    return this.occEndpoints.buildUrl('getActiveConfigurations');
+    return this.opfEndpointsService.buildUrl('getActiveConfigurations');
   }
 }
