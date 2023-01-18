@@ -5,4 +5,5 @@
  */
 
 export * from './model';
+export * from './server-app-dist-folder';
 export * from './ssr-providers';
