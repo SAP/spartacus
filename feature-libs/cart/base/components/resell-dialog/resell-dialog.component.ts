@@ -5,11 +5,13 @@
  */
 
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Product, ProductService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { filter, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-resell-dialog',
@@ -30,6 +32,8 @@ export class ResellDialogComponent implements OnInit {
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   stage = 'marketplaces';
+  product: Product;
+  itemId: string;
 
   get title() {
     switch (this.stage) {
@@ -39,6 +43,8 @@ export class ResellDialogComponent implements OnInit {
         return 'Log in to eBay';
       case 'details':
         return 'Item details';
+      case 'listing':
+        return 'Link to your listing';
       default:
         return '';
     }
@@ -46,7 +52,8 @@ export class ResellDialogComponent implements OnInit {
 
   constructor(
     protected elementRef: ElementRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected productService: ProductService
   ) {
     // Intentional empty constructor
   }
@@ -60,13 +67,37 @@ export class ResellDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.launchDialogService.data$
+      .pipe(
+        switchMap(({ product }) =>
+          this.productService.get(product.code).pipe(
+            filter(
+              (enrichedProduct): enrichedProduct is Product => !!enrichedProduct
+            ),
+            map(
+              (enrichedProduct) =>
+                ({ ...enrichedProduct, ...product } as Product)
+            ),
+            startWith(product)
+          )
+        )
+      )
+      .subscribe((product) => {
+        console.log('product :>> ', product);
+        this.product = product;
+      });
+  }
 
   next(reference: string) {
-    if (reference === 'login') {
+    console.log('reference :>> ', reference);
+    if (reference.startsWith('login')) {
+      this.stage = 'login';
+    } else if (reference === 'details') {
       this.stage = 'details';
     } else {
-      this.stage = 'login';
+      this.itemId = reference;
+      this.stage = 'listing';
     }
   }
 

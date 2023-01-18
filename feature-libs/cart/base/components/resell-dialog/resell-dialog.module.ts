@@ -15,6 +15,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { ListingComponent } from './listing/listing.component';
 import { LoginComponent } from './login/login.component';
 import { MarketplacesComponent } from './marketplaces/marketplaces.component';
 import { ResellDetailsComponent } from './resell-details/resell-details.component';
@@ -34,6 +35,7 @@ import { ResellDialogComponent } from './resell-dialog.component';
     SpinnerModule,
   ],
   declarations: [
+    ListingComponent,
     LoginComponent,
     MarketplacesComponent,
     ResellDetailsComponent,

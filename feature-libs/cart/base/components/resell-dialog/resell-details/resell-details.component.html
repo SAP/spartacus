@@ -1,4 +1,4 @@
-<form (ngSubmit)="submitLogin()" [formGroup]="form">
+<form (ngSubmit)="submit()" [formGroup]="form">
   <label>
     <span class="label-content">Condition</span>
     <ng-select
@@ -15,12 +15,15 @@
   </label>
 
   <label>
-    <span class="label-content">Price</span>
+    <span class="label-content"
+      >Price (Original: {{ product.price?.formattedValue }})</span
+    >
     <input
       required="true"
       class="form-control"
       placeholder="Price"
       formControlName="price"
+      type="number"
     />
   </label>
 
@@ -38,21 +41,32 @@
     >
     </ng-select>
   </label>
+
   <label>
-    <span class="label-content">Message</span>
+    <span class="label-content">Title</span>
+    <input
+      required="true"
+      class="form-control"
+      placeholder="Title"
+      formControlName="title"
+    />
+  </label>
+
+  <label>
+    <span class="label-content">Description</span>
     <textarea
       required="false"
       class="form-control"
-      formControlName="message"
+      formControlName="description"
       rows="5"
     ></textarea>
   </label>
 
   <div class="calls-to-action">
-    <button [attr.aria-label]="" class="btn btn-secondary" type="button">
+    <!-- <button [attr.aria-label]="" class="btn btn-secondary" type="button">
       View Summary
-    </button>
-    <button [attr.aria-label]="" class="btn btn-primary" type="button">
+    </button> -->
+    <button [attr.aria-label]="" class="btn btn-primary" type="submit">
       Submit
     </button>
   </div>

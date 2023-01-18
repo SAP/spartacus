@@ -32,7 +32,8 @@
         (nextStep)="next($event)"
       ></cx-marketplaces>
       <cx-login *ngIf="stage === 'login'" (nextStep)="next($event)"></cx-login>
-      <cx-resell *ngIf="stage === 'details'"></cx-resell>
+      <cx-resell *ngIf="stage === 'details'" [product]="product" (nextStep)="next($event)"></cx-resell>
+      <cx-listing *ngIf="stage === 'listing'" [itemId]="itemId"></cx-listing>
     </section>
   </div>
 </div>

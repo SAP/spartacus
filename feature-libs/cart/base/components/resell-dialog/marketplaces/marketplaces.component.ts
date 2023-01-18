@@ -17,22 +17,24 @@ export class MarketplacesComponent {
     {
       id: 'ebay',
       name: 'eBay',
-      imageUrl: 'https://via.placeholder.com/100x50?text=Marketplace+Logo',
+      imageUrl: 'https://cdn.worldvectorlogo.com/logos/ebay.svg',
     },
     {
       id: 'facebook',
       name: 'Facebook Marketplace',
-      imageUrl: 'https://via.placeholder.com/100x50?text=Marketplace+Logo',
+      imageUrl:
+        'https://cdn.worldvectorlogo.com/logos/marketplace-facebook.svg',
     },
     {
       id: 'craigslist',
       name: 'Craigslist',
-      imageUrl: 'https://via.placeholder.com/100x50?text=Marketplace+Logo',
+      imageUrl: 'https://cdn.worldvectorlogo.com/logos/craigslist.svg',
     },
     {
       id: 'gumtree',
       name: 'Gumtree',
-      imageUrl: 'https://via.placeholder.com/100x50?text=Marketplace+Logo',
+      imageUrl:
+        'https://www.logosvgpng.com/wp-content/uploads/2018/04/gumtree-logo-vector.png',
     },
   ];
 
@@ -41,6 +43,6 @@ export class MarketplacesComponent {
   }
 
   goToNextStep(marketplaceId: string) {
-    this.nextStep.emit(marketplaceId);
+    this.nextStep.emit(`login:${marketplaceId}`);
   }
 }

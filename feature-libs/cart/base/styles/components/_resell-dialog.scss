@@ -42,12 +42,21 @@ cx-resell-dialog {
           display: flex;
           justify-content: space-between;
           align-items: center;
+
+          cursor: pointer;
+
+          img {
+            height: 50px;
+            max-width: 150px;
+          }
         }
       }
 
       .calls-to-action {
         display: flex;
-        align-items: flex-end;
+        justify-content: flex-end;
+
+        margin-top: 16px;
 
         button {
           margin-left: 16px;

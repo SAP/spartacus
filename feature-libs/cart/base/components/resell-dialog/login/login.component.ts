@@ -18,7 +18,7 @@ export class LoginComponent {
   }
 
   submitLogin() {
-    this.nextStep.emit('login');
+    this.nextStep.emit('details');
     return false;
   }
 }

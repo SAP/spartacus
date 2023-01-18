@@ -195,7 +195,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.RESELL,
       this.element,
       this.vcr,
-      {}
+      { product: this.product }
     );
 
     if (dialog) {
