@@ -415,7 +415,26 @@ describe('ActiveCartService', () => {
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
-        2
+        2,
+        undefined
+      );
+    });
+
+    it('should handle pickup in store', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'addEntry').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      service.addEntry('productCode', 2, 'pickupStore');
+
+      expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS,
+        'guid',
+        'productCode',
+        2,
+        'pickupStore'
       );
     });
   });
@@ -448,7 +467,41 @@ describe('ActiveCartService', () => {
         'userId',
         'cartId',
         1,
-        2
+        2,
+        undefined,
+        false
+      );
+    });
+
+    it('should handle pickup in store', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+
+      service.updateEntry(1, 2, 'pickupStore');
+      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
+        'userId',
+        'cartId',
+        1,
+        2,
+        'pickupStore',
+        false
+      );
+    });
+
+    it('should switch from pickup to delivery', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+
+      service.updateEntry(1, 2, undefined, true);
+      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
+        'userId',
+        'cartId',
+        1,
+        2,
+        undefined,
+        true
       );
     });
   });

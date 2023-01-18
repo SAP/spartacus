@@ -111,7 +111,12 @@ export abstract class ActiveCartFacade {
    * @param entryNumber
    * @param quantity
    */
-  abstract updateEntry(entryNumber: number, quantity: number): void;
+  abstract updateEntry(
+    entryNumber: number,
+    quantity: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
+  ): void;
 
   /**
    * Returns cart entry

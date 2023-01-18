@@ -225,7 +225,8 @@ export class MultiCartService implements MultiCartFacade {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number
+    quantity: number,
+    pickupStore?: string
   ): void {
     this.store.dispatch(
       new CartActions.CartAddEntry({
@@ -233,6 +234,7 @@ export class MultiCartService implements MultiCartFacade {
         cartId,
         productCode,
         quantity,
+        pickupStore,
       })
     );
   }
@@ -290,19 +292,23 @@ export class MultiCartService implements MultiCartFacade {
     userId: string,
     cartId: string,
     entryNumber: number,
-    quantity: number
+    quantity?: number,
+    pickupStore?: string,
+    pickupToDelivery: boolean = false
   ): void {
-    if (quantity > 0) {
+    if (quantity !== undefined && quantity <= 0) {
+      this.removeEntry(userId, cartId, entryNumber);
+    } else {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
+          pickupStore,
+          pickupToDelivery,
           entryNumber: `${entryNumber}`,
           quantity: quantity,
         })
       );
-    } else {
-      this.removeEntry(userId, cartId, entryNumber);
     }
   }
 
