@@ -1,5 +1,5 @@
 <ng-container *ngIf="entries$ | async as entries">
-    <div> Items to be shipped </div>
+    <div class="title-message"> Items to be shipped </div>
     <div class="cx-review-summary" style="display: flex; justify-content: space-between;">
         <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
           <div class="cx-review-payment-col card">
