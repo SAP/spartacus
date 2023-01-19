@@ -32,11 +32,7 @@
           >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
         >
       </div>
-      <div
-        *ngIf="!withQuantity && value.valuePrice"
-        aria-hidden="true"
-        class="cx-value-price"
-      >
+      <div *ngIf="value.valuePrice" aria-hidden="true" class="cx-value-price">
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"
         ></cx-configurator-price>
