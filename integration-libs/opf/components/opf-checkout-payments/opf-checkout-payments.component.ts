@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActiveConfiguration, OpfCheckoutFacade } from '@spartacus/opf/root';
 import { tap } from 'rxjs/operators';
 
@@ -21,6 +21,9 @@ export class OpfCheckoutPaymentsComponent {
       }
     })
   );
+
+  @Input()
+  disabled = false;
 
   selectedPaymentId?: number;
 

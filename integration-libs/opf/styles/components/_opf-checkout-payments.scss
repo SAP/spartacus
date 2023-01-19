@@ -5,17 +5,12 @@
     border-radius: 10px;
   }
 
-  .title {
-    font-weight: 600;
-    font-size: 18px;
-  }
-
   .form-check {
     margin-bottom: 0;
-    padding-top: 1rem;
     padding-bottom: 1rem;
+    padding-top: 0;
 
-    &:not(:first-child) {
+    & ~ .form-check {
       padding-top: 1rem;
     }
 
