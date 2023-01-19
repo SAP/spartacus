@@ -191,10 +191,7 @@ function handleReadSucess(
 
 function handleCartEntryReadSucess(
   state: Configurator.Configuration,
-  action:
-    | ConfiguratorActions.CreateConfigurationSuccess
-    | ConfiguratorActions.ReadConfigurationSuccess
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+  action: ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   return setInitialCurrentGroup(takeOverChanges(action, state));
 }

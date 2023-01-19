@@ -18,6 +18,7 @@ const GROUP_ID_1 = 'GROUP';
 const GROUP_ID_2 = 'firstGroup';
 const ATTRIBUTE_NAME = 'ATTR_1';
 const VALUE_CODE = 'VAL';
+const CONFLICT_GUID = '5A6542';
 
 const OWNER: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
@@ -60,10 +61,27 @@ const CONFIGURATION: Configurator.Configuration = {
   isCartEntryUpdateRequired: false,
   interactionState: INTERACTION_STATE,
 };
+
+const CONFIGURATION_WITH_CONFLICTS_WO_ATTRIBUTE_GROUP: Configurator.Configuration =
+  {
+    ...CONFIGURATION,
+    flatGroups: [
+      ConfiguratorTestUtils.createGroup(
+        Configurator.ConflictIdPrefix + CONFLICT_GUID
+      ),
+    ],
+    interactionState: {},
+  };
 const CONFIGURATION_WITH_CONFLICTS: Configurator.Configuration = {
   ...CONFIGURATION,
   flatGroups: [
-    ConfiguratorTestUtils.createGroup(Configurator.ConflictIdPrefix + '5A6542'),
+    ConfiguratorTestUtils.createGroup(
+      Configurator.ConflictIdPrefix + CONFLICT_GUID
+    ),
+    {
+      ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
+      attributes: [{ name: ATTRIBUTE_NAME }],
+    },
   ],
   interactionState: {},
 };
@@ -153,6 +171,24 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.menuParentGroup).toEqual(
         Configurator.ConflictHeaderId
       );
+    });
+
+    it('should set current group to first attribute group in case immediateConflictResolution is active', () => {
+      const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess({
+        ...CONFIGURATION_WITH_CONFLICTS,
+        immediateConflictResolution: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.currentGroup).toEqual(GROUP_ID_1);
+    });
+
+    it('should set current group to undefined in case immediateConflictResolution is active but no attribute group exists', () => {
+      const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess({
+        ...CONFIGURATION_WITH_CONFLICTS_WO_ATTRIBUTE_GROUP,
+        immediateConflictResolution: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.currentGroup).toBeUndefined();
     });
   });
 
