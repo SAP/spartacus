@@ -53,7 +53,9 @@ export class ConfiguratorPriceComponent {
       this.formula.priceTotal.value >= 0
     ) {
       return '+' + this.formula.priceTotal?.formattedValue;
-    } else return this.formula.priceTotal?.formattedValue || '';
+    } else {
+      return this.formula.priceTotal?.formattedValue || '';
+    }
   }
 
   /**
