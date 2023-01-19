@@ -181,10 +181,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Overview',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Basics',
       type: TabbingOrderTypes.BUTTON,
     },
@@ -220,10 +216,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Configuration',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Overview',
       type: TabbingOrderTypes.LINK,
     },
@@ -240,10 +232,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   productConfigurationOverviewPost2211: [
     {
       value: 'show more',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Configuration',
       type: TabbingOrderTypes.LINK,
     },
     {
