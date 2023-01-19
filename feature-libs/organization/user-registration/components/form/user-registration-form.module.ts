@@ -15,6 +15,7 @@ import {
   I18nModule,
   UrlModule,
   NotAuthGuard,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -35,6 +36,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
+    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrganizationUserRegistrationComponent: {
