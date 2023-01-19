@@ -58,6 +58,7 @@ export class ConfiguratorConflictSolverDialogComponent
     this.conflictGroup$ = conflictGroup;
     this.routerData$ = routerData;
   }
+
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((dialogData) => {
