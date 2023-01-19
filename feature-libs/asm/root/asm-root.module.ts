@@ -31,6 +31,7 @@ import { AsmAuthService } from './services/asm-auth.service';
             'AsmCustomer360OverviewComponent',
             'AsmCustomer360ProfileComponent',
             'AsmCustomer360CustomerActivityComponent',
+            'AsmCustomer360ActiveCartComponent',
             'AsmCustomer360ProductInterestsComponent',
             'AsmCustomer360ProductReviewsComponent',
             'AsmCustomer360MapComponent',

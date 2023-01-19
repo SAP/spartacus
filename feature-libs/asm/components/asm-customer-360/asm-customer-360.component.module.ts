@@ -20,13 +20,15 @@ import {
 } from '@spartacus/storefront';
 import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
 import {
+  AsmCustomerActiveCartComponent,
   AsmCustomerActivityComponent,
   AsmCustomerMapComponent,
+  AsmCustomerProductInterestsComponent,
   AsmCustomerProductReviewsComponent,
   AsmCustomerProfileComponent,
 } from './sections/components';
-import { AsmCustomerProductInterestsComponent } from './sections/asm-customer-product-interests/asm-customer-product-interests.component';
 import { AsmCustomerProductInterestsModule } from './sections/asm-customer-product-interests/asm-customer-product-interests.module';
+import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
 
 @NgModule({
   imports: [
@@ -35,6 +37,7 @@ import { AsmCustomerProductInterestsModule } from './sections/asm-customer-produ
     IconModule,
     KeyboardFocusModule,
     PageComponentModule,
+    AsmCustomerActiveCartModule,
     AsmCustomerProductInterestsModule,
     AsmCustomerProfileModule,
     AsmCustomerActivityModule,
@@ -46,6 +49,9 @@ import { AsmCustomerProductInterestsModule } from './sections/asm-customer-produ
       cmsComponents: {
         AsmCustomer360ProfileComponent: {
           component: AsmCustomerProfileComponent,
+        },
+        AsmCustomer360ActiveCartComponent: {
+          component: AsmCustomerActiveCartComponent,
         },
         AsmCustomer360ProductInterestsComponent: {
           component: AsmCustomerProductInterestsComponent,

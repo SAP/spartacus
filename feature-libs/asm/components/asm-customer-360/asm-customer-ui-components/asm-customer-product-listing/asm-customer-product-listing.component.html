@@ -3,12 +3,16 @@
     <a
       tabindex="0"
       [attr.aria-label]="headerText"
+      [class.inactive]="headerInactive"
       role="link"
       class="title-link"
       (click)="clickHeader.emit()"
     >
       {{ headerText }}
     </a>
+    <ng-container *ngIf="headerTemplate">
+      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    </ng-container>
   </div>
   <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
     <div
@@ -20,7 +24,7 @@
         <cx-asm-product-item
           *ngIf="showMore || i < numberofColumns"
           [product]="product"
-          [isOrderEntry]="false"
+          [quantity]="product.quantity"
           (selectProduct)="selectProduct.emit($event)"
         ></cx-asm-product-item>
       </ng-container>

@@ -5,11 +5,14 @@ import {
   Input,
   OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { ProductItem } from './product-item.model';
 
 @Component({
   selector: 'cx-asm-customer-product-listing',
@@ -21,10 +24,16 @@ export class AsmCustomerProductListingComponent implements OnInit {
   emptyResultDescription: string;
 
   @Input()
+  headerInactive: boolean;
+
+  @Input()
   headerText: string;
 
   @Input()
-  products: Array<Product>;
+  products: Array<ProductItem>;
+
+  @Input()
+  headerTemplate: TemplateRef<void>;
 
   @Output()
   clickHeader: EventEmitter<void> = new EventEmitter();

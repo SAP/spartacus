@@ -23,7 +23,7 @@
     <div class="cx-asm-product-item-code">
       {{ product?.code }}
     </div>
-    <div class="cx-asm-product-item-quantity">
+    <div class="cx-asm-product-item-quantity" *ngIf="quantity">
       {{
         'asm.customer360.overview.quantity' | cxTranslate: { count: quantity }
       }}
@@ -31,7 +31,7 @@
     <div class="cx-asm-product-item-price">
       {{
         'asm.customer360.overview.itemPrice'
-          | cxTranslate: { price: price?.formattedValue }
+          | cxTranslate: { price: product?.price?.formattedValue }
       }}
     </div>
   </ng-container>

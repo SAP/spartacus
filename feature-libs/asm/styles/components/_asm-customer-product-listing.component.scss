@@ -8,7 +8,6 @@
       align-items: center;
       display: flex;
       flex-flow: row wrap;
-      justify-content: space-between;
       margin-bottom: 36px;
     }
     &-items {
@@ -37,6 +36,12 @@
     text-decoration: none;
     cursor: pointer;
     color: $asmLinkColor;
+
+    &.inactive {
+      cursor: auto;
+      color: black;
+      pointer-events: none;
+    }
   }
 
   .show-hide-container {
@@ -86,6 +91,27 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+    }
+  }
+
+  .cart {
+    &-divider {
+      border: 0;
+      border-color: #afafaf;
+      border-style: solid;
+      border-right-width: 1px;
+      height: 20px;
+    }
+
+    &-total-no-items,
+    &-total-price {
+      @include type('6', 'normal');
+      color: var(--cx-color-secondary);
+      padding: 0 16px;
+    }
+
+    &-total-no-items {
+      margin-left: auto;
     }
   }
 }
