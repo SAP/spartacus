@@ -21,9 +21,9 @@ import {
   PaginationModule,
   SplitViewModule,
   TableModule,
+  PopoverModule,
 } from '@spartacus/storefront';
 import { CdcListComponent } from './cdc-list.component';
-import { PopoverModule } from '@spartacus/storefront';
 import { MessageModule } from '@spartacus/organization/administration/components';
 
 @NgModule({
