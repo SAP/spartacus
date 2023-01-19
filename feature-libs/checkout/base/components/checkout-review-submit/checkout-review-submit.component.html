@@ -3,8 +3,9 @@
   <h2 class="cx-review-title d-none d-lg-block d-xl-block">
     {{ 'checkoutReview.review' | cxTranslate }}
   </h2>
+  <cx-checkout-review-shipping></cx-checkout-review-shipping>
 
-  <div style="display: flex; justify-content: space-between; margin-right: 10px;">
+  <!-- <div style="display: flex; justify-content: space-between;">
     <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
       <div class="cx-review-payment-col card">
         <ng-container *ngFor="let step of deliverySteps(steps)">
@@ -25,7 +26,7 @@
         </ng-container>
       </div>
     </ng-container>
-  </div>
+  </div> -->
   <div class="cx-review-summary row">
     <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col card">
@@ -37,7 +38,7 @@
           </ng-container>
         </ng-container>
       </div>
-      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col card">
+      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col card">
         <ng-container *ngFor="let step of deliverySteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
             <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
