@@ -13,6 +13,7 @@ export const opf = {
         paymentAndReview: 'Payment & Review',
       },
       paymentAndReviewTitle: 'Payment and review',
+      paymentOption: 'Payment option',
     },
   },
 };

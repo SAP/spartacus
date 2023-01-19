@@ -1,6 +1,6 @@
 <ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratons">
   <div>
-    <div class="title">Payment option</div>
+    <div class="title">{{ 'opf.checkout.paymentOption' | cxTranslate }}</div>
     <div class="form-check" *ngFor="let configuration of activeConfiguratons">
       <input
         id="paymentId-{{ configuration.id }}"
