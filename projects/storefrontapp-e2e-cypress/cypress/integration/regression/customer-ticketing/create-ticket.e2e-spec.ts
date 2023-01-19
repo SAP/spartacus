@@ -14,13 +14,13 @@ describe('ticketing', () => {
         });
       });
 
-      it('should open create new ticket popup when clicking add button', () => {
+      it('should open create new ticket popup when clicking add button (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.openCreateTicketPopup();
       });
 
-      it('should be able to create ticket when filling the required form', () => {
+      it('should be able to create ticket when filling the required form (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
@@ -36,7 +36,7 @@ describe('ticketing', () => {
         customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
       });
 
-      it('should be able to create a ticket with an attachment', () => {
+      it('should be able to create a ticket with an attachment (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
@@ -56,7 +56,7 @@ describe('ticketing', () => {
         );
       });
 
-      it('should not be able to create a ticket with an attachment larger than 10mb', () => {
+      it('should not be able to create a ticket with an attachment larger than 10mb (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
@@ -72,7 +72,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
-      it('should not be able to create a ticket with an attachment that has an unsupported extension', () => {
+      it('should not be able to create a ticket with an attachment that has an unsupported extension (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
@@ -85,10 +85,10 @@ describe('ticketing', () => {
         customerTicketing.fillTicketDetails(testTicketDetails);
         customerTicketing.addFile(testTicketDetails.filename);
         customerTicketing.clickSubmit();
-        customerTicketing.verifyTicketDoesNotExist(testTicketDetails); // TODO check if any error is shown
+        customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
-      it('should be able to create a ticket with an empty attachment', () => {
+      it('should be able to create a ticket with an empty attachment (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
@@ -108,7 +108,7 @@ describe('ticketing', () => {
         );
       });
 
-      it('should not allow ticket to be created if form not properly completed', () => {
+      it('should not allow ticket to be created if form not properly completed (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.openCreateTicketPopup();
@@ -116,7 +116,7 @@ describe('ticketing', () => {
         customerTicketing.verifyFieldValidationErrorShown();
       });
 
-      it('should not create tickets when cancelling or closing the modal', () => {
+      it('should not create tickets when cancelling or closing the modal (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Cancelling a ticketing creation',
           message: 'Cancelled',
@@ -134,7 +134,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
       });
 
-      it('should not let subject exceeds 255 character limit', () => {
+      it('should not let subject exceeds 255 character limit (CXSPA-470)', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
         const testTicketDetails: TestTicketDetails = {
           subject: customerTicketing.generateDummyStringOfLength(
@@ -151,7 +151,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketSubjectAndMessageDoNotExceedCharacterLimit();
       });
 
-      it('should not let message exceeds 5000 character limit', () => {
+      it('should not let message exceeds 5000 character limit (CXSPA-470)', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
         const testTicketDetails: TestTicketDetails = {
           subject: 'Exceeding character limit',
@@ -168,7 +168,7 @@ describe('ticketing', () => {
         customerTicketing.verifyTicketSubjectAndMessageDoNotExceedCharacterLimit();
       });
 
-      it('should close create ticket popup upon submit', () => {
+      it('should close create ticket popup upon submit (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
@@ -183,7 +183,7 @@ describe('ticketing', () => {
         customerTicketing.verifyCreateTicketPopupIsClosed();
       });
 
-      it('should not be able to see created ticket in other stores', () => {
+      it('should not be able to see created ticket in other stores (CXSPA-470)', () => {
         const testTicketDetails: TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
