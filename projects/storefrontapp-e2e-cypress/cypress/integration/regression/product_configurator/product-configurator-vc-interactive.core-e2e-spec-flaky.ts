@@ -15,6 +15,7 @@ const checkBoxList = 'checkBoxList';
 // Group Status
 const ERROR = 'ERROR';
 const COMPLETE = 'COMPLETE';
+const WARNING = 'WARNING';
 
 // List of groups
 const BASICS = 'Basics';
@@ -33,6 +34,9 @@ const REAR_SPEAKER = 'Rear Speakers';
 const SUBWOOFER = 'Subwoofer';
 const FLAT_PANEL = 'Flat-panel TV';
 
+// List of conflict groups
+const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
+
 // List of attributes
 const COLOUR_HT = 'COLOUR_HT';
 const CAMERA_PIXELS = 'CAMERA_PIXELS';
@@ -42,6 +46,8 @@ const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
 const ROOM_SIZE = 'ROOM_SIZE';
 const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 const SPEAKER_TYPE_FRONT = 'SPEAKER_TYPE_FRONT';
+const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
+const GAMING_CONSOLE = 'GAMING_CONSOLE';
 
 // List of attribute values
 const WHITE = 'COLOUR_HT_WHITE';
@@ -49,6 +55,13 @@ const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
 const JPEG = 'JPEG';
 const P5 = 'P5';
+const PROJECTOR_LCD = 'PROJECTOR_LCD';
+const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
+const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
+
+// Conflict message
+const Conflict_msg_gaming_console =
+  'Gaming console cannot be selected with LCD projector';
 
 context('Product Configuration', () => {
   beforeEach(() => {
@@ -358,6 +371,85 @@ context('Retract mode for Product Configuration', () => {
         radioGroup,
         CAMERA_MODE,
         '###RETRACT_VALUE_CODE###'
+      );
+    });
+  });
+
+  describe('Conflict Solver', () => {
+    let configUISettings: any;
+
+    beforeEach(() => {
+      configUISettings = {
+        productConfigurator: {
+          enableNavigationToConflict: true,
+        },
+      };
+      cy.cxConfig(configUISettings);
+      cy.visit('/');
+    });
+
+    afterEach(() => {
+      configUISettings.productConfigurator.enableNavigationToConflict = false;
+    });
+    it('should support the conflict solving process', () => {
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
+      configurationVc.registerConfigurationUpdateRoute();
+      configuration.clickOnNextBtn(PROJECTOR);
+      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
+      cy.wait('@updateConfig');
+      configuration.clickOnPreviousBtn(GENERAL);
+      configurationVc.clickOnGroup(3);
+
+      configurationVc.selectConflictingValue(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_YES,
+        1
+      );
+      cy.wait('@updateConfig');
+      configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
+      configurationVc.deselectConflictingValue(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_NO
+      );
+      cy.wait('@updateConfig');
+      configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
+      configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
+      configurationVc.selectConflictingValue(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_YES,
+        1
+      );
+      cy.wait('@updateConfig');
+
+      // Navigate to a conflict group via clicking on 'Conflict Detected' link
+      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
+      configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
+      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.checkConflictDescriptionDisplayed(
+        Conflict_msg_gaming_console
+      );
+
+      // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
+      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
+      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
+      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+
+      // finally navigate to overview page and check conflict behavior on it
+      configurationOverviewVc.registerConfigurationOverviewRoute();
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
+      configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
+      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.checkConflictDescriptionDisplayed(
+        Conflict_msg_gaming_console
       );
     });
   });
